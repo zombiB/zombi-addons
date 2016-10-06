@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+
+    <category label="30021">
+        <setting label="30030" type="lsep"/>
+        <setting id="playerPlay" type="enum" values="XbmcPlayer|XbmcPlugin (recommandé)" label="30029" default="1"/>
+        <setting id="playerType" type="enum" values="Auto|MPlayer|DVDPlayer" label="30001" default="2" enable="eq(-1,0)"/>
+         
+        <setting id="param_timeout" label="30027" type="number" default="1000"/>
+        
+
+
+
+        <setting label="30032" type="lsep"/>
+        <setting id="home-view" type="bool" label="show home by category" default="true"/>      
+    </category>
+
+
+    <category label="30022">
+        
+        <setting label="Mena arabic" type="lsep"/>
+        <setting id="plugin_mena_bein_ar" type="bool" label="30303" default="true"/>
+        <setting type="sep"/>
+        
+        <setting label="Mena french" type="lsep"/>
+        <setting id="plugin_mena_bein_fr" type="bool" label="30303" default="true"/>
+        <setting type="sep"/>
+        
+        <setting label="Mena English" type="lsep"/>
+        <setting id="plugin_mena_bein_en" type="bool" label="30303" default="true"/>
+        <setting type="sep"/>
+
+        
+        <setting label="USA english" type="lsep"/>
+        <setting id="plugin_us_bein_en" type="bool" label="30303" default="true"/>
+        <setting type="sep"/>
+        
+        <setting label="USA spanish" type="lsep"/>
+        <setting id="plugin_us_bein_es" type="bool" label="30303" default="true"/>
+        <setting type="sep"/>
+
+        
+        <setting label="France french" type="lsep"/>
+        <setting id="plugin_fr_bein" type="bool" label="30303" default="true"/>
+        <setting type="sep"/>
+
+        
+        <setting label="Australia english" type="lsep"/>
+        <setting id="plugin_au_bein" type="bool" label="30303" default="true"/>
+        <setting type="sep"/>
+
+        
+        
+    </category>
+    
+
+    <category label="30025">
+        <setting label="30025" type="lsep"/>
+
+
+
+        <setting id="home_cl" type="bool" label="ChampionsLeague" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_epl" type="bool" label="English premier league" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_liga" type="bool" label="LaLiga" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_calcio" type="bool" label="Calcio" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_bundes" type="bool" label="Bundesliga" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_ligue" type="bool" label="Ligue1" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_foot" type="bool" label="More foot" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_tennis" type="bool" label="Tennis" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_basket" type="bool" label="Basketall" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_motors" type="bool" label="Motors" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_more" type="bool" label="More Sports" default="true"/>
+        
+        <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.bein/resources/art/sport_fanart.jpg"/>
+
+        <setting id="home_videos" type="bool" label="Vidéos" default="true"/>
+        <setting label="Videos: Image" type="image" id="images_videos" default="special://home/addons/plugin.video.bein/resources/art/buzz_fanart.jpg"/>
+        
+        <setting visible="false" label="Images Fav" type="image" id="images_marks" default="special://home/addons/plugin.video.bein/resources/art/mark_fanart.jpg"/>
+        
+        <setting visible="false" label="Images sources" type="image" id="images_hosts" default="special://home/addons/plugin.video.bein/resources/art/host_fanart.jpg"/>
+        
+        <setting visible="false" label="Images update" type="image" id="images_updates" default="special://home/addons/plugin.video.bein/resources/art/update_fanart.jpg"/>
+        
+        <setting visible="false" label="Images download" type="image" id="images_downloads" default="special://home/addons/plugin.video.bein/resources/art/download_fanart.jpg"/>
+        
+        <setting visible="false" label="Images library" type="image" id="images_librarys" default="special://home/addons/plugin.video.bein/resources/art/library_fanart.jpg"/>
+        
+
+    </category>
+    
+    <category label="30127">
+        <setting label="30033" type="lsep"/>
+		<setting id="download_folder" type="folder" label="30145" default=""/>
+        <setting id="history-view" type="bool" label="Activer l'historique de recherche" default="true"/>
+        <setting label="Clear Cache Addon" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.bein/resources/lib/runscript.py, addon)"/>    
+        <setting label="Clear Cache XBMC" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.bein/resources/lib/runscript.py, xbmc)"/>
+        
+        
+    </category>
+    
+    <category label="30400">-->
+        
+        <setting label="UrlResolver" type="lsep"/>
+        <setting type="sep"/>
+        <setting id="UserUrlResolver" type="bool" label="active UrlResolver" default="false"/>
+        <setting label="Configurer UrlResolver" type="action" option="close" action="XBMC.RunScript(special://home/addons/plugin.video.bein/resources/lib/runscript.py, urlresolver)" />
+        <setting type="sep"/>
+    </category>
+
+   
+</settings>
