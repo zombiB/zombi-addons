@@ -14,9 +14,9 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="fr">smsm</summary>
-    <description lang="fr">vod arabes</description>
+    <description lang="fr">vod arabes (support à forums.tvaddons.ag)</description>
     <summary lang="en">smsm</summary>
-    <description lang="en">arabic vod.</description>
+    <description lang="en">arabic vod.(support at forums.tvaddons.ag)</description>
     <platform>all</platform>
   </extension>
 </addon>

@@ -11,9 +11,9 @@
 
     <extension point="xbmc.addon.metadata">
         <summary lang="fr">Zombi Repository</summary>
-        <description lang="fr">Installer smsm</description>
+        <description lang="fr">Installer addons par zombi</description>
         <summary lang="en">Zombi Repository</summary>
-        <description lang="en">Download and install smsm</description>
+        <description lang="en">Get zombi addons</description>
         <platform>all</platform>
     </extension>
 </addon>
