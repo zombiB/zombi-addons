@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
+
 #zombi.(@geekzombi)
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
@@ -18,13 +18,12 @@ SITE_NAME = 'yalla-shoot.com'
 SITE_DESC = 'sport vod'
 
 URL_MAIN = 'http://www.yalla-shoot.com/app/'
-SPORT_NEWS = ('http://www.yalla-shoot.com/app/', 'showMovies')
-SPORT_SPORTS = ('http://www.beinsports.com/ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')
-SPORT_GENRES = ('http://', 'showGenres')
+SPORT_NEWS = ('http://www.yalla-shoot.com/app/#page3', 'showMovies')
+SPORT_SPORTS = ('http://www.yalla-shoot.com/app/', 'showMovies')
 SPORT_SPORTS = ('http://', 'load')
 
 
-URL_SEARCH = ('http://www.beinsports.com/ar/search?q=', 'showMovies')
+URL_SEARCH = ('http://www.yalla-shoot.com/app/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
 def load():
@@ -48,33 +47,6 @@ def showSearch():
             showMovies(sUrl)
             oGui.setEndOfDirectory()
             return  
-    
-    
-def showGenres():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    liste = []
-    liste.append( ["??? ????? ","http://www.beinsports.com/ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["?????? ????????? ???????","http://www.beinsports.com/ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%86%D9%83%D9%84%D9%8A%D8%B2%D9%8A-%D8%A7%D9%84%D9%85%D9%85%D8%AA%D8%A7%D8%B2/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["???? ????? ??????","http://www.beinsports.com/ar/%D8%AF%D9%88%D8%B1%D9%8A-%D8%A3%D8%A8%D8%B7%D8%A7%D9%84-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["??????-????????","http://www.beinsports.com/ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D8%B3%D8%A8%D8%A7%D9%86%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["?????? ????????","http://www.beinsports.com/ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D8%A5%D9%8A%D8%B7%D8%A7%D9%84%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["?????? ???????","http://www.beinsports.com/ar/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A-%D8%A7%D9%84%D9%81%D8%B1%D9%86%D8%B3%D9%8A/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["???","http://www.beinsports.com/ar/%D8%AA%D9%86%D8%B3/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["??? ?????","http://www.beinsports.com/ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%84%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["?????? ?????????","http://www.beinsports.com/ar/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A7%D8%AA-%D9%85%D9%8A%D9%83%D8%A7%D9%86%D9%8A%D9%83%D9%8A%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    liste.append( ["BOXE","http://www.beinsports.com/ar/%D8%A7%D9%84%D9%85%D9%84%D8%A7%D9%83%D9%85%D8%A9/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88"] )
-    
-	            
-    for sTitle,sUrl in liste:
-        
-        oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
-       
-    oGui.setEndOfDirectory() 
 
 
 def showMovies(sSearch = ''):
@@ -88,7 +60,8 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('&quot;', '"')
-    sPattern = '<a href="(.+?)">.+?/><br>([^<]+)</td>.+?>([^<]+)</span> <br> شاهد الأهداف</div></span></td>.+?/><br>([^<]+)</td>'
+	#([^<]+).+?
+    sPattern = 'href="([^<]+)">.+?/><br>([^<]+)</td>.+?>([^<]+)</span> <br>.+?<img.+?width="30"/><br>([^<]+)</td>'
 
 	
     oParser = cParser()
@@ -122,7 +95,7 @@ def showMovies(sSearch = ''):
 
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class="pagination__link">.+?<a href="(.+?)" aria-label="Next">.+?<span aria-hidden="true"><i class="icon-angle-left"></i></span>'
+    sPattern = ''
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -175,6 +148,3 @@ def showHosters():
         cConfig().finishDialog(dialog) 
                 
     oGui.setEndOfDirectory()    
-
-
-    
