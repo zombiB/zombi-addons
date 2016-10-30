@@ -133,7 +133,7 @@ class cHoster(iHoster):
             ret = dialog2.select('Select Quality',qua)
             return True, url[ret] + h
         else:
-            cConfig().showInfo(self.__sDisplayName, 'Fichier introuvable')
+            cConfig().showInfo(self.__sDisplayName, 'file not found')
             return False, False
         
         return False, False

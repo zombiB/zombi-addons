@@ -27,7 +27,7 @@ class cClear:
         
         elif (env == 'changelog'):
             try:
-                sUrl = 'https://raw.githubusercontent.com/LordVenom/venom-xbmc-addons/master/plugin.video.smsm/changelog.txt'
+                sUrl = 'https://raw.githubusercontent.com/zombiB/zombi-addons/master/plugin.video.smsm/changelog.txt'
                 oRequest =  urllib2.Request(sUrl)
                 oResponse = urllib2.urlopen(oRequest)
                 sContent = oResponse.read()
@@ -37,21 +37,10 @@ class cClear:
                 cConfig().error("%s,%s" % (cConfig().getlanguage(30205), sUrl))
             return
             
-        elif (env == 'soutient'):
-            try:
-                sUrl = 'https://raw.githubusercontent.com/LordVenom/venom-xbmc-addons/master/plugin.video.smsm/soutient.txt'
-                oRequest =  urllib2.Request(sUrl)
-                oResponse = urllib2.urlopen(oRequest)
-                sContent = oResponse.read()
-                from about import cAbout
-                cAbout().TextBoxes('smsm Soutient', sContent)
-            except:            
-                cConfig().error("%s,%s" % (cConfig().getlanguage(30205), sUrl))
-            return
 
         elif (env == 'addon'):
             dialog = xbmcgui.Dialog()
-            if dialog.yesno('smsm', 'Êtes-vous sûr ?','','','Non', 'Oui'):
+            if dialog.yesno('smsm', 'Are you sure ?','','','No', 'Yes'):
                 
                 cached_fav = cConfig().getFileFav()
                 cached_DB = cConfig().getFileDB()
@@ -62,7 +51,7 @@ class cClear:
 
         elif (env == 'xbmc'):
             dialog = xbmcgui.Dialog()
-            if dialog.yesno('smsm', 'Êtes-vous sûr ?','','','Non', 'Oui'):
+            if dialog.yesno('smsm', 'Are you sure ?','','','No', 'Yes'):
                 self.ClearDir(xbmc.translatePath('special://temp/'),True)
                 xbmc.executebuiltin("XBMC.Notification(Clear XBMC Cache,Successful,5000,"")")
             return

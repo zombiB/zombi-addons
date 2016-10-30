@@ -165,10 +165,11 @@ def showHosters():
 
             elif aEntry[2]:
                  sHosterUrl = 'http:' +str(aEntry[2])
+                 sMovieTitle2 = str(aEntry[0])
                  oHoster = cHosterGui().checkHoster(sHosterUrl)
                  if (oHoster != False):
-                     oHoster.setDisplayName(sMovieTitle)
-                     oHoster.setFileName(sMovieTitle)
+                     oHoster.setDisplayName(sMovieTitle2)
+                     oHoster.setFileName(sMovieTitle2)
                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
         cConfig().finishDialog(dialog) 

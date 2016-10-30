@@ -8,13 +8,10 @@
          
         <setting id="param_timeout" label="30027" type="number" default="1000"/>
         
-        <setting label="30031" type="lsep"/>
-        <setting id="meta-view" type="bool" label="Recherche les Métadonnées (ralenti l'Addon)" default="false"/>
-        <setting label="Paramètres des Métadonnées" type="action" option="close" action="XBMC.RunScript(special://home/addons/plugin.video.smsm/resources/lib/runscript.py, metahandler)" />
-        <setting id="extendedinfo-view" type="bool" label="Utiliser extendedinfo" default="false"/>
+        <setting label="" type="lsep"/>
 
         <setting label="30032" type="lsep"/>
-        <setting id="home-view" type="bool" label="Afficher l'Accueil par Catégories" default="true"/>
+        <setting id="home-view" type="bool" label="show home by category" default="true"/>
         <setting id="active-view" type="bool" label="30408" default="false"/>
         <setting id="default-view" type="number" label="30406" default="50" enable="eq(-1,true)"/>
         <setting id="accueil-view" type="number" label="30407" default="500" enable="eq(-2,true)"/>
@@ -121,10 +118,7 @@
         <setting id="history-view" type="bool" label="Activer l'historique de recherche" default="true"/>
         <setting label="Clear Cache Addon" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.smsm/resources/lib/runscript.py, addon)"/>    
         <setting label="Clear Cache XBMC" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.smsm/resources/lib/runscript.py, xbmc)"/>
-        
-        <setting label="30034" type="lsep"/>
-        <setting label="30036" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.smsm/resources/lib/runscript.py, changelog)"/>
-        <setting label="30035" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.smsm/resources/lib/runscript.py, soutient)"/> 
+
         
     </category>
     
@@ -157,13 +151,12 @@
         <setting label="Utiliser UrlResolver vous permettra d'utiliser Les debrideurs" type="lsep"/>
         <setting type="sep"/>
         <setting type="sep"/>
-        <setting label="ATTENTION: smsm ne gere pas cette partie, pensez a le desactiver si les" type="lsep"/>
-        <setting label="videos ne marchent plus" type="lsep"/>
-        <setting label="A moins d'avoir un debrideur, cocher cette case vous apportera plus de" type="lsep"/>
-        <setting label="problemes que d'avantages" type="lsep"/>
-        <setting id="UserUrlResolver" type="bool" label="Passer par UrlResolver" default="true"/>
-        <setting label="Configurer UrlResolver" type="action" option="close" action="XBMC.RunScript(special://home/addons/plugin.video.smsm/resources/lib/runscript.py, urlresolver)" />
-        <setting type="sep"/>
+        <setting label="use UrlResolver" type="lsep"/>
+        <setting id="UserUrlResolver" type="bool" label="Passer par UrlResolver" default="false"/>
+        <setting label="UrlResolver Settings" type="action" option="close" action="XBMC.RunScript(special://home/addons/plugin.video.smsm/resources/lib/runscript.py, urlresolver)" />
+        <setting type="sep"/>       
+		<setting label="" type="lsep"/>
+	    <setting type="sep"/>
     </category>
 
     <!--<category label="30026">

@@ -191,7 +191,7 @@ class cDb:
         try:    
             self.dbcur.execute(sql_delete)
             self.db.commit()
-            cConfig().showInfo('smsm', 'Historique supprime')
+            cConfig().showInfo('smsm', 'History deleted')
             cConfig().update()
             return False, False       
         except Exception, e:
@@ -220,7 +220,7 @@ class cDb:
         try:    
             self.dbcur.execute(sql_select)
             self.db.commit()
-            #cConfig().showInfo('smsm', 'Resume supprimer')
+            #cConfig().showInfo('smsm', 'Resume deleted')
             return False, False
         except Exception, e:
             cConfig().log('SQL ERROR EXECUTE') 
@@ -277,7 +277,7 @@ class cDb:
         try:    
             self.dbcur.execute(sql_select)
             self.db.commit()
-            cConfig().showInfo('smsm', 'Favoris supprimé')
+            cConfig().showInfo('smsm', 'Favorites deleted')
             cConfig().update()
             return False, False
         except Exception, e:

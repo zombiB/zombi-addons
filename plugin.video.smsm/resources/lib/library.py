@@ -79,7 +79,7 @@ class cLibrary:
             try:
                 print folder
                 self.MakeFile(folder,sTitle,sLink)
-                cConfig().showInfo('smsm', 'Element rajouté a la librairie')
+                cConfig().showInfo('smsm', 'Element added to library')
                 xbmc.executebuiltin('UpdateLibrary(video, '+ folder + ')')
             except:
                 cConfig().showInfo('Erreur', 'Rajout impossible')
@@ -102,7 +102,7 @@ class cLibrary:
                     os.mkdir(folder2)
                 
                 self.MakeFile(folder2,sTitle,sLink)
-                cConfig().showInfo('smsm', 'Element rajouté a la librairie')
+                cConfig().showInfo('smsm', 'Element added to library')
                 xbmc.executebuiltin('UpdateLibrary(video, '+ folder + ')')
             except:
                 cConfig().showInfo('Erreur', 'Rajout impossible')
@@ -179,7 +179,7 @@ class cLibrary:
                 #menu contextuel
                 oGui.CreateSimpleMenu(oGuiElement,oOutputParameterHandler,'cLibrary','cLibrary','Delfile','Supprimer ce fichiert')
                 
-                oGui.addFolder(oGuiElement, oOutputParameterHandler, False)
+                oGui.addFolder(oGuiElement, oOutputParameterHandler)
           
         oGui.setEndOfDirectory()       
         

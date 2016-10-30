@@ -1,3 +1,6 @@
+#-*- coding: utf-8 -*-
+
+
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.pluginHandler import cPluginHandler
@@ -10,12 +13,23 @@ import xbmc, xbmcgui, xbmcplugin, sys
 import xbmcaddon,xbmcvfs
 import time
 
+
+
+
+
+
 class cPlayer(xbmc.Player):
     
     def __init__(self, *args):
         xbmc.Player.__init__(self)
         self.loadingStarting = time.time()
         
+
+
+
+
+
+
         oInputParameterHandler = cInputParameterHandler()
         #aParams = oInputParameterHandler.getAllParameter()
         #xbmc.log(str(aParams))
@@ -26,6 +40,12 @@ class cPlayer(xbmc.Player):
         self.sSite = oInputParameterHandler.getValue('siteUrl')
         self.sThumbnail = xbmc.getInfoLabel('ListItem.Art(thumb)')
         
+
+
+
+
+
+
     def clearPlayList(self):
         oPlaylist = self.__getPlayList()
         oPlaylist.clear()
@@ -42,7 +62,17 @@ class cPlayer(xbmc.Player):
         oPlaylist = self.__getPlayList()	
         oPlaylist.add(oGuiElement.getMediaUrl(), oListItem )
         
+
+
+
+
+
+
     def run(self, oGuiElement, sTitle, sUrl):
+
+
+
+
         sPluginHandle = cPluginHandler().getPluginHandle();
         #meta = oGuiElement.getInfoLabel()
         meta = {'label': sTitle, 'title': sTitle}
@@ -50,6 +80,16 @@ class cPlayer(xbmc.Player):
         
         item.setInfo( type="Video", infoLabels= meta )
                     
+
+
+
+
+
+
+
+
+
+
         if (cConfig().getSetting("playerPlay") == '0'):   
                             
             sPlayerType = self.__getPlayerType()
@@ -61,14 +101,37 @@ class cPlayer(xbmc.Player):
             xbmcplugin.setResolvedUrl(sPluginHandle, True, item)
         
         timer = int(cConfig().getSetting('param_timeout'))
+
+
+
+
         xbmc.sleep(timer)
         
+
+
+
+
+
+
+
         while not xbmc.abortRequested:
             try: 
                self.currentTime = self.getTime()
                self.totalTime = self.getTotalTime()
             except: break
+
+
+
+
+
+
             xbmc.sleep(1000)
+
+
+
+
+
+
 
     def startPlayer(self):
         sPlayerType = self.__getPlayerType()
@@ -86,6 +149,8 @@ class cPlayer(xbmc.Player):
             # xbmc.sleep(1000)
 
 
+
+
     def onPlayBackEnded( self ):
         try:
             self.__setWatched()
@@ -95,25 +160,45 @@ class cPlayer(xbmc.Player):
         except: pass
         #xbmc.executebuiltin( 'Container.Refresh' )
 
+
+
     def onPlayBackStopped( self ):
+
+
+
+
+
         try:
             self.__setWatched()
         except: pass
+
         try:
             self.__setResume()
         except: pass
+
         #xbmc.executebuiltin( 'Container.Refresh' )
         
     def onPlayBackStarted(self):       
+
+
+
+
+
+
+
+
+
+
         meta = {}      
         meta['title'] = self.sTitle
         #meta['hoster'] = self.sHosterIdentifier
         meta['site'] = self.sSite
+
         try:
             data = cDb().get_resume(meta)
             if not data == '':
                 time = float(data[0][3]) / 60
-                label = '%s %.2f minutes' % ('reprendre:', time)     
+                label = '%s %.2f minutes' % ('resume:', time)     
                 oDialog = cConfig().createDialogYesNo(label)
                 if (oDialog == 1):
                     seekTime = float(data[0][3])
@@ -124,17 +209,28 @@ class cPlayer(xbmc.Player):
             pass
                 
     def __setResume(self):
+
+
+
+
+
         meta = {}      
         meta['title'] = self.sTitle
         #meta['hoster'] = self.sHosterIdentifier
         meta['site'] = self.sSite
         meta['point'] = str(self.currentTime)
+
         try:
             cDb().insert_resume(meta)
         except:
             pass
             
     def __setWatched(self):
+
+
+
+
+
         meta = {}      
         meta['title'] = self.sTitle
         meta['site'] = self.sSite
@@ -160,4 +256,5 @@ class cPlayer(xbmc.Player):
             if (sPlayerType == '2'):
                 cConfig().log("playertype from config: dvdplayer")
                 return xbmc.PLAYER_CORE_DVDPLAYER
+
         except: return False

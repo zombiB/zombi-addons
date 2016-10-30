@@ -161,7 +161,7 @@ class cHoster(iHoster):
         if (aResult[0] == True):
             return True , aResult[1][0][0] + '|Referer=' + self.__sUrl
         
-        cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
+        cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
         
         return False, False
         

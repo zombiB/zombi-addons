@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import urllib
 import urllib2
 from urllib2 import HTTPError, URLError
@@ -20,6 +21,9 @@ class cRequestHandler:
         self.removeBreakLines(True)
         self.removeNewLines(True)
         self.__setDefaultHeader()
+        self.__timeout = 30
+        
+        self.__HeaderReturn = ''
 
     def removeNewLines(self, bRemoveNewLines):
         self.__bRemoveNewLines = bRemoveNewLines
@@ -29,6 +33,9 @@ class cRequestHandler:
 
     def setRequestType(self, cType):
         self.__cType = cType
+        
+    def setTimeout(self, valeur):
+        self.__timeout = valeur  
 
     def addHeaderEntry(self, sHeaderKey, sHeaderValue):
         aHeader = {sHeaderKey : sHeaderValue}
@@ -42,8 +49,21 @@ class cRequestHandler:
 
     # url after redirects
     def getRealUrl(self):
-        return self.__sRealUrl;
-
+        return self.__sRealUrl
+        
+    def GetHeaders(self):
+        return self.__HeaderReturn
+        
+    def GetCookies(self):
+        import re
+        c = self.__HeaderReturn['Set-Cookie']
+        c2 = re.findall('(?:^|,) *([^;,]+?)=([^;,\/]+?);',c)
+        if c2:
+            cookies = ''
+            for cook in c2:
+                cookies = cookies + cook[0] + '=' + cook[1]+ ';'
+            return cookies
+        return
     def request(self):
         self.__sUrl = self.__sUrl.replace(' ', '+')
         return self.__callRequest()
@@ -79,11 +99,12 @@ class cRequestHandler:
 
         sContent = ''
         try:
-            oResponse = urllib2.urlopen(oRequest, timeout=30)
+            oResponse = urllib2.urlopen(oRequest, timeout=self.__timeout)
             sContent = oResponse.read()
             
             self.__sResponseHeader = oResponse.info()
             self.__sRealUrl = oResponse.geturl()
+            self.__HeaderReturn = oResponse.headers
         
             oResponse.close()
             

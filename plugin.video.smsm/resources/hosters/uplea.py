@@ -136,7 +136,7 @@ class cHoster(iHoster):
             
             return True, aResult[1][0] + '|User-Agent=' + UA# + '&Referer=' + self.__sUrl
         else:
-            cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
+            cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
             return False, False
         
         return False, False

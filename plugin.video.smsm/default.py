@@ -1,4 +1,5 @@
 from resources.lib.config import cConfig
+from resources.lib.config import cConfig
 
 
 # sLibrary            = xbmc.translatePath(os.path.join(cConfig().getAddonPath(), 'resources', 'lib'))
@@ -12,7 +13,7 @@ from resources.lib.config import cConfig
 # sLibrary            = xbmc.translatePath(os.path.join(cConfig().getAddonPath(), 'resources','hosters'))
 # sys.path.append (sLibrary)
 
-from resources.lib.statistic import cStatistic
+
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.home import cHome
@@ -53,7 +54,6 @@ class main:
         if (oInputParameterHandler.exist('site')):
             sSiteName = oInputParameterHandler.getValue('site')
             cConfig().log('load site ' + sSiteName + ' and call function ' + sFunction)
-            cStatistic().callStartPlugin(sSiteName)
 
             if (isHosterGui(sSiteName, sFunction) == True):
                 return

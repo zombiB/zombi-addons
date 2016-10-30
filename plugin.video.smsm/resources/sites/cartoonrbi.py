@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
+
 #zombi.(@geekzombi)
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler

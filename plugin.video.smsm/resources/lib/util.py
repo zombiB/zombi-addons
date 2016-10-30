@@ -80,7 +80,7 @@ class cUtil:
         string = re.sub('([\(](?![0-9]{4}).{1,7}[\)])',' [COLOR coral]\\1[/COLOR] ', string)
         #pr les series
         string = self.FormatSerie(string)
-        string = re.sub('(?i)(.*) ((?:[S|E][0-9]+){1,2})','\\1 [COLOR coral]\\2[/COLOR] ', string)
+        string = re.sub('(?i)(.*) ((?:[S|E][0-9\.\-\_]+){1,2})','\\1 [COLOR coral]\\2[/COLOR] ', string)
             
         #vire doubles espaces
         string = re.sub(' +',' ',string)

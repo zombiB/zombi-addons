@@ -293,7 +293,7 @@ class cDownload:
         oHoster = cHosterGui().checkHoster(sDBUrl)
         oHoster.setUrl(sDBUrl)
         aLink = oHoster.getMediaLink()
-        #aLink = (True,'https://github.com/LordVenom/venom-xbmc-addons-beta/blob/master/plugin.video.smsm/Thumbs.db?raw=true')
+        #aLink = (True,'https://github.com/zombiB/zombi-addons/blob/master/plugin.video.smsm/Thumbs.db?raw=true')
         
         if (aLink[0] == True):
             sUrl = aLink[1]
@@ -586,7 +586,7 @@ class cDownload:
             
             oGui.createContexMenuDownload(oGuiElement, oOutputParameterHandler,status)
             
-            oGui.addFolder(oGuiElement, oOutputParameterHandler, False)
+            oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
 
         oGui.setEndOfDirectory()

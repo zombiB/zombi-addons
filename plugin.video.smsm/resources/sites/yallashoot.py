@@ -18,8 +18,9 @@ SITE_NAME = 'yalla-shoot.com'
 SITE_DESC = 'sport vod'
 
 URL_MAIN = 'http://www.yalla-shoot.com/app/'
-SPORT_NEWS = ('http://www.yalla-shoot.com/app/#page3', 'showMovies')
-SPORT_SPORTS = ('http://www.yalla-shoot.com/app/', 'showMovies')
+SPORT_NEWS = ('http://www.yalla-shoot.com/app/', 'showMovies')
+
+
 SPORT_SPORTS = ('http://', 'load')
 
 
@@ -43,10 +44,11 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-            sUrl = 'http://www.beinsports.com/ar/search?q='+sSearchText+'&ft=%22%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88%22'  
+            sUrl = ''  
             showMovies(sUrl)
             oGui.setEndOfDirectory()
             return  
+
 
 
 def showMovies(sSearch = ''):
@@ -60,8 +62,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('&quot;', '"')
-	#([^<]+).+?
-    sPattern = 'href="([^<]+)">.+?/><br>([^<]+)</td>.+?>([^<]+)</span> <br>.+?<img.+?width="30"/><br>([^<]+)</td>'
+    sPattern = '<a href="(.+?)">.+?/><br>([^<]+)</td>.+?>([^<]+)</span> <br> شاهد الأهداف</div></span></td>.+?/><br>([^<]+)</td>'
 
 	
     oParser = cParser()
@@ -95,7 +96,7 @@ def showMovies(sSearch = ''):
 
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = ''
+    sPattern = '<li class="pagination__link">.+?<a href="(.+?)" aria-label="Next">.+?<span aria-hidden="true"><i class="icon-angle-left"></i></span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -148,3 +149,6 @@ def showHosters():
         cConfig().finishDialog(dialog) 
                 
     oGui.setEndOfDirectory()    
+
+
+    

@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
+
 #zombi(@zombigeek)
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
@@ -63,7 +63,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
     #sPattern = '<a href="([^<]+)" title="([^<]+)" >.+?<img width=".+?" height=".+?" src="(.+?)"'
-    sPattern = '<div class="icon">.+?<a href="([^<]+)"><img src="([^<]+)" width="85" height="110" title="([^<]+)" alt=".+?" border="0" /></a>.+?</div>.+?<div class="desc">.+?<p class="link"><a href=".+?">.+?</a></p>.+?<p>([^<]+)</p>'
+    sPattern = '<a href="([^<]+)"><img src="([^<]+)" width="204" height="280" title="([^<]+)" alt=".+?" border="0" /></a>.+?<p class="file_description2-2"></p>.+?<p class="file_description1-1">.+?</p>.+?<p class="file_description1">([^<]+)</p>'
 	
 	
     oParser = cParser()

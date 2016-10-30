@@ -110,7 +110,7 @@ class cHoster(iHoster):
             api_call = ('%s.%s.mp4') % (url[ret], qua[ret])
             return True, api_call
         else:
-            cConfig().showInfo(self.__sDisplayName, 'Fichier introuvable')
+            cConfig().showInfo(self.__sDisplayName, 'file not found')
             return False, False
         
         return False, False

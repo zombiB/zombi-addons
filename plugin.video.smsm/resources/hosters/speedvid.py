@@ -1,5 +1,3 @@
-#-*- coding: utf-8 -*-
-#johngf
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.config import cConfig

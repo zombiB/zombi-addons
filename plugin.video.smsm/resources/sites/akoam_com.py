@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
+
 #zombi(@zombigeek)
 
 #Cloudflare protection

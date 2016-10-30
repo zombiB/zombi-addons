@@ -119,7 +119,7 @@ class cHoster(iHoster):
         if api_call:
             return True, api_call
             
-        cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
+        cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
         return False, False
         
         
@@ -138,7 +138,7 @@ class cHoster(iHoster):
         if api_call:
             return True, api_call
             
-        cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
+        cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
         return False, False
         
     def GetMedialinkDL(self,sHtmlContent):
@@ -202,7 +202,7 @@ class cHoster(iHoster):
                 stream_url = 'http:' + stream_url
             return stream_url
         else:
-            cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
+            cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
             return False
         
         return False

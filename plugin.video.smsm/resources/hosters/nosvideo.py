@@ -85,6 +85,6 @@ class cHoster(iHoster):
             #url3 = url3 + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
             return True , url3
         
-        cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
+        cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
         
         return False, False

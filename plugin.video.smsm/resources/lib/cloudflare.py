@@ -44,7 +44,7 @@ def parseInt(chain):
     
     return eval(chain)
     
-def CheckIfActive(head):
+def CheckIfActive(data):
         #if 'Checking your browser before accessing' in htmlcontent:
         if ( "URL=/cdn-cgi/" in head.get("Refresh", "") and head.get("Server", "") == "cloudflare-nginx" ):
             return True
@@ -52,9 +52,9 @@ def CheckIfActive(head):
     
 def showInfo(sTitle, sDescription, iSeconds=0):
     if (iSeconds == 0):
-            iSeconds = 1000
+        iSeconds = 1000
     else:
-            iSeconds = iSeconds * 1000
+        iSeconds = iSeconds * 1000
     xbmc.executebuiltin("Notification(%s,%s,%s)" % (str(sTitle), (str(sDescription)), iSeconds))
 
 class NoRedirection(urllib2.HTTPErrorProcessor):    
@@ -67,7 +67,7 @@ class CloudflareBypass(object):
         self.state = False
                        
     def DeleteCookie(self,Domain):
-        print 'Effacement cookies'
+        xbmc.log('Effacement cookies')
         file = os.path.join(PathCache,'Cookie_'+ str(Domain) +'.txt')
         os.remove(os.path.join(PathCache,file))
         
@@ -112,7 +112,8 @@ class CloudflareBypass(object):
         return head
           
     def GetResponse(self,htmlcontent):
-        line1 = re.findall('var t,r,a,f, (.+?)={"(.+?)":\+*(.+?)};',htmlcontent)
+        #line1 = re.findall('var t,r,a,f, (.+?)={"(.+?)":\+*(.+?)};',htmlcontent)
+        line1 = re.findall('var s,t,o,p,b,r,e,a,k,i,n,g,f, (.+?)={"(.+?)":\+*(.+?)};',htmlcontent)
 
         varname = line1[0][0] + '.' + line1[0][1]
         calcul = int(parseInt(line1[0][2]))
@@ -136,7 +137,7 @@ class CloudflareBypass(object):
         cookieMem = self.Readcookie(self.host.replace('.','_'))
         if not (cookieMem == ''):
             cookies = cookieMem
-            print 'cookies present'
+            xbmc.log('cookies present')
             
             #Test PRIORITAIRE
             opener = urllib2.build_opener(NoRedirection)
@@ -148,7 +149,7 @@ class CloudflareBypass(object):
             response = opener.open(url)
             htmlcontent = response.read()
             head = response.headers
-            if not CheckIfActive(head):
+            if not CheckIfActive(htmlcontent):
                 # ok no more protection
                 response.close()
                 return htmlcontent
@@ -156,7 +157,7 @@ class CloudflareBypass(object):
             response.close()
             
             #Arf, problem, cookies not working, delete them
-            print "Cookies Out of date"
+            xbmc.log('Cookies Out of date')
             self.DeleteCookie(self.host.replace('.','_'))
             
             #Get the first new cookie, we already have the new html code
@@ -181,10 +182,10 @@ class CloudflareBypass(object):
             
             #if no protection
             head = response.headers
-            if not CheckIfActive(head):
+            if not CheckIfActive(htmlcontent):
                 return htmlcontent
             
-            print "Page protegée, tout a charger"
+            xbmc.log("Page protegée, tout a charger")
             #cookie
             head = response.headers
             if 'Set-Cookie' in head:
@@ -225,7 +226,7 @@ class CloudflareBypass(object):
                 c1 = re.findall('__cfduid=([0-9a-z]+)',cookies)
             
             if not c1 or not c2:
-                print "Probleme protection Cloudflare : Decodage rate"
+                xbmc.log("Probleme protection Cloudflare : Decodage rate")
                 showInfo("Erreur", 'Probleme protection CloudFlare' , 5)
                 response.close()
                 return ''
@@ -233,7 +234,7 @@ class CloudflareBypass(object):
             cookies = '__cfduid=' + c1[0] + '; cf_clearance=' + c2[0]
 
         else:
-            print "Probleme protection Cloudflare : Cookies manquants"
+            xbmc.log("Probleme protection Cloudflare : Cookies manquants")
             showInfo("Erreur", 'Probleme protection CloudFlare' , 5)
             response.close()
             return ''
@@ -254,9 +255,9 @@ class CloudflareBypass(object):
         response = opener.open(url)
         htmlcontent = response.read()
         head = response.headers
-        if CheckIfActive(head):
+        if CheckIfActive(htmlcontent):
             #Arf new cookie not working
-            print "New cookie not working"
+            xbmc.log("New cookie not working")
             #self.DeleteCookie(self.host.replace('.','_'))
             response.close()
             return ''

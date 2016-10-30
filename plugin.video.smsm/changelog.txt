@@ -1,6 +1,10 @@
 =============================================================================
-version 0.0.5
-19/10/2016 - casablaugranatv source added and some hosters fixed
+version 0.0.6
+30/10/2016 - 
+-bitvid hoster added
+-estream & nowvideo hosters enabled
+-yallashoot fix
+-anakbnet updated
 =============================================================================
 version 0.0.4
 19/10/2016 - source added and hosters fixed

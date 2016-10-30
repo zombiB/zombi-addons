@@ -236,6 +236,7 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oGui.addDir(SITE_IDENTIFIER, 'serieSeries', '[COLOR '+color_series+']'+cConfig().getlanguage(30138)+'[/COLOR]', 'series_host.png', oOutputParameterHandler)
 
+
         oGui.setEndOfDirectory()
 
     def showAnimes(self):
@@ -496,12 +497,8 @@ class cHome:
         oHandler = cRechercheHandler()
         oHandler.setText(sSearchText)
         oHandler.setDisp(sDisp)
+        oHandler.setRead(sReadDB)
         aPlugins = oHandler.getAvailablePlugins()
 
-        if (sReadDB != 'False' and aPlugins == True):
-            meta = {}
-            meta['title'] = oHandler.getText()
-            meta['disp'] = oHandler.getDisp()
-            cDb().insert_history(meta)
 
         oGui.setEndOfDirectory()

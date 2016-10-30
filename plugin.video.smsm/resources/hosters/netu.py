@@ -202,6 +202,8 @@ class cHoster(iHoster):
         
         player_url = self.__sUrl
         
+
+
         req = urllib2.Request(player_url, None, headers)
         try:
             response = urllib2.urlopen(req)
@@ -311,6 +313,7 @@ class cHoster(iHoster):
                    
                     if file_url:
                         list_url = _decode2(file_url.group(1).replace('\\', ''))
+
 
                     xbmc.log(list_url)
 
