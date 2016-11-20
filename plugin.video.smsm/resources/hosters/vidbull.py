@@ -10,7 +10,7 @@ from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 import re,xbmc
 
-import resources.lib.pyaes as pyaes
+#import resources.lib.pyaes as pyaes (no module name pyaes found)
 
 import resources.lib.GKDecrypter
 from resources.lib.GKDecrypter import decryptKey
@@ -109,7 +109,7 @@ class cHoster(iHoster):
         if (url_stream): 
             return True, url_stream
         else:
-                cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
+                cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
                 return False, False
         
         return False, False
