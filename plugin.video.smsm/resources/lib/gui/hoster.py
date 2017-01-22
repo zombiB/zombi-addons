@@ -149,10 +149,12 @@ class cHosterGui:
         #Gestion classique
         if ('novamov' in sHostName):
             return cHosterHandler().getHoster('novamov')
+        if ('watchers' in sHostName):
+            return cHosterHandler().getHoster('resolver')
         if ('bitvid' in sHostName):
             return cHosterHandler().getHoster('bitvid')
         if ('estream' in sHostName):
-            return cHosterHandler().getHoster('resolver')
+            return cHosterHandler().getHoster('estream')
         if ('divxstage' in sHostName):
             return cHosterHandler().getHoster('divxstage')
         if ('vidxden' in sHostName):
@@ -176,7 +178,7 @@ class cHosterGui:
         if ('exashare' in sHostName):
             return cHosterHandler().getHoster('exashare')
         if ('nowvideo' in sHostName):
-            return cHosterHandler().getHoster('resolver')
+            return cHosterHandler().getHoster('nowvideo')
         if ('vk.com' in sHostName):
             return cHosterHandler().getHoster('vk')
         if ('vkontakte' in sHostName):
@@ -314,6 +316,8 @@ class cHosterGui:
         if ('uploaded' in sHostName or 'ul.to' in sHostName):
             return cHosterHandler().getHoster('uploaded')            
         if ('mp4' in sHostName):
+            return cHosterHandler().getHoster('lien_direct')            
+        if ('md5' in sHostName):
             return cHosterHandler().getHoster('lien_direct')
             
         #Si aucun hebergeur connu on teste les liens directs

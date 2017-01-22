@@ -18,20 +18,20 @@ SITE_IDENTIFIER = 'serieswatch'
 SITE_NAME = 'series4watch'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://www.series4watch.com'
+URL_MAIN = 'http://www.series4watch.tv/'
 
 
-MOVIE_AR = ('http://www.series4watch.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%89-%D9%85%D8%B4%D8%A7%D9%87%D8%AF%D8%A9-%D9%85%D8%A8%D8%A7%D8%B4%D8%B1%D8%A9/', 'showMovies')
-MOVIE_EN = ('http://www.series4watch.com/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9-%D8%A3%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/', 'showMovies')
-MOVIE_ANIME = ('http://www.series4watch.com/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A5%D9%86%D9%85%D9%8A-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showMovies')
-MOVIE_ASIAN = ('http://www.series4watch.com/type/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9/', 'showMovies')
-MOVIE_HI = ('http://www.series4watch.com/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A/', 'showMovies')
-MOVIE_TURK = ('http://www.series4watch.com/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/', 'showMovies')
-SERIE_NEWS = ('http://www.series4watch.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9-%D9%85%D9%85%D9%8A%D8%B2%D8%A9/', 'showMovies')
-SERIE_EN = ('http://www.series4watch.com/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA/', 'showSeasons')
-REPLAYTV_NEWS = ('http://www.series4watch.com/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%8A%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9/', 'showMovies')
-SPORT_NEWS = ('http://www.series4watch.com/category/%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D8%A9-%D8%A3%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/', 'showMovies')
-URL_SEARCH = ('http://www.series4watch.com/?s=', 'showMovies')
+MOVIE_AR = ('http://www.series4watch.tv/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9-%D8%A3%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/', 'showMovies')
+MOVIE_EN = ('http://www.series4watch.tv/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9-%D8%A3%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/', 'showMovies')
+MOVIE_ANIME = ('http://www.series4watch.tv/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A5%D9%86%D9%85%D9%8A-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showMovies')
+MOVIE_ASIAN = ('http://www.series4watch.tv/type/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9/', 'showMovies')
+MOVIE_HI = ('http://www.series4watch.tv/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A/', 'showMovies')
+MOVIE_TURK = ('http://www.series4watch.tv/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/', 'showMovies')
+SERIE_NEWS = ('http://www.series4watch.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9-%D9%85%D9%85%D9%8A%D8%B2%D8%A9/', 'showMovies')
+SERIE_EN = ('http://www.series4watch.tv/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA/', 'showSeasons')
+REPLAYTV_NEWS = ('http://www.series4watch.tv/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%8A%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9/', 'showMovies')
+SPORT_NEWS = ('http://www.series4watch.tv/category/%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D8%A9-%D8%A3%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/', 'showMovies')
+URL_SEARCH = ('http://www.series4watch.tv/?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -63,7 +63,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://www.series4watch.com/?s='+sSearchText
+        sUrl = 'http://www.series4watch.tv/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -81,7 +81,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 #(.+?)([^<]+)
-    sPattern = '<a href="([^<]+)" title="([^<]+)">.+?src="([^<]+)" class="'
+    sPattern = '<div class="block_loop">.+?<a href="([^<]+)" title="([^<]+)">.+?<img width=".+?" height=".+?" src="([^<]+)" class'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -165,10 +165,10 @@ def showSeasons(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
- 
+
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'rel="next" href="(.+?)" itemprop="name"'
+    sPattern = 'rel="next" href="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
@@ -239,7 +239,7 @@ def showLinks():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = 'id="post-ratings-(.+?)"'
+    sPattern = "rtl post-template-default single single-post postid-([^<]+) single-format-standard"
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -258,16 +258,15 @@ def showLinks():
             if dialog.iscanceled():
                 break
 
-
             
 
-        for i in range(0,9):
-            siteUrl = 'http://www.series4watch.com/wp-content/themes/series4watch/server1.php?server='+str(i)+'&p='+str(aEntry)
+        for i in range(0,7):
+            sUrl = 'http://www.series4watch.tv/wp-content/themes/series4watch/server1.php?server='+str(i)+'&p='+str(aEntry)
             sTitle = 'server '+str(i)
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             
@@ -294,7 +293,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent
                
         
-    sPattern = '<iframe.+?src="(.+?)"'
+    sPattern = '<IFRAME.+?SRC="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

@@ -22,9 +22,9 @@ URL_MAIN = 'http://aracinema.co/'
 
 
 MOVIE_EN = ('http://aracinema.co/category/movies/', 'showMovies')
-SERIE_NEWS = ('http://aracinema.co/category/airing//', 'showTvshows')
+SERIE_NEWS = ('http://aracinema.co/category/airing//', 'showEp')
 SERIE_EN = ('http://aracinema.co/stat/ongoing/', 'showTvshows')
-SERIE_ASIA = ('http://aradrama.net/category/series/%D8%A7%D9%84%D8%AF%D8%B1%D8%A7%D9%85%D8%A7-%D8%A7%D9%84%D8%AA%D8%A7%D9%8A%D9%88%D8%A7%D9%86%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D8%B5%D9%8A%D9%86%D9%8A%D8%A9/', 'showTvshows')
+SERIE_ASIA = ('http://aradrama.tv/category/series/ongoing/', 'showMovies')
 
 
 URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
@@ -100,6 +100,55 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
+
+def showEp(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
+
+    # 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
+    sPattern ='<a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt='
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        dialog = cConfig().createDialog(SITE_NAME)
+        for aEntry in aResult[1]:
+            cConfig().updateDialog(dialog, total)
+            if dialog.iscanceled():
+                break
+ 
+            sTitle = aEntry[1]
+            siteUrl = str(aEntry[0])
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
+            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
+			
+
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', aEntry[2], '', oOutputParameterHandler)
+        
+        cConfig().finishDialog(dialog)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
 		
 def showTvshows(sSearch = ''):
     oGui = cGui()
@@ -138,7 +187,7 @@ def showTvshows(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
 			
             if 'stat' in sInfo:
-                oGui.addMisc(SITE_IDENTIFIER, 'showSeason', aEntry[1], '', aEntry[2], '', oOutputParameterHandler)
+                oGui.addMisc(SITE_IDENTIFIER, 'showMoviesLinks', aEntry[1], '', aEntry[2], '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -188,7 +237,7 @@ def showMoviesLinks():
 
 
 
-    #on regarde si dispo dans d'autres qualités
+    #
     sPattern = '<a class="wpb_button_a" title="(.+?)" href="(.+?)"><span class="wpb_button  wpb_btn-warning wpb_btn-large">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -201,13 +250,12 @@ def showMoviesLinks():
                 break
 
             sTitle = sMovieTitle +  ' - [COLOR skyblue]' + aEntry[0]+'[/COLOR]'
-            sUrl= aEntry[1].replace('http://aracinema.co/?cat=397&s=','')
-            sUrl2= 'http://aracinema.co/'+sUrl
+            sUrl= aEntry[1]
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',  sUrl2)
+            oOutputParameterHandler.addParameter('siteUrl',  sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
             oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sCom, oOutputParameterHandler)             
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sCom, oOutputParameterHandler)             
     
         cConfig().finishDialog(dialog)
 

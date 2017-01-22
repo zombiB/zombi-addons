@@ -187,10 +187,10 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
+    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','([^<]+)')
                
         
-    sPattern = 'iframe.+?src="([^<]+)"'
+    sPattern = 'data-id="1" data-type=".+?" data-code="([^<]+)" id='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
