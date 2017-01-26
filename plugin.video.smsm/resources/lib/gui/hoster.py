@@ -317,7 +317,7 @@ class cHosterGui:
             return cHosterHandler().getHoster('uploaded')            
         if ('mp4' in sHostName):
             return cHosterHandler().getHoster('lien_direct')            
-        if ('md5' in sHostName):
+        if ('moshahda' in sHostName):
             return cHosterHandler().getHoster('lien_direct')
             
         #Si aucun hebergeur connu on teste les liens directs
