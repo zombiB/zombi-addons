@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
@@ -89,7 +89,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLink', aEntry[2], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', aEntry[2], '', sThumbnail, '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -142,7 +142,7 @@ def showAnimes(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showInfo', aEntry[2], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showInfo', aEntry[2], '', sThumbnail, '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -189,7 +189,7 @@ def showInfo():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showEpisodes', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
        
@@ -229,7 +229,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
        

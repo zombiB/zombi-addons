@@ -1,6 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
-#zombi.(@geekzombi)
+#zombi
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
@@ -57,7 +56,7 @@ def showGenres():
  
     liste = []
     liste.append( ["LA LIGA 16-17","http://www.casablaugranatv.pro/search/label/LA%20LIGA%2016-17"] )
-    liste.append( ["دوري أبطال أوروبا 17-2016","http://www.casablaugranatv.pro/search/label/%D8%AF%D9%88%D8%B1%D9%8A%20%D8%A3%D8%A8%D8%B7%D8%A7%D9%84%20%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7%2017-2016"] )
+    liste.append( ["دوري أبطال أوروبا 17-2016","http://www.casablaugranatv.pro/search/label/Champions%2016-17?&max-results=10"] )
     liste.append( ["دوري أبطال أوروبا 15-2016","http://www.casablaugranatv.pro/search/label/%D8%AF%D9%88%D8%B1%D9%8A%20%D8%A3%D8%A8%D8%B7%D8%A7%D9%84%20%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7%2015-2016"] )
     liste.append( ["LA LIGA 15-16","http://www.casablaugranatv.pro/search/label/LA%20LIGA%2015-16"] )
     liste.append( ["LA COPA DEL REY","http://www.casablaugranatv.pro/search/label/LA%20COPA%20DEL%20REY"] )
@@ -88,7 +87,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('&quot;', '"')
-    sPattern = "<a content='([^<]+)'></a>.+?rel='prettyPhoto' title='([^<]+)'></a></span><span class='magazine-read-more-link'><a href='([^<]+)'></a></span>"
+    sPattern = "<h2 class='post-title entry-title' itemprop='name headline'><a href='([^<]+)' title='([^<]+)'>.+?</a>.+?<p class='RecentSnippet'>([^<]+)</p>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -98,14 +97,13 @@ def showMovies(sSearch = ''):
             cConfig().updateDialog(dialog, total)
             if dialog.iscanceled():
                 break
-            sUrl = str(aEntry[2])
+            sUrl = str(aEntry[0])
             if not 'http' in sUrl:
                 sUrl = str(URL_MAIN) + sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', aEntry[0], '', oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', '', aEntry[2], oOutputParameterHandler)
 
         cConfig().finishDialog(dialog)
             
@@ -140,11 +138,12 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
     oParser = cParser()
-               
+              
         
-    sPattern = '<span style="color: #cc0000;">([^<]+)</span>' 
-    sPattern = sPattern + '|' + 'style="text-align: right;"><a href="([^<]+)"><span'
-    sPattern = sPattern + '|' + '<iframe allowfullscreen.+?src="(.+?)"'
+    sPattern = '<span style="font-size: x-large;">([^<]+)</span>' 
+    sPattern = sPattern + '|' + 'style="font-size: large;">([^<]+)'
+    sPattern = sPattern + '|' + 'iframe allowfullscreen.+?src="(.+?)"'
+    sPattern = sPattern + '|' + 'iframe width="640" height="360" src="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -161,10 +160,19 @@ def showHosters():
             elif aEntry[1]:
                  sUrl = str(aEntry[1])
                  oOutputParameterHandler = cOutputParameterHandler()
-                 oGui.addMisc(SITE_IDENTIFIER, 'showMovies','[COLOR blue]'+ aEntry[1] + '[/COLOR]', 'series.png', '', '', oOutputParameterHandler)
+                 oGui.addMisc(SITE_IDENTIFIER, 'showMovies','[COLOR yellow]'+ aEntry[1] + '[/COLOR]', 'series.png', '', '', oOutputParameterHandler)
 
             elif aEntry[2]:
                  sHosterUrl = 'http:' +str(aEntry[2])
+                 sMovieTitle2 = str(aEntry[0])
+                 oHoster = cHosterGui().checkHoster(sHosterUrl)
+                 if (oHoster != False):
+                     oHoster.setDisplayName(sMovieTitle2)
+                     oHoster.setFileName(sMovieTitle2)
+                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+            elif aEntry[3]:
+                 sHosterUrl = str(aEntry[3])
                  sMovieTitle2 = str(aEntry[0])
                  oHoster = cHosterGui().checkHoster(sHosterUrl)
                  if (oHoster != False):

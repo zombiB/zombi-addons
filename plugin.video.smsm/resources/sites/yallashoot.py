@@ -32,11 +32,7 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://frenchstream.org/les-plus-vues')
-    oGui.addDir(SITE_IDENTIFIER, 'showGenres', 'Sports', 'genres.png', oOutputParameterHandler)    
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)  
             
     oGui.setEndOfDirectory()
   
@@ -62,7 +58,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('&quot;', '"')
-    sPattern = '<a href="(.+?)">.+?/><br>([^<]+)</td>.+?>([^<]+)</span> <br> شاهد الأهداف</div></span></td>.+?/><br>([^<]+)</td>'
+    sPattern = '<a href="([^<]+)">.+?width="30"/><br>([^<]+)</td><td align="center" width="20%"><span class="m_t"><div style=""><div class="hussen-new" style=" background-color:#0.+?; color:#fff;-webkit-border-radius: 4px 4px 4px 4px;border-radius: 4px 4px 4px 4px; width:100%;"><span class=.+?>([^<]+)</span> <br>[^<]+</div></span></td><td align="center" width="40%"><img src=".+?" width="30"/><br>([^<]+)</td></tr></table></a></li>'
 
 	
     oParser = cParser()
@@ -140,6 +136,7 @@ def showHosters():
 
             elif aEntry[2]:
                  sHosterUrl = 'http:' +str(aEntry[2])
+                 sHosterUrl = sHosterUrl.replace('http://yalla1.top/goals/ok.php?id=','http://ok.ru/videoembed/')
                  oHoster = cHosterGui().checkHoster(sHosterUrl)
                  if (oHoster != False):
                      oHoster.setDisplayName(sMovieTitle)

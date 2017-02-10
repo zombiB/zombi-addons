@@ -1,5 +1,4 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
 #zombi.(@geekzombi)
 
 from resources.lib.gui.hoster import cHosterGui
@@ -24,6 +23,7 @@ MOVIE_ANIME = ('http://www.mytun.tv/cat/11/%D8%A7%D9%81%D9%84%D8%A7%D9%85_%D9%83
 MOVIE_HI = ('http://www.mytun.tv/cat/10/%D8%A7%D9%81%D9%84%D8%A7%D9%85_%D9%87%D9%86%D8%AF%D9%8A%D8%A9/1.html', 'showMovies')
 MOVIE_EN = ('http://www.mytun.tv/cat/8/%D8%A7%D9%81%D9%84%D8%A7%D9%85_%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9/1.html', 'showMovies')
 SERIE_AR = ('http://www.mytun.tv/cat/18/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA_%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/1.html', 'showMovies')
+SERIE_ASIA = ('http://www.mytun.tv/cat/14/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA_%D9%83%D9%88%D8%B1%D9%8A%D8%A9_%D9%88_%D9%8A%D8%A7%D8%A8%D8%A7%D9%86%D9%8A%D8%A9/1.html', 'showMovies')
 URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
@@ -58,8 +58,8 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('<span class="likeThis">', '').replace('</span>','')
-    sPattern = 'div class="icon">.+?<a href="(.+?)"><img src="(.+?)" width="150" height="120" title="(.+?)"'
- 
+    sPattern = '<div class="file browse_file"><div class="icon"><a href="([^<]+)"><img src="([^<]+)" width="150" height="120" title="([^<]+)" alt=".+?" border="0"/></a>.+?</p><p>([^<]+)</p><p class="played">(([^<]+))</p>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -71,11 +71,15 @@ def showMovies(sSearch = ''):
                 break
 
 
+            sTitle = str(aEntry[2])
+            sPicture = str(aEntry[1])
+            sInfo = str(aEntry[3])+'                                                                                 '+'[COLOR violet]'+str(aEntry[4])+'[/COLOR]'
+            sUrl = str(aEntry[0])
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', str(aEntry[0]))
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[1]))
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[1], '', oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sPicture)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sPicture, sInfo, oOutputParameterHandler)
 
         cConfig().finishDialog(dialog)
             
@@ -90,7 +94,7 @@ def showMovies(sSearch = ''):
 
 
 def __checkForNextPage(sHtmlContent):
-    sPattern = ""
+    sPattern = '<div class="pagination">.+?<b>.+?</b><a href="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -135,7 +139,7 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-    sPattern = 'href="*(.+?)" target="_blank"'
+    sPattern = '<a href="(.+?)" target="_blank" rel="nofollow" class="btn">.+?</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

@@ -86,7 +86,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[1]))
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', sThumbnail, aEntry[2], oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', sThumbnail, aEntry[2], oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -155,7 +155,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showEps', aEntry[1], '', sThumbnail, aEntry[1], oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showEps', aEntry[1], '', sThumbnail, aEntry[1], oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  

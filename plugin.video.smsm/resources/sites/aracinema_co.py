@@ -1,5 +1,4 @@
 ﻿#-*- coding: utf-8 -*-
-
 #zombi.(@geekzombi)
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
@@ -11,7 +10,9 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.config import cConfig
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+from resources.lib.cloudflare import CloudflareBypass
+from resources.lib.cloudflare import NoRedirection
+import urllib2,urllib,re,xbmc
 import unicodedata
  
 SITE_IDENTIFIER = 'aracinema_co'
@@ -22,9 +23,9 @@ URL_MAIN = 'http://aracinema.co/'
 
 
 MOVIE_EN = ('http://aracinema.co/category/movies/', 'showMovies')
-SERIE_NEWS = ('http://aracinema.co/category/airing//', 'showEp')
+SERIE_NEWS = ('http://aracinema.co/category/airing/', 'showEp')
 SERIE_EN = ('http://aracinema.co/stat/ongoing/', 'showTvshows')
-SERIE_ASIA = ('http://aradrama.tv/category/series/ongoing/', 'showMovies')
+SERIE_ASIA = ('http://aradrama.tv/category/episodes/airing/', 'showEp')
 
 
 URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
@@ -62,6 +63,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
  
 
     # 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
@@ -111,6 +114,8 @@ def showEp(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
  
 
     # 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
@@ -160,6 +165,8 @@ def showTvshows(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
  
 
     # 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
@@ -212,6 +219,8 @@ def showMoviesLinks():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
+    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
+
     #print sUrl
    
     oParser = cParser()
@@ -237,8 +246,8 @@ def showMoviesLinks():
 
 
 
-    #
-    sPattern = '<a class="wpb_button_a" title="(.+?)" href="(.+?)"><span class="wpb_button  wpb_btn-warning wpb_btn-large">'
+    #<a class="wpb_button_a" title="مشاهدة الحلقات أونلاين" href="http://aracinema.com/category/airing/the-expanse-s2/"><span class="wpb_button  wpb_btn-warning wpb_btn-large">مشاهدة الحلقات أونلاين<
+    sPattern = '<a class="wpb_button_a" title="([^<]+)" href="([^<]+)"><span class="wpb_button  wpb_btn-warning wpb_btn-large">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0] == True):
@@ -250,7 +259,7 @@ def showMoviesLinks():
                 break
 
             sTitle = sMovieTitle +  ' - [COLOR skyblue]' + aEntry[0]+'[/COLOR]'
-            sUrl= aEntry[1]
+            sUrl= aEntry[1].replace('http://aracinema.com','http://aracinema.co')
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',  sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
@@ -271,6 +280,8 @@ def showSeason():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
  
     sPattern = 'class="wpb_button_a" title="([^<]+)" href="([^<]+)"><span class'
 
@@ -311,6 +322,8 @@ def showSeries():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
  
     sPattern = 'class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt'
 
@@ -367,10 +380,12 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
+
+    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
                
         
-    sPattern = 'src="([^<]+)" allowfullscreen></iframe>'
+    sPattern = 'src="([^<]+)"[^<]+allowfullscreen></iframe>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

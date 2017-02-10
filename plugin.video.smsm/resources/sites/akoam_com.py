@@ -128,7 +128,7 @@ def showMovies(sSearch = ''):
             if 'hd-arab' in sUrl:
                 oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[1], '', oOutputParameterHandler) 
             else:
-                oGui.addTV(SITE_IDENTIFIER, 'showEpisode', cUtil().DecoTitle(sTitle),'', aEntry[1], aEntry[3], oOutputParameterHandler)         
+                oGui.addMovie(SITE_IDENTIFIER, 'showEpisode', cUtil().DecoTitle(sTitle),'', aEntry[1], aEntry[3], oOutputParameterHandler)         
     
         cConfig().finishDialog(dialog)
 
@@ -151,7 +151,7 @@ def showSeries():
         
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    #sHtmlContent = sHtmlContent.replace('<strong>Téléchargement VOSTFR','').replace('<strong>Téléchargement VF','').replace('<strong>Téléchargement','')
+    #sHtmlContent = sHtmlContent.replace('<strong>Tê­©chargement VOSTFR','').replace('<strong>Tê­©chargement VF','').replace('<strong>Tê­©chargement','')
  
     #fh = open('c:\\test.txt', "w")
     #fh.write(sHtmlContent)

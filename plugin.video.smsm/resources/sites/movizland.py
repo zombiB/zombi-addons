@@ -98,7 +98,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', sThumbnail, '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  

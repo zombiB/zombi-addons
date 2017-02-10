@@ -1,6 +1,13 @@
 =============================================================================
+version 0.0.10
+11/02/2017 - 
+-new sources added : hdarab,filmey,myasianpark
+-sources updated : aracinema,casablaugranatv,cera.online..
+-hosters updated
+-tweaks
+=============================================================================
 version 0.0.9
-22/01/2017 - 
+26/01/2017 - 
 -new sources anyanime and movizland added 
 =============================================================================
 version 0.0.8

@@ -1,6 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
-#zombi.(@geekzombi)
+#zombi
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
@@ -22,10 +21,10 @@ URL_MAIN = 'http://cera.online'
 
 
 MOVIE_EN = ('http://cera.online/movies-cinema-translated-arablionz-download-cima4u-watch-tvegy.html/', 'showMovies')
-ANIM_NEWS = ('http://cera.online/all-full-anime-series.html/', 'showMovies')
-SERIE_EN = ('http://cera.online/tv-series-translated-online.html/', 'showMovies')
-SERIE_AR = ('http://cera.online/mosalsalat-ramadan-2016-watch-shahid-net-mbc-download-dailymotion-online/', 'showMovies')
-
+ANIM_NEWS = ('http://cera.online/all-full-anime-series.html/', 'showAnimes')
+SERIE_EN = ('http://cera.online/tv-series-translated-online.html/', 'showAnimes')
+SERIE_NEWS = ('http://cera.online/series-download-watch-episodes-aflamhq-egfire-arablionz-translated-myegy.html/', 'showMovies')
+SERIE_AR = ('http://cera.online/mosalsalat-ramadan-2016-watch-shahid-net-mbc-download-dailymotion-online/', 'showMosalsel')
 
 URL_SEARCH = ('http://cera.online/search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
@@ -100,6 +99,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2]
             siteUrl = str(aEntry[1])
+            sInfo = str(aEntry[3])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -107,13 +107,8 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
 			
-            if 'serie' in siteUrl:
-                oGui.addMisc(SITE_IDENTIFIER, 'showSeason', aEntry[2], '', aEntry[0], aEntry[3], oOutputParameterHandler)
-            elif 'فيلم ' in sTitle:
-                oGui.addMisc(SITE_IDENTIFIER, 'showEps', aEntry[2], '', aEntry[0], aEntry[3], oOutputParameterHandler)
-            elif 'anime' or 'mosalsal' in sUrl:
-                oGui.addTV(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[3], oOutputParameterHandler)
-        
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[0], sInfo, oOutputParameterHandler)
+
         cConfig().finishDialog(dialog)
  
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -121,6 +116,103 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+ 
+def showAnimes(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
+
+    sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        dialog = cConfig().createDialog(SITE_NAME)
+        for aEntry in aResult[1]:
+            cConfig().updateDialog(dialog, total)
+            if dialog.iscanceled():
+                break
+ 
+            sTitle = aEntry[2]
+            siteUrl = str(aEntry[1])
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
+            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[3], oOutputParameterHandler)
+        
+        cConfig().finishDialog(dialog)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showAnimes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+		
+ 
+def showMosalsel(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
+
+    sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        dialog = cConfig().createDialog(SITE_NAME)
+        for aEntry in aResult[1]:
+            cConfig().updateDialog(dialog, total)
+            if dialog.iscanceled():
+                break
+ 
+            sTitle = aEntry[2]
+            siteUrl = str(aEntry[1])
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
+            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[3], oOutputParameterHandler)
+        
+        cConfig().finishDialog(dialog)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMosalsel', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -202,13 +294,19 @@ def showSeries():
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             if 'seasons' in sUrl:
-                oGui.addMisc(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumbnail, aEntry[0], oOutputParameterHandler)
+                oGui.addMisc(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
             else:
-                oGui.addMisc(SITE_IDENTIFIER, 'showEps', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
+                oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
        
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
  
        
  

@@ -1,5 +1,4 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
 #zombi.(@geekzombi)
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
@@ -16,11 +15,12 @@ import urllib2,urllib,re
  
 SITE_IDENTIFIER = 'showscen_com'
 SITE_NAME = 'showscen.com'
-SITE_DESC = 'vod'
+SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.showscen.com'
 
 MOVIE_EN = ('http://www.showscen.com/watch/category/movies/', 'showMovies')
+SERIE_EN = ('http://www.showscen.com/watch/category/tv-shows/', 'showShows')
 
 
   
@@ -54,53 +54,23 @@ def showSearch():
  
 def showMovies(sSearch = ''):
     oGui = cGui()
-   
     if sSearch:
-        #on redecode la recherhce cod� il y a meme pas une seconde par l'addon
-        sSearch = urllib2.unquote(sSearch)
- 
-        query_args = { 'do' : 'search' , 'subaction' : 'search' , 'story' : str(sSearch) , 'x' : '0', 'y' : '0'}
-        
-        #print query_args
-        
-        data = urllib.urlencode(query_args)
-        headers = {'User-Agent' : 'Mozilla 5.10'}
-        url = 'http://www.showscen.com/watch/?s='
-        request = urllib2.Request(url,data,headers)
-     
-        try:
-            reponse = urllib2.urlopen(request)
-        except URLError, e:
-            print e.read()
-            print e.reason
-     
-        sHtmlContent = reponse.read()
-
-        #sPattern = '<div class="imagefilm">.+?<a href="(.+?)" title="(.+?)">.+?<img src="(.+?)"'
-        sPattern = '<div class="imagefilm">.+?<img src="(.+?)".+?<a href="([^<>]+?)".+?titreunfilm" style="width:145px;"> *(.+?) *<\/div>'
- 
+      sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+
    
-        oRequestHandler = cRequestHandler(sUrl)
-        sHtmlContent = oRequestHandler.request()
-        
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = sHtmlContent.replace('&quot;', '"')
         #sPattern = '<div class="imagefilm"> *<a href="(.+?)" title="(.+?)".+?<img src="(.+?)" alt="(.+?)"'
-        sPattern = '<img width.+?src="(.+?)".+?class="entry-title"><a href="(.+?)" rel="bookmark">(.+?)</a>'
-    
-    sHtmlContent = sHtmlContent.replace('\n','')
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent)
-    #fh.close()
+    sPattern = '<img width.+?src="(.+?)".+?class="entry-title"><a href="(.+?)" rel="bookmark">(.+?)</a>'
+
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-   
-    #print aResult
-   
-    if not (aResult[0] == False):
+    if (aResult[0] == True):
         total = len(aResult[1])
         dialog = cConfig().createDialog(SITE_NAME)
        
@@ -108,24 +78,14 @@ def showMovies(sSearch = ''):
             cConfig().updateDialog(dialog, total)
             if dialog.iscanceled():
                 break
-           
-            sTitle = cUtil().unescape(aEntry[2])
+
+            sTitle = str(aEntry[2])
             sPicture = str(aEntry[0])
-            if not 'http' in sPicture:
-                sPicture = str(URL_MAIN) + sPicture
-                
             sUrl = str(aEntry[1])
-            if not 'http' in sUrl:
-                sUrl = str(URL_MAIN) + sUrl
-           
-            #not found better way
-            #sTitle = unicode(sTitle, errors='replace')
-            #sTitle = sTitle.encode('ascii', 'ignore').decode('ascii')
-           
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
-            oOutputParameterHandler.addParameter('sThumbnail', sPicture) #sortis du poster
+            oOutputParameterHandler.addParameter('sThumbnail', sPicture)
 
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, sPicture, sPicture, '', oOutputParameterHandler)
  
@@ -141,7 +101,105 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
+		
+def showShows(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+
    
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = sHtmlContent.replace('&quot;', '"')
+        #sPattern = '<img width.+?src="([^<]+)".+?class="entry-title">.+?<a href="([^<]+)" rel="bookmark">([^<]+)</a>'
+    sPattern = '<img width.+?src="(.+?)".+?class="entry-title"><a href="(.+?)" rel="bookmark">(.+?)</a>'
+
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        dialog = cConfig().createDialog(SITE_NAME)
+       
+        for aEntry in aResult[1]:
+            cConfig().updateDialog(dialog, total)
+            if dialog.iscanceled():
+                break
+
+            sTitle = str(aEntry[2])
+            sPicture = str(aEntry[0])
+            sUrl = str(aEntry[1])
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
+            oOutputParameterHandler.addParameter('sThumbnail', sPicture)
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', sPicture, '', oOutputParameterHandler)
+ 
+        cConfig().finishDialog(dialog)
+           
+        if not sSearch:
+            sNextPage = __checkForNextPage(sHtmlContent)#cherche la page suivante
+            if (sNextPage != False):
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+                #Ajoute une entrer pour le lien Next | pas de addMisc pas de poster et de description inutile donc
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+  
+def showSeries():
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    
+    oParser = cParser()
+    #(.+?)/>&#8211; <a href="http://www.showscen.com/watch/black-sails-s04e01/">حلقة S04E01</a><
+    sPattern = '<a href="([^<]+)">حلقة S0([^<]+)<'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    #fh = open('c:\\test.txt', "w")
+    #fh.write(sHtmlContent.replace('\n',''))
+    #fh.close()
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        dialog = cConfig().createDialog(SITE_NAME)
+        for aEntry in aResult[1]:
+            cConfig().updateDialog(dialog, total)
+            if dialog.iscanceled():
+                break
+ 
+            sTitle = 'حلقة S0'+str(aEntry[1])
+            sUrl = str(aEntry[0]).replace('" target="_blank', '')
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            
+
+ 
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+ 
+        cConfig().finishDialog(dialog)
+       
+    oGui.setEndOfDirectory() 
+  
+
+
 def __checkForNextPage(sHtmlContent):
     sPattern = '<div class="nav-previous"><a href="(.+?)" >Older posts</a></div>'
     oParser = cParser()

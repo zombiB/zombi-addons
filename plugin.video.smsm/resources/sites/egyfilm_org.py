@@ -1,6 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#Venom.
-#Mod By Zombi.(@geekzombi)
+#Zombi
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
@@ -74,7 +73,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[1]))
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[2], 'doc.png', aEntry[1], '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], 'doc.png', aEntry[1], '', oOutputParameterHandler)
 
         cConfig().finishDialog(dialog)
             
