@@ -1,4 +1,9 @@
 =============================================================================
+version 0.0.11
+11/02/2017 - 
+-one more change 
+fix aracinema & joewinter sources
+=============================================================================
 version 0.0.10
 11/02/2017 - 
 -new sources added : hdarab,filmey,myasianpark
