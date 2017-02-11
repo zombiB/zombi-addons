@@ -26,7 +26,7 @@ SERIE_NEWS = ('http://hd-arab.com', 'showNews')
 SERIE_EN = ('http://hd-arab.com/tvshows/', 'showTvshows')
 
 
-URL_SEARCH = ('http://www.anyanime.com/?s=', 'showMovies')
+URL_SEARCH = ('http://hd-arab.com/search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -44,7 +44,7 @@ def showSearch():
 
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://www.anyanime.com/?s='+sSearchText
+        sUrl = 'http://hd-arab.com/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -386,7 +386,7 @@ def showSeriesLinks():
 				sDate= 'aired on '+str(aEntry[4])
 				oOutputParameterHandler = cOutputParameterHandler()
 				oOutputParameterHandler.addParameter('siteUrl', sUrl)
-				oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
+				oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
 				oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
 				oGui.addMovie(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumbnail, sDate, oOutputParameterHandler)             
     
@@ -478,7 +478,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','([^<]+)')
                
         
-    sPattern = 'key([^<]+)label'
+    sPattern = 'ck2([^<]+)label'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
