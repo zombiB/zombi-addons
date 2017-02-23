@@ -149,6 +149,8 @@ class cHosterGui:
         #Gestion classique
         if ('novamov' in sHostName):
             return cHosterHandler().getHoster('novamov')
+        if ('vidlox' in sHostName):
+            return cHosterHandler().getHoster('resolver')
         if ('watchers' in sHostName):
             return cHosterHandler().getHoster('resolver')
         if ('bitvid' in sHostName):
@@ -316,6 +318,8 @@ class cHosterGui:
         if ('uploaded' in sHostName or 'ul.to' in sHostName):
             return cHosterHandler().getHoster('uploaded')            
         if ('mp4' in sHostName):
+            return cHosterHandler().getHoster('lien_direct')            
+        if ('panet' in sHostName):
             return cHosterHandler().getHoster('lien_direct')            
         if ('moshahda' in sHostName):
             return cHosterHandler().getHoster('lien_direct')

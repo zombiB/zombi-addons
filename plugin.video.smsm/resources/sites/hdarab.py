@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.config import cConfig
 from resources.lib.parser import cParser
+from resources.lib.packer import cPacker
 from resources.lib.util import cUtil
 import urllib2,urllib,re
 import unicodedata
@@ -361,9 +362,9 @@ def showSeriesLinks():
 
 
 
-    #data-src="([^<]+)"
-    sPattern = '<div class="season_episode">.+?<a href=".+?" data-toggle="collapse" class="season_group_btn">.+?<span>.+?</span>(.+?)</a>'
-    sPattern = sPattern + '|' + '<a href="([^<]+)">[^<]+<span class="episode_name"><span>([^<]+)</span>([^<]+)</span>[^<]+<span class="episode_air_d">([^<]+)</span>'
+    #data-src="([^<]+)"class="season_group_btn collapsed" aria-expanded="true"> <span>02</span> Season 02 - Mad Men </a>
+    sPattern = 'class="season_group_btn.+?<span>.+?</span>(.+?)</a>'
+    sPattern = sPattern + '|' + '<a href="([^<]+)"> <span class="episode_air_d">([^<]+)</span> <span class="episode_name"><span>([^<]+)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if (aResult[0] == True):
@@ -381,9 +382,9 @@ def showSeriesLinks():
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
                 oGui.addText(SITE_IDENTIFIER, '[COLOR yellow]'+ Saison + '[/COLOR]')
             elif aEntry[1]:
-				sTitle = str(aEntry[2])+str(aEntry[3])
+				sTitle = str(aEntry[3])
 				sUrl= str(aEntry[1])
-				sDate= 'aired on '+str(aEntry[4])
+				sDate= 'aired on '+str(aEntry[2])
 				oOutputParameterHandler = cOutputParameterHandler()
 				oOutputParameterHandler.addParameter('siteUrl', sUrl)
 				oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
@@ -478,31 +479,42 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','([^<]+)')
                
         
-    sPattern = 'ck2([^<]+)label'
+    sPattern = 'type="text/javascript">(.+?)</script><div'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
+    
+
     if (aResult[0] == True):
-        total = len(aResult[1])
-        dialog = cConfig().createDialog(SITE_NAME)
-        for aEntry in aResult[1]:
-            cConfig().updateDialog(dialog, total)
-            if dialog.iscanceled():
-                break
+        sHosterUrl = cPacker().unpack(aResult[1][0])
+        
+        sHosterUrl = sHosterUrl.replace('\/','/')
+        
+        sPattern2 = '"file":"(.+?)","label":"(.+?)P"' 
+        aResult = oParser.parse(sHosterUrl, sPattern2)
+	
+        if (aResult[0] == True):
+			total = len(aResult[1])
+			dialog = cConfig().createDialog(SITE_NAME)
+			for aEntry in aResult[1]:
+				cConfig().updateDialog(dialog, total)
+				if dialog.iscanceled():
+					break
             
-            url = 'https://docs.google.com/file/d/'+str(aEntry)+'/preview?pli=1#t=1'
-            url = url.replace('|','')
-            if url.startswith('//'):
-                url = 'http:' + url
+				url = str(aEntry[0])
+				Squality = str(aEntry[1])
+				sTitle = '[' + Squality + '] ' + sMovieTitle
+				if url.startswith('//'):
+					url = 'http:' + url
             
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				sHosterUrl = url
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = cUtil().DecoTitle(sTitle)
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-        cConfig().finishDialog(dialog) 
-                
-    oGui.setEndOfDirectory()
+			cConfig().finishDialog(dialog)
+
+    oGui.setEndOfDirectory() 

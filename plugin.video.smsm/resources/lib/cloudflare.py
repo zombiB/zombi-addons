@@ -7,7 +7,7 @@ import xbmc
 import xbmcaddon
 
 #Cookie path
-#C:\Users\BRIX\AppData\Roaming\Kodi\userdata\addon_data\plugin.video.vstream\
+#C:\Users\BRIX\AppData\Roaming\Kodi\userdata\addon_data\plugin.video.smsm\
 
 #Light method
 #Ne marche que si meme user-agent
@@ -28,7 +28,7 @@ import xbmcaddon
 #Heavy method
 # sHtmlContent = CloudflareBypass().GetHtml(sUrl)
 
-PathCache = xbmc.translatePath(xbmcaddon.Addon('plugin.video.vstream').getAddonInfo("profile"))
+PathCache = xbmc.translatePath(xbmcaddon.Addon('plugin.video.smsm').getAddonInfo("profile"))
 UA = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
 
 def parseInt(chain):

@@ -1,4 +1,12 @@
 =============================================================================
+version 0.0.13
+23/02/2017 - 
+-hdarab/panet/filmey updated
+-search function updated
+-hosters updated
+-cloudflare fix
+-
+=============================================================================
 version 0.0.12
 11/02/2017 - 
 -fix for hdarab

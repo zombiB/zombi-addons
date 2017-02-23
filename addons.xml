@@ -22,7 +22,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.smsm" name="smsm" version="0.0.12" provider-name="zombi">
+<addon id="plugin.video.smsm" name="smsm" version="0.0.13" provider-name="zombi">
   <requires>
 	<import addon="script.module.metahandler" version="1.0.2"/>
 	<import addon="xbmc.python" version="2.1.0"/>
@@ -39,7 +39,7 @@
     <summary lang="fr">smsm</summary>
     <description lang="fr">vod arabes</description>
     <summary lang="en">smsm</summary>
-    <description lang="en">arabic vod.</description>
+    <description lang="en">arabic vod addon by @geekzombi</description>
     <platform>all</platform>
   </extension>
 </addon>
