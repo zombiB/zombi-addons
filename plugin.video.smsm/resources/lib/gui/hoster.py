@@ -149,7 +149,13 @@ class cHosterGui:
         #Gestion classique
         if ('novamov' in sHostName):
             return cHosterHandler().getHoster('novamov')
+        if ('userscloud' in sHostName):
+            return cHosterHandler().getHoster('resolver')
+        if ('vidhos' in sHostName):
+            return cHosterHandler().getHoster('resolver')
         if ('vidlox' in sHostName):
+            return cHosterHandler().getHoster('vidlox')
+        if ('watchvideo' in sHostName):
             return cHosterHandler().getHoster('resolver')
         if ('watchers' in sHostName):
             return cHosterHandler().getHoster('resolver')

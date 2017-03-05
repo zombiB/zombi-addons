@@ -1,4 +1,11 @@
 =============================================================================
+version 0.0.14
+05/03/2017 - 
+-hdarab/showscen/animok/anyanime/cera updated
+-lodynet/cimaclub/animekom added
+-search function updated
+-hosters updated
+=============================================================================
 version 0.0.13
 23/02/2017 - 
 -hdarab/panet/filmey updated

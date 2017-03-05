@@ -29,26 +29,22 @@ class cHoster(iHoster):
         self.__sUrl = self.__sUrl.replace('http://rutube.ru/video/', '')
         self.__sUrl = self.__sUrl.replace('http://rutube.ru/play/embed/', '')
         self.__sUrl = 'http://rutube.ru/play/embed/' + str(self.__sUrl)
-
    
     def __getIdFromUrl(self,url):
-
-        sPattern = "\/play\/embed\/(\d*)"
+        sPattern = "\/play\/embed\/(\w+)" #au cas ou test \/play\/embed\/(\w+)(?:\?|\\?)
         oParser = cParser()
         aResult = oParser.parse(url, sPattern)
         if (aResult[0] == True):
             return aResult[1][0]
  
         return ''
-
         
     def __getRestFromUrl(self,url):
-        sPattern = "\?([\w]=[\w-]+)"
+        #sPattern = "\?([\w]=[\w-]+)"
+        sPattern = "\?([^ ]+)"
         oParser = cParser()
-
         aResult = oParser.parse(url, sPattern)
         if (aResult[0] == True):
-
             return aResult[1][0]
  
         return ''
@@ -78,8 +74,6 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
  
     def __getMediaLinkForGuest(self):
-
-
         
         oParser = cParser()
         
@@ -88,7 +82,7 @@ class cHoster(iHoster):
         
         api = 'http://rutube.ru/api/play/options/' + sID+ '/?format=json&no_404=true&referer=' + urllib.quote(self.__sUrl,safe='')
         api = api + '&' + sRestUrl
-        
+
         oRequest = cRequestHandler(api)
         sHtmlContent = oRequest.request()
 
@@ -107,17 +101,12 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(url2)
         sHtmlContent = oRequest.request()
  
-
-
         sPattern = '(http.+?\?i=)([0-9x_]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
  
         stream_url = ''
  
         if (aResult[0] == True):
-
-
-
             url=[]
             qua=[]
             
@@ -139,8 +128,7 @@ class cHoster(iHoster):
         if (stream_url):
             return True,stream_url
         else:
-            cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
+            cGui().showInfo(self.__sDisplayName, 'Fichier introuvable' , 5)
             return False, False
            
-
         return False, False

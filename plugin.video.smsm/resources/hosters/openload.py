@@ -32,7 +32,7 @@ def CheckCpacker(str):
             str2 = str2 + ';'
         try:
             str = cPacker().unpack(str2)
-            xbmc.log('Cpacker encryption')
+            #xbmc.log('Cpacker encryption')
         except:
             pass
 
@@ -43,7 +43,7 @@ def CheckJJDecoder(str):
     sPattern = '([a-z]=.+?\(\)\)\(\);)'
     aResult = oParser.parse(str, sPattern)
     if (aResult[0]):
-        xbmc.log('JJ encryption')
+        #xbmc.log('JJ encryption')
         return JJDecoder(aResult[1][0]).decode()
         
     return str
@@ -52,7 +52,7 @@ def CheckAADecoder(str):
     sPattern = '[>;]\s*(ﾟωﾟ.+?\(\'_\'\);)'
     aResult = re.search(sPattern, str,re.DOTALL | re.UNICODE)
     if (aResult):
-        xbmc.log('AA encryption')
+        #xbmc.log('AA encryption')
         tmp = AADecoder(aResult.group(1)).decode()
         #xbmc.log('>> ' + tmp)
         return str[:aResult.start()] + tmp + str[aResult.end():]
@@ -95,8 +95,23 @@ def GetOpenloadUrl(url,referer):
 
         return finalurl
     return url
-
+    
+#Code updated with code from https://gitlab.com/iptvplayer-for-e2 
+def decodek(k):
+    d = max(2, ord(k[0]) - 55)
+    e = min(d, len(k) - 12 - 2)
+    t = k[e:e + 12]
+    g = []
+    for h in range(0, len(t), 2):
+        f = t[h:h+2]
+        g.append(int(f, 16))
+    v = k[0:e] + k[e+12:]
+    p = []
+    for h in range(0, len(v), 2):
+        p.append(chr(int(v[h:h + 2], 16) ^ g[(h / 2) % 6]))
         
+    return "".join(p)
+    
 class cHoster(iHoster):
 
     def __init__(self):
@@ -156,7 +171,7 @@ class cHoster(iHoster):
         oParser = cParser()        
         
         #recuperation de la page
-        xbmc.log('url teste : ' + self.__sUrl)
+        #xbmc.log('url teste : ' + self.__sUrl)
         oRequest = cRequestHandler(self.__sUrl)
         oRequest.addHeaderEntry('User-Agent',UA)
         sHtmlContent1 = oRequest.request()
@@ -171,7 +186,7 @@ class cHoster(iHoster):
         else:
             return False, False
             
-        xbmc.log("Nbre d'url : " + str(len(TabUrl)))
+        #xbmc.log("Nbre d'url : " + str(len(TabUrl)))
         
         #on essais de situer le code
         sPattern = '<script src="\/assets\/js\/video-js\/video\.js\.ol\.js"(.+)*'
@@ -217,64 +232,39 @@ class cHoster(iHoster):
         for i in TabUrl:
             if len(i[1]) > 30:
                 hideenurl = i[1]
-                xbmc.log('hidden url : ' + str(i))
+                #xbmc.log('hidden url : ' + str(i))
 
         if not(hideenurl):
-            xbmc.log('Url codee non trouvee')
+            #xbmc.log('Url codee non trouvee')
             return False, False
-
-        #
-        # Code updated with code from https://github.com/rg3/youtube-dl/pull/12002
-        #
-        
-        urlcode = ''
-        id = hideenurl
-
-        first_two_chars = int(float(id[0:][:2]))
-        
-        TabCode = {}
-        num = 2
-        
-        while (num < len(id)):
-            key = int(float(id[num + 3:][:2]))
-            TabCode[key] = chr(int(float(id[num:][:3])) - first_two_chars)
-            num = num + 5
             
-        sorted(TabCode, key=lambda key: TabCode[key])
-        urlcode = ''.join(['%s' % (value) for (key, value) in TabCode.items()])
-        
-        xbmc.log('> ' + urlcode)
-        #check if the url seem good                    
-        #if re.compile('~[0-9]{10}~').search(urlcode):
-        #    ok = True
-       
-        if not (urlcode):
-            return False,False
-        
-        #xbmc.log(urlcode)
-        
+        #Code updated with code from https://gitlab.com/iptvplayer-for-e2    
+        sCode = decodek(hideenurl)
+
+        api_call = "https://openload.co/stream/" + sCode + "?mime=true"  
         #Now on teste les urls
-        api_call = "https://openload.co/stream/" + urlcode + "?mime=true"        
-        xbmc.log('1 er url : ' + api_call)
-        api_call = GetOpenloadUrl(api_call,self.__sUrl)
+        # api_call = "https://openload.co/stream/" + urlcode + "?mime=true"        
+        #xbmc.log('1 er url : ' + api_call)
+        #api_call = GetOpenloadUrl(api_call,self.__sUrl)
         
-        if (False):
-            #Si ca marche pas on teste d'autres trucs au hazard
-            if not (api_call):
-                url0 = url[:-1] + chr(ord(url[-1]) - val)
-                for i in range(1,3):
-                    if i != val:
-                        url2 = url0[:-1] + chr(ord(url0[-1]) + i)
-                        url2 = "https://openload.co/stream/" + url2 + "?mime=true" 
-                        #xbmc.log(url2)
-                        url3 = GetOpenloadUrl(url2,self.__sUrl)
-                        xbmc.sleep(2000)
-                        if (url3):
-                            api_call = url3
+        # if (False):
+            # # Si ca marche pas on teste d'autres trucs au hazard
+            # if not (api_call):
+                # url0 = url[:-1] + chr(ord(url[-1]) - val)
+                # for i in range(1,3):
+                    # if i != val:
+                        # url2 = url0[:-1] + chr(ord(url0[-1]) + i)
+                        # url2 = "https://openload.co/stream/" + url2 + "?mime=true" 
+                        # # xbmc.log(url2)
+                        # url3 = GetOpenloadUrl(url2,self.__sUrl)
+                        # xbmc.sleep(2000)
+                        # if (url3):
+                            # api_call = url3
         
-        xbmc.log('Url validee : ' + api_call)
+        # xbmc.log('Url validee : ' + api_call)
         
         if (api_call):          
             return True, api_call
             
         return False, False
+        

@@ -62,9 +62,9 @@ def showMovies(sSearch = ''):
  
 
     #sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
- 
 
-    sPattern = 'class="post-media"> <a href="([^<]+)"><div.+?</div>.+?src="([^<]+)" class="attachment-loop size-loop wp-post-image" alt=""/><div class="ep-numb">.+?</div><h1 class="ep-title">([^<]+)</h1>'
+
+    sPattern = '<a href="([^<]+)"><div.+?</div>.+?src="([^<]+)" class="attachment-loop size-loop wp-post-image" alt=""/><div class="ep-numb">.+?</div><h1 class="ep-title">([^<]+)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -306,7 +306,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','([^<]+)')
                
         
-    sPattern = 'src="([^<]+)"'
+    sPattern = 'src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

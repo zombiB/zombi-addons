@@ -84,7 +84,7 @@ def showMovies(sSearch = ''):
     #sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
  
 
-    sPattern = '<a class="bgabox" href="([^<]+)"><img src="([^<]+)" class="attachment-thumbnail wp-post-image" alt=""></a><h1>([^<]+)</h1>'
+    sPattern = '<a class="bgabox" href="([^<]+)">.+?<img src="([^<]+)" class="attachment-thumbnail wp-post-image" alt="">.+?</a>.+?<h1>([^<]+)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -134,7 +134,7 @@ def showSeason():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-    sPattern = '<td><div><a href=".+?">([^<]+)</a><a href="([^<]+)" class="iconplay"><i class="fa fa-play-circle-o"></i></a></div></td></tr>'
+    sPattern = ' <a href="([^<]+)" class="inview">مشاهدة مباشرة</a>.+?<a href=".+?">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -148,8 +148,8 @@ def showSeason():
             if dialog.iscanceled():
                 break
  
-            sTitle = aEntry[0]
-            siteUrl = aEntry[1]
+            sTitle = aEntry[1]
+            siteUrl = aEntry[0]
 			
 
 
@@ -157,7 +157,7 @@ def showSeason():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[0], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
        
@@ -190,7 +190,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','([^<]+)')
                
         
-    sPattern = 'data-id="1" data-type=".+?" data-code="([^<]+)" id='
+    sPattern = 'data-id="1" data-type=".+?" data-code="(.+?)" id='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

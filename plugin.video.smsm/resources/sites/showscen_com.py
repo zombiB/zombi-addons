@@ -46,7 +46,8 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        showMovies(sSearchText)
+        sUrl = 'http://www.showscen.com/watch/?s='+sSearchText
+        showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
     
