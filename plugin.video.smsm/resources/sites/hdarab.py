@@ -18,16 +18,16 @@ SITE_IDENTIFIER = 'hdarab'
 SITE_NAME = 'hd-arab'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://hd-arab.com/'
-URL_TVMAIN = 'http://hd-arab.com/tvshows/'
-URL_MOVIEMAIN = 'http://hd-arab.com/movies/'
+URL_MAIN = 'https://hd-arab.com/'
+URL_TVMAIN = 'https://hd-arab.com/tvshows/'
+URL_MOVIEMAIN = 'https://hd-arab.com/movies/'
 
-MOVIE_EN = ('http://hd-arab.com/movies/', 'showMovies')
-SERIE_NEWS = ('http://hd-arab.com', 'showNews')
-SERIE_EN = ('http://hd-arab.com/tvshows/', 'showTvshows')
+MOVIE_EN = ('https://hd-arab.com/movies/', 'showMovies')
+SERIE_NEWS = ('https://hd-arab.com', 'showNews')
+SERIE_EN = ('https://hd-arab.com/tvshows/', 'showTvshows')
 
 
-URL_SEARCH = ('http://hd-arab.com/search/', 'showMovies')
+URL_SEARCH = ('https://hd-arab.com/search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -45,7 +45,7 @@ def showSearch():
 
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://hd-arab.com/search/'+sSearchText
+        sUrl = 'https://hd-arab.com/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -67,7 +67,7 @@ def showMovies(sSearch = ''):
     #sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
 
 
-    sPattern = '<article class="movie-details">.+?<a href="([^<]+)" class="movie-poster ajax_loader">.+?<img data-src="([^<]+)" src=".+?<h2 class="movie-title">([^<]+)</h2>.+?<div class="movie-year">([^<]+)</div>'
+    sPattern = '<article class="movie-details"><a href="([^<]+)" class="movie-poster ajax_loader"><figure><div class="movie-con"><div class="movie-poster-img"><img data-src="([^<]+)" src="https://hd-arab.com/img/loading.png" alt="([^<]+)" lazy-load="true"></div></div><figcaption><h2 class="movie-title">.+?</h2><div class="movie-year">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -183,7 +183,7 @@ def showTvshows(sSearch = ''):
     #sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
 
 
-    sPattern = '<article class="movie-details">.+?<a href="([^<]+)" class="movie-poster ajax_loader">.+?<img data-src="([^<]+)" src=".+?<h2 class="movie-title">([^<]+)</h2>.+?<div class="movie-year">([^<]+)</div>'
+    sPattern = '<article class="movie-details"><a href="([^<]+)" class="movie-poster ajax_loader"><figure><div class="movie-con"><div class="movie-poster-img"><img data-src="([^<]+)" src="https://hd-arab.com/img/loading.png" alt="([^<]+)" lazy-load="true"></div></div><figcaption><h2 class="movie-title">.+?</h2><div class="movie-year">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -364,7 +364,7 @@ def showSeriesLinks():
 
     #data-src="([^<]+)"class="season_group_btn collapsed" aria-expanded="true"> <span>02</span> Season 02 - Mad Men </a>
     sPattern = 'class="season_group_btn.+?<span>.+?</span>(.+?)</a>'
-    sPattern = sPattern + '|' + '<a href="([^<]+)"> <span class="episode_air_d">([^<]+)</span> <span class="episode_name"><span>([^<]+)</span>'
+    sPattern = sPattern + '|' + '<li><a href="([^<]+)"><span class="episode_air_d">([^<]+)</span><span class="episode_name"><span>([^<]+)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if (aResult[0] == True):
@@ -479,7 +479,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','([^<]+)')
                
         
-    sPattern = 'type="text/javascript">(.+?)</script><div'
+    sPattern = 'type="text/javascript">(.+?)</script>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
