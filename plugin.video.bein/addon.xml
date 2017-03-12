@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.bein" name="Bein Sports" version="0.0.2" provider-name="Zombi">
+<addon id="plugin.video.bein" name="Bein Sports" version="0.0.3" provider-name="Zombi">
   <requires>
 	<import addon="script.module.metahandler" version="1.0.2"/>
 	<import addon="xbmc.python" version="2.1.0"/>
@@ -16,7 +16,7 @@
     <summary lang="fr">Bein Sports</summary>
     <description lang="fr">résumés et reportages sports</description>
     <summary lang="en">Bein Sports</summary>
-    <description lang="en">Sports highlights and interviews </description>
+    <description lang="en">Sports highlights and interviews</description>
     <platform>all</platform>
   </extension>
 </addon>

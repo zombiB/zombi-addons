@@ -303,17 +303,6 @@ class cDb:
             for result in watched:
 
                 sUrl = result
-                sFunction =  watched[result][0]
-                sId = watched[result][1]
-                try:
-                    sTitle = watched[result][2]
-                except:
-                    sTitle = sId+' - '+urllib.unquote_plus(sUrl)
-
-                try:
-                    sCategorie = watched[result][3]
-                except:
-                    sCategorie = '5'
 
                 items.append([sId, sFunction, sUrl])
                 item.append(result)
@@ -352,7 +341,7 @@ class cDb:
 
         sUrl = urllib.quote_plus(sUrl)
         fav_db = self.__sFile
-        watched = {}
+
         if not os.path.exists(fav_db):
             file(fav_db, "w").write("%r" % watched) 
             
@@ -360,18 +349,6 @@ class cDb:
             watched = eval(open(fav_db).read() )
             watched[sUrl] = watched.get(sUrl) or []
             
-            #add to watched
-            if not watched[sUrl]:
-                #list = [sFav, sUrl];
-                watched[sUrl].append(sFav)
-                watched[sUrl].append(sId)
-                watched[sUrl].append(sTitle)
-                watched[sUrl].append(sCat)
-            else:
-                watched[sUrl][0] = sFav
-                watched[sUrl][1] = sId
-                watched[sUrl][2] = sTitle
-                watched[sUrl][3] = sCat
 
         file(fav_db, "w").write("%r" % watched)
         cConfig().showInfo('Bookmark', sTitle)

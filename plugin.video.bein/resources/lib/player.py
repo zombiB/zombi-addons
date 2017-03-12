@@ -134,15 +134,6 @@ class cPlayer(xbmc.Player):
         except:
             pass
             
-    def __setWatched(self):
-        meta = {}      
-        meta['title'] = self.sTitle
-        meta['site'] = self.sSite
-        
-        try:
-            cDb().insert_watched(meta)
-        except:
-            pass
         
     def __getPlayerType(self):
         oConfig = cConfig()

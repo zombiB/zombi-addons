@@ -29,7 +29,6 @@ class main:
     def __init__(self):
         #print 'Debug 0'
         self.parseUrl()
-        cDb()._create_tables()
 
     def parseUrl(self):
         
