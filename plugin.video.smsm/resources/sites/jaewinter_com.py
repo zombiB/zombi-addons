@@ -12,8 +12,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.config import cConfig
 from resources.lib.util import cUtil
-from resources.lib.cloudflare import CloudflareBypass
-from resources.lib.cloudflare import NoRedirection
+
 import re,urllib,urllib2,xbmc
 
 SITE_IDENTIFIER = 'jaewinter_com'
@@ -86,7 +85,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('<span class="likeThis">', '').replace('</span>','')
 
-    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
+
     sPattern = '<h2 class="post-box-title"><a href="(.+?)">(.+?)</a>.+?<img width=".+?" height=".+?" src="(.+?)"'
 
     oParser = cParser()
@@ -130,7 +129,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('<span class="likeThis">', '').replace('</span>','')
 
-    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
+
     sPattern = '<h2 class="post-box-title"><a href="(.+?)">(.+?)</a>.+?<img width=".+?" height=".+?" src="(.+?)"'
 
     oParser = cParser()
@@ -173,7 +172,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
+
  
     sPattern = '<h4 class="entry-title">.+?<a href="([^<]+)" rel="bookmark">([^<]+)</a>'
 
@@ -225,7 +224,7 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
 
-    sHtmlContent = CloudflareBypass().GetHtml(sUrl)
+
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
                
         

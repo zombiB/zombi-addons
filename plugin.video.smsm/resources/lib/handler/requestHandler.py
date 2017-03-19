@@ -1,12 +1,11 @@
 #-*- coding: utf-8 -*-
+# https://github.com/Kodi-vStream/venom-xbmc-addons
+#
 import urllib
 import urllib2
+
 from urllib2 import HTTPError, URLError
 from resources.lib.config import cConfig
-
-from resources.lib import cloudflare
-
-
 
 class cRequestHandler:
     REQUEST_TYPE_GET = 0
@@ -17,11 +16,15 @@ class cRequestHandler:
         self.__sRealUrl = ''
         self.__cType = 0
         self.__aParamaters = {}
+        self.__aParamatersLine = ''
         self.__aHeaderEntries = []
         self.removeBreakLines(True)
         self.removeNewLines(True)
         self.__setDefaultHeader()
         self.__timeout = 30
+        self.__bRemoveNewLines = False
+        self.__bRemoveBreakLines = False
+        self.__sResponseHeader = ''
         
         self.__HeaderReturn = ''
 
@@ -35,35 +38,58 @@ class cRequestHandler:
         self.__cType = cType
         
     def setTimeout(self, valeur):
-        self.__timeout = valeur  
+        self.__timeout = valeur    
 
     def addHeaderEntry(self, sHeaderKey, sHeaderValue):
+        for sublist in self.__aHeaderEntries:
+            if sHeaderKey in sublist:
+                self.__aHeaderEntries.remove(sublist)
         aHeader = {sHeaderKey : sHeaderValue}
         self.__aHeaderEntries.append(aHeader)
 
     def addParameters(self, sParameterKey, mParameterValue):
         self.__aParamaters[sParameterKey] = mParameterValue
+        
+    def addParametersLine(self, mParameterValue):
+        self.__aParamatersLine = mParameterValue
+        
+    #egg addMultipartFiled('sess_id':sId,'upload_type':'url','srv_tmp_url':sTmp)
+    def addMultipartFiled(self,fields ):
+        mpartdata = MPencode(fields)
+        self.__aParamaters = mpartdata[1]
+        self.addHeaderEntry('Content-Type', mpartdata[0] )
+        self.addHeaderEntry('Content-Length', len(mpartdata[1]))
 
+    #Fonction la plus fiable
     def getResponseHeader(self):
         return self.__sResponseHeader
-
+    
+    #Ce n'est pas un doublon de getResponseHeader, si il y a des doublon, l'une des deux fonctions les zappe.
+    def GetHeaders(self):
+        return self.__HeaderReturn
+        
     # url after redirects
     def getRealUrl(self):
         return self.__sRealUrl
         
-    def GetHeaders(self):
-        return self.__HeaderReturn
-        
     def GetCookies(self):
-        import re
-        c = self.__HeaderReturn['Set-Cookie']
-        c2 = re.findall('(?:^|,) *([^;,]+?)=([^;,\/]+?);',c)
-        if c2:
-            cookies = ''
-            for cook in c2:
-                cookies = cookies + cook[0] + '=' + cook[1]+ ';'
-            return cookies
-        return
+        if 'Set-Cookie' in self.__sResponseHeader:
+            import re
+            
+            #cookie_string = self.__sResponseHeader.getheaders('set-cookie')
+            #c = ''
+            #for i in cookie_string:
+            #    c = c + i + ', '
+            c = self.__sResponseHeader.getheader('set-cookie')
+            
+            c2 = re.findall('(?:^|,) *([^;,]+?)=([^;,\/]+?);',c)
+            if c2:
+                cookies = ''
+                for cook in c2:
+                    cookies = cookies + cook[0] + '=' + cook[1]+ ';'
+                return cookies
+        return ''
+
     def request(self):
         self.__sUrl = self.__sUrl.replace(' ', '+')
         return self.__callRequest()
@@ -72,12 +98,15 @@ class cRequestHandler:
         return self.__sUrl + '?' + urllib.urlencode(self.__aParamaters)
 
     def __setDefaultHeader(self):
-        self.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        self.addHeaderEntry('Accept-Language', 'de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4')
+        self.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0')
+        self.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
         self.addHeaderEntry('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
 
     def __callRequest(self):
-        sParameters = urllib.urlencode(self.__aParamaters)
+        if self.__aParamatersLine:
+            sParameters = self.__aParamatersLine
+        else:
+            sParameters = urllib.urlencode(self.__aParamaters)
 
         if (self.__cType == cRequestHandler.REQUEST_TYPE_GET):
             if (len(sParameters) > 0):
@@ -94,15 +123,21 @@ class cRequestHandler:
             oRequest = urllib2.Request(self.__sUrl)
 
         for aHeader in self.__aHeaderEntries:
-                for sHeaderKey, sHeaderValue in aHeader.items():
-                    oRequest.add_header(sHeaderKey, sHeaderValue)
+            for sHeaderKey, sHeaderValue in aHeader.items():
+                oRequest.add_header(sHeaderKey, sHeaderValue)
 
         sContent = ''
         try:
-            oResponse = urllib2.urlopen(oRequest, timeout=self.__timeout)
+            oResponse = urllib2.urlopen(oRequest, timeout = self.__timeout)
             sContent = oResponse.read()
             
             self.__sResponseHeader = oResponse.info()
+            
+            #compressed page ?
+            if self.__sResponseHeader.get('Content-Encoding') == 'gzip':
+                import zlib
+                sContent = zlib.decompress(sContent, zlib.MAX_WBITS|16)
+                
             self.__sRealUrl = oResponse.geturl()
             self.__HeaderReturn = oResponse.headers
         
@@ -110,18 +145,20 @@ class cRequestHandler:
             
         except urllib2.HTTPError, e:
             if e.code == 503:
-                if cloudflare.CheckIfActive(e.headers):
-                    cookies = e.headers['Set-Cookie']
-                    cookies = cookies.split(';')[0]
-                    print 'Page protegee par cloudflare'
-                    from resources.lib.cloudflare import CloudflareBypass
-                    sContent = CloudflareBypass().GetHtml(self.__sUrl,e.read(),cookies)
-                    
-                    self.__sResponseHeader = ''
-                    self.__sRealUrl = ''
+                
+                #Protected by cloudFlare ?
+                from resources.lib import cloudflare
+                if cloudflare.CheckIfActive(e.read()):
+ 
+                    cookies = self.GetCookies()
 
-            if not  sContent:
-                cConfig().error("%s,%s" % (cConfig().getlanguage(30205), self.__sUrl))
+                    print 'Page protegee par cloudflare'
+                    CF = cloudflare.CloudflareBypass()
+                    sContent = CF.GetHtml(self.__sUrl,e.read(),cookies,sParameters,oRequest.headers)
+                    self.__sRealUrl,self.__HeaderReturn = CF.GetReponseInfo()
+
+            if not sContent:
+                cConfig().error("%s (%d),%s" % (cConfig().getlanguage(30205), e.code , self.__sUrl))
                 return ''
         
         if (self.__bRemoveNewLines == True):
@@ -137,4 +174,45 @@ class cRequestHandler:
         opened = urllib.urlopen(self.__sUrl)
         return opened.geturl()
 
+#******************************************************************************
+#from https://github.com/eliellis/mpart.py
 
+def MPencode(fields):
+    import mimetypes
+    random_boundary = __randy_boundary()
+    content_type = "multipart/form-data, boundary=%s" % random_boundary
+
+    form_data = []
+    
+    if fields:
+        for (key, value) in fields.iteritems():
+            if not hasattr(value, 'read'):
+                itemstr = '--%s\r\nContent-Disposition: form-data; name="%s"\r\n\r\n%s\r\n' % (random_boundary, key, value)
+                form_data.append(itemstr)
+            elif hasattr(value, 'read'):
+                with value:
+                    file_mimetype = mimetypes.guess_type(value.name)[0] if mimetypes.guess_type(value.name)[0] else 'application/octet-stream'
+                    itemstr = '--%s\r\nContent-Disposition: form-data; name="%s"; filename="%s"\r\nContent-Type: %s\r\n\r\n%s\r\n' % (random_boundary, key, value.name, file_mimetype, value.read())
+                form_data.append(itemstr)
+            else:
+                raise Exception(value, 'Field is neither a file handle or any other decodable type.')
+    else:
+        pass
+
+    form_data.append('--%s--\r\n' % random_boundary)
+
+    return content_type, ''.join(form_data)
+
+def __randy_boundary(length=10,reshuffle=False):
+    import random,string
+    
+    character_string = string.letters+string.digits
+    boundary_string = []
+    for i in range(0,length):
+        rand_index = random.randint(0,len(character_string) - 1)
+        boundary_string.append(character_string[rand_index])
+    if reshuffle:
+        random.shuffle(boundary_string)
+    else:
+        pass
+    return ''.join(boundary_string)

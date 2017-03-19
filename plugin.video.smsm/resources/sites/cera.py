@@ -23,7 +23,6 @@ URL_MAIN = 'http://cera.online'
 MOVIE_EN = ('http://cera.online/movies-cinema-translated-arablionz-download-cima4u-watch-tvegy.html/', 'showMovies')
 ANIM_NEWS = ('http://cera.online/all-full-anime-series.html/', 'showAnimes')
 SERIE_EN = ('http://cera.online/tv-series-translated-online.html/', 'showAnimes')
-SERIE_NEWS = ('http://cera.online/series-download-watch-episodes-aflamhq-egfire-arablionz-translated-myegy.html/', 'showMovies')
 SERIE_AR = ('http://cera.online/mosalsalat-ramadan-2016-watch-shahid-net-mbc-download-dailymotion-online/', 'showMosalsel')
 
 URL_SEARCH = ('http://cera.online/search/', 'showMovies')
@@ -83,7 +82,8 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
+    #sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
+    sPattern = '<img data-src="(.+?)" />.+?<div class="movief"><a href="(.+?)">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -99,7 +99,8 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2]
             siteUrl = str(aEntry[1])
-            sInfo = str(aEntry[3])
+            sInfo = str(aEntry[2])
+            sThumbnail = str(aEntry[0])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -107,7 +108,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[0], sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', sThumbnail, sInfo, oOutputParameterHandler)
 
         cConfig().finishDialog(dialog)
  
@@ -132,7 +133,7 @@ def showAnimes(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
+    sPattern = '<img data-src="(.+?)" />.+?<div class="movief"><a href="(.+?)">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -155,7 +156,7 @@ def showAnimes(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[3], oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[2], oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -181,7 +182,7 @@ def showMosalsel(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
+    sPattern = '<img data-src="(.+?)" />.+?<div class="movief"><a href="(.+?)">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -204,7 +205,7 @@ def showMosalsel(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[3], oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[2], oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  

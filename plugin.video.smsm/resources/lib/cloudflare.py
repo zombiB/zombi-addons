@@ -6,8 +6,15 @@ import urllib2,urllib
 import xbmc
 import xbmcaddon
 
+#---------------------------------------------------------
+#Gros probleme, mais qui a l'air de passer
+#Le headers "Cookie" apparait 2 fois, il faudrait lire la precedente valeur
+#la supprimer et remettre la nouvelle avec les 2 cookies
+#Non conforme au protocole, mais ca marche (pour le moment)
+#-----------------------------------------------------------
+
 #Cookie path
-#C:\Users\BRIX\AppData\Roaming\Kodi\userdata\addon_data\plugin.video.smsm\
+#C:\Users\BRIX\AppData\Roaming\Kodi\userdata\addon_data\plugin.video.vstream\
 
 #Light method
 #Ne marche que si meme user-agent
@@ -67,6 +74,7 @@ class CloudflareBypass(object):
     def __init__(self):
         self.state = False
         self.HttpReponse = None
+        self.Memorised_Headers = None
                        
     def DeleteCookie(self,Domain):
         xbmc.log('Effacement cookies')
@@ -106,11 +114,15 @@ class CloudflareBypass(object):
     
     def SetHeader(self):
         head=[]
-        head.append(('User-Agent', UA))
-        head.append(('Host' , self.host))
-        head.append(('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'))
-        head.append(('Referer', self.url))
-        head.append(('Content-Type', 'text/html; charset=utf-8'))
+        if not (self.Memorised_Headers):
+            head.append(('User-Agent', UA))
+            head.append(('Host' , self.host))
+            head.append(('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'))
+            head.append(('Referer', self.url))
+            head.append(('Content-Type', 'text/html; charset=utf-8'))
+        else:
+            for i in self.Memorised_Headers:
+                head.append((i,self.Memorised_Headers[i]))
         return head
           
     def GetResponse(self,htmlcontent):
@@ -132,7 +144,18 @@ class CloudflareBypass(object):
     def GetReponseInfo(self):
         return self.HttpReponse.geturl(), self.HttpReponse.headers
         
-    def GetHtml(self,url,htmlcontent = '',cookies = '',postdata = ''):
+    def GetHtml(self,url,htmlcontent = '',cookies = '',postdata = '',Gived_headers = ''):
+        
+        #Memorise headers
+        self.Memorised_Headers = Gived_headers
+        
+        #For debug
+        if (False):
+            xbmc.log('Headers present ' + str(Gived_headers), xbmc.LOGNOTICE)
+            xbmc.log('url ' + url, xbmc.LOGNOTICE)
+            if (htmlcontent):
+                xbmc.log('code html ok', xbmc.LOGNOTICE)
+            xbmc.log('cookies passés' + cookies, xbmc.LOGNOTICE)
         
         self.hostComplet = re.sub(r'(https*:\/\/[^/]+)(\/*.*)','\\1',url)
         self.host = re.sub(r'https*:\/\/','',self.hostComplet)
@@ -142,7 +165,7 @@ class CloudflareBypass(object):
         if not (cookieMem == ''):
             
             cookies = cookieMem
-            xbmc.log('cookies present')
+            xbmc.log('cookies present sur disque', xbmc.LOGNOTICE)
             
             #Test PRIORITAIRE
             opener = urllib2.build_opener(NoRedirection)
@@ -163,15 +186,14 @@ class CloudflareBypass(object):
             self.HttpReponse.close()
             
             #Arf, problem, cookies not working, delete them
-            xbmc.log('Cookies Out of date')
+            xbmc.log('Cookies Out of date', xbmc.LOGNOTICE)
             self.DeleteCookie(self.host.replace('.','_'))
             
             #Get the first new cookie, we already have the new html code
             cookies = ''
             if 'Set-Cookie' in head:
                 cookies = head['Set-Cookie']
-                cookies = cookies.split(';')[0]
-        
+                cookies = cookies.split(';')[0]      
         
         #if we need a first load
         if (htmlcontent == '') or (cookies == ''):
@@ -193,7 +215,7 @@ class CloudflareBypass(object):
             if not CheckIfActive(htmlcontent):
                 return htmlcontent
             
-            xbmc.log("Page protegée, tout a charger")
+            xbmc.log("Page protegée, tout a charger", xbmc.LOGNOTICE)
             #cookie
             head = self.HttpReponse.headers
             if 'Set-Cookie' in head:
@@ -234,7 +256,7 @@ class CloudflareBypass(object):
                 c1 = re.findall('__cfduid=([0-9a-z]+)',cookies)
             
             if not c1 or not c2:
-                xbmc.log("Probleme protection Cloudflare : Decodage rate")
+                xbmc.log("Probleme protection Cloudflare : Decodage rate", xbmc.LOGNOTICE)
                 showInfo("Erreur", 'Probleme protection CloudFlare' , 5)
                 self.HttpReponse.close()
                 return ''
@@ -242,7 +264,7 @@ class CloudflareBypass(object):
             cookies = '__cfduid=' + c1[0] + '; cf_clearance=' + c2[0]
 
         else:
-            xbmc.log("Probleme protection Cloudflare : Cookies manquants")
+            xbmc.log("Probleme protection Cloudflare : Cookies manquants", xbmc.LOGNOTICE)
             showInfo("Erreur", 'Probleme protection CloudFlare' , 5)
             self.HttpReponse.close()
             return ''
@@ -265,7 +287,7 @@ class CloudflareBypass(object):
         head = self.HttpReponse.headers
         if CheckIfActive(htmlcontent):
             #Arf new cookie not working
-            xbmc.log("New cookie not working")
+            xbmc.log("New cookie not working", xbmc.LOGNOTICE)
             #self.DeleteCookie(self.host.replace('.','_'))
             self.HttpReponse.close()
             return ''

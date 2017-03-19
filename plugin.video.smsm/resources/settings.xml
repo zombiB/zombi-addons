@@ -85,35 +85,35 @@
         <setting id="search2_label" type="text" label="30079" default="TvShows" />
         <setting id="search3_label" type="text" label="30080" default="Animes" />
         <setting id="search4_label" type="text" label="30081" default="Documentary" />
-        <setting id="color_cherches" type="select" label="Recherches: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_cherches" type="select" label="Recherches: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="Recherches: Image" type="image" id="images_cherches" default="special://home/addons/plugin.video.smsm/resources/art/search_fanart.jpg"/>
         
         <setting id="home_replaytvs" type="bool" label="TV Replays" default="true"/>
-        <setting id="color_replaytvs" type="select" label="TV Replays: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_replaytvs" type="select" label="TV Replays: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="TV Replays: Image" type="image" id="images_replaytvs" default="special://home/addons/plugin.video.smsm/resources/art/replay_fanart.jpg"/>
 
         <setting id="home_films" type="bool" label="Movies" default="true"/>
-        <setting id="color_films" type="select" label="Movies: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_films" type="select" label="Movies: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="Movies: Image" type="image" id="images_films" default="special://home/addons/plugin.video.smsm/resources/art/films_fanart.jpg"/>
 
         <setting id="home_series" type="bool" label="Tvshows" default="true"/>
-        <setting id="color_series" type="select" label="Tvshows: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_series" type="select" label="Tvshows: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="Tvshows: Image" type="image" id="images_series" default="special://home/addons/plugin.video.smsm/resources/art/series_fanart.jpg"/>
 
         <setting id="home_anims" type="bool" label="Animes" default="true"/>
-        <setting id="color_anims" type="select" label="Animes: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_anims" type="select" label="Animes: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="Animes: Image" type="image" id="images_anims" default="special://home/addons/plugin.video.smsm/resources/art/animes_fanart.jpg"/>
 
         <setting id="home_docs" type="bool" label="Documentaires" default="true"/>
-        <setting id="color_docs" type="select" label="Documentaires: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_docs" type="select" label="Documentaires: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="Documentaires: Images" type="image" id="images_docs" default="special://home/addons/plugin.video.smsm/resources/art/doc_fanart.jpg"/>
 
         <setting id="home_sports" type="bool" label="Sports" default="true"/>
-        <setting id="color_sports" type="select" label="Sports: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_sports" type="select" label="Sports: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="Sports: Image" type="image" id="images_sports" default="special://home/addons/plugin.video.smsm/resources/art/sport_fanart.jpg"/>
 
         <setting id="home_videos" type="bool" label="Vidéos" default="true"/>
-        <setting id="color_videos" type="select" label="Vidéos: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="gray" visible="eq(-1,true)"/>
+        <setting id="color_videos" type="select" label="Vidéos: Couleur" values="ivory|beige|wheat|tan|khaki|silver|gray|dimgray|navy|royalblue|mediumblue|azure|cyan|aquamarine|forestgreen|olive|chartreuse|lime|gold|yellow|coral|salmon|hotpink|fuchsia|violet|lavender|plum|maroon|crimson|red" default="beige" visible="eq(-1,true)"/>
         <setting label="Vidéos: Image" type="image" id="images_videos" default="special://home/addons/plugin.video.smsm/resources/art/buzz_fanart.jpg"/>
         
         <setting visible="false" label="Images Fav" type="image" id="images_marks" default="special://home/addons/plugin.video.smsm/resources/art/mark_fanart.jpg"/>
