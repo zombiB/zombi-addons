@@ -153,8 +153,6 @@ class cHosterGui:
             return cHosterHandler().getHoster('resolver')
         if ('vidhos' in sHostName):
             return cHosterHandler().getHoster('resolver')
-        if ('vidlox' in sHostName):
-            return cHosterHandler().getHoster('vidlox')
         if ('watchvideo' in sHostName):
             return cHosterHandler().getHoster('resolver')
         if ('watchers' in sHostName):
@@ -256,9 +254,9 @@ class cHosterGui:
         if ('easywatch' in sHostName):
             return cHosterHandler().getHoster('easywatch')
         if ('ok.ru' in sHostName):
-            return cHosterHandler().getHoster('ok_ru')
+            return cHosterHandler().getHoster('resolver')
         if ('odnoklassniki' in sHostName):
-            return cHosterHandler().getHoster('ok_ru')
+            return cHosterHandler().getHoster('resolver')
         if ('vimeo.com' in sHostName):
             return cHosterHandler().getHoster('vimeo')
         if ('openload' in sHostName):
