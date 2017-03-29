@@ -36,7 +36,7 @@ DOC_NEWS = ('http://www.aflamhq.com/documentary-movies/', 'showMovies')
 REPLAYTV_NEWS = ('http://www.aflamhq.com/tv-talk-show/', 'showMovies')
 REPLAYTV_ISLAM = ('http://www.aflamhq.com/islamic/', 'showMovies')
 
-URL_SEARCH = ('http://www.aflamhq.com/search', 'showMovies')
+URL_SEARCH = ('http://www.aflamhq.co/search?q=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
 def load():
@@ -104,7 +104,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-            sUrl = 'http://www.aflamhq.com/search'+sSearchText  
+            sUrl = 'http://www.aflamhq.co/search?q='+sSearchText  
             showMovies(sUrl)
             oGui.setEndOfDirectory()
             return  
@@ -242,12 +242,14 @@ def showLinks():
     sHtmlContent = oRequestHandler.request()
    
     oParser = cParser()
-    sPattern = 'color="Lime"><b><font size="7">(.+?)</font>'
-    sPattern = sPattern + '|' + 'Youwatch.+?target="(.+?)">(.+?)</a>'
-    sPattern = sPattern + '|' + 'Uptobox.+?target="(.+?)">(.+?)</a>'
-    sPattern = sPattern + '|' + 'openload.+?target="(.+?)">(.+?)</a>'
-    sPattern = sPattern + '|' + 'Vodlocker.+?target="(.+?)">(.+?)</a>'
-    sPattern = sPattern + '|' + 'color="DarkOrange".+?target="(.+?)">(.+?)</a>'
+
+    sPattern = 'color="Lime">.+?>E(.+?)<'
+    sPattern = sPattern + '|' + 'DownLoad For (.+?)<'
+    sPattern = sPattern + '|' + 'Https://estream.+?rel="nofollow" href="(.+?)"'
+    sPattern = sPattern + '|' + 'Kingvid.+?rel="nofollow" href="(.+?)"'
+    sPattern = sPattern + '|' + '</font></font></font></font></b></font>.+?rel="nofollow" href="(.+?)"'
+    sPattern = sPattern + '|' + 'Https://openload.+?rel="nofollow" href="(.+?)"'
+    sPattern = sPattern + '|' + 'uptobox.+?rel="nofollow" href="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
    
     Saison = '0'
@@ -266,9 +268,16 @@ def showLinks():
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addMisc(SITE_IDENTIFIER, 'showLinks', '[COLOR red]'+ aEntry[0] + '[/COLOR]', 'series.png', sThumbnail, aEntry[2], oOutputParameterHandler)
+                oGui.addMisc(SITE_IDENTIFIER, 'showLinks', '[COLOR red]E'+ aEntry[0] + '[/COLOR]', 'series.png', sThumbnail, aEntry[1], oOutputParameterHandler)
+                        
+            if aEntry[1]:
+                Saison = str(aEntry[1])
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
+                oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
+                oGui.addMisc(SITE_IDENTIFIER, 'showLinks', '[COLOR yellow]'+ aEntry[1] + '[/COLOR]', 'series.png', sThumbnail, aEntry[1], oOutputParameterHandler)
             elif aEntry[2]:
-                sTitle = 'Youwatch'
+                sTitle = 'estream'
                 sMovieTitle = sMovieTitle.replace('480p & 720p & 1080p','') 
                 sUrl= str(aEntry[2]).replace('<b>','').replace('</b>','')
                 
@@ -276,9 +285,19 @@ def showLinks():
                 oOutputParameterHandler.addParameter('siteUrl', sUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[0], '', oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[1], '', oOutputParameterHandler)
+            elif aEntry[3]:
+                sTitle = 'Kingvid'
+                sMovieTitle = sMovieTitle.replace('480p & 720p & 1080p','') 
+                sUrl= str(aEntry[3]).replace('<b>','').replace('</b>','')
+                
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('siteUrl', sUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[1], '', oOutputParameterHandler)
             elif aEntry[4]:
-                sTitle = 'Uptobox'
+                sTitle = 'online'
                 sMovieTitle = sMovieTitle.replace('480p & 720p & 1080p','') 
                 sUrl= str(aEntry[4]).replace('<b>','').replace('</b>','')
                 
@@ -286,37 +305,28 @@ def showLinks():
                 oOutputParameterHandler.addParameter('siteUrl', sUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[0], '', oOutputParameterHandler)
-            elif aEntry[6]:
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[1], '', oOutputParameterHandler)
+            elif aEntry[5]:
                 sTitle = 'openload'
                 sMovieTitle = sMovieTitle.replace('480p & 720p & 1080p','') 
-                sUrl= str(aEntry[6]).replace('<b>','').replace('</b>','')
+                sUrl= str(aEntry[5]).replace('<b>','').replace('</b>','')
                 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', sUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[0], '', oOutputParameterHandler)
-            elif aEntry[8]:
-                sTitle = 'Vodlocker'
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[1], '', oOutputParameterHandler)
+            elif aEntry[6]:
+                sTitle = 'uptobox'
                 sMovieTitle = sMovieTitle.replace('480p & 720p & 1080p','') 
-                sUrl= str(aEntry[8]).replace('<b>','').replace('</b>','')
+                sUrl= str(aEntry[6])
                 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', sUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[0], '', oOutputParameterHandler)
-            else:
-                sTitle = 'online'
-                sMovieTitle = sMovieTitle.replace('480p & 720p & 1080p','') 
-                sUrl= str(aEntry[10]).replace('<b>','').replace('</b>','')
-                
-                oOutputParameterHandler = cOutputParameterHandler()
-                oOutputParameterHandler.addParameter('siteUrl', sUrl)
-                oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-                oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[0], '', oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sUrl, '', oOutputParameterHandler)
+
     #(.+?)
     
  
@@ -337,7 +347,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
                
         
-    sPattern = '<a target="_blank" href="(.+?)"'
+    sPattern = '<a target="_blank" href="(.+?)" id='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -350,8 +360,10 @@ def showHosters():
                 break
             
             url = str(aEntry)
-            if url.startswith('//'):
-                url = 'http:' + url
+            if url.startswith('http://kingvid'):
+                url = url.replace('.tv/','.tv/embed-')
+            if url.startswith('https://drive.google.com'):
+                url = url.replace('open?id=','file/d/') +'/preview'
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)

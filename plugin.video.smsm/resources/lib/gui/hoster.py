@@ -149,14 +149,24 @@ class cHosterGui:
         #Gestion classique
         if ('novamov' in sHostName):
             return cHosterHandler().getHoster('novamov')
+        if ('vidlo.us' in sHostName):
+            return cHosterHandler().getHoster('vidlo')
+        if ('kingvid' in sHostName):
+            return cHosterHandler().getHoster('kingvid')
+        if ('vidabc' in sHostName):
+            return cHosterHandler().getHoster('vidabc')
+        if ('vidlox' in sHostName):
+            return cHosterHandler().getHoster('vidlox')
         if ('userscloud' in sHostName):
             return cHosterHandler().getHoster('resolver')
+        if ('vidbom' in sHostName):
+            return cHosterHandler().getHoster('vidbom')
         if ('vidhos' in sHostName):
             return cHosterHandler().getHoster('resolver')
         if ('watchvideo' in sHostName):
             return cHosterHandler().getHoster('resolver')
         if ('watchers' in sHostName):
-            return cHosterHandler().getHoster('resolver')
+            return cHosterHandler().getHoster('watchers')
         if ('bitvid' in sHostName):
             return cHosterHandler().getHoster('bitvid')
         if ('estream' in sHostName):

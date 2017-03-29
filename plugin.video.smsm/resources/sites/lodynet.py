@@ -361,7 +361,7 @@ def showEps():
 			
             siteUrl = ''
             sTitle = ''
-            if ('stream' in aEntry[1] or 'Thevideo' in aEntry[1] or 'vidzi' in aEntry[1] or 'ok.ru' in aEntry[1] or 'openload' in aEntry[1]):
+            if ('stream' in aEntry[1] or 'vidbam' in aEntry[1] or 'dailymotion' in aEntry[1] or 'youtube' in aEntry[1] or 'ViD LO' in aEntry[1] or 'vidzi' in aEntry[1] or 'ok.ru' in aEntry[1] or 'openload' in aEntry[1]):
 				siteUrl = 'http://lodynet.com/wp-content/themes/new/servers/server.php?q='+sPage+'&i='+sErver
 				sTitle = 'server '+':'+aEntry[1]
 

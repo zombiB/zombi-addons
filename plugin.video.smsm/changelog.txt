@@ -1,4 +1,11 @@
 =============================================================================
+version 0.0.3
+29/03/2017 - 
+-aracinema & aflamhq & lodynet updated
+-arablionz added
+-search function updated
+-new hosters added & others updated
+=============================================================================
 version 0.0.2
 26/03/2017 - 
 -cera updated

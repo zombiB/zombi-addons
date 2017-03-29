@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.smsm" name="smsm" version="0.0.2" provider-name="zombi">
+<addon id="plugin.video.smsm" name="smsm" version="0.0.3" provider-name="zombi">
   <requires>
 	<import addon="script.module.metahandler" version="1.0.2"/>
 	<import addon="xbmc.python" version="2.1.0"/>
@@ -18,10 +18,11 @@
     <summary lang="en">smsm</summary>
     <description lang="en">arabic vod addon by @geekzombi</description>
     <platform>all</platform>
-	<news>- 26/03/2017 - 
--cera updated
--4show // alnoor added
+	<news>29/03/2017 - 
+-aracinema /aflamhq /lodynet updated
+-arablionz added
 -search function updated
+-new hosters added /others updated
 	</news>
   </extension>
 </addon>
