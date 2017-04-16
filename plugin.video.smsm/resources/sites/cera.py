@@ -83,7 +83,7 @@ def showMovies(sSearch = ''):
  
 
     #sPattern = 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
-    sPattern = '<img data-src="(.+?)" />.+?<div class="movief"><a href="(.+?)">([^<]+)</a>'
+    sPattern = 'href="([^<]+)"><img.+?src="([^<]+)" class.+?<div class="movief"><a href=".+?">([^<]+)</a></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -98,17 +98,17 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[1])
+            siteUrl = str(aEntry[0])
             sInfo = str(aEntry[2])
-            sThumbnail = str(aEntry[0])
+            sThumbnail = str(aEntry[1])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle )
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle , '', sThumbnail, sInfo, oOutputParameterHandler)
 
         cConfig().finishDialog(dialog)
  
@@ -133,7 +133,7 @@ def showAnimes(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = '<img data-src="(.+?)" />.+?<div class="movief"><a href="(.+?)">([^<]+)</a>'
+    sPattern = 'href="([^<]+)"><img.+?src="([^<]+)" class.+?<div class="movief"><a href=".+?">([^<]+)</a></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -148,15 +148,17 @@ def showAnimes(sSearch = ''):
                 break
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[1])
+            siteUrl = str(aEntry[0])
+            sInfo = str(aEntry[2])
+            sThumbnail = str(aEntry[1])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[2], oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -182,7 +184,7 @@ def showMosalsel(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = '<img data-src="(.+?)" />.+?<div class="movief"><a href="(.+?)">([^<]+)</a>'
+    sPattern = 'href="([^<]+)"><img.+?src="([^<]+)" class.+?<div class="movief"><a href=".+?">([^<]+)</a></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -197,15 +199,17 @@ def showMosalsel(sSearch = ''):
                 break
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[1])
+            siteUrl = str(aEntry[0])
+            sInfo = str(aEntry[2])
+            sThumbnail = str(aEntry[1])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[2], '', aEntry[0], aEntry[2], oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -314,7 +318,7 @@ def showSeries():
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class="active"><a href=".+?">.+?</a></li>.+?<li><a href="([^<]+)" >الصفحة التالية &laquo;</a></li></ul></div>'
+    sPattern = 'href="([^<]+)">الصفحة التالية &laquo;</a></li>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

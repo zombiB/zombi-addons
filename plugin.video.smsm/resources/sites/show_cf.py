@@ -20,7 +20,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://www.4show.cf'
 
 
-MOVIE_EN = ('https://goo.gl/r12TZM', 'showMovies')
+MOVIE_EN = ('https://goo.gl/EiPACI', 'showMovies')
 SERIE_EN = ('https://goo.gl/8cEbPk', 'showMovies')
 SERIE_AR = ('https://goo.gl/juJws1', 'showMovies')
 MOVIE_AR = ('https://goo.gl/JZT6s0', 'showMovies')
@@ -67,7 +67,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = "<article class='post hentry'><a href='(.+?)'><div class='img-thumbnail'><span class='overlay'><div CLASS='info-wrapper'>مشاهدة</div></span><img alt='(.+?)' src='(.+?)' title='(.+?)'/></div>"
+    sPattern = "<a href='([^<]+)'><div class='img-thumbnail'><span class='overlay'><i class='fa fa-play'></i></span><img alt='([^<]+)' src='([^<]+)' title='([^<]+)'/>"
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -81,10 +81,10 @@ def showMovies(sSearch = ''):
             if dialog.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[3]
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
-            sInfo = aEntry[3]
+            sInfo = aEntry[1]
 
 
 
@@ -174,13 +174,14 @@ def showSerieHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumbnail = oInputParameterHandler.getValue('sInfo')
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     #sHtmlContent = sHtmlContent.replace("<a href='http://www.youtube.com/", "").replace("<a href='http://www.allocine.fr/", "")<li><a data-link="https(.+?)">(.+?)</a></li>
 
 
-    sPattern = 'tab.location.href=(.+?)" style="text-align: center;"><b>(.+?)</b></li>'
+    sPattern = '<li onclick="tab.location.href=(.+?)" style="text-align: center;"><b>(.+?)</b></li>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     #print aResult
@@ -192,7 +193,7 @@ def showSerieHosters():
             if dialog.iscanceled():
                 break
 
-            sHosterUrl = str(aEntry[0])
+            sHosterUrl = str(aEntry[0]).replace("'","")
             #oHoster = __checkHoster(sHosterUrl)
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             

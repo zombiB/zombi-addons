@@ -151,6 +151,8 @@ class cHosterGui:
             return cHosterHandler().getHoster('novamov')
         if ('vidlo.us' in sHostName):
             return cHosterHandler().getHoster('vidlo')
+        if ('facebook' in sHostName):
+            return cHosterHandler().getHoster('facebook')
         if ('kingvid' in sHostName):
             return cHosterHandler().getHoster('kingvid')
         if ('vidabc' in sHostName):
@@ -159,6 +161,10 @@ class cHosterGui:
             return cHosterHandler().getHoster('vidlox')
         if ('userscloud' in sHostName):
             return cHosterHandler().getHoster('resolver')
+        if ('vidtodo' in sHostName):
+            return cHosterHandler().getHoster('vidtodo')
+        if ('vidshare' in sHostName):
+            return cHosterHandler().getHoster('vidshare')
         if ('vidbom' in sHostName):
             return cHosterHandler().getHoster('vidbom')
         if ('vidhos' in sHostName):
@@ -264,17 +270,17 @@ class cHosterGui:
         if ('easywatch' in sHostName):
             return cHosterHandler().getHoster('easywatch')
         if ('ok.ru' in sHostName):
-            return cHosterHandler().getHoster('resolver')
+            return cHosterHandler().getHoster('ok_ru')
         if ('odnoklassniki' in sHostName):
-            return cHosterHandler().getHoster('resolver')
+            return cHosterHandler().getHoster('ok_ru')
         if ('vimeo.com' in sHostName):
             return cHosterHandler().getHoster('vimeo')
         if ('openload' in sHostName):
-            return cHosterHandler().getHoster('openload')
+            return cHosterHandler().getHoster('resolver')
         if ('oload.co' in sHostName):
-            return cHosterHandler().getHoster('openload')
+            return cHosterHandler().getHoster('resolver')
         if ('thevideo.me' in sHostName):
-            return cHosterHandler().getHoster('thevideo_me')    
+            return cHosterHandler().getHoster('resolver')    
         if ('vid.me' in sHostName):
             return cHosterHandler().getHoster('vidme')
         if ('zstream' in sHostName):
@@ -334,6 +340,8 @@ class cHosterGui:
         if ('mp4' in sHostName):
             return cHosterHandler().getHoster('lien_direct')            
         if ('panet' in sHostName):
+            return cHosterHandler().getHoster('lien_direct')            
+        if ('base.stream.faselhd.net' in sHostName):
             return cHosterHandler().getHoster('lien_direct')            
         if ('moshahda' in sHostName):
             return cHosterHandler().getHoster('lien_direct')

@@ -228,7 +228,7 @@ def showEpisode():
                 oOutputParameterHandler.addParameter('siteUrl', str(sUrl))
                 oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addMisc(SITE_IDENTIFIER, 'showEpisode', '[COLOR red]'+ aEntry[0] + '[/COLOR]', 'series.png', sThumbnail, '', oOutputParameterHandler)
+                oGui.addMisc(SITE_IDENTIFIER, 'showEpisode', '[COLOR yellow]'+ aEntry[0] + '[/COLOR]', 'series.png', sThumbnail, '', oOutputParameterHandler)
             else:
                 sTitle = sMovieTitle 
                 sDisplayTitle = cUtil().DecoTitle(sTitle)

@@ -1,3 +1,8 @@
+version 0.1.0
+16/04/2017 - 
+-sites updated
+-cima4u familymovies added
+-hosters  updated
 =============================================================================
 version 0.0.3
 29/03/2017 - 

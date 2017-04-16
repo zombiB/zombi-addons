@@ -46,7 +46,8 @@ class cHoster(iHoster):
         return ''
         
     def __getIdFromUrl(self, sUrl):
-        sPattern = '\/([a-zA-Z0-9-_]{20,40})\/'
+        #sPattern = '\/([a-zA-Z0-9-_]{20,40})\/'
+        sPattern = 'drive.google.+?([a-zA-Z0-9-_]{20,40})'
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
         if (aResult[0] == True):
@@ -99,7 +100,6 @@ class cHoster(iHoster):
             #sUrl = 'https://drive.google.com/uc?export=download&id=' + sId + '&confirm=make'
             if '"errorcode","150"]' in sHtmlContent:
                 cGui().showInfo("Erreur", "Nombre de lectures max depasse" , 5)
-
             return False,False
             
         sListUrl = aResult[1][0][0]

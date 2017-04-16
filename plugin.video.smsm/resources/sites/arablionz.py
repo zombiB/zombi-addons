@@ -119,7 +119,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = '<div class="movie"><a href="(.+?)">.+?img alt="(.+?)" src="(.+?)" width=.+?<div class="boxcontentFilm">.+?<p>(.+?)</p>'
+    sPattern = '<a href="([^<]+)" class="BlockMov">.+?<div class="inner">.+?<div data-style="background-image:url((.+?));" class="backGroundMOV"></div>.+?<h3 class="TitlePopover">(.+?)</h3>.+?<div class="contentShow">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -133,10 +133,10 @@ def showSerie(sSearch = ''):
             if dialog.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[3]
             siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[2])
-            sInfo = str(aEntry[3])
+            sThumbnail = str(aEntry[1])
+            sInfo = str(aEntry[4])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -169,7 +169,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-    sPattern = 'class="episode"><a href="(.+?)">(.+?)<span>(.+?)</span>'
+    sPattern = '<a href="([^<]+)" style="font-size: 13px;">.+?<i class="fa fa-play"></i>([^<]+)<time>([^<]+)</time>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -183,7 +183,7 @@ def showEpisodes():
             if dialog.iscanceled():
                 break
  
-            sTitle = aEntry[2]+aEntry[1]
+            sTitle = aEntry[1]
             siteUrl = str(aEntry[0])
             sThumbnail = str(sThumbnail)
 			
@@ -193,7 +193,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, aEntry[2], oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -316,7 +316,7 @@ def showEps():
 			
 
             sTitle = 'server '+':'+str(i)
-            siteUrl = 'http://arablionz.tv/wp-content/themes/arablionz5/server1.php?server='+str(i)+'&p='+sPage
+            siteUrl = 'http://arablionz.tv/wp-content/themes/arablionz/server1.php?server='+str(i)+'&p='+sPage
 
 
             #print siteUrl 

@@ -135,15 +135,23 @@ def showHosters():
                  oGui.addMisc(SITE_IDENTIFIER, 'showMovies','[COLOR red]'+ aEntry[1] + '[/COLOR]', 'series.png', '', '', oOutputParameterHandler)
 
             elif aEntry[2]:
-                 sHosterUrl = 'http:' +str(aEntry[2])
-                 sHosterUrl = sHosterUrl.replace('http://yalla1.top/goals/ok.php?id=','http://ok.ru/videoembed/')
-                 oHoster = cHosterGui().checkHoster(sHosterUrl)
-                 if (oHoster != False):
-                     oHoster.setDisplayName(sMovieTitle)
-                     oHoster.setFileName(sMovieTitle)
-                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            
+				url = str(aEntry[2])
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url
+				sHosterUrl = sHosterUrl.replace('http://yalla1.top/goals/ok.php?id=','http://ok.ru/videoembed/')
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
 
         cConfig().finishDialog(dialog) 
+
+
                 
     oGui.setEndOfDirectory()    
 

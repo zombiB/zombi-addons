@@ -62,7 +62,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 #([^<]+)(.+?)
-    sPattern = '<div class="cartoon_cat_pic"><a href="(.+?)" title=".+?"><img src="(.+?)" alt="([^<]+)" width="100%" height="100%" title=".+?"/>'
+    sPattern = '<div class="cartoon_cat_pic"><a href="(.+?)" title="(.+?)"><img src="(.+?)"'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -78,7 +78,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[1]
             siteUrl = URL_MAIN+str(aEntry[0])
-            sThumbnail = URL_MAIN+str(aEntry[1])
+            sThumbnail = URL_MAIN+str(aEntry[2])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -110,7 +110,7 @@ def __checkForNextPage(sHtmlContent):
     return False	
 	
 def __checkForNextPageEp(sHtmlContent):
-    sPattern = "<a href='(.+?)'>«</a></div> <div style="
+    sPattern = "<a href='([^<]+)'>«"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -130,7 +130,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-    sPattern = '<div class="cartoon_cat_pic"><a href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width="100%" height="100%" title=".+?"/>'
+    sPattern = '<div class="cartoon_cat_pic"><a href="(.+?)" title="(.+?)"><img src="(.+?)"'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -155,7 +155,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showEps', aEntry[1], '', sThumbnail, aEntry[1], oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, aEntry[1], oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  
@@ -243,7 +243,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')(.+?)
                
         
-    sPattern = '<iframe allowfullscreen="true" src="(.+?)"'
+    sPattern = 'file: "(.+?)",label: "(.+?)p", type: "video/mp4"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -255,16 +255,19 @@ def showHosters():
             if dialog.iscanceled():
                 break
             
-            url = str(aEntry)
+            url = str(aEntry[0])
+            Squality = str(aEntry[1])
+            sTitle = '[' + Squality + '] ' + sMovieTitle
             if url.startswith('//'):
                 url = 'http:' + url
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            if (oHoster != False): 
+				   sDisplayTitle = cUtil().DecoTitle(sTitle)
+				   oHoster.setDisplayName(sDisplayTitle)
+				   oHoster.setFileName(sTitle)
+				   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
         cConfig().finishDialog(dialog) 

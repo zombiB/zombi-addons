@@ -249,7 +249,7 @@ def showLinks():
     sPattern = sPattern + '|' + 'Kingvid.+?rel="nofollow" href="(.+?)"'
     sPattern = sPattern + '|' + '</font></font></font></font></b></font>.+?rel="nofollow" href="(.+?)"'
     sPattern = sPattern + '|' + 'Https://openload.+?rel="nofollow" href="(.+?)"'
-    sPattern = sPattern + '|' + 'uptobox.+?rel="nofollow" href="(.+?)"'
+    sPattern = sPattern + '|' + '<b>Uptobox</b>.+?" rel="nofollow".+?target="_blank"> <b>(.+?)</b></a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
    
     Saison = '0'
