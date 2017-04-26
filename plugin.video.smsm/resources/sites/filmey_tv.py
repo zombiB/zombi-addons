@@ -465,9 +465,9 @@ def showLinks2():
     sPattern = sPattern + '|' + '<b>Openload.co</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
     sPattern = sPattern + '|' + '1fichier</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
     sPattern = sPattern + '|' + 'Streamin</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
-    sPattern = sPattern + '|' + 'Flashx.tv</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
+    sPattern = sPattern + '|' + 'watchers</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
     sPattern = sPattern + '|' + 'Vidlox</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
-    sPattern = sPattern + '|' + 'Watchers</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
+    sPattern = sPattern + '|' + 'Vidbom</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
     sPattern = sPattern + '|' + 'vidzi.tv</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
     sPattern = sPattern + '|' + 'Vidto.me</b>.+?rel="nofollow"  href="(.+?)" target="_blank">'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -552,7 +552,7 @@ def showLinks2():
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
                 oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[0], '', oOutputParameterHandler)
             elif aEntry[8]:
-                sTitle = 'flash'
+                sTitle = 'watchers'
                 sMovieTitle = sMovieTitle 
                 sUrl= str(aEntry[8])
                 
@@ -572,7 +572,7 @@ def showLinks2():
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
                 oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[0], '', oOutputParameterHandler)
             elif aEntry[10]:
-                sTitle = 'Watchers'
+                sTitle = 'Vidbom'
                 sMovieTitle = sMovieTitle 
                 sUrl= str(aEntry[10])
                 

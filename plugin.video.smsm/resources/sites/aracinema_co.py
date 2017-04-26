@@ -91,7 +91,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
 
-            oGui.addTV(SITE_IDENTIFIER, 'showMoviesLinks', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showMoviesLinks', aEntry[1], '', aEntry[2], '', oOutputParameterHandler)
         
         cConfig().finishDialog(dialog)
  

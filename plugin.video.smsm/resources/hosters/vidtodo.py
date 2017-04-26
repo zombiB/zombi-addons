@@ -1,18 +1,13 @@
-#coding: utf-8
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.gui.gui import cGui
-from resources.lib.config import cConfig
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-
-import xbmcgui
+import time
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'vidtodo'
+        self.__sDisplayName = 'Vidtodo'
         self.__sFileName = self.__sDisplayName
 
     def getDisplayName(self):
@@ -40,23 +35,13 @@ class cHoster(iHoster):
         return ''
         
     def __getIdFromUrl(self):
-        sPattern = "v=([^<]+)"
-        oParser = cParser()
-        aResult = oParser.parse(self.__sUrl, sPattern)
-        if (aResult[0] == True):
-            return aResult[1][0]
-
-        return ''
-        
-    def __modifyUrl(self, sUrl):
-        return sUrl;
-        
-    def __getKey(self):
         return ''
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
+        self.__sUrl = str(sUrl)  
+        self.__sUrl = self.__sUrl.replace('embed-', '')
+        self.__sUrl = self.__sUrl.replace('.html', '')
+        
     def checkUrl(self, sUrl):
         return True
 
@@ -67,27 +52,31 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-    
+        oParser = cParser()
+        
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         
-        #Dexieme test Dean Edwards Packer
-        oParser = cParser()
-        sPattern = "<script type='text/javascript'>(.+?)<\/script>"
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        if (aResult[0] == True):
-                sUnpacked = cPacker().unpack(aResult[1][0])
-                
-                sPattern =  'file:"(.+?)"'
-                aResult = oParser.parse(sUnpacked, sPattern)
+        sPattern =  '<input type="hidden" name="([^"]+)" value="([^"]+)"'
 
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True): 
+            time.sleep(3)
+            oRequest = cRequestHandler(self.__sUrl)
+            oRequest.setRequestType(cRequestHandler.REQUEST_TYPE_POST)
+            for aEntry in aResult[1]:
+                oRequest.addParameters(aEntry[0], aEntry[1])
+
+            oRequest.addParameters('referer', self.__sUrl)
+            sHtmlContent = oRequest.request()
+
+            sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+                sHtmlContent = cPacker().unpack(aResult[1][0])
+                sPattern =  '{file:"([^"]+(?<!smil))"}'
+                aResult = oParser.parse(sHtmlContent, sPattern)
                 if (aResult[0] == True):
-                    api_call = aResult[1][0]
-              
-                return True, api_call
-        else:
-            cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
-            return False, False
+                    return True, aResult[1][0]
         
         return False, False
