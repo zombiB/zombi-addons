@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.matrix" name="matrix" version="1.0.0" provider-name="zombi">
+  <requires>
+	<import addon="script.module.metahandler" version="1.0.2"/>
+	<import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.common.plugin.cache" version="0.9.1"/>
+	<import addon="script.module.parsedom" version="0.9.1"/>
+	<import addon="plugin.video.youtube" version="2.9.2"/>
+	<import addon="script.module.simplejson" version="2.0.10"/>
+	<import addon="script.module.urlresolver" optional="true"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="fr">matrix</summary>
+    <description lang="fr">vod arabes</description>
+    <summary lang="en">matrix</summary>
+    <description lang="en">arabic vod addon by @geekzombi</description>
+    <platform>all</platform>
+	<news>version 1.0.0
+10/08/2017
+	</news>
+  </extension>
+</addon>
