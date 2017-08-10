@@ -44,22 +44,22 @@ class cHome:
         if (cConfig().getSetting('home_films') == 'true'):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR '+color_films+']'+cConfig().getlanguage(30120)+'[/COLOR]', 'films.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR '+color_films+']'+'THIS ADDON IS NO MORE SUPPORTED [/COLOR]', 'films.png', oOutputParameterHandler)
 
         if (cConfig().getSetting('home_series') == 'true'):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR '+color_series+']'+cConfig().getlanguage(30121)+'[/COLOR]', 'series.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR '+color_series+']'+'INSTALL THE NEW MATRIX ADDON FROM MY REPO[/COLOR]', 'series.png', oOutputParameterHandler)
 
         if (cConfig().getSetting('home_anims') == 'true'):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-            oGui.addDir(SITE_IDENTIFIER, 'showAnimes', '[COLOR '+color_anims+']'+cConfig().getlanguage(30122)+'[/COLOR]', 'animes.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showAnimes', '[COLOR '+color_anims+']'+'VISIT THIS LINK FOR HELP https://github.com/zombiB/matrix[/COLOR]', 'animes.png', oOutputParameterHandler)
 
         if (cConfig().getSetting('home_docs') == 'true'):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-            oGui.addDir(SITE_IDENTIFIER, 'showDocs', '[COLOR '+color_docs+']'+cConfig().getlanguage(30112)+'[/COLOR]', 'doc.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showDocs', 'OR ON TWITTER @GEEKZOMBI[COLOR '+color_docs+']'+cConfig().getlanguage(30112)+'[/COLOR]', 'doc.png', oOutputParameterHandler)
 
         if (cConfig().getSetting('home_sports') == 'true'):
             oOutputParameterHandler = cOutputParameterHandler()
