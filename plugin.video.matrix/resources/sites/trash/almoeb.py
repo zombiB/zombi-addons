@@ -279,7 +279,7 @@ def showHosters():
             url = url.replace('?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com') 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False): 
-				   sDisplayTitle = cUtil().DecoTitle(sTitle)
+				   sDisplayTitle = sTitle
 				   oHoster.setDisplayName(sDisplayTitle)
 				   oHoster.setFileName(sTitle)
 				   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

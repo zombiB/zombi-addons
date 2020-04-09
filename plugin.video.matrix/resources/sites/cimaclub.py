@@ -365,7 +365,6 @@ def showServer():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
 					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
@@ -457,7 +456,6 @@ def showServer1():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
 					sDisplayTitle = sMovieTitle
 					oHoster.setDisplayName(sTitle)
 					oHoster.setFileName(sMovieTitle)
@@ -548,7 +546,6 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
 					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
@@ -595,7 +592,6 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
 					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
@@ -643,7 +639,6 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
 					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
@@ -687,7 +682,6 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
 					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)

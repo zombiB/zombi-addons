@@ -363,7 +363,7 @@ def showEpisodes():
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				sTitle = sMovieTitle 
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
+					sDisplayTitle = sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -423,7 +423,7 @@ def showHosters():
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				sTitle = sMovieTitle 
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
+					sDisplayTitle = sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

@@ -330,7 +330,6 @@ def showHosters():
 				#print sHosterUrl
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sTitle)
 					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
@@ -368,7 +367,6 @@ def showHosters():
 				#print sHosterUrl
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = cUtil().DecoTitle(sMovieTitle)
 					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)

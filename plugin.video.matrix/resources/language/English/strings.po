@@ -16,18 +16,6 @@ msgctxt "#30002"
 msgid "Auto-activate subtitles"
 msgstr ""
 
-msgctxt "#30451"
-msgid "Default mode"
-msgstr ""
-
-msgctxt "#30453"
-msgid "Continue streaming via Uptostream"
-msgstr ""
-
-msgctxt "#30454"
-msgid "Continue direct via Uptobox"
-msgstr ""
-
 msgctxt "#30003"
 msgid "Activate filtering search"
 msgstr ""
@@ -60,20 +48,32 @@ msgctxt "#30010"
 msgid "Color Text note"
 msgstr ""
 
-msgctxt "#30500"
+msgctxt "#30011"
 msgid "Select"
 msgstr ""
 
-msgctxt "#30501"
+msgctxt "#30012"
 msgid "Name"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Matrix update"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Update complete"
+msgstr ""
+
+msgctxt "#30015"
+msgid "Update"
+msgstr ""
+
+msgctxt "#30016"
+msgid "Activate search history"
 msgstr ""
 
 msgctxt "#30021"
 msgid "General"
-msgstr ""
-
-msgctxt "#30022"
-msgid "Plugins on/off (1/3)"
 msgstr ""
 
 msgctxt "#30023"
@@ -89,7 +89,7 @@ msgid "Home"
 msgstr ""
 
 msgctxt "#30026"
-msgid "IPTV and TV Guid"
+msgid "IPTV and TV Guide"
 msgstr ""
 
 msgctxt "#30027"
@@ -109,7 +109,7 @@ msgid "Play"
 msgstr ""
 
 msgctxt "#30031"
-msgid "Métadata"
+msgid "Metadata"
 msgstr ""
 
 msgctxt "#30032"
@@ -117,15 +117,7 @@ msgid "View"
 msgstr ""
 
 msgctxt "#30033"
-msgid "Tool"
-msgstr ""
-
-msgctxt "#30449"
-msgid "About/Sources"
-msgstr ""
-
-msgctxt "#40449"
-msgid "Last auto update :"
+msgid "Tools"
 msgstr ""
 
 msgctxt "#30034"
@@ -140,8 +132,148 @@ msgctxt "#30036"
 msgid "Changelog"
 msgstr ""
 
+msgctxt "#30037"
+msgid "Not possible for this site"
+msgstr ""
+
+msgctxt "#30038"
+msgid "Bookmarking not possible for this link"
+msgstr ""
+
+msgctxt "#30039"
+msgid "Error: Unable to write to %s"
+msgstr ""
+
+msgctxt "#30040"
+msgid "Error: Unable to connect to %s"
+msgstr ""
+
+msgctxt "#30041"
+msgid "History deleted"
+msgstr ""
+
+msgctxt "#30042"
+msgid "Successfully registered"
+msgstr ""
+
+msgctxt "#30043"
+msgid "Bookmark already present"
+msgstr ""
+
+msgctxt "#30044"
+msgid "Bookmark deleted"
+msgstr ""
+
+msgctxt "#30045"
+msgid "Type the link you want to search"
+msgstr ""
+
+msgctxt "#30046"
+msgid "Here is your link: "
+msgstr ""
+
+msgctxt "#30047"
+msgid "Last auto update on:"
+msgstr ""
+
+msgctxt "#30048"
+msgid "Next update check on: "
+msgstr ""
+
+msgctxt "#30049"
+msgid "Path ffmpeg"
+msgstr ""
+
+msgctxt "#30050"
+msgid "Recording path"
+msgstr ""
+
+msgctxt "#30051"
+msgid "Activate recording"
+msgstr ""
+
+msgctxt "#30052"
+msgid "Minute automatically add to your chosen duration (in minutes)"
+msgstr ""
+
+msgctxt "#30053"
+msgid "Time interval between each time check (in seconds)"
+msgstr ""
+
+msgctxt "#30054"
+msgid "Url of your log:"
+msgstr ""
+
+msgctxt "#30055"
+msgid "Import/Export the BDD (Bookmark, History, etc.)"
+msgstr ""
+
+msgctxt "#30056"
+msgid "Remove BDD from Matrix"
+msgstr ""
+
+msgctxt "#30057"
+msgid "Delete a database"
+msgstr ""
+
+msgctxt "#30058"
+msgid "Removes the BDD from the cache for metadata"
+msgstr ""
+
+msgctxt "#30059"
+msgid "Delete temporary Kodi files"
+msgstr ""
+
+msgctxt "#30060"
+msgid "Delete temporary browsing files from Kodi"
+msgstr ""
+
+msgctxt "#30061"
+msgid "Clear .fi Files"
+msgstr ""
+
+msgctxt "#30062"
+msgid "Deletes temporary Kodi physical and BDD image files"
+msgstr ""
+
+msgctxt "#30063"
+msgid "Clear Thumbnails"
+msgstr ""
+
+msgctxt "#30064"
+msgid "Refresh Skin"
+msgstr ""
+
+msgctxt "#30065"
+msgid "Using ResolverUrl will allow you to use premium link generators"
+msgstr ""
+
+msgctxt "#30066"
+msgid "Go through ResolverUrl"
+msgstr ""
+
+msgctxt "#30067"
+msgid "Configure ResolverUrl"
+msgstr ""
+
+msgctxt "#30068"
+msgid "WARNING: Matrix does not manage this part, [CR] remember to deactivate it if the videos no longer work."
+msgstr ""
+
+msgctxt "#30069"
+msgid "Unless you have a premium link generator, [CR] checking this box will bring you more problems than advantages."
+msgstr ""
+
+msgctxt "#30070"
+msgid "Choose your sources click OK [CR] - To validate the modifications click again on OK"
+msgstr ""
+
+msgctxt "#30071"
+msgid "Use Extendedinfo"
+msgstr ""
+
 msgctxt "#30076"
-msgid "Search"
+msgid "Search" 
 msgstr ""
 
 msgctxt "#30077"
@@ -228,24 +360,6 @@ msgctxt "#30109"
 msgid "Turkish"
 msgstr ""
 
-
-
-msgctxt "#30111"
-msgid "TOP"
-msgstr ""
-
-msgctxt "#30037"
-msgid "Popular"
-msgstr ""
-
-msgctxt "#30038"
-msgid "Pack"
-msgstr ""
-
-msgctxt "#30110"
-msgid "Cartoon"
-msgstr ""
-
 msgctxt "#30112"
 msgid "Documentary"
 msgstr ""
@@ -266,16 +380,8 @@ msgctxt "#30116"
 msgid "All the sources"
 msgstr ""
 
-msgctxt "#30160"
-msgid "Animation"
-msgstr ""
-
 msgctxt "#30117"
 msgid "TV Programs"
-msgstr ""
-
-msgctxt "#30150"
-msgid "Dubbed"
 msgstr ""
 
 msgctxt "#30120"
@@ -290,13 +396,8 @@ msgctxt "#30122"
 msgid "Animes"
 msgstr ""
 
-msgctxt "#30123"
-msgid "Ramadan"
-msgstr ""
-
-
 msgctxt "#30125"
-msgid "Kids"
+msgid "Research Update (source only)"
 msgstr ""
 
 msgctxt "#30126"
@@ -304,15 +405,15 @@ msgid "Beta Tester (not recommended)"
 msgstr ""
 
 msgctxt "#30127"
-msgid "Tool/About"
+msgid "Tools"
 msgstr ""
 
 msgctxt "#30128"
-msgid "Clear Cache Addon"
+msgid "Clear the addon cache"
 msgstr ""
 
 msgctxt "#30129"
-msgid "Clear Cache Addon"
+msgid "Clear Kodi Cache"
 msgstr ""
 
 msgctxt "#30130"
@@ -327,18 +428,6 @@ msgctxt "#30135"
 msgid "WWE"
 msgstr ""
 
-msgctxt "#30136"
-msgid "Live"
-msgstr ""
-
-msgctxt "#30139"
-msgid "Islamic"
-msgstr ""
-
-msgctxt "#30140"
-msgid "Plays"
-msgstr ""
-
 msgctxt "#30138"
 msgid "Sources"
 msgstr ""
@@ -351,24 +440,8 @@ msgctxt "#30146"
 msgid "Show / Hide search settings"
 msgstr ""
 
-msgctxt "#30147"
-msgid "Plugins on/off (2/3)"
-msgstr ""
-
-msgctxt "#30148"
-msgid "Plugins on/off (3/3)"
-msgstr ""
-
 msgctxt "#30160"
 msgid "Quality HD"
-msgstr ""
-
-msgctxt "#30161"
-msgid "Quran"
-msgstr ""
-
-msgctxt "#30162"
-msgid "Nasheed"
 msgstr ""
 
 msgctxt "#30201"
@@ -392,7 +465,7 @@ msgid "Connection Failed"
 msgstr ""
 
 msgctxt "#30206"
-msgid "Mark view/Not view"
+msgid "Marked seen/Not seen"
 msgstr ""
 
 msgctxt "#30207"
@@ -440,7 +513,7 @@ msgid "[COLOR red]Delete definitely[/COLOR]"
 msgstr ""
 
 msgctxt "#30218"
-msgid "Stop download"
+msgid "Stop downloading"
 msgstr ""
 
 msgctxt "#30219"
@@ -451,6 +524,13 @@ msgctxt "#30220"
 msgid "Reset"
 msgstr ""
 
+msgctxt "#30221"
+msgid "Add:"
+msgstr ""
+
+msgctxt "#30222"
+msgid "Delete:"
+msgstr ""
 
 msgctxt "#30300"
 msgid "Library"
@@ -481,7 +561,7 @@ msgid "[COLOR khaki]Hello, %s[/COLOR]"
 msgstr ""
 
 msgctxt "#30307"
-msgid "Movie (%s/%s) watch / Show watch (%s) / episode (%s/%s) watch"
+msgid "Movie (%s/%s) seen / Show seen (%s) / episode (%s/%s) seen"
 msgstr ""
 
 msgctxt "#30308"
@@ -501,11 +581,11 @@ msgid "Watchlist"
 msgstr ""
 
 msgctxt "#30312"
-msgid "Watch"
+msgid "Seen"
 msgstr ""
 
 msgctxt "#30313"
-msgid "Recommend"
+msgid "Recommended"
 msgstr ""
 
 msgctxt "#30314"
@@ -557,7 +637,11 @@ msgid "Uptobox"
 msgstr ""
 
 msgctxt "#30326"
-msgid "DL and Read"
+msgid "Download and Play"
+msgstr ""
+
+msgctxt "#30327"
+msgid "1Fichier"
 msgstr ""
 
 msgctxt "#30330"
@@ -570,6 +654,86 @@ msgstr ""
 
 msgctxt "#30332"
 msgid "WebTv"
+msgstr ""
+
+msgctxt "#30340"
+msgid "Trakt integration"
+msgstr ""
+
+msgctxt "#30341"
+msgid "Show personnal lists"
+msgstr ""
+
+msgctxt "#30342"
+msgid "Movies"
+msgstr ""
+
+msgctxt "#30343"
+msgid "Show watchlist"
+msgstr ""
+
+msgctxt "#30344"
+msgid "Show watched list"
+msgstr ""
+
+msgctxt "#30345"
+msgid "Show recommended movies"
+msgstr ""
+
+msgctxt "#30346"
+msgid "Show BoxOffice"
+msgstr ""
+
+msgctxt "#30347"
+msgid "Show popular"
+msgstr ""
+
+msgctxt "#30348"
+msgid "Show most weekly viewed"
+msgstr ""
+
+msgctxt "#30349"
+msgid "Show most monthly viewed"
+msgstr ""
+
+msgctxt "#30351"
+msgid "TV Shows"
+msgstr ""
+
+msgctxt "#30352"
+msgid "Show watchlist"
+msgstr ""
+
+msgctxt "#30353"
+msgid "Show seasons watchlist"
+msgstr ""
+
+msgctxt "#30354"
+msgid "Show episodes watchlist"
+msgstr ""
+
+msgctxt "#30355"
+msgid "Show watched list"
+msgstr ""
+
+msgctxt "#30356"
+msgid "Show recommended TV Shows"
+msgstr ""
+
+msgctxt "#30357"
+msgid "Show popular"
+msgstr ""
+
+msgctxt "#30358"
+msgid "Show most weekly viewed"
+msgstr ""
+
+msgctxt "#30359"
+msgid "Show most monthly viewed"
+msgstr ""
+
+msgctxt "#30360"
+msgid "My personnal Trakt lists"
 msgstr ""
 
 msgctxt "#30400"
@@ -617,7 +781,7 @@ msgid "Divers"
 msgstr ""
 
 msgctxt "#30411"
-msgid "Block sounds notifications"
+msgid "Block  notifications sound"
 msgstr ""
 
 msgctxt "#30412"
@@ -653,4 +817,252 @@ msgstr ""
 
 msgctxt "#30420"
 msgid "Enable/Disable sources"
+msgstr ""
+
+msgctxt "#30421"
+msgid "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid Matrix, only then click YES"
+msgstr ""
+
+msgctxt "#30422"
+msgid "Enable log records"
+msgstr ""
+
+msgctxt "#30423"
+msgid "Search a Movie"
+msgstr ""
+
+msgctxt "#30424"
+msgid "Search a Serie"
+msgstr ""
+
+msgctxt "#30425"
+msgid "Movies (Popular)"
+msgstr ""
+
+msgctxt "#30426"
+msgid "Movies (Theater)"
+msgstr ""
+
+msgctxt "#30427"
+msgid "Movies (Top Rated)"
+msgstr ""
+
+msgctxt "#30428"
+msgid "Movies (Kinds)"
+msgstr ""msgstr ""
+
+msgctxt "#30429"
+msgid "TV Shows (Popular)"
+msgstr ""msgstr ""
+
+msgctxt "#30430"
+msgid "TV Shows (on TV)"
+msgstr ""msgstr ""
+
+msgctxt "#30431"
+msgid "TV Shows (Top Rated)"
+msgstr ""msgstr ""
+
+msgctxt "#30432"
+msgid "TV Shows (Kinds)"
+msgstr ""msgstr ""
+
+msgctxt "#30433"
+msgid "Actors (Popular)"
+msgstr ""msgstr ""
+
+msgctxt "#30434"
+msgid "Movies (Favorites)"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30435"
+msgid "Movies (Rated)"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30436"
+msgid "Movies (Watched)"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30437"
+msgid "TV Shows (Favorites)"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30438"
+msgid "TV Shows (Rated)"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30439"
+msgid "Episodes (Rated)"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30440"
+msgid "TV Shows (Watched)"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30441"
+msgid "My Lists"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30442"
+msgid "You must be logged in"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30443"
+msgid "Add: rated"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30444"
+msgid "Add: Watched"
+msgstr ""msgstr ""msgstr ""
+
+msgctxt "#30445"
+msgid "Add: Favorites"
+msgstr ""
+
+msgctxt "#30446"
+msgid "[COLOR red]Delete: Watched[/COLOR]"
+msgstr ""
+
+msgctxt "#30447"
+msgid "[COLOR red]Delete: Favorites[/COLOR]"
+msgstr ""
+
+msgctxt "#30448"
+msgid "Select a quality"
+msgstr ""
+
+msgctxt "#30449"
+msgid "About"
+msgstr ""
+
+msgctxt "#30450"
+msgid "Search (Actor, Actress)"
+msgstr ""
+
+msgctxt "#30451"
+msgid "Default mode"
+msgstr ""
+
+msgctxt "#30452"
+msgid "Always ask me"
+msgstr ""
+
+msgctxt "#30453"
+msgid "Continue streaming via Uptostream"
+msgstr ""
+
+msgctxt "#30454"
+msgid "Continue direct via UpToBox"
+msgstr ""
+
+msgctxt "#30455"
+msgid "My accounts"
+msgstr ""
+
+msgctxt "#30456"
+msgid "Are you sure?"
+msgstr ""
+
+msgctxt "#30457"
+msgid "Trailer"
+msgstr ""
+
+msgctxt "#30458"
+msgid "Recommended"
+msgstr ""
+
+msgctxt "#30459"
+msgid "Similar"
+msgstr ""
+
+msgctxt "#30460"
+msgid "Casting"
+msgstr ""
+
+msgctxt "#30461"
+msgid "Synopsis"
+msgstr ""
+
+msgctxt "#30462"
+msgid "Director"
+msgstr ""
+
+msgctxt "#30463"
+msgid "Release date"
+msgstr ""
+
+msgctxt "#30464"
+msgid "Duration"
+msgstr ""
+
+msgctxt "#30465"
+msgid "Minute"
+msgstr ""
+
+msgctxt "#30466"
+msgid "Actor/Role"
+msgstr ""
+
+msgctxt "#30467"
+msgid "Birth"
+msgstr ""
+
+msgctxt "#30468"
+msgid "Place"
+msgstr ""
+
+msgctxt "#30469"
+msgid "Hoster Direct"
+msgstr ""
+
+msgctxt "#70001"
+msgid "TOP"
+msgstr ""
+
+msgctxt "#70002"
+msgid "Dubbed"
+msgstr ""
+
+msgctxt "#70003"
+msgid "Quran kareem"
+msgstr ""
+
+msgctxt "#70004"
+msgid "Nasheed"
+msgstr ""
+
+msgctxt "#70005"
+msgid "Cartoon"
+msgstr ""
+
+msgctxt "#70006"
+msgid "Ramadan"
+msgstr ""
+
+msgctxt "#70007"
+msgid "Animation"
+msgstr ""
+
+msgctxt "#70008"
+msgid "Popular"
+msgstr ""
+
+msgctxt "#70009"
+msgid "Islamic"
+msgstr ""
+
+msgctxt "#70010"
+msgid "Plays"
+msgstr ""
+
+msgctxt "#70011"
+msgid "Live"
+msgstr ""
+
+msgctxt "#70012"
+msgid "Kids"
+msgstr ""
+
+msgctxt "#70013"
+msgid "Pack"
 msgstr ""

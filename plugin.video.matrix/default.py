@@ -13,25 +13,51 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.db import cDb
 from resources.lib.comaddon import progress, VSlog, addon, window, xbmc
 from resources.lib.util import Quote
-
 #http://kodi.wiki/view/InfoLabels
 #http://kodi.wiki/view/List_of_boolean_conditions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class main:
     def __init__(self):
         self.parseUrl()
+        #Ne pas desactiver la ligne d'en dessous, car sinon ca genere
+        #des probleme de Db sous Android.
         cDb()._create_tables()
 
     def parseUrl(self):
 
-	
+        #import sys
         #xbmc.log('arg :' + str(sys.argv), xbmc.LOGNOTICE)
-        #xbmc.log('Debug 1 >>' + str(xbmc.getInfoLabel('Container().CurrentPage')) , xbmc.LOGNOTICE)
-        #xbmc.log('Debug 2 >>' + str(xbmc.getInfoLabel('Container.FolderPath')) , xbmc.LOGNOTICE)
+        #xbmc.log('Debug 1 >>' + str(xbmc.getInfoLabel('Container().CurrentPage')), xbmc.LOGNOTICE)
+        #xbmc.log('Debug 2 >>' + str(xbmc.getInfoLabel('Container.FolderPath')), xbmc.LOGNOTICE)
 
         oInputParameterHandler = cInputParameterHandler()
-        
-		
+
         if (oInputParameterHandler.exist('function')):
             sFunction = oInputParameterHandler.getValue('function')
         else:
@@ -41,13 +67,13 @@ class main:
         if (sFunction == 'setSetting'):
             if (oInputParameterHandler.exist('id')):
                 plugin_id = oInputParameterHandler.getValue('id')
-            else: 
-				return
+            else:
+                return
 
             if (oInputParameterHandler.exist('value')):
                 value = oInputParameterHandler.getValue('value')
-            else: 
-				return
+            else:
+                return
 
             setSetting(plugin_id, value)
             return
@@ -76,13 +102,12 @@ class main:
 
         if (oInputParameterHandler.exist('site')):
             sSiteName = oInputParameterHandler.getValue('site')
-            if (oInputParameterHandler.exist('title')):
-                sTitle = oInputParameterHandler.getValue('title')
-            else: sTitle = "none"
+#            if (oInputParameterHandler.exist('title')):
+#                sTitle = oInputParameterHandler.getValue('title')
+#            else: sTitle = "none"
 
             VSlog('load site ' + sSiteName + ' and call function ' + sFunction)
-            cStatistic().callStartPlugin(sSiteName, sTitle)
-
+            #cStatistic().callStartPlugin(sSiteName, sTitle)
 
             if (isHosterGui(sSiteName, sFunction) == True):
                 return
@@ -137,7 +162,6 @@ class main:
                 return
 
             if sSiteName == 'globalParametre':
-
                 addons = addon()
                 addons.openSettings()
                 return
@@ -147,7 +171,7 @@ class main:
             #charge sites
             try:
             #exec "from resources.sites import " + sSiteName + " as plugin"
-            #exec "plugin."+ sFunction +"()"
+            #exec "plugin." + sFunction +"()"
                 plugins = __import__('resources.sites.%s' % sSiteName, fromlist = [sSiteName])
                 function = getattr(plugins, sFunction)
                 function()
@@ -161,6 +185,8 @@ class main:
 def setSetting(plugin_id, value):
     addons = addon()
     setting = addons.getSetting(plugin_id)
+
+	
     # Si le parametre existe, on autorise la modification
     if (setting != '' and setting != value):
         addons.setSetting(plugin_id, value)
