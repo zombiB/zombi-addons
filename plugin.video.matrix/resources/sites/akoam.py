@@ -177,7 +177,7 @@ def showMovies(sSearch = ''):
 				annee = str(m.group(0))
 				sTitle = sTitle.replace(annee,'')
             if annee:
-				sTitle = sTitle  
+				sTitle = sTitle + annee
  
  
             siteUrl = aEntry[0]

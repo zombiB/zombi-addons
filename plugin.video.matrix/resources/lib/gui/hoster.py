@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
+# https://github.com/Kodi-vStream/venom-xbmc-addons
 
 # Venom.
-# https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.contextElement import cContextElement
@@ -103,18 +103,18 @@ class cHosterGui:
             oGuiElement.addContextItem(oContext)
 
         #Upload menu uptobox
-        if cInputParameterHandler().getValue('site') != 'siteuptobox' and self.ADDON.getSetting('hoster_uptobox_premium') == 'true' :
+        if cInputParameterHandler().getValue('site') != 'siteuptobox' and self.ADDON.getSetting('hoster_uptobox_premium') == 'true':
             host = oHoster.getPluginIdentifier()
-            accept = ['uptobox','uptostream','onefichier','uploaded','uplea']
+            accept = ['uptobox', 'uptostream', 'onefichier', 'uploaded', 'uplea']
             for i in accept:
-                if host == i :
+                if host == i:
                     oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteuptobox', 'siteuptobox', 'UptomyAccount', self.ADDON.VSlang(30325))
 
         #onefichier
-        if cInputParameterHandler().getValue('site') != 'siteonefichier' and self.ADDON.getSetting('hoster_onefichier_premium') == 'true' :
+        if cInputParameterHandler().getValue('site') != 'siteonefichier' and self.ADDON.getSetting('hoster_onefichier_premium') == 'true':
             host = oHoster.getPluginIdentifier()
             accept = 'onefichier' #les autres ne fonctionnent pas
-            if host == accept :
+            if host == accept:
                 oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteonefichier', 'siteonefichier', 'UptomyAccount', '1fichier')
 
 
@@ -130,8 +130,7 @@ class cHosterGui:
         #oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
     def checkHoster(self, sHosterUrl):
-
-        #securitee
+        #securite
         if (not sHosterUrl):
             return False
 
@@ -152,8 +151,8 @@ class cHosterGui:
             if hmf.valid_url():
                 tmp = self.getHoster('resolver')
                 RH = sHosterUrl.split('/')[2]
-                RH = RH.replace('www.','')
-                tmp.setRealHost( RH[:3].upper() )
+                RH = RH.replace('www.', '')
+                tmp.setRealHost(RH[:3].upper())
                 return tmp
 
         #Gestion classique
@@ -517,16 +516,16 @@ class cHosterGui:
             return False
 
         #Si aucun hebergeur connu on teste les liens directs
-        if (sHosterUrl[-4:] in '.MP4.mp4.mkv.flv.m3u8.webm.m3u8?'):
+        if (sHosterUrl[-4:] in '.mp4.avi.flv.m3u8.webm'):
             return self.getHoster('lien_direct')
         #Cas special si parametre apres le lien_direct
-        if (sHosterUrl.split('?')[0][-4:] in '.mp4.flv.m3u8.webm'):
-            return self.getHoster('lien_direct') 
+        if (sHosterUrl.split('?')[0][-4:] in '.mp4.avi.flv.m3u8.webm'):
+            return self.getHoster('lien_direct')
 
         return False
 
     def getHoster(self, sHosterFileName):
-        exec "from resources.hosters." + sHosterFileName + " import cHoster"
+        exec ('from resources.hosters.' + sHosterFileName + ' import cHoster')
 
         return cHoster()
 
@@ -547,7 +546,7 @@ class cHosterGui:
         if (bGetRedirectUrl == 'True'):
             sMediaUrl = self.__getRedirectUrl(sMediaUrl)
 
-        VSlog("Hoster - play " + sMediaUrl)
+        VSlog('Hoster - play ' + sMediaUrl)
 
         oHoster = self.getHoster(sHosterIdentifier)
         oHoster.setFileName(sFileName)
@@ -599,7 +598,7 @@ class cHosterGui:
         if (bGetRedirectUrl == 'True'):
             sMediaUrl = self.__getRedirectUrl(sMediaUrl)
 
-        VSlog("Hoster - playlist " + sMediaUrl)
+        VSlog('Hoster - playlist ' + sMediaUrl)
         oHoster = self.getHoster(sHosterIdentifier)
         oHoster.setFileName(sFileName)
 

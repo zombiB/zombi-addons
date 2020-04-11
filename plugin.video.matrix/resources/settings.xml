@@ -137,7 +137,7 @@
         <setting type="sep"/>
         <setting id="Library_folder_Movies" type="folder" label="30120" default="special://userdata/addon_data/plugin.video.matrix/Films"/>
         <setting id="Library_folder_TVs" type="folder" label="30121" default="special://userdata/addon_data/plugin.video.matrix/Series"/>
-        <setting type="lsep" label="30301"/>
+        <setting label="30301" type="lsep"/>
         <setting type="sep"/>
         <setting id="update_auto" type="bool" label="30302" default="true"/>
     </category>

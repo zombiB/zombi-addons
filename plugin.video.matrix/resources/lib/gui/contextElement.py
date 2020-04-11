@@ -35,6 +35,3 @@ class cContextElement:
 
     def getOutputParameterHandler(self):
         return self.__oOutputParameterHandler
-
-
-

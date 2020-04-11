@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-# https://github.com/Kodi-matrix/venom-xbmc-addons
+# https://github.com/Kodi-vStream/venom-xbmc-addons
 #Venom.
 
 #matrix = xbmcaddon.Addon('plugin.video.matrix')
@@ -427,7 +427,7 @@ class cClear:
 
     def TextBoxes(self, heading, anounce):
         # activate the text viewer window
-        xbmc.executebuiltin("ActivateWindow(%d)" % (10147, ))
+        xbmc.executebuiltin("ActivateWindow(%d)" % (10147))
         # get window
         win = window(10147)
         #win.show()

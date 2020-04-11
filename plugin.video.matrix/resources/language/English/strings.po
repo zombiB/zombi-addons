@@ -273,7 +273,7 @@ msgid "Use Extendedinfo"
 msgstr ""
 
 msgctxt "#30076"
-msgid "Search" 
+msgid "Search"
 msgstr ""
 
 msgctxt "#30077"

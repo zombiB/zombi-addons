@@ -23,7 +23,7 @@ URL_MAIN = 'https://www.okanime.com'
 
 
 ANIM_MOVIES = ('https://www.okanime.com/movies', 'showMovies')
-ANIM_NEWS = ('https://www.okanime.com/animes', 'showSeries')
+ANIM_NEWS = ('https://www.okanime.com/partials/filter_animes?utf8=%E2%9C%93&aired_year_to=&aired_year_from=&rating_to=&rating_from=&episode_number_to=&episode_number_from=&direction=&sort=published_at&status=&search=&anime_type=&pg=&season=&studio_list=&director=&original_work=&start_from=&genre_list', 'showSeries')
 
 
 
@@ -65,7 +65,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+?
-    sPattern = 'title="([^<]+)" href="([^<]+)"><div class=.+?<img class="img-responsive cover-5-span" alt="([^<]+)" src="([^<]+)" /><div class="rating-'
+    sPattern = '<img class="img-responsive cover-5-span" alt="([^<]+)" src="([^<]+)" /><div class="rating-'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -82,12 +82,12 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[0].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
  
-            sThumbnail = URL_MAIN+aEntry[3]
+            sThumbnail = URL_MAIN+aEntry[0]
  
             siteUrl = URL_MAIN+aEntry[1]
  
             siteUrl = siteUrl.replace('/review','')
-            sInfo = aEntry[2]
+            sInfo = aEntry[0]
 
 
 
@@ -119,9 +119,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- 
-#([^<]+).+?
-    sPattern = '<a title="([^<]+)" href="([^<]+)"><div class.+?</div><img alt="([^<]+)" class="img-responsive cover-5-span" src="([^<]+)" /><div class="rating-'
+# ([^<]+) .+?
+    sPattern = '<a href="([^<]+)">.+?data-src="([^<]+)".+?<span class="video-title">([^<]+)</span>.+?<span class="video-subtitle">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -135,17 +134,18 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0].decode("utf8")
+            sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
  
-            sThumbnail = aEntry[3]
+            sThumbnail = aEntry[1]
             if sThumbnail.startswith('/'):
                 sThumbnail = URL_MAIN + sThumbnail
+                sThumbnail = sThumbnail.replace('.webp','')
  
-            siteUrl = URL_MAIN + aEntry[1]
+            siteUrl = URL_MAIN + aEntry[0]
  
             siteUrl = siteUrl
-            sInfo = aEntry[2]
+            sInfo = aEntry[3]
 
 
 

@@ -313,14 +313,10 @@ def showHosters():
 				sTitle = " " 
 				if 'thevideo.me' in url:
 					sTitle = " (thevideo.me)"
-				if 'fembed' in url:
-					sTitle = " (fembed)"
 				if 'flashx' in url:
 					sTitle = " (flashx)"
 				if 'streamcherry' in url:
 					sTitle = " (streamcherry)"
-				if 'streamango' in url:
-					sTitle = " (streamango)"
 				if url.startswith('//'):
 					url = 'http:' + url
 				if url.startswith('https://www.ok'):

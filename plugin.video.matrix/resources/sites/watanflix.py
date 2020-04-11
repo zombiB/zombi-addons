@@ -233,4 +233,3 @@ def showSHosters():
 
         progress_.VSclose(progress_) 
     oGui.setEndOfDirectory()                
-

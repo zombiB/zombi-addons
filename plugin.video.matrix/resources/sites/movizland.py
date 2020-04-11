@@ -461,7 +461,7 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setDisplayName(sMovieTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
@@ -492,7 +492,7 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setDisplayName(sTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
@@ -513,7 +513,6 @@ def showHosters():
 					break
             
 				url = str(aEntry)
-				sTitle =  sMovieTitle
 				if 'vidcloud' in url:
 					sTitle = " (vidcloud)"
 				if url.startswith('//'):
@@ -524,7 +523,7 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setDisplayName(sMovieTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
@@ -545,7 +544,6 @@ def showHosters():
 					break
             
 				url = str(aEntry)
-				sTitle =  sMovieTitle
 				if 'vidcloud' in url:
 					sTitle = " (vidcloud)"
 				if url.startswith('//'):
@@ -556,7 +554,7 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setDisplayName(sMovieTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				

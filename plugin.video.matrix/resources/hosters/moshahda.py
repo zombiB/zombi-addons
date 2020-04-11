@@ -4,6 +4,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
+from resources.lib.packer import cPacker
 import re,xbmcgui
 
 class cHoster(iHoster):
@@ -64,12 +65,17 @@ class cHoster(iHoster):
         
 		oRequest = cRequestHandler(self.__sUrl)
 		sHtmlContent = oRequest.request()
-
         
 		oParser = cParser()
+		
+		sPattern = "<script type='text/javascript'>([^<]+)</script>"
+		aResult = oParser.parse(sHtmlContent, sPattern)
+		sHtmlContent = cPacker().unpack(aResult[1][0])
+		print aResult[1][0]
+
         
             # (.+?) .+?
-		sPattern = 'file:"(.+?)",label:"(.+?)"'
+		sPattern = 'file:"([^<]+)",label:"([^<]+)"'
 		aResult = oParser.parse(sHtmlContent, sPattern)
         
 		api_call = False

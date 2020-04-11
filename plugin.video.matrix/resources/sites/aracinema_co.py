@@ -10,17 +10,17 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-from resources.lib.cloudflare import CloudflareBypass
-from resources.lib.cloudflare import NoRedirection
-
-import urllib2,urllib,re,xbmc
+import urllib2,urllib,re
 import unicodedata
+ 
  
 SITE_IDENTIFIER = 'aracinema_co'
 SITE_NAME = 'aradrama'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://aradramatv.net/'
+
+MOVIE_ASIAN = ('https://aradramatv.co/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 
 
 SERIE_ASIA = ('https://aradramatv.net/category/episodes/new/', 'showEp')
@@ -67,8 +67,8 @@ def showMovies(sSearch = ''):
 
  
 
-    #([^<]+).+?
-    sPattern ='<a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt='
+    # ([^<]+) .+?
+    sPattern ='<article id="post-.+?href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt=.+?<i class="icon-folder-open mi"></i>([^<]+)</a>.+?<i class="icon-calendar mi"></i>([^<]+)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -84,18 +84,20 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[2])
-            sInfo = sThumbnail
+            siteUrl = aEntry[0]
+            sThumb = aEntry[2]
+            sDesc = aEntry[3]
+            sYear = aEntry[4]
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -108,307 +110,38 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-def showEp(sSearch = ''):
+def showLink():
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-
- 
-
-    # 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
-    sPattern ='<a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt='
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
-			
-
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', aEntry[2], '', oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory()
-		
-def showTvshows(sSearch = ''):
-    oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-
- 
-
-    # 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
-    sPattern ='class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt.+?<a href="([^<]+)" title="حالة العمل الفني"><i class="icon-feed mi">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-            sInfo = str(aEntry[3])
-            sThumbnail = aEntry[2]
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-			
-            if 'stat' in sInfo:
-                oGui.addMovie(SITE_IDENTIFIER, 'showMoviesLinks', aEntry[1], '', sThumbnail, sThumbnail, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory() 
-		
-def showSerie(sSearch = ''):
-    oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-
- 
-
-    # 'src="([^<]+)" class=".+?href="([^<]+)">([^<]+)</.+?<div class="movieDesc">([^<]+)</div>'
-    sPattern ='<div class="featured_thumb mb"><a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt='
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-            sThumbnail = aEntry[2]
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
-			
-
-            oGui.addMovie(SITE_IDENTIFIER, 'showSerieLinks', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory() 
-		
-def showSerieLinks():
-    
-    oGui = cGui()
-    
+   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-
-
-    #print sUrl
-   
+    
     oParser = cParser()
     
     #Recuperation infos
     sNote = ''
-    sCom = ''
 
-    sPattern = '<span>تقييم الفيلم : </span>(.+?)</p><h3>القصة :</h3><p>(.+?)</p></div>'
+    sPattern = '<h3>القصة :</h3><p>(.+?)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
-        sNote = aResult[1][0][0]
-        sCom = aResult[1][0][1]
-        sCom = cUtil().removeHtmlTags(sCom)
-    if (sNote):
-        oGui.addText(SITE_IDENTIFIER,'تقييم الفيلم : ' + str(sNote))
-
+        sNote = aResult[1][0]
+        # (.+?) .+? ([^<]+)
+    oParser = cParser()
+    # .+? ([^<]+)
+    sPattern = 'href="([^<]+)" title="">مشاهدة الفيلم أونلاين</a></div>'
     
-    
-    #Affichage du menu  
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive][/COLOR]')
-
-
-
-    #<a class="wpb_button_a" title="مشاهدة الحلقات أونلاين" href="http://aracinema.com/category/airing/the-expanse-s2/"><span class="wpb_button  wpb_btn-warning wpb_btn-large">مشاهدة الحلقات أونلاين<
-    sPattern = 'class="vc_btn3-container vc_btn3-inline"><a class="vc_general vc_btn3 vc_btn3-size-lg vc_btn3-shape-square vc_btn3-style-flat vc_btn3-color-turquoise" href="([^<]+)" title="">([^<]+)</a></div>'
+    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-
-            sTitle = sMovieTitle +  ' - [COLOR skyblue]' + aEntry[1]+'[/COLOR]'
-            sUrl= aEntry[0].replace('http://aracinema.com','http://aracinema.co')
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',  sUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
-            oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sCom, oOutputParameterHandler)             
-    
-        progress_.VSclose(progress_)
-
-    oGui.setEndOfDirectory()
-		
-def showMoviesLinks():
-    
-    oGui = cGui()
-    
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
 
 
-
-    #print sUrl
+    #print aResult
    
-    oParser = cParser()
-    
-    #Recuperation infos
-    sNote = ''
-    sCom = ''
-
-    sPattern = '<span>تقييم الفيلم : </span>(.+?)</p><h3>القصة :</h3><p>(.+?)</p></div>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sNote = aResult[1][0][0]
-        sCom = aResult[1][0][1]
-        sCom = cUtil().removeHtmlTags(sCom)
-    if (sNote):
-        oGui.addText(SITE_IDENTIFIER,'تقييم الفيلم : ' + str(sNote))
-
-    
-    
-    #Affichage du menu  
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive][/COLOR]')
-
-
-
-    #<a class="wpb_button_a" title="مشاهدة الحلقات أونلاين" href="http://aracinema.com/category/airing/the-expanse-s2/"><span class="wpb_button  wpb_btn-warning wpb_btn-large">مشاهدة الحلقات أونلاين<
-    sPattern = '<a class="wpb_button_a" title="([^<]+)" href="([^<]+)"><span class="wpb_button  wpb_btn-warning wpb_btn-large">'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-
-            sTitle = sMovieTitle +  ' - [COLOR skyblue]' + aEntry[0]+'[/COLOR]'
-            sUrl= aEntry[1].replace('http://aracinema.com','http://aracinema.co')
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',  sUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
-            oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sCom, oOutputParameterHandler)             
-    
-        progress_.VSclose(progress_)
-
-    oGui.setEndOfDirectory()
-		
-def showSeason():
-    oGui = cGui()
-    
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-
- 
-    sPattern = 'class="wpb_button_a" title="([^<]+)" href="([^<]+)"><span class'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -417,94 +150,25 @@ def showSeason():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0]
-            siteUrl = str(aEntry[1])
-			
-
-
+            sTitle = sMovieTitle
+            sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
+            siteUrl = aEntry
+            sThumb = sThumb
+            sDesc = sNote
+ 
+            #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[0]))
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[0], '', sThumbnail, '', oOutputParameterHandler)
-        
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            
+
+ 
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+ 
         progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()
-	
-def showSeries():
-    oGui = cGui()
-    
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-
- 
-    sPattern = '<a href="([^<]+)" class="([^<]+)" title="([^<]+)<'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1] + aEntry[2]
-            siteUrl = str(aEntry[0])
-			
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
-
-
- 
-    sPattern = 'class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-			
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
-       
-    oGui.setEndOfDirectory()
- 
        
  #.+?([^<]+) 
  
@@ -526,13 +190,19 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-
-
-    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
+    # (.+?) .+? ([^<]+)
+    oParser = cParser()  
+	
+    sPattern =  '<a class="first_A" href="([^<]+)" title=' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        m3url =  aResult[1][0]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent = oRequest.request()
                
         
     sPattern = 'src="([^<]+)"'
@@ -556,7 +226,7 @@ def showHosters():
             if (oHoster != False):
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
         progress_.VSclose(progress_) 
