@@ -8,6 +8,7 @@ from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.aadecode import decodeAA
 from resources.lib.packer import cPacker
+from resources.lib.aadecode import AADecoder
 import re
 from resources.lib.comaddon import VSlog
 
@@ -46,7 +47,6 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = re.sub('=img.vidbm.com/.+?','',str(sUrl))
-        self.__sUrl = self.__sUrl.replace('https://www.vidbm.com/', '')
         self.__sUrl = self.__sUrl.replace('embed-', '')
         self.__sUrl = self.__sUrl.replace('emb.html?', '')
         self.__sUrl = self.__sUrl.replace('.html?auto=1','')
@@ -62,49 +62,32 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        
+        #VSlog(self.__sUrl)
 
-        api_call = False
-
-        sUrl = 'https://www.vidbm.com/embed-' + self.__sUrl + '.html?auto=1'
-
-        oRequest = cRequestHandler(sUrl)
+        oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-
+        #VSlog(sHtmlContent)
         oParser = cParser()
+        
+        api_call = False
+        
+        sPattern =  '(?:[>;]\s*)(ﾟωﾟ.+?\(\'_\'\);)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+         
+		
+        if aResult[0]:
+            for i in aResult[1]:
+                decoded = AADecoder(i).decode()
 
-        packed = CheckCpacker(sHtmlContent)
-        if packed:
-            aa = CheckAADecoder(packed)
-            if aa:
-                sPattern = 'sources: *\[{file:"([^"]+)"'
-                aResult = oParser.parse(aa, sPattern)
-                if (aResult[0] == True):
-                    api_call = aResult[1][0] + '|User-Agent=' + UA
+                r = re.search('file:"([^<]+)",', decoded, re.DOTALL | re.UNICODE)
+                if r:
+                    api_call = r.group(1)
+                    break
+        
+        #VSlog(api_call)
 
         if (api_call):
             return True, api_call
 
         return False, False
-
-def CheckCpacker(sHtmlContent):
-    oParser = cParser()
-    sPattern = "(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>"
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        str2 = aResult[1][0]
-        try:
-            result = cPacker().unpack(str2)
-            return result
-        except:
-            pass
-
-    return False
-
-def CheckAADecoder(sHtmlContent):
-    aResult = re.search("(ﾟωﾟ.+\(\\\\'_\\\\'\);)", sHtmlContent, re.DOTALL | re.UNICODE)
-    if (aResult):
-        j = aResult.group(1)
-        tmp = decodeAA(j)
-        return tmp
-
-    return False
