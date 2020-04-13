@@ -165,60 +165,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
-def showSeriesSearch(sSearch = ''):
-    oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-     # #([^<]+).+? 
-    sPattern = '<span class="image"><a href="([^<]+)"><img src="([^<]+)" alt.+?<div class="title"><a href=".+?">([^<]+)</a></div>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[2].replace("&#8217;", "'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","") 
-            sThumbnail = aEntry[1]
-            siteUrl = aEntry[0]
-            sInfo = ""
-
-			
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',str(aEntry[0]))
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            oGui.addMovie(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory()
- 
- 
- 
+		
 def __checkForNextPage(sHtmlContent):
     sPattern = 'class="next page-numbers" href="(.+?)">»</a>'
 	
@@ -241,6 +188,52 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+
+    # (.+?) .+? ([^<]+)
+               
+
+    sPattern = 'data-href="([^<]+)">([^<]+)</li>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+
+    #print aResult
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+        
+				url = aEntry
+				url = aEntry[0].replace("https://anime2001.com/embed_player/?url=","").replace("%3A",":").replace("%2F","/")
+				url =  url.split('&h=')[0]
+				url =  url.replace("&h=","")
+				sTitle =  aEntry[1]
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if url.startswith('//'):
+					url = 'https:' + url
+				
+					
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = sMovieTitle
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+
+			progress_.VSclose(progress_) 
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------الحلقات--------[/COLOR]')
     # (.+?) .+?
     sPattern = '</i> <a href="([^<]+)">([^<]+)</a></li>'
     
@@ -274,7 +267,7 @@ def showEps():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        
@@ -322,8 +315,50 @@ def showHosters():
 					sTitle = " (flashx)"
 				if url.startswith('//'):
 					url = 'https:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = sMovieTitle
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+
+			progress_.VSclose(progress_) 
+               
+
+    sPattern = 'data-href="([^<]+)">([^<]+)</li>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+
+    #print aResult
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+        
+				url = aEntry
+				url = aEntry[0].replace("https://anime2001.com/embed_player/?url=","").replace("%3A",":").replace("%2F","/")
+				url =  url.split('&h=')[0]
+				url =  url.replace("&h=","")
+				sTitle =  aEntry[1]
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if url.startswith('//'):
+					url = 'https:' + url
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
