@@ -43,9 +43,8 @@ class cHoster(iHoster):
         self.__sUrl = str(sUrl)
         if 'embed' in sUrl:
             self.__sUrl = self.__sUrl.replace("embed-","")
-        self.__sUrl = self.__sUrl.split('-')[0]
-        self.__sUrl = self.__sUrl.split('/')[3]
-        self.__sUrl = "https://letsupload.co/plugins/mediaplayer/site/_embed.php?u="+self.__sUrl 
+        if 'mediaplayer' not in sUrl:
+            self.__sUrl = self.__sUrl.replace("https://letsupload.co/","https://letsupload.co/plugins/mediaplayer/site/_embed.php?u=")
 
     def checkUrl(self, sUrl):
         return True
@@ -65,7 +64,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
 
-        sPattern = 'file: "(.+?)",'
+        sPattern = 'file: "([^<]+)",type: "mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0]
@@ -77,7 +76,7 @@ class cHoster(iHoster):
 
 
         if (api_call):
-            return True, api_call+'|User-Agent=' + UA 
+            return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
         
 
         return False, False 
