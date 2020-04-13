@@ -6,7 +6,8 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog, addon
-import urllib,re, base64
+from resources.lib.util import QuoteSafe, Unquote
+import re, base64
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0'}
 
@@ -111,23 +112,11 @@ class cHoster(iHoster):
         self.stream = True
         self.__sUrl = self.__sUrl.replace('uptobox.com/', 'uptostream.com/iframe/')
 
-        oRequest = cRequestHandler(self.__sUrl)
-        sHtmlContent = oRequest.request()
-
-        SubTitle = self.checkSubtitle(sHtmlContent)
-
-        if (self.stream):
-            api_call = self.GetMedialinkStreaming(sHtmlContent)
-        else:
-            api_call = self.GetMedialinkDL(sHtmlContent)
-
-        if api_call:
-            if SubTitle:
-                return True, api_call, SubTitle
-            else:
-                return True, api_call
-
-        return False, False
+        # On redirige vers le hoster uptostream
+        from resources.hosters.uptostream import cHoster
+        oHoster = cHoster()
+        oHoster.setUrl(self.__sUrl)
+        return oHoster.__getMediaLinkForGuest()
 
     def __getMediaLinkByPremiumUser(self):
 
@@ -165,7 +154,7 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
 
         if (aResult[0]):
-            return urllib.quote(aResult[1][0], safe=":/")
+            return QuoteSafe(aResult[1][0])
 
         return False
 
@@ -178,7 +167,7 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             sHtmlContent = base64.b64decode(aResult[1][0])
-        
+
         sPattern =  'src":[\'"]([^<>\'"]+)[\'"],"type":[\'"][^\'"><]+?[\'"],"label":[\'"]([0-9]+p)[\'"].+?"lang":[\'"]([^\'"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -210,7 +199,7 @@ class cHoster(iHoster):
             else:
                 return False
 
-            stream_url = urllib.unquote(stream_url)
+            stream_url = Unquote(stream_url)
             if not stream_url.startswith('http'):
                 stream_url = 'http:' + stream_url
 
