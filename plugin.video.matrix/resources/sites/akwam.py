@@ -403,8 +403,8 @@ def showHosters():
 					sTitle = " (streamcherry)"
 				if url.startswith('//'):
 					url = 'https:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)

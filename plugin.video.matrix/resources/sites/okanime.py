@@ -483,8 +483,8 @@ def showHosterss():
                 url = url.replace('uc?id=','file/d/') 
             if url.startswith('https://drive.google.com'):
                 url = url.replace('&export=download','/preview')
-            if url.startswith('https://www.ok'):
-                url = url.replace("www.","") 
+            
+                 
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)

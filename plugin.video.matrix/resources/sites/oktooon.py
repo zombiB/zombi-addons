@@ -258,8 +258,8 @@ def showHosters():
             sTitle = sMovieTitle
             if url.startswith('//'):
                 url = 'http:' + url
-            if url.startswith('https://www.ok'):
-                url = url.replace("www.","")
+            
+                
 
             sHosterUrl = url
             url = url.replace('?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com') 

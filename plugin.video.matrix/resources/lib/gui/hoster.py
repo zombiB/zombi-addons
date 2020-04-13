@@ -163,12 +163,12 @@ class cHosterGui:
             return self.getHoster('uppom')
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')
+        if ('vidsat' in sHostName):
+            return self.getHoster('vidsat')
         if ('youdbox' in sHostName):
             return self.getHoster('youdbox')
         if ('gateaflam' in sHostName):
             return self.getHoster('gateaflam')
-        if ('faselhd' in sHostName):
-            return self.getHoster('faselhd')
         if ('mycima' in sHostName):
             return self.getHoster('mycima')
 
@@ -243,6 +243,8 @@ class cHosterGui:
             return self.getHoster('speedvideo')
         if ('speedvid' in sHostName):
             return self.getHoster('speedvid')
+        if ('4shared' in sHostName):
+            return self.getHoster('shared')
         if (('netu' in sHostName) or ('hqq' in sHostName) or ('waaw' in sHostName)):
             return self.getHoster('netu')
 
@@ -436,7 +438,7 @@ class cHosterGui:
             return self.getHoster('upstream')
         if ('ghost' in sHostName):
             return self.getHoster('ghost')
-        if ('https://www.faselhd.co' in sHostName):
+        if ('faselhd' in sHostName):
             return self.getHoster('faselhd')
         if ('streamable' in sHostName):
             return self.getHoster('resolver')

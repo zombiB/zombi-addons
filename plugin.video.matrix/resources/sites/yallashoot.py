@@ -154,8 +154,8 @@ def showHosters():
             if 'ok.php' in url:
                 url = url.split('ok.php?id=', 1)[1]
                 url = 'http://ok.ru/videoembed/' + url
-            if url.startswith('https://www.ok'):
-                url = url.replace("www.","")
+            
+                
             sHosterUrl = url
 			
 

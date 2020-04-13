@@ -371,8 +371,8 @@ def showServer():
 					sTitle = " (clicknupload)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -468,8 +468,8 @@ def showServer2():
 						sTitle = sMovieTitle
 						if url.startswith('//'):
 							url = 'http:' + url
-						if url.startswith('https://www.ok'):
-							url = url.replace("www.","")
+						
+							
             
 						sHosterUrl = url 
 						oHoster = cHosterGui().checkHoster(sHosterUrl)

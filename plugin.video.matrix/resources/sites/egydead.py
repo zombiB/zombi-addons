@@ -422,8 +422,8 @@ def showHosters():
 					sTitle = " (vidcloud)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -459,8 +459,8 @@ def showHosters():
 					sTitle = " (vidcloud)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)

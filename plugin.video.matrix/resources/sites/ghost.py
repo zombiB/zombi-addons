@@ -310,8 +310,6 @@ def showHosters():
 					url = "https://l.vevents.net/hls/"+url+"/"+url+".playlist.m3u8"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)

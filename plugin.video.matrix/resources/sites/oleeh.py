@@ -127,8 +127,8 @@ def showHosters():
             if url.startswith('//'):
                 url = 'http:' + url
             sHosterUrl = url
-            if url.startswith('https://www.ok'):
-                url = url.replace("www.","")
+            
+                
 			
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
@@ -154,8 +154,8 @@ def showHosters():
             if url.startswith('//'):
                 url = 'http:' + url
             sHosterUrl = url
-            if url.startswith('https://www.ok'):
-                url = url.replace("www.","")
+            
+                
 			
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):

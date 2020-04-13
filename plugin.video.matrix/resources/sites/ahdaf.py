@@ -202,8 +202,8 @@ def showHosters():
             url = str(aEntry[0])
             if url.startswith('//'):
                 url = 'http:' + url
-            if url.startswith('https://www.ok'):
-                url = url.replace("www.","")
+            
+                
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -234,8 +234,8 @@ def showHosters():
             url = str(aEntry[0])
             if url.startswith('//'):
                 url = 'http:' + url
-            if url.startswith('https://www.ok'):
-                url = url.replace("www.","")
+            
+                
 
             if 'goo.gl' in sHosterUrl or 'bit.ly' in sHosterUrl:
                 try:

@@ -702,7 +702,7 @@ class cTrakt:
             response.close()
 
             aliases = json.loads(aliasContent)
-            title = next((title for title in aliases if title['language'].lower() == 'fr'), item)['title']
+            title = next((title for title in aliases if title['language'].lower() == 'en'), item)['title']
 
             return title if 'episode' not in what else show_title + ' - ' + title
 
@@ -1095,7 +1095,7 @@ class cTrakt:
 
         oRequestHandler = cRequestHandler('https://api.themoviedb.org/3/movie/' + str(sTmdb))
         oRequestHandler.addParameters('api_key', '92ab39516970ab9d86396866456ec9b6')
-        oRequestHandler.addParameters('language', 'fr')
+        oRequestHandler.addParameters('language', 'ar')
 
         sHtmlContent = oRequestHandler.request()
 
