@@ -79,28 +79,14 @@ class cHoster(iHoster):
         #type1/([^"]+)/
         oParser = cParser()
 
-        sPattern =  'file:"([^<]+)"}' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
+        sPattern =  'http([^<]+).m3u8"}' 
+        aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            m3url = aResult[1][0] 
-            oRequest = cRequestHandler(m3url)
-            sHtmlContent = oRequest.request()
+            api_call = "http"+aResult[1][0]+".m3u8"
 
-   
-        sPattern =  ',RESOLUTION=(.+?),.+?(http.+?.m3u8)' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            #initialisation des tableaux
-            url=[]
-            qua=[]
-            #Replissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[1]))
-                qua.append(str(i[0]))
 
-            api_call = dialog().VSselectqual(qua, url)
+        if (api_call):
+            return True, api_call+'|User-Agent=' + UA + '&Referer=' + self.__sUrl + '&Origin=https://vidsat.net'
 
-            if (api_call):
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
 
         return False, False
