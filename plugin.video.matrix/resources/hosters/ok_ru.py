@@ -55,6 +55,10 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if sUrl.startswith('http://www.ok'):
+            self.__sUrl = self.__sUrl.replace("www.","")
+        if sUrl.startswith('https://www.ok'):
+            self.__sUrl = self.__sUrl.replace("www.","")
         
 
     def checkUrl(self, sUrl):
@@ -80,13 +84,13 @@ class cHoster(iHoster):
         response = urllib2.urlopen(req)
         sHtmlContent = response.read()
         response.close()
-
         oParser = cParser()
 
         sHtmlContent = oParser.abParse(sHtmlContent,'data-options=', '" data-player-container', 14)
         sHtmlContent = cUtil().removeHtmlTags(sHtmlContent)
         sHtmlContent = sHtmlContent.decode('utf-8')
         sHtmlContent = cUtil().unescape(sHtmlContent).encode("utf8")
+
 
         page = json.loads(sHtmlContent)
         page = json.loads(page['flashvars']['metadata'])
