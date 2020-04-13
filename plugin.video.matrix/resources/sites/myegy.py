@@ -21,7 +21,6 @@ URL_MAIN = 'https://myegy.cc'
 MOVIE_EN_link = 'https://myegy.cc/movies/english'
 
 MOVIE_EN = ('https://myegy.cc/movies/english', 'showMovies')
-MOVIE_AR = ('https://myegy.cc/movies/arabic', 'showMovies')
 
 MOVIE_HI = ('https://myegy.cc/movies/indian', 'showMovies')
 
@@ -217,8 +216,8 @@ def showHosters():
 					sTitle = " (streamango)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -268,8 +267,8 @@ def showHosters():
 					sTitle = " (streamango)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -320,8 +319,8 @@ def showHosters():
 					sTitle = " (streamango)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
