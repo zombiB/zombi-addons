@@ -59,56 +59,36 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         api_call = ''
-
-        oRequest = cRequestHandler(self.__sUrl)
-        oRequest.addHeaderEntry('Referer',self.__sUrl)
-        sHtmlContent = oRequest.request()
-
-        #VSlog(sHtmlContent)
-        #print sHtmlContent
         oParser = cParser()
-        sPattern = ";var hide_my_HTML.+?=([^<]+);.+?var"
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        #VSlog(aResult)
-        if (aResult[0] == True):
+        oRequest = cRequestHandler(self.__sUrl)
+        data = oRequest.request()
+#############################################################
+#
+# big thx to Rgysoft for this code
+# From this url https://gitlab.com/Rgysoft/iptv-host-e2iplayer/-/blob/master/IPTVPlayer/tsiplayer/host_faselhd.py
+#################################################################
+	#
+        if 'adilbo_HTML_encoder' in data:
+			t_script = re.findall('<script.*?;.*?\'(.*?);', data, re.S)
+			t_int = re.findall('/g.....(.*?)\)', data, re.S)
+			if t_script and t_int:
+				script = t_script[0].replace("'",'')
+				script = script.replace("+",'')
+				script = script.replace("\n",'')
+				sc = script.split('.')
+				page = ''
+				for elm in sc:
+						c_elm = base64.b64decode(elm+'==')
+						t_ch = re.findall('\d+', c_elm, re.S)
+						if t_ch:
+							nb = int(t_ch[0])+int(t_int[0])
+							page = page + chr(nb)
+				t_url = re.findall('file":"(.*?)"', page, re.S)
+				if t_url:
+					api_call = t_url[0].replace('\\','').replace("['",'').replace("']",'')
 
-            media =  aResult[1][0]
 
-            media =  media.replace(";var _0x0dd0=['fromCharCode','replace','write','forEach'];(function(_0x4792fc,_0x352491){var _0xd23cef=function(_0x332eb8){while(--_0x332eb8){_0x4792fc['push'](_0x4792fc['shift']());}};_0xd23cef(++_0x352491);}(_0x0dd0,0x1cf))",'')
-            media =  media.replace("'",'')
-            media =  media.replace("+",'')
-            media =  media.replace("\n",'') 
-            media =  media.split('.') 
-            for elm in media: 
-				media2 = base64.b64decode(elm+'==')
-
-
-            print media2
-
-
-            #cPacker decode
-            from resources.lib.packer import cPacker
-            media = cPacker().unpack(media)
-            #print media 
-            #VSlog(media)
-            if (media):
-
-                sPattern = '"src":"(.+?)","label":"(.+?)",'
-                aResult = oParser.parse(media, sPattern)
-                #VSlog(aResult)
-                if (aResult[0] == True):
-                #initialisation des tableaux
-                    url=[]
-                    qua=[]
-                #Remplissage des tableaux
-                    for i in aResult[1]:
-                        url.append(str(i[0]))
-                        qua.append(str(i[1]))
-                #Si une seule url
-                    api_call = dialog().VSselectqual(qua, url)
-
-        if (api_call):
-            return True, api_call+'|User-Agent=' + UA + '&Referer=' + self.__sUrl
-        print api_call 
-
-        return False, False
+				if (api_call):
+					return True, api_call+'|User-Agent=' + UA 
+					
+				return False, False
