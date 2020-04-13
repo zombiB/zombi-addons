@@ -13,7 +13,7 @@ from resources.lib.util import cUtil
 import urllib2,urllib,re
 import unicodedata
 import base64
- 
+UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
 SITE_IDENTIFIER = 'cimanow'
 SITE_NAME = 'cima-now'
 SITE_DESC = 'arabic vod'
@@ -267,11 +267,11 @@ def showHosters():
 
 				if url.startswith('//'):
 					url = 'https:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
+				
+					
 				url = str(url) 
             
-				sHosterUrl = url + '|Referer=' + sUrl
+				sHosterUrl = url + '|User-Agent=' + UA  + '&Referer=' + siteUrl + '&Origin=cima-now.co'
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
 					sDisplayTitle = sMovieTitle+sTitle
