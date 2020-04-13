@@ -73,8 +73,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
 
+ # ([^<]+) .+?
     sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" />.+?class="fa fa-star"></i>([^<]+)</span>'
 
     oParser = cParser()
@@ -133,8 +133,8 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-
-    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /'
+ # ([^<]+) .+?
+    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /.+?<span><i class="fa fa-star"></i>([^<]+)</span><span>([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -153,7 +153,7 @@ def showSeries(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
-            sInfo = ""
+            sInfo = '[COLOR aqua]'+aEntry[3]+'/10 [/COLOR]'+ aEntry[4]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -244,8 +244,8 @@ def showSeasons():
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
 	
-     # (.+?) ([^<]+)
-    sPattern = '<div class="movie-wrap">.+?<a href="([^<]+)">.+?<h1  style="bottom: 0">([^<]+)</h1>'
+     # (.+?) ([^<]+) .+?
+    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="">.+?<h1 style="bottom: 0">([^<]+)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -264,8 +264,11 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;", "'") 
+            sTitle = aEntry[2].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = aEntry[0].replace("'", "") 
+            sThumbnail = str(aEntry[1])
+            sInfo = ""
 
 
  
@@ -304,16 +307,17 @@ def showSeasons():
             sTitle = aEntry[2].replace("&#8217;","'")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1])
+            sInfo = ""
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', str(aEntry[0]))
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        
@@ -430,8 +434,19 @@ def showLink():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+    
+    #Recuperation infos
+    sNote = ''
+
+    sPattern = '<h3 class="single-titles">قصة الفيلم : </h3><p>([^<]+)</p></div>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sNote = aResult[1][0]
 	
-     #(.+?) ([^<]+)
+     # (.+?) ([^<]+)
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a href="javascript:;"><i class="fa fa-play-circle"></i>([^<]+)</a></li'
 
     oParser = cParser()
@@ -465,13 +480,13 @@ def showLink():
             
 
  
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sNote, oOutputParameterHandler)
  
-        progress_.VSclose(progress_)  
+        progress_.VSclose(progress_) 
     # (.+?)
                
 
-    sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a'
+    sPattern = '<li class="active" onclick="player_iframe.location.href = ([^<]+)"><a'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -509,50 +524,7 @@ def showLink():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)  
-    # (.+?)
-               
-
-    sPattern = '<a class="download_direct_link" href="(.+?)" target='
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry).replace("'", "")
-				sTitle = "" 
-
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'mystream' in url:
-					sTitle = " (mystream)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'streamango' in url:
-					sTitle = " (streamango)"
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_)    
-
+			progress_.VSclose(progress_) 
 
     oGui.setEndOfDirectory()       
  
@@ -610,8 +582,6 @@ def showHosters():
 					sTitle = " (streamango)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -652,8 +622,6 @@ def showHosters():
 					sTitle = " (streamango)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
             
 				sHosterUrl = url
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -692,8 +660,6 @@ def showHosters():
 					sTitle = " (streamcherry)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
             
 				sHosterUrl = url
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -732,8 +698,6 @@ def showHosters():
 					sTitle = " (streamcherry)"
 				if url.startswith('//'):
 					url = 'http:' + url
-				if url.startswith('https://www.ok'):
-					url = url.replace("www.","")
             
 				sHosterUrl = url
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
