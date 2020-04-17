@@ -20,8 +20,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://animeblkom.net'
 ANIM_NEWS = ('https://animeblkom.net/', 'showSeries')
 
-ANIM_MOVIES = ('https://animeblkom.net/movie-list', 'showMovies')
-URL_SEARCH_MOVIES = ('https://animeblkom.net/search?query=', 'showMovies')
+ANIM_MOVIES = ('https://animeblkom.net/movie-list', 'showSerieSearch')
 URL_SEARCH_SERIES = ('https://animeblkom.net/search?query=', 'showSerieSearch')
 FUNCTION_SEARCH = 'showSerieSearch'
  
@@ -58,7 +57,7 @@ def showSerieSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     #print sHtmlContent
      # (.+?) ([^<]+) .+?
-    sPattern = '<img class="lazy" data-original="([^<]+)" alt.+?<div class="name"> <a href="([^<]+)">([^<]+)</a>'
+    sPattern = '<div class="poster"> <a href="([^<]+)"> <img class="lazy" data-original="([^<]+)" alt=".+?"> </a> </div> <div class="info"> <div class="name"> <a href=".+?">([^<]+)</a> </div> <div class="overlay">.+?</div> <div class="story"> <div class="story-text"> <p>([^<]+)</p>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -75,7 +74,9 @@ def showSerieSearch(sSearch = ''):
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = URL_MAIN+str(aEntry[1])
-            sInfo = ''
+            sInfo = aEntry[3].decode("utf8")
+            sInfo = cUtil().unescape(sInfo).encode("utf8")
+
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -274,7 +275,7 @@ def showHosters():
                
 
     sPattern = '<a>([^<]+)</a>'
-    sPattern = sPattern + '|' + '<a href="([^<]+)" class="btn btn-default" title=".+?">(.+?)<'
+    sPattern = sPattern + '|' + '<div class="item"> <span class="([^<]+)"> <a data-src="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -301,8 +302,8 @@ def showHosters():
                    
         
 				if aEntry[1]:
-					url = str(aEntry[1])
-					sTitle = str(aEntry[2]).decode("utf8").replace('"',"")
+					url = str(aEntry[2])
+					sTitle = str(aEntry[1]).decode("utf8").replace('"',"")
 					sTitle = cUtil().unescape(sTitle).encode("utf8")
 					sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
 					if url.startswith('//'):
