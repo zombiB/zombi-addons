@@ -366,7 +366,7 @@ def showSeason():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, '', oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        
@@ -383,8 +383,20 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-     #(.+?)([^<]+)
-    sPattern = '<div class="movie-wrap">.+?<a href="([^<]+)">.+?<h1  style="bottom: 0">([^<]+)</h1>'
+
+    oParser = cParser()
+    
+    #Recuperation infos
+    sNote = ''
+
+    sPattern = '<p class="_series_desc"><b>قصة الأنمي</b>([^<]+)</p>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sNote = aResult[1][0]
+	
+     # (.+?) ([^<]+) .+?
+    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img width=".+?" height=".+?" src="([^<]+)" class=.+?<h1 style="bottom: 0">([^<]+)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -398,10 +410,10 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[2]
             siteUrl = str(aEntry[0])
-            sThumbnail = str(sThumbnail)
-            sInfo = ""
+            sThumbnail = aEntry[1]
+            sInfo = sNote
 			
 
 
@@ -409,7 +421,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -446,7 +458,7 @@ def showLink():
     if (aResult[0]):
         sNote = aResult[1][0]
 	
-     # (.+?) ([^<]+)
+     # (.+?) ([^<]+) .+?
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a href="javascript:;"><i class="fa fa-play-circle"></i>([^<]+)</a></li'
 
     oParser = cParser()
