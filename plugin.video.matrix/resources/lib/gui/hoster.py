@@ -446,7 +446,7 @@ class cHosterGui:
 
         if ('flashx' in sHostName):
             return self.getHoster('resolver')
-        if (('thevideo.me' in sHostName) or ('video.tt' in sHostName)):
+        if (('thevideo.me' in sHostName) or ('video.tt' in sHostName) or ('vev.io' in sHostName)):
             return self.getHoster('resolver')
 
         if ('vidbom' in sHostName):
@@ -480,6 +480,8 @@ class cHosterGui:
             return self.getHoster('uploaded')
 
         if ('kaydo.ws' in sHostName):
+            return self.getHoster('lien_direct')
+        if ('infinityload' in sHostName):
             return self.getHoster('lien_direct')
         if ('us.archive.' in sHostName):
             return self.getHoster('lien_direct')
