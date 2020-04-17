@@ -98,7 +98,7 @@ msgstr "Delai d'attente du lecteur (ms)"
 
 msgctxt "#30028"
 msgid "PVR addon setting"
-msgstr "Paramètre a modifier dans l'addon PVR"
+msgstr "Parametre a modifier dans l'addon PVR"
 
 msgctxt "#30029"
 msgid "Play default"
@@ -140,21 +140,13 @@ msgctxt "#30038"
 msgid "Bookmarking not possible for this link"
 msgstr "Mise en Marque-page pas possible pour ce lien"
 
-msgctxt "#30039"
-msgid "Error: Unable to write to %s"
-msgstr "Erreur: Impossible d'ecrire sur %s"
-
-msgctxt "#30040"
-msgid "Error: Unable to connect to %s"
-msgstr "Erreur: Impossible de ce connecter sur %s"
-
 msgctxt "#30041"
 msgid "History deleted"
 msgstr "Historique supprime"
 
 msgctxt "#30042"
 msgid "Successfully registered"
-msgstr "Enregistre avec succès"
+msgstr "Enregistre avec succes"
 
 msgctxt "#30043"
 msgid "Bookmark already present"
@@ -174,7 +166,7 @@ msgstr "Voici votre lien: "
 
 msgctxt "#30047"
 msgid "Last auto update on:"
-msgstr "Dernière mise a jour auto le:"
+msgstr "Derniere mise a jour auto le:"
 
 msgctxt "#30048"
 msgid "Next update check on: "
@@ -258,11 +250,11 @@ msgstr "Configurer ResolverUrl"
 
 msgctxt "#30068"
 msgid "WARNING: Matrix does not manage this part, [CR] remember to deactivate it if the videos no longer work."
-msgstr "ATTENTION: Matrix ne gère pas cette partie, [CR] pensez a le desactiver si les videos ne marchent plus."
+msgstr "ATTENTION: Matrix ne gere pas cette partie, [CR] pensez a le desactiver si les videos ne marchent plus."
 
 msgctxt "#30069"
 msgid "Unless you have a premium link generator, [CR] checking this box will bring you more problems than advantages."
-msgstr "A moins d'avoir un debrideur, [CR] cocher cette case vous apportera plus de problèmes que d'avantages."
+msgstr "A moins d'avoir un debrideur, [CR] cocher cette case vous apportera plus de problemes que d'avantages."
 
 msgctxt "#30070"
 msgid "Choose your sources click OK [CR] - To validate the modifications click again on OK"
@@ -402,7 +394,7 @@ msgstr "Recherche mise a jour (Sources Uniquement)"
 
 msgctxt "#30126"
 msgid "Beta Tester (not recommended)"
-msgstr "Bêta testeur (Non recommande)"
+msgstr "Beta testeur (Non recommande)"
 
 msgctxt "#30127"
 msgid "Tools"
@@ -438,7 +430,7 @@ msgstr "Dossier de Telechargement"
 
 msgctxt "#30146"
 msgid "Show / Hide search settings"
-msgstr "Afficher/Masquer les paramètres de recherche"
+msgstr "Afficher/Masquer les parametres de recherche"
 
 msgctxt "#30160"
 msgid "Quality HD"
@@ -794,11 +786,11 @@ msgstr "[COLOR red]Supprimer l'historique[/COLOR]"
 
 msgctxt "#30414"
 msgid "[COLOR gold]Full series search[/COLOR]"
-msgstr "[COLOR gold]Recherche serie complète[/COLOR]"
+msgstr "[COLOR gold]Recherche serie complete[/COLOR]"
 
 msgctxt "#30415"
 msgid "[COLOR gold]Full season search[/COLOR]"
-msgstr "[COLOR gold]Recherche saison complète[/COLOR]"
+msgstr "[COLOR gold]Recherche saison complete[/COLOR]"
 
 msgctxt "#30416"
 msgid "[COLOR gold]Search history[/COLOR]"
@@ -906,7 +898,7 @@ msgstr "Mes Listes"
 
 msgctxt "#30442"
 msgid "You must be logged in"
-msgstr "Vous devez être connecte"
+msgstr "Vous devez etre connecte"
 
 msgctxt "#30443"
 msgid "Add: rated"
@@ -962,7 +954,7 @@ msgstr "Mes comptes"
 
 msgctxt "#30456"
 msgid "Are you sure?"
-msgstr "Êtes-vous sûr ?"
+msgstr "etes-vous sûr ?"
 
 msgctxt "#30457"
 msgid "Trailer"
