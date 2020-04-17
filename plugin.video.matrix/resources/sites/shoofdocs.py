@@ -28,7 +28,6 @@ DOC_NEWS = ('https://shoofdocs.com/', 'showMovies')
 
 
 URL_SEARCH = ('', 'showMoviesearch')
-URL_SEARCH_MOVIES = ('', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
  
 def load():

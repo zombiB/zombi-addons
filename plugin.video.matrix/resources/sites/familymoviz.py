@@ -19,7 +19,6 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.familymoviz.com'
 
-
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
 
 MOVIE_AR = ('https://www.familymoviz.net/category/movies/arabicmovies/', 'showMovies')
@@ -28,15 +27,21 @@ KID_MOVIES = ('https://www.familymoviz.net/category/movies/familymovies/', 'show
 
 SERIE_EN = ('https://www.familymoviz.net/foreignseries/', 'showSeries')
 
-URL_SEARCH = ('', 'showSeries')
-FUNCTION_SEARCH = 'showSeries'
+URL_SEARCH = ('https://www.familymoviz.net/?s=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://www.familymoviz.net/?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES= ('https://www.familymoviz.net/?s=', 'showSeriesSearch')
+FUNCTION_SEARCH = 'showSearch'
  
 def load():
     oGui = cGui()
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
     
 
             
@@ -47,10 +52,126 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://www.4show.cf/search?q='+sSearchText
-        showMovies(sUrl)
+        sUrl = 'https://www.familymoviz.net/?s='+sSearchText
+        showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'https://www.familymoviz.net/?s='+sSearchText
+        showSearchSeries(sUrl)
+        oGui.setEndOfDirectory()
+        return
+  
+def showMoviesSearch(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
+    # (.+?) ([^<]+) .+?
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[2].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            sThumbnail = aEntry[1]
+            siteUrl = aEntry[0]
+            sInfo = aEntry[3].decode("utf8")
+            sInfo = cUtil().unescape(sInfo).encode("utf8")
+
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showMoviesSearch', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+  
+def showSearchSeries(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
+    # (.+?) ([^<]+) .+?
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[2].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            sThumbnail = aEntry[1]
+            siteUrl = aEntry[0]
+            sInfo = aEntry[3].decode("utf8")
+            sInfo = cUtil().unescape(sInfo).encode("utf8")
+
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
    
 
 
@@ -212,7 +333,6 @@ def showEpisodes():
             siteUrl = aEntry[0]
             sInfo = aEntry[3].decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
-            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
 
 
  
@@ -225,7 +345,7 @@ def showEpisodes():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
 
@@ -317,7 +437,7 @@ def showHosters():
 
 
 
-    sPattern = 'scrolling="no" src="(.+?)" width'
+    sPattern = 'src="([^<]+)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

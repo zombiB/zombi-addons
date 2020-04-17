@@ -25,7 +25,7 @@ KID_MOVIES = ('http://www.cartoon3rbi.net/films.html', 'showMovies')
 KID_CARTOON = ('https://www.cartoon3rbi.net/cartoon2549.html', 'showSeries')
 
 
-URL_SEARCH = ('http://www.cartoon3rbi.net/search.html', 'showSeries')
+URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

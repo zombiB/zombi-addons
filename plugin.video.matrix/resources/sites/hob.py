@@ -23,8 +23,6 @@ URL_MAIN = 'https://7ob.tv/'
 SERIE_TR = ('https://7ob.tv/', 'showSeries')
 
 URL_SEARCH = ('', 'showMovies')
-URL_SEARCH_MOVIES = ('', 'showMovies')
-URL_SEARCH_SERIES = ('', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

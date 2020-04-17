@@ -17,7 +17,7 @@ import unicodedata
 SITE_IDENTIFIER = 'fansubs'
 SITE_NAME = 'fansubs'
 SITE_DESC = 'arabic vod'
- 
+
 URL_MAIN = 'http://fansubs.tv'
 
 

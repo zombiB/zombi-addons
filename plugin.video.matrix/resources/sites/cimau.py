@@ -41,7 +41,8 @@ DOC_SERIES = ('https://bit.ly/33D7tK0', 'showSeries')
 
 REPLAYTV_NEWS = ('https://cima4u.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%8A%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9-tv-shows/', 'showSeries')
 URL_SEARCH = ('https://cima4u.tv/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://cima4u.tv/?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://cima4u.tv/?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://cima4u.tv/?s=', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -49,7 +50,11 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
 
             
     oGui.setEndOfDirectory()
@@ -60,9 +65,137 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'https://cima4u.tv/?s='+sSearchText
-        showMovies(sUrl)
+        showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'https://cima4u.tv/?s='+sSearchText
+        showSearchSeries(sUrl)
+        oGui.setEndOfDirectory()
+        return
+   
+ 
+def showMoviesSearch(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ # ([^<]+) .+?
+
+    sPattern = '<div class="block"><a href="(.+?)"><div class="image"><div class="img1" style="background-image:url(.+?);"></div>.+?<div class="boxtitle">(.+?)</div><div class="boxdetil">(.+?)</div>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            if "فيلم" not in aEntry[2]:
+				continue
+ 
+            sTitle = str(aEntry[2]).decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1].replace("(","").replace(")","")
+            sDesc = aEntry[3]
+            annee = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				annee = str(m.group(0))
+				sTitle = sTitle.replace(annee,'')
+            if annee:
+				sTitle = sTitle + '(' + annee + ')'
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+			
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMoviesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+
+
+def showSearchSeries(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
+
+    sPattern = '<div class="block"><a href="(.+?)"><div class="image"><div class="img1" style="background-image:url(.+?);"></div>.+?<div class="boxtitle">(.+?)</div><div class="boxdetil">(.+?)</div>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            if "فيلم" in aEntry[3]:
+				continue
+ 
+            sTitle = aEntry[2].replace("&#8217;","'")
+            siteUrl = str(aEntry[0])
+            sThumb = str(aEntry[1]).replace("(","").replace(")","")
+            sDesc = str(aEntry[3])
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+			
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+	
   
 
  
@@ -308,6 +441,17 @@ def showLink2():
     sHtmlContent = oRequestHandler.request()
     
     oParser = cParser()
+    
+    #Recuperation infos
+    sNote = ''
+
+    sPattern = '<div class="storyContent"><h2>القصة : </h2>([^<]+)</div>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sNote = aResult[1][0]
+    
+    oParser = cParser()
     # .+? ([^<]+)
     sPattern = '<a class="button button--.+?" href="([^<]+)">مشاهدة الأن</a>'
     
@@ -329,7 +473,7 @@ def showLink2():
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
             siteUrl = aEntry
             sThumb = sThumb
-            sDesc = ""
+            sDesc = sNote
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -337,9 +481,9 @@ def showLink2():
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             if '/tag/'  in siteUrl:
-                oGui.addMisc(SITE_IDENTIFIER, 'showPacks2', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
+                oGui.addTV(SITE_IDENTIFIER, 'showPacks2', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
             else: 
-	            oGui.addMisc(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
+	            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
  
         progress_.VSclose(progress_)
        
@@ -490,7 +634,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMisc(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

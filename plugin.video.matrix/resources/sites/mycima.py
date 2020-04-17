@@ -36,8 +36,9 @@ SERIE_ASIA = ('https://www.mycima.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%
 SERIE_TR = ('https://www.mycima.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9/', 'showSeries')
 DOC_SERIES = ('https://www.mycima.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9-documentary-series/', 'showSeries')
 DOC_NEWS = ('https://ww.mycima.co/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9-documentary-films/', 'showMovies')
-URL_SEARCH = ('https://to.mycima.tv/search/', 'showSearch')
-URL_SEARCH_SERIES = ('https://to.mycima.tv/search/', 'showSearch')
+URL_SEARCH = ('https://to.mycima.tv/search/', 'showSeriesSearch')
+URL_SEARCH_SERIES = ('https://to.mycima.tv/search/', 'showSearchSeries')
+URL_SEARCH_MOVIES = ('https://to.mycima.tv/search/', 'showMovies')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -45,25 +46,36 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
     
 
             
     oGui.setEndOfDirectory()
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'https://to.mycima.tv/search/'+sSearchText
+        showSearchSeries(sUrl)
+        oGui.setEndOfDirectory()
+        return
  
 def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://to.mycima.tv/search/'+sSearchText+"/feed/rss2/"
-        showSeriesSearch(sUrl)
+        sUrl = 'https://to.mycima.tv/search/'+sSearchText
+        showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-   
-
-
- 
+		
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -75,7 +87,6 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-
     sPattern = '<a title="([^<]+)" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt=".+?" /></a><div class="IMDBRate"><i class="imdb-icon">IMDb</i>([^<]+)</div><div class="ViewsCounter">'
 
     oParser = cParser()
@@ -96,7 +107,7 @@ def showMovies(sSearch = ''):
  
  
             siteUrl = aEntry[1]
-            sInfo = '[COLOR yellow]'+aEntry[3]+'[/COLOR]'
+            sInfo = aEntry[3]+"/10"
             sThumbnail = str(aEntry[2])
 
 
@@ -151,7 +162,7 @@ def showMovie(sSearch = ''):
  
  
             siteUrl = aEntry[1]
-            sInfo = '[COLOR yellow]'+''+'[/COLOR]'
+            sInfo = aEntry[2]+"/10"
             sThumbnail = str(aEntry[0])
 
 
@@ -174,7 +185,7 @@ def showMovie(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
   
-def showSeriesSearch(sSearch = ''):
+def showSearchSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -185,7 +196,7 @@ def showSeriesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 # ([^<]+) .+?
-    sPattern = '<item>.+?<title>([^<]+)</title>.+?<link>([^<]+)</link>'
+    sPattern = '<a title="([^<]+)" href="([^<]+)"><img class="slidesThumb" data-img="([^<]+)" alt=.+?<div class="IMDbRating"><i class="imdb-icon">IMDb</i><em>([^<]+)</em>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -199,12 +210,12 @@ def showSeriesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            siteUrl = aEntry[0]
-            sTitle = aEntry[1]
+            siteUrl = aEntry[1]
+            sTitle = aEntry[0]
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sThumbnail = str(aEntry[1])
-            sInfo = ''
+            sThumbnail = str(aEntry[2])
+            sInfo = aEntry[3]+"/10"
 
 			
 
@@ -238,7 +249,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 # ([^<]+) .+?
-    sPattern = '<a title=".+?" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt="([^<]+)" />'
+    sPattern = '<a title=".+?" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt=".+?" /></a><div class="IMDBRate"><i class="imdb-icon">IMDb</i>([^<]+)</div>.+?<a title=".+?" href=".+?"><span>([^<]+)<strong>([^<]+)</strong></span></a></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -253,11 +264,11 @@ def showSeries(sSearch = ''):
                 break
  
             siteUrl = aEntry[0]
-            sTitle = aEntry[2]
+            sTitle = aEntry[3]+aEntry[4]
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sThumbnail = str(aEntry[1])
-            sInfo = ''
+            sInfo = aEntry[2]+"/10"
 
 			
 
@@ -304,9 +315,8 @@ def showSeasons():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    # .+? ([^<]+)
-    sPattern = '<div class="CategoriesSections BoxesInside"><div class="BoxItem"><div class="ImageContainer" style="background-color:#;"><a title=".+?" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt="([^<]+)" /></a>'
-
+    # .+? ([^<]+) 
+    sPattern = '<a href="([^<]+)"><i class="ion ion-md-arrow-back"></i>([^<]+)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -322,10 +332,10 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
+            sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumbnail = aEntry[1]
+            sThumbnail = sThumbnail
             sInfo = ""
  
             #print sUrl
@@ -336,12 +346,44 @@ def showSeasons():
             
 
  
-            oGui.addMisc(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+ 
+        progress_.VSclose(progress_)
+    sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            siteUrl = str(aEntry[0])
+            sThumbnail = sThumbnail
+            sInfo = ""
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            
+
+ 
+            oGui.addMisc(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
     # .+? ([^<]+)
-    sPattern = '<div class="BoxItem"><div class="ImageContainer" style="background-color:#;"><a title="([^<]+)" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt='
-
+    sPattern = '<div class="BoxItem"><div class="ImageContainer" style="background-color:#;"><a title=".+?" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt="([^<]+)" /><div class="ViewsCounter"><i class="mycima-icon">.+?<div class="Quality" style="background-color:;"><em>.+?</em><span>.+?</span></div><span>([^<]+)</span></a></div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -360,8 +402,8 @@ def showSeasons():
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumbnail = sThumbnail
-            sInfo = ""
+            sThumbnail = aEntry[1]
+            sInfo = aEntry[3]
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()

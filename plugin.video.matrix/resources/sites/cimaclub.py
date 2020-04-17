@@ -39,7 +39,7 @@ SPORT_NEWS = ('http://cimaclub.com/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1
 REPLAYTV_NEWS = ('http://cimaclub.com/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D9%88%D8%B9%D8%B1%D9%88%D8%B6-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D9%87/', 'showMovies')
 URL_SEARCH = ('http://cimaclub.com/?s=', 'showMovies')
 URL_SEARCH_MOVIES = ('http://cimaclub.com/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('http://cimaclub.com/?s=', 'showSeries')
+URL_SEARCH_SERIES = ('http://cimaclub.com/?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -47,7 +47,11 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
 
             
     oGui.setEndOfDirectory()
@@ -61,6 +65,17 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'http://cimaclub.com/?s='+sSearchText
+        showSerie(sUrl)
+        oGui.setEndOfDirectory()
+        return
+		
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -107,6 +122,9 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+ 
+            if "فيلم" not in aEntry[3]:
+				continue
  
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -166,6 +184,9 @@ def showSerie(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+ 
+            if "فيلم" in aEntry[2]:
+				continue
  
             sTitle = aEntry[2]
             siteUrl = str(aEntry[0])

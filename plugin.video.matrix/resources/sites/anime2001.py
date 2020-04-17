@@ -27,8 +27,8 @@ ANIM_NEWS = ('https://anime2001.com/', 'showSeries')
 
 
 
-URL_SEARCH = ('http://www.animekom.com/index.php?story={', 'showSearch')
-URL_SEARCH_SERIES = ('http://www.animekom.com/index.php?story={', 'showSearch')
+URL_SEARCH = ('https://anime2001.com/?s=', 'showSearch')
+URL_SEARCH_SERIES = ('https://anime2001.com/?s=', 'showSerieSearch')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -47,8 +47,8 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://www.animekom.com/index.php?story={'+sSearchText+'}&do=search&subaction=search'
-        showSeriesSearch(sUrl)
+        sUrl = 'https://anime2001.com/?s='+sSearchText
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
    

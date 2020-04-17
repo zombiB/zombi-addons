@@ -25,7 +25,7 @@ DOC_NEWS = ('https://docarabic.wordpress.com/', 'showMovies')
 
 
 
-URL_SEARCH = ('?s=', 'showMovies')
+URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

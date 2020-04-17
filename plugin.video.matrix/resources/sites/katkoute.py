@@ -29,7 +29,7 @@ KID_CARTOON = ('https://www.katkoute.com/watch/index.php', 'showSeries')
 
 
 
-URL_SEARCH = ('https://www.katkoute.com/watch/search.php?keywords=', 'showMovies')
+URL_SEARCH = ('https://www.katkoute.com/?app=search.run&q=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -51,7 +51,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.katkoute.com/watch/search.php?keywords='+sSearchText+'&video-id='
+        sUrl = 'https://www.katkoute.com/?app=search.run&q='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

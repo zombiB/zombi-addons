@@ -56,7 +56,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://arabseed.net/search?s='+sSearchText
+        sUrl = 'http://fajer.show/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

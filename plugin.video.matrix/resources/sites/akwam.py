@@ -95,6 +95,9 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
+            if "مسلسل" in aEntry[3]:
+				continue
+ 
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
@@ -147,6 +150,9 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+ 
+            if "مسلسل" not in aEntry[3]:
+				continue
  
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")

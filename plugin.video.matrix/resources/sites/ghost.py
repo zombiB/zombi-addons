@@ -31,8 +31,6 @@ SERIE_EN = ('https://www.xn--ngbkt.com/en/series/', 'showSerie')
 
 
 URL_SEARCH = ('https://www.xn--ngbkt.com/en/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.xn--ngbkt.com/en/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.xn--ngbkt.com/en/?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
