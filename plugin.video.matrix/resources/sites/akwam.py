@@ -80,8 +80,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<div class="entry-image">.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">'
+    sPattern = '<span class="label quality">([^<]+)</span>.+?<div class="entry-image">.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>.+?<span class="badge badge-pill badge-light ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -103,7 +102,10 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[1])
             sThumb = str(aEntry[2])
-            sDesc = '[COLOR yellow]'+aEntry[0]+'[/COLOR]'
+            sDesc = aEntry[5]
+            sQua = aEntry[0]
+            sYear = aEntry[4]
+            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -111,7 +113,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
