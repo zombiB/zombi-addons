@@ -32,8 +32,6 @@ SERIE_ASIA = ('https://cima4u.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D
 SERIE_EN = ('https://cima4u.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-series-english/', 'showSeries')
 SERIE_AR = ('https://cima4u.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9-arabic-series/', 'showSeries')
 
-RAMADAN_SERIES = ('http://cima4u.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2019/', 'showSeries')
-
 ANIM_NEWS = ('https://cima4u.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86-anime-series/', 'showSeries')
 
 DOC_SERIES = ('https://bit.ly/33D7tK0', 'showSeries')
