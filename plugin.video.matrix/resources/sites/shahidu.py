@@ -21,7 +21,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'shahid4u.net'
 
-RAMADAN_SERIES = ('https://bit.ly/2DPYMCl', 'showSerie')
+RAMADAN_SERIES = ('https://ww.shahid4u.net/category/%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2020', 'showSerie')
 MOVIE_EN = ('https://bit.ly/2DFmAZu', 'showMovies')
 MOVIE_HI = ('https://shahid4u.net/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
 MOVIE_AR = ('https://shahid4u.net/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
