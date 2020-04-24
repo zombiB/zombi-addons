@@ -22,7 +22,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://shoofvod.com/'
 
-RAMADAN_SERIES = ('http://shoofvod.com/Cat-98-1', 'showSeries')
+RAMADAN_SERIES = ('http://shoofvod.com/Cat-138-1', 'showSeries')
 MOVIE_EN = ('http://shoofvod.com/al_751319_1', 'showMovies')
 MOVIE_AR = ('http://shoofvod.com/Cat-100-1', 'showMovies')
 
