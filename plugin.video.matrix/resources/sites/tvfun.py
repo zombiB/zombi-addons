@@ -23,6 +23,7 @@ URL_MAIN = 'https://www.tvfun.ma/'
 
 
 
+RAMADAN_SERIES = ('https://www.tvfun.ma/ts,mosalsalat-ramadan-2020/', 'showSeries')
 SERIE_TR = ('https://www.tvfun.ma/mosalsalat-torkia/', 'showSeries')
 
 SERIE_DUBBED = ('https://www.tvfun.live/ts,mosalsalat--modablaja/', 'showSeries')
@@ -87,7 +88,7 @@ def showSeries(sSearch = ''):
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumbnail = 'https:'+str(aEntry[2])
+            sThumbnail = str(aEntry[2])
             sInfo = aEntry[3]
 
 
