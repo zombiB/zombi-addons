@@ -273,8 +273,8 @@ class cHosterGui:
 
         if ('vodlocker' in sHostName):
             return self.getHoster('vodlocker')
-        if ('easywatch' in sHostName):
-            return self.getHoster('easywatch')
+        if ('cima4up' in sHostName):
+            return self.getHoster('cimaup')
         if ('ok.ru' in sHostName):
             return self.getHoster('ok_ru')
         if ('vimeo.com' in sHostName):
