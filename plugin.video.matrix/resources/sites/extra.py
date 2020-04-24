@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.extra-3sk.com/'
 
-
+RAMADAN_SERIES = ('https://extra-3sk.com/category/series-ramadan-2020', 'showSerie')
 
 MOVIE_EN = ('https://extra-3sk.com/assemblies/foreign-films/', 'showMovies')
 MOVIE_TURK = ('https://extra-3sk.com/assemblies/turkish-films/', 'showMovies')
@@ -111,7 +111,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
  # ([^<]+) .+?
-    sPattern = '<li class="SeriesItem"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" />'
+    sPattern = '<a class="block.+?" href="([^<]+)">.+?<img data-src="([^<]+)" alt="([^<]+)" title='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -136,7 +136,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -159,8 +159,19 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    
+    oParser = cParser()
+    
+    #Recuperation infos
+    sNote = ''
+
+    sPattern = '<span>قصة العمل</span>.+?<p>([^<]+)</p>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sNote = aResult[1][0]
   # ([^<]+) .+?
-    sPattern = '<a class="block2" href="([^<]+)">.+?<img src="([^<]+)" alt="([^<]+)" title='
+    sPattern = '<a class="block.+?" href="([^<]+)">.+?<img data-src="([^<]+)" alt="([^<]+)" title='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -177,6 +188,7 @@ def showEpisodes():
             sTitle = aEntry[2]
             siteUrl = str(aEntry[0])
             sThumbnail = aEntry[1]
+            sDesc = sNote
 			
 
 
@@ -184,7 +196,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -209,28 +221,9 @@ def showServer():
 
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
-
    
-	oParser = cParser()
-	q = ""
-	num = ""	
-     # (.+?) ([^<]+) .+?    
-	sPattern = 'data-q="([^<]+)"  data-num='
-	oParser = cParser()
-	aResult = oParser.parse(sHtmlContent, sPattern)
-	if (aResult[0] == True):
-		total = len(aResult[1])
-		progress_ = progress().VScreate(SITE_NAME)
-		for aEntry in aResult[1]:
-			q = aEntry
-			num = "1"
-			#print  "datad" 
-			
-			progress_.VSupdate(progress_, total)
-			if progress_.iscanceled():
-				break
-            
-			headers = {'Host': 'extra-3sk.com',
+	oParser = cParser()            
+	headers = {'Host': 'extra-3sk.com',
 						'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 						'Accept': '*/*',
 						'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -238,40 +231,87 @@ def showServer():
 						'X-Requested-With': 'XMLHttpRequest',
 						'Referer': sUrl,
 						'Connection': 'keep-alive'}
-			data = {'q':q,'i':nume,'num':'0'}
-			#print  data 
-			s = requests.Session()
-			r = s.post('https://extra-3sk.com/wp-content/themes/Shahid%2B/Ajax/server-single.php', headers=headers,data = data)
-			sHtmlContent += r.content       
-			#print sHtmlContent       
+	data = {'wtchBtn':""}
+	#print  data 
+	s = requests.Session()
+	r = s.post(sUrl, headers=headers,data = data)
+	sHtmlContent += r.content       
+	#print sHtmlContent       
+    # (.+?) ([^<]+) .+? 
+	sPattern = 'data-q="([^<]+)"  data-num=(.+?).+?<i class="fa fa-play"></i>([^<]+)</li>'
+	aResult = oParser.parse(sHtmlContent, sPattern)
+	if (aResult[0] == True):
+		total = len(aResult[1])
+		progress_ = progress().VScreate(SITE_NAME)
+		for aEntry in aResult[1]:
+			progress_.VSupdate(progress_, total)
+			if progress_.iscanceled():
+				break
+				
+		data = {'q': aEntry[0],'i': aEntry[1],'out':'0'}		
+		serv = aEntry[2]
+		s = requests.Session()
+		r = s.post('https://extra-3sk.com/wp-content/themes/Shahid%2B/Ajax/server-single.php', headers=headers,data = data)
+		sHtmlContent += r.content       
+					# print sHtmlContent       
+     # (.+?) ([^<]+) .+? 
+		sPattern = '<iframe src="([^<]+)" frameborde'
 
-			sPattern2 = '<iframe src="(.+?)" width='
+		oParser = cParser()
+		aResult = oParser.parse(sHtmlContent, sPattern)
+		if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break 
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle+serv
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = sTitle
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
 
-			oParser = cParser()
-			aResult = oParser.parse(sHtmlContent, sPattern2)
-			if (aResult[0] == True):
-				total = len(aResult[1])
-				progress_ = progress().VScreate(SITE_NAME)
-				for aEntry in aResult[1]:
-					progress_.VSupdate(progress_, total)
-					if progress_.iscanceled():
-						break
+				progress_.VSclose(progress_)  
+
+
+
+		sPattern = 'href="([^<]+)" target'
+
+		oParser = cParser()
+		aResult = oParser.parse(sHtmlContent, sPattern)
+		if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
             
-					url = str(aEntry)
-					sTitle = sMovieTitle
-					if url.startswith('//'):
-						url = 'http:' + url
+				url = str(aEntry)
+				sTitle = sMovieTitle
+				if url.startswith('//'):
+					url = 'http:' + url
             
-					sHosterUrl = url 
-					oHoster = cHosterGui().checkHoster(sHosterUrl)
-					if (oHoster != False):
-						sDisplayTitle = sTitle
-						oHoster.setDisplayName(sDisplayTitle)
-						oHoster.setFileName(sMovieTitle)
-						cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = sTitle
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
 
 		progress_.VSclose(progress_) 
 	oGui.setEndOfDirectory()
+	
 def showLinks2():
     oGui = cGui()
    
@@ -283,7 +323,8 @@ def showLinks2():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 	
- #([^<]+).+?
+ # ([^<]+) .+?
+ 
     sPattern = '>لمشاهدة سيرفرات الفيلم</span>.+?href="([^<]+)" target="_blank" rel="nofollow">'
 
     oParser = cParser()
