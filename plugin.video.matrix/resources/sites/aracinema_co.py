@@ -25,6 +25,7 @@ MOVIE_ASIAN = ('https://aradramatv.co/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8
 
 SERIE_ASIA = ('https://aradramatv.co/category/series/', 'showSeries')
 
+RAMADAN_SERIES = ('https://aramosalsal.tv/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020/', 'showSerie')
 
 SERIE_TR = ('http://aramosalsal.tv/category/turkish-serie/ts-subtitled/', 'showSerie')
 URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
@@ -163,7 +164,62 @@ def showSeries(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+ 
+def showSerie(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+
+ 
+
+    # ([^<]+) .+?
+    sPattern ='<a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = sTitle.replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
+            siteUrl = aEntry[0]
+            sThumb = aEntry[2]
+            sDesc = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+			
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSerie', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -332,7 +388,7 @@ def showHosters():
         sHtmlContent = oRequest.request()
                
         
-    sPattern = 'src="([^<]+)"'
+    sPattern = 'src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -345,6 +401,7 @@ def showHosters():
                 break
             
             url = str(aEntry)
+            url = url.replace("?rel=0","")
             if url.startswith('//'):
                 url = 'http:' + url
             
