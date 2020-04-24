@@ -61,7 +61,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<img class="img-responsive" src="([^<]+)" style="width: 100%; height: 180px;" alt="([^<]+)">.+?<a class="info" href="([^<]+)">'
+    sPattern = '<img class="img-responsive" src="(.+?)" style="width: 100%; height: 180px;" alt="([^<]+)">.+?<a class="info" href="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -77,8 +77,8 @@ def showSerie(sSearch = ''):
  
             sTitle = aEntry[1]
             siteUrl = str(aEntry[2])
-            sThumbnail = str(aEntry[0])
-            sInfo = ""
+            sThumbnail = aEntry[0]
+            sInfo = sThumbnail
 
 
             oOutputParameterHandler = cOutputParameterHandler()
