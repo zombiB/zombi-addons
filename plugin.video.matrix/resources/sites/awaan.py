@@ -24,7 +24,7 @@ URL_SERIE = 'https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B
 
 SERIE_AR = ('https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 
-RAMADAN_SERIES = ('https://www.awaan.ae/show/allprograms/210999/%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2019', 'showSeries')
+RAMADAN_SERIES = ('https://www.awaan.ae/show/allprograms/214766/%D8%B1%D9%85%D8%B6%D8%A7%D9%86', 'showSeries')
 KID_CARTOON = ('https://www.awaan.ae/show/allprograms/205911/%D9%83%D8%A7%D8%B1%D8%AA%D9%88%D9%86', 'showSeries')
 REPLAYTV_NEWS = ('https://www.awaan.ae/show/allprograms/30350/%D8%AA%D8%B1%D9%81%D9%8A%D9%87', 'showSeries')
 REPLAYTV_PLAY = ('http://awaan.ae/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86', 'showEps')
@@ -64,7 +64,7 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- #.+?([^<]+)
+ # .+? ([^<]+)
 
     sPattern = '<a href="([^<]+)" class="v-link" >.+?<div  class="video_img"><img alt="([^<]+)"  class="" src="([^<]+)"></div>'
 
