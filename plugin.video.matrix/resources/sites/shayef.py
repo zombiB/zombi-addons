@@ -22,7 +22,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.shayef.com'
 
-RAMADAN_SERIES = ('http://www.shayef.net/MosalsalatRamadan.asp', 'showMovies')
+RAMADAN_SERIES = ('https://www.shayef.net/MosalsalatRamadan.asp', 'showSerie')
 SERIE_AR = ('http://www.shayef.com/Mosalsalat.asp?Leter=2', 'showMovies')
 
 
@@ -64,6 +64,7 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
  
 
     sPattern = '<div class="vi-box-top">.+?<img src="([^<]+)" /></a>.+?<a href="([^<]+)"><h4>([^<]+)</h4></a>'
@@ -185,6 +186,7 @@ def showSeries():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
 
     sPattern = '<div class="vi-box-top">.+?<img src="([^<]+)" /></a>.+?<a href="([^<]+)"><h4>([^<]+)</h4></a>'
 
