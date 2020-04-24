@@ -32,7 +32,7 @@ SERIE_AR = ('https://vod.alarab.com/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%
 SERIE_TR = ('http://vod.alarab.com/q/%D9%85%D8%AA%D8%B1%D8%AC%D9%85', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 
-RAMADAN_SERIES = ('https://vod.alarab.com/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
+
 REPLAYTV_NEWS = ('https://vod.alarab.com/view-313/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA', 'showSeries')
 NETS_NEWS = ('https://vod.alarab.com/view-309/%D9%85%D9%82%D8%A7%D8%B7%D8%B9-%D9%85%D8%B6%D8%AD%D9%83%D8%A9', 'showEps')
 KID_CARTOON = ('https://vod.alarab.com/view-4/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showSeries')
