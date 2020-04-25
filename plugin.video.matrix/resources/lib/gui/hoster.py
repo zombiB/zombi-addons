@@ -497,6 +497,8 @@ class cHosterGui:
             return self.getHoster('lien_direct')
         if ('videodelivery' in sHostName):
             return self.getHoster('lien_direct')
+        if ('cityvod.net' in sHostName):
+            return self.getHoster('lien_direct')
 
         if ('stardima.com' in sHostName):
             return self.getHoster('lien_direct')
