@@ -26,6 +26,7 @@ MOVIE_ASIAN = ('https://akwam.net/movies?section=33', 'showMovies')
 KID_MOVIES = ('https://akwam.net/movies?category=30', 'showMovies')
 MOVIE_TURK = ('https://akwam.net/movies?section=32', 'showMovies')
 
+RAMADAN_SERIES = ('https://akwam.net/series?section=29', 'showSeries')
 SERIE_EN = ('https://akwam.net/series?section=30', 'showSeries')
 SERIE_AR = ('https://akwam.net/series?section=29', 'showSeries')
 SERIE_HEND = ('https://akwam.net/series?section=31', 'showSeries')
@@ -94,9 +95,6 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "مسلسل" in aEntry[3]:
-				continue
- 
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
@@ -138,8 +136,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-
-    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<div class="entry-image">.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">'
+    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<span class="label quality">([^<]+)</span>.+?<div class="entry-image">.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -153,14 +150,14 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "مسلسل" not in aEntry[3]:
-				continue
- 
-            sTitle = str(aEntry[3]).decode("utf8")
+            sTitle = str(aEntry[4]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[1])
-            sThumb = str(aEntry[2])
+            siteUrl = str(aEntry[2])
+            sThumb = str(aEntry[3])
+            sQua = aEntry[1]
+            sYear = aEntry[5]
+            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
             sDesc = '[COLOR yellow]'+aEntry[0]+'[/COLOR]'+" episodes"
 
 
@@ -169,7 +166,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
