@@ -49,7 +49,6 @@ class cHoster(iHoster):
 		
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        self.__sUrl = self.__sUrl.replace("+","%20").replace("[","%5D").replace("]","%5B")
         
     def gethost(self, sUrl):
         sPattern = 'https*:\/\/(.+?)\/.+?'
