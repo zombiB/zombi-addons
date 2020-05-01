@@ -286,6 +286,8 @@ class cHosterGui:
 
 
 
+        if ('vidmoly' in sHostName):
+            return self.getHoster('vidmoly')
         if ('vid.me' in sHostName):
             return self.getHoster('vidme')
         if ('mediafire' in sHostName):
@@ -459,6 +461,8 @@ class cHosterGui:
         if ('myvi.ru' in sHostName):
             return self.getHoster('resolver')
         if ('yandex' in sHostName):
+            return self.getHoster('resolver')
+        if ('jetload' in sHostName):
             return self.getHoster('resolver')
 
 
