@@ -22,6 +22,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://vod.alarab.com'
 
 
+RAMADAN_SERIES = ('https://vod.alarab.com/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2020', 'showSeries')
 MOVIE_EN = ('https://vod.alarab.com/view-5553/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
 MOVIE_AR = ('http://vod.alarab.com/view-1/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
 
@@ -142,35 +143,7 @@ def showEps():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
-    sPattern = '<a href="([^<]+)"><h3>([^<]+)</h3></a>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[0]).replace("episode","watch")
-            sThumbnail = str(sThumbnail)
-			
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
-  # ([^<]+) .+?
-    sPattern = '<div class="description-box "><div class="video-box"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" />'
+    sPattern = '<div class="description-box "><div class="video-box"><a href="([^<]+)"><img   src="/placeholder-600x400.png" class="lazyload" data-src="([^<]+)" alt="([^<]+)" />'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -295,8 +268,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- 
-    sPattern = '<div class="video-box"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" />'
+      # (.+?) ([^<]+) .+?
+    sPattern = '<div class="description-box "><div class="video-box"><a href="([^<]+)"><img   src="/placeholder-600x400.png" class="lazyload" data-src="([^<]+)" alt="([^<]+)" /></a></div><div class="description-video"><div class="heading-date"><h2><a href=".+?">([^<]+)</a></h2>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -315,7 +288,7 @@ def showSeries(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
-            sInfo = ''
+            sInfo = aEntry[3]
 			
 
 
@@ -324,7 +297,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

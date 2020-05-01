@@ -61,7 +61,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<img class="img-responsive" src="(.+?)" style="width: 100%; height: 180px;" alt="([^<]+)">.+?<a class="info" href="([^<]+)">'
+    sPattern = '<img class="img-responsive" src="(.+?)" loading="lazy" style="width: 100%; height: 180px;" alt="([^<]+)">.+?<a class="info" href="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -78,7 +78,7 @@ def showSerie(sSearch = ''):
             sTitle = aEntry[1]
             siteUrl = str(aEntry[2])
             sThumbnail = aEntry[0]
-            sInfo = sThumbnail
+            sInfo = ""
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -91,9 +91,10 @@ def showSerie(sSearch = ''):
         progress_.VSclose(progress_)
     sNote = ''
     
-    for i in range(1,7):
+    for i in range(1,15):
         sNote = '/p:'+ str(i)
         sTitle = 'page' + str(i)
+        sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
         siteUrl = sUrl+sNote
 
         oOutputParameterHandler = cOutputParameterHandler()

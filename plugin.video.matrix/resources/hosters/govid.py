@@ -1,11 +1,10 @@
 ﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.gui.gui import cGui
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-import urllib2,urllib,re,xbmcgui,xbmc
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+import urllib, urllib2, re
+UA = 'Android'
 
 class cHoster(iHoster):
 
@@ -48,10 +47,9 @@ class cHoster(iHoster):
         return ''
 
     def setUrl(self, sUrl):
-        if 'play'  in sUrl:
-            self.__sUrl = self.__sUrl.replace("play","down")
-        else:
-            self.__sUrl = sUrl
+        self.__sUrl = str(sUrl)
+        if '/down/'  in sUrl:
+            self.__sUrl = self.__sUrl.replace("/down/","/play/")
 
     def checkUrl(self, sUrl):
         return True
@@ -66,28 +64,35 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-
-            # (.+?) .+? ([^<]+)
+        if 'Video is processing now' in sHtmlContent:
+			dialog().VSinfo("Video is processing...")
+        
+        api_call = ''
+        #type1/([^"]+)/
         oParser = cParser()
-        sPattern = '<small  >(.+?)</small> <a target="_blank"  download=".+?" onclick="updateData.+?"  href="(.+?)" > <small  >.+?</small> '
-        aResult = oParser.parse(sHtmlContent, sPattern)
 
-        api_call = False
-
+        sPattern =  'source src="(.+?)" type=' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
-            
+            m3url = aResult[1][0] 
+            oRequest = cRequestHandler(m3url)
+            sHtmlContent = oRequest.request()
+
+   
+        sPattern =  ',RESOLUTION=(.+?),.+?(http.+?m3u8)' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
             #initialisation des tableaux
             url=[]
             qua=[]
-            
             #Replissage des tableaux
             for i in aResult[1]:
-                url.append(str(i[1])) 
+                url.append(str(i[1]))
                 qua.append(str(i[0]))
 
             api_call = dialog().VSselectqual(qua, url)
 
-        if (api_call):
-            return True, api_call + '|User-Agent=' + UA 
+            if (api_call):
+                return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
 
         return False, False

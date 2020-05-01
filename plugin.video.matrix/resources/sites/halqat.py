@@ -49,7 +49,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://arabsciences.com/?s='+sSearchText
+        sUrl = ''+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -88,7 +88,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1] 
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
-            sInfo = siteUrl
+            sInfo = ""
 			
 			
 
