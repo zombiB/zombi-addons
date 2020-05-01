@@ -20,6 +20,8 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://watanflix.com'
 
 
+
+RAMADAN_SERIES = ('http://watanflix.com/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 SERIE_AR = ('http://watanflix.com/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 KID_CARTOON = ('http://watanflix.com/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
 
@@ -83,9 +85,9 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- #.+?([^<]+)
+ # .+? ([^<]+)
 
-    sPattern = 'data-content=" <div>(.+?)<br/>.+?<a href="([^<]+)" class="v-link" >.+?<div  class="video_img"><img alt="([^<]+)"  class="" src="([^<]+)"></div>'
+    sPattern = 'title="<h4>.+?</h4><br> <span>([^<]+)</span>".+?data-content=" <div>(.+?)<br/>.+?<a href="([^<]+)" class="v-link" >.+?<div  class="video_img"><img alt="([^<]+)"  class="" src="([^<]+)"></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -99,13 +101,15 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
+            sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = str(aEntry[1])
-            sThumbnail = str(aEntry[3])
-            sInfo = str(aEntry[0]).decode("utf8")
+            siteUrl = str(aEntry[2])
+            sThumbnail = str(aEntry[4])
+            sInfo = str(aEntry[1]).decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
             sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
+            sYear = aEntry[0]
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -113,7 +117,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showSHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showSHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
