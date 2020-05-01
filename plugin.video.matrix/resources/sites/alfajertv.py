@@ -35,7 +35,7 @@ SERIE_AR = ('http://show.alfajertv.com/genre/arabic-series/', 'showSeries')
 
 REPLAYTV_PLAY = ('http://show.alfajertv.com/genre/plays/', 'showSeries')
 
-
+RAMADAN_SERIES = ('https://show.alfajertv.com/genre/arabic-series/', 'showSeries')
 URL_SEARCH = ('http://fajer.show/?s=', 'showMoviesSearch')
 URL_SEARCH_MOVIES = ('http://fajer.show/?s=', 'showMoviesSearch')
 URL_SEARCH_SERIES = ('http://fajer.show/?s=', 'showSeriesSearch')
@@ -318,8 +318,7 @@ def showServer():
 				s = requests.Session()
 				
 				r = s.post('https://show.alfajertv.com/wp-admin/admin-ajax.php', headers=headers,data = data)
-				sHtmlContent += r.content        
-
+				sHtmlContent += r.content     
     sPattern = "<iframe.+?src='([^<]+)' frameborder"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -340,8 +339,6 @@ def showServer():
 					sTitle = " (thevideo.me)"
 				if 'flashx' in url:
 					sTitle = " (flashx)"
-				if 'ok.ru' in url:
-					sTitle = " (ok.ru)"
 				if 'streamcherry' in url:
 					sTitle = " (streamcherry)"
 				if 'cloudvideo' in url:
@@ -363,7 +360,50 @@ def showServer():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_) 
+			progress_.VSclose(progress_)       
+    # (.+?) ([^<]+) .+?
+    sPattern = 'src="([^<]+)" frameborder='
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle
+				if 'fajer.video' in url:
+					url = url.split('id=')[1]
+					url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if 'streamcherry' in url:
+					sTitle = " (streamcherry)"
+				if 'cloudvideo' in url:
+					sTitle = " (cloudvideo)"
+				if 'vcstream' in url:
+					sTitle = " (vcstream)"
+				if 'userscloud' in url:
+					sTitle = " (userscloud)"
+				if 'clicknupload' in url:
+					sTitle = " (clicknupload)"
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
+
+			progress_.VSclose(progress_)  
        
     oGui.setEndOfDirectory()
 	
