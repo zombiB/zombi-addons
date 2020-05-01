@@ -64,7 +64,7 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.decode("windows-1256").encode("windows-1256")
+    sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
  
 
     sPattern = '<div class="vi-box-top">.+?<img src="([^<]+)" /></a>.+?<a href="([^<]+)"><h4>([^<]+)</h4></a>'

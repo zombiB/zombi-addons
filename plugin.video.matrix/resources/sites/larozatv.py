@@ -117,7 +117,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<div class="blocksTH">(.+?)<div class="pagination">'  
+    sPattern = '<div class="sliderHeader">(.+?)<div id="filterResults">'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -127,7 +127,7 @@ def showSeries(sSearch = ''):
         sHtmlContent2 = aResult[1][0]
  # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="block">.+?<a href="([^<]+)">.+?<div class="img2" style="background-image:url([^<]+);"></div>.+?<div class="boxtitle">([^<]+)</div>'
+    sPattern = '<a href="([^<]+)">.+?<noscript><img width=".+?" height=".+?" src="([^<]+)" class="attachment-col size-col wp-post-image" alt="([^<]+)" srcset=.+?<span>([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent2, sPattern)
@@ -145,8 +145,8 @@ def showSeries(sSearch = ''):
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[0])+"?watch=1"
-            sThumb = str(aEntry[1]).replace("(","").replace(")","")
-            sDesc = ""
+            sThumb = str(aEntry[1])
+            sDesc = str(aEntry[3])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -157,39 +157,12 @@ def showSeries(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-  # ([^<]+) .+?
-
-    sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = str(aEntry[0])
-            sThumbnail = ""
-            sInfo = ""
-
-
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -297,7 +270,7 @@ def showEpisodes():
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = ''
+    sPattern = '<li><a href="([^<]+)" >الصفحة التالية &laquo;</a></li>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

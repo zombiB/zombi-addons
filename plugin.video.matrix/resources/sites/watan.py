@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.wataan.com/'
 
-RAMADAN_SERIES = ('https://www.wataan.com/?video=class&class=3179', 'showSerie')
+RAMADAN_SERIES = ('https://www.wataan.com/?video=class&class=2538', 'showSerie')
 MOVIE_TURK = ('https://www.wataan.com/?video=class&class=1649', 'showMovies')
 MOVIE_HI = ('https://www.wataan.com/?video=class&class=1600', 'showMovies')
 

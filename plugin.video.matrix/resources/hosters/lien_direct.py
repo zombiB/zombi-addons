@@ -96,7 +96,7 @@ class cHoster(iHoster):
 
 
         if 'cimanow' in api_call:
-            api_call = api_call  +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
+            api_call = api_call 
 
 
 

@@ -214,7 +214,7 @@ def showEpisodes():
     #print sId
     
   # ([^<]+) .+?
-    headers = {'Host': 'to.cima4up.co',
+    headers = {'Host': 'tv.cima4up.co',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -224,7 +224,7 @@ def showEpisodes():
      'Connection': 'keep-alive'}
     data = {'id':sId}
     s = requests.Session()
-    r = s.post('https://to.cima4up.co/wp-content/themes/Cima4up2019/Ajax/Single.php', headers=headers,data = data)
+    r = s.post('https://tv.cima4up.co/wp-content/themes/Cima4up2019/Ajax/Single.php', headers=headers,data = data)
     sHtmlContent += r.content
     
     # (.+?) .+? ([^<]+)        	

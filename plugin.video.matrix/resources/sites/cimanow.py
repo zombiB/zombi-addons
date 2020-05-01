@@ -284,13 +284,15 @@ def showHosters():
 					break
         
 				url = base64.b64decode(aEntry[0])
-				url = str(url)
 				sTitle = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
+
 				if url.startswith('//'):
 					url = 'https:' + url
-				url = urllib.quote_plus(url)
+				
+					
+				url = str(url) 
             
-				sHosterUrl = url  +'|User-Agent=' + UA  + '&Referer=' + sUrl
+				sHosterUrl = url + '|User-Agent=' + UA  + '&Referer=' + sUrl + '&Origin=cima-now.co'
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
 					sDisplayTitle = sMovieTitle+sTitle

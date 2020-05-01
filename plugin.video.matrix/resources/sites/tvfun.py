@@ -23,6 +23,7 @@ URL_MAIN = 'https://www.tvfun.ma/'
 
 
 
+RAMADAN_SERIES = ('https://www.tvfun.ma/ts,mosalsalat-ramadan-2020/', 'showSeries')
 SERIE_TR = ('https://www.tvfun.ma/mosalsalat-torkia/', 'showSeries')
 
 SERIE_DUBBED = ('https://www.tvfun.live/ts,mosalsalat--modablaja/', 'showSeries')
@@ -70,7 +71,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
 
-    sPattern = 'class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><img data-sizes="auto" alt=".+?" class="lazyload" data-src="([^<]+)" data-srcset=.+?<span class="count">([^<]+)</span>'
+    sPattern = 'class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><img data-sizes="auto" alt=".+?" class="lazyload" data-src="([^<]+)" data-srcset=.+?<span class="count">([^<]+)</span></a></div><h2><'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -176,19 +177,10 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-
-    sPattern = '<!DOCTYPE html><html(.+?)style="" id="sidebar">'  
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern) 
-     
-
-    if (aResult[0] == True):
-        sHtmlContent2 = aResult[1][0]
    # ([^<]+) .+?
-    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><img data-sizes="auto" alt=".+?" class="lazyload" data-src="([^<]+)" data-srcset='
+    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><img data-sizes'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
     if (aResult[0] == True):

@@ -223,7 +223,7 @@ def showServer():
 	sHtmlContent = oRequestHandler.request()
    
 	oParser = cParser()            
-	headers = {'Host': 'watch.extra-3sk.com',
+	headers = {'Host': 'extra-3sk.com',
 						'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 						'Accept': '*/*',
 						'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',

@@ -219,7 +219,7 @@ def showSeries(sSearch = ''):
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a href="([^<]+)">التالي</a>'
+    sPattern = '<a href="(.+?)">التالي</a></li>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -298,27 +298,17 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  'var url = "([^<]+)" +' 
+    sPattern =  '<iframe src="([^<]+)" allow=' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]
-        m3url = 'http://shoofvod.com' + m3url 
-			
-        oRequest = cRequestHandler(m3url)
-        sHtmlContent = oRequest.request()
-
-    oParser = cParser()
-         # (.+?) ([^<]+) .+?       
-    sPattern =  '<iframe src="(.+?)"' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
-        m3url = aResult[1][0]
-        m3url = 'http:' + m3url 
-			
+        if m3url.startswith('//'):
+			m3url = 'http:' + m3url 
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
     #recup du lien mp4
-    sPattern = '<source src="(.+?)" type='
+    sPattern = '<source src="([^<]+)" type'
+    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
