@@ -136,7 +136,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<span class="label quality">([^<]+)</span>.+?<div class="entry-image">.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
+    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span><span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -196,13 +196,13 @@ def showEpisodes():
     #Recuperation infos
     sNote = ''
 
-    sPattern = '<div class="widget-body">.+?<div class="text-white"><p>([^<]+)</p>'
+    sPattern = '<div class="widget-body"><div class="text-white"><p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         sNote = aResult[1][0]
      # (.+?) ([^<]+) .+?
-    sPattern = 'class="text-white">([^<]+)</a>.+?</h3>.+?<a href="(.+?)">.+?<picture>.+?<img src="(.+?)" class="img-fluid" alt='
+    sPattern = 'class="text-white">([^<]+)</a>.+?<a href="(.+?)">.+?<img src="(.+?)" class="img-fluid" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -218,7 +218,8 @@ def showEpisodes():
             sTitle = aEntry[0]
             siteUrl = str(aEntry[1])
             sThumb = aEntry[2]
-            sDesc = sNote
+            sDesc = sNote.decode("utf8")
+            sDesc = cUtil().unescape(sDesc).encode("utf8")
 			
 
 
@@ -293,15 +294,15 @@ def showLink():
     #Recuperation infos
     sNote = ''
 
-    sPattern = '<div class="widget-body">.+?<div class="text-white"><p>([^<]+)</p>'
+    sPattern = '<div class="widget-body"><div class="text-white"><p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         sNote = aResult[1][0]
 
     # .+? ([^<]+)
-    sPattern = '<a href="http([^<]+).com/watch/(.+?)"'
-    
+    sPattern = '<a href="http([^<]+)/watch/(.+?)"'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -318,7 +319,7 @@ def showLink():
  
 
             sTitle = '[COLOR cyan]'+sMovieTitle+'[/COLOR]'
-            siteUrl = 'http'+aEntry[0]+'.com/watch/' + str(aEntry[1])
+            siteUrl = 'http'+aEntry[0]+'/watch/' + str(aEntry[1])
             sThumb = sThumb
             sDesc = sNote
  
