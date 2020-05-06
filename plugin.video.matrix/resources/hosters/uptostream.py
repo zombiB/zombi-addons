@@ -54,7 +54,8 @@ class cHoster(iHoster):
         oParser = cParser()
 
         #On ne charge les sous titres uniquement si vostfr se trouve dans le titre.
-        if not re.search("<h1 class='file-title'>[^<>]+(?:TRUEFRENCH|FRENCH)[^<>]*</h1>", sHtmlContent, re.IGNORECASE):
+        #if not re.search("<h1 class='file-title'>[^<>]+(?:TRUEFRENCH|FRENCH)[^<>]*</h1>", sHtmlContent, re.IGNORECASE):
+        if "<track type='vtt'" in sHtmlContent:
 
             sPattern = '<track type=[\'"].+?[\'"] kind=[\'"]subtitles[\'"] src=[\'"]([^\'"]+).vtt[\'"] srclang=[\'"].+?[\'"] label=[\'"]([^\'"]+)[\'"]>'
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -80,7 +81,6 @@ class cHoster(iHoster):
     def getUrl(self):
         return self.__sUrl
 
-
     def getMediaLink(self):
         self.oPremiumHandler = cPremiumHandler('uptobox')
         if (self.oPremiumHandler.isPremiumModeAvailable()):
@@ -93,6 +93,8 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self,premium=False):
 
         api_call = False
+        SubTitle = ''
+        
         #compte gratuit ou payant
         token = ''
         if premium:
@@ -103,9 +105,12 @@ class cHoster(iHoster):
                 if token:
                     token = token.group(1)
 
+                SubTitle = self.checkSubtitle(sHtmlContent)
+
         else:
             VSlog('no Premium')
-       
+
+
         if token:
             sUrl2 = "https://uptostream.com/api/streaming/source/get?token={}&file_code={}".format(token,self.__getIdFromUrl())
             sHtml = self.oPremiumHandler.GetHtml(sUrl2)
@@ -120,9 +125,12 @@ class cHoster(iHoster):
         qua,url_list = decodeur1(sHtml)
         if qua and url_list:
             api_call = dialog().VSselectqual(qua, url_list)
-
+            
         if (api_call):
-            return True, api_call.replace('\\','')
+            if SubTitle:
+                return True, api_call.replace('\\',''), SubTitle
+            else:
+                return True, api_call.replace('\\','')
 
         return False, False
      
@@ -224,7 +232,7 @@ def decodeur1(Html):
                                 if j == '360' or j == '480' or j == '720' or j == '1080' :
                                     qual = j
 
-                            if langFre and qual:
+                            if langFre and qual and qual not in qua_list:
                                 qua_list.append(qual)
 
 
