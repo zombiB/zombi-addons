@@ -237,7 +237,7 @@ def showSeasons():
 
     oParser = cParser()
             
-    sPattern =  '<br /><a href="([^<]+)">انقر هنـا</a>' 
+    sPattern =  '<a href="([^<]+)">انقر هنـا</a>' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]
@@ -245,7 +245,7 @@ def showSeasons():
         sHtmlContent = oRequest.request()
 	
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="">.+?<h1 style="bottom: 0">([^<]+)</h1>'
+    sPattern = '<div class="movie-wrap">.+?<a href="([^<]+)">.+?<img src="([^<]+)" alt="">.+?<h1  style="bottom: 0">([^<]+)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
