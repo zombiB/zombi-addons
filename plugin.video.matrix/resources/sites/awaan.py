@@ -22,14 +22,16 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://awaan.ae/'
 URL_SERIE = 'https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
 
-SERIE_AR = ('https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+MOVIE_AR = ('https://www.awaan.ae/show/allprograms/208109/%D8%A3%D9%81%D9%84%D8%A7%D9%85?p=1', 'showMovies')
+SERIE_AR = ('https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA?p=1', 'showSeries')
 
-RAMADAN_SERIES = ('https://www.awaan.ae/show/allprograms/214766/%D8%B1%D9%85%D8%B6%D8%A7%D9%86', 'showSeries')
-KID_CARTOON = ('https://www.awaan.ae/show/allprograms/205911/%D9%83%D8%A7%D8%B1%D8%AA%D9%88%D9%86', 'showSeries')
-REPLAYTV_NEWS = ('https://www.awaan.ae/show/allprograms/30350/%D8%AA%D8%B1%D9%81%D9%8A%D9%87', 'showSeries')
-REPLAYTV_PLAY = ('http://awaan.ae/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86', 'showEps')
-ISLAM_SHOWS = ('https://www.awaan.ae/show/allprograms/30349/%D8%A5%D8%B3%D9%84%D8%A7%D9%85%D9%8A%D8%A7%D8%AA', 'showSeries')
+RAMADAN_SERIES = ('https://www.awaan.ae/show/allprograms/214766/%D8%B1%D9%85%D8%B6%D8%A7%D9%86?p=1', 'showSeries')
+KID_CARTOON = ('https://www.awaan.ae/show/allprograms/205911/%D9%83%D8%A7%D8%B1%D8%AA%D9%88%D9%86?p=1', 'showSeries')
+REPLAYTV_NEWS = ('https://www.awaan.ae/show/allprograms/30350/%D8%AA%D8%B1%D9%81%D9%8A%D9%87?p=1', 'showSeries')
+REPLAYTV_PLAY = ('http://awaan.ae/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86?p=1', 'showEps')
+ISLAM_SHOWS = ('https://www.awaan.ae/show/allprograms/30349/%D8%A5%D8%B3%D9%84%D8%A7%D9%85%D9%8A%D8%A7%D8%AA?p=1', 'showSeries')
 
+ISLAM_QURAN = ('https://www.awaan.ae/show/allprograms/208779/%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86-%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85?p=1', 'showSeries')
 URL_SEARCH = ('https://www.awaan.ae/research', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -66,7 +68,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # .+? ([^<]+)
 
-    sPattern = '<a href="([^<]+)" class="v-link" >.+?<div  class="video_img"><img alt="([^<]+)"  class="" src="([^<]+)"></div>'
+    sPattern = '<div class="col-md-3 col-sm-4 col-xs-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?data-src="([^<]+)" style'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -83,7 +85,7 @@ def showMovies(sSearch = ''):
             sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
+            sThumbnail = 'https:'+str(aEntry[2])
             sInfo = ""
 
 
@@ -92,15 +94,22 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showSHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+    page = sUrl.split('?p=')[1]
+    page = int(page)+1
+    sTitle = 'More' 
+    sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
+    page = str(page)
+    siteUrl = sUrl.split('?p=')[0]
+    siteUrl = siteUrl +'?p='+ page
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+    oGui.addMovie(SITE_IDENTIFIER, 'showMovies', sTitle, '', 'next.png', '', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -133,7 +142,7 @@ def showSeries(sSearch = ''):
 
             sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = str(aEntry[0])
+            siteUrl = str(aEntry[0])+'?p=1'
             sThumbnail = 'https:'+str(aEntry[2])
             sInfo = ""
 
@@ -146,13 +155,19 @@ def showSeries(sSearch = ''):
             oGui.addMisc(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
-        sNextPage = URL_SERIE+__checkForNextPage(sHtmlContent)
+    page = sUrl.split('?p=')[1]
+    page = int(page)+1
+    sTitle = 'More' 
+    sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
+    page = str(page)
+    siteUrl = sUrl.split('?p=')[0]
+    siteUrl = siteUrl +'?p='+ page
 
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+    oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', 'next.png', '', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -217,19 +232,26 @@ def showEps():
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
- 
-        sNextPage = sLink + "?p=2"
+    page = sUrl.split('?p=')[1]
+    page = int(page)+1
+    sTitle = 'More' 
+    sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
+    page = str(page)
+    siteUrl = sUrl.split('?p=')[0]
+    siteUrl = siteUrl +'?p='+ page
 
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showEps', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+    oGui.addMovie(SITE_IDENTIFIER, 'showEps', sTitle, '', 'next.png', '', oOutputParameterHandler)
  
 
        
     oGui.setEndOfDirectory()
 
-	
+ 
+
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -238,46 +260,54 @@ def showHosters():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent = oRequestHandler.request();
 
     oParser = cParser()
             
-    sPattern =  'class="embed-responsive-item" id="video_embedd" src="([^<]+)" allowfullscreen=' 
+    sPattern =  'href="([^<]+)" class="btn btn-awaanbluebtn btn-viewall">شاهد الآن</a' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]
         if m3url.startswith('//'):
-           m3url = 'https:' + m3url
+			m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
-               
-        
+
+    oParser = cParser()
+            
+    sPattern =  'id="video_embedd" src="([^<]+)" allowfullscreen=' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        m3url = aResult[1][0]
+        if m3url.startswith('//'):
+			m3url = 'http:' + m3url 	
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent = oRequest.request()
+    #recup du lien mp4
     sPattern = 'src: "([^<]+)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
+    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            url = str(aEntry)
-            if url.startswith('//'):
-                url = 'https:' + url
-            
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
+        
+        sUrl = str(aResult[1][0])
+        if sUrl.startswith('//'):
+			sUrl = 'http:' + sUrl 
+                 
+        #on lance video directement
+        oGuiElement = cGuiElement()
+        oGuiElement.setSiteName(SITE_IDENTIFIER)
+        oGuiElement.setTitle(sMovieTitle)
+        oGuiElement.setMediaUrl(sUrl)
+        oGuiElement.setThumbnail(sThumbnail)
 
-        progress_.VSclose(progress_) 
-                
-    oGui.setEndOfDirectory()
-	
- 
+        oPlayer = cPlayer()
+        oPlayer.clearPlayList()
+        oPlayer.addItemToPlaylist(oGuiElement)
+        oPlayer.startPlayer()
+        return
+    
+    else:
+        return
+
+    oGui.setEndOfDirectory()	
