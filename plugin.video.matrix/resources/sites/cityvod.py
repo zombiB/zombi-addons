@@ -29,7 +29,7 @@ SERIE_EN = ('http://www.cityvod.net/s_category.php?s=1', 'showSeries')
 SERIE_AR = ('http://www.cityvod.net/s_category.php?s=2', 'showSeries')
 SERIE_DUBBED = ('http://www.cityvod.net/s_category.php?s=4', 'showSeries')
 SERIE_ASIA = ('http://www.cityvod.net/s_category.php?s=3', 'showSeries')
-
+SERIE_TR = ('http://www.cityvod.net/s_category.php?s=3', 'showSeries')
 REPLAYTV_PLAY = ('http://www.cityvod.net/category.php?s=10', 'showMovies')
 
 URL_SEARCH = ('http://www.cityvod.net/search.php?type=s&w=', 'showMovies')
