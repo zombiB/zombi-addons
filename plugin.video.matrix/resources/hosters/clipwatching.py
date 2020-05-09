@@ -48,6 +48,9 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
 
+        if 'was deleted' in sHtmlContent:
+            dialog().VSok("File was deleted")
+
         sPattern = 'sources: *\["([^"]+)"'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)

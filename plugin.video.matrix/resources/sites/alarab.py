@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
+from resources.lib.player import cPlayer
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
 import xbmcgui
@@ -323,83 +324,52 @@ def __checkForNextPage(sHtmlContent):
         return aResult
 
     return False
-	
+
 def showHosters():
     oGui = cGui()
-   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
+    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent = oRequestHandler.request();
 
     oParser = cParser()
             
     sPattern =  'src="([^<]+)" gesture="media"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
-        m3url = aResult[1][0] 
+        m3url = aResult[1][0]
+        if m3url.startswith('//'):
+			m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
-    # (.+?) ([^<]+) .+?
+    #recup du lien mp4
     sPattern = 'src="([^<]+)" type='
-    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_) 
-    # (.+?) ([^<]+) .+?
-    sPattern = '"file": "(.+?)",'
     
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
+        
+        sUrl = str(aResult[1][0])
+        if sUrl.startswith('//'):
+			sUrl = 'http:' + sUrl 
+                 
+        #on lance video directement
+        oGuiElement = cGuiElement()
+        oGuiElement.setSiteName(SITE_IDENTIFIER)
+        oGuiElement.setTitle(sMovieTitle)
+        oGuiElement.setMediaUrl(sUrl)
+        oGuiElement.setThumbnail(sThumbnail)
 
-			progress_.VSclose(progress_) 
-                
-    oGui.setEndOfDirectory()
+        oPlayer = cPlayer()
+        oPlayer.clearPlayList()
+        oPlayer.addItemToPlaylist(oGuiElement)
+        oPlayer.startPlayer()
+        return
+    
+    else:
+        return
+
+    oGui.setEndOfDirectory()	
