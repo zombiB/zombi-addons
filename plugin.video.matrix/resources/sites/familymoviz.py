@@ -437,7 +437,7 @@ def showHosters():
 
 
 
-    sPattern = 'src="([^<]+)"'
+    sPattern = 'src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
