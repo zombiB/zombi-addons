@@ -1,8 +1,9 @@
-﻿#-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+﻿# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import dialog
 
 class cHoster(iHoster):
 
@@ -42,20 +43,33 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-
         api_call = ''
 
+        oParser = cParser()
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
 
-        if 'was deleted' in sHtmlContent:
-            dialog().VSok("File was deleted")
-
-        sPattern = 'sources: *\["([^"]+)"'
-        oParser = cParser()
+        # accelère le traitement
+        sHtmlContent = oParser.abParse(sHtmlContent, 'var holaplayer', 'vvplay')
+        # Traitement pour les liens m3u8
+        sHtmlContent = sHtmlContent.replace(',', '').replace('master.m3u8', 'index-v1-a1.m3u8')
+        sPattern = '"(http[^"]+(?:.m3u8|.mp4))"'
         aResult = oParser.parse(sHtmlContent, sPattern)
+
         if (aResult[0] == True):
-            api_call = aResult[1][0]
+            # initialisation des tableaux
+            url = []
+            qua = []
+            n = 1
+
+            # Remplissage des tableaux
+            for i in aResult[1]:
+                url.append(str(i))
+                qua.append('Lien ' + str(n))
+                n += 1
+
+            # dialogue Lien si plus d'une url
+            api_call = dialog().VSselectqual(qua, url)
 
         if (api_call):
             return True, api_call
