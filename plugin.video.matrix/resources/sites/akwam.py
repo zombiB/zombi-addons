@@ -25,7 +25,7 @@ MOVIE_HI = ('https://akwam.net/movies?section=31', 'showMovies')
 MOVIE_ASIAN = ('https://akwam.net/movies?section=33', 'showMovies')
 KID_MOVIES = ('https://akwam.net/movies?category=30', 'showMovies')
 MOVIE_TURK = ('https://akwam.net/movies?section=32', 'showMovies')
-
+MOVIE_TOP = ('https://akwam.net/movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
 RAMADAN_SERIES = ('https://akwam.net/series?section=29', 'showSeries')
 SERIE_EN = ('https://akwam.net/series?section=30', 'showSeries')
 SERIE_AR = ('https://akwam.net/series?section=29', 'showSeries')
@@ -81,8 +81,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<div class="entry-image">.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>.+?<span class="badge badge-pill badge-light ml-1">([^<]+)</span>'
-
+    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>.+?<span class="badge badge-pill badge-light ml-1">([^<]+)<'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -111,7 +110,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -227,7 +226,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addTV(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
     # .+? ([^<]+)
@@ -277,68 +276,6 @@ def showEpisodes():
     oGui.setEndOfDirectory()
 	
 
-  
-def showLink():
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    
-    oParser = cParser()
-    
-    #Recuperation infos
-    sNote = ''
-
-    sPattern = '<div class="widget-body"><div class="text-white"><p>([^<]+)</p>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sNote = aResult[1][0]
-
-    # .+? ([^<]+)
-    sPattern = '<a href="http([^<]+)/watch/(.+?)"'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-
-            sTitle = '[COLOR cyan]'+sMovieTitle+'[/COLOR]'
-            siteUrl = 'http'+aEntry[0]+'/watch/' + str(aEntry[1])
-            sThumb = sThumb
-            sDesc = sNote
- 
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            
-
- 
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
-       
-    oGui.setEndOfDirectory()
- 
-      
- 
  
  
 def __checkForNextPage(sHtmlContent):
@@ -364,6 +301,15 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
+
+    oParser = cParser()       
+    sPattern =  '<a href="http([^<]+)/watch/(.+?)"'
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent = oRequest.request()
 
     oParser = cParser()       
     sPattern =  '<a href="([^<]+)".+?class="download-link"' 
