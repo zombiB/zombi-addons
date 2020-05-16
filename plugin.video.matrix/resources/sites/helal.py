@@ -37,7 +37,7 @@ SERIE_HEND = ('https://www.4helal.co/c/indian-series.html', 'showSerie')
 ANIM_NEWS = ('https://www.4helal.co/cat/7/انمي_مترجم/1.html', 'showSerie')
 
 DOC_NEWS = ('https://www.4helal.co/genre/documentary-movies', 'showMovies')
-
+DOC_SERIES = ('https://www.4helal.co/genre/documentary-movies', 'showSeries')
 
 KID_CARTOON = ('https://www.4helal.co/c/Cartoon-Dubbed', 'showSerie')
 
