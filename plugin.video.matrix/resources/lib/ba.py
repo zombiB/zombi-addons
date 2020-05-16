@@ -30,7 +30,7 @@ class cShowBA:
 
     def SearchBA_old(self):
 
-            url = 'https://www.googleapis.com/youtube/v3/search?part=id,snippet&q=%s&maxResults=1&relevanceLanguage=fr&key=%s' % (self.search, self.key)
+            url = 'https://www.googleapis.com/youtube/v3/search?part=id,snippet&q=%s&maxResults=1&relevanceLanguage=ar&key=%s' % (self.search, self.key)
 
             req = urllib2.Request(url)
 

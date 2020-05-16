@@ -80,7 +80,7 @@ if (False):
 #-----------------------------------------------------------
 
 #Cookie path
-#C:\Users\BRIX\AppData\Roaming\Kodi\userdata\addon_data\plugin.video.matrix\
+#C:\Users\BRIX\AppData\Roaming\Kodi\userdata\addon_data\plugin.video.vstream\
 
 #Light method
 #Ne marche que si meme user-agent
@@ -283,7 +283,7 @@ class CloudflareBypass(object):
 
         from resources.lib import cloudscrape
 
-        s = cloudscrape.create_scraper()
+        s = cloudscrape.create_scraper(browser={'custom': 'ScraperBot/1.0'})
 
         r = s.request(method,url,headers = self.SetHeader(), cookies = self.ParseCookies(cookies), data = data)
         #r = s.request(method, url)
