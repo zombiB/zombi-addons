@@ -44,14 +44,10 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        self.__sUrl = self.__sUrl.replace('embed-', '')
+        if 'embed' in sUrl:
+            self.__sUrl = self.__sUrl.replace("embed-","")
 
     def getIdFromUrl(self, sUrl):
-        sPattern = '\?(.+?)='
-        oParser = cParser()
-        aResult = oParser.parse(sUrl, sPattern)
-        if (aResult[0] == True):
-            return aResult[1][0]
         return ''
         
     def checkUrl(self, sUrl):
@@ -71,24 +67,39 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
+        sPattern = "<script type='text/javascript'>var player = new Clappr.Player(.+?)</script>"
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            sHtmlContent2 = aResult[1][0]
+
+        sPattern = '"([^<]+)"],'
+        aResult = oParser.parse(sHtmlContent2, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0] + '&Referer=' + self.__sUrl
+				
+        if (api_call):
+            return True, api_call
+
+
+		
         sPattern = "<script type='text/javascript'>(.+?)</script>"
         aResult = oParser.parse(sHtmlContent,sPattern)
  
 
         if (aResult[0] == True):
-            sHtmlContent2 = cPacker().unpack(aResult[1][0])
+            sHtmlContent3 = cPacker().unpack(aResult[1][0])
 
 
             sPattern2 = '"([^<]+)"],poster'
-            aResult = oParser.parse(sHtmlContent2,sPattern2)
+            aResult = oParser.parse(sHtmlContent3,sPattern2)
 
             if (aResult[0] == True):
 				api_call = aResult[1][0] + '&Referer=' + self.__sUrl
+        if (api_call):
+            return True, api_call
 
 			
  
-				
-        if (api_call):
-            return True, api_call
+		
 
         return False, False
