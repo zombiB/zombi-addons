@@ -34,8 +34,8 @@ SERIE_AR = ('http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%
 
 SERIE_DUBBED = ('http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showMovies')
 
-URL_SEARCH = ('http://lodynet.tv/search', 'showMovies')
-URL_SEARCH_SERIES = ('http://lodynet.tv/search', 'showMovies')
+URL_SEARCH = ('http://www.lodynet.tv/search/', 'showMovies')
+URL_SEARCH_SERIES = ('http://www.lodynet.tv/search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -53,7 +53,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://lodynet.tv/?s='+sSearchText
+        sUrl = 'http://www.lodynet.tv/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
