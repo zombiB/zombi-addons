@@ -62,11 +62,17 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         sUrl = self.__sUrl
-
+ 
         oRequest = cRequestHandler(sUrl)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
+
+        sPattern = '"([^<]+)"],'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0] + '&Referer=' + self.__sUrl
+			
         sPattern = "<script type='text/javascript'>var player = new Clappr.Player(.+?)</script>"
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
