@@ -157,7 +157,7 @@ def showSeries(sSearch = ''):
  
             sTitle = str(aEntry[0]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
             sInfo = ''
