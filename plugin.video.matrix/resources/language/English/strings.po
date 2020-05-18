@@ -277,7 +277,7 @@ msgid "Search (Movie)"
 msgstr ""
 
 msgctxt "#30079"
-msgid "Search (Tvshow/Anim)"
+msgid "Search (Tvshows/Anime)"
 msgstr ""
 
 msgctxt "#30080"
