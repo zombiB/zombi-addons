@@ -21,7 +21,7 @@ URL_MAIN = 'https://ww.mycima.co'
 
 
 
-MOVIE_EN = ('https://ww.mycima.co/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/', 'showMovies')
+MOVIE_EN = ('https://w.mycima.vip/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/', 'showMovies')
 MOVIE_PACK = ('https://to.mycima.tv/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-film/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-movies-english/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9-full-pack/', 'showMovie')
 
 MOVIE_AR = ('https://ww.mycima.co/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a-arabic-movies/', 'showMovies')
