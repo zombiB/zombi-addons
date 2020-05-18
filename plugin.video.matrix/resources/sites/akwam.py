@@ -41,7 +41,6 @@ DOC_SERIES = ('https://akwam.net/shows?section=46', 'showSeries')
 REPLAYTV_NEWS = ('https://akwam.net/shows?section=42', 'showSeries')
 REPLAYTV_PLAY = ('https://akwam.net/shows?section=45', 'showSeries')
 
-SPORT_WWE = ('https://akwam.net/shows?section=43', 'showMovies')
 
 URL_SEARCH = ('https://akwam.net/search?q=', 'showSeries')
 URL_SEARCH_MOVIES = ('https://akwam.net/search?q=', 'showMovies')
@@ -214,7 +213,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0]
+            sTitle = sMovieTitle+' '+aEntry[0]
             siteUrl = str(aEntry[1])
             sThumb = aEntry[2]
             sDesc = sNote.decode("utf8")
