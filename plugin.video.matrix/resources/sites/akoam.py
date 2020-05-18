@@ -299,7 +299,7 @@ def showLink():
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             
 
@@ -584,7 +584,6 @@ def showSeasons():
         progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()
-
   
 def showSeasons2():
     oGui = cGui()
@@ -596,60 +595,15 @@ def showSeasons2():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    
-    oParser = cParser()
-    # .+? ([^<]+)
-    sPattern = '<a href="http([^<]+).com/watch/(.+?)"'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
-    #print aResult
-   
+    oParser = cParser()       
+    sPattern =  '<a href="http([^<]+)/watch/(.+?)"'
+    aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
-            siteUrl = 'http'+aEntry[0]+'.com/watch/' + str(aEntry[1])
-            sThumbnail = sThumbnail
-            sInfo = siteUrl
- 
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            
-
- 
-            oGui.addMisc(SITE_IDENTIFIER, 'showSeasons3', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
-       
-    oGui.setEndOfDirectory()
-
-  
-def showSeasons3():
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent = oRequest.request()
     
     oParser = cParser()
     # .+? ([^<]+)
@@ -677,7 +631,7 @@ def showSeasons3():
             sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry)
             sThumbnail = sThumbnail
-            sInfo = siteUrl
+            sInfo = ""
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
