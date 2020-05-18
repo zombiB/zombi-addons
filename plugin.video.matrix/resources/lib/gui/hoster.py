@@ -171,6 +171,8 @@ class cHosterGui:
             return self.getHoster('gateaflam')
         if ('mycima' in sHostName):
             return self.getHoster('mycima')
+        if ('vid4up' in sHostName):
+            return self.getHoster('vidforup')
 
 
         if ('alimorad.club' in sHostName):
@@ -497,9 +499,11 @@ class cHosterGui:
             return self.getHoster('lien_direct')
         if ('blogspot.com' in sHostName):
             return self.getHoster('lien_direct')
-        if ('vid4up.site' in sHostName):
-            return self.getHoster('lien_direct')
         if ('videodelivery' in sHostName):
+            return self.getHoster('lien_direct')
+        if ('bittube' in sHostName):
+            return self.getHoster('lien_direct')
+        if ('amazonaws.com' in sHostName):
             return self.getHoster('lien_direct')
         if ('cityvod.net' in sHostName):
             return self.getHoster('lien_direct')
