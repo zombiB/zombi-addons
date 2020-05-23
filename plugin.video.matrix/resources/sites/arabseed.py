@@ -17,29 +17,31 @@ SITE_IDENTIFIER = 'arabseed'
 SITE_NAME = 'arabseed'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://arabseed.net'
+URL_MAIN = 'https://m2.arabseed.net'
 
-MOVIE_EN = ('https://arabseed.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%89', 'showMovies')
-MOVIE_AR = ('https://arabseed.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
+MOVIE_EN = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%89/', 'showMovies')
+MOVIE_AR = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d9%87/', 'showMovies')
 
 MOVIE_PACK = ('https://arabseed.net/category/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showSeries')
-MOVIE_HI = ('https://arabseed.net/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%89', 'showMovies')
-MOVIE_ASIAN = ('https://arabseed.net/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showMovies')
-MOVIE_TURK = ('https://arabseed.net/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9', 'showMovies')
-KID_MOVIES = ('https://arabseed.net/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
-SERIE_TR = ('https://arabseed.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D9%87', 'showSeries')
+MOVIE_HI = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
+MOVIE_ASIAN = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+MOVIE_TURK = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
+KID_MOVIES = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/', 'showMovies')
+SERIE_TR = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87/', 'showSeries')
 
-SERIE_ASIA = ('https://arabseed.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D9%88%D8%B1%D9%8A%D8%A9', 'showSeries')
-SERIE_EN = ('https://arabseed.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSeries')
-SERIE_AR = ('https://arabseed.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87', 'showSeries')
+SERIE_ASIA = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d9%87/', 'showSeries')
+SERIE_HEND = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_EN = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showSeries')
+SERIE_AR = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d9%87/', 'showSeries')
 
-RAMADAN_SERIES = ('https://m1.arabseed.net/main.html', 'showSeries')
-ANIM_NEWS = ('https://arabseed.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showSeries')
+RAMADAN_SERIES = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020-hd/', 'showSeries')
+ANIM_NEWS = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
 
+REPLAYTV_PLAY = ('https://m2.arabseed.net/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showEps')
 REPLAYTV_NEWS = ('https://arabseed.net/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
-URL_SEARCH = ('https://arabseed.net/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://arabseed.net/search?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://arabseed.net/search?s=', 'showSearchSerie')
+URL_SEARCH = ('https://m2.arabseed.net/?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://m2.arabseed.net/?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://m2.arabseed.net/?s=', 'showSearchSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -61,7 +63,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://arabseed.net/search?s='+sSearchText
+        sUrl = 'https://m2.arabseed.net/?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -71,7 +73,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://arabseed.net/search?s='+sSearchText
+        sUrl = 'https://m2.arabseed.net/?s='+sSearchText
         showSearchSerie(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -88,7 +90,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)" class="image">.+?data-src="([^<]+)" class="lazyload fluid">.+?class="ti-subscriptions"><h3>([^<]+)</h3>'
+    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><div class="Ribbon">([^<]+)</div><img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -110,14 +112,14 @@ def showMoviesSearch(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
-            sDesc = ""
-            annee = ''
+            sDesc = ''
+            sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				annee = str(m.group(0))
-				sTitle = sTitle.replace(annee,'')
-            if annee:
-				sTitle = sTitle + '(' + annee + ')'
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sQua = aEntry[2]
+            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -125,7 +127,7 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -150,7 +152,7 @@ def showSearchSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)" class="image">.+?data-src="([^<]+)" class="lazyload fluid">.+?class="ti-subscriptions"><h3>([^<]+)</h3>'
+    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><img data-src="([^<]+)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -167,10 +169,10 @@ def showSearchSerie(sSearch = ''):
             if "فيلم" in aEntry[2]:
 				continue
  
-            sTitle = str(aEntry[2]).decode("utf8")
+            sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
+            sThumb = str(aEntry[2])
             sDesc = ''
 
 
@@ -204,7 +206,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="media-block col-12 col-s-6 col-m-3 col-l-2 col-xl-2"><a href="([^<]+)" class="image"></a>.+?data-src="([^<]+)" class="lazyload fluid"><div class="details"><span class="ti-star right">([^<]+)</span>.+?<div class="info"><a href=".+?" class="ti-subscriptions"><h3>([^<]+)</h3></a>'
+    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><div class="Ribbon">([^<]+)</div><img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -218,19 +220,19 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
+            sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
-            sDesc = '[COLOR yellow]'+aEntry[2]+'[/COLOR]'
-            annee = ''
+            sThumb = str(aEntry[3])
+            sDesc = ''
+            sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				annee = str(m.group(0))
-				sTitle = sTitle.replace(annee,'')
-            if annee:
-				sTitle = sTitle + '(' + annee + ')'
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sQua = aEntry[2]
+            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -238,7 +240,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -263,7 +265,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="media-block col-12 col-s-6 col-m-3 col-l-2 col-xl-2">.+?href="([^<]+)" class="image"></a>.+?data-src="([^<]+)" class="lazyload fluid"><div class="details"><span class="ti-star right">([^<]+)</span>.+?<div class="info"><a href=".+?" class="ti-subscriptions"><h3>([^<]+)</h3></a>'
+    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><img data-src="([^<]+)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -277,11 +279,11 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
+            sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
-            sDesc = '[COLOR yellow]'+aEntry[2]+'[/COLOR]'
+            sThumb = str(aEntry[2])
+            sDesc = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -313,7 +315,7 @@ def showEps():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+?
-    sPattern = '<td>(.+?)</td><td><a href="(.+?)"><i class="fa fa-play"></i> مشاهدة الآن</a>'
+    sPattern = '<div class="episode-block box-11x1"><a href="(.+?)" class="content-box.+?">(.+?)<span>(.+?)</span>'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -332,8 +334,8 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = " "+aEntry[0]
-            siteUrl = str(aEntry[1])
+            sTitle = aEntry[2]+" "+aEntry[1]
+            siteUrl = str(aEntry[0])
             sThumb = str(sThumb)
             sDesc = ""
  
@@ -353,7 +355,7 @@ def showEps():
 
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'href="([^<]+)" rel="next" class="ti-fast-rewind"></a>'
+    sPattern = '<li><a class="next page-numbers" href="([^<]+)">'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -376,7 +378,7 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  '<a href="([^<]+)" class="download-btn ti-slow-motion">' 
+    sPattern =  '<div class="DownloadNow"> <a href="([^<]+)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0] 
@@ -387,7 +389,7 @@ def showHosters():
     # (.+?) .+? ([^<]+)
                
 
-    sPattern = 'IFRAME SRC="(.+?)" FRAMEBORDER.+?>([^<]+)</li>'
+    sPattern = 'rel="nofollow" href="([^<]+)" class="download-a">.+?<p>([^<]+)</p'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
