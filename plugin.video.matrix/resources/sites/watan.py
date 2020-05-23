@@ -258,7 +258,7 @@ def showSeason():
     sHtmlContent = oRequestHandler.request()
     sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
  # ([^<]+) .+? 
-    sPattern = "<a href='([^<]+)'><h2>([^<]+)</h2></a>"
+    sPattern = "<img src='([^<]+)' alt.+?<a href='([^<]+)'><h2>([^<]+)</h2></a>"
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -272,11 +272,11 @@ def showSeason():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
+            sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","")
-            siteUrl =  str(aEntry[0])
-            sThumbnail = sThumbnail
+            siteUrl =  str(aEntry[1])
+            sThumbnail = str(aEntry[0])
             sInfo = ''
 			
 
