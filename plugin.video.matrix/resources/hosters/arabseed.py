@@ -5,6 +5,7 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 import re
+import requests
 
 class cHoster(iHoster):
 
@@ -59,38 +60,45 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        print self.__sUrl
-        
-        oRequest = cRequestHandler(self.__sUrl)
-        sHtmlContent = oRequest.request()
-        
-        #fh = open('c:\\test.txt', "w")
-        #fh.write(sHtmlContent)
-        #fh.close()
-        
-        oParser = cParser()
-        
-            # (.+?) .+?
-        sPattern = '<source src="(.+?)" type="(.+?)" />'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
 
-        if (aResult[0] == True):
-            
-            #initialisation des tableaux
-            url=[]
-            qua=[]
-            
-            #Replissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
+		api_call = ''
 
-            api_call = dialog().VSselectqual(qua, url)
+		oRequest = cRequestHandler(self.__sUrl)
+		sHtmlContent = oRequest.request()
+		oParser = cParser()
+		sUrl = self.__sUrl
+    
+    #Recuperation infos
+		sId = ''
 
-            if (api_call):
-                return True, api_call
+		sPattern = 'name="id" value="(.+?)">'
+		aResult = oParser.parse(sHtmlContent, sPattern)
+    
+		if (aResult[0]):
+			sId = aResult[1][0]
 
-        return False, False
+    
+  # ([^<]+) .+?
+		headers = {'Host': 'm.arabseed.me',
+					'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
+					'Accept': '*/*',
+					'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+					'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+					'X-Requested-With': 'XMLHttpRequest',
+					'Referer': sUrl,
+					'origin': 'https://m.arabseed.me',
+					'Connection': 'keep-alive'}
+		data = {'op':'download2','id':sId,'rand':'','referer':'','method_free':'','method_premium':''}
+		s = requests.Session()
+		r = s.post(sUrl, headers = headers,data = data)
+		sHtmlContent += r.content
+		sPattern = '<span id="direct_link" style.+?<a href="([^<]+)">'
+		aResult = oParser.parse(sHtmlContent, sPattern)
+		if (aResult[0] == True):
+			api_call = aResult[1][0]
+
+		if (api_call):
+			return True, api_call 
+
+		return False, False
         
