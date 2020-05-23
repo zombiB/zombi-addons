@@ -12,8 +12,9 @@ from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.packer import cPacker
 from resources.lib.aadecode import AADecoder
-import urllib2,urllib,re,base64
+import urllib2,urllib,re
 import unicodedata
+import base64
  
 SITE_IDENTIFIER = 'tvfun'
 SITE_NAME = 'tvfun'
@@ -21,7 +22,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.tvfun.ma/'
 
-
+RAMADAN_SERIES = ('https://ww.tvfun.ma/ts,mosalsalat-ramadan-2020/', 'showSeries')
 
 SERIE_TR = ('https://www.tvfun.ma/mosalsalat-torkia/', 'showSeries')
 
@@ -56,8 +57,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
   
-
-
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -136,7 +135,6 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
 def showEpisodes():
     oGui = cGui()
     
@@ -184,11 +182,11 @@ def showEpisodes():
      
 
     if (aResult[0] == True):
-        sHtmlContent2 = aResult[1][0]
+        sHtmlContent = aResult[1][0]
    # ([^<]+) .+?
     sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><img data-sizes="auto" alt=".+?" class="lazyload" data-src="([^<]+)" data-srcset='
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
     if (aResult[0] == True):
@@ -210,7 +208,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
    #([^<]+) .+?
@@ -247,8 +245,6 @@ def showEpisodes():
        
     oGui.setEndOfDirectory()
 	
-      
-
 def showEps():
     oGui = cGui()
     
@@ -314,12 +310,6 @@ def showEps():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
        
     oGui.setEndOfDirectory()
-	
-       
- 
-
-    
-
 
 def showHosters():
     oGui = cGui()
@@ -331,52 +321,46 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
 
-
-    #print sHtmlContent
-
-
-    #(.+?)       
-
-    sPattern = '{"type": "dailymotion","link": "(.+?)"}'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = str(aEntry).replace("https://dai.ly/","https://www.dailymotion.com/video/")
-				sTitle = " " 
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'myvi.ru' in url:
-					sTitle = " (myvi.ru)"
-				if 'cloudvideo' in url:
-					sTitle = " (Cloudvid)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if url.startswith('//'):
-					url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+    sPattern =  "PGlmcmFt([^<]+)'"
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+		total = len(aResult[1])
+		progress_ = progress().VScreate(SITE_NAME)
+		for aEntry in aResult[1]:
+			progress_.VSupdate(progress_, total)
+			if progress_.iscanceled():
+				break
+			m3url = "PGlmcmFt" + aEntry
+			sHtmlContent2 = base64.b64decode(m3url)
+    # (.+?)       
+			sPattern = 'src="(.+?)" allowfullscreen'
+			oParser = cParser()
+			aResult = oParser.parse(sHtmlContent2, sPattern)
+
+			if (aResult[0] == True):
+					total = len(aResult[1])
+					progress_ = progress().VScreate(SITE_NAME)
+					for aEntry in aResult[1]:
+						progress_.VSupdate(progress_, total)
+						if progress_.iscanceled():
+							break
+        
+						url = str(aEntry).replace("https://dai.ly/","https://www.dailymotion.com/video/")
+						sTitle = " " 
+						if url.startswith('//'):
+							url = 'http:' + url
+            
+						sHosterUrl = url 
+						oHoster = cHosterGui().checkHoster(sHosterUrl)
+						if (oHoster != False):
+							sDisplayTitle = sMovieTitle+sTitle
+							oHoster.setDisplayName(sDisplayTitle)
+							oHoster.setFileName(sMovieTitle)
+							cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)  
+					progress_.VSclose(progress_)  
                 
     oGui.setEndOfDirectory()
