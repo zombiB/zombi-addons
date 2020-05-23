@@ -107,7 +107,6 @@ def showSeries(sSearch = ''):
             sThumbnail = str(aEntry[4])
             sInfo = str(aEntry[1]).decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
-            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
             sYear = aEntry[0]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
@@ -162,7 +161,6 @@ def showSerie(sSearch = ''):
             sThumbnail = str(aEntry[3])
             sInfo = str(aEntry[0]).decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
-            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
 
 
             oOutputParameterHandler = cOutputParameterHandler()
