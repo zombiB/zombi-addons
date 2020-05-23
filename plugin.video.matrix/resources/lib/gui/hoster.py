@@ -159,7 +159,7 @@ class cHosterGui:
         if ('yadi.sk' in sHostName):
 
             return self.getHoster('yadisk')
-        if ('uppom' in sHostName):
+        if (('uppom' in sHostName)or ('upbom' in sHostName)):
             return self.getHoster('uppom')
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')

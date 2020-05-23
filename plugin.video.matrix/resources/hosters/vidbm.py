@@ -62,6 +62,12 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+
+        url = self.__sUrl
+
+        oRequest = cRequestHandler(url)
+        oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
         
         #VSlog(self.__sUrl)
 
