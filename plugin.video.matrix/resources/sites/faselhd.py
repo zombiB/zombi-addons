@@ -17,28 +17,30 @@ SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'faselhd'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.faselhd.com'
+URL_MAIN = 'https://www.faselhd.live'
 
 
-MOVIE_EN = ('https://www.faselhd.com/movies', 'showMovies')
-MOVIE_HI = ('https://www.faselhd.com/hindi', 'showMovies')
-MOVIE_ASIAN = ('https://www.faselhd.com/asian-movies', 'showMovies')
+MOVIE_EN = ('https://www.faselhd.live/movies', 'showMovies')
+MOVIE_HI = ('https://www.faselhd.live/hindi', 'showMovies')
+MOVIE_ASIAN = ('https://www.faselhd.live/asian-movies', 'showMovies')
 
-KID_MOVIES = ('https://www.faselhd.com/movies-cats/animation', 'showMovies')
-MOVIE_TURK = ('https://www.faselhd.com/dubbed-movies', 'showMovies')
-SERIE_EN = ('https://www.faselhd.com/series-cats/gharbi-series', 'showSeries')
-REPLAYTV_NEWS = ('https://www.faselhd.com/tvshows', 'showSeries')
+KID_MOVIES = ('https://www.faselhd.live/dubbed-movies', 'showMovies')
+MOVIE_TURK = ('https://www.faselhd.live/dubbed-movies', 'showMovies')
+SERIE_EN = ('https://www.faselhd.live/series', 'showSeries')
+REPLAYTV_NEWS = ('https://www.faselhd.live/tvshows', 'showSeries')
 
-
+ANIM_MOVIES = ('https://www.faselhd.live/anime-movies', 'showMovies')
 SERIE_ASIA = ('https://www.faselhd.co/asian-series', 'showSeries')
-ANIM_NEWS = ('https://www.faselhd.com/anime', 'showAnimes')
-DOC_NEWS = ('https://www.faselhd.com/movies-cats/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
+ANIM_NEWS = ('https://www.faselhd.live/anime', 'showAnimes')
+DOC_NEWS = ('https://www.faselhd.live/movies-cats/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
+DOC_SERIES = ('https://www.faselhd.live/series_genres/documentary', 'showSeries')
+MOVIE_TOP = ('https://www.faselhd.live/movies_top_votes', 'showMovies')
+MOVIE_POP = ('https://www.faselhd.live/movies_top_views', 'showMovies')
+MOVIE_PACK = ('https://www.faselhd.live/movies_collections', 'showSeries')
 
-
-
-URL_SEARCH = ('https://www.faselhd.com/?s=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://www.faselhd.com/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.faselhd.com/?s=', 'showSeries')
+URL_SEARCH = ('https://www.faselhd.live/?s=', 'showSeries')
+URL_SEARCH_MOVIES = ('https://www.faselhd.live/?s=', 'showSearch')
+URL_SEARCH_SERIES = ('https://www.faselhd.live/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -56,7 +58,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.faselhd.com/?s='+sSearchText+'&post_type%5B%5D=movies&post_type%5B%5D=hindi&post_type%5B%5D=arabic-movies&post_type%5B%5D=asian-movies&post_type%5B%5D=series&post_type%5B%5D=tvshows'
+        sUrl = 'https://www.faselhd.live/?s='+sSearchText+"فيلم"
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -75,7 +77,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" />.+?class="fa fa-star"></i>([^<]+)</span>'
+    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="([^<]+)"/.+?class="fa fa-star"></i>([^<]+)<'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -95,13 +97,6 @@ def showMovies(sSearch = ''):
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = '[COLOR aqua]'+aEntry[3]+'/10[/COLOR]'
-            annee = ''
-            m = re.search('([0-9]{4})', sTitle)
-            if m:
-				annee = str(m.group(0))
-				sTitle = sTitle.replace(annee,'')
-            if annee:
-				sTitle = sTitle + '(' + annee + ')'
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -134,7 +129,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /.+?<span><i class="fa fa-star"></i>([^<]+)</span><span>([^<]+)</span>'
+    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?<div class="h1">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -150,10 +145,10 @@ def showSeries(sSearch = ''):
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
-            sInfo = '[COLOR aqua]'+aEntry[3]+'/10 [/COLOR]'+ aEntry[4]
+            sInfo = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -162,6 +157,39 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+  # ([^<]+) .+?
+
+    sPattern = "href='([^<]+)' class='inactive' >([^<]+)</a></li>"
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -186,7 +214,7 @@ def showAnimes(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)"'
+    sPattern = '<a href="([^<]+)">.+?data-src="(.+?)".+?alt="([^<]+)"/'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -234,92 +262,69 @@ def showSeasons():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
-            
-    sPattern =  '<a href="([^<]+)">انقر هنـا</a>' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
-        m3url = aResult[1][0]
-        oRequest = cRequestHandler(m3url)
-        sHtmlContent = oRequest.request()
-	
+    
+    #Recuperation infos
+    import requests
+    postid = ''
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="movie-wrap">.+?<a href="([^<]+)">.+?<img src="([^<]+)" alt="">.+?<h1  style="bottom: 0">([^<]+)</h1>'
+    sPattern = '<div class="seasonDiv.+?" data-href="([^<]+)">.+?<div class="title">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
+    if (aResult[0]):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+				postid = aEntry[0]
+				nume = aEntry[1]
 
-    #print aResult
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
+				postdata = 'seasonID=' + postid
+				link = 'https://www.faselhd.live/series-ajax/?_action=get_season_list&_post_id='+postid
+				oRequestHandler = cRequestHandler(link)
+				oRequestHandler.setRequestType(1)
+				oRequestHandler.addHeaderEntry('Referer', sUrl)
+				oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+				oRequestHandler.addHeaderEntry('origin', 'https://www.faselhd.live')
+				oRequestHandler.addParametersLine(postdata)
+				sHtmlContent = oRequestHandler.request()
+				if sHtmlContent:
+					sPattern = '<a href="([^<]+)>([^<]+)</a>' 
+
+					oParser = cParser()
+					aResult = oParser.parse(sHtmlContent,sPattern)
+					if (aResult[0] == True):
+						total = len(aResult[1])
+						progress_ = progress().VScreate(SITE_NAME)
+						for aEntry in aResult[1]:
+							progress_.VSupdate(progress_, total)
+							if progress_.iscanceled():
+								break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = aEntry[0].replace("'", "") 
-            sThumbnail = str(aEntry[1])
-            sInfo = ""
+							sTitle = aEntry[1].decode("utf8")
+							sTitle = cUtil().unescape(sTitle).encode("utf8")
+							sTitle = nume+" - "+sTitle
+							siteUrl = aEntry[0].replace(' class="active"', "").replace('"', "") 
+							sThumbnail = sThumbnail
+							sInfo = ""
 
 
  
             #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+							oOutputParameterHandler = cOutputParameterHandler()
+							oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+							oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+							oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+							oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
  
-        progress_.VSclose(progress_)
-    #(.+?) ([^<]+)
-    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img src="([^<]+)" alt=".+?" />.+?</div><h1>([^<]+)</h1>'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
-
-    #print aResult
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[2].replace("&#8217;","'")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[1])
-            sInfo = ""
- 
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            
-
- 
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
+			progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory() 
 
@@ -452,14 +457,14 @@ def showLink():
     #Recuperation infos
     sNote = ''
 
-    sPattern = '<h3 class="single-titles">قصة الفيلم : </h3><p>([^<]+)</p></div>'
+    sPattern = '<div class="singleDesc">.+?<p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         sNote = aResult[1][0]
 	
      # (.+?) ([^<]+) .+?
-    sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a href="javascript:;"><i class="fa fa-play-circle"></i>([^<]+)</a></li'
+    sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a href="javascript:;"><i.+?class="fa fa-play-circle"></i>([^<]+)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -498,7 +503,7 @@ def showLink():
     # (.+?)
                
 
-    sPattern = '<li class="active" onclick="player_iframe.location.href = ([^<]+)"><a'
+    sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -510,6 +515,9 @@ def showLink():
 				progress_.VSupdate(progress_, total)
 				if progress_.iscanceled():
 					break
+ 
+				if "embed.php?url=" in aEntry:
+					continue
             
 				url = str(aEntry).replace("'", "")
 				sTitle = "" 
@@ -543,7 +551,7 @@ def showLink():
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<a href='([^<]+)'>&rsaquo;</a>"
+    sPattern = "href='([^<]+)'>&rsaquo;</a>"
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -564,10 +572,10 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    #(.+?)
+    # (.+?)
                
 
-    sPattern = 'name="iframe" src="(.+?)" frameborde'
+    sPattern = 'name="iframe" src="([^<]+)" frameborde'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
