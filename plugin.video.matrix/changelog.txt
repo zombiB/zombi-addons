@@ -6,6 +6,19 @@ for updates join https://www.facebook.com/groups/2597378853663026/
 "Matrix : arabic vod " group on facebook
 ========================================================================================
 version="3.2.3"
+akwam fix to show all movies
+alfajertv  fix to show all movies
+movizland fix to show all movies
+cimaclub fix to show all movies
+cimanow fix  NextPage
+extra deleted from movies en
+4helal  link changed
+fajerlive anavids   hoster added
+arabseed cimaclub moshahda Vidlox   hoster Fixed
+MyStream fileup ko
+
+=============================================================================
+version="3.2.3"
 Sites Fixed/Updated
 =============================================================================
 version="3.2.2"
