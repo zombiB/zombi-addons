@@ -179,7 +179,8 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article id=".+?" class="item movies "><div class="poster"><img src="([^<]+)" alt=.+?<span class="quality">([^<]+)</span>.+?<h3><a href="([^<]+)">([^<]+)</a></h3>.+?</div> <div class="metadata"> <span class="imdb">([^<]+)</span> <span>([^<]+)</span> .+?</div> <div class="texto">([^<]+)</div>'
+    sPattern = '<img src="([^<]+)" alt="([^<]+)">.+?</div><a href="([^<]+)"><div class="see">.+?<span>([^<]+)</span> <span>.+?class="texto">([^<]+)</div>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -192,15 +193,15 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
+            sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[2])
-            sThumb = str(aEntry[0])		
-            sQual = aEntry[1]
-            sYear = aEntry[5]
-            sDesc = '[COLOR yellow]'+aEntry[4]+'/10 [/COLOR]'+aEntry[6]
-            sDisplayTitle = ('%s [%s] (%s)') % (sTitle, sQual, sYear)
+            sThumb = str(aEntry[0])	
+            sYear = aEntry[3]
+            sDesc = aEntry[4].decode("utf8")
+            sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
