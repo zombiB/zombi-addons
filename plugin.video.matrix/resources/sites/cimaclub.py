@@ -21,7 +21,7 @@ URL_MAIN = 'http://cimaclub.com/'
 
 
 RAMADAN_SERIES = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020/', 'showSerie')
-MOVIE_EN = ('https://m.cimaclub.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A/', 'showMovies')
+MOVIE_EN = ('https://www.cimaclub.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_AR = ('http://cimaclub.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A/', 'showMovies')
 
 MOVIE_HI = ('http://cimaclub.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A/', 'showMovies')
@@ -107,7 +107,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?<div class="Thumb"><div class="Half1" style="background-image:url([^<]+);"></div></div><div class="BoxInfo"><div class="BoxTitle">([^<]+)</div><div class="GenresList"><div>([^<]+)</div>'
+    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?data-img="background-image:url([^<]+);"></div></div><div class="BoxInfo"><div class="BoxTitle">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -129,7 +129,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])+'watch/'
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
-            sDesc = aEntry[3]
+            sDesc = ""
             annee = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -169,7 +169,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?<div class="Thumb"><div class="Half1" style="background-image:url([^<]+);"></div></div><div class="BoxInfo"><div class="BoxTitle">([^<]+)</div>'
+    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?data-img="background-image:url([^<]+);"></div></div><div class="BoxInfo"><div class="BoxTitle">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

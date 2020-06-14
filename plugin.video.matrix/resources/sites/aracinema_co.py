@@ -83,12 +83,16 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
+            if "فيلم" not in aEntry[1]:
+				continue
+ 
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
-            sDesc = aEntry[3]
+            sDesc = aEntry[3].decode("utf8")
+            sDesc = cUtil().unescape(sDesc).encode("utf8")
             sYear = aEntry[4]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
@@ -337,7 +341,8 @@ def showLink():
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
             siteUrl = aEntry
             sThumb = sThumb
-            sDesc = sNote
+            sDesc = sNote.decode("utf8")
+            sDesc = cUtil().unescape(sDesc).encode("utf8")
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
