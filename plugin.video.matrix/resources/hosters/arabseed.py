@@ -6,6 +6,7 @@ from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 import re
 import requests
+UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
 
 class cHoster(iHoster):
 
@@ -98,7 +99,7 @@ class cHoster(iHoster):
 			api_call = aResult[1][0]
 
 		if (api_call):
-			return True, api_call 
+			return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'
 
 		return False, False
         
