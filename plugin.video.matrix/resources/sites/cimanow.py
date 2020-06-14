@@ -13,7 +13,7 @@ from resources.lib.util import cUtil
 import urllib2,urllib,re
 import unicodedata
 import base64
-UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+UA = 'Mozilla'
 SITE_IDENTIFIER = 'cimanow'
 SITE_NAME = 'cima-now'
 SITE_DESC = 'arabic vod'
@@ -101,7 +101,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" not in aEntry[2]:
+            if "مسلسل" in aEntry[2]:
 				continue
  
             sTitle = str(aEntry[2]).decode("utf8")
@@ -125,14 +125,41 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+  # ([^<]+) .+?
+
+    sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showMovies', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -267,7 +294,7 @@ def showHosters():
     # (.+?) .+? ([^<]+)
                
 
-    sPattern = '<a href="https://cima-now.co/.+?redirect=(.+?)".+?<span>(.+?)</span>'
+    sPattern = 'redirect=(.+?)".+?<span>(.+?)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -290,7 +317,7 @@ def showHosters():
 					url = 'https:' + url
 				url = urllib.quote_plus(url)
             
-				sHosterUrl = url  +'|User-Agent=' + UA  + '&Referer=' + sUrl
+				sHosterUrl = url
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
 					sDisplayTitle = sMovieTitle+sTitle
@@ -300,6 +327,52 @@ def showHosters():
 				
 
 			progress_.VSclose(progress_) 
+
+    
+    # (.+?) .+? ([^<]+)        	
+    sPattern = '<iframe src="([^<]+)" scrolling'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if 'streamcherry' in url:
+					sTitle = " (streamcherry)"
+				if 'cloudvideo' in url:
+					sTitle = " (cloudvideo)"
+				if 'streamcloud' in url:
+					sTitle = " (streamcloud)"
+				if 'userscloud' in url:
+					sTitle = " (userscloud)"
+				if 'clicknupload' in url:
+					sTitle = " (clicknupload)"
+				if url.startswith('//'):
+					url = 'http:' + url
+				
+					
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
+
+			progress_.VSclose(progress_)
                 
                 
     oGui.setEndOfDirectory()
