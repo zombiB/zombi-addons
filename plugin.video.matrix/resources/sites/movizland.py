@@ -221,8 +221,7 @@ def showMovies(sSearch = ''):
       # (.+?) ([^<]+) .+?
 
 
-    sPattern = '<div class="BlockItem">.+?<a href="([^<]+)">.+?<div class="BlockImageItem"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-full size-full wp-post-image" alt="([^<]+)" />'
-
+    sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?src="([^<]+)" class.+?<div class="BlockTitle">([^<]+)</div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -505,8 +504,6 @@ def showHosters():
    
     oParser = cParser()
 
-    #print sId
-    
   # ([^<]+) .+?
     headers = {'Host': 'on.movizland.com',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
