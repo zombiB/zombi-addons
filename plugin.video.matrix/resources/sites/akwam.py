@@ -80,7 +80,8 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>.+?<span class="badge badge-pill badge-light ml-1">([^<]+)<'
+    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid.+?" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -98,7 +99,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[1])
             sThumb = str(aEntry[2])
-            sDesc = aEntry[5]
+            sDesc = ''
             sQua = aEntry[0]
             sYear = aEntry[4]
             sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
