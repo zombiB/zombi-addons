@@ -17,22 +17,22 @@ SITE_IDENTIFIER = 'movsu'
 SITE_NAME = 'movsfouru'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.mvs4u.to'
+URL_MAIN = 'https://www.movs4u.live'
 
-MOVIE_EN = ('https://www.mvs4u.to/movie/', 'showMovies')
-KID_MOVIES = ('https://www.mvs4u.to/genre/animation/', 'showMovies')
-MOVIE_HI = ('https://www.mvs4u.to/genre/india-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+MOVIE_EN = ('https://www.movs4u.live/movie/', 'showMovies')
+KID_MOVIES = ('https://www.movs4u.live/genre/animation/', 'showMovies')
+MOVIE_HI = ('https://www.movs4u.live/genre/india-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
 
-SERIE_EN = ('https://www.mvs4u.to/tvshows/', 'showSeries')
+SERIE_EN = ('https://www.movs4u.live/tvshows/', 'showSeries')
 
-MOVIE_POP = ('https://www.mvs4u.to/trending/?get=movies', 'showMovies')
-MOVIE_PACK = ('https://www.mvs4u.to/collection/', 'showMovie')
+MOVIE_POP = ('https://www.movs4u.live/trending/?get=movies', 'showMovies')
+MOVIE_PACK = ('https://www.movs4u.live/collection/', 'showMovie')
 
 
 
-URL_SEARCH = ('https://www.mvs4u.to/?s=', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://www.mvs4u.to/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://www.mvs4u.to/?s=', 'showSeriesSearch')
+URL_SEARCH = ('https://www.movs4u.live/?s=', 'showMoviesSearch')
+URL_SEARCH_MOVIES = ('https://www.movs4u.live/?s=', 'showSearch')
+URL_SEARCH_SERIES = ('https://www.movs4u.live/?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
 def load():
@@ -55,7 +55,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.mvs4u.to/?s='+sSearchText
+        sUrl = 'https://www.movs4u.live/?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -65,8 +65,8 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.mvs4u.to/?s='+sSearchText
-        showSearchSeries(sUrl)
+        sUrl = 'https://www.movs4u.live/?s='+sSearchText
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
    
@@ -888,7 +888,6 @@ def showHosters():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)       
-
+			progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory() 
