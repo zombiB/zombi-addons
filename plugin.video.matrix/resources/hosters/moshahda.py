@@ -68,15 +68,14 @@ class cHoster(iHoster):
         
 		oParser = cParser()
 		
-		sPattern = "<script type='text/javascript'>([^<]+)</script>"
+		sPattern = "<script type='text/javascript'>(.+?)</script>"
 		aResult = oParser.parse(sHtmlContent, sPattern)
-		sHtmlContent = cPacker().unpack(aResult[1][0])
-		print aResult[1][0]
+		sHtmlContent2 = cPacker().unpack(aResult[1][0])
 
         
             # (.+?) .+?
-		sPattern = 'file:"([^<]+)",label:"([^<]+)"'
-		aResult = oParser.parse(sHtmlContent, sPattern)
+		sPattern = 'file:"(.+?)",label:"(.+?)"'
+		aResult = oParser.parse(sHtmlContent2, sPattern)
         
 		api_call = False
 

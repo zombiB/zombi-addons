@@ -72,10 +72,6 @@ class cHoster(iHoster):
 
         api_call = self.__sUrl.replace("ddsdd","uppom")
         #full moviz lien direct final nowvideo
-        if 'ddcdd' in api_call:
-            UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
-            api_call = api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
-            api_call = api_call.replace("ddcdd","moshahda")
             
 
         #
