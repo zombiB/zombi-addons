@@ -73,8 +73,6 @@ class cHoster(iHoster):
             # (.+?) .+?
         sPattern = ',{file:"(.+?)",label:"(.+?)"},'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        print "dddf"
-        print aResult
         api_call = False
 
         if (aResult[0] == True):

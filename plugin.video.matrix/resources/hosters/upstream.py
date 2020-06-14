@@ -3,6 +3,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
+UA = 'Android'
 
 class cHoster(iHoster):
 
@@ -55,6 +56,6 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
 
         if (api_call):
-            return True, api_call
+            return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl+'&verifypeer=false'
 
         return False, False
