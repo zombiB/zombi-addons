@@ -48,8 +48,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        if '/down/'  in sUrl:
-            self.__sUrl = self.__sUrl.replace("/down/","/play/")
+        if '/play/'  in sUrl:
+            self.__sUrl = self.__sUrl.replace("/play/","/down/")
 
     def checkUrl(self, sUrl):
         return True
@@ -71,15 +71,8 @@ class cHoster(iHoster):
         #type1/([^"]+)/
         oParser = cParser()
 
-        sPattern =  'source src="(.+?)" type=' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            m3url = aResult[1][0] 
-            oRequest = cRequestHandler(m3url)
-            sHtmlContent = oRequest.request()
-
-   
-        sPattern =  ',RESOLUTION=(.+?),.+?(http.+?m3u8)' 
+       # (.+?) .+? ([^<]+)
+        sPattern =  '<small  >([^<]+)</small> <a target="_blank"  download=".+?" onclick="updateData.+?"  href="([^<]+)" > <small  >' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
             #initialisation des tableaux
@@ -93,6 +86,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
 
             if (api_call):
-                return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
+                return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl+'&verifypeer=false'
 
         return False, False
