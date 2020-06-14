@@ -34,7 +34,7 @@ ANIM_NEWS = ('https://tuktukcinema.com/sercat/%d9%82%d8%a7%d8%a6%d9%85%d8%a9-%d8
 
 SPORT_WWE = ('https://tuktukcinema.com/category/wwe/', 'showMovies')
 
-DOC_SERIES = ('https://tuktukcinema.com/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?series=1', 'showSeries')
+DOC_SERIES = ('https://tuktukcinema.com/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?series=1', 'showMovies')
 
 URL_SEARCH = ('https://tuktukcinema.com/search/', 'showMovies')
 URL_SEARCH_MOVIES = ('https://tuktukcinema.com/search/', 'showMovies')
@@ -141,7 +141,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<a title="([^<]+)" href="([^<]+)">.+?<div class="FrontBlock">.+?<img src="([^<]+)">'
+    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)"><div class="FrontBlock"><img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -194,7 +194,7 @@ def showSeasons():
     sHtmlContent = oRequestHandler.request()
     #print sHtmlContent
     # .+? ([^<]+)
-    sPattern = '<div class="MovieItem">.+?<a title="([^<]+)" href="([^<]+)">.+?<div class="FrontBlock">.+?<img src="([^<]+)">'
+    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)"><div class="FrontBlock"><img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
