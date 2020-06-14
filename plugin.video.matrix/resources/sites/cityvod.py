@@ -52,7 +52,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://www.cityvod.net/search.php?type=s&w='+sSearchText+'+&table_t=1&g='
+        sUrl = 'http://www.cityvod.net/search.php?type=s&w='+sSearchText+'&table_t=1&g='
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

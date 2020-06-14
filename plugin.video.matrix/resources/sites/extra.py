@@ -21,7 +21,6 @@ URL_MAIN = 'http://www.extra-3sk.com/'
 
 RAMADAN_SERIES = ('https://extra-3sk.com/category/series-ramadan-2020', 'showSerie')
 
-MOVIE_EN = ('https://extra-3sk.com/assemblies/foreign-films/', 'showMovies')
 MOVIE_TURK = ('https://extra-3sk.com/assemblies/turkish-films/', 'showMovies')
 
 SERIE_TR = ('https://extra-3sk.com/series/', 'showSerie')
