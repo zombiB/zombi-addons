@@ -71,8 +71,8 @@ class cHoster(iHoster):
             api_call = self.__sUrl
 
         if (api_call).endswith('.mp4'):
-            return True, api_call
+            return True, api_call+ '|User-Agent=' + UA+'&verifypeer=false'
         else:
-            return True, api_call + '|User-Agent=' + UA
+            return True, api_call + '|User-Agent=' + UA+'&verifypeer=false'
 
         return False, False
