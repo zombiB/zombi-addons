@@ -17,32 +17,32 @@ SITE_IDENTIFIER = 'helal'
 SITE_NAME = '4helal'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.4helal.co'
+URL_MAIN = 'https://www.4helal.cc'
 
 
-RAMADAN_SERIES = ('https://www.4helal.co/cat/4/مسلسلات_عربية/1.html', 'showSerie')
-MOVIE_EN = ('https://www.4helal.co/cat/21/%D8%A7%D9%81%D9%84%D8%A7%D9%85_%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9/1.html', 'showMovies')
-MOVIE_AR = ('https://www.4helal.co/cat/22/أفلام_عربية/1.html', 'showMovies')
-MOVIE_HI = ('https://www.4helal.co/cat/23/أفلام_هندية/1.html', 'showMovies')
+RAMADAN_SERIES = ('https://www.4helal.cc/cat/4/مسلسلات_عربية/1.html', 'showSerie')
+MOVIE_EN = ('https://www.4helal.cc/cat/21/%D8%A7%D9%81%D9%84%D8%A7%D9%85_%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9/1.html', 'showMovies')
+MOVIE_AR = ('https://www.4helal.cc/cat/22/أفلام_عربية/1.html', 'showMovies')
+MOVIE_HI = ('https://www.4helal.cc/cat/23/أفلام_هندية/1.html', 'showMovies')
 
-MOVIE_PACK = ('https://www.4helal.co/c/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85.html', 'showSerie')
+MOVIE_PACK = ('https://www.4helal.cc/c/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85.html', 'showSerie')
 
-KID_MOVIES = ('https://www.4helal.co/genre/animation-movies', 'showMovies')
-SERIE_TR = ('https://www.4helal.co/cat/6/مسلسلات_تركية/1.html', 'showSerie')
-SERIE_EN = ('https://www.4helal.co/cat/5/مسلسلات_اجنبية/1.html', 'showSerie')
-SERIE_AR = ('https://www.4helal.co/cat/4/مسلسلات_عربية/1.html', 'showSerie')
-SERIE_ASIA = ('https://www.4helal.co/cat/26/مسلسلات_كورية/1.html', 'showSerie')
-SERIE_HEND = ('https://www.4helal.co/c/indian-series.html', 'showSerie')
+KID_MOVIES = ('https://www.4helal.cc/genre/animation-movies', 'showMovies')
+SERIE_TR = ('https://www.4helal.cc/cat/6/مسلسلات_تركية/1.html', 'showSerie')
+SERIE_EN = ('https://www.4helal.cc/cat/5/مسلسلات_اجنبية/1.html', 'showSerie')
+SERIE_AR = ('https://www.4helal.cc/cat/4/مسلسلات_عربية/1.html', 'showSerie')
+SERIE_ASIA = ('https://www.4helal.cc/cat/26/مسلسلات_كورية/1.html', 'showSerie')
+SERIE_HEND = ('https://www.4helal.cc/c/indian-series.html', 'showSerie')
 
-ANIM_NEWS = ('https://www.4helal.co/cat/7/انمي_مترجم/1.html', 'showSerie')
+ANIM_NEWS = ('https://www.4helal.cc/cat/7/انمي_مترجم/1.html', 'showSerie')
 
-DOC_NEWS = ('https://www.4helal.co/genre/documentary-movies', 'showMovies')
-DOC_SERIES = ('https://www.4helal.co/genre/documentary-movies', 'showSeries')
+DOC_NEWS = ('https://www.4helal.cc/genre/documentary-movies', 'showMovies')
+DOC_SERIES = ('https://www.4helal.cc/genre/documentary-movies', 'showSeries')
 
-KID_CARTOON = ('https://www.4helal.co/c/Cartoon-Dubbed', 'showSerie')
+KID_CARTOON = ('https://www.4helal.cc/c/Cartoon-Dubbed', 'showSerie')
 
-SPORT_WWE = ('https://www.4helal.co/cat/2/%D8%A7%D9%84%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A/1.html', 'showMovies')
-URL_SEARCH = ('https://www.4helal.co/tag/', 'showMovies')
+SPORT_WWE = ('https://www.4helal.cc/cat/2/%D8%A7%D9%84%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A/1.html', 'showMovies')
+URL_SEARCH = ('https://www.4helal.cc/tag/', 'showMovies')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
 def load():
@@ -60,7 +60,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.4helal.co/tag/'+sSearchText
+        sUrl = 'https://www.4helal.cc/tag/'+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -274,7 +274,7 @@ def showEpisodes():
  
       # (.+?) ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a href="([^<]+)">الصفحة التالية</a>'
+    sPattern = '<a href="([^<]+)">&rsaquo;</a>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
