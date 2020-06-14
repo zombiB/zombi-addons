@@ -371,7 +371,7 @@ class cHosterGui:
             return self.getHoster('filescdn')
         if ('hdvid' in sHostName):
             return self.getHoster('hdvid')
-        if (('anonfile' in sHostName) or ('vidmoly' in sHostName) or ('file.bz' in sHostName) or ('megaup' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
+        if (('anonfile' in sHostName) or ('vidmoly' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
             return self.getHoster('anonfile')
         if ('bayfiles' in sHostName):
 
@@ -391,11 +391,13 @@ class cHosterGui:
             return self.getHoster('vshare')
         if ('giga' in sHostName):
             return self.getHoster('giga')
+        if ('anavids' in sHostName):
+            return self.getHoster('anavids')
 
         if ('streamsforu' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
             return self.getHoster('streamsforu')
-        if ('file-up' in sHostName):
-            return self.getHoster('fileup')
+        #if ('file-up' in sHostName):
+            #return self.getHoster('fileup')
 
         if ('cloud2up' in sHostName):
             return self.getHoster('cloudup')
@@ -424,8 +426,10 @@ class cHosterGui:
             return self.getHoster('streamz')
         if ('vidbob' in sHostName):
             return self.getHoster('vidbob')
-        if ('mystream' in sHostName):
-            return self.getHoster('mystream')
+        if ('fajer.live' in sHostName):
+            return self.getHoster('fajerlive')
+        #if ('mystream' in sHostName):
+            #return self.getHoster('mystream')
         if ('letsupload' in sHostName):
             return self.getHoster('letsupload')
 
@@ -435,6 +439,8 @@ class cHosterGui:
         if ('rapidvideo' in sHostName):
             return self.getHoster('bitno')
         if ('arabramadan' in sHostName):
+            return self.getHoster('arabramadan')
+        if ('player.4show' in sHostName):
             return self.getHoster('arabramadan')
 
 
@@ -493,8 +499,6 @@ class cHosterGui:
             return self.getHoster('lien_direct')
         if ('ddsdd' in sHostName):
             return self.getHoster('lien_direct')
-        if ('ddcdd' in sHostName):
-            return self.getHoster('lien_direct')
         if ('fbcdn.net' in sHostName):
             return self.getHoster('lien_direct')
         if ('blogspot.com' in sHostName):
@@ -526,7 +530,7 @@ class cHosterGui:
         if ('livestream.com' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('Megaup' in sHostName or 'megaup' in sHostName or 'nitroflare' in sHostName or 'multiup' in sHostName):
+        if ('nitroflare' in sHostName or 'multiup' in sHostName):
             return False
 
         #Si aucun hebergeur connu on teste les liens directs
