@@ -28,7 +28,7 @@ ANIM_NEWS = ('https://anime2001.com/', 'showSeries')
 
 
 URL_SEARCH = ('https://anime2001.com/?s=', 'showSearch')
-URL_SEARCH_SERIES = ('https://anime2001.com/?s=', 'showSerieSearch')
+URL_SEARCH_SERIES = ('https://anime2001.com/?s=', 'showSearch')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():

@@ -40,8 +40,8 @@ ANIM_NEWS = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8
 REPLAYTV_PLAY = ('https://m2.arabseed.net/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showEps')
 REPLAYTV_NEWS = ('https://arabseed.net/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
 URL_SEARCH = ('https://m2.arabseed.net/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://m2.arabseed.net/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://m2.arabseed.net/?s=', 'showSearchSerie')
+URL_SEARCH_MOVIES = ('https://m2.arabseed.net/?s=', 'showSearch')
+URL_SEARCH_SERIES = ('https://m2.arabseed.net/?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -90,7 +90,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><div class="Ribbon">([^<]+)</div><img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
+    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><img data-src="([^<]+)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -104,22 +104,21 @@ def showMoviesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" not in aEntry[2]:
+            if "مسلسل" in aEntry[1]:
 				continue
  
-            sTitle = str(aEntry[2]).decode("utf8")
+            sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
+            sThumb = str(aEntry[2])
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
 				sYear = str(m.group(0))
 				sTitle = sTitle.replace(sYear,'')
-            sQua = aEntry[2]
-            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -135,7 +134,7 @@ def showMoviesSearch(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMoviesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -166,7 +165,7 @@ def showSearchSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" in aEntry[2]:
+            if "فيلم" in aEntry[1]:
 				continue
  
             sTitle = str(aEntry[1]).decode("utf8")
@@ -189,7 +188,7 @@ def showSearchSerie(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSearchSerie', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -206,8 +205,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><div class="Ribbon">([^<]+)</div><img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
-
+    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -220,19 +218,18 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).decode("utf8")
+            sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[3])
+            sThumb = str(aEntry[1])
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
 				sYear = str(m.group(0))
 				sTitle = sTitle.replace(sYear,'')
-            sQua = aEntry[2]
-            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -265,7 +262,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><img data-src="([^<]+)" alt='
+    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -279,10 +276,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).decode("utf8")
+            sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[2])
+            sThumb = str(aEntry[1])
             sDesc = ''
 
 
@@ -355,7 +352,7 @@ def showEps():
 
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a class="next page-numbers" href="([^<]+)">'
+    sPattern = '<a class="next page-numbers" href="([^<]+)">'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -114,7 +114,6 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[1]
             sInfo = aEntry[3].decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
-            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
 			
 			
 
