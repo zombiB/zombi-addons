@@ -3,7 +3,6 @@
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
@@ -12,6 +11,7 @@ from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.player import cPlayer
+from resources.lib.comaddon import dialog
 import xbmcgui
 import urllib2,urllib,re
 import unicodedata
@@ -75,7 +75,7 @@ def showMovies(sSearch = ''):
 			else:u="movie"
 			if not "movie" in u:
 				continue
-			sTitle = y.decode('utf-8')
+			sTitle = y
 			siteUrl = "https://atfrg.online/"+u+"/"+y
 			sThumbnail = z.replace("\u002F","/")
 			sInfo = ""
@@ -236,7 +236,6 @@ def showSeasons():
  
         progress_.VSclose(progress_)
     oGui.setEndOfDirectory()
-  
 
 def showHosters():
     oGui = cGui()
@@ -244,46 +243,41 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
-  
-
+    
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    sHtmlContent = oRequestHandler.request()
-    #print sHtmlContent
-    # .+? ([^<]+) (.+?)
-               
+    sHtmlContent = oRequestHandler.request();
 
+    oParser = cParser()
+    #recup du lien mp4
     sPattern = 'src="([^<]+)" type="video/mp4" size="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    
+    api_call = False
+    
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry[0])
-				sTitle = str(aEntry[1])
-				sTitle = '[COLOR yellow] '+sTitle+'p[/COLOR]'
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle+sTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
+        
+        sUrl=[]
+        
+        qua=[]
+        for i in aResult[1]:
+			sUrl.append(i[0].replace("[","%5B").replace("]","%5D").replace("+","%20"))
+			qua.append(str(i[1]))
+ 
+        api_call  = dialog().VSselectqual(qua, sUrl)
+        oGuiElement = cGuiElement()
+        oGuiElement.setSiteName(SITE_IDENTIFIER)
+        oGuiElement.setTitle(sMovieTitle)
+        oGuiElement.setMediaUrl(api_call)
+        oGuiElement.setThumbnail(sThumbnail)
 
-			progress_.VSclose(progress_) 
-                
+        oPlayer = cPlayer()
+        oPlayer.clearPlayList()
+        oPlayer.addItemToPlaylist(oGuiElement)
+        oPlayer.startPlayer()
+        return
+    
+    else:
+        return
+
     oGui.setEndOfDirectory()

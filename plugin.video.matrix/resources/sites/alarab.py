@@ -338,7 +338,7 @@ def showHosters():
     oParser = cParser()
             
     sPattern =  'src="([^<]+)" gesture="media"' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
+    aResult = oParser.parse(sHtmlContent,sPattern) 
     if (aResult[0] == True):
         m3url = aResult[1][0]
         if m3url.startswith('//'):

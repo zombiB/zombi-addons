@@ -447,7 +447,6 @@ class cGuiElement:
     def getMetadonne(self):
 
         sTitle = self.__sFileName
-        sTitle = unquote(self.__sFileName)
 
         #sTitle = self.__sTitle.decode('latin-1').encode("utf-8")
         #sTitle = re.sub(r'\[.*\]|\(.*\)', r'', str(self.__sFileName))
