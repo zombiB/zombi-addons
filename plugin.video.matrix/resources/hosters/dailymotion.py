@@ -51,7 +51,6 @@ class cHoster(iHoster):
         self.__sUrl = self.__sUrl.replace('video/', '')
         self.__sUrl = self.__sUrl.replace('sequence/', '')
         self.__sUrl = self.__sUrl.replace('swf/', '')
-        self.__sUrl = 'http://www.dailymotion.com/embed/video/' + str(self.__sUrl)
 
     def checkUrl(self, sUrl):
         return True
@@ -63,41 +62,9 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        api_call = False
-	UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
-        url=[]
-        qua=[]
-        
-        oRequest = cRequestHandler(self.__sUrl)
-        oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:70.0) Gecko/20100101 Firefox/70.0')
-        oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-        oRequest.addHeaderEntry('Cookie', "ff=off")
-        sHtmlContent = oRequest.request()
-
-
-        oParser = cParser()
-
-        sPattern =  '{"type":"application.+?mpegURL","url":"([^"]+)"}'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-
-        if (aResult[0] == True):
-            oRequest = cRequestHandler(aResult[1][0])
-            oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:70.0) Gecko/20100101 Firefox/70.0')
-            oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-            sHtmlContent = oRequest.request()
-
-            sPattern = 'NAME="([^"]+)",PROGRESSIVE-URI="([^"]+)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if (aResult[0] == True):
-                for aEntry in reversed(aResult[1]):
-                    if aEntry[0] not in qua:
-                        qua.append(aEntry[0])
-                        url.append(aEntry[1])
-
-
-            api_call = dialog().VSselectqual(qua, url)
+        api_call = True
 
         if (api_call):
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+            return True, 'plugin://plugin.video.dailymotion_com/?url=' + self.__sUrl + '&mode=playVideo'
         
         return False, False

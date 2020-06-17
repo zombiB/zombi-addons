@@ -493,6 +493,8 @@ class cHosterGui:
 
         if ('kaydo.ws' in sHostName):
             return self.getHoster('lien_direct')
+        if ('atfrg' in sHostName):
+            return self.getHoster('lien_direct')
         if ('infinityload' in sHostName):
             return self.getHoster('lien_direct')
         if ('us.archive.' in sHostName):

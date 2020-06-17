@@ -81,6 +81,9 @@ class cHoster(iHoster):
        
         if 'akwam.download' in api_call:
             api_call = api_call + '|AUTH=TLS&verifypeer=false' 
+       
+        if 'atfrg' in api_call:
+            api_call = api_call.replace("[","%5B").replace("]","%5D").replace("+","%20")
 			
         if 'bittube.video/videos/' in api_call:
             api_call = api_call + '-1080.mp4' 
