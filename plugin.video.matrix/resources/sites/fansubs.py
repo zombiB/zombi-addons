@@ -21,6 +21,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://fansubs.tv'
 
 
+ANIM_MOVIES = ('https://fansubs.tv/movies', 'showMovies')
 
 
 ANIM_NEWS = ('http://fansubs.tv/videos/latest?page_id=1', 'showMovies')
@@ -138,7 +139,7 @@ def showHosters():
     # ([^<]+)
                
 
-    sPattern = 'src="([^<]+)" type="video/mp4" data-quality="([^<]+)"'
+    sPattern = '<source src="([^<]+)" data-quality="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -161,7 +162,7 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = sTitle
+					sDisplayTitle = sMovieTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
