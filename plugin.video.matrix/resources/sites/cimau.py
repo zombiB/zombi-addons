@@ -400,12 +400,12 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0] 
-        if '/tag/'  in m3url: 
+        if 'live'  in m3url: 
 			m3url = aResult[1][0] 
 			oRequest = cRequestHandler(m3url)
 			sHtmlContent2 = oRequest.request()
  # ([^<]+) .+?
-			sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?style="background-image:url([^<]+);"></div>.+?</div></div>([^<]+)</div>'
+			sPattern = '<a href="([^<]+)"><em>([^<]+)</em><span>([^<]+)</span></a></li>'
 
 			oParser = cParser()
 			aResult = oParser.parse(sHtmlContent2, sPattern)
@@ -419,11 +419,9 @@ def showEpisodes():
 					if progress_.iscanceled():
 						break
  
-					sTitle = str(aEntry[2]).decode("utf8")
-					sTitle = cUtil().unescape(sTitle).encode("utf8")
-					sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
+					sTitle = aEntry[1]+""+aEntry[2]
 					siteUrl = str(aEntry[0])
-					sThumb = str(aEntry[1]).replace("(","").replace(")","")
+					sThumb = sThumb
 					sDesc = sNote
 			
 
@@ -432,14 +430,14 @@ def showEpisodes():
 					oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 					oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 					oOutputParameterHandler.addParameter('sThumb', sThumb)
-					oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+					oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
 				progress_.VSclose(progress_)
         else:
 			oRequest = cRequestHandler(m3url)
 			sHtmlContent = oRequest.request()
- #([^<]+).+?
-    sPattern = '<div class="col-md-2" style="padding: 5px; text-align: center;"><a href="(.+?)" class=".+?"><span class="icon-desktop"></span>(.+?)</a></div>'
+ # ([^<]+) .+?
+    sPattern = '<a href="" data-link="([^<]+)" class="sever_link"><img src="http://live.cima4u.io/template/logo_server/1593281223_333.jpg" width="40" height="40" alt="" />([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
