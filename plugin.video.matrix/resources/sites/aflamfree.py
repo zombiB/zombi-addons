@@ -284,7 +284,7 @@ def showLive2():
     
     if (aResult[0]):
         sInfo = aResult[1][0]
-    #(.+?)([^<]+).+?<li>
+    # (.+?) ([^<]+) .+? 
     sPattern = '<div id="([^<]+)"> <IFRAME SRC="([^<]+)" webkitAllowFullScreen mozallowfullscreen'
     
     oParser = cParser()

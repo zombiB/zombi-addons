@@ -130,7 +130,7 @@ def showLive():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
-    #(.+?)([^<]+)
+    # (.+?) ([^<]+)
     sPattern = '<a href="([^<]+)" id="thread_title_.+?">([^<]+)</a>'
     
     oParser = cParser()

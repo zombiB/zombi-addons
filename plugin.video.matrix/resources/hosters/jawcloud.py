@@ -80,7 +80,7 @@ class cHoster(iHoster):
         #type1/([^"]+)/
         oParser = cParser()
 
-        sPattern =  'source src="(.+?)" type=' 
+        sPattern =  'source src="([^<]+)" type=' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
             m3url = aResult[1][0] 

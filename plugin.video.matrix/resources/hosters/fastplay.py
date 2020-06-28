@@ -50,6 +50,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if not "http" in sUrl:
+			self.__sUrl = 'https://'+self.__sUrl
 
     def checkUrl(self, sUrl):
         return True

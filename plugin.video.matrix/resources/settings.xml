@@ -76,6 +76,7 @@
         <!--activation invisible des sources -->
         <setting visible="false" id="plugin_cityvod" type="bool" label="cityvod" default="true"/>
         <setting visible="false" id="plugin_zimabdko" type="bool" label="zimabdko" default="true"/>
+        <setting visible="false" id="plugin_cimaq" type="bool" label="cimaq" default="true"/>
         <setting visible="false" id="plugin_oktooon" type="bool" label="oktooon" default="true"/> 
         <setting visible="false" id="plugin_okanime" type="bool" label="okanime" default="true"/> 
         <setting visible="false" id="plugin_oleeh" type="bool" label="oleeh" default="true"/> 
