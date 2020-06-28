@@ -34,7 +34,7 @@ SERIE_EN = ('http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D
 SERIE_AR = ('http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A/', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 ANIM_NEWS = ('https://www.cimaclub.cam/category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showSerie')
-DOC_NEWS = ('http://cimaclub.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9/', 'showMovies')
+DOC_NEWS = ('https://www.cimaclub.cam/genre/documentary/', 'showMovies')
 SPORT_NEWS = ('http://cimaclub.com/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D9%87-wwe/', 'showMovies')
 REPLAYTV_NEWS = ('http://cimaclub.com/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D9%88%D8%B9%D8%B1%D9%88%D8%B6-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D9%87/', 'showMovies')
 URL_SEARCH = ('http://cimaclub.com/?s=', 'showMovies')
