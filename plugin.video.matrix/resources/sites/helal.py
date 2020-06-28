@@ -36,8 +36,7 @@ SERIE_HEND = ('https://www.4helal.cc/c/indian-series.html', 'showSerie')
 
 ANIM_NEWS = ('https://www.4helal.cc/cat/7/انمي_مترجم/1.html', 'showSerie')
 
-DOC_NEWS = ('https://www.4helal.cc/genre/documentary-movies', 'showMovies')
-DOC_SERIES = ('https://www.4helal.cc/genre/documentary-movies', 'showSeries')
+DOC_NEWS = ('https://www.4helal.cc/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85+%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
 
 KID_CARTOON = ('https://www.4helal.cc/c/Cartoon-Dubbed', 'showSerie')
 
