@@ -301,41 +301,8 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
 
         progress_.VSclose(progress_)
-    # ([^<]+)
-               
-
-    sPattern = 'name="main_video_url" value="(.+?)"/>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = "https://www.youtube.com/watch?v=" + str(aEntry)
-				sTitle = "link : "
-				if url.startswith('//'):
-					url = 'http:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_)
 			
-    sPattern = 'https://www.q8doc.com/wp-content/plugins/wp-fastest-cache-premium/pro/templates/youtube.html#([^<]+)?version='
+    sPattern = 'name="main_video_url" value="([^<]+)"/>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -347,8 +314,9 @@ def showHosters():
 				progress_.VSupdate(progress_, total)
 				if progress_.iscanceled():
 					break
-            
-				url = url = "https://www.youtube.com/watch?v=" + str(aEntry)
+           
+				url = aEntry.replace("?","")
+				url = "https://www.youtube.com/watch?v=" + aEntry
 				sTitle = "link : "
 				if url.startswith('//'):
 					url = 'http:' + url
