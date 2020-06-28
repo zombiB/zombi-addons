@@ -26,8 +26,8 @@ MOVIE_EN = ('https://shahid4u.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7
 MOVIE_HI = ('https://https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
 MOVIE_AR = ('https://https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
 
-DOC_NEWS = ('https://ww.https://shahid4u.cam/genre/Documentary', 'showMovies')
-DOC_SERIES = ('https://ww.https://shahid4u.cam/genre/Documentary', 'showSerie')
+DOC_NEWS = ('https://shahid4u.cam/genre/Documentary', 'showMovies')
+DOC_SERIES = ('https://shahid4u.cam/genre/Documentary', 'showSerie')
 SERIE_HEND = ('https://ww.https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
 
 SERIE_TR = ('https://ww.https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
@@ -464,7 +464,7 @@ def showServers():
     
     if (aResult[0]):
         sId = aResult[1][0]
-        sUrl2 = 'https://ww.https://shahid4u.cam/ajaxCenter?_action=getdownloadlinks&postId='+sId
+        sUrl2 = 'https://shahid4u.cam/ajaxCenter?_action=getdownloadlinks&postId='+sId
 
 
 
