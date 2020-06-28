@@ -36,7 +36,7 @@ SERIE_TR = ('https://akwam.net/series?section=32', 'showSeries')
 ANIM_NEWS = ('https://akwam.net/series?category=30', 'showSeries')
 
 DOC_NEWS = ('https://akwam.net/movies?category=28', 'showMovies')
-DOC_SERIES = ('https://akwam.net/shows?section=46', 'showSeries')
+DOC_SERIES = ('https://akwam.net/shows', 'showSeries')
 
 REPLAYTV_NEWS = ('https://akwam.net/shows?section=42', 'showSeries')
 REPLAYTV_PLAY = ('https://akwam.net/shows?section=45', 'showSeries')
@@ -135,8 +135,8 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span><span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
-
+    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?xlink:href="([^<]+)"/>.+?class="text-white">([^<]+)</a></h3>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)<'
+	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
