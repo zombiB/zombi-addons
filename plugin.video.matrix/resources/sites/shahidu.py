@@ -21,26 +21,26 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://shahid4u.cam'
 
-RAMADAN_SERIES = ('https://w1.https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020-1', 'showSerie')
+RAMADAN_SERIES = ('https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020-1', 'showSerie')
 MOVIE_EN = ('https://shahid4u.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
-MOVIE_HI = ('https://https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
-MOVIE_AR = ('https://https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
+MOVIE_HI = ('https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
+MOVIE_AR = ('https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
 
 DOC_NEWS = ('https://shahid4u.cam/genre/Documentary', 'showMovies')
 DOC_SERIES = ('https://shahid4u.cam/genre/Documentary', 'showSerie')
-SERIE_HEND = ('https://ww.https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
+SERIE_HEND = ('https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
 
-SERIE_TR = ('https://ww.https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
-SERIE_EN = ('https://https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSerie')
-SERIE_AR = ('https://https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
+SERIE_TR = ('https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
+SERIE_EN = ('https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSerie')
+SERIE_AR = ('https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-ANIM_NEWS = ('https://https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showMovies')
-REPLAYTV_NEWS = ('https://https://shahid4u.cam/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
+ANIM_NEWS = ('https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showMovies')
+REPLAYTV_NEWS = ('https://shahid4u.cam/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
 
 
-URL_SEARCH = ('https://https://shahid4u.cam/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://https://shahid4u.cam/search?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://https://shahid4u.cam/search?s=', 'showSerie')
+URL_SEARCH = ('https://shahid4u.cam/search?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://shahid4u.cam/search?s=', 'showMovies')
+URL_SEARCH_SERIES = ('https://shahid4u.cam/search?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
