@@ -26,9 +26,7 @@ URL_MAIN = 'https://atfrg.online'
 MOVIE_EN = ('https://atfrg.online/movies', 'showMovies')
 SERIE_EN = ('https://atfrg.online/serieses', 'showSeries')
 
-URL_SEARCH = ('https://w2.akoam.net/search/', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://w2.akoam.net/search/', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://w2.akoam.net/search/', 'showMoviesSearch')
+URL_SEARCH = ('', 'showMoviesSearch')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
