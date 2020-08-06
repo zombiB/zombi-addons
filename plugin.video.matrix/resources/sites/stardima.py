@@ -13,6 +13,7 @@ from resources.lib.util import cUtil
 from resources.lib.player import cPlayer
 import urllib2,urllib,re
 import unicodedata
+import base64
  
 SITE_IDENTIFIER = 'stardima'
 SITE_NAME = 'stardima'
@@ -23,7 +24,7 @@ URL_MAIN = 'https://www.stardima.com'
 
 
 KID_MOVIES = ('https://www.stardima.com/watch/browse-movie_anime_cartoon_dub_arabic-videos-1-date.html', 'showMovies')
-KID_CARTOON = ('https://www.stardima.com/watch/index.html', 'showSeries')
+KID_CARTOON = ('https://www.stardima.com/watch/browse.html', 'showSeries')
 
 
 URL_SEARCH = ('https://www.stardima.com/watch/search.php?keywords=', 'showSeries')
@@ -114,8 +115,8 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-     #(.+?)([^<]+)
-    sPattern = '<li class="dropdown-submenu"><a href="([^<]+)" class="dropdown-submenu">([^<]+)</a>'
+     # .+? ([^<]+)
+    sPattern = '<li><div class="pm-li-category"><a href="([^<]+)"><span class="pm-video-thumb pm-thumb-234 pm-thumb"><div class="pm-thumb-fix pm-thumb-234"><span class="pm-thumb-fix-clip"><img src="([^<]+)" alt="([^<]+)" width'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -129,10 +130,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).decode("utf8")
+            sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             siteUrl = str(aEntry[0])
-            sThumbnail = ""
+            sThumbnail = str(aEntry[1])
             sInfo = ""
 
 
@@ -278,16 +279,31 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
 
+    oParser = cParser()       
+    sPattern =  'parent.open([^<]+)" value'
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+			link = aEntry.replace("('","").replace("')","")
+			m3url =  'https://www.stardima.com/watch/'+link
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent = oRequest.request()
+        sHtmlContent = oRequest.request()
+
     oParser = cParser()
-    #recup du lien mp4
-    sPattern = 'src: "(.+?)"'
+    #recup du lien mp4 ([^<]+)
+    sPattern = "name='videoUrl' value=([^<]+)>"
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0] == True):
         
-        sUrl = str(aResult[1][0])
+        link = aResult[1][0].replace('"',"")
+        sUrl = base64.b64decode(link)
+        sUrl = sUrl.decode("ansi").encode("utf-8")
+        print "esUrl"
+        print sUrl
         if sUrl.startswith('//'):
 			sUrl = 'http:' + sUrl 
                  

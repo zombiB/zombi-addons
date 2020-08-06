@@ -164,6 +164,39 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
  
+     # (.+?) ([^<]+) .+?
+    sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
@@ -237,7 +270,7 @@ def showEpisodes():
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a href="([^<]+)">الصفحة التالية &laquo;</a></li>'
+    sPattern = '<li><a href="(.+?)">.+?&laquo;</a></li>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
