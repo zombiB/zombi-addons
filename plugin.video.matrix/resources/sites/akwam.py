@@ -36,7 +36,7 @@ SERIE_TR = ('https://akwam.net/series?section=32', 'showSeries')
 ANIM_NEWS = ('https://akwam.net/series?category=30', 'showSeries')
 
 DOC_NEWS = ('https://akwam.net/movies?category=28', 'showMovies')
-DOC_SERIES = ('https://akwam.net/shows', 'showSeries')
+DOC_SERIES = ('https://akwam.net/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
 
 REPLAYTV_NEWS = ('https://akwam.net/shows?section=42', 'showSeries')
 REPLAYTV_PLAY = ('https://akwam.net/shows?section=45', 'showSeries')
@@ -135,7 +135,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?xlink:href="([^<]+)"/>.+?class="text-white">([^<]+)</a></h3>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)<'
+    sPattern = '<div class="entry-image"><a href="([^<]+)" class="box">.+?xlink:href="([^<]+)" />.+?class="img-fluid w-100 lazy" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>.+?<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -149,15 +149,14 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[4]).decode("utf8")
+            sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[2])
-            sThumb = str(aEntry[3])
-            sQua = aEntry[1]
-            sYear = aEntry[5]
-            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
-            sDesc = '[COLOR yellow]'+aEntry[0]+'[/COLOR]'+" episodes"
+            siteUrl = str(aEntry[0])
+            sThumb = str(aEntry[1])
+            sYear = aEntry[3]
+            sDisplayTitle = ('%s (%s) ') % (sTitle, sYear)
+            sDesc = '[COLOR yellow]'+aEntry[4]+'[/COLOR]'+" episodes"
 
 
             oOutputParameterHandler = cOutputParameterHandler()
