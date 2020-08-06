@@ -167,6 +167,36 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
         progress_.VSclose(progress_) 
+ 
+    sPattern = '<a href="([^<]+)" target="_blank"' 
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+
+            url = str(aEntry)
+            if url.startswith('//'):
+                url = 'http:' + url
+            if 'ok.php' in url:
+                url = url.split('ok.php?id=', 1)[1]
+                url = 'http://ok.ru/videoembed/' + url
+            
+                
+            sHosterUrl = url
+			
+
+            sHosterUrl = sHosterUrl.replace('http://yalla6.xyz/goals/youtube.php?ytid=','https://www.youtube.com/embed/').replace('?autoplay=0','').replace('?autoplay=1','')
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_) 
 
 
                 
