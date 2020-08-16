@@ -239,7 +239,7 @@ def showAnimes(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeason', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -394,14 +394,14 @@ def showEpisodes():
     #Recuperation infos
     sNote = ''
 
-    sPattern = '<p class="_series_desc"><b>قصة الأنمي</b>([^<]+)</p>'
+    sPattern = '<meta itemprop="description" content=([^<]+)"/>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         sNote = aResult[1][0]
 	
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="movie-wrap"><a href="([^<]+)"><img width=".+?" height=".+?" src="([^<]+)" class=.+?<h1 style="bottom: 0">([^<]+)</h1>'
+    sPattern = '<a href="([^<]+)" class="active">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -415,9 +415,39 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
+            sTitle = aEntry[1]
             siteUrl = str(aEntry[0])
-            sThumbnail = aEntry[1]
+            sThumbnail = sThumbnail
+            sInfo = sNote
+			
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addTV(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+	
+     # (.+?) ([^<]+) .+?
+    sPattern = '<a href="([^<]+)" >([^<]+)</a>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1]
+            siteUrl = str(aEntry[0])
+            sThumbnail = sThumbnail
             sInfo = sNote
 			
 
