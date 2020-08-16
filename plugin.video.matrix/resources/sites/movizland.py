@@ -38,7 +38,7 @@ SERIE_AR = ('https://tv.movizland.com/category/series/arab-series/', 'showSeries
 SPORT_WWE = ('https://tv.movizland.com/category/series/wwe/', 'showMovies')
 
 SERIE_TR = ('https://tv.movizland.com/category/series/turkish-series/', 'showSeries')
-ANIM_NEWS = ('https://tv.movizland.com/category/series/anime-series/', 'showSeries')
+ANIM_NEWS = ('https://tv.movizland.com/category/series/anime-series/', 'showMovies')
 
 URL_SEARCH = ('https://tv.movizland.com/search/', 'showMoviesearch')
 URL_SEARCH_MOVIES = ('https://tv.movizland.com/search/', 'showMoviesearch')
