@@ -2,6 +2,7 @@
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
+from resources.lib.packer import cPacker
 import re,urllib2,urllib,xbmc
 
 
@@ -101,8 +102,7 @@ class cHoster(iHoster):
             POST_Data['id']        = re.findall('input type="hidden" name="id" value="([^<>"]*)"',sHtmlContent)[0]
             POST_Data['referer']     = re.findall('input type="hidden" name="referer" value="([^<>"]*)"',sHtmlContent)[0]
             #POST_Data['referer']   = re.findall('input type="hidden" name="referer" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['rand']      = re.findall('input type="hidden" name="rand" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['method_free']   = re.findall('input type="hidden" name="method_free" value="([^<>"]*)">',sHtmlContent)[0]
+            POST_Data['method_free']   = 'Free Download'
             
             UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
             headers = {'User-Agent': UA ,
@@ -127,6 +127,16 @@ class cHoster(iHoster):
             #fh = open('c:\\test.txt', "w")
             #fh.write(sHtmlContent)
             #fh.close()
+     
+        sPattern = "><script type='text/javascript'>([^<]+)</script>"
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+     
+        sPattern = '<video controls class="rmp-video"src="([^<]+)"></video>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
      
         sPattern = '<span id="direct_link" style="background:#f9f9f9;border:1px dotted #bbb;padding:7px;"><a href="(.+?)">'
         aResult = oParser.parse(sHtmlContent, sPattern)

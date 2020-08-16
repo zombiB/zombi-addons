@@ -9,7 +9,6 @@ from resources.lib.comaddon import dialog
 import re,xbmcgui
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
-sPattern1 = "source:'(.+?)',"
 class cHoster(iHoster):
 
     def __init__(self):
@@ -68,10 +67,14 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-
-        aResult = oParser.parse(sHtmlContent, sPattern1)
+        sPattern = 'hls:"(.+?)"}'
+        aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            api_call = 'http:' + aResult[1][0] 
+            api_call = 'http:' + aResult[1][0]
+        sPattern = "source:'(.+?)',"
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = 'http:' + aResult[1][0]
 
         if (api_call):
             return True, api_call

@@ -135,7 +135,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<div class="entry-image"><a href="([^<]+)" class="box">.+?xlink:href="([^<]+)" />.+?class="img-fluid w-100 lazy" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>.+?<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>'
+    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid.+?" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -149,14 +149,14 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
+            sTitle = str(aEntry[4]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
-            sYear = aEntry[3]
+            siteUrl = str(aEntry[2])
+            sThumb = str(aEntry[3])
+            sYear = aEntry[5]
             sDisplayTitle = ('%s (%s) ') % (sTitle, sYear)
-            sDesc = '[COLOR yellow]'+aEntry[4]+'[/COLOR]'+" episodes"
+            sDesc = '[COLOR yellow]'+aEntry[0]+'[/COLOR]'+" episodes"
 
 
             oOutputParameterHandler = cOutputParameterHandler()

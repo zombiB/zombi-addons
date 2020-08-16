@@ -266,7 +266,7 @@ def showLink():
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-		if 'akoam'  in siteUrl:
+		if 'akwam'  in siteUrl:
 			oGui.addMisc(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 		if '/video/'  in siteUrl:
 			oGui.addMisc(SITE_IDENTIFIER, 'showHosters2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
@@ -316,6 +316,7 @@ def showLinks():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
+    sUrl = sUrl.replace("/download/","/watching/")
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
  
@@ -324,20 +325,15 @@ def showLinks():
 
    
     oParser = cParser()
-    headers = {'Host': 'w2.akoam.net',
+    headers = {'Host': 'akwam.org',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0',
      'Accept': 'application/json, text/javascript, */*; q=0.01',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
      'Accept-Encoding': 'gzip, deflate',
      'X-Requested-With': 'XMLHttpRequest',
      'Referer': sUrl}
-
-    r = sgn.get(sUrl)
-    href = (r.headers)['Set-Cookie']
-    href = urllib2.unquote(href).replace('golink=','').split('; expires')[0]
-    route = json.loads(href)
-    route =  route["route"]
-    route =  route.encode("utf-8")
+    
+    route =  sUrl
 
 
 

@@ -127,7 +127,7 @@ def showMovies(sSearch = ''):
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0])+'watch/'
+            siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sDesc = ""
             annee = ''
@@ -187,7 +187,7 @@ def showSerie(sSearch = ''):
 				continue
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[0])+'watch/'
+            siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sDesc = ""
 
@@ -339,7 +339,6 @@ def showServer():
     sHtmlContent = oRequestHandler.request()
 
     # (.+?) .+?
-              
     sPattern = 'data-url="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -378,11 +377,9 @@ def showServer():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_) 
-
-    # (.+?) .+?
-              
-    sPattern = '<a href="([^<]+)" target="_blank">'
+			progress_.VSclose(progress_)  
+			
+    sPattern = '<a href="(.+?)" target="_blank" rel="nofollow"><i'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -398,9 +395,18 @@ def showServer():
 				if progress_.iscanceled():
 					break
         
-				url = aEntry.replace("https://www.cimaclub.cam/?download=","")
+				url = str(aEntry).replace("https://www.cimaclub.cam/?download=","").replace("%3A",":").replace("%2F","/")
 				url = url.split('&id=')[0]
+				print "urlaResult"
+				print url
 				sTitle = " " 
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if 'Cloudvid' in url:
+					sTitle = " (Cloudvid)"
+				
 					
 				if url.startswith('//'):
 					url = 'http:' + url
@@ -415,6 +421,7 @@ def showServer():
 				
 
 			progress_.VSclose(progress_) 
+       
        
     oGui.setEndOfDirectory()
     

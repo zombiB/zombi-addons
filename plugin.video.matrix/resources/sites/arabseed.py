@@ -74,7 +74,7 @@ def showSeriesSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'https://m2.arabseed.net/?s='+sSearchText
-        showSearchSerie(sUrl)
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
  
@@ -90,7 +90,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title="([^<]+)"><img data-src="([^<]+)" alt='
+    sPattern = '<div class="BlockItem ISMovie">.+?<a href="([^<]+)" title="([^<]+)">.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

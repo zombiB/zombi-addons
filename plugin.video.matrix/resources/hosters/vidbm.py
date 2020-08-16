@@ -67,6 +67,7 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.addHeaderEntry('Referer',self.__sUrl)
         oRequest.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
         
         #VSlog(self.__sUrl)

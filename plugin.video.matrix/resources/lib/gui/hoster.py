@@ -208,6 +208,10 @@ class cHosterGui:
             return self.getHoster('vidtodo')
         if ('vidbm' in sHostName):
             return self.getHoster('vidbm')
+        if ('vidbem' in sHostName):
+            return self.getHoster('vidbm')
+        if ('vidshar' in sHostName):
+            return self.getHoster('vidshare')
         if ('vidshare' in sHostName):
             return self.getHoster('vidshare')
         if ('govid' in sHostName):
@@ -340,8 +344,6 @@ class cHosterGui:
             return self.getHoster('vidbull')
         if ('vidlox' in sHostName):
             return self.getHoster('vidlox')
-        if ('filerio' in sHostName):
-            return self.getHoster('filerio')
         if ('stagevu' in sHostName):
             return self.getHoster('stagevu')
         if ('veehd.' in sHostName):
@@ -394,7 +396,7 @@ class cHosterGui:
         if ('anavids' in sHostName):
             return self.getHoster('anavids')
 
-        if ('streamsforu' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
+        if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
             return self.getHoster('streamsforu')
         #if ('file-up' in sHostName):
             #return self.getHoster('fileup')
@@ -521,6 +523,9 @@ class cHosterGui:
             return self.getHoster('lien_direct')
 
         if ('archive.org/download' in sHostName):
+            return self.getHoster('lien_direct')
+
+        if ('ak-download' in sHostName):
             return self.getHoster('lien_direct')
 
         if ('akoams.com' in sHostName):

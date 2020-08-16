@@ -68,7 +68,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # .+? ([^<]+) 
 
-    sPattern = '<div class="video-thumb"><a href="([^<]+)" data-load=".+?"><img src="([^<]+)" alt="([^<]+)">'
+    sPattern = '<a class="pt_mv_list_thumb" href="([^<]+)" data-load.+?<img src="([^<]+)" alt="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -86,9 +86,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
  
-            sInfo = aEntry[2].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
-            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
+            sInfo = ''
  
             siteUrl = aEntry[0]
             sThumbnail = str(aEntry[1])
@@ -163,6 +161,39 @@ def showHosters():
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
 					sDisplayTitle = sMovieTitle
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+
+			progress_.VSclose(progress_) 
+    # ([^<]+)
+               
+
+    sPattern = '<source src="([^<]+)" type="video/mp4" data-quality="([^<]+)"'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry[0])
+				sTitle =  str(aEntry[1])
+				if 'streamango' in url:
+					sTitle = "link : streamango"
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = sMovieTitle+' '+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

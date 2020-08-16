@@ -62,6 +62,7 @@ class cHoster(iHoster):
         #VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(self.__sUrl)
+        oRequest.addHeaderEntry('Referer',self.__sUrl)
         sHtmlContent = oRequest.request()
         #VSlog(sHtmlContent)
         oParser = cParser()

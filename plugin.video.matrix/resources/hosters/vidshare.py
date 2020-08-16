@@ -64,14 +64,17 @@ class cHoster(iHoster):
         sUrl = self.__sUrl
  
         oRequest = cRequestHandler(sUrl)
+        oRequest.addHeaderEntry('Referer',self.__sUrl)
         sHtmlContent = oRequest.request()
+
 
         oParser = cParser()
 
-        sPattern = '"([^<]+)"],'
+        sPattern = 'sources: (.+?),'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0] + '&Referer=' + self.__sUrl
+
 			
         sPattern = "<script type='text/javascript'>var player = new Clappr.Player(.+?)</script>"
         aResult = oParser.parse(sHtmlContent,sPattern)
