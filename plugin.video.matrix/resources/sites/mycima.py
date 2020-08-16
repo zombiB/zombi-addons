@@ -383,7 +383,7 @@ def showSeasons():
  
         progress_.VSclose(progress_)
     # .+? ([^<]+)
-    sPattern = '<div class="BoxItem"><div class="ImageContainer" style="background-color:#;"><a title=".+?" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt="([^<]+)" /><div class="ViewsCounter"><i class="mycima-icon">.+?<div class="Quality" style="background-color:;"><em>.+?</em><span>.+?</span></div><span>([^<]+)</span></a></div>'
+    sPattern = '<a title="([^<]+)" href="([^<]+)"><div class="Quality".+?</span></div><span>([^<]+)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -399,11 +399,11 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
+            sTitle = aEntry[0].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = str(aEntry[0])
-            sThumbnail = aEntry[1]
-            sInfo = aEntry[3]
+            siteUrl = str(aEntry[1])
+            sThumbnail = aEntry[2]
+            sInfo = aEntry[2]
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
