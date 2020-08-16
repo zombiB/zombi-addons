@@ -30,7 +30,7 @@ MOVIE_TURK = ('https://tuktukcinema.com/category/movies/%d8%a7%d9%81%d9%84%d8%a7
 SERIE_EN = ('https://tuktukcinema.com/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a1/', 'showSeries')
 SERIE_ASIA = ('https://tuktukcinema.com/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a1/', 'showSeries')
 SERIE_TR = ('https://tuktukcinema.com/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showSeries')
-ANIM_NEWS = ('https://tuktukcinema.com/sercat/%d9%82%d8%a7%d8%a6%d9%85%d8%a9-%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a-%d8%aa%d9%88%d9%83-%d8%aa%d9%88%d9%83-%d8%b3%d9%8a%d9%86%d9%85%d8%a7/', 'showSeries')
+ANIM_NEWS = ('https://tuktukcinema.com/category/%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
 
 SPORT_WWE = ('https://tuktukcinema.com/category/wwe/', 'showMovies')
 
@@ -141,7 +141,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)"><div class="FrontBlock"><img src="([^<]+)">'
+    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=.+?</div><div class="FrontBlock"><img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -158,7 +158,7 @@ def showSeries(sSearch = ''):
             sTitle = str(aEntry[0]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[1])
+            siteUrl = str(aEntry[1])+'/watch'
             sThumbnail = str(aEntry[2])
             sInfo = ''
 
@@ -168,7 +168,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -194,7 +194,7 @@ def showSeasons():
     sHtmlContent = oRequestHandler.request()
     #print sHtmlContent
     # .+? ([^<]+)
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)"><div class="FrontBlock"><img src="([^<]+)">'
+    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=.+?</div><div class="FrontBlock"><img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
