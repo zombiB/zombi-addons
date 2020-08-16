@@ -18,7 +18,7 @@ SITE_DESC = 'sport vod'
 
 URL_MAIN = 'http://www.yalla-shoot.com/live/'
 URL_MAIN_link = 'http://www.yalla-shoot.com/live/video.php'
-SPORT_FOOT = ('http://www.yalla-shoot.com/live/video.php?type=2', 'showMovies')
+SPORT_FOOT = ('https://www.yalla-shoot.com/live/video.php', 'showMovies')
 
 
 SPORT_SPORTS = ('http://', 'load')
