@@ -1,12 +1,16 @@
-#-*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 #
+import base64
+import re
+
+from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import dialog, VSlog
+from resources.lib.handler.premiumHandler import cPremiumHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog ,VSlog
-from resources.lib.handler.premiumHandler import cPremiumHandler
-import urllib,re,base64
+from resources.lib.util import Unquote
+
 
 class cHoster(iHoster):
 
@@ -42,19 +46,16 @@ class cHoster(iHoster):
     def __getIdFromUrl(self):
         return self.__sUrl.split('/')[-1]
 
-
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        self.__sUrl = self.__sUrl.replace('http://uptostream.com/', '')
-        self.__sUrl = self.__sUrl.replace('https://uptostream.com/', '')
         self.__sUrl = self.__sUrl.replace('iframe/', '')
-        self.__sUrl = 'https://uptostream.com/' + str(self.__sUrl)
+        self.__sUrl = self.__sUrl.replace('http:', 'https:')
 
-    def checkSubtitle(self,sHtmlContent):
+    def checkSubtitle(self, sHtmlContent):
         oParser = cParser()
 
-        #On ne charge les sous titres uniquement si vostfr se trouve dans le titre.
-        #if not re.search("<h1 class='file-title'>[^<>]+(?:TRUEFRENCH|FRENCH)[^<>]*</h1>", sHtmlContent, re.IGNORECASE):
+        # On ne charge les sous titres uniquement si vostfr se trouve dans le titre.
+        # if not re.search("<h1 class='file-title'>[^<>]+(?:TRUEFRENCH|FRENCH)[^<>]*</h1>", sHtmlContent, re.IGNORECASE):
         if "<track type='vtt'" in sHtmlContent:
 
             sPattern = '<track type=[\'"].+?[\'"] kind=[\'"]subtitles[\'"] src=[\'"]([^\'"]+).vtt[\'"] srclang=[\'"].+?[\'"] label=[\'"]([^\'"]+)[\'"]>'
@@ -90,65 +91,63 @@ class cHoster(iHoster):
             VSlog('no premium')
             return self.__getMediaLinkForGuest()
 
-    def __getMediaLinkForGuest(self,premium=False):
+    def __getMediaLinkForGuest(self, premium=False):
 
         api_call = False
         SubTitle = ''
-        
-        #compte gratuit ou payant
+
+        # compte gratuit ou payant
         token = ''
         if premium:
             if self.oPremiumHandler.Authentificate():
                 sHtmlContent = self.oPremiumHandler.GetHtml(self.__sUrl)
                 sPattern = "window\.token = '([^']+)';"
-                token = re.search(sPattern,sHtmlContent,re.DOTALL)
+                token = re.search(sPattern,sHtmlContent, re.DOTALL)
                 if token:
                     token = token.group(1)
 
                 SubTitle = self.checkSubtitle(sHtmlContent)
-
         else:
             VSlog('no Premium')
 
-
         if token:
-            sUrl2 = "https://uptostream.com/api/streaming/source/get?token={}&file_code={}".format(token,self.__getIdFromUrl())
+            sUrl2 = "https://uptostream.com/api/streaming/source/get?token={}&file_code={}".format(token, self.__getIdFromUrl())
             sHtml = self.oPremiumHandler.GetHtml(sUrl2)
-
         else:
-            #pas de compte
+            # pas de compte
             sUrl2 = "https://uptostream.com/api/streaming/source/get?token=null&file_code={}".format(self.__getIdFromUrl())
 
             oRequest = cRequestHandler(sUrl2)
             sHtml = oRequest.request()
 
-        qua,url_list = decodeur1(sHtml)
+        qua, url_list = decodeur1(sHtml)
         if qua and url_list:
             api_call = dialog().VSselectqual(qua, url_list)
-            
+
         if (api_call):
             if SubTitle:
-                return True, api_call.replace('\\',''), SubTitle
+                return True, api_call.replace('\\', ''), SubTitle
             else:
-                return True, api_call.replace('\\','')
+                return True, api_call.replace('\\', '')
 
         return False, False
-     
+
+
 def decodeur1(Html):
     from ast import literal_eval
-    #search list64 and his var name.
-    vl = re.search('var *(_\w+) *= *(\[[^;]+\]);',Html,re.DOTALL)
+    # search list64 and his var name.
+    vl = re.search('var *(_\w+) *= *(\[[^;]+\]);', Html, re.DOTALL)
     if vl:
         var_name = vl.group(1)
         list_b64 = vl.group(2)
-        #reduce html
+        # reduce html
         start = Html.find(list_b64)
         Html = Html[start:]
 
         list_b64 = literal_eval(list_b64)
 
-        #search ref number to re-order the b64list and the var name.
-        nrvr = re.search(var_name + ',(0x\w+)\)*; *var *([^=]+) *=',Html,re.DOTALL)
+        # search ref number to re-order the b64list and the var name.
+        nrvr = re.search(var_name + ',(0x\w+)\)*; *var *([^=]+) *=', Html, re.DOTALL)
         if nrvr:
             number_ref = int(nrvr.group(1),16)
             var_ref = nrvr.group(2)
@@ -158,12 +157,14 @@ def decodeur1(Html):
                 list_b64.append(list_b64.pop(0))
                 i += 1
 
-            #search for group 
-            test2 = re.findall("(?:;|;}\(\)\);)sources(.+?)};",Html,re.DOTALL)
+            # search for group
+            test2 = re.findall("(?:;|;}\(\)\);)sources(.+?)};", Html, re.DOTALL)
             if test2:
                 url = ''
                 movieID = ''
-                qua_list = []
+                qua_list = set()
+                lang_list = list()
+                supportedLang = ['eng', 'eng2', 'English', 'fr', 'fre', 'French', 'jap', 'jpn', 'Japanese', 'chi', 'Chinese', 'rus', 'Russian', 'spa', 'Spanish']
 
                 for page in test2:
                     tableau = {}
@@ -174,7 +175,7 @@ def decodeur1(Html):
                             i = 0
                             vname = ''
                             for i in xrange(len(Html)):
-                                fisrt_r = re.match("([^']+)':",Html,re.DOTALL)
+                                fisrt_r = re.match("([^']+)':", Html, re.DOTALL)
                                 if fisrt_r:
                                     vname = fisrt_r.group(1)
                                     tableau[vname] = 'null'
@@ -182,7 +183,7 @@ def decodeur1(Html):
                                     index = len(fisrt_r.group()[:-1])
                                     Html = Html[index:]
 
-                                whats =  re.match("[:+]'([^']+)'",Html,re.DOTALL)
+                                whats = re.match("[:+]'([^']+)'", Html, re.DOTALL)
                                 if whats:
                                     if vname:
                                         ln = tableau[vname]
@@ -195,57 +196,69 @@ def decodeur1(Html):
                                     Html = Html[index:]
 
                                 else:
-                                    whats = re.match("\+*" + var_ref + "\(\'([^']+)\' *, *\'([^']+)\'\)",Html,re.DOTALL)
+                                    whats = re.match("\+*" + var_ref + "\(\'([^']+)\' *, *\'([^']+)\'\)", Html, re.DOTALL)
                                     if whats:
                                         if vname:
                                             ln = tableau[vname]
                                             if not ln == 'null':
-                                                tableau[vname] = tableau[vname] + decoder(list_b64[int(whats.group(1),16)],whats.group(2)) 
+                                                tableau[vname] = tableau[vname] + decoder(list_b64[int(whats.group(1), 16)], whats.group(2))
 
                                             else:
-                                                tableau[vname] =  decoder(list_b64[int(whats.group(1),16)],whats.group(2)) 
-                                
+                                                tableau[vname] = decoder(list_b64[int(whats.group(1), 16)], whats.group(2))
 
                                         index = len(whats.group(0))
                                         Html = Html[index:]
-
 
                                 if not whats:
                                     Html = Html[1:]
 
                         if tableau:
-                            langFre = True # langue par défaut si pas précisée
-                            qual = ''
-                            for i,j in tableau.items():
-                                if j.startswith('http') and j.endswith('com'): #url
+                            
+                            langFound = False
+
+                            for i, j in tableau.items():
+                                
+                                if not j:
+                                    continue
+                                
+                                if j.startswith('http') and j.endswith('com'):  # url
                                     url = tableau[i] if not tableau[i] in url else url
                                     continue
-                                
-                                if len(i) == 5 and len(j) >=10 and j.isalnum() and not 'video' in j:
+
+                                if len(i) == 5 and len(j) >= 10 and j.isalnum() and not 'video' in j:
                                     movieID = j if not j in movieID else movieID
                                     continue
-                                
-                                if len(test2)>1: # s'il y a plusieurs flux
-                                    if j == 'eng' : # on ne gere pas plusieurs langues car on sait pas l'associer à la bonne qualité
-                                        langFre = False
-                                
-                                if j == '360' or j == '480' or j == '720' or j == '1080' :
-                                    qual = j
 
-                            if langFre and qual and qual not in qua_list:
-                                qua_list.append(qual)
+                                if not langFound and len(test2) > 1:  # s'il y a plusieurs flux
+                                    if j in supportedLang:
+                                        if not j in lang_list:  # Preserve l'ordre et l'unicité
+                                            lang_list.append(j)
+                                        langFound = True
+                                        continue
 
+                                if j == '360' or j == '480' or j == '720' or j == '1080' or j == '2160':
+                                    qua_list.add(j)
+                                elif j == '360p' or j == '480p' or j == '720p' or j == '1080p' or j == '2160p':
+                                    qua_list.add(j[:-1])
 
-                qua_list.sort()
+                if len(lang_list) == 0:
+                    lang_list.append('NONE')
                 url_list = []
-                for qual in qua_list:
-                    url_list.append("{}/{}/{}/0/video.mp4".format(url,movieID,qual))
+                ql_list = []
+                for qual in sorted(qua_list):
+                    idxLang = 0
+                    for lang in lang_list:
+                        url_list.append("{}/{}/{}/{}/video.mp4".format(url, movieID, qual, idxLang))
+                        ql = qual
+                        if not 'NONE' in lang:
+                            ql += ' [' + lang[:3].upper() + ']'
+                        ql_list.append(ql) 
+                        idxLang += 1
 
-                return qua_list,url_list
+                return ql_list, url_list
 
 
-
-def decoder(data,fn):
+def decoder(data, fn):
     data = base64.b64decode(data)
 
     secretKey = {}
@@ -256,7 +269,7 @@ def decoder(data,fn):
     for i in xrange(len(data)):
         tempData += ("%" + format(ord(data[i]), '02x'))
 
-    data = urllib.unquote(tempData)
+    data = Unquote(tempData)
 
     x = 0
     while x < 256:
@@ -271,8 +284,7 @@ def decoder(data,fn):
         temp = secretKey[x]
         secretKey[x] = secretKey[y]
         secretKey[y] = temp
-        x+=1
-
+        x += 1
 
     x = 0
     y = 0

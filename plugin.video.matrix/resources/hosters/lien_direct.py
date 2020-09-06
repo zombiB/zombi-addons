@@ -4,6 +4,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
+import unicodedata
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
 import re
 import urllib2
@@ -95,7 +96,8 @@ class cHoster(iHoster):
 
 
         if 'cimanow' in api_call:
-            api_call = api_call  +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
+            api_call = api_call+ '|User-Agent=' + UA + '&Referer=' + self.__sUrl+'&verifypeer=false'
+            api_call = api_call.replace("[","%5B").replace("]","%5D").replace("+","%20")
 
 
 

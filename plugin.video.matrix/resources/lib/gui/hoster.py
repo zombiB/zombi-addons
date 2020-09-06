@@ -430,8 +430,8 @@ class cHosterGui:
             return self.getHoster('vidbob')
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
-        #if ('mystream' in sHostName):
-            #return self.getHoster('mystream')
+        if ('mystream' in sHostName):
+            return self.getHoster('mystream')
         if ('letsupload' in sHostName):
             return self.getHoster('letsupload')
 

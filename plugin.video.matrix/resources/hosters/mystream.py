@@ -66,7 +66,7 @@ class cHoster(iHoster):
                         api_call = r.group(1)
 
         if (api_call):
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl + '&Origin=https://embed.mystream.to'
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl+'&verifypeer=false'
 
         return False, False
 

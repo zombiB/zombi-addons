@@ -65,6 +65,11 @@ class cHoster(iHoster):
         if (aResult[0] == True):
             api_call = aResult[1][0]
 
+        sPattern = ',{file:"(.+?)",label'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
+
 
         if (api_call):
             return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
