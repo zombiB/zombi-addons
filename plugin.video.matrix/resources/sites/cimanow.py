@@ -21,7 +21,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://cima-now.com'
 
 MOVIE_EN = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
-MOVIE_AR = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showMovies')
+MOVIE_AR = ('https://cimanow.cam/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showMovies')
 
 MOVIE_HI = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
 
@@ -86,7 +86,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="block"><a href="([^<]+)"><div class="block-relased-year">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div><div class="contentBoxSing">([^<]+)</div>'
+    sPattern = '<div class="block"><a href="([^<]+)">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div>.+?<div class="contentBoxSing">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -106,7 +106,7 @@ def showMovies(sSearch = ''):
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0])
+            siteUrl = str(aEntry[0]) + "watch/"
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             annee = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -289,47 +289,9 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-
-    # (.+?) .+? ([^<]+)
-               
-
-    sPattern = 'redirect=(.+?)".+?<span>(.+?)</span>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = base64.b64decode(aEntry[0])
-				url = str(url)
-				sTitle = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
-				if url.startswith('//'):
-					url = 'https:' + url
-				url = urllib.quote_plus(url)
-            
-				sHosterUrl = url
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-			progress_.VSclose(progress_) 
-
     
     # (.+?) .+? ([^<]+)        	
-    sPattern = '<iframe src="([^<]+)" scrolling'
+    sPattern = '<a href="([^<]+)" class="downloadserver">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

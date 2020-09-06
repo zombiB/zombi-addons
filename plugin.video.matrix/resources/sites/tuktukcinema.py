@@ -20,25 +20,24 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://tuktukcinema.com'
 
 
-MOVIE_TOP = ('https://tuktukcinema.com/rate/', 'showMovies')
-MOVIE_EN = ('https://tuktukcinema.com/category/movies/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A/', 'showMovies')
-MOVIE_HI = ('https://tuktukcinema.com/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
-MOVIE_ASIAN = ('https://tuktukcinema.com/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a1/', 'showMovies')
-MOVIE_AR = ('https://tuktukcinema.com/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a91/', 'showMovies')
-KID_MOVIES = ('https://tuktukcinema.com/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a1/', 'showMovies')
-MOVIE_TURK = ('https://tuktukcinema.com/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showMovies')
-SERIE_EN = ('https://tuktukcinema.com/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a1/', 'showSeries')
-SERIE_ASIA = ('https://tuktukcinema.com/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a1/', 'showSeries')
-SERIE_TR = ('https://tuktukcinema.com/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showSeries')
-ANIM_NEWS = ('https://tuktukcinema.com/category/%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
+MOVIE_TOP = ('https://tuktukcinema.net/rate/', 'showMovies')
+MOVIE_EN = ('https://tuktukcinema.net/category/movies/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A/', 'showMovies')
+MOVIE_HI = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
+MOVIE_ASIAN = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a1/', 'showMovies')
+KID_MOVIES = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a1/', 'showMovies')
+MOVIE_TURK = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showMovies')
+SERIE_EN = ('https://tuktukcinema.net/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a1/', 'showSeries')
+SERIE_ASIA = ('https://tuktukcinema.net/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a1/', 'showSeries')
+SERIE_TR = ('https://tuktukcinema.net/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showSeries')
+ANIM_NEWS = ('https://tuktukcinema.net/category/%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
 
-SPORT_WWE = ('https://tuktukcinema.com/category/wwe/', 'showMovies')
+SPORT_WWE = ('https://tuktukcinema.net/category/wwe/', 'showMovies')
 
-DOC_SERIES = ('https://tuktukcinema.com/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/', 'showMovies')
+DOC_SERIES = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/', 'showMovies')
 
-URL_SEARCH = ('https://tuktukcinema.com/search/', 'showMovies')
-URL_SEARCH_MOVIES = ('https://tuktukcinema.com/search/', 'showMovies')
-URL_SEARCH_SERIES = ('https://tuktukcinema.com/search/', 'showSeries')
+URL_SEARCH = ('https://tuktukcinema.net/search/', 'showMovies')
+URL_SEARCH_MOVIES = ('https://tuktukcinema.net/search/', 'showMovies')
+URL_SEARCH_SERIES = ('https://tuktukcinema.net/search/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -56,7 +55,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://tuktukcinema.com/search/'+sSearchText
+        sUrl = 'https://tuktukcinema.net/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -82,7 +81,7 @@ def showMovies(sSearch = ''):
 
  # ([^<]+) .+?
 
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=".+?"><div class.+?<img src="([^<]+)"><div class="TitleBlock">'
+    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt.+?<img src="([^<]+)">'
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -125,6 +124,39 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+  # ([^<]+) .+?
+
+    sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showMovies', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
  
     if not sSearch:
         oGui.setEndOfDirectory()

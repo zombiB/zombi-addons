@@ -19,8 +19,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://m2.arabseed.net'
 
-MOVIE_EN = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%89/', 'showMovies')
-MOVIE_AR = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d9%87/', 'showMovies')
+MOVIE_EN = ('https://m2.arabseed.net/category/foreign-movies-1/', 'showMovies')
+MOVIE_AR = ('https://m2.arabseed.net/category/arabic-movies-1/', 'showMovies')
 
 MOVIE_PACK = ('https://arabseed.net/category/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showSeries')
 MOVIE_HI = ('https://m2.arabseed.net/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')

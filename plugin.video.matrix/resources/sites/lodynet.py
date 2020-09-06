@@ -21,7 +21,6 @@ URL_MAIN = 'http://lodynet.tv/'
 
 
 MOVIE_EN = ('http://lodynet.tv/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
-MOVIE_AR = ('http://lodynet.tv/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showMovies')
 MOVIE_TURK = ('http://lodynet.tv/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-1%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
 MOVIE_HI = ('http://lodynet.tv/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
 MOVIE_ASIAN = ('http://lodynet.tv/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9/', 'showMovies')

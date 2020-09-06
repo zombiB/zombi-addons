@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'myegy'
 SITE_NAME = 'myegy'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://myegy.cc'
+URL_MAIN = 'https://myegy.cc/'
 MOVIE_EN_link = 'https://myegy.cc/movies/english'
 
 MOVIE_EN = ('https://myegy.cc/movies/english', 'showMovies')
@@ -66,7 +66,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a class="item  .+?" href="([^<]+)"><span class="title">([^<]+)</span><img src="([^<]+)" /><span class="info">([^<]+)</span>'
+    sPattern = '<a class="item  .+?" href="([^<]+)"><span class="title">([^<]+)</span><img src="([^<]+)" alt.+?class="info">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -118,10 +118,11 @@ def showLink():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
 	
-#([^<]+).+?
+# ([^<]+) .+?
 
     sPattern = '<div class="size">([^<]+)</div>([^<]+)</div>'
     sPattern = sPattern + '|' + '<a href="([^<]+)" target="_blank" class="button play">([^<]+)</a>'
+    sPattern = sPattern + '|' + '<source src="([^<]+)" type="video/mp4" size="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     #print aResult
@@ -152,6 +153,19 @@ def showLink():
                 oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
                 oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                   
+        
+            if aEntry[4]:
+                sTitle = sMovieTitle +"("+aEntry[5]+"p)"
+                url = aEntry[4]
+                sInfo = ''
+                sHosterUrl = url 
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                	sDisplayTitle = sTitle
+                	oHoster.setDisplayName(sDisplayTitle)
+                	oHoster.setFileName(sMovieTitle)
+                	cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
         progress_.VSclose(progress_)
 

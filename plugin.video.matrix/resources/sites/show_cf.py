@@ -14,7 +14,7 @@ import urllib2,urllib,re
 import unicodedata
  
 SITE_IDENTIFIER = 'show_cf'
-SITE_NAME = '4show'
+SITE_NAME = '4show (old)'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.4show.me/'
