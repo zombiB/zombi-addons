@@ -534,6 +534,9 @@ class cHosterGui:
         if ('.stream.fushaar.com' in sHostName):
             return self.getHoster('lien_direct')
 
+        if ('kingfoot' in sHostName):
+            return self.getHoster('lien_direct')
+
         if ('livestream.com' in sHostName):
             return self.getHoster('lien_direct')
 

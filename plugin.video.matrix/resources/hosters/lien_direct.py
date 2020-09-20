@@ -106,11 +106,10 @@ class cHoster(iHoster):
             api_call = api_call + '|User-Agent=' + UA  + '&Referer=' + self.__sUrl
             
         #Special pour hd-stream.in et film-streaming.co
-        if 'index.m3u8' in api_call:
-            base = re.sub(r'(playlist.m3u8*.+)','',api_call)
+        if '/embed/' in api_call:
             oRequest = cRequestHandler(api_call)
             sHtmlContent = oRequest.request()
-            sPattern =  ',NAME="([^"]+)".+?(chunklist.+?.m3u8)'
+            sPattern =  'src="(.+?)" scrolling="(.+?)">'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
             if (aResult[0] == True):
@@ -120,7 +119,42 @@ class cHoster(iHoster):
                 api_call = ''
                 #Replissage des tableaux
                 for i in aResult[1]:
-                    url.append(str(i[1]))
+                    url.append(str(i[0]).split('?link=', 1)[1].split('&channel_id', 1)[0])
+                    qua.append(str(i[1]))
+
+                #Afichage du tableau
+                api_call = dialog().VSselectqual(qua, url)
+        if 'playlist.m3u8' in api_call:
+            base = re.sub(r'(playlist.m3u8*.+)','',api_call)
+            core = api_call.split('playlist.m3u8', 1)[0]
+            oRequest = cRequestHandler(api_call)
+            sHtmlContent = oRequest.request()
+            sPattern =  ',NAME="(.+?)",.+?(chunklist.+?.m3u8)'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+                #initialisation des tableaux
+                url=[]
+                qua=[]
+                api_call = ''
+                #Replissage des tableaux
+                for i in aResult[1]:
+                    url.append( core +'chunklist'+str(i[1]))
+                    qua.append(str(i[0]))
+
+                #Afichage du tableau
+                api_call = dialog().VSselectqual(qua, url)
+            sPattern =  ',NAME="(.+?)",.+?(http.+?.m3u8)'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+                #initialisation des tableaux
+                url=[]
+                qua=[]
+                api_call = ''
+                #Replissage des tableaux
+                for i in aResult[1]:
+                    url.append('http'+str(i[1]))
                     qua.append(str(i[0]))
 
                 #Afichage du tableau

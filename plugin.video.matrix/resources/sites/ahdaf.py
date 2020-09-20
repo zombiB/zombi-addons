@@ -256,4 +256,46 @@ def showHosters():
 				
 
         progress_.VSclose(progress_) 
+
+         # (.+? ([^<]+)   
+    sPattern = '<a href="([^<]+)" target="_blank">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            sMovieTitle = str(aEntry[1])
+            
+            sHosterUrl = str(aEntry[0])
+            url = str(aEntry[0])
+            if url.startswith('//'):
+                url = 'http:' + url
+            
+                
+
+            if 'goo.gl' in sHosterUrl or 'bit.ly' in sHosterUrl:
+                try:
+					import requests
+					url = sHosterUrl
+					session = requests.Session()  # so connections are recycled
+					resp = session.head(url, allow_redirects=True)
+					sHosterUrl = resp.url
+                except:
+                    pass
+            
+            sHosterUrl = sHosterUrl
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+
+        progress_.VSclose(progress_) 
     oGui.setEndOfDirectory()

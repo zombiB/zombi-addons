@@ -223,7 +223,7 @@ def showHosters2():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     #recup du lien mp4
-    sPattern =  'source: "([^<]+)", width:' 
+    sPattern =  'source: "([^<]+)",' 
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

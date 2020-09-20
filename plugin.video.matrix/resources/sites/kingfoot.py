@@ -97,7 +97,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -282,7 +282,56 @@ def showLive():
         progress_.VSclose(progress_)
        
        
-    oGui.setEndOfDirectory() 
+    oGui.setEndOfDirectory()  
+def showHosters4():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request();
+    oParser = cParser()
+    #print 'ff=' + sHtmlContent
+ # (.+?) # ([^<]+) .+? 
+    sPattern = 'onclick="update_frame(.+?)">.+?>([^<]+)</strong>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = str(aEntry[0]).replace("('",'').replace("')","")
+            url = url.split('?link=', 1)[1]
+            if url.startswith('//'):
+                url = 'http:' + url
+            if '/embed/' in url:
+                oRequestHandler = cRequestHandler(url)
+                oParser = cParser()
+                sPattern =  'src="(.+?)" scrolling="no">'
+                aResult = oParser.parse(url,sPattern)
+                if (aResult[0] == True):
+					url = aResult[1][0]
+ 
+            sHosterUrl = url
+            sMovieTitle = str(aEntry[1])
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_) 
+
+
+                
+    oGui.setEndOfDirectory()
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()

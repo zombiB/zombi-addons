@@ -130,9 +130,9 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
-    oParser = cParser()
+    oParser = cParser() 
     #print sHtmlContent
-    sPattern = "<font color=.+?>(.+?)</font>.+?src='(.+?)'" 
+    sPattern = '<font color=.+?>([^<]+)</font>.+?src="(.+?)"' 
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -162,38 +162,6 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
         progress_.VSclose(progress_) 
-    #print sHtmlContent
-    sPattern = '<font color=.+?>(.+?)</font>.+?src="(.+?)"' 
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            url = str(aEntry[1])
-            sTitle = str(aEntry[0])
-            if url.startswith('//'):
-                url = 'https:' + url
-            if 'ok.php' in url:
-                url = url.split('ok.php?id=', 1)[1]
-                url = 'http://ok.ru/videoembed/' + url
-            
-                
-            sHosterUrl = url
-			
-
-            sHosterUrl = sHosterUrl.replace('https://www.yallashahed.com/youtube.php?ytid=','https://www.youtube.com/embed/').replace('?autoplay=0','').replace('?autoplay=1','')
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sTitle)
-                oHoster.setFileName(sTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
-        progress_.VSclose(progress_) 
-
 
                 
     oGui.setEndOfDirectory()    
