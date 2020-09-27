@@ -26,7 +26,6 @@ SERIE_AR = ('https://goo.gl/RVg7v3', 'showMovies')
 MOVIE_AR = ('https://goo.gl/kRJu95', 'showMovies')
 ANIM_NEWS = ('https://goo.gl/COami9', 'showMovies')
 
-SERIE_TR = ('https://goo.gl/3ATvxh', 'showMovies')
 
 URL_SEARCH = ('http://www.4show.me/search?q=', 'showMovies')
 URL_SEARCH_MOVIES = ('http://www.4show.me/search?q=', 'showMovies')

@@ -30,7 +30,8 @@ SERIE_DUBBED = ('https://www.tvfun.live/ts,mosalsalat--modablaja/', 'showSeries'
 SERIE_HEND = ('https://www.tvfun.ma/mosalsalat-hindia/', 'showSeries')
 
 SERIE_AR = ('https://www.tvfun.ma/mosalsalat-3arabia/', 'showSeries')
-SERIE_ASIA = ('https://www.tvfun.ma/mosalsalat-korea/', 'showSeries')
+SERIE_ASIA = ('https://ww.tvfun.ma/mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = ('https://ww.tvfun.ma/mosalsalat-latinia/', 'showSeries')
 KID_CARTOON = ('https://www.tvfun.live/dessin-animee/', 'showSeries')
 
 REPLAYTV_NEWS = ('https://www.tvfun.ma/programme-tv/', 'showSeries')
@@ -69,8 +70,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
 
-    sPattern = 'class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><img data-sizes="auto" alt=".+?" class="lazyload" data-src="([^<]+)" data-srcset=.+?<span class="count">([^<]+)</span>'
-
+    sPattern = 'class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)">.+?data-src="([^<]+)" data-srcset=.+?<span class="count">([^<]+)</span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -184,7 +184,8 @@ def showEpisodes():
     if (aResult[0] == True):
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+?
-    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><img data-sizes="auto" alt=".+?" class="lazyload" data-src="([^<]+)" data-srcset='
+    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)">.+?data-src="([^<]+)" data-srcset='
+	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

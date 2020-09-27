@@ -12,12 +12,13 @@ from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 import urllib2,urllib,re
 import unicodedata
+import base64
  
 SITE_IDENTIFIER = 'rechof'
 SITE_NAME = 'rechof'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.rechof.com/'
+URL_MAIN = 'https://www.rechof.com'
 
 
 RAMADAN_SERIES = ('https://www.rechof.com/category/29/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86.html', 'showSerie')
@@ -61,7 +62,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<img class="img-responsive" src="(.+?)" loading="lazy" style="width: 100%; height: 180px;" alt="([^<]+)">.+?<a class="info" href="([^<]+)">'
+    sPattern = '<a class="icon" href="([^<]+)">.+?<div class="thumb-wrap"> <img class="lazy" data-src="([^<]+)" alt="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -75,9 +76,9 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[2])
-            sThumbnail = aEntry[0]
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
+            siteUrl = str(aEntry[0])
+            sThumbnail = URL_MAIN+aEntry[1]
             sInfo = ""
 
 
@@ -96,6 +97,7 @@ def showSerie(sSearch = ''):
         sTitle = 'page' + str(i)
         sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
         siteUrl = sUrl+sNote
+        sThumbnail = ''
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -119,7 +121,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-    sPattern = 'alt="([^<]+)">.+?<a class="info" href="([^<]+)">'
+    sPattern = '<a class="icon" href="([^<]+)">.+?<div class="thumb-wrap"> <img class="lazy" data-src="([^<]+)" alt="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -133,8 +135,8 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0]
-            siteUrl = str(aEntry[1])
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
+            siteUrl = str(aEntry[0])
             sThumbnail = str(sThumbnail)
             sInfo = ""
 			
@@ -187,10 +189,10 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
 
 
-    #(.+?)
+    # (.+?)
                
 
-    sPattern = '<iframe.+?src="(.+?)"'
+    sPattern = '<button onclick="if (!window.__cfRLUnblockHandlers) return false; setVideo(.+?)" class="button" data-cf-modified-9eb5af5ef6ba9e988daaaba0-="">(.+?)</button>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -205,9 +207,14 @@ def showHosters():
 				progress_.VSupdate(progress_, total)
 				if progress_.iscanceled():
 					break
+				url = aEntry[0].replace("('","").replace("')","")
         
-				url = str(aEntry)
-				sTitle = " "
+				url = base64.b64decode(url)
+				print "fffccc"
+				print aEntry[0]
+
+				url = str(url)
+				sTitle = aEntry[1]
 				if 'thevideo.me' in url:
 					sTitle = " (thevideo.me)"
 				if 'flashx' in url:

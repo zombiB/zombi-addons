@@ -34,7 +34,8 @@ MOVIE_ANIME = ('http://shoofvod.com/Cat-57-1', 'showMovies')
 DOC_NEWS = ('http://shoofvod.com/Cat-23-1', 'showMovies')
 
 SERIE_AR = ('http://shoofvod.com/Cat-98-1', 'showSeries')
-SERIE_TR = ('http://shoofvod.com/Cat-27-1', 'showSeries')
+SERIE_TR = ('http://shoofvod.com/Cat-128-1', 'showSeries')
+SERIE_TR_AR = ('http://shoofvod.com/Cat-129-1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
 SERIE_HEND = ('http://shoofvod.com/Cat-130-1', 'showSerie')
 
@@ -111,7 +112,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
             siteUrl = URL_MAIN+str(aEntry[0])
             siteUrl = siteUrl.replace('vidpage_','Play/')
             sThumbnail = str(aEntry[1])
@@ -192,7 +193,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
             sInfo = ""
@@ -261,7 +262,7 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
             siteUrl = URL_MAIN+str(aEntry[0])
             siteUrl = siteUrl.replace('vidpage_','Play/')
             sThumbnail = str(aEntry[1])

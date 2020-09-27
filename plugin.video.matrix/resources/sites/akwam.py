@@ -20,6 +20,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://akwam.net'
 
 MOVIE_AR = ('https://akwam.net/movies?section=29', 'showMovies')
+MOVIE_DUBBED = ('https://akwam.net/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_EN = ('https://akwam.net/movies?section=30', 'showMovies')
 MOVIE_HI = ('https://akwam.net/movies?section=31', 'showMovies')
 MOVIE_ASIAN = ('https://akwam.net/movies?section=33', 'showMovies')
@@ -32,7 +33,10 @@ SERIE_AR = ('https://akwam.net/series?section=29', 'showSeries')
 SERIE_HEND = ('https://akwam.net/series?section=31', 'showSeries')
 SERIE_ASIA = ('https://akwam.net/series?section=33', 'showSeries')
 SERIE_TR = ('https://akwam.net/series?section=32', 'showSeries')
+SERIE_DUBBED = ('https://akwam.net/series?section=30&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 
+SERIE_TR_AR = ('https://akwam.net/series?section=32&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+SERIE_HEND_AR = ('https://akwam.net/series?section=31&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 ANIM_NEWS = ('https://akwam.net/series?category=30', 'showSeries')
 
 DOC_NEWS = ('https://akwam.net/movies?category=28', 'showMovies')

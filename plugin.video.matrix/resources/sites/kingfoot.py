@@ -20,11 +20,11 @@ SITE_IDENTIFIER = 'kingfoot'
 SITE_NAME = 'kingfoot'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://kingfoot.net/'
+URL_MAIN = 'https://king-shoot.com/'
 
 
 
-SPORT_LIVE = ('http://kingfoot.net/', 'showMovies')
+SPORT_LIVE = ('https://king-shoot.com/', 'showMovies')
 
 
 
@@ -294,8 +294,41 @@ def showHosters4():
     sHtmlContent = oRequestHandler.request();
     oParser = cParser()
     #print 'ff=' + sHtmlContent
+ # (.+?) # ([^<]+) .+?  
+    #print 'ff=' + sHtmlContent
+    sPattern = 'allow="(.+?)".+?src="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = aEntry[1]
+            if 'embed' in url:
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent = oRequestHandler.request();
+                oParser = cParser()
+                sPattern =  'src="(.+?)" scrolling="no">'
+                aResult = oParser.parse(sHtmlContent,sPattern)
+                if (aResult[0] == True):
+					url = aResult[1][0]
+					url = url.split('?link=', 1)[1]
+            sHosterUrl = url
+            sMovieTitle = '1'
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_) 
  # (.+?) # ([^<]+) .+? 
-    sPattern = 'onclick="update_frame(.+?)">.+?>([^<]+)</strong>'
+    sPattern = 'onclick="update_frame(.+?)" >.+?>([^<]+)</strong>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -327,7 +360,8 @@ def showHosters4():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        progress_.VSclose(progress_) 
+        progress_.VSclose(progress_)
+
 
 
                 

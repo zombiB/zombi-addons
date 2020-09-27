@@ -252,7 +252,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -365,8 +365,10 @@ def __checkForNextPage(sHtmlContent):
 def showLink():
     oGui = cGui()
     
+    UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
+    sUrl2 = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     
@@ -380,7 +382,7 @@ def showLink():
     
     if (aResult[0] == True):
         
-        sUrl = str(aResult[1][0])
+        sUrl = str(aResult[1][0])+ '|User-Agent=' + UA  + '&Referer=' + sUrl2
                  
         #on lance video directement
         oGuiElement = cGuiElement()
@@ -411,21 +413,9 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     # ([^<]+)
-    #recup du lien mp4
-    sPattern = '<iframe.+?src="([^"]+)"'
+        
+    sPattern = 'file: "(.+?)",.+?label: "(.+?)"'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        oRequest = cRequestHandler(aResult[1][0])
-        sHtmlContent = oRequest.request()
-        
-        #test pour voir si code
-    sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        sHtmlContent = cPacker().unpack(aResult[1][0])
-        
-    sPattern = '"label":"([^"]+)","type":"video\/mp4","file":"([^"]+)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
@@ -437,8 +427,8 @@ def showHosters():
 				if progress_.iscanceled():
 					break
             
-				url = str(aEntry[1])
-				sTitle = str(aEntry[0])
+				url = str(aEntry[0])
+				sTitle = str(aEntry[1])
 				if url.startswith('//'):
 					url = 'http:' + url
             

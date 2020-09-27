@@ -27,9 +27,12 @@ SERIE_AR = ('https://www.wataan.com/?video=class&class=29', 'showSerie')
 
 SERIE_HEND = ('https://www.wataan.com/?video=class&class=411', 'showSerie')
 
-SERIE_ASIA = ('https://www.wataan.com/?video=class&class=883', 'showSerie')
-SERIE_TR = ('https://www.wataan.com/?video=class&class=488', 'showSerie')
+SERIE_ASIA = ('https://www.video.wataan.com/?video=class&class=883', 'showSerie')
+SERIE_ASIA_AR = ('https://www.video.wataan.com/?video=class&class=882', 'showSerie')
+SERIE_TR = ('https://www.video.wataan.com/?video=class&class=3178', 'showSerie')
 SERIE_DUBBED = ('https://www.wataan.com/?video=class&class=710', 'showSerie')
+SERIE_LATIN = ('https://www.video.wataan.com/?video=class&class=712', 'showSerie')
+SERIE_TR_AR = ('https://www.video.wataan.com/?video=class&class=710', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'

@@ -23,7 +23,8 @@ URL_MAIN = 'https://ww.egydead.com'
 
 MOVIE_EN = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_PACK = ('https://ww.egydead.com/assembly/', 'showPack')
-
+MOVIE_DUBBED = ('https://egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
+MOVIE_AR = ('https://egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showMovies')
 
 MOVIE_TURK = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a/', 'showMovies')
 MOVIE_HI = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a/', 'showMovies')
@@ -31,6 +32,7 @@ MOVIE_ASIAN = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%
 KID_MOVIES = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
 KID_CARTOON = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86/', 'showSeries')
 
+SERIE_LATIN = ('https://egydead.live/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%84%D8%A7%D8%AA%D9%8A%D9%86%D9%8A%D8%A9/', 'showSeries')
 SERIE_DUBBED = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showMovies')
 SERIE_EN = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A/', 'showSeries')
 SERIE_HEND = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showSeries')

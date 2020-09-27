@@ -202,8 +202,8 @@ def showEps():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            siteUrl = URL_MAIN+str(aEntry[0])
-            sThumbnail = URL_MAIN+str(aEntry[3])
+            siteUrl = str(aEntry[0])
+            sThumbnail = str(aEntry[3])
 
  
             #print sUrl
@@ -247,8 +247,8 @@ def showLink():
 
     sPage='0'
 
-    #(.+?)([^<]+)
-    sPattern = "&p=(.+?)',"
+    # (.+?) ([^<]+)
+    sPattern = '&id=(.+?)"'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -265,7 +265,8 @@ def showLink():
     #fh.write(sHtmlContent.replace('\n',''))
     #fh.close()
 
-    #print sPage
+    print "sPage"
+    print sname
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -276,15 +277,14 @@ def showLink():
                 break
 
 
-            #https://www.cartoon3rbi.net/plugins/servers.php?server=7&url=x5lwx42&p=2549&funame=slam_dunk_s1_02.mp4
-
+            #https://www.cartoon3rbi.net/plugins/server5/embed.php?url=L2R5UU1WRWdVSnhWbjl1dGZNbUw5Zz09&id=32737
 
             sErver = aEntry[0].replace("(","")
 
 
             sPage = aEntry[1]
             #print sErver
-            siteUrl = 'https://www.cartoon3rbi.net/plugins/servers.php?server='+sErver+'&url='+sPage+sname
+            siteUrl = 'https://www.cartoon3rbi.net/plugins/server'+sErver+'/embed.php?url='+sPage+'&id='+sname
             sTitle = 'server '+':'+sErver
 
 
@@ -298,7 +298,7 @@ def showLink():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showLinkS', sTitle, '', sThumbnail, "", oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, "", oOutputParameterHandler)
  
         progress_.VSclose(progress_) 
                
@@ -395,7 +395,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')(.+?)
                
         
-    sPattern = '<iframe allowfullscreen="true" src="(.+?)" frameborder'
+    sPattern = 'src="(.+?)" scrolling='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

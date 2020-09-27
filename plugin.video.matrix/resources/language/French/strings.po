@@ -328,9 +328,21 @@ msgctxt "#30103"
 msgid "Indian"
 msgstr "Indien"
 
+msgctxt "#30136"
+msgid "Indian"
+msgstr "Indien doublee"
+
+msgctxt "#30137"
+msgid "Latin"
+msgstr "Latin"
+
 msgctxt "#30104"
 msgid "Asian"
 msgstr "asiatique"
+
+msgctxt "#30111"
+msgid "Asian"
+msgstr "asiatique doublee"
 
 msgctxt "#30105"
 msgid "Genre"
@@ -351,6 +363,10 @@ msgstr "en Anglais"
 msgctxt "#30109"
 msgid "Turkish"
 msgstr "Turques"
+
+msgctxt "#30110"
+msgid "Turkish"
+msgstr "Turques doublee"
 
 msgctxt "#30112"
 msgid "Documentary"

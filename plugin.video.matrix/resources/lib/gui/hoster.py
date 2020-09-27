@@ -214,6 +214,8 @@ class cHosterGui:
             return self.getHoster('vidshare')
         if ('vidshare' in sHostName):
             return self.getHoster('vidshare')
+        if ('streamwire' in sHostName):
+            return self.getHoster('streamwire')
         if ('govid' in sHostName):
             return self.getHoster('govid')
         if ('french-vid' in sHostName or 'fembed.' in sHostName or 'yggseries' in sHostName or 'sendvid' in sHostName or 'vfsplayer' in sHostName or 'fsimg' in sHostName or 'fem.tohds' in sHostName):
@@ -494,8 +496,6 @@ class cHosterGui:
             return self.getHoster('uploaded')
 
         if ('kaydo.ws' in sHostName):
-            return self.getHoster('lien_direct')
-        if ('atfrg' in sHostName):
             return self.getHoster('lien_direct')
         if ('infinityload' in sHostName):
             return self.getHoster('lien_direct')

@@ -15,7 +15,7 @@ import urllib2,urllib,re
 import unicodedata
  
 SITE_IDENTIFIER = 'fansubs'
-SITE_NAME = 'fansubs'
+SITE_NAME = 'fansubstv'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = 'http://fansubs.tv'
@@ -68,7 +68,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # .+? ([^<]+) 
 
-    sPattern = '<a class="pt_mv_list_thumb" href="([^<]+)" data-load.+?<img src="([^<]+)" alt="([^<]+)">'
+    sPattern = '<div class="video-thumb">.+?<a href="([^<]+)" data-load=.+?<img src="([^<]+)" alt="⁣⁣⁣⁣⁣([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -86,7 +86,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
  
-            sInfo = ''
+            sInfo = ""
  
             siteUrl = aEntry[0]
             sThumbnail = str(aEntry[1])

@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'tuktukcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://tuktukcinema.com'
+URL_MAIN = 'https://tuktukcinema.net'
 
 
 MOVIE_TOP = ('https://tuktukcinema.net/rate/', 'showMovies')
@@ -27,8 +27,8 @@ MOVIE_ASIAN = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a
 KID_MOVIES = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a1/', 'showMovies')
 MOVIE_TURK = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showMovies')
 SERIE_EN = ('https://tuktukcinema.net/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a1/', 'showSeries')
-SERIE_ASIA = ('https://tuktukcinema.net/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a1/', 'showSeries')
-SERIE_TR = ('https://tuktukcinema.net/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showSeries')
+SERIE_ASIA = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a', 'showSeries')
+SERIE_TR = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a', 'showSeries')
 ANIM_NEWS = ('https://tuktukcinema.net/category/%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
 
 SPORT_WWE = ('https://tuktukcinema.net/category/wwe/', 'showMovies')
@@ -189,8 +189,8 @@ def showSeries(sSearch = ''):
  
             sTitle = str(aEntry[0]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[1])+'/watch'
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
+            siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
             sInfo = ''
 
@@ -200,7 +200,40 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+  # ([^<]+) .+?
+
+    sPattern = '<li><a class="page-numbers" href="([^<]+)">([^<]+)</a></li>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = URL_MAIN + str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -215,46 +248,113 @@ def showSeries(sSearch = ''):
 
 
 def showSeasons():
-    oGui = cGui()
+	oGui = cGui()
+	import requests
     
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+	oInputParameterHandler = cInputParameterHandler()
+	sUrl = oInputParameterHandler.getValue('siteUrl')
+	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+	sThumbnail = oInputParameterHandler.getValue('sThumbnail')
  
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+	oRequestHandler = cRequestHandler(sUrl)
+	sHtmlContent = oRequestHandler.request()
+
+   
+	oParser = cParser()
+	sId1 = ""
+	sId2 = ""
+    
+    #Recuperation infos (.+?)
+
+	sPattern = '<div class="loadTabsInSeries" data-slug="(.+?)" data-parent=".+?" data-id="(.+?)"></div><section'
+	aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+	if (aResult[0] == True):
+		total = len(aResult[1])
+		progress_ = progress().VScreate(SITE_NAME)
+		for aEntry in aResult[1]:
+			progress_.VSupdate(progress_, total)
+			if progress_.iscanceled():
+				break
+			sId1 = aEntry[0]
+			sId2 = aEntry[1]
+
+    #print sId
+    
+  # ([^<]+) .+?
+	headers = {'Host': 'tuktukcinema.net',
+		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+		'Accept': '*/*',
+		'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+		'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+		'X-Requested-With': 'XMLHttpRequest',
+		'Referer': sUrl,
+		'Connection': 'keep-alive'}
+	data = {'action':'getTabsInsSeries','id':sId2,'slug':sId1,'parent':'0'}
+	s = requests.Session()
+	r = s.post('https://tuktukcinema.net/wp-admin/admin-ajax.php', headers=headers,data = data)
+	sHtmlContent += r.content
     #print sHtmlContent
     # .+? ([^<]+)
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=.+?</div><div class="FrontBlock"><img src="([^<]+)">'
+	sPattern = ' <a href="([^<]+)" style.+?<div class="image"><img.+?src="([^<]+)" class=.+?<div class="ep-info">.+?<h2>([^<]+)</h2>'
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+	oParser = cParser()
+	aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
+	if (aResult[0] == True):
+		total = len(aResult[1])
+		progress_ = progress().VScreate(SITE_NAME)
+		for aEntry in aResult[1]:
+			progress_.VSupdate(progress_, total)
+			if progress_.iscanceled():
+				break
  
-            sTitle = aEntry[0]
-            siteUrl = str(aEntry[1])
-            sThumbnail = aEntry[2]
-            sInfo = ""
+			sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
+			siteUrl = str(aEntry[0])+'/watch/'
+			sThumbnail = aEntry[1]
+			sInfo = ""
 			
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+			oOutputParameterHandler = cOutputParameterHandler()
+			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
-    oGui.setEndOfDirectory()
+		progress_.VSclose(progress_)
+    # .+? ([^<]+)
+	sPattern = '<li class="MovieItem">.+?<a href="([^<]+)">.+?<img src="([^<]+)">.+?<div class="TitleBlock">([^<]+)</div>'
+
+	oParser = cParser()
+	aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+	if (aResult[0] == True):
+		total = len(aResult[1])
+		progress_ = progress().VScreate(SITE_NAME)
+		for aEntry in aResult[1]:
+			progress_.VSupdate(progress_, total)
+			if progress_.iscanceled():
+				break
+ 
+			sTitle = aEntry[2]
+			siteUrl = str(aEntry[0])
+			sThumbnail = aEntry[1]
+			sInfo = ""
+			
+
+
+			oOutputParameterHandler = cOutputParameterHandler()
+			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			oGui.addMisc(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+		progress_.VSclose(progress_)
+	oGui.setEndOfDirectory()
 	
 
  

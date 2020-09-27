@@ -29,6 +29,7 @@ KID_MOVIES = ('http://www.panet.co.il/series/home/257/1', 'showEps')
 SERIE_AR = ('http://www.panet.co.il/series/v1/category/19/1', 'showSeries')
 SERIE_TR = ('http://www.panet.co.il/series/v1/category/17/1', 'showSeries')
 SERIE_ASIA = ('http://www.panet.co.il/series/v1/category/20/1', 'showSeries')
+SERIE_LATIN = ('https://www.panet.co.il/series/category/20/1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
 
 RAMADAN_SERIES = ('http://www.panet.co.il/series/category/73/1', 'showSeries')

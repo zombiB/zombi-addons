@@ -328,8 +328,20 @@ msgctxt "#30103"
 msgid "Indian"
 msgstr ""
 
+msgctxt "#30136"
+msgid "Indian Dubbed"
+msgstr ""
+
+msgctxt "#30137"
+msgid "Latin"
+msgstr ""
+
 msgctxt "#30104"
 msgid "Asian"
+msgstr ""
+
+msgctxt "#30111"
+msgid "Asian Dubbed "
 msgstr ""
 
 msgctxt "#30105"
@@ -350,6 +362,10 @@ msgstr ""
 
 msgctxt "#30109"
 msgid "Turkish"
+msgstr ""
+
+msgctxt "#30110"
+msgid "Turkish Dubbed"
 msgstr ""
 
 msgctxt "#30112"
