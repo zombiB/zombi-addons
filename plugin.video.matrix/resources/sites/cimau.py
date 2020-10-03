@@ -50,8 +50,8 @@ DOC_SERIES = ('http://cima4u.io/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+%D9%88%D8%
 REPLAYTV_NEWS = ('http://cima4u.io/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-series/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%8a%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9-tv-shows/', 'showSeries')
 SPORT_WWE = ('http://cima4u.io/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d8%a9-%d8%ad%d8%b1%d8%a9-wwe/', 'showMovies')
 URL_SEARCH = ('http://cima4u.io/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('http://cima4u.io/?s=', 'showSearch')
-URL_SEARCH_SERIES = ('http://cima4u.io/?s=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('http://cima4u.io/?s=', 'showMovies')
+URL_SEARCH_SERIES = ('http://cima4u.io/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
