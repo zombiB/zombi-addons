@@ -42,6 +42,8 @@ KID_CARTOON = ('https://www.4helal.me/c/Cartoon-Dubbed', 'showSerie')
 
 SPORT_WWE = ('https://www.4helal.me/cat/2/%D8%A7%D9%84%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A/1.html', 'showMovies')
 URL_SEARCH = ('https://www.4helal.me/tag/', 'showMovies')
+URL_SEARCH_MOVIES = ('https://www.4helal.me/tag/', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.4helal.me/tag/', 'showSerie')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
 def load():
