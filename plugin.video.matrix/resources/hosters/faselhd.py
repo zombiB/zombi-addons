@@ -86,6 +86,22 @@ class cHoster(iHoster):
 				t_url = re.findall('file":"(.*?)"', page, re.S)
 				if t_url:
 					api_call = t_url[0].replace('\\','').replace("['",'').replace("']",'')
+					core = api_call
+					oRequest = cRequestHandler(api_call)
+					sHtmlContent = oRequest.request()
+					sPattern =  ',RESOLUTION=(.+?),.+?index(.+?)token='
+					oParser = cParser()
+					aResult = oParser.parse(sHtmlContent, sPattern)
+					if (aResult[0] == True):
+						url=[]
+						qua=[]
+						base= ''
+						for i in aResult[1]:
+							base= 'index' + str(i[1])
+							url.append(core.replace('master.m3u8?',base))
+							qua.append(str(i[0]))
+							
+						api_call = dialog().VSselectqual(qua, url)
 
 
 				if (api_call):
