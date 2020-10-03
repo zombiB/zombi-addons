@@ -505,7 +505,7 @@ def showHosters():
     oParser = cParser()
 
   # ([^<]+) .+?
-    headers = {'Host': 'on.movizland.com',
+    headers = {'Host': 'sa.movizland.online',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -607,6 +607,35 @@ def showHosters():
 				
 
 			progress_.VSclose(progress_)            
+
+    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				if 'vidcloud' in url:
+					sTitle = " (vidcloud)"
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+
+			progress_.VSclose(progress_)           
 
     sPattern = '<IFRAME allowfullscreen SRC="(.+?)" FRAMEBORDER'
     oParser = cParser()
