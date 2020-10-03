@@ -31,8 +31,8 @@ MOVIE_PACK = ('https://www.movs4u.live/collection/', 'showMovie')
 
 
 URL_SEARCH = ('https://www.movs4u.live/?s=', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://www.movs4u.live/?s=', 'showSearch')
-URL_SEARCH_SERIES = ('https://www.movs4u.live/?s=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://www.movs4u.live/?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://www.movs4u.live/?s=', 'showMoviesSearch')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
 def load():
@@ -245,7 +245,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="thumbnail animation-2"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="movies">.+?<span class="rating">([^<]+)</span>.+?class="year">([^<]+)</span>.+?<div class="contenido"><p>([^<]+)</p>'
+    sPattern = '<div class="result-item">.+?<img src="([^<]+)" alt="([^<]+)" />.+?<div class="title"><a href="([^<]+)">.+?<span class="year">([^<]+)</span>.+?<p>([^<]+)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -259,14 +259,13 @@ def showMoviesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
+            sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8") 
-            sThumbnail = aEntry[1]
-            siteUrl = aEntry[0]
-            sDesc = aEntry[5].decode("utf8")
+            sThumbnail = aEntry[0]
+            siteUrl = aEntry[2]
+            sDesc = aEntry[4].decode("utf8")
             sDesc = cUtil().unescape(sDesc).encode("utf8")
-            sDesc = sDesc +'[COLOR aqua] '+aEntry[3]+' [/COLOR]'
-            sYear = aEntry[4]
+            sYear = aEntry[3]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
