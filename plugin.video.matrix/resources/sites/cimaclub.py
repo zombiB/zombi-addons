@@ -29,19 +29,21 @@ MOVIE_ASIAN = ('http://cimaclub.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%
 KID_MOVIES = ('http://cimaclub.com/category/%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86/', 'showMovies')
 
 SERIE_LATIN = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%b1%d8%a7%d8%b2%d9%8a%d9%84%d9%8a%d8%a9/', 'showSerie')
-SERIE_DUBBED = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d9%87/', 'showSeries')
-SERIE_ASIA = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSeries')
-SERIE_HEND = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_DUBBED = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d9%87/', 'showSerie')
+SERIE_ASIA = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSerie')
+SERIE_HEND = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSerie')
 SERIE_TR = ('http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9/', 'showSerie')
 SERIE_EN = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSerie')
 SERIE_AR = ('http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A/', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 ANIM_NEWS = ('https://www.cimaclub.cam/category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showSerie')
 DOC_NEWS = ('https://www.cimaclub.cam/genre/documentary/', 'showMovies')
-DOC_SERIES = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showSeries')
+DOC_SERIES = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showSerie')
 SPORT_NEWS = ('http://cimaclub.com/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D9%87-wwe/', 'showMovies')
 REPLAYTV_NEWS = ('http://cimaclub.com/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D9%88%D8%B9%D8%B1%D9%88%D8%B6-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D9%87/', 'showMovies')
 URL_SEARCH = ('http://cimaclub.com/?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://www.cimaclub.cam/search/', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.cimaclub.cam/search/', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -63,7 +65,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://cimaclub.com/?s='+sSearchText
+        sUrl = 'https://www.cimaclub.cam/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -73,7 +75,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://cimaclub.com/?s='+sSearchText
+        sUrl = 'https://www.cimaclub.cam/search/'+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
