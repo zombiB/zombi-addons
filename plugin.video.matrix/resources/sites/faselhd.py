@@ -39,7 +39,7 @@ MOVIE_POP = ('https://www.faselhd.live/movies_top_views', 'showMovies')
 MOVIE_PACK = ('https://www.faselhd.live/movies_collections', 'showSeries')
 
 URL_SEARCH = ('https://www.faselhd.live/?s=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://www.faselhd.live/?s=', 'showSearch')
+URL_SEARCH_MOVIES = ('https://www.faselhd.live/?s=', 'showMovies')
 URL_SEARCH_SERIES = ('https://www.faselhd.live/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
@@ -77,8 +77,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="([^<]+)"/.+?class="fa fa-star"></i>([^<]+)<'
-
+    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="([^<]+)"/>.+?class="cat">([^<]+)<'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -96,7 +95,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
-            sInfo = '[COLOR aqua]'+aEntry[3]+'/10[/COLOR]'
+            sInfo = '[COLOR aqua]'+aEntry[3]+'[/COLOR]'
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -494,7 +493,7 @@ def showLink():
         sNote = aResult[1][0]
 	
      # (.+?) ([^<]+) .+?
-    sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a href="javascript:;"><i.+?class="fa fa-play-circle"></i>([^<]+)</a></li>'
+    sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a.+?href="javascript:;"><i.+?class="fa fa-play-circle"></i>([^<]+)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
