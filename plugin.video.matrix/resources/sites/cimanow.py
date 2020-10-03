@@ -36,8 +36,8 @@ SERIE_AR = ('https://cima-now.com/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%
 
 REPLAYTV_NEWS = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
 URL_SEARCH = ('https://cima-now.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://cima-now.com/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://cima-now.com/?s=', 'showSeries')
+URL_SEARCH_MOVIES = ('https://cimanow.cam/?s=', 'showMovies')
+URL_SEARCH_SERIES = ('https://cimanow.cam/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -99,9 +99,6 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "مسلسل" in aEntry[2]:
-				continue
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -188,9 +185,6 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" in aEntry[2]:
-				continue
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
