@@ -24,7 +24,6 @@ MOVIE_EN = ('https://myegy.cc/movies/english', 'showMovies')
 
 MOVIE_HI = ('https://myegy.cc/movies/indian', 'showMovies')
 
-SERIE_EN = ('https://myegy.io/tv/english', 'showMovies')
 KID_MOVIES = ('https://myegy.cc/movies/anime', 'showMovies')
 
 DOC_NEWS = ('https://myegy.cc/movies/documentary', 'showMovies')
