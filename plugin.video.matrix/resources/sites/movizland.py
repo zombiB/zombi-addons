@@ -20,29 +20,29 @@ SITE_IDENTIFIER = 'movizland'
 SITE_NAME = 'movizland'
 SITE_DESC = 'arabic anime'
  
-URL_MAIN = 'https://tv.movizland.com'
+URL_MAIN = 'https://hd.movizland.online'
 
-MOVIE_AR = ('https://tv.movizland.com/category/newmovies/arab/', 'showMovies')
-MOVIE_EN = ('https://tv.movizland.com/category/newmovies/newforeign/', 'showMovies')
-MOVIE_HI = ('https://tv.movizland.com/category/newmovies/india/', 'showMovies')
-KID_MOVIES = ('https://tv.movizland.com/category/newmovies/anime/', 'showMovies')
-MOVIE_TURK = ('https://tv.movizland.com/category/newmovies/turkey/', 'showMovies')
-MOVIE_ASIAN = ('https://tv.movizland.com/category/newmovies/asia/', 'showMovies')
+MOVIE_AR = ('https://hd.movizland.online/category/newmovies/arab/', 'showMovies')
+MOVIE_EN = ('https://hd.movizland.online/category/newmovies/newforeign/', 'showMovies')
+MOVIE_HI = ('https://hd.movizland.online/category/newmovies/india/', 'showMovies')
+KID_MOVIES = ('https://hd.movizland.online/category/newmovies/anime/', 'showMovies')
+MOVIE_TURK = ('https://hd.movizland.online/category/newmovies/turkey/', 'showMovies')
+MOVIE_ASIAN = ('https://hd.movizland.online/category/newmovies/asia/', 'showMovies')
 
-MOVIE_PACK = ('https://tv.movizland.com/category/newmovies/backs/', 'showMovie')
+MOVIE_PACK = ('https://hd.movizland.online/category/newmovies/backs/', 'showMovie')
 
-DOC_NEWS = ('https://tv.movizland.com/category/newmovies/documentary/', 'showMovies')
+DOC_NEWS = ('https://hd.movizland.online/category/newmovies/documentary/', 'showMovies')
 
-SERIE_EN = ('https://tv.movizland.com/category/series/foreign-series/', 'showSeries')
-SERIE_AR = ('https://tv.movizland.com/category/series/arab-series/', 'showSeries')
-SPORT_WWE = ('https://tv.movizland.com/category/series/wwe/', 'showMovies')
+SERIE_EN = ('https://hd.movizland.online/category/series/foreign-series/', 'showSeries')
+SERIE_AR = ('https://hd.movizland.online/category/series/arab-series/', 'showSeries')
+SPORT_WWE = ('https://hd.movizland.online/category/series/wwe/', 'showMovies')
 
-SERIE_TR = ('https://tv.movizland.com/category/series/turkish-series/', 'showSeries')
-ANIM_NEWS = ('https://tv.movizland.com/category/series/anime-series/', 'showMovies')
+SERIE_TR = ('https://hd.movizland.online/category/series/turkish-series/', 'showSeries')
+ANIM_NEWS = ('https://hd.movizland.online/category/series/anime-series/', 'showMovies')
 
-URL_SEARCH = ('https://tv.movizland.com/search/', 'showMoviesearch')
-URL_SEARCH_MOVIES = ('https://tv.movizland.com/search/', 'showMoviesearch')
-URL_SEARCH_SERIES = ('https://tv.movizland.com/search/', 'showSearchSeries')
+URL_SEARCH = ('https://hd.movizland.online/search/', 'showMoviesearch')
+URL_SEARCH_MOVIES = ('https://hd.movizland.online/search/', 'showMoviesearch')
+URL_SEARCH_SERIES = ('https://hd.movizland.online/search/', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -64,7 +64,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://tv.movizland.com/search/'+sSearchText
+        sUrl = 'https://hd.movizland.online/search/'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -74,7 +74,7 @@ def showSearch():
 
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://tv.movizland.com/search/'+sSearchText
+        sUrl = 'https://hd.movizland.online/search/'+sSearchText
         showMoviesearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -405,7 +405,7 @@ def showSeries(sSearch = ''):
 
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("مسلسل","").replace("Web-dl","")
  
  
             siteUrl = aEntry[0]
@@ -459,7 +459,51 @@ def showEpisodes():
  
 
 
-            sTitle = aEntry[2]+" "+aEntry[1]
+            sTitle1 = sMovieTitle 
+            sTitle = sMovieTitle + aEntry[2]+" "+aEntry[1]
+            siteUrl = str(aEntry[0])
+            sThumbnail = sThumbnail
+            sInfo = ""
+			
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle1)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addMisc(SITE_IDENTIFIER, 'showEpisodes2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+       
+    oGui.setEndOfDirectory()
+
+def showEpisodes2():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+     # (.+?) ([^<]+) .+?
+    sPattern = '<div class="BlockItem"><a href="([^<]+)"><div class="EPSNumber"> <em>([^<]+)</em> <span>([^<]+)</span>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+
+
+            sTitle = sMovieTitle + aEntry[2]+" "+aEntry[1]
             siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = ""
@@ -505,7 +549,7 @@ def showHosters():
     oParser = cParser()
 
   # ([^<]+) .+?
-    headers = {'Host': 'sa.movizland.online',
+    headers = {'Host': 'hd.movizland.online',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
