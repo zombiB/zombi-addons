@@ -3,6 +3,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
+from resources.lib.packer import cPacker
 UA = 'Android'
 
 class cHoster(iHoster):
@@ -43,19 +44,39 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-
-        api_call = ''
-
-        oRequest = cRequestHandler(self.__sUrl)
+    
+        sUrl = self.__sUrl
+        
+        oRequest = cRequestHandler(sUrl)
         sHtmlContent = oRequest.request()
 
-        sPattern = 'sources: *\[\{file:"([^"]+)"'
         oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
-            api_call = aResult[1][0]
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+            
+        sPattern =  'file:"(http.+?m3u8)",' #sPattern = '{file:"([^"]+)",label:"(\d+)"}'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            m3url = aResult[1][0] 
+            oRequest = cRequestHandler(m3url)
+            sHtmlContent = oRequest.request()
+   
+        sPattern =  ',RESOLUTION=(.+?),.+?(http.+?m3u8)' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            #initialisation des tableaux
+            url=[]
+            qua=[]
+            #Replissage des tableaux
+            for i in aResult[1]:
+                url.append(str(i[1]))
+                qua.append(str(i[0]))
 
-        if (api_call):
-            return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl+'&verifypeer=false'
+            api_call = dialog().VSselectqual(qua, url)
+
+            if (api_call):
+                return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl+'&verifypeer=false'
 
         return False, False
