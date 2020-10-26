@@ -292,7 +292,7 @@ def showLinks():
                 break
             sPage = str(aEntry[0])
             sTitle = 'server '+':'+ aEntry[1]
-            siteUrl = 'http://live.cima4u.tv/structure/server.php?id='+sPage
+            siteUrl = 'http://live.cima4u.io/structure/server.php?id='+sPage
             sDesc = sNote
 
 
