@@ -285,6 +285,9 @@ def showHosters():
 
     
     # (.+?) .+? ([^<]+)        	
+
+    
+    # (.+?) .+? ([^<]+)        	
     sPattern = '<a href="([^<]+)" class="downloadserver">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
