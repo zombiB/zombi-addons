@@ -19,28 +19,28 @@ SITE_IDENTIFIER = 'shahidu'
 SITE_NAME = 'shahid4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shahid4u.cam'
+URL_MAIN = 'https://shahid4u.cc'
 
-RAMADAN_SERIES = ('https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020-1', 'showSerie')
-MOVIE_EN = ('https://shahid4u.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
-MOVIE_HI = ('https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
-MOVIE_AR = ('https://shahid4u.cam/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
+RAMADAN_SERIES = ('https://shahid4u.cc/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020-1', 'showSerie')
+MOVIE_EN = ('https://shahid4u.ccategory/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
+MOVIE_HI = ('https://shahid4u.cc/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
+MOVIE_AR = ('https://shahid4u.cc/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
 
-DOC_NEWS = ('https://shahid4u.cam/genre/Documentary', 'showMovies')
-DOC_SERIES = ('https://shahid4u.cam/genre/Documentary', 'showSerie')
-SERIE_HEND = ('https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
+DOC_NEWS = ('https://shahid4u.cc/genre/Documentary', 'showMovies')
+DOC_SERIES = ('https://shahid4u.cc/genre/Documentary', 'showSerie')
+SERIE_HEND = ('https://shahid4u.cc/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
 
-SERIE_TR = ('https://shahid4u.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
-SERIE_EN = ('https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSerie')
-SERIE_AR = ('https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
+SERIE_TR = ('https://shahid4u.cc/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
+SERIE_EN = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSerie')
+SERIE_AR = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-ANIM_NEWS = ('https://shahid4u.cam/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
-REPLAYTV_NEWS = ('https://shahid4u.cam/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
+ANIM_NEWS = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
+REPLAYTV_NEWS = ('https://shahid4u.cc/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
 
 
-URL_SEARCH = ('https://shahid4u.cam/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://shahid4u.cam/search?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://shahid4u.cam/search?s=', 'showSerie')
+URL_SEARCH = ('https://shahid4u.cc/search?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://shahid4u.cc/search?s=', 'showMovies')
+URL_SEARCH_SERIES = ('https://shahid4u.cc/search?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -71,8 +71,8 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
-    liste.append( ["مالك بن الريب ","http://https://shahid4u.cam/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%85%D8%A7%D9%84%D9%83-%D8%A8%D9%86-%D8%A7%D9%84%D8%B1%D9%8A%D8%A8-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-30-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D9%8A%D8%B1%D8%A9"] )
-    liste.append( ["مسلسلات-رمضان-2016","http://https://shahid4u.cam/category/ramadan/مسلسلات-رمضان-2016/"] )
+    liste.append( ["مالك بن الريب ","http://https://shahid4u.cc/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%85%D8%A7%D9%84%D9%83-%D8%A8%D9%86-%D8%A7%D9%84%D8%B1%D9%8A%D8%A8-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-30-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D9%8A%D8%B1%D8%A9"] )
+    liste.append( ["مسلسلات-رمضان-2016","http://https://shahid4u.cc/category/ramadan/مسلسلات-رمضان-2016/"] )
 
 
     
@@ -465,7 +465,7 @@ def showServers():
     
     if (aResult[0]):
         sId = aResult[1][0]
-        sUrl2 = 'https://shahid4u.cam/ajaxCenter?_action=getdownloadlinks&postId='+sId
+        sUrl2 = 'https://shahid4u.cc/ajaxCenter?_action=getdownloadlinks&postId='+sId
 
 
 
