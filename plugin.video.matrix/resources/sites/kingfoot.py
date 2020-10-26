@@ -86,7 +86,7 @@ def showMovies(sSearch = ''):
             sTitle =  aEntry[1] 
             sThumbnail = ""
             siteUrl = aEntry[0]
-            sInfo = aEntry[2]
+            sInfo = ""
 			
 			
 
@@ -293,9 +293,7 @@ def showHosters4():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     oParser = cParser()
-    #print 'ff=' + sHtmlContent
- # (.+?) # ([^<]+) .+?  
-    #print 'ff=' + sHtmlContent
+
     sPattern = 'allow="(.+?)".+?src="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -328,8 +326,10 @@ def showHosters4():
 
         progress_.VSclose(progress_) 
  # (.+?) # ([^<]+) .+? 
-    sPattern = 'onclick="update_frame(.+?)" >.+?>([^<]+)</strong>'
+
+    sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'
     aResult = oParser.parse(sHtmlContent, sPattern)
+
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -338,7 +338,7 @@ def showHosters4():
             if progress_.iscanceled():
                 break
             
-            url = str(aEntry[0]).replace("('",'').replace("')","")
+            url = str(aEntry[0]).replace("('",'').replace("')","").replace("update_frame","")
             url = url.split('?link=', 1)[1]
             if url.startswith('//'):
                 url = 'http:' + url
