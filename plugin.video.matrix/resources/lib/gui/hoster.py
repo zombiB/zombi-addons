@@ -216,6 +216,8 @@ class cHosterGui:
             return self.getHoster('vidshare')
         if ('streamwire' in sHostName):
             return self.getHoster('streamwire')
+        if ('vup' in sHostName):
+            return self.getHoster('streamwire')
         if ('govid' in sHostName):
             return self.getHoster('govid')
         if ('french-vid' in sHostName or 'fembed.' in sHostName or 'yggseries' in sHostName or 'sendvid' in sHostName or 'vfsplayer' in sHostName or 'fsimg' in sHostName or 'fem.tohds' in sHostName):
@@ -432,6 +434,8 @@ class cHosterGui:
             return self.getHoster('vidbob')
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
+        if ('movs4u.club' in sHostName):
+            return self.getHoster('movs4u')
         if ('mystream' in sHostName):
             return self.getHoster('mystream')
         if ('letsupload' in sHostName):
