@@ -34,7 +34,7 @@ MOVIE_HI = ('https://w2.akoam.net/cat/168/%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D
 
 REPLAYTV_NEWS = ('https://w2.akoam.net/cat/81/%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSeries')
 SERIE_AR = ('https://w2.akoam.net/cat/80/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
-SERIE_EN = ('https://w2.akoam.net/cat/166/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
+SERIE_EN = ('https://old.akwam.co/cat/166/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
 
 ANIM_NEWS = ('https://w2.akoam.net/cat/83/%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A', 'showMovies')
 SERIE_ASIA = ('https://w2.akoam.net/cat/185/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showSeries')

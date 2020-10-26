@@ -17,38 +17,38 @@ SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'akwam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://akwam.net'
+URL_MAIN = 'https://akwam.co'
 
-MOVIE_AR = ('https://akwam.net/movies?section=29', 'showMovies')
-MOVIE_DUBBED = ('https://akwam.net/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
-MOVIE_EN = ('https://akwam.net/movies?section=30', 'showMovies')
-MOVIE_HI = ('https://akwam.net/movies?section=31', 'showMovies')
-MOVIE_ASIAN = ('https://akwam.net/movies?section=33', 'showMovies')
-KID_MOVIES = ('https://akwam.net/movies?category=30', 'showMovies')
-MOVIE_TURK = ('https://akwam.net/movies?section=32', 'showMovies')
-MOVIE_TOP = ('https://akwam.net/movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
-RAMADAN_SERIES = ('https://akwam.net/series?section=29', 'showSeries')
-SERIE_EN = ('https://akwam.net/series?section=30', 'showSeries')
-SERIE_AR = ('https://akwam.net/series?section=29', 'showSeries')
-SERIE_HEND = ('https://akwam.net/series?section=31', 'showSeries')
-SERIE_ASIA = ('https://akwam.net/series?section=33', 'showSeries')
-SERIE_TR = ('https://akwam.net/series?section=32', 'showSeries')
-SERIE_DUBBED = ('https://akwam.net/series?section=30&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+MOVIE_AR = ('https://akwam.co/movies?section=29', 'showMovies')
+MOVIE_DUBBED = ('https://akwam.co/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
+MOVIE_EN = ('https://akwam.co/movies?section=30', 'showMovies')
+MOVIE_HI = ('https://akwam.co/movies?section=31', 'showMovies')
+MOVIE_ASIAN = ('https://akwam.co/movies?section=33', 'showMovies')
+KID_MOVIES = ('https://akwam.co/movies?category=30', 'showMovies')
+MOVIE_TURK = ('https://akwam.co/movies?section=32', 'showMovies')
+MOVIE_TOP = ('https://akwam.co/movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
+RAMADAN_SERIES = ('https://akwam.co/series?section=29', 'showSeries')
+SERIE_EN = ('https://akwam.co/series?section=30', 'showSeries')
+SERIE_AR = ('https://akwam.co/series?section=29', 'showSeries')
+SERIE_HEND = ('https://akwam.co/series?section=31', 'showSeries')
+SERIE_ASIA = ('https://akwam.co/series?section=33', 'showSeries')
+SERIE_TR = ('https://akwam.co/series?section=32', 'showSeries')
+SERIE_DUBBED = ('https://akwam.co/series?section=30&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 
-SERIE_TR_AR = ('https://akwam.net/series?section=32&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
-SERIE_HEND_AR = ('https://akwam.net/series?section=31&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
-ANIM_NEWS = ('https://akwam.net/series?category=30', 'showSeries')
+SERIE_TR_AR = ('https://akwam.co/series?section=32&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+SERIE_HEND_AR = ('https://akwam.co/series?section=31&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+ANIM_NEWS = ('https://akwam.co/series?category=30', 'showSeries')
 
-DOC_NEWS = ('https://akwam.net/movies?category=28', 'showMovies')
-DOC_SERIES = ('https://akwam.net/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
+DOC_NEWS = ('https://akwam.co/movies?category=28', 'showMovies')
+DOC_SERIES = ('https://akwam.co/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
 
-REPLAYTV_NEWS = ('https://akwam.net/shows?section=42', 'showSeries')
-REPLAYTV_PLAY = ('https://akwam.net/shows?section=45', 'showSeries')
+REPLAYTV_NEWS = ('https://akwam.co/shows?section=42', 'showSeries')
+REPLAYTV_PLAY = ('https://akwam.co/shows?section=45', 'showSeries')
 
 
-URL_SEARCH = ('https://akwam.net/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://akwam.net/search?q=', 'showMovies')
-URL_SEARCH_SERIES = ('https://akwam.net/search?q=', 'showSeries')
+URL_SEARCH = ('https://akwam.co/search?q=', 'showSeries')
+URL_SEARCH_MOVIES = ('https://akwam.co/search?q=', 'showMovies')
+URL_SEARCH_SERIES = ('https://akwam.co/search?q=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -66,7 +66,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://akwam.net/search?q='+sSearchText
+        sUrl = 'https://akwam.co/search?q='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -139,8 +139,8 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid.+?" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
-	
+    sPattern = ' <span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)"/>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -153,12 +153,12 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[4]).decode("utf8")
+            sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[2])
-            sThumb = str(aEntry[3])
-            sYear = aEntry[5]
+            siteUrl = str(aEntry[1])
+            sThumb = str(aEntry[2])
+            sYear = aEntry[4]
             sDisplayTitle = ('%s (%s) ') % (sTitle, sYear)
             sDesc = '[COLOR yellow]'+aEntry[0]+'[/COLOR]'+" episodes"
 
