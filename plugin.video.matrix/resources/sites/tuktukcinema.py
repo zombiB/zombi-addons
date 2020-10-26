@@ -26,7 +26,7 @@ MOVIE_HI = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d
 MOVIE_ASIAN = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a1/', 'showMovies')
 KID_MOVIES = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a1/', 'showMovies')
 MOVIE_TURK = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showMovies')
-SERIE_EN = ('https://tuktukcinema.net/sercat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a1/', 'showSeries')
+SERIE_EN = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showSeries')
 SERIE_ASIA = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a', 'showSeries')
 SERIE_TR = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a', 'showSeries')
 ANIM_NEWS = ('https://tuktukcinema.net/category/%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
@@ -173,7 +173,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=.+?</div><div class="FrontBlock"><img src="([^<]+)">'
+    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=.+?<img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
