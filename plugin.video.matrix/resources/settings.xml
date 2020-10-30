@@ -76,6 +76,7 @@
         <!--activation invisible des sources -->
         <setting visible="false" id="plugin_oktooon" type="bool" label="oktooon" default="true"/> 
         <setting visible="false" id="plugin_panet" type="bool" label="panet" default="true"/> 
+        <setting visible="false" id="plugin_egybest" type="bool" label="egybest" default="true"/> 
         <setting visible="false" id="plugin_qdoc" type="bool" label="qdoc" default="true"/> 
         <setting visible="false" id="plugin_radioquran" type="bool" label="radioquran" default="true"/>  
         <setting visible="false" id="plugin_shahidu" type="bool" label="shahidu" default="true"/> 

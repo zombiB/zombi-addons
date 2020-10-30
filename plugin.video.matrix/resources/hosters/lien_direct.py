@@ -104,6 +104,21 @@ class cHoster(iHoster):
         if 'fushaar' in api_call:
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
             api_call = api_call + '|User-Agent=' + UA  + '&Referer=' + self.__sUrl
+        if 'egybest' in api_call:
+            import requests
+            oParser = cParser()
+            sHtmlContent=requests.get(api_call).content
+			
+            sPattern =  ',RESOLUTION=(.+?),.+?(http.+?.m3u8)'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+				url=[]
+				qua=[]
+				for i in aResult[1]:
+					url.append(str(i[1]))
+					qua.append(str(i[0]))
+				api_call = dialog().VSselectqual(qua, url)
+
             
         #Special pour hd-stream.in et film-streaming.co
         if '/embed/' in api_call:
