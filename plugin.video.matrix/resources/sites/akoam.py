@@ -23,28 +23,28 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://we.akoam.net'
 
 
-MOVIE_PACK = ('https://w5.akoam.net/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
+MOVIE_PACK = ('https://old.akwam.co/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
 
-MOVIE_EN = ('https://we.akoam.net/cat/156/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_EN = ('https://old.akwam.co/cat/156/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
 
-KID_MOVIES = ('https://web.akoam.net/cat/179/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
-MOVIE_AR = ('https://w2.akoam.net/cat/155/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
+KID_MOVIES = ('https://old.akwam.co/cat/179/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
+MOVIE_AR = ('https://old.akwam.co/cat/155/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
 
-MOVIE_HI = ('https://w2.akoam.net/cat/168/%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
+MOVIE_HI = ('https://old.akwam.co/cat/168/%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
 
-REPLAYTV_NEWS = ('https://w2.akoam.net/cat/81/%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSeries')
-SERIE_AR = ('https://w2.akoam.net/cat/80/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
+REPLAYTV_NEWS = ('https://old.akwam.co/cat/81/%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSeries')
+SERIE_AR = ('https://old.akwam.co/cat/80/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
 SERIE_EN = ('https://old.akwam.co/cat/166/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
 
-ANIM_NEWS = ('https://w2.akoam.net/cat/83/%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A', 'showMovies')
-SERIE_ASIA = ('https://w2.akoam.net/cat/185/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showSeries')
-SERIE_TR = ('https://w2.akoam.net/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
+ANIM_NEWS = ('https://old.akwam.co/cat/83/%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A', 'showMovies')
+SERIE_ASIA = ('https://old.akwam.co/cat/185/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showSeries')
+SERIE_TR = ('https://old.akwam.co/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
 
-DOC_NEWS = ('https://w2.akoam.net/cat/94/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
-URL_SEARCH = ('https://w2.akoam.net/search/', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://w2.akoam.net/search/', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://w2.akoam.net/search/', 'showMoviesSearch')
+DOC_NEWS = ('https://old.akwam.co/cat/94/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
+URL_SEARCH = ('https://old.akwam.co/search/', 'showMoviesSearch')
+URL_SEARCH_MOVIES = ('https://old.akwam.co/search/', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://old.akwam.co/search/', 'showMoviesSearch')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -63,7 +63,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://w2.akoam.net/search/'+sSearchText
+        sUrl = 'https://old.akwam.co/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -82,7 +82,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="tags_box"><a href="([^<]+)"><div class="tag_box_image" style=([^<]+)></div><h1>([^<]+)</h1>'
+    sPattern = '<a href="([^<]+)">.+?<img src="([^<]+)" alt.+?<h3>([^<]+)</h3>.+?<span class="desc">(.+?)<'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -131,7 +131,7 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
-    liste.append( ["مسلسلات مدبلجة","https://w5.akoam.net/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9"] )
+    liste.append( ["مسلسلات مدبلجة","https://old.akwam.co/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9"] )
 
     
 	            
@@ -154,8 +154,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="subject_box shape"><a href="([^<]+)"><img src="([^<]+)" alt="اسم الموضوع"><div class="subject_title "><h3>([^<]+)</h3><span class="desc">([^<]+)</span></div>'
-
+    sPattern = '<a href="([^<]+)">.+?<img src="([^<]+)" alt.+?<h3>([^<]+)</h3>.+?<span class="desc">(.+?)<'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -468,7 +467,7 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = "</li><li class='pagination_next'><a href='([^<]+)' class='ako-arrow ako-left-arrow'></a>"
+    sPattern = "<li class='pagination_next'>.+?<a href='([^<]+)' class='ako-arrow ako-left-arrow'></a>"
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
