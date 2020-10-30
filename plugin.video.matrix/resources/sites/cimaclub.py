@@ -403,8 +403,6 @@ def showServer():
         
 				url = str(aEntry).replace("https://www.cimaclub.cam/?download=","").replace("%3A",":").replace("%2F","/")
 				url = url.split('&id=')[0]
-				print "urlaResult"
-				print url
 				sTitle = " " 
 				if 'thevideo.me' in url:
 					sTitle = " (thevideo.me)"

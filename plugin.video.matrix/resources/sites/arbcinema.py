@@ -18,18 +18,18 @@ SITE_IDENTIFIER = 'arbcinema'
 SITE_NAME = 'arbcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://ar.arbcinema.com'
+URL_MAIN = 'https://in.arbcinema.com'
 
 
-MOVIE_EN = ('https://ar.arbcinema.com/cat_film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
-KID_MOVIES = ('https://ar.arbcinema.com/type/%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
-MOVIE_ASIAN = ('https://ar.arbcinema.com/country/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
+MOVIE_EN = ('https://in.arbcinema.com/cat_film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
+KID_MOVIES = ('https://in.arbcinema.com/type/%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
+MOVIE_ASIAN = ('https://in.arbcinema.com/country/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
 
-SERIE_EN = ('https://ar.arbcinema.com/cat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSerie')
-SERIE_TR = ('https://ar.arbcinema.com/cat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSerie')
+SERIE_EN = ('https://in.arbcinema.com/cat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSerie')
+SERIE_TR = ('https://in.arbcinema.com/cat/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSerie')
 
-URL_SEARCH = ('https://ar.arbcinema.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://ar.arbcinema.com/?s=', 'showMovies')
+URL_SEARCH = ('https://in.arbcinema.com/?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://in.arbcinema.com/?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101 Firefox/60.0' 
@@ -325,7 +325,7 @@ def showServer():
     #print sId
     
   # ([^<]+) .+?
-    headers = {'Host': 'ar.arbcinema.com',
+    headers = {'Host': 'in.arbcinema.com',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -336,7 +336,7 @@ def showServer():
     data = sId
     data = {'id':data,'key':'0','type':'normal'}
     s = requests.Session()
-    r = s.post('https://ar.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server/download.php', headers=headers,data = data)
+    r = s.post('https://in.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server/download.php', headers=headers,data = data)
     sHtmlContent += r.content
     
     # (.+?) .+? ([^<]+)        	
@@ -449,7 +449,7 @@ def showServer2():
 							'Connection': 'keep-alive'}
 				data = {'id':sId,'name':nume,'type':'free'}
 				s = requests.Session()
-				r = s.post('https://ar.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers,data = data)
+				r = s.post('https://in.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers,data = data)
 				sHtmlContent += r.content       
 
 				sPattern3 = '<IFRAME SRC="([^<]+)" FRAMEBORDER='
