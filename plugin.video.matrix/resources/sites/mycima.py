@@ -24,7 +24,7 @@ URL_MAIN = 'https://mycima.to'
 MOVIE_EN = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/', 'showMovies')
 MOVIE_PACK = ('https://mycima.to/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-film/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-movies-english/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9-full-pack/', 'showMovie')
 
-MOVIE_AR = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a-arabic-movies/', 'showMovies')
+MOVIE_AR = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%89-arabic-movies/', 'showMovies')
 MOVIE_TURK = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%89/', 'showMovies')
 MOVIE_HI = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
 KID_MOVIES = ('https://mycima.to/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-film/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D8%B1%D8%AA%D9%88%D9%86/', 'showMovies')
@@ -87,7 +87,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-    sPattern = '<a title="([^<]+)" href="([^<]+)"><img class="imgLoader" data-img="([^<]+)" alt=".+?" /></a><div class='
+    sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)"><span class="BG--GridItem" style="background-image:url([^<]+);"><div.+?class="hasyear">([^<]+)<span class="year">([^<]+)</span></strong>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -101,14 +101,15 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0].decode("utf8")
+            sTitle = aEntry[2]+aEntry[3]
+            sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
  
  
-            siteUrl = aEntry[1]
+            siteUrl = aEntry[0]
             sInfo = ""
-            sThumbnail = str(aEntry[2])
+            sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
 
 
 
