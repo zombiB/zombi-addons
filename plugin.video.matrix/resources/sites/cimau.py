@@ -277,8 +277,7 @@ def showLinks():
 
     sPage='0'
 
-    sPattern = 'data-link="([^<]+)" class=".+?"><img.+?src=".+?" width="40" height="40" alt="" />(.+?)</a>'
-
+    sPattern = 'data-link="([^<]+)" class=".+?"><img.+?/>(.+?)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -605,7 +604,7 @@ def showHosters():
 
 
     #print sHtmlContent
-    #(.+?)
+    # (.+?)
                
 
     sPattern = '<iframe.+?src="(.+?)"'
