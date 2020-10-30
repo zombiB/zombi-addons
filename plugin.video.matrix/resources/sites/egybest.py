@@ -261,7 +261,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[2]
+            sTitle =  aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = '[COLOR aqua]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -290,7 +290,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
+            sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle
             siteUrl = str(aEntry[0])
