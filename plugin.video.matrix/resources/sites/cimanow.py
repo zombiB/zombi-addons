@@ -120,7 +120,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServer2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
   # ([^<]+) .+?
 
     sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
@@ -273,6 +273,148 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
+def showServer2():
+    oGui = cGui()
+    import requests
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    sDesc = oInputParameterHandler.getValue('sDesc')
+
+    #print sHtmlContent 
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+   
+    oParser = cParser()
+    
+    #Recuperation infos
+    sId = ''
+     # (.+?) ([^<]+) .+?
+    sPattern = "<link rel='shortlink' href='([^<]+)' />"
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+		sId = aResult[1][0].split('p=')[1]
+     # (.+?) ([^<]+) .+?
+    sPattern = '<li data-server="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				headers = {'Host': 'cimanow.cam',
+							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Accept': '*/*',
+							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Referer': sUrl,
+							'Connection': 'keep-alive'}
+				spost = aEntry
+				snume = aEntry
+				data = {'id':sId,'server':spost}
+				s = requests.Session()
+				
+				r = s.post('https://cimanow.cam/wp-content/themes/CimaNow/Interface/server.php', headers=headers,data = data)  
+				sHtmlContent += r.content     
+    sPattern = '<iframe src="(.+?)" scrolling'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if 'streamcherry' in url:
+					sTitle = " (streamcherry)"
+				if 'cloudvideo' in url:
+					sTitle = " (cloudvideo)"
+				if 'vcstream' in url:
+					sTitle = " (vcstream)"
+				if 'userscloud' in url:
+					sTitle = " (userscloud)"
+				if 'clicknupload' in url:
+					sTitle = " (clicknupload)"
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
+
+			progress_.VSclose(progress_)   
+    
+    # (.+?) .+? ([^<]+)        	
+
+    
+    # (.+?) .+? ([^<]+)        	
+    sPattern = '<a href="([^<]+)" class="downloadserver">'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if 'streamcherry' in url:
+					sTitle = " (streamcherry)"
+				if 'cloudvideo' in url:
+					sTitle = " (cloudvideo)"
+				if 'streamcloud' in url:
+					sTitle = " (streamcloud)"
+				if 'userscloud' in url:
+					sTitle = " (userscloud)"
+				if 'clicknupload' in url:
+					sTitle = " (clicknupload)"
+				if url.startswith('//'):
+					url = 'http:' + url
+				
+					
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
+
+			progress_.VSclose(progress_)
+       
+    oGui.setEndOfDirectory()
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
