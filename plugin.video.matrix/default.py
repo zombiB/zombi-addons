@@ -102,12 +102,12 @@ class main:
 
         if (oInputParameterHandler.exist('site')):
             sSiteName = oInputParameterHandler.getValue('site')
-#            if (oInputParameterHandler.exist('title')):
-#                sTitle = oInputParameterHandler.getValue('title')
-#            else: sTitle = "none"
+            if (oInputParameterHandler.exist('title')):
+                sTitle = oInputParameterHandler.getValue('title')
+            else: sTitle = "none"
 
             VSlog('load site ' + sSiteName + ' and call function ' + sFunction)
-            #cStatistic().callStartPlugin(sSiteName, sTitle)
+            cStatistic().callStartPlugin(sSiteName, sTitle)
 
             if (isHosterGui(sSiteName, sFunction) == True):
                 return
