@@ -37,7 +37,7 @@ SERIE_TR = ('https://mycima.to/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%
 DOC_SERIES = ('https://mycima.to/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9-documentary-series/', 'showSeries')
 DOC_NEWS = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9-documentary-films/', 'showMovies')
 URL_SEARCH = ('https://mycima.to/search/', 'showSeriesSearch')
-URL_SEARCH_SERIES = ('https://mycima.io/search/', 'showSearchSeries')
+URL_SEARCH_SERIES = ('https://mycima.io/search/', 'showSeries')
 URL_SEARCH_MOVIES = ('https://mycima.io/search/', 'showMovies')
 FUNCTION_SEARCH = 'showSearch'
  
