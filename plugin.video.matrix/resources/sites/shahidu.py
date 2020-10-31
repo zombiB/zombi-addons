@@ -319,6 +319,37 @@ def showEpisodes():
             oGui.addMisc(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumbnail, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
+  # ([^<]+) .+?
+    sPattern = '<a href="([^<]+)" class="col-6 col-s-4 col-m-3 col-l-1 button-block"><h3>الحلقة <span></span></h3></a>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry.replace("https://shahid4u.im/episode/","")
+            sTitle = sTitle.decode("utf8") 
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = sTitle
+            siteUrl = aEntry.replace("episode","watch")
+            sThumbnail = str(sThumbnail)
+			
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addMisc(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
