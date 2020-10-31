@@ -32,7 +32,7 @@ MOVIE_PACK = ('https://www.movs4u.life//collection/', 'showMovie')
 
 URL_SEARCH = ('https://www.movs4u.life//?s=', 'showMoviesSearch')
 URL_SEARCH_MOVIES = ('https://www.movs4u.life//?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://www.movs4u.life//?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://www.movs4u.life//?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
 def load():
