@@ -182,9 +182,9 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','')
-              
-         #(.+?)([^<]+)   
-    sPattern = '<br /><a href="([^<]+)" target="_blank">([^<]+)<'
+
+         # (.+?) ([^<]+)   
+    sPattern = '<a href="([^<]+)".+?">([^<]+)<'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

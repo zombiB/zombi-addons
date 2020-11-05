@@ -1,7 +1,7 @@
-﻿#-*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
 
-import xbmcaddon, xbmcgui, xbmc
+import xbmcaddon, xbmcgui, xbmc, xbmcvfs 
 
 """System d'importation
 
@@ -15,7 +15,8 @@ from resources.lib.comaddon import addon
 addons = addon() en haut de page.
 
 utiliser une fonction comaddon ou xbmcaddon
-http://mirrors.kodi.tv/docs/python-docs/16.x-jarvis/xbmcaddon.html
+
+https://codedocs.xyz/xbmc/xbmc/class_x_b_m_c_addon_1_1xbmcaddon_1_1_addon.html
 
 addons.VSlang(30305)
 addons.getLocalizedString(30305)
@@ -27,54 +28,92 @@ addons2 = addon('plugin.video.youtube')
 addons2.openSettings()
 """
 
+
+"""
+Ne pas utiliser :
 class addon(xbmcaddon.Addon):
 
-    #def __init__(self, id='plugin.video.matrix'):
-    #    xbmcaddon.__init__(id)
-    #    pass
 
+
+
+L'utilisation de subclass peut provoquer des fuites de mémoire, signalé par ce message :
+
+
+
+
+
+the python script "\plugin.video.vstream\default.py" has left several classes in memory that we couldn't clean up. The classes include: class XBMCAddon::xbmcaddon::Addon
+
+
+
+
+
+
+
+
+
+
+# https://stackoverflow.com/questions/26588266/xbmc-addon-memory-leak
+
+"""
+ADDONVS = xbmcaddon.Addon('plugin.video.matrix')    # singleton
+
+# class addon(xbmcaddon.Addon):
+class addon():
+
+     
+    def __init__(self, addonId = None):
+        self.addonId = addonId
+
+    def openSettings(self):
+        return xbmcaddon.Addon(self.addonId).openSettings() if self.addonId else ADDONVS.openSettings()
+        
+    def getSetting(self, key):
+        return xbmcaddon.Addon(self.addonId).getSetting(key) if self.addonId else ADDONVS.getSetting(key)
+     
+    def setSetting(self, key, value):
+        return xbmcaddon.Addon(self.addonId).setSetting(key, value) if self.addonId else ADDONVS.setSetting(key, value)
+     
+    def getAddonInfo(self, info):
+        return xbmcaddon.Addon(self.addonId).getAddonInfo(info) if self.addonId else ADDONVS.getAddonInfo(info)
+     
     def VSlang(self, lang):
-        return xbmc.translatePath(self.getLocalizedString(lang))
-        #xbmcaddon.Addon('plugin.video.matrix').getLocalizedString(lang))
-        #Bug avec accent xbmc.translatePath(xbmcaddon.Addon('plugin.video.matrix').getLocalizedString(lang)).decode('utf-8')
-
-    #deprecier utiliser addons.setSetting et addons.getSetting
-    def VSsetting(self, name, value = False):
-        #adons = addon()
-        #use addons.setting('name') pour getsetting
-        #use addons.setting('name', 'value) pour setsetting
-        if value:
-            return self.setSetting(name, value)
-        else:
-            return self.getSetting(name)
-
+        return VSPath(xbmcaddon.Addon(self.addonId).getLocalizedString(lang)) if self.addonId else VSPath(ADDONVS.getLocalizedString(lang))
+        #Bug avec accent xbmc.translatePath(xbmcaddon.Addon('plugin.video.vstream').getLocalizedString(lang)).decode('utf-8')
 
 """
 from resources.lib.comaddon import dialog
 
-ne peux pas utiliser les autres fonction que dialog
+
+Utilisation :
 dialogs = dialog()
 dialogs.VSinfo('test')
-http://mirrors.kodi.tv/docs/python-docs/16.x-jarvis/xbmcgui.html#Dialog
+
+https://codedocs.xyz/xbmc/xbmc/group__python___dialog.html
 """
 
-class dialog(xbmcgui.Dialog):
+DIALOG = xbmcgui.Dialog() # Singleton
 
-    #def __init__(self):
-    #    xbmcgui.__init__('')
-    #    pass
+
+
+
+class dialog():
+# class dialog(xbmcgui.Dialog):
 
     def VSok(self, desc, title = 'matrix'):
-        dialog = self.ok(title, desc)
-        return dialog
+        return DIALOG.ok(title, desc)
+
 
     def VSyesno(self, desc, title = 'matrix'):
-        dialog = self.yesno(title, desc)
-        return dialog
+        return DIALOG.yesno(title, desc)
+
 
     def VSselect(self, desc, title = 'matrix'):
-        ret = self.select(title, desc)
-        return ret
+        return DIALOG.select(title, desc)
+
+
+    def numeric(self, dialogType, heading, defaultt):
+        return DIALOG.numeric(dialogType, heading, defaultt)
 
     def VSselectqual(self, list_qual, list_url):
 
@@ -83,7 +122,7 @@ class dialog(xbmcgui.Dialog):
         if len(list_url) == 1:
             return list_url[0]
 
-        ret = self.select(addon().VSlang(30448), list_qual)
+        ret = DIALOG.select(addon().VSlang(30448), list_qual)
         if ret > -1:
             return list_url[ret]
         return ''
@@ -97,14 +136,18 @@ class dialog(xbmcgui.Dialog):
         if (addon().getSetting('Block_Noti_sound') == 'true'):
             sound = True
 
-        return self.notification(str(title), str(desc), xbmcgui.NOTIFICATION_INFO, iseconds, sound)
+        return DIALOG.notification(str(title), str(desc), xbmcgui.NOTIFICATION_INFO, iseconds, sound)
 
     def VSerror(self, e):
-        return self.notification('matrix', 'Erreur: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Erreur: ' + str(e))
+        return DIALOG.notification('matrix', 'Erreur: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Erreur: ' + str(e))
 
+    def VStextView(self, desc, title = "matrix"):
+        return DIALOG.textviewer(title, desc)
+    
 """
 from resources.lib.comaddon import progress
 
+Utilisation : 
 progress_ = progress()
 progress_.VScreate(SITE_NAME)
 progress_.VSupdate(progress_, total)
@@ -112,17 +155,18 @@ if progress_.iscanceled():
     break
 progress_.VSclose(progress_)
 
-dialog = progress() non recommander
-progress = progress() non recommander
-http://mirrors.kodi.tv/docs/python-docs/16.x-jarvis/xbmcgui.html#DialogProgress
+dialog = progress() non recommandé
+progress = progress() non recommandé
+
+https://codedocs.xyz/xbmc/xbmc/group__python___dialog_progress.html
 """
 
 COUNT = 0
-DIALOG2 = None
+PROGRESS = None # Singleton
 
 class empty():
 
-    def VSupdate(self, dialog, total, text = ''):
+    def VSupdate(self, dialog, total, text = '', search = False):
         pass
 
     def iscanceled(self):
@@ -131,68 +175,90 @@ class empty():
     def VSclose(self, dialog):
         pass
 
-    def VSupdatesearch(self, dialog, total, text = ''):
-        pass
+
+
 
 class progress(xbmcgui.DialogProgress):
 
     def VScreate(self, title = 'matrix', desc = ''):
-        global DIALOG2
 
-        current_window = xbmcgui.getCurrentWindowId()
-        if current_window == 10000:
+
+        currentWindow = xbmcgui.getCurrentWindowId()
+
+#         if currentWindow == 10000 or currentWindow == 10103: # home, keyboard
+        if currentWindow != 10025: # videonav
             return empty()
 
-        if DIALOG2 == None:
+
+        global PROGRESS
+        if PROGRESS == None:
             self.create(title, desc)
-            VSlog('create dialog')
-            DIALOG2 = self
-            return self
-        else: return DIALOG2
 
-    def VSupdate(self, dialog, total, text = ''):
-        if window(10101).getProperty('search') == 'true':
+
+
+
+            PROGRESS = self
+
+
+
+
+
+
+
+
+        return PROGRESS
+
+    def VSupdate(self, dialog, total, text = '', search = False):
+
+        global PROGRESS
+        if not PROGRESS:    # Déjà refermé
             return
+        
+        if not search and window(10101).getProperty('search') == 'true':
+            return
+        
         global COUNT
         COUNT += 1
         iPercent = int(float(COUNT * 100) / total)
-        dialog.update(iPercent, 'Loading: ' + str(COUNT) + '/' + str(total), text)
-
-    def VSupdatesearch(self, dialog, total, text = ''):
-        global COUNT
-        COUNT += 1
-        iPercent = int(float(COUNT * 100) / total)
-        dialog.update(iPercent, 'Loading: ' + str(COUNT) + '/' + str(total), text)
+        dialog.update(iPercent, 'Loading: ' + str(COUNT) + '/' + str(total) + " " + text)
 
     def VSclose(self, dialog = ''):
-        if not dialog and DIALOG2:
-            dialog=DIALOG2
+        global PROGRESS
+        if not dialog and PROGRESS:
+
+            dialog = PROGRESS
         if not dialog:
             return
 
         if window(10101).getProperty('search') == 'true':
             return
+        
+        PROGRESS = None
         dialog.close()
-        VSlog('close dialog')
-        del dialog
-        return False
 
+
+
+
+    
 """
 from resources.lib.comaddon import window
 
 window(10101).getProperty('test')
-http://mirrors.kodi.tv/docs/python-docs/16.x-jarvis/xbmcgui.html#Window
+
+https://codedocs.xyz/xbmc/xbmc/group__python__xbmcgui__window.html
 """
 
 class window(xbmcgui.Window):
 
-    def __init__(self, id):
+    def __init__(self, winID):
         pass
 
 """
 from resources.lib.comaddon import listitem
 listitem.setLabel('test')
-http://mirrors.kodi.tv/docs/python-docs/16.x-jarvis/xbmcgui.html#ListItem
+
+https://kodi.wiki/view/InfoLabels
+https://codedocs.xyz/xbmc/xbmc/group__python__xbmcgui__listitem.html#ga0b71166869bda87ad744942888fb5f14
 """
 
 class listitem(xbmcgui.ListItem):
@@ -205,16 +271,23 @@ class listitem(xbmcgui.ListItem):
 """
 from resources.lib.comaddon import VSlog
 VSlog('testtttttttttttt')
-ou
-xbmc.log
+
+
 """
 
 #xbmc des fonctions pas des class
 def VSlog(e, level = xbmc.LOGDEBUG):
-    #rapelle l'ID de l'addon pour être apeller hors addon
-    if (addon('plugin.video.matrix').getSetting('debug') == 'true'):
-        level = xbmc.LOGNOTICE
-    return xbmc.log('\t[PLUGIN] matrix: ' + str(e), level)
+    try:
+        #rapelle l'ID de l'addon pour être appelé hors addon
+        if (ADDONVS.getSetting('debug') == 'true'):
+            if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+                level = xbmc.LOGINFO
+            else:
+                level = xbmc.LOGNOTICE
+        xbmc.log('\t[PLUGIN] matrix: ' + str(e), level)
+        
+    except:
+        pass
 
 def VSupdate():
     return xbmc.executebuiltin('Container.Refresh')
@@ -237,16 +310,21 @@ def isKrypton():
     except:
         return False
 
-def VSread(sHtmlContent):
-    import xbmcvfs
-    file = 'special://userdata/addon_data/plugin.video.matrix/html.txt'
-    if xbmcvfs.exists(file):
-        xbmcvfs.delete(file)
 
-    f = xbmcvfs.File (file, 'w')
-    result = f.write(sHtmlContent)
-    f.close()
 
-#use cGui.showKeyBoard
-def VSkeyboard(sDefaultText = ''):
-    return False
+
+
+
+
+
+
+
+#Transforme les "special" en chemin normal.
+def VSPath(pathSpecial):
+    if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+        path = xbmcvfs.translatePath(pathSpecial)
+    else:
+        path = xbmc.translatePath(pathSpecial)
+    return path
+
+

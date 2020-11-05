@@ -98,6 +98,8 @@ class cHoster(iHoster):
 		if (aResult[0] == True):
 			api_call = aResult[1][0]
 
+		if '+' in api_call:
+			api_call = api_call.replace("[","%5B").replace("]","%5D").replace("+","%20")
 		if (api_call):
 			return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'
 

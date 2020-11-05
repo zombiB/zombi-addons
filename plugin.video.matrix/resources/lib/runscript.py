@@ -1,17 +1,23 @@
-#-*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
-#Venom.
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-#matrix = xbmcaddon.Addon('plugin.video.matrix')
-#sLibrary = xbmc.translatePath(matrix.getAddonInfo("path")).decode("utf-8")
-#sys.path.append (sLibrary)
+# vstream = xbmcaddon.Addon('plugin.video.vstream')
+# sLibrary = VSPath(vstream.getAddonInfo("path")).decode("utf-8")
+# sys.path.append (sLibrary)
+from resources.lib.handler.requestHandler import cRequestHandler
+from resources.lib.comaddon import addon, dialog, VSlog, window, VSPath, xbmc
+from resources.lib.util import urlEncode
 
-from resources.lib.comaddon import addon, dialog, VSlog, xbmc, xbmcgui, window
+try:  # Python 2
+    import urllib2
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+
 import xbmcvfs
 import sys
-import urllib, urllib2
-#from util import VStranslatePath
-#from resources.lib.util import VStranslatePath
+import xbmc
+import xbmcgui
 
 try:
     from sqlite3 import dbapi2 as sqlite
@@ -25,9 +31,9 @@ try:
 except:
     import simplejson as json
 
-
 SITE_IDENTIFIER = 'runscript'
 SITE_NAME = 'runscript'
+
 
 class cClear:
 
@@ -36,30 +42,35 @@ class cClear:
 
     def __init__(self):
         self.main(sys.argv[1])
-        #self.__sFunctionName = ''
 
     def main(self, env):
 
-        if (env == 'urlresolver'):
-            addon('script.module.urlresolver').openSettings()
+        if (env == 'resolveurl'):
+            addon('script.module.resolveurl').openSettings()
             return
 
         elif (env == 'metahandler'):
             addon('script.module.metahandler').openSettings()
             return
 
-        elif (env == 'changelog_old'):
+        elif (env == 'changelog'):
             try:
                 sUrl = 'https://raw.githubusercontent.com/zombiB/zombi-addons/master/plugin.video.matrix/changelog.txt'
-                oRequest =  urllib2.Request(sUrl)
+                oRequest = urllib2.Request(sUrl)
                 oResponse = urllib2.urlopen(oRequest)
-                sContent = oResponse.read()
+
+                # En python 3 on doit décoder la reponse
+                if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+                    sContent = oResponse.read().decode('utf-8')
+                else:
+                    sContent = oResponse.read()
+
                 self.TextBoxes('matrix Changelog', sContent)
             except:
                 self.DIALOG.VSerror("%s, %s" % (self.ADDON.VSlang(30205), sUrl))
             return
 
-        elif (env == 'changelog'):
+        elif (env == 'changelog_old'):
 
             class XMLDialog(xbmcgui.WindowXMLDialog):
 
@@ -76,29 +87,34 @@ class cClear:
                     self.button.setLabel('OK')
 
                     sUrl = 'https://api.github.com/repos/zombiB/zombi-addons/commits'
-                    oRequest =  urllib2.Request(sUrl)
+                    oRequest = urllib2.Request(sUrl)
                     oResponse = urllib2.urlopen(oRequest)
-                    sContent = oResponse.read()
+
+                    # En python 3 on doit décoder la reponse
+                    if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+                        sContent = oResponse.read().decode('utf-8')
+                    else:
+                        sContent = oResponse.read()
+
                     result = json.loads(sContent)
                     listitems = []
 
                     for item in result:
-                        #autor
+                        # autor
                         icon = item['author']['avatar_url']
                         login = item['author']['login']
-                        #message
+                        # message
                         try:
                             desc = item['commit']['message'].encode("utf-8")
                         except:
                             desc = 'None'
 
-                        listitem = xbmcgui.ListItem(label = login, label2 = desc)
+                        listitem = xbmcgui.ListItem(label=login, label2=desc)
                         listitem.setArt({'icon': icon, 'thumb': icon})
 
                         listitems.append(listitem)
+
                     self.container.addItems(listitems)
-
-
                     self.setFocus(self.container)
 
                 def onClick(self, controlId):
@@ -108,10 +124,9 @@ class cClear:
                 def onFocus(self, controlId):
                     self.controlId = controlId
 
-                def _close_dialog( self ):
+                def _close_dialog(self):
                     self.close()
 
-            #path = cConfig().getAddonPath()
             path = "special://home/addons/plugin.video.matrix"
             wd = XMLDialog('DialogSelect.xml', path, "Default")
             wd.doModal()
@@ -120,51 +135,69 @@ class cClear:
 
         elif (env == 'soutient'):
             try:
-                sUrl = 'https://raw.githubusercontent.com/zombiB/zombi-addons/master/plugin.video.matrix/soutient.txt'
-                oRequest =  urllib2.Request(sUrl)
+                sUrl = 'https://raw.githubusercontent.com/Kodi-matrix/venom-xbmc-addons/master/plugin.video.matrix/soutient.txt'
+                oRequest = urllib2.Request(sUrl)
                 oResponse = urllib2.urlopen(oRequest)
-                sContent = oResponse.read()
+
+                # En python 3 on doit décoder la reponse
+                if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+                    sContent = oResponse.read().decode('utf-8')
+                else:
+                    sContent = oResponse.read()
+
                 self.TextBoxes('matrix Soutient', sContent)
             except:
                 self.DIALOG.VSerror("%s, %s" % (self.ADDON.VSlang(30205), sUrl))
             return
 
-        elif (env == 'addon'):
+        elif (env == 'addon'): # Vider le cache des métadonnées
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
-                #cached_Cache = cConfig().getFileCache()
-                #cached_Cache = xbmc.translatePath(cached_Cache).decode("utf-8")
                 cached_Cache = "special://home/userdata/addon_data/plugin.video.matrix/video_cache.db"
-                #self.ClearDir2(cached_Cache, True)
+                # important seul xbmcvfs peux lire le special
                 try:
-                    xbmcvfs.delete(cached_Cache)
-                    self.DIALOG.VSinfo('Clear Addon Cache, Successful[CR](Important relancer matrix)')
+                    cached_Cache = VSPath(cached_Cache).decode("utf-8")
+                except AttributeError:
+                    cached_Cache = VSPath(cached_Cache)
+                
+                try:
+                    db = sqlite.connect(cached_Cache)
+                    dbcur = db.cursor()
+                    dbcur.execute('DELETE FROM movie')
+                    dbcur.execute('DELETE FROM tvshow')
+                    dbcur.execute('DELETE FROM season')
+                    dbcur.execute('DELETE FROM episode')
+                    db.commit()
+                    dbcur.close()
+                    db.close()
+                    self.DIALOG.VSinfo(self.ADDON.VSlang(30090))
                 except:
-                    self.DIALOG.VSerror('Clear Addon Cache, Error')
-
+                    self.DIALOG.VSerror(self.ADDON.VSlang(30091))
             return
 
         elif (env == 'clean'):
             liste = ['Historiques', 'Lecture en cours', 'Marqués vues', 'Marque-Pages', 'Téléchargements']
-            ret = self.DIALOG.select('BDD à supprimer', liste)
-            #cached_DB = cConfig().getFileDB()
+            ret = self.DIALOG.VSselect(liste, self.ADDON.VSlang(30110))
             cached_DB = "special://home/userdata/addon_data/plugin.video.matrix/matrix.db"
-            #important seul xbmcvfs peux lire le special
-            cached_DB = xbmc.translatePath(cached_DB).decode("utf-8")
+            # important seul xbmcvfs peux lire le special
+            try:
+                cached_DB = VSPath(cached_DB).decode("utf-8")
+            except AttributeError:
+                cached_DB = VSPath(cached_DB)
 
             sql_drop = ""
 
             if ret > -1:
 
                 if ret == 0:
-                    sql_drop = "DROP TABLE history"
+                    sql_drop = 'DELETE FROM history'
                 elif ret == 1:
-                    sql_drop = "DROP TABLE resume"
+                    sql_drop = 'DELETE FROM resume'
                 elif ret == 2:
-                    sql_drop = "DROP TABLE watched"
+                    sql_drop = 'DELETE FROM watched'
                 elif ret == 3:
-                    sql_drop = "DROP TABLE favorite"
+                    sql_drop = 'DELETE FROM favorite'
                 elif ret == 4:
-                    sql_drop = "DROP TABLE download"
+                    sql_drop = 'DELETE FROM download'
 
                 try:
                     db = sqlite.connect(cached_DB)
@@ -173,66 +206,57 @@ class cClear:
                     db.commit()
                     dbcur.close()
                     db.close()
-                    self.DIALOG.VSok("Suppression BDD, Successful[CR](Important relancer matrix)")
+                    self.DIALOG.VSok(self.ADDON.VSlang(30090))
                 except:
-                    self.DIALOG.VSerror("Suppression BDD, Error")
-
+                    self.DIALOG.VSerror(self.ADDON.VSlang(30091))
             return
 
         elif (env == 'xbmc'):
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
-                #temp = xbmc.translatePath('special://temp/').decode("utf-8")
                 path = "special://temp/"
-                #self.ClearDir(temp,True)
                 try:
                     xbmcvfs.rmdir(path, True)
-                    self.DIALOG.VSok('Clear Temp Cache, Successful[CR](Important relancer Kodi)')
+                    self.DIALOG.VSok(self.ADDON.VSlang(30092))
                 except:
-                    self.DIALOG.VSerror('Clear Temp Cache, Error')
+                    self.DIALOG.VSerror(self.ADDON.VSlang(30093))
             return
 
         elif (env == 'fi'):
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
-                #path = xbmc.translatePath('special://temp/').decode("utf-8")
                 path = "special://temp/archive_cache/"
                 try:
                     xbmcvfs.rmdir(path, True)
-                    self.DIALOG.VSok('Clear Archive_cache Cache, Successful[CR](Important relancer Kodi)')
+                    self.DIALOG.VSok(self.ADDON.VSlang(30095))
                 except:
-                    self.DIALOG.VSerror('Clear Archive_cache Cache, Error')
-                # filenames = next(os.walk(path))[2]
-                # for i in filenames:
-                #     if ".fi" in i:
-                #         os.remove(os.path.join(path, i))
+                    self.DIALOG.VSerror(self.ADDON.VSlang(30096))
             return
 
         elif (env == 'uplog'):
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
-                #path = xbmc.translatePath('special://logpath/').decode("utf-8")
                 path = "special://logpath/kodi.log"
                 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'
                 headers = {'User-Agent': UA}
-                #filenames = next(os.walk(path))[2]
-                #for i in filenames:
                 if xbmcvfs.exists(path):
                     post_data = {}
                     cUrl = 'http://slexy.org/index.php/submit'
-                    #logop = open(path + i, 'rb')
                     logop = xbmcvfs.File(path, 'rb')
                     result = logop.read()
                     logop.close()
-                    post_data['raw_paste'] = result
-                    post_data['author'] = 'kodi.log'
-                    post_data['language'] = 'text'
-                    post_data['permissions'] = 1 #private
-                    post_data['expire'] = 259200 #3j
-                    post_data['submit'] = 'Submit+Paste'
-                    request = urllib2.Request(cUrl, urllib.urlencode(post_data), headers)
-                    reponse = urllib2.urlopen(request)
-                    code = reponse.geturl().replace('http://slexy.org/view/', '')
-                    reponse.close()
+
+                    oRequestHandler = cRequestHandler(cUrl)
+                    oRequestHandler.setRequestType(1)
+                    oRequestHandler.addHeaderEntry('User-Agent', UA)
+                    oRequestHandler.addParameters('raw_paste',result)
+                    oRequestHandler.addParameters('author', "kodi.log")
+                    oRequestHandler.addParameters('language', "text")
+                    oRequestHandler.addParameters('permissions',1) # private
+                    oRequestHandler.addParameters('expire', 259200)  # 3j
+                    oRequestHandler.addParameters('submit', 'Submit+Paste') 
+                    sHtmlContent = oRequestHandler.request()
+                    code = oRequestHandler.getRealUrl().replace('http://slexy.org/view/', '')
+
                     self.ADDON.setSetting('service_log', code)
-                    self.DIALOG.VSok('Ce code doit être transmis lorsque vous ouvrez une issue veuillez le noter:' + '  ' + code)
+                    self.DIALOG.VSok(self.ADDON.VSlang(30097) + '  ' + code)
             return
 
         elif (env == 'search'):
@@ -245,7 +269,7 @@ class cClear:
                 ADDON = addon()
 
                 def __init__(self, *args, **kwargs):
-                    xbmcgui.WindowXMLDialog.__init__( self )
+                    xbmcgui.WindowXMLDialog.__init__(self)
                     pass
 
                 def onInit(self):
@@ -260,16 +284,17 @@ class cClear:
                     aPlugins = oPluginHandler.getAllPlugins()
 
                     for aPlugin in aPlugins:
-                        #teste si deja dans le dsip
+                        # teste si deja dans le dsip
                         sPluginSettingsName = 'plugin_' + aPlugin[1]
                         bPlugin = self.ADDON.getSetting(sPluginSettingsName)
 
-                        #icon = os.path.join(unicode(cConfig().getRootArt(), 'utf-8'), 'sites', aPlugin[1] + '.png')
                         icon = "special://home/addons/plugin.video.matrix/resources/art/sites/%s.png" % aPlugin[1]
-                        stitle = aPlugin[0].replace('[COLOR violet]', '').replace('[COLOR orange]', '').replace('[/COLOR]', '').replace('[COLOR dodgerblue]', '').replace('[COLOR coral]', '')
+                        stitle = aPlugin[0].replace('[COLOR violet]', '').replace('[COLOR orange]', '')\
+                                           .replace('[/COLOR]', '').replace('[COLOR dodgerblue]', '')\
+                                           .replace('[COLOR coral]', '')
                         if (bPlugin == 'true'):
                             stitle = ('%s %s') % (stitle, valid)
-                        listitem = xbmcgui.ListItem(label = stitle, label2 = aPlugin[2])
+                        listitem = xbmcgui.ListItem(label=stitle, label2=aPlugin[2])
                         listitem.setArt({'icon': icon, 'thumb': icon})
                         listitem.setProperty('Addon.Summary', aPlugin[2])
                         listitem.setProperty('sitename', aPlugin[1])
@@ -277,9 +302,8 @@ class cClear:
                             listitem.select(True)
 
                         listitems.append(listitem)
+
                     self.container.addItems(listitems)
-
-
                     self.setFocus(self.container)
 
                 def onClick(self, controlId):
@@ -304,7 +328,7 @@ class cClear:
                             item.select(False)
                             sPluginSettingsName = ('plugin_%s') % (item.getProperty('sitename'))
                             self.ADDON.setSetting(sPluginSettingsName, str('false'))
-                        else :
+                        else:
                             label = ('%s %s') % (item.getLabel(), valid)
                             item.setLabel(label)
                             item.select(True)
@@ -315,14 +339,13 @@ class cClear:
                 def onFocus(self, controlId):
                     self.controlId = controlId
 
-                def _close_dialog( self ):
+                def _close_dialog(self):
                     self.close()
 
-                # def onAction( self, action ):
-                    # if action.getId() in ( 9, 10, 92, 216, 247, 257, 275, 61467, 61448, ):
+                # def onAction(self, action):
+                    # if action.getId() in (9, 10, 92, 216, 247, 257, 275, 61467, 61448):
                         # self.close()
 
-            #path = cConfig().getAddonPath()
             path = "special://home/addons/plugin.video.matrix"
             wd = XMLDialog('DialogSelect.xml', path, "Default")
             wd.doModal()
@@ -331,10 +354,9 @@ class cClear:
 
         elif (env == 'thumb'):
 
-            if self.DIALOG.VSyesno('Êtes-vous sûr? Ceci effacera toutes les thumbnails'):
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30098)):
 
                 text = False
-                #path = xbmc.translatePath('special://userdata/Thumbnails/').decode("utf-8")
                 path = "special://userdata/Thumbnails/"
                 path_DB = "special://userdata/Database"
                 try:
@@ -342,57 +364,40 @@ class cClear:
                     text = 'Clear Thumbnail Folder, Successful[CR]'
                 except:
                     text = 'Clear Thumbnail Folder, Error[CR]'
-                #for i in os.listdir(path):
-                    # folders = os.path.join(path, i).encode('utf-8')
-                    # if os.path.isdir(folders):
-                    #     p = next(os.walk(folders))[2]
-                    #     for x in p:
-                    #         os.remove(os.path.join(folders, x).encode('utf-8'))
 
-                #filenames = next(os.walk(path2))[2]
                 folder, items = xbmcvfs.listdir(path_DB)
                 items.sort()
                 for sItemName in items:
                     if "extures" in sItemName:
-                            cached_Cache = "/".join([path_DB, sItemName])
-                            try:
-                                xbmcvfs.delete(cached_Cache)
-                                text += 'Clear Thumbnail DB, Successful[CR]'
-                            except:
-                                text += 'Clear Thumbnail DB, Error[CR]'
+                        cached_Cache = "/".join([path_DB, sItemName])
+                        try:
+                            xbmcvfs.delete(cached_Cache)
+                            text += 'Clear Thumbnail DB, Successful[CR]'
+                        except:
+                            text += 'Clear Thumbnail DB, Error[CR]'
 
                 if text:
                     text = "%s (Important relancer Kodi)" % text
                     self.DIALOG.VSok(text)
-                # for x in filenames:
-                #     if "exture" in x:
-                #         con = sqlite.connect(os.path.join(path2, x).encode('utf-8'))
-                #         cursor = con.cursor()
-                #         cursor.execute("DELETE FROM texture")
-                #         con.commit()
-                #         cursor.close()
-                #         con.close()
             return
 
         elif (env == 'sauv'):
-            #dialog.select('Choose a playlist', ['Playlist #1', 'Playlist #2, 'Playlist #3'])
             select = self.DIALOG.VSselect(['Import', 'Export'])
             DB = "special://home/userdata/addon_data/plugin.video.matrix/matrix.db"
             if select >= 0:
-                #new = self.DIALOG.browse(3, 'matrix', 'files')
                 new = self.DIALOG.browse(3, 'matrix', "files")
                 if new:
                     try:
                         if select == 0:
                             xbmcvfs.delete(DB)
-                            #copy(source, destination)--copy file to destination, returns true/false.
+                            # copy(source, destination)--copy file to destination, returns true/false.
                             xbmcvfs.copy(new + 'matrix.db', DB)
                         elif select == 1:
-                            #copy(source, destination)--copy file to destination, returns true/false.
+                            # copy(source, destination)--copy file to destination, returns true/false.
                             xbmcvfs.copy(DB, new + 'matrix.db')
-                        self.DIALOG.VSinfo('Import/Export DB, Successful')
+                        self.DIALOG.VSinfo(self.ADDON.VSlang(30099))
                     except:
-                        self.DIALOG.VSerror('Import/Export DB, Error')
+                        self.DIALOG.VSerror(self.ADDON.VSlang(30100))
 
                 return
 
@@ -401,7 +406,7 @@ class cClear:
 
         return
 
-    # def ClearDir(self, dir, clearNested = False):
+    # def ClearDir(self, dir, clearNested=False):
     #     try:
     #         dir = dir.decode("utf8")
     #     except:
@@ -411,31 +416,34 @@ class cClear:
     #         if clearNested and os.path.isdir(file_path):
     #             self.ClearDir(file_path, clearNested)
     #             try: os.rmdir(file_path)
-    #             except Exception, e: print str(e)
+    #             except Exception as e:
+    #                 print(str(e))
     #         else:
     #             try:os.unlink(file_path)
-    #             except Exception, e: print str(e)
+    #             except Exception as e:
+    #                 print str(e)
 
-    # def ClearDir2(self, dir, clearNested = False):
+    # def ClearDir2(self, dir, clearNested=False):
     #     try:
     #         dir = dir.decode("utf8")
     #     except:
     #         pass
     #     try:os.unlink(dir)
-    #     except Exception, e: print str(e)
-
+    #     except Exception as e:
+    #         print(str(e))
 
     def TextBoxes(self, heading, anounce):
         # activate the text viewer window
-        xbmc.executebuiltin("ActivateWindow(%d)" % (10147))
+        xbmc.executebuiltin("ActivateWindow(%d)" % 10147)
         # get window
         win = window(10147)
-        #win.show()
+        # win.show()
         # give window time to initialize
         xbmc.sleep(100)
         # set heading
         win.getControl(1).setLabel(heading)
         win.getControl(5).setText(anounce)
         return
+
 
 cClear()

@@ -307,14 +307,14 @@ def showHosters4():
             url = aEntry[1]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent = oRequestHandler.request();
+                sHtmlContent2 = oRequestHandler.request();
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
-                aResult = oParser.parse(sHtmlContent,sPattern)
+                aResult = oParser.parse(sHtmlContent2,sPattern)
                 if (aResult[0] == True):
 					url = aResult[1][0]
 					url = url.split('?link=', 1)[1]
-            sHosterUrl = url
+            sHosterUrl = url.split('?link=', 1)[1]
             sMovieTitle = '1'
             
 
@@ -327,7 +327,7 @@ def showHosters4():
         progress_.VSclose(progress_) 
  # (.+?) # ([^<]+) .+? 
 
-    sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'
+    sPattern = 'onclick="([^<]+)">.+?>([^<]+)</strong>'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if (aResult[0] == True):
@@ -339,7 +339,8 @@ def showHosters4():
                 break
             
             url = str(aEntry[0]).replace("('",'').replace("')","").replace("update_frame","")
-            url = url.split('?link=', 1)[1]
+            if 'm3u8' in url:
+				url = url.split('?link=', 1)[1]
             if url.startswith('//'):
                 url = 'http:' + url
             if '/embed/' in url:

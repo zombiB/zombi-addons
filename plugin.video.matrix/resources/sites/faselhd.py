@@ -96,6 +96,13 @@ def showMovies(sSearch = ''):
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = ''
+            annee = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				annee = str(m.group(0))
+				sTitle = sTitle.replace(annee,'')
+            if annee:
+				sTitle = sTitle + '(' + annee + ')'
 
 
             oOutputParameterHandler = cOutputParameterHandler()

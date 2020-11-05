@@ -64,16 +64,22 @@ class cHoster(iHoster):
         sUrl = self.__sUrl
  
         oRequest = cRequestHandler(sUrl)
+        oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('Referer',self.__sUrl)
         sHtmlContent = oRequest.request()
 
 
         oParser = cParser()
 
-        sPattern = 'sources: (.+?),'
+        sPattern = 'src: "([^<]+)", type'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            api_call = aResult[1][0] + '&Referer=' + self.__sUrl
+            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
+				
+        if (api_call):
+            return True, api_call
+        print "sIdeee"
+        print api_call
 
 			
         sPattern = "<script type='text/javascript'>var player = new Clappr.Player(.+?)</script>"
@@ -81,7 +87,7 @@ class cHoster(iHoster):
         if (aResult[0] == True):
             sHtmlContent2 = aResult[1][0]
 
-        sPattern = '"([^<]+)"],'
+        sPattern = '"(.+?)"],'
         aResult = oParser.parse(sHtmlContent2, sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0] + '&Referer=' + self.__sUrl
@@ -99,7 +105,7 @@ class cHoster(iHoster):
             sHtmlContent3 = cPacker().unpack(aResult[1][0])
 
 
-            sPattern2 = '"([^<]+)"],poster'
+            sPattern2 = '"(.+?)"],poster'
             aResult = oParser.parse(sHtmlContent3,sPattern2)
 
             if (aResult[0] == True):

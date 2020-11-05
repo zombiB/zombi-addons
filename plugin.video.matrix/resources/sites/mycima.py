@@ -22,7 +22,6 @@ URL_MAIN = 'https://mycima.to'
 
 
 MOVIE_EN = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/', 'showMovies')
-MOVIE_PACK = ('https://mycima.to/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-film/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-movies-english/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9-full-pack/', 'showMovie')
 
 MOVIE_AR = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%89-arabic-movies/', 'showMovies')
 MOVIE_TURK = ('https://mycima.to/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%89/', 'showMovies')
@@ -143,7 +142,7 @@ def showMovie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="MycimaBlockafter"></div><img width=".+?" height=".+?" src="(.+?)" class=.+?<figcaption></figcaption></a><div class="FigureTitle"><a href="(.+?)">(.+?)</a></div'
+    sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)"><span class="BG--GridItem" style="background-image:url([^<]+);"><div.+?class="hasyear">([^<]+)<span class="year">([^<]+)</span></strong>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

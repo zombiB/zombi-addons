@@ -19,14 +19,21 @@ class cParser:
                       .replace('&#039;', "'").replace('&#8211;', '-').replace('&#8212;', '-').replace('&eacute;', 'é')\
                       .replace('&acirc;', 'â').replace('&ecirc;', 'ê').replace('&icirc;', 'î').replace('&ocirc;', 'ô')\
                       .replace('&hellip;', '...').replace('&quot;', '"').replace('&gt;', '>').replace('&egrave;', 'è')\
-                      .replace('&rsquo;', "'").replace('&laquo;', '<<').replace('&raquo;', '>>').replace('\xc9', 'E')\
+                      .replace('&ccedil;', 'ç').replace('&laquo;', '<<').replace('&raquo;', '>>').replace('\xc9', 'E')\
                       .replace('&ndash;', '-').replace('&eacute;', 'é').replace('&agrave;', 'à').replace('&lt;', '<')\
-                      .replace('&ccedil;', 'ç').replace('&#038;', '&').replace('&nbsp;', '').replace('&#8217;', "'")\
-                      .replace('–', '-').replace('—', '-')
+                      .replace('&rsquo;', "'").replace('&lsquo;', '\'').replace('&nbsp;', '').replace('&#8217;', "'")\
+                      .replace('&#8230;', '...').replace('&#8242;', "'").replace('&#884;', '\'')\
+                      .replace('&#038;', '&').replace('–', '-').replace('—', '-')
 
     def parse(self, sHtmlContent, sPattern, iMinFoundValue=1):
         sHtmlContent = self.__replaceSpecialCharacters(str(sHtmlContent))
         aMatches = re.compile(sPattern, re.IGNORECASE).findall(sHtmlContent)
+
+        # extrait la page html après retraitement matrix
+        # fh = open('c:\\test.txt', "w")
+        # fh.write(sHtmlContent)
+        # fh.close()
+
         if (len(aMatches) >= iMinFoundValue):
             return True, aMatches
         return False, aMatches
@@ -38,7 +45,10 @@ class cParser:
         return re.escape(sValue)
 
     def getNumberFromString(self, sValue):
-        sPattern = '\d+'
+        if '/0-9/' in sValue:
+            sPattern = '/0-9.+?(\d+)'
+        else:
+            sPattern = '\d+'
         aMatches = re.findall(sPattern, sValue)
         if (len(aMatches) > 0):
             return aMatches[0]
@@ -53,12 +63,20 @@ class cParser:
         except:
             return {'title': sHtmlContent}
 
-    def abParse(self, sHtmlContent, start, end, startoffset=''):
+    def abParse(self, sHtmlContent, start, end = None, startoffset=0):
         # usage oParser.abParse(sHtmlContent, 'start', 'end')
         # startoffset (int) décale le début pour ne pas prendre en compte start dans le résultat final si besoin
+        # la fin est recherchée forcement après le début
+        # la recherche de fin n'est pas obligatoire
         # usage2 oParser.abParse(sHtmlContent, 'start', 'end', 6)
         # ex youtube.py
-        if startoffset:
-            return sHtmlContent[startoffset + sHtmlContent.find(start): sHtmlContent.find(end)]
-        else:
-            return sHtmlContent[sHtmlContent.find(start):sHtmlContent.find(end)]
+        
+        startIdx = sHtmlContent.find(start)
+        if startIdx == -1 :  # rien trouvé, retourner le texte complet
+            return sHtmlContent
+        
+        if end:
+            endIdx = sHtmlContent[startoffset + startIdx : ].find(end)
+            if endIdx>0:
+                return sHtmlContent[startoffset + startIdx : startoffset + startIdx + endIdx]
+        return sHtmlContent[startoffset + startIdx :]

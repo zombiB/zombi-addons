@@ -46,5 +46,5 @@ class cStatistic:
             oRequestHandler.addParameters('utmwv', '4.8.6')
 
             oRequestHandler.request()
-        except Exception, e:
+        except Exception:
             return

@@ -19,20 +19,20 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.movs4u.life/'
 
-MOVIE_EN = ('https://www.movs4u.life//movie/', 'showMovies')
-KID_MOVIES = ('https://www.movs4u.life//genre/animation/', 'showMovies')
-MOVIE_HI = ('https://www.movs4u.life//genre/india-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+MOVIE_EN = ('https://www.movs4u.life/movie/', 'showMovies')
+KID_MOVIES = ('https://www.movs4u.life/genre/animation/', 'showMovies')
+MOVIE_HI = ('https://www.movs4u.life/genre/india-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
 
-SERIE_EN = ('https://www.movs4u.life//tvshows/', 'showSeries')
+SERIE_EN = ('https://www.movs4u.life/tvshows/', 'showSeries')
 
-MOVIE_POP = ('https://www.movs4u.life//trending/?get=movies', 'showMovies')
-MOVIE_PACK = ('https://www.movs4u.life//collection/', 'showMovie')
+MOVIE_POP = ('https://www.movs4u.life/trending/?get=movies', 'showMovie')
+MOVIE_PACK = ('https://www.movs4u.life/collection/', 'showMovie')
 
 
 
-URL_SEARCH = ('https://www.movs4u.life//?s=', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://www.movs4u.life//?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://www.movs4u.life//?s=', 'showSeries')
+URL_SEARCH = ('https://www.movs4u.life/?s=', 'showMoviesSearch')
+URL_SEARCH_MOVIES = ('https://www.movs4u.life/?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://www.movs4u.life/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
 def load():
@@ -108,7 +108,7 @@ def showMovies(sSearch = ''):
             sDesc = cUtil().unescape(sDesc).encode("utf8")
             sQua = aEntry[2]
             sYear = aEntry[4]
-            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sQua)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -141,7 +141,7 @@ def showMovie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+)
 
-    sPattern = '<div class="poster"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)"></a>'
+    sPattern = '<img src="([^<]+)" alt="([^<]+)">.+?<span class="quality">([^<]+)</span>.+?<a href="([^<]+)"><div class="see".+?<span>([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -155,19 +155,22 @@ def showMovie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
+            sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8") 
-            sThumbnail = aEntry[1]
-            siteUrl = aEntry[0]
+            sThumbnail = aEntry[0]
+            siteUrl = aEntry[3]
             sDesc = ''
+            sQua = aEntry[2]
+            sYear = aEntry[4]
+            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showCol', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showCol', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

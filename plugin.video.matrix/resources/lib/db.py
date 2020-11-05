@@ -1,35 +1,41 @@
-#-*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
-#Venom.
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
+
+import xbmcvfs
+
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.util import QuotePlus, Unquote
-from resources.lib.comaddon import dialog, addon, VSlog, xbmc
-import xbmcvfs
+from resources.lib.comaddon import dialog, addon, VSlog, VSPath
+
 
 SITE_IDENTIFIER = 'cDb'
 SITE_NAME = 'DB'
 
 try:
     from sqlite3 import dbapi2 as sqlite
-    VSlog('SQLITE 3 as DB engine')
+    VSlog('SQLITE 3 as DB engine for db')
 except:
     from pysqlite2 import dbapi2 as sqlite
-    VSlog('SQLITE 2 as DB engine')
+    VSlog('SQLITE 2 as DB engine for db')
 
 
 class cDb:
 
-    #os.path.join(self.__oCache,'matrix.db').decode('utf-8')
-    DB = 'special://userdata/addon_data/plugin.video.matrix/matrix.db'
-    #important seul xbmcvfs peux lire le special
-    REALDB = xbmc.translatePath(DB).decode('utf-8')
-    DIALOG = dialog()
-    ADDON = addon()
+
+    DB = 'special://home/userdata/addon_data/plugin.video.matrix/matrix.db'
+    # important seul xbmcvfs peux lire le special
+    try:
+        REALDB = VSPath(DB).decode('utf-8')
+
+
+    except AttributeError:
+        REALDB = VSPath(DB)
 
     def __init__(self):
 
         try:
-            #if not os.path.exists(self.cache):
+
             if not xbmcvfs.exists(self.DB):
                 self.db = sqlite.connect(self.REALDB)
                 self.db.row_factory = sqlite.Row
@@ -53,49 +59,106 @@ class cDb:
         try:
             self.dbcur.close()
             self.db.close()
-        except Exception, e:
+        except Exception:
             pass
 
     def _create_tables(self):
 
-        sql_create2 = 'DROP TABLE history'
+        # sql_create2 = 'DROP TABLE history'
 
         ''' Create table '''
-        sql_create = "CREATE TABLE IF NOT EXISTS history ("" addon_id integer PRIMARY KEY AUTOINCREMENT, ""title TEXT, ""disp TEXT, ""icone TEXT, ""isfolder TEXT, ""level TEXT, ""lastwatched TIMESTAMP "", ""UNIQUE(title)"");"
+
+        sql_create = "CREATE TABLE IF NOT EXISTS history ("\
+                        "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
+                        "title TEXT, "\
+                        "disp TEXT, "\
+                        "icone TEXT, "\
+                        "isfolder TEXT, "\
+                        "level TEXT, "\
+                        "lastwatched TIMESTAMP "", "\
+                        "UNIQUE(title)"\
+                        ");"
         self.dbcur.execute(sql_create)
 
-        sql_create = "CREATE TABLE IF NOT EXISTS resume ("" addon_id integer PRIMARY KEY AUTOINCREMENT, ""title TEXT, ""hoster TEXT, ""point TEXT, ""UNIQUE(title, hoster)"");"
+
+        sql_create = "CREATE TABLE IF NOT EXISTS resume ("\
+                        "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
+                        "title TEXT, "\
+                        "hoster TEXT, "\
+                        "point TEXT, "\
+                        "UNIQUE(title, hoster)"\
+                        ");"
         self.dbcur.execute(sql_create)
 
-        sql_create = "CREATE TABLE IF NOT EXISTS watched ("" addon_id integer PRIMARY KEY AUTOINCREMENT, ""title TEXT, ""site TEXT, ""UNIQUE(title, site)"");"
+
+        sql_create = "CREATE TABLE IF NOT EXISTS watched ("\
+                        "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
+                        "title TEXT, "\
+                        "site TEXT, "\
+                        "UNIQUE(title, site)"\
+                        ");"
         self.dbcur.execute(sql_create)
 
-        sql_create = "CREATE TABLE IF NOT EXISTS favorite ("" addon_id integer PRIMARY KEY AUTOINCREMENT, ""title TEXT, ""siteurl TEXT, ""site TEXT, ""fav TEXT, ""cat TEXT, ""icon TEXT, ""fanart TEXT, ""UNIQUE(title, site)"");"
+
+        sql_create = "CREATE TABLE IF NOT EXISTS favorite ("\
+                        "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
+                        "title TEXT, "\
+                        "siteurl TEXT, "\
+                        "site TEXT, "\
+                        "fav TEXT, "\
+                        "cat TEXT, "\
+                        "icon TEXT, "\
+                        "fanart TEXT, "\
+                        "UNIQUE(title, site)"\
+                        ");"
         self.dbcur.execute(sql_create)
 
-        #sql_create = "DROP TABLE download"
-        #self.dbcur.execute(sql_create)
 
-        sql_create = "CREATE TABLE IF NOT EXISTS download ("" addon_id integer PRIMARY KEY AUTOINCREMENT, ""title TEXT, ""url TEXT, ""path TEXT, ""cat TEXT, ""icon TEXT, ""size TEXT,""totalsize TEXT, ""status TEXT, ""UNIQUE(title, path)"");"
+
+
+
+        sql_create = "CREATE TABLE IF NOT EXISTS download ("\
+                        "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
+                        "title TEXT, "\
+                        "url TEXT, "\
+                        "path TEXT, "\
+                        "cat TEXT, "\
+                        "icon TEXT, "\
+                        "size TEXT,"\
+                        "totalsize TEXT, "\
+                        "status TEXT, "\
+                        "UNIQUE(title, path)"\
+                        ");"
         self.dbcur.execute(sql_create)
 
         VSlog('Table initialized')
 
-    #Ne pas utiliser cette fonction pour les chemins
+    # Ne pas utiliser cette fonction pour les chemins
     def str_conv(self, data):
         if isinstance(data, str):
             # Must be encoded in UTF-8
-            data = data.decode('utf8')
+            try:
+                data = data.decode('utf8')
 
+            except AttributeError:
+                pass
         import unicodedata
         data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
-        data = data.decode('string-escape')#ATTENTION: provoque des bugs pour les chemins a cause du caractere '/'
+        
+        try:
+            data = data.decode('string-escape')  # ATTENTION: provoque des bugs pour les chemins a cause du caractere '/'
+        except:
+            pass
 
         return data
 
+    # ***********************************
+    #   History fonctions
+    # ***********************************
+
     def insert_history(self, meta):
 
-        #title = Unquote(meta['title']).decode('ascii', 'ignore')
+        # title = Unquote(meta['title']).decode('ascii', 'ignore')
         title = self.str_conv(Unquote(meta['title']))
         disp = meta['disp']
         icon = 'icon.png'
@@ -105,7 +168,7 @@ class cDb:
             self.dbcur.execute(ex, (title, disp, icon))
             self.db.commit()
             VSlog('SQL INSERT history Successfully')
-        except Exception, e:
+        except Exception as e:
             if 'UNIQUE constraint failed' in e.message:
                 ex = "UPDATE history set title = '%s', disp = '%s', icone= '%s' WHERE title = '%s'" % (title, disp, icon, title)
                 self.dbcur.execute(ex)
@@ -114,23 +177,53 @@ class cDb:
             VSlog('SQL ERROR INSERT')
             pass
 
-    def insert_resume(self, meta):
-        title = self.str_conv(meta['title'])
-        site = QuotePlus(meta['site'])
-        #hoster = meta['hoster']
-        point = meta['point']
-        ex = "DELETE FROM resume WHERE hoster = '%s'" % (site)
-        self.dbcur.execute(ex)
-        ex = 'INSERT INTO resume (title, hoster, point) VALUES (?, ?, ?)'
-        self.dbcur.execute(ex, (title, site, point))
+
+
+
+
+
+
+
+
+
+    def get_history(self):
+        sql_select = 'SELECT * FROM history'
 
         try:
+            self.dbcur.execute(sql_select)
+            # matchedrow = self.dbcur.fetchone()
+            matchedrow = self.dbcur.fetchall()
+            return matchedrow
+        except Exception:
+            VSlog('SQL ERROR EXECUTE')
+            return None
+
+    def del_history(self):
+        from resources.lib.gui.gui import cGui
+        oGui = cGui()
+        oInputParameterHandler = cInputParameterHandler()
+        if oInputParameterHandler.exist('searchtext'):
+            sql_delete = "DELETE FROM history WHERE title = '%s'" % (oInputParameterHandler.getValue('searchtext'))
+        else:
+            sql_delete = 'DELETE FROM history;'
+
+        try:
+            self.dbcur.execute(sql_delete)
             self.db.commit()
-            VSlog('SQL INSERT resume Successfully')
-        except Exception, e:
-            #print ('************* Error attempting to insert into %s cache table: %s ' % (table, e))
-            VSlog('SQL ERROR INSERT')
-            pass
+
+            dialog().VSinfo(addon().VSlang(30041))
+            oGui.updateDirectory()
+            return False, False
+        except Exception:
+
+
+
+            VSlog('SQL ERROR DELETE')
+            return False, False
+
+    # ***********************************
+    #   Watched fonctions
+    # ***********************************
 
     def insert_watched(self, meta):
         title = meta['title']
@@ -143,74 +236,74 @@ class cDb:
         try:
             self.db.commit()
             VSlog('SQL INSERT watched Successfully')
-        except Exception, e:
-            #print ('************* Error attempting to insert into %s cache table: %s ' % (table, e))
+        except Exception:
+
             VSlog('SQL ERROR INSERT')
             pass
 
-    def get_history(self):
-        sql_select = 'SELECT * FROM history'
 
-        try:
-            self.dbcur.execute(sql_select)
-            #matchedrow = self.dbcur.fetchone()
-            matchedrow = self.dbcur.fetchall()
-            return matchedrow
-        except Exception, e:
-            VSlog('SQL ERROR EXECUTE')
-            return None
 
-    def get_resume(self, meta):
-        title = self.str_conv(meta['title'])
-        site = QuotePlus(meta['site'])
 
-        sql_select = "SELECT * FROM resume WHERE hoster = '%s'" % (site)
 
-        try:
-            self.dbcur.execute(sql_select)
-            #matchedrow = self.dbcur.fetchone()
-            matchedrow = self.dbcur.fetchall()
-            return matchedrow
-        except Exception, e:
-            VSlog('SQL ERROR EXECUTE')
-            return None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def get_watched(self, meta):
         title = meta['title']
         if not title:
             return None
 
-        sql_select = "SELECT * FROM watched WHERE title = '%s'" % (title)
+        sql_select = "SELECT * FROM watched WHERE title = '%s'" % title
 
         try:
             self.dbcur.execute(sql_select)
-            #matchedrow = self.dbcur.fetchone()
+            # matchedrow = self.dbcur.fetchone()
             matchedrow = self.dbcur.fetchall()
 
             if matchedrow:
                 return 1
             return 0
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return None
 
-    def del_history(self):
 
-        oInputParameterHandler = cInputParameterHandler()
-        if (oInputParameterHandler.exist('searchtext')):
-            sql_delete = "DELETE FROM history WHERE title = '%s'" % (oInputParameterHandler.getValue('searchtext'))
-        else:
-            sql_delete = 'DELETE FROM history;'
 
-        try:
-            self.dbcur.execute(sql_delete)
-            self.db.commit()
-            self.DIALOG.VSinfo(self.ADDON.VSlang(30041))
-            xbmc.executebuiltin('Container.Refresh')
-            return False, False
-        except Exception, e:
-            VSlog('SQL ERROR DELETE')
-            return False, False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def del_watched(self, meta):
@@ -218,32 +311,70 @@ class cDb:
         if not title:
             return
 
-        sql_select = "DELETE FROM watched WHERE title = '%s'" % (title)
+        sql_select = "DELETE FROM watched WHERE title = '%s'" % title
         try:
             self.dbcur.execute(sql_select)
             self.db.commit()
             return False, False
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return False, False
+
+    # ***********************************
+    #   Resume fonctions
+    # ***********************************
+
+    def insert_resume(self, meta):
+        title = self.str_conv(meta['title'])
+        site = QuotePlus(meta['site'])
+        # hoster = meta['hoster']
+        point = meta['point']
+        ex = "DELETE FROM resume WHERE hoster = '%s'" % site
+        self.dbcur.execute(ex)
+        ex = 'INSERT INTO resume (title, hoster, point) VALUES (?, ?, ?)'
+        self.dbcur.execute(ex, (title, site, point))
+
+        try:
+            self.db.commit()
+            VSlog('SQL INSERT resume Successfully')
+        except Exception:
+            VSlog('SQL ERROR INSERT')
+            pass
+
+    def get_resume(self, meta):
+        # title = self.str_conv(meta['title'])
+        site = QuotePlus(meta['site'])
+
+        sql_select = "SELECT * FROM resume WHERE hoster = '%s'" % site
+
+        try:
+            self.dbcur.execute(sql_select)
+            # matchedrow = self.dbcur.fetchone()
+            matchedrow = self.dbcur.fetchall()
+            return matchedrow
+        except Exception:
+            VSlog('SQL ERROR EXECUTE')
+            return None
 
     def del_resume(self, meta):
         site = QuotePlus(meta['site'])
 
-        sql_select = "DELETE FROM resume WHERE hoster = '%s'" % (site)
+        sql_select = "DELETE FROM resume WHERE hoster = '%s'" % site
 
         try:
             self.dbcur.execute(sql_select)
             self.db.commit()
             return False, False
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return False, False
 
 
-    #***********************************
-    #   Favoris fonctions
-    #***********************************
+
+    # ***********************************
+    #   Bookmark fonctions
+
+    # ***********************************
 
     def insert_bookmark(self, meta):
 
@@ -262,11 +393,11 @@ class cDb:
 
             self.db.commit()
 
-            self.DIALOG.VSinfo(self.ADDON.VSlang(30042), meta['title'])
+            dialog().VSinfo(addon().VSlang(30042), meta['title'])
             VSlog('SQL INSERT favorite Successfully')
-        except Exception, e:
+        except Exception as e:
             if 'UNIQUE constraint failed' in e.message:
-                self.DIALOG.VSinfo(self.ADDON.VSlang(30043), meta['title'])
+                dialog().VSinfo(addon().VSlang(30043), meta['title'])
             VSlog('SQL ERROR INSERT')
             pass
 
@@ -276,87 +407,120 @@ class cDb:
 
         try:
             self.dbcur.execute(sql_select)
-            #matchedrow = self.dbcur.fetchone()
+            # matchedrow = self.dbcur.fetchone()
             matchedrow = self.dbcur.fetchall()
             return matchedrow
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return None
 
-    def del_bookmark(self):
 
-        oInputParameterHandler = cInputParameterHandler()
 
-        if (oInputParameterHandler.exist('sCat')):
-            sql_delete = "DELETE FROM favorite WHERE cat = '%s'" % (oInputParameterHandler.getValue('sCat'))
 
-        if(oInputParameterHandler.exist('sMovieTitle')):
 
-            siteUrl = oInputParameterHandler.getValue('siteUrl')
-            sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-            siteUrl = QuotePlus(siteUrl)
+
+
+    def del_bookmark(self, sSiteUrl='', sMovieTitle='', sCat = '', sAll = False):
+        
+        sql_delete = None
+
+
+        # Tous supprimer
+        if sAll:
+            sql_delete = 'DELETE FROM favorite;'
+
+
+
+        # Supprimer un bookmark selon son titre
+        elif sMovieTitle:
+            siteUrl = QuotePlus(sSiteUrl)
             title = self.str_conv(sMovieTitle)
             title = title.replace("'", r"''")
             sql_delete = "DELETE FROM favorite WHERE siteurl = '%s' AND title = '%s'" % (siteUrl, title)
 
-        if(oInputParameterHandler.exist('sAll')):
-            sql_delete = 'DELETE FROM favorite;'
 
-        try:
-            self.dbcur.execute(sql_delete)
-            self.db.commit()
-            self.DIALOG.VSinfo(self.ADDON.VSlang(30044))
-            xbmc.executebuiltin('Container.Refresh')
-            return False, False
-        except Exception, e:
-            VSlog('SQL ERROR EXECUTE')
-            return False, False
 
-#non utiliser ?
 
-    # def writeBookmarks(self):
 
-    #     oInputParameterHandler = cInputParameterHandler()
-    #     sTitle = oInputParameterHandler.getValue('sTitle')
-    #     sId = oInputParameterHandler.getValue('sId')
-    #     sUrl = oInputParameterHandler.getValue('siteUrl')
-    #     sFav = oInputParameterHandler.getValue('sFav')
 
-    #     if (oInputParameterHandler.exist('sCat')):
-    #         sCat = oInputParameterHandler.getValue('sCat')
-    #     else:
-    #         sCat = '5'
 
-    #     sUrl = QuotePlus(sUrl)
-    #     fav_db = self.__sFile
-    #     watched = {}
-    #     if not os.path.exists(fav_db):
-    #         file(fav_db, 'w').write('%r' % watched)
 
-    #     if os.path.exists(fav_db):
-    #         watched = eval(open(fav_db).read() )
-    #         watched[sUrl] = watched.get(sUrl) or []
 
-    #         #add to watched
-    #         if not watched[sUrl]:
-    #             #list = [sFav, sUrl];
-    #             watched[sUrl].append(sFav)
-    #             watched[sUrl].append(sId)
-    #             watched[sUrl].append(sTitle)
-    #             watched[sUrl].append(sCat)
-    #         else:
-    #             watched[sUrl][0] = sFav
-    #             watched[sUrl][1] = sId
-    #             watched[sUrl][2] = sTitle
-    #             watched[sUrl][3] = sCat
 
-    #     file(fav_db, 'w').write('%r' % watched)
-    #     cConfig().showInfo('Marque-Page', sTitle)
-        #fav_db.close()
 
-    #***********************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # Supprimer un bookmark selon son url
+        elif sSiteUrl:
+            siteUrl = QuotePlus(sSiteUrl)
+
+
+
+
+            sql_delete = "DELETE FROM favorite WHERE siteurl = '%s'" % siteUrl
+
+
+
+
+        # Supprimer toute une catégorie
+        elif sCat:
+            sql_delete = "DELETE FROM favorite WHERE cat = '%s'" % sCat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if sql_delete:
+            from resources.lib.gui.gui import cGui
+            try:
+                self.dbcur.execute(sql_delete)
+                self.db.commit()
+                update = self.db.total_changes
+                
+                if not update and sSiteUrl and sMovieTitle:
+                    # si pas trouvé, on essaie sans le titre, seulement l'URL
+                    return self.del_bookmark(sSiteUrl)
+                    
+                dialog().VSinfo(addon().VSlang(30044))
+                cGui().updateDirectory()
+                return False, False
+            except Exception:
+                VSlog('SQL ERROR EXECUTE')
+                return False, False
+
+
+    # ***********************************
     #   Download fonctions
-    #***********************************
+
+    # ***********************************
 
     def insert_download(self, meta):
 
@@ -371,25 +535,25 @@ class cDb:
         try:
             self.db.commit()
             VSlog('SQL INSERT download Successfully')
-            self.DIALOG.VSinfo(self.ADDON.VSlang(30042), meta['title'])
-        except Exception, e:
-            #print ('************* Error attempting to insert into %s cache table: %s ' % (table, e))
+            dialog().VSinfo(addon().VSlang(30042), meta['title'])
+        except Exception:
+
             VSlog('SQL ERROR INSERT')
             pass
 
-    def get_Download(self, meta = ''):
+    def get_download(self, meta=''):
 
         if meta == '':
             sql_select = 'SELECT * FROM download'
         else:
             url = QuotePlus(meta['url'])
-            sql_select = "SELECT * FROM download WHERE url = '%s' AND status = '0'" % (url)
+            sql_select = "SELECT * FROM download WHERE url = '%s' AND status = '0'" % url
 
         try:
             self.dbcur.execute(sql_select)
             matchedrow = self.dbcur.fetchall()
             return matchedrow
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return None
 
@@ -401,20 +565,20 @@ class cDb:
             self.dbcur.execute(sql_select)
             self.db.commit()
             return False, False
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return False, False
 
     def reset_download(self, meta):
 
         url = QuotePlus(meta['url'])
-        sql_select = "UPDATE download SET status = '0' WHERE status = '2' AND url = '%s'" % (url)
+        sql_select = "UPDATE download SET status = '0' WHERE status = '2' AND url = '%s'" % url
 
         try:
             self.dbcur.execute(sql_select)
             self.db.commit()
             return False, False
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return False, False
 
@@ -422,10 +586,10 @@ class cDb:
 
         if len(meta['url']) > 1:
             url = QuotePlus(meta['url'])
-            sql_select = "DELETE FROM download WHERE url = '%s'" % (url)
+            sql_select = "DELETE FROM download WHERE url = '%s'" % url
         elif len(meta['path']) > 1:
             path = meta['path']
-            sql_select = "DELETE FROM download WHERE path = '%s'" % (path)
+            sql_select = "DELETE FROM download WHERE path = '%s'" % path
         else:
             return
 
@@ -433,17 +597,17 @@ class cDb:
             self.dbcur.execute(sql_select)
             self.db.commit()
             return False, False
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return False, False
 
-    def Cancel_download(self):
+    def cancel_download(self):
         sql_select = "UPDATE download SET status = '0' WHERE status = '1'"
         try:
             self.dbcur.execute(sql_select)
             self.db.commit()
             return False, False
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return False, False
 
@@ -460,6 +624,6 @@ class cDb:
             self.dbcur.execute(sql_select)
             self.db.commit()
             return False, False
-        except Exception, e:
+        except Exception:
             VSlog('SQL ERROR EXECUTE')
             return False, False

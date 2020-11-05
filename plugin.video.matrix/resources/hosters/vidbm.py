@@ -87,7 +87,7 @@ class cHoster(iHoster):
             for i in aResult[1]:
                 decoded = AADecoder(i).decode()
 
-                r = re.search('file:"([^<]+)",', decoded, re.DOTALL | re.UNICODE)
+                r = re.search('file:"(.+?)",', decoded, re.DOTALL | re.UNICODE)
                 if r:
                     api_call = r.group(1)
                     break

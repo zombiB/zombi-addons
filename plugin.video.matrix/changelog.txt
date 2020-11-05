@@ -1,9 +1,22 @@
-=============================================================================
-Zombi
-=============================================================================
-for updates join https://www.facebook.com/groups/2597378853663026/
-
-"Matrix : arabic vod " group on facebook
+﻿=============================================================================
+05/11/20
+جديد النسخة 3.5.2 :
+اصلاح سرفر  vidbom و vidshare و upstream و arabseed 
+اضافة لوغو موقع في العارضة و asgoal 
+اصلاح البحث في موقع أكوام القديم 
+اصلاح المفظلة 
+تحسين خاصية البحث 
+اصلاح موقع kingfoot 
+اصلاح موقع شاهد فور يو 
+اصلاح تريلر الأفلام 
+تحديث صفحة معلومات الفلم و اظهار قصة الفلم بالعربية 
+اصلاح قسم سلسلة الافلام في مواقع :
+ موفزفوريو و موفيزلاند 
+تنظيف اسم الفلم 4 هلال؛ فلم؛ مترجم؛مترجمة؛
+تحديث موقع موفزفوريو 
+اصلاح جلب السورس في موقع kingfoot و موقع asgoal و موقع اهداف 
+عرض سجل التحديثات في الصفحة الرئيسية
+إضافة قسم للتواصل مع مطور الاضافة 
 ========================================================================================
 version="3.2.3"
 akwam fix to show all movies
@@ -18,156 +31,4 @@ arabseed cimaclub moshahda Vidlox   hoster Fixed
 MyStream fileup ko
 
 =============================================================================
-version="3.2.3"
-Sites Fixed/Updated
-=============================================================================
-version="3.2.2"
-Sites Fixed/Updated: movizland cimaclub alfajertv tuktukcinema movsu land4movies cima4u
-animeblkom
-animekom
-jawcloud vidshare
-=============================================================================
-version="3.2.0"
-Sites Fixed/Updated
-=============================================================================
-version="3.1.9"
-Sites Fixed/Updated
-=============================================================================
-version="3.1.8"
-Sites Added:c-drama
-Sites Fixed/Updated:animeblkom fansubs
-Sites Removed:anakbnet imovietime shoofpro
-Hosters Fixed/Updated:letsupload 
-=============================================================================
-version="3.1.7"
-Sites Added:akwam
-Sites Fixed/Updated:familymoviz 
-=============================================================================
-version="3.1.6"
-Sites Added:
-Sites Fixed/Updated:ahdaf alarab watan tuktukcinema 4showtv rechof ghost alfajertv
-Sites Removed:mazika2day
-Hosters Fixed/Updated:Ok.ru vidbm  vidshare
-=============================================================================
-version="3.1.5"
-Sites Added:cimanow
-=============================================================================
-version="3.1.4"
-Sites Added:btolat
-Sites Fixed/Updated:land4movies cimaclub oleeh movsu movizland
-Hosters Fixed/Updated:supervideo Mixdrop Upstream
-=============================================================================
-========================================================================================
-version="3.1.3"
-Sites Added:7ob
-Sites Fixed/Updated:ghost movizland
-Sites Removed:
-Hosters Fixed/Updated:MyStream
-=============================================================================
-========================================================================================
-version="3.1.2"
-Sites Added:animeblkom 
-Sites Fixed/Updated:q8doc oktooon arablionz4k
-Sites Removed:sa3i9a cinematvk
-Hosters Fixed/Updated: 
-=============================================================================
-
-
-Sites Added:oleeh land4movies
-
-Sites Fixed/Updated:
-Hosters Fixed/Updated: 
-supervideo
-=============================================================================
-5/12/19
-
-Sites Added:
-alfajertv akoam arabseed ghost anime2001 geoarabic
-Sites Fixed/Updated:kingfoot animekom myegy q8doc   cimaclub
-arabsciences  shahid4u arablionz katkoute  mycima egydead 
-oktooon  movsfouru mazika2day alarab
-Hosters Fixed/Updated: 
-VidBM Uqload and more ...
-
-=============================================================================
-=============================================================================
-/09/19
-
-Sites Added:
-
-Sites Fixed/Updated:
-tuktukcinema myegy shahid4u lodynet
-Hosters Fixed/Updated: 
-vidbob
-
-
-=============================================================================
-11/09/19
-
-- Sites Added:
-    -egydead
-    -felarda
-	-kingfoot
-- Sites Removed
-    - asgoal/bein7/beinmatchlive/livehd7/liveq
-	-koraonline
-	-actionha
-	
-
-=============================================================================
-06/09/19
-
-- Sites Added:
-    -imovietime 
-- Sites Fixed/Updated:
-    - jaewinter
-    - lodynet
-
-- Hosters Added:
-    - vidhid
-
-- Hosters Fixed/Updated:
-    - moshahda
-
-=============================================================================
-=============================================================================
-01/09/19
-
-- Sites Added:
-    - 
-- Sites Fixed/Updated:
-    - yallashoot
-    - yallalive
-	- 4show
-	-tuktukcinema
-	-mazika2day
-
-- Sites Removed
-    - egymax
-- Hosters Added:
-    - 
-	- 
-- Hosters Fixed/Updated:
-    - 
-	- 
-=============================================================================
-19/08
-
-- Sites Added:
-    - mycima
-- Sites Fixed/Updated:
-    - yallashoot
-    - yallalive
-    - helal
-	- mazika2day
-	- movsfouru
-	- shahid4u
-- Sites Removed
-    - hsryat
-- Hosters Added:
-    - onlystream
-	- vidcloud
-- Hosters Fixed/Updated:
-    - netu
-	- vidhd
 

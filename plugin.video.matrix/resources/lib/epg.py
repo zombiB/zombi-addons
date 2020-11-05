@@ -1,10 +1,12 @@
-#-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-#Venom.
-from resources.lib.handler.inputParameterHandler import cInputParameterHandler
-from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
+
+
+# Venom.
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 from resources.lib.comaddon import dialog, xbmc, window
 from datetime import datetime
 
@@ -19,109 +21,191 @@ date = d.strftime("%d-%m-%Y")
 class cePg:
 
 
-    def get_url(self, sTitle):
-
-        oRequestHandler = cRequestHandler(url_index)
-        sHtmlContent = oRequestHandler.request()
-
-        sPattern = '<li.*?><a href="([^"]+)"><img.+?</a></li>'
-        sTitle = sTitle.replace(' ', '-').replace('HD', '').replace('SD', '')
-
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
-            for aEntry in aResult[1]:
-                #print sTitle
-                if sTitle.lower() in aEntry.lower():
-                    return "http://www.programme-tv.net" + aEntry
-        else:
-            return False
-
-    def get_epg(self, sTitle, sTime):
-        #ce soir
-        if sTime == 'direct':
-            sUrl = 'http://playtv.fr/programmes-tv/en-direct/canalsat/'
-        elif sTime == 'soir':
-            sUrl = 'http://playtv.fr/programmes-tv/' + date + '/20h-23h/'
-        else :
-            sUrl = 'http://playtv.fr/programmes-tv/' + date + '/20h-23h/'
 
 
-        oRequestHandler = cRequestHandler(sUrl)
-        sHtmlContent = oRequestHandler.request()
-        text = ''
-
-        sPattern = '<a class="channel-img".+?<img.+?alt="(.+?)".+?|<span class="start" title="(.+?)">(.+?)</span>.+?<span class="program-gender small">.+?<span>(.+?)</span>.+?<a href=".+?" title=".+?">(.+?)</a>'
 
 
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
-            for aEntry in aResult[1]:
-                #chaine
-                if aEntry[0]:
-                    text += "[COLOR red]" + aEntry[0] + "[/COLOR]\r"
-                #heure
-                if aEntry[2]:
-                    text += "[B]" + aEntry[2] + "[/B] -"
-                #duréé
-                if aEntry[1]:
-                    text += aEntry[1] + " : "
-                #type
-                if aEntry[3]:
-                    text += "(" + aEntry[3] + ") "
 
-                #title
-                if aEntry[4]:
-                    text += "     [COLOR khaki][UPPERCASE]" + aEntry[4] + "[/UPPERCASE][/COLOR] "
 
-                #retour line
-                text += "\r\n"
 
+
+
+
+
+
+
+
+
+    def view_epg(self, sTitle, sTime):
+        text = self.get_epg(sTitle, sTime)
+         
+        if text:
             self.TextBoxes(sTitle, text)
         else:
+
             dialog().VSinfo('Impossible de trouver le guide tv')
 
-    def get_oneepg(self, sTitle):
 
-        sUrl = self.get_url(sTitle)
-        if not sUrl:
-            dialog().VSinfo('EPG introuvable')
-            return
+    def get_epg(self, sTitle, sTime):
+        oParser = cParser()
+        
+        # ce soir
+        if sTime == 'direct':
+            sUrl = 'http://playtv.fr/programmes-tv/en-direct/'
+        elif sTime == 'soir':
+            sUrl = 'http://playtv.fr/programmes-tv/' + date + '/20h-23h/'
+        else:
+            sUrl = 'http://playtv.fr/programmes-tv/' + date + '/20h-23h/'
+
+        if 'Canal' in sTitle:
+            sUrl += 'canal-plus/'
+#         else:
+#             sUrl += 'canalsat/'
 
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
-        sHtmlContent = sHtmlContent.replace('<br>', '')
-        text = ''
-        sPattern = '<div .*?class="broadcast">.+?<span class="hour">(.+?)</span>.+?<div class="programme">.+?class="title" title=".+?">(.+?)</.+?>.+?(?:<span class="subtitle">(.+?)</span>.+?|)<span class="type">(.+?)</span>'
 
-        oParser = cParser()
+
+
+
+        text = ''
+        if not sTitle:
+            text = self.get_epg("CanalComplet", sTime)
+        elif not "CanalComplet" in sTitle:
+            sChannel = sTitle.replace('+', 'plus')
+            sChannel = cUtil().CleanName(sChannel).replace(' ', '-')
+            sHtmlContent = oParser.abParse(sHtmlContent, sChannel, '<!-- program -->')
+            if not sChannel in sHtmlContent:
+                return ''
+        sPattern = 'href="\/chaine-tv\/(.+?)".+?<img.+?alt="(.+?)".+?|<span class="start" title="(.+?)">(.+?)</span>.+?<span class="program-gender small">.+?<span>(.+?)</span>.+?<a href=".+?" title=".+?">(.+?)</a>'
+
+
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             for aEntry in aResult[1]:
-                #hour
-                text += "[B]" + aEntry[0] + "[/B] : "
-                #type
-                text += "[I]" + aEntry[3] + "[/I] - "
-                #title
-                text += "[COLOR khaki][UPPERCASE]" + aEntry[1] + "[/UPPERCASE][/COLOR] "
-                #subtitle
-                text += aEntry[2]
 
-                #retour line
+                # url
+                if aEntry[0]:
+
+
+
+
+
+                    text += "<" + aEntry[0] + ">\r\n"
+                # chaine
+                if aEntry[1]:
+                    text += "[COLOR red]" + aEntry[1] + "[/COLOR]\r\n"
+
+                # heure
+                if aEntry[3]:
+                    text += "[B]" + aEntry[3] + "[/B] -"
+
+
+                # durée
+                if aEntry[2]:
+                    text += aEntry[2] + " : "
+                # type
+                if aEntry[4]:
+                    text += "(" + aEntry[4] + ") "
+                # title
+                if aEntry[5]:
+                    text += "     [COLOR khaki][UPPERCASE]" + aEntry[5] + "[/UPPERCASE][/COLOR] "
+
+                # retour line
                 text += "\r\n"
 
+
+
+
             return text
-        else:
-            return ''
+        return ''
+
+
+
+
+
+
+
+    # EPG du programme en cours de la chaine
+    def getChannelEpg(self, sChannel):
+        
+        oUtil = cUtil()
+        oParser = cParser()
+
+        info = {}
+        info['title'] = ''
+        info['year'] = ''
+        info['duration'] = ''
+        info['plot'] = ''
+        info['media_type'] = ''
+        info['cover_url'] = ''
+        
+        sChannel = sChannel.replace('+', 'plus')
+        sChannel = oUtil.CleanName(sChannel)
+        sChannel = sChannel.lower().replace(' ', '-')
+
+        sUrl = 'https://playtv.fr/chaine-tv/en-direct/' + sChannel
+        oRequestHandler = cRequestHandler(sUrl)
+        sHtmlContent = oRequestHandler.request()
+
+
+
+
+
+
+        sPattern = 'class="program-title"> *<a href="(.+?)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            sUrl = 'https://playtv.fr' + aResult[1][0]
+            oRequestHandler = cRequestHandler(sUrl)
+            sHtmlContent = oRequestHandler.request()
+          
+            sPattern = '(<div class="program-img margin">.+?<img src="(.+?)".+?|)'+\
+                'Genre du programme.+?<span>(.+?)</span>' + \
+                '.+?"program-more-infos"'+ \
+                '(.+?>Année</span> (.+?)</p>|)'+ \
+                '(.+?Durée</span> <span>(.+?)</span>|)'+ \
+                '.+?ProgrammeTitle-heading.+?title="(.+?)"' + \
+                '.+?program-summary.+?<p>(.+?)</div>'
+#             >1h40 / 35 minutes
+#                 '.+?<span class="red">(.+?)<'+ \
+    
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+                aEntry = aResult[1][0]
+                info['title'] = aEntry[7]
+                info['year'] = aEntry[4]
+                info['duration'] = aEntry[6]
+                sDesc = aEntry[8].replace('<p>', '\r\n').replace('</p>', '')
+                sDesc = oUtil.removeHtmlTags(sDesc)
+                info['plot'] = sDesc
+                info['media_type'] = aEntry[2]
+                info['cover_url'] = aEntry[1]
+        return info
 
 
     def TextBoxes(self, heading, anounce):
         # activate the text viewer window
-        xbmc.executebuiltin("ActivateWindow(%d)" % ( 10147))
+        xbmc.executebuiltin("ActivateWindow(%d)" % 10147)
         # get window
         win = window(10147)
-        #win.show()
+        # win.show()
         # give window time to initialize
         xbmc.sleep(100)
         # set heading

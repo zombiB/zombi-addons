@@ -11,7 +11,7 @@ from resources.lib.player import cPlayer
 
 from resources.lib.handler.requestHandler import cRequestHandler
 
-from resources.lib.comaddon import dialog, addon, VSlog, isKrypton
+from resources.lib.comaddon import dialog, addon, VSlog
 
 
 class cHosterGui:
@@ -21,59 +21,49 @@ class cHosterGui:
     DIALOG = dialog()
 
     # step 1 - bGetRedirectUrl in ein extra optionsObject verpacken
-    def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl = False):
+    def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False):
 
         oInputParameterHandler = cInputParameterHandler()
-#        sMovieTitle = oInputParameterHandler.getValue('title')
-
-
 
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(self.SITE_NAME)
-        #oGuiElement.setFunction('showHosterMenu')
+        # oGuiElement.setFunction('showHosterMenu')
         oGuiElement.setFunction('play')
         oGuiElement.setTitle(oHoster.getDisplayName())
-        #oGuiElement.setThumbnail(sThumbnail)
+        # oGuiElement.setThumbnail(sThumbnail)
         # if (oInputParameterHandler.exist('sMeta')):
             # sMeta = oInputParameterHandler.getValue('sMeta')
             # oGuiElement.setMeta(int(sMeta))
 
         oGuiElement.setFileName(oHoster.getFileName())
         oGuiElement.getInfoLabel()
-
         if sThumbnail:
             oGuiElement.setThumbnail(sThumbnail)
 
-        #oGuiElement.setMeta(1)
+        # oGuiElement.setMeta(1)
         oGuiElement.setIcon('host.png')
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sMediaUrl', sMediaUrl)
-        #oOutputParameterHandler.addParameter('sThumbnail', oGuiElement.getThumbnail())
-
         oOutputParameterHandler.addParameter('sHosterIdentifier', oHoster.getPluginIdentifier())
         oOutputParameterHandler.addParameter('bGetRedirectUrl', bGetRedirectUrl)
         oOutputParameterHandler.addParameter('sFileName', oHoster.getFileName())
-
         oOutputParameterHandler.addParameter('sTitleWatched', oGuiElement.getTitleWatched())
-
-
         oOutputParameterHandler.addParameter('sTitle', oHoster.getDisplayName())
         oOutputParameterHandler.addParameter('sId', 'cHosterGui')
         oOutputParameterHandler.addParameter('siteUrl', sMediaUrl)
-        #oOutputParameterHandler.addParameter('sFav', 'play')
-        #oOutputParameterHandler.addParameter('sCat', '4')
+        # oOutputParameterHandler.addParameter('sFav', 'play')
+        # oOutputParameterHandler.addParameter('sCat', '4')
 
-        #nouveaux pour la lecture.
-        if (oInputParameterHandler.exist('sCat')):
+        # nouveaux pour la lecture.
+        if oInputParameterHandler.exist('sCat'):
             sCat = oInputParameterHandler.getValue('sCat')
             oGuiElement.setCat(sCat)
             oOutputParameterHandler.addParameter('sCat', sCat)
         else:
             oGuiElement.setCat('4')
 
-
-        #context playlit menu
+        # context playlit menu
         oContext = cContextElement()
         oContext.setFile('cHosterGui')
         oContext.setSiteName(self.SITE_NAME)
@@ -82,8 +72,8 @@ class cHosterGui:
         oContext.setOutputParameterHandler(oOutputParameterHandler)
         oGuiElement.addContextItem(oContext)
 
-        #Download menu
-        if (oHoster.isDownloadable() == True):
+        # Download menu
+        if oHoster.isDownloadable():
             oContext = cContextElement()
             oContext.setFile('cDownload')
             oContext.setSiteName('cDownload')
@@ -92,8 +82,8 @@ class cHosterGui:
             oContext.setOutputParameterHandler(oOutputParameterHandler)
             oGuiElement.addContextItem(oContext)
 
-        if (oHoster.isDownloadable() == True):
-            #Beta context download and view menu
+        if oHoster.isDownloadable():
+            # Beta context download and view menu
             oContext = cContextElement()
             oContext.setFile('cDownload')
             oContext.setSiteName('cDownload')
@@ -102,7 +92,7 @@ class cHosterGui:
             oContext.setOutputParameterHandler(oOutputParameterHandler)
             oGuiElement.addContextItem(oContext)
 
-        #Upload menu uptobox
+        # Upload menu uptobox
         if cInputParameterHandler().getValue('site') != 'siteuptobox' and self.ADDON.getSetting('hoster_uptobox_premium') == 'true':
             host = oHoster.getPluginIdentifier()
             accept = ['uptobox', 'uptostream', 'onefichier', 'uploaded', 'uplea']
@@ -110,24 +100,21 @@ class cHosterGui:
                 if host == i:
                     oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteuptobox', 'siteuptobox', 'UptomyAccount', self.ADDON.VSlang(30325))
 
-        #onefichier
+        # onefichier
         if cInputParameterHandler().getValue('site') != 'siteonefichier' and self.ADDON.getSetting('hoster_onefichier_premium') == 'true':
             host = oHoster.getPluginIdentifier()
-            accept = 'onefichier' #les autres ne fonctionnent pas
+            accept = 'onefichier'  # les autres ne fonctionnent pas
             if host == accept:
                 oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteonefichier', 'siteonefichier', 'UptomyAccount', '1fichier')
 
+        # context FAV menu
+        oGui.createContexMenuBookmark(oGuiElement, oOutputParameterHandler)
 
-        #context FAV menu
-        oGui.createContexMenuFav(oGuiElement, oOutputParameterHandler)
-
-        #context Library menu
+        # context Library menu
         oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cLibrary', 'cLibrary', 'setLibrary', self.ADDON.VSlang(30324))
 
-        #bug
+        # bug
         oGui.addHost(oGuiElement, oOutputParameterHandler)
-
-        #oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
     def checkHoster(self, sHosterUrl):
         #securite
@@ -560,25 +547,24 @@ class cHosterGui:
         return False
 
     def getHoster(self, sHosterFileName):
-        exec ('from resources.hosters.' + sHosterFileName + ' import cHoster')
-
+        exec ("from resources.hosters." + sHosterFileName + " import cHoster", globals())
         return cHoster()
 
     def play(self):
         oGui = cGui()
-        oInputParameterHandler = cInputParameterHandler()
+        oDialog = dialog()
 
+        oInputParameterHandler = cInputParameterHandler()
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
         bGetRedirectUrl = oInputParameterHandler.getValue('bGetRedirectUrl')
         sFileName = oInputParameterHandler.getValue('sFileName')
         sTitle = oInputParameterHandler.getValue('title')
-        #sThumbnail = oInputParameterHandler.getValue('sThumbnail')
 
         if not sTitle:
             sTitle = sFileName
 
-        if (bGetRedirectUrl == 'True'):
+        if bGetRedirectUrl == 'True':
             sMediaUrl = self.__getRedirectUrl(sMediaUrl)
 
         VSlog('Hoster - play ' + sMediaUrl)
@@ -587,50 +573,47 @@ class cHosterGui:
         oHoster.setFileName(sFileName)
 
         sHosterName = oHoster.getDisplayName()
-        self.DIALOG.VSinfo(sHosterName, 'Resolve')
+        oDialog.VSinfo(sHosterName, 'Resolve')
 
         try:
 
             oHoster.setUrl(sMediaUrl)
             aLink = oHoster.getMediaLink()
 
-            if (aLink[0] == True):
+            if aLink[0]:
                 oGuiElement = cGuiElement()
                 oGuiElement.setSiteName(self.SITE_NAME)
                 oGuiElement.setMediaUrl(aLink[1])
                 oGuiElement.setTitle(sTitle)
-                #oGuiElement.setTitle(oHoster.getFileName())
                 oGuiElement.getInfoLabel()
 
                 oPlayer = cPlayer()
 
-                #sous titres ?
+                # sous titres ?
                 if len(aLink) > 2:
                     oPlayer.AddSubtitles(aLink[2])
 
                 oPlayer.run(oGuiElement, oHoster.getFileName(), aLink[1])
                 return
             else:
-                self.DIALOG.VSerror("file not found")
+                oDialog.VSerror(self.ADDON.VSlang(30020))
                 return
 
         except:
-            self.DIALOG.VSerror("file not found")
+            oDialog.VSerror(self.ADDON.VSlang(30020))
             return
 
         oGui.setEndOfDirectory()
 
     def addToPlaylist(self):
         oGui = cGui()
-
         oInputParameterHandler = cInputParameterHandler()
-
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
         bGetRedirectUrl = oInputParameterHandler.getValue('bGetRedirectUrl')
         sFileName = oInputParameterHandler.getValue('sFileName')
 
-        if (bGetRedirectUrl == 'True'):
+        if bGetRedirectUrl == 'True':
             sMediaUrl = self.__getRedirectUrl(sMediaUrl)
 
         VSlog('Hoster - playlist ' + sMediaUrl)
@@ -640,7 +623,7 @@ class cHosterGui:
         oHoster.setUrl(sMediaUrl)
         aLink = oHoster.getMediaLink()
 
-        if (aLink[0] == True):
+        if aLink[0]:
             oGuiElement = cGuiElement()
             oGuiElement.setSiteName(self.SITE_NAME)
             oGuiElement.setMediaUrl(aLink[1])
@@ -648,7 +631,7 @@ class cHosterGui:
 
             oPlayer = cPlayer()
             oPlayer.addItemToPlaylist(oGuiElement)
-            self.DIALOG.VSinfo(str(oHoster.getFileName()), 'Playlist')
+            dialog().VSinfo(str(oHoster.getFileName()), 'Playlist')
             return
 
         oGui.setEndOfDirectory()

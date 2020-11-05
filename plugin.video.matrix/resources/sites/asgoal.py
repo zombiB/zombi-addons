@@ -112,7 +112,7 @@ def showLive():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) # ([^<]+) .+? 
-    sPattern = 'setURL(.+?)">(.+?)</'
+    sPattern = 'setURL([^<]+)">(.+?)</'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
