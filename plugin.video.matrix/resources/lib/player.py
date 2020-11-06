@@ -89,7 +89,7 @@ class cPlayer(xbmc.Player):
         player_conf = self.ADDON.getSetting('playerPlay')
 
         #Si lien dash, methode prioritaire
-        if sUrl.endswith('.mpd'):
+        if '.mpd' in sUrl:
             if isKrypton() == True:
                 self.enable_addon('inputstream.adaptive')
                 item.setProperty('inputstreamaddon','inputstream.adaptive')

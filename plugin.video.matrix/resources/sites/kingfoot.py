@@ -314,7 +314,17 @@ def showHosters4():
                 if (aResult[0] == True):
 					url = aResult[1][0]
 					url = url.split('?link=', 1)[1]
-            sHosterUrl = url.split('?link=', 1)[1]
+            if '/dash/' in url:
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent4 = oRequestHandler.request();
+                oParser = cParser()
+                sPattern =  'var link = "(.+?)";'
+                aResult = oParser.parse(sHtmlContent4,sPattern)
+                if (aResult[0] == True):
+					url = aResult[1][0]
+            sHosterUrl = url
+            if 'm3u8' in url:
+				sHosterUrl = url.split('?link=', 1)[1]
             sMovieTitle = '1'
             
 
@@ -345,12 +355,20 @@ def showHosters4():
                 url = 'http:' + url
             if '/embed/' in url:
                 oRequestHandler = cRequestHandler(url)
+                sHtmlContent3 = oRequestHandler.request();
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
-                aResult = oParser.parse(url,sPattern)
+                aResult = oParser.parse(sHtmlContent3,sPattern)
                 if (aResult[0] == True):
 					url = aResult[1][0]
- 
+            if '/dash/' in url:
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent4 = oRequestHandler.request();
+                oParser = cParser()
+                sPattern =  'var link = "(.+?)";'
+                aResult = oParser.parse(sHtmlContent4,sPattern)
+                if (aResult[0] == True):
+					url = aResult[1][0]
             sHosterUrl = url
             sMovieTitle = str(aEntry[1])
             
