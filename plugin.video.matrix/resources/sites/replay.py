@@ -20,7 +20,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://replay.com.tn'
 
 
-RAMADAN_SERIES = ('https://replay.com.tn/tv-series.html', 'showSeries')
+SERIE_AR = ('https://replay.com.tn/tv-series.html', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

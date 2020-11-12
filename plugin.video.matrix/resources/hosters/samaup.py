@@ -77,7 +77,7 @@ class cHoster(iHoster):
             
             UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
             headers = {'User-Agent': UA ,
-                       'Host' : 'www.samaup.co',
+                       'Host' : 'www.samaup.org',
                        'Referer' : self.__sUrl ,
                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                        'Content-Type': 'application/x-www-form-urlencoded'}
@@ -107,7 +107,7 @@ class cHoster(iHoster):
             
             UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
             headers = {'User-Agent': UA ,
-                       'Host' : 'www.samaup.co',
+                       'Host' : 'www.samaup.org',
                        'Referer' : self.__sUrl ,
                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                        'Content-Type': 'application/x-www-form-urlencoded'}

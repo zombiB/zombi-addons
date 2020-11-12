@@ -219,7 +219,7 @@ def showAnimes(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = '<a href="([^<]+)">.+?data-src="(.+?)".+?alt="([^<]+)"/'
+    sPattern = '<div class="postDiv"><a href="([^<]+)"><img src=".+?" data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -399,17 +399,21 @@ def showEpisodes():
     #Recuperation infos
     sNote = ''
 
-    sPattern = '<meta itemprop="description" content=([^<]+)"/>'
+    sPattern = '<div class="epAll"(.+?)<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern) 
+     
+    
     if (aResult[0]):
-        sNote = aResult[1][0]
+        sHtmlContent1 = aResult[1][0]
 	
      # (.+?) ([^<]+) .+?
     sPattern = '<a href="([^<]+)" class="active">([^<]+)</a>'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent1, sPattern)
 	
 	
     if (aResult[0] == True):
@@ -436,10 +440,10 @@ def showEpisodes():
         progress_.VSclose(progress_)
 	
      # (.+?) ([^<]+) .+?
-    sPattern = '<a href="([^<]+)" >([^<]+)</a>'
+    sPattern = '<a href="([^<]+)">([^<]+)</a>'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent1, sPattern)
 	
 	
     if (aResult[0] == True):

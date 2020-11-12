@@ -24,21 +24,20 @@ URL_MAIN = 'https://ww.egydead.com'
 MOVIE_EN = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_PACK = ('https://ww.egydead.com/assembly/', 'showPack')
 MOVIE_DUBBED = ('https://egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
-MOVIE_AR = ('https://egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showMovies')
 
 MOVIE_TURK = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a/', 'showMovies')
-MOVIE_HI = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a/', 'showMovies')
+
 MOVIE_ASIAN = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 KID_MOVIES = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
 KID_CARTOON = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86/', 'showSeries')
 
 SERIE_LATIN = ('https://egydead.live/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%84%D8%A7%D8%AA%D9%8A%D9%86%D9%8A%D8%A9/', 'showSeries')
-SERIE_DUBBED = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showMovies')
+
 SERIE_EN = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A/', 'showSeries')
-SERIE_HEND = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showSeries')
+
 
 SERIE_ASIA = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9/', 'showSeries')
-SERIE_TR = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9/', 'showSeries')
+
 DOC_SERIES = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9/', 'showSeries')
 DOC_NEWS = ('https://ww.egydead.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showMovies')
 
@@ -579,7 +578,7 @@ def showHosters():
     #print sId
     
   # ([^<]+) .+?
-    headers = {'Host': 'egydead.live',
+    headers = {'Host': 'ww.egydead.com',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',

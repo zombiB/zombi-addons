@@ -152,8 +152,6 @@ class cHosterGui:
             return self.getHoster('fajer')
         if ('vidsat' in sHostName):
             return self.getHoster('vidsat')
-        if ('youdbox' in sHostName):
-            return self.getHoster('youdbox')
         if ('gateaflam' in sHostName):
             return self.getHoster('gateaflam')
         if ('mycima' in sHostName):
