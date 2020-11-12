@@ -93,6 +93,7 @@ class cPlayer(xbmc.Player):
             if isKrypton() == True:
                 self.enable_addon('inputstream.adaptive')
                 item.setProperty('inputstreamaddon','inputstream.adaptive')
+                item.setProperty('inputstream.adaptive.manifest_update_parameter', 'full')
                 item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
                 xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem=item)
                 VSlog('Player use inputstream addon')
