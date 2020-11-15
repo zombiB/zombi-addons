@@ -502,7 +502,7 @@ class cHosterGui:
             return self.getHoster('lien_direct')
         if ('amazonaws.com' in sHostName):
             return self.getHoster('lien_direct')
-        if ('cityvod.net' in sHostName):
+        if ('streamtec' in sHostName):
             return self.getHoster('lien_direct')
 
         if ('stardima.com' in sHostName):

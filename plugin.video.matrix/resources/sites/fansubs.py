@@ -68,7 +68,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # .+? ([^<]+) 
 
-    sPattern = '<img src="([^<]+)" alt="([^<]+)">.+?<div class="video-title">.+?href="([^<]+)" data-load='
+    sPattern = '<a href="([^<]+)" data.+?title="([^<]+)">.+?<a href="https://fansubs.tv/watch/.+?html" data-load="?link1=watch&id=.+?">.+?<img data-src="([^<]+)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -88,8 +88,8 @@ def showMovies(sSearch = ''):
  
             sInfo = ""
  
-            siteUrl = aEntry[2]
-            sThumbnail = str(aEntry[0])
+            siteUrl = aEntry[0]
+            sThumbnail = str(aEntry[2])
 
 
 

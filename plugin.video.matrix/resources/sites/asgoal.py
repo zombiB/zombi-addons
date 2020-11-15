@@ -179,6 +179,29 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
         progress_.VSclose(progress_) 
+    # (.+?) # ([^<]+) .+? 
+    sPattern = 'file:"(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = aEntry
+            sHosterUrl = url
+            sMovieTitle = sMovieTitle
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_) 
  # (.+?) # ([^<]+) .+? 
 
     sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'
@@ -206,6 +229,45 @@ def showHosters():
  
             sHosterUrl = url
             sMovieTitle = str(aEntry[1])
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_)
+ # (.+?) # ([^<]+) .+? 
+
+    sPattern = 'src="(.+?)" width="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = aEntry[0]
+            if url.startswith('//'):
+                url = 'http:' + url
+            if 'xyz' in url:
+                oRequestHandler = cRequestHandler(url)
+                oRequestHandler.setRequestType(1)
+                oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0')
+                oRequestHandler.addHeaderEntry('referer', 'https://ch.as-goal.tv/')
+                sHtmlContent2 = oRequestHandler.request();
+                oParser = cParser()
+                sPattern =  '(http[^<]+m3u8)'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if (aResult[0] == True):
+					url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
+ 
+            sHosterUrl = url
+            sMovieTitle = sMovieTitle
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)

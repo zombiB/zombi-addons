@@ -78,8 +78,7 @@ class cHoster(iHoster):
 				
         if (api_call):
             return True, api_call
-        print "sIdeee"
-        print api_call
+
 
 			
         sPattern = "<script type='text/javascript'>var player = new Clappr.Player(.+?)</script>"
