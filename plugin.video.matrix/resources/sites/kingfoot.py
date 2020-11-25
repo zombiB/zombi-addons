@@ -352,12 +352,12 @@ def showHosters4():
             if progress_.iscanceled():
                 break
             
-            url = str(aEntry[0]).replace("('",'').replace("')","").replace("update_frame","")
+            url = str(aEntry[0]).replace("('",'').replace("',","").replace("')","").replace("update_frame","").replace("window.open","")
             if 'm3u8' in url:
 				url = url.split('?link=', 1)[1]
             if url.startswith('//'):
                 url = 'http:' + url
-            if '/embed/' in url:
+            if 'index' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent3 = oRequestHandler.request();
                 oParser = cParser()

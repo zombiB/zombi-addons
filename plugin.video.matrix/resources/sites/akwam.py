@@ -10,6 +10,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
+from resources.lib.player import cPlayer
 import urllib2,urllib,re
 import unicodedata
  
@@ -114,7 +115,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showlinks', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -282,7 +283,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showlinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
     # .+? ([^<]+)
@@ -319,7 +320,7 @@ def showEpisodes():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showlinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
  
@@ -347,82 +348,98 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 
+ 
 
-def showHosters():
+  
+def showlinks():
     oGui = cGui()
+   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    # (.+?) .+?
+    sPattern = '<a href="([^<]+)" target="_blank" class="link-btn link-download d-flex align-items-center px-3"><span class="text">تحميل</span><span class="font-size-14 mr-auto">([^<]+)</span>'
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    #fh = open('c:\\test.txt', "w")
+    #fh.write(sHtmlContent.replace('\n',''))
+    #fh.close()
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle =  aEntry[1]
+            siteUrl = aEntry[0]
+            sInfo = ""
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+           
+ 
+        progress_.VSclose(progress_)
+       
+    oGui.setEndOfDirectory()  
+
+	
+def showHosters():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+
+    UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-
-    oParser = cParser()       
-    sPattern =  '<a href="http([^<]+)/watch/(.+?)"'
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
-        oRequest = cRequestHandler(m3url)
-        sHtmlContent = oRequest.request()
-
-    oParser = cParser()       
-    sPattern =  '<a href="([^<]+)".+?class="download-link"' 
+    sHtmlContent = oRequestHandler.request(); 
+    oParser = cParser()
+    #recup du lien mp4
+    sPattern =  '<a href="(.+?)".+?class="download-link"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
-        sHtmlContent = oRequest.request()
-
-
-
-
-
-    # (.+?) .+? ([^<]+)
-               
-
-    sPattern = '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)".+?/>'
+        sHtmlContent = oRequest.request() 
+    sPattern =  '<a href="([^<]+)" download' 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
+    
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
         
-				url = str(aEntry[0])
-				sTitle = str(aEntry[1]).decode("utf8").replace('"',"")
-				sTitle = cUtil().unescape(sTitle).encode("utf8")
-				sTitle = '[COLOR yellow]'+sTitle+'p[/COLOR]'
+        sUrl = str(aResult[1][0])+ '|AUTH=TLS&verifypeer=false'+ '&User-Agent='+ UA
+                 
+        #on lance video directement
+        oGuiElement = cGuiElement()
+        oGuiElement.setSiteName(SITE_IDENTIFIER)
+        oGuiElement.setTitle(sMovieTitle)
+        oGuiElement.setMediaUrl(sUrl)
+        oGuiElement.setThumbnail(sThumbnail)
 
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if url.startswith('//'):
-					url = 'https:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
+        oPlayer = cPlayer()
+        oPlayer.clearPlayList()
+        oPlayer.addItemToPlaylist(oGuiElement)
+        oPlayer.startPlayer()
+        return
+    
+    else:
+        return
 
-			progress_.VSclose(progress_)
-                
     oGui.setEndOfDirectory()
