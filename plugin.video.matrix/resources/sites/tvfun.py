@@ -70,7 +70,8 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
 
-    sPattern = 'class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)">.+?data-src="([^<]+)" data-srcset=.+?<span class="count">([^<]+)</span>'
+    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar"><img src="([^<]+)" loading=.+?<span class="count">([^<]+)</span>'
+	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -145,37 +146,8 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-  #([^<]+) .+?
 
-    sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = str(aEntry[0])
-            sThumbnail = ""
-            sInfo = ""
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-
-    sPattern = '<!DOCTYPE html><html(.+?)style="" id="sidebar">'  
+    sPattern = 'class="current">(.+?)<div id="sidebar">'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -184,7 +156,7 @@ def showEpisodes():
     if (aResult[0] == True):
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+?
-    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)">.+?data-src="([^<]+)" data-srcset='
+    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar"><img src="([^<]+)" loading='
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -239,6 +211,39 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+  #([^<]+) .+?
+
+    sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -324,7 +329,7 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  "PGlmcmFt([^<]+)'"
+    sPattern =  "PGlmcmFt([^<]+)';"
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
 		total = len(aResult[1])

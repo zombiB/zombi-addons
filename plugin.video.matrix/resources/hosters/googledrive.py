@@ -1,23 +1,30 @@
-#coding: utf-8
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-from resources.lib.handler.requestHandler import cRequestHandler
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+# from resources.lib.handler.requestHandler import cRequestHandler
+
+try:  # Python 2
+    import urllib2
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+
+import re
+
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 
-import re, urllib2
-
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:62.0) Gecko/20100101 Firefox/62.0'
 
-class cHoster(iHoster):
 
+class cHoster(iHoster):
     def __init__(self):
         self.__sDisplayName = 'GoogleDrive'
         self.__sFileName = self.__sDisplayName
         self.__sHD = ''
 
     def getDisplayName(self):
-        return  self.__sDisplayName
+        return self.__sDisplayName
 
     def setDisplayName(self, sDisplayName):
         self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
@@ -57,7 +64,7 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        
+
     def checkUrl(self, sUrl):
         return True
 
@@ -68,13 +75,13 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        url=[]
-        qua=[]
+        url = []
+        qua = []
         api_call = ''
-        
-        #reformatage du lien
+
+        # reformatage du lien
         sId = self.__getIdFromUrl(self.__sUrl)
-        sUrl = 'https://drive.google.com/file/d/' + sId + '/view' #?pli=1
+        sUrl = 'https://drive.google.com/file/d/' + sId + '/view'
 
         req = urllib2.Request(sUrl)
         response = urllib2.urlopen(req)
@@ -83,7 +90,7 @@ class cHoster(iHoster):
         Headers = response.headers
         response.close()
 
-        #listage des cookies
+        # listage des cookies
         c = Headers['Set-Cookie']
         c2 = re.findall('(?:^|,) *([^;,]+?)=([^;,\/]+?);', c)
         if c2:
@@ -98,25 +105,25 @@ class cHoster(iHoster):
         if not aResult[0]:
             if '"errorcode","150"]' in sHtmlContent:
                 dialog().VSinfo("Nombre de lectures max dépassé")
-            return False,False
+            return False, False
 
         sListUrl = aResult[1][0]
 
         if sListUrl:
             aResult2 = oParser.parse(sHtmlContent, '([0-9]+)\/([0-9]+x[0-9]+)\/')
 
-        #liste les qualitee
+        # liste les qualitee
             r = oParser.parse(sListUrl, '([0-9]+)\|([^,]+)')
             for item in r[1]:
                 url.append(item[1].decode('unicode-escape'))
                 for i in aResult2[1]:
                     if item[0] == i[0]:
                         qua.append(i[1])
-       
-        #Afichage du tableau
+
+        # Affichage du tableau
         api_call = dialog().VSselectqual(qua, url)
         api_call = api_call + '|User-Agent=' + UA + '&Cookie=' + cookies
-        
+
         if (api_call):
             return True, api_call
 

@@ -261,12 +261,6 @@ def showLink():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
-
-    print "sPage"
-    print sname
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -392,10 +386,9 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')(.+?)
                
         
-    sPattern = 'src="(.+?)" scrolling='
+    sPattern = 'src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -412,8 +405,9 @@ def showHosters():
             if url.startswith('//'):
                 url = 'http:' + url
 
+            
+            url = url.replace('preview?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com')  
             sHosterUrl = url
-            url = url.replace('?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com') 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False): 
 				   sDisplayTitle = sTitle

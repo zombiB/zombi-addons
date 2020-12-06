@@ -414,7 +414,7 @@ def showServer2():
 
     #print sId
     
-		headers = {'Host': 'ar.arbcinema.com',
+		headers = {'Host': 'in.arbcinema.com',
 					'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 					'Accept': '*/*',
 					'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -439,7 +439,7 @@ def showServer2():
 				if progress_.iscanceled():
 					break
             
-				headers = {'Host': 'ar.arbcinema.com',
+				headers = {'Host': 'in.arbcinema.com',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',

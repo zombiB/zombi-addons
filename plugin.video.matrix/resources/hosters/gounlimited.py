@@ -58,7 +58,7 @@ class cHoster(iHoster):
             if (aResult[0] == True):
                 sHtmlContent = cPacker().unpack(aResult[1][0])
 
-                sPattern =  '{src:"([^"]+)"'
+                sPattern =  'src:"([^"]+)"'
                 aResult = oParser.parse(sHtmlContent, sPattern)
 
                 # fh = open('c:\\test.txt', 'w')
@@ -67,6 +67,8 @@ class cHoster(iHoster):
 
                 if (aResult[0] == True):
                     api_call = aResult[1][0]
+                    if api_call.startswith('//'):
+						api_call = 'http:' + api_call
         else:
             api_call = self.__sUrl
 

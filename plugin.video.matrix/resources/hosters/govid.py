@@ -48,8 +48,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        if '/play/'  in sUrl:
-            self.__sUrl = self.__sUrl.replace("/play/","/down/")
+        if '/down/'  in sUrl:
+            self.__sUrl = self.__sUrl.replace("/down/","/play/")
 
     def checkUrl(self, sUrl):
         return True
@@ -62,14 +62,27 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
 
-        oRequest = cRequestHandler(self.__sUrl)
-        sHtmlContent = oRequest.request()
+	
+        oRequestHandler = cRequestHandler(self.__sUrl)
+        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+        oRequestHandler.addHeaderEntry('Host', 'govid.co')
+        oRequestHandler.addHeaderEntry('Referer', 'https://www.cimaclub.me/watch/%D9%85%D8%B4%D8%A7%D9%87%D8%AF%D8%A9-%D9%81%D9%8A%D9%84%D9%85-no-place-2020-%D9%85%D8%AA%D8%B1%D8%AC%D9%85')
+        sHtmlContent = oRequestHandler.request()
         if 'Video is processing now' in sHtmlContent:
 			dialog().VSinfo("Video is processing...")
         
         api_call = ''
         #type1/([^"]+)/
         oParser = cParser()
+
+       # (.+?) .+? ([^<]+)
+        sPattern =  "file:'(.+?)'," 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
+
+            if (api_call):
+                return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
 
        # (.+?) .+? ([^<]+)
         sPattern =  '<small  >([^<]+)</small> <a target="_blank"  download=".+?" onclick="updateData.+?"  href="([^<]+)" > <small  >' 
@@ -80,12 +93,12 @@ class cHoster(iHoster):
             qua=[]
             #Replissage des tableaux
             for i in aResult[1]:
-                url.append(str(i[1]))
+                url.append(str(i[1]).replace("[","%5B").replace("]","%5D").replace("+","%20"))
                 qua.append(str(i[0]))
 
             api_call = dialog().VSselectqual(qua, url)
 
             if (api_call):
-                return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl+'&verifypeer=false'
+                return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
 
         return False, False

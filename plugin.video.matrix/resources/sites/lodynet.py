@@ -17,14 +17,14 @@ SITE_IDENTIFIER = 'lodynet'
 SITE_NAME = 'lodynet'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://lodynet.tv/'
+URL_MAIN = 'https://www.lodynet.co/'
 
 
-MOVIE_EN = ('http://lodynet.tv/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
-MOVIE_TURK = ('http://lodynet.tv/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-1%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
-MOVIE_HI = ('http://lodynet.tv/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
-MOVIE_ASIAN = ('http://lodynet.tv/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9/', 'showMovies')
-KID_MOVIES = ('http://lodynet.tv/category/%D8%A7%D9%86%D9%8A%D9%85%D9%8A/', 'showMovies')
+MOVIE_EN = ('https://www.lodynet.co/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9-a/', 'showMovies')
+MOVIE_TURK = ('https://www.lodynet.co/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-1%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
+MOVIE_HI = ('https://www.lodynet.co/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
+MOVIE_ASIAN = ('https://www.lodynet.co/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9/', 'showMovies')
+KID_MOVIES = ('https://www.lodynet.co/category/%D8%A7%D9%86%D9%8A%D9%85%D9%8A/', 'showMovies')
 SERIE_TR = ('http://www.lodynet.tv/category/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSerie')
 SERIE_TR_AR = ('https://www.lodynet.co/category/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSerie')
 SERIE_HEND = ('http://www.lodynet.tv/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showSerie')
@@ -32,9 +32,9 @@ SERIE_HEND_AR = ('https://www.lodynet.co/category/1dubbed-indian-series/', 'show
 SERIE_ASIA = ('https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D9%83%D8%B3%D9%8A%D9%83%D9%8A%D8%A9/', 'showSerie')
 SERIE_LATIN = ('https://egydead.live/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%84%D8%A7%D8%AA%D9%8A%D9%86%D9%8A%D8%A9/', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-SERIE_AR = ('http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/', 'showSerie')
+SERIE_AR = ('https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/', 'showSerie')
 
-SERIE_DUBBED = ('http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showMovies')
+SERIE_DUBBED = ('https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showMovies')
 
 URL_SEARCH = ('http://www.lodynet.tv/search/', 'showMovies')
 URL_SEARCH_SERIES = ('http://www.lodynet.tv/search/', 'showMovies')
@@ -65,15 +65,15 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
-    liste.append( ["مسلسلات-هندية","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/"] )
-    liste.append( ["مسلسلات-هندية-مدبلجة","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/"] )
-    liste.append( ["مسلسلات-تركية-مدبلجة","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/"] )
-    liste.append( ["مسلسلات-مكسيكية","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D9%83%D8%B3%D9%8A%D9%83%D9%8A%D8%A9/"] )
-    liste.append( ["korean series","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D9%88%D8%B1%D9%8A%D8%A9/"] )
-    liste.append( ["مسلسلات-باكستانية","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%D9%8A%D8%A9/"] )
-    liste.append( ["مسلسلات-رمضان-2015","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2015/"] )
-    liste.append( ["مسلسلات-رمضان-2016","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2016/"] )
-    liste.append( ["مسلسلات-تايلاندية","http://lodynet.tv/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%A7%D9%8A%D9%84%D8%A7%D9%86%D8%AF%D9%8A%D8%A9/"] )
+    liste.append( ["مسلسلات-هندية","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/"] )
+    liste.append( ["مسلسلات-هندية-مدبلجة","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/"] )
+    liste.append( ["مسلسلات-تركية-مدبلجة","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/"] )
+    liste.append( ["مسلسلات-مكسيكية","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D9%83%D8%B3%D9%8A%D9%83%D9%8A%D8%A9/"] )
+    liste.append( ["korean series","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D9%88%D8%B1%D9%8A%D8%A9/"] )
+    liste.append( ["مسلسلات-باكستانية","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%D9%8A%D8%A9/"] )
+    liste.append( ["مسلسلات-رمضان-2015","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2015/"] )
+    liste.append( ["مسلسلات-رمضان-2016","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2016/"] )
+    liste.append( ["مسلسلات-تايلاندية","https://www.lodynet.co/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%A7%D9%8A%D9%84%D8%A7%D9%86%D8%AF%D9%8A%D8%A9/"] )
 
     
 	            

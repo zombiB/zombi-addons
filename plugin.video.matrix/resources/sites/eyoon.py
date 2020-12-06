@@ -164,7 +164,7 @@ def showSeasons():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # .+? (.+?) ([^<]+)
-    sPattern = '<a href="([^<]+)" title="([^<]+)" class="post-thumb">.+?data-src="([^<]+)" />'
+    sPattern = '<a aria-label="([^<]+)" href="([^<]+)" class="post-thumb"><img width=".+?" height=".+?" src="([^<]+)" class='
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -183,11 +183,12 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
+            sTitle = aEntry[0].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = str(aEntry[0])
+            sTitle = sTitle.replace("اون لاين + تحميل","")
+            siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
-            sInfo = siteUrl
+            sInfo = ""
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -200,12 +201,12 @@ def showSeasons():
             oGui.addMisc(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
- 
+		
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeasons', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
        
     oGui.setEndOfDirectory() 
 	
@@ -213,7 +214,7 @@ def showSeasons():
       # (.+?) ([^<]+)
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = ''
+    sPattern = '<div class="pages-nav"><a data-url="([^<]+)" data-text="تحميل المزيد"'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -335,6 +336,7 @@ def showServer():
 					break
             
 				url = str(aEntry)
+				url = url.replace('https://docs.google.com','https://drive.google.com')
 				sTitle = "link : " 
 				if url.startswith('//'):
 					url = 'http:' + url

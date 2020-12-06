@@ -41,6 +41,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if '.cc' in sUrl:
+            self.__sUrl = self.__sUrl.replace(".cc",".org")
         if 'embed' in sUrl:
             self.__sUrl = self.__sUrl.replace("embed-","")
         self.__sUrl = self.__sUrl.split('-')[0]

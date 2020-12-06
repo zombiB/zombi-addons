@@ -203,7 +203,7 @@ class cHosterGui:
             return self.getHoster('streamwire')
         if ('vup' in sHostName):
             return self.getHoster('streamwire')
-        if ('govid' in sHostName):
+        if ('govid.co' in sHostName):
             return self.getHoster('govid')
         if ('french-vid' in sHostName or 'fembed.' in sHostName or 'yggseries' in sHostName or 'sendvid' in sHostName or 'vfsplayer' in sHostName or 'fsimg' in sHostName or 'fem.tohds' in sHostName):
             return self.getHoster('frenchvid')
@@ -283,8 +283,8 @@ class cHosterGui:
 
         if ('vidmoly' in sHostName):
             return self.getHoster('vidmoly')
-        if ('vid.me' in sHostName):
-            return self.getHoster('vidme')
+        if ('playtube' in sHostName):
+            return self.getHoster('playtube')
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
         if ('supervideo' in sHostName):
@@ -394,6 +394,8 @@ class cHosterGui:
             return self.getHoster('cloudup')
         if ('archive.org/embed/"' in sHostName):
             return self.getHoster('archive')
+        if ('govid.me' in sHostName):
+            return self.getHoster('govidme')
         if ('cloudvid.' in sHostName):
             return self.getHoster('cloudvid')
 
@@ -415,8 +417,6 @@ class cHosterGui:
 
         if ('streamz.cc' in sHostName):
             return self.getHoster('streamz')
-        if ('vidbob' in sHostName):
-            return self.getHoster('vidbob')
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
         if ('movs4u.club' in sHostName):
@@ -429,8 +429,10 @@ class cHosterGui:
 
         if ('prostream' in sHostName):
             return self.getHoster('prostream')
-        if ('rapidvideo' in sHostName):
-            return self.getHoster('bitno')
+        if ('dood' in sHostName):
+            return self.getHoster('dood')
+        if ('streamtape' in sHostName):
+            return self.getHoster('streamtape')
         if ('arabramadan' in sHostName):
             return self.getHoster('arabramadan')
         if ('player.4show' in sHostName):
@@ -444,7 +446,7 @@ class cHosterGui:
         if ('faselhd' in sHostName):
             return self.getHoster('faselhd')
         if ('streamable' in sHostName):
-            return self.getHoster('resolver')
+            return self.getHoster('streamable')
 
 
         if ('flashx' in sHostName):
@@ -535,7 +537,7 @@ class cHosterGui:
         if ('livestream.com' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('nitroflare' in sHostName or 'multiup' in sHostName):
+        if ('nitroflare' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'multiup' in sHostName):
             return False
 
         #Si aucun hebergeur connu on teste les liens directs

@@ -17,33 +17,33 @@ SITE_IDENTIFIER = 'cimaclub'
 SITE_NAME = 'cimaclub'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://cimaclub.com/'
+URL_MAIN = 'https://www.cimaclub.cam'
 
 
-RAMADAN_SERIES = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020/', 'showSerie')
-MOVIE_EN = ('https://www.cimaclub.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
-MOVIE_AR = ('https://www.cimaclub.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a-%d8%a7%d9%88%d9%86%d9%84%d8%a7%d9%8a%d9%86/', 'showMovies')
 
-MOVIE_HI = ('http://cimaclub.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A/', 'showMovies')
-MOVIE_ASIAN = ('http://cimaclub.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9/', 'showMovies')
-KID_MOVIES = ('http://cimaclub.com/category/%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86/', 'showMovies')
+MOVIE_TOP = ('https://www.cimaclub.io/getposts?type=one&data=rating', 'showMovies')
+MOVIE_EN = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
+MOVIE_AR = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
+MOVIE_TURK = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9', 'showMovies')
+MOVIE_HI = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
+MOVIE_ASIAN = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showMovies')
+KID_MOVIES = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
 
-SERIE_LATIN = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%b1%d8%a7%d8%b2%d9%8a%d9%84%d9%8a%d8%a9/', 'showSerie')
-SERIE_DUBBED = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d9%87/', 'showSerie')
-SERIE_ASIA = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSerie')
+SERIE_LATIN = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%84%D9%8A%D8%A9', 'showSerie')
+SERIE_DUBBED = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D9%87', 'showSerie')
+SERIE_ASIA = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D9%88%D8%B1%D9%8A', 'showSerie')
 SERIE_HEND = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSerie')
-SERIE_TR = ('http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9/', 'showSerie')
-SERIE_EN = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSerie')
+SERIE_TR = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D9%87', 'showSerie')
+SERIE_EN = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSerie')
 SERIE_AR = ('http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A/', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-ANIM_NEWS = ('https://www.cimaclub.cam/category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showSerie')
-DOC_NEWS = ('https://www.cimaclub.cam/genre/documentary/', 'showMovies')
-DOC_SERIES = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showSerie')
-SPORT_NEWS = ('http://cimaclub.com/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D9%87-wwe/', 'showMovies')
-REPLAYTV_NEWS = ('http://cimaclub.com/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D9%88%D8%B9%D8%B1%D9%88%D8%B6-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D9%87/', 'showMovies')
-URL_SEARCH = ('http://cimaclub.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.cimaclub.cam/search/', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.cimaclub.cam/search/', 'showSerie')
+ANIM_NEWS = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%8A%D9%85%D9%8A', 'showSerie')
+DOC_NEWS = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
+DOC_SERIES = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showSerie')
+SPORT_NEWS = ('https://www.cimaclub.io/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D9%87-wwe', 'showMovies')
+URL_SEARCH = ('https://www.cimaclub.io/search?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://www.cimaclub.io/search?s=', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.cimaclub.io/search?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -65,7 +65,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.cimaclub.cam/search/'+sSearchText
+        sUrl = 'https://www.cimaclub.io/search?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -75,7 +75,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.cimaclub.cam/search/'+sSearchText
+        sUrl = 'https://www.cimaclub.io/search?s='+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -113,7 +113,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?<div class="Thumb"><div class="Half1" style="background-image:url([^<]+);"></div></div><div class="BoxInfo"><div class="BoxTitle">([^<]+)</div>'
+    sPattern = '<div class="content-box">.+?<a href="([^<]+)" data-src="([^<]+)" class="image"></a>.+?<h3>([^<]+)</h3></a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -133,7 +133,7 @@ def showMovies(sSearch = ''):
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0])
+            siteUrl = str(aEntry[0]).replace("/film/","/watch/").replace("/post/","/watch/")
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sDesc = ""
             annee = ''
@@ -150,7 +150,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -175,7 +175,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)"><div.+?<div class="Thumb"><div class="Half1" style="background-image:url([^<]+);"></div></div><div class="BoxInfo"><div class="BoxTitle">([^<]+)</div>'
+    sPattern = '<div class="content-box">.+?<a href="([^<]+)" data-src="([^<]+)" class="image"></a>.+?<h3>([^<]+)</h3></a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -193,7 +193,7 @@ def showSerie(sSearch = ''):
 				continue
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[0])
+            siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sDesc = ""
 
@@ -203,7 +203,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -230,7 +230,7 @@ def showEpisodes():
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
 
-    sPattern = 'href="([^<]+)"><em>([^<]+)</em><span>([^<]+)</span>'
+    sPattern = '<a href="([^<]+)" class="col-6 col-s-4 col-m-3 col-l-1 button-block"><h3>([^<]+)<span>([^<]+)</span></h3></a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -245,7 +245,7 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[2]+"-"+aEntry[1]
-            siteUrl = str(aEntry[0])
+            siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")
             sThumb = str(sThumb)
             sDesc = ""
 			
@@ -255,7 +255,11 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+			
+            if 'season' in siteUrl:
+                oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', '[COLOR cyan]'+sTitle+'[/COLOR]', '', sThumb, '', oOutputParameterHandler)
+            else:
+                oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -305,7 +309,7 @@ def showSeries():
             if 'seasons' in sUrl:
                 oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumb, '', oOutputParameterHandler)
             else:
-                oGui.addMovie(SITE_IDENTIFIER, 'showServer', aEntry[1], '', sThumb, '', oOutputParameterHandler)
+                oGui.addMovie(SITE_IDENTIFIER, 'showServers', aEntry[1], '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -322,7 +326,7 @@ def showSeries():
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'a class="next page-numbers" href="([^<]+)">'
+    sPattern = '<li class="active"><a href="javascript:;">.+?</a></li><li><a href="(.+?)">'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -332,65 +336,83 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
+
   
-def showServer():
+def showServers():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
- 
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+	    #Affichage du menu  
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات المشاهدة--------[/COLOR]')
+
+
+
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
 
-    # (.+?) .+?
-    sPattern = 'data-url="(.+?)">'
+    #print sHtmlContent
+   
     oParser = cParser()
+
+    sId='0'
+    # (.+?) ([^<]+) .+?
+
+    sPattern = '&_post_id=([^<]+)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-
-    #print aResult
-
-	
+   
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = str(aEntry)
-				sTitle = " " 
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'Cloudvid' in url:
-					sTitle = " (Cloudvid)"
-				
-					
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
 
-			progress_.VSclose(progress_)  
+            
+
+        for i in range(0,5):
+
+
+
 			
-    sPattern = '<a href="(.+?)" target="_blank" rel="nofollow"><i'
+            sId = "https://www.cimaclub.io/ajaxCenter?_action=getserver&_post_id="+aEntry
+
+
+   
+			
+
+            sTitle = 'server '+': '+str(i)
+            siteUrl = sId+'&serverid='+str(i)
+            sInfo = ""
+
+
+            #print siteUrl 
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+
+            
+
+ 
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+	    #Affichage du menu  
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات التحميل--------[/COLOR]')
+
+
+    #print sHtmlContent2
+    # (.+?) .+? ([^<]+)        	
+    sPattern = 'rel="nofollow" href="(.+?)" class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
 
 	
     if (aResult[0] == True):
@@ -400,96 +422,40 @@ def showServer():
 				progress_.VSupdate(progress_, total)
 				if progress_.iscanceled():
 					break
-        
-				url = str(aEntry).replace("https://www.cimaclub.cam/?download=","").replace("%3A",":").replace("%2F","/")
-				url = url.split('&id=')[0]
-				sTitle = " " 
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle
 				if 'thevideo.me' in url:
 					sTitle = " (thevideo.me)"
 				if 'flashx' in url:
 					sTitle = " (flashx)"
-				if 'Cloudvid' in url:
-					sTitle = " (Cloudvid)"
-				
-					
+				if 'streamcherry' in url:
+					sTitle = " (streamcherry)"
+				if 'cloudvideo' in url:
+					sTitle = " (cloudvideo)"
+				if 'streamcloud' in url:
+					sTitle = " (streamcloud)"
+				if 'userscloud' in url:
+					sTitle = " (userscloud)"
+				if 'clicknupload' in url:
+					sTitle = " (clicknupload)"
 				if url.startswith('//'):
 					url = 'http:' + url
+				
+					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
+					sDisplayTitle = sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-			progress_.VSclose(progress_) 
-       
-       
-    oGui.setEndOfDirectory()
-    
-
-  
-def showServer1():
-    oGui = cGui()
-    import requests
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+	    #Affichage du menu  
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]----------------------------[/COLOR]')
  
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
-
-    # (.+?)
-               
-
-    sPattern = 'href="([^<]+)" class="content'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = str(aEntry)
-				sTitle = " " 
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'Cloudvid' in url:
-					sTitle = " (Cloudvid)"
-				
-					
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle
-					oHoster.setDisplayName(sTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-			progress_.VSclose(progress_) 
- # ([^<]+) .+?
-
-    sPattern = 'class="ti-pause"><a href="([^<]+)">([^<]+)</a></li>'
+     # (.+?) ([^<]+) .+?
+    sPattern = '<li><a class="Hoverable" href="([^<]+)" title="([^<]+)"><em>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -503,40 +469,77 @@ def showServer1():
             if progress_.iscanceled():
                 break
  
-            sTitle = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
-            siteUrl = str(aEntry[0])
-            sThumb = str(sThumb)
+            sTitle = aEntry[1]
+            siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")
+            sThumb = ""
             sDesc = ""
-			
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addTV(SITE_IDENTIFIER, 'showServer1', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        
+			
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
         progress_.VSclose(progress_)
+     # (.+?) ([^<]+) .+?
+    sPattern = 'data-season=".+?" data-series=".+?"><a href="([^<]+)" title="([^<]+)">'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = '[COLOR cyan]'+aEntry[1]+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumb = ""
+            sDesc = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+			
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
+      
+
+               
        
-    oGui.setEndOfDirectory()
-
-
+    oGui.setEndOfDirectory()	
+ 
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+
+
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+    sHtmlContent = oRequestHandler.request()
 
 
-    #print sHtmlContent
     #(.+?)
                
 
-    sPattern = 'href="(.+?)" class'
+    sPattern = '([^<]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -576,142 +579,6 @@ def showHosters():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_) 
-
-
-    # (.+?)
-               
-
-    sPattern = '<IFRAME.+?SRC=(.+?) FRAMEBORDER'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = str(aEntry)
-				url = url.replace("scrolling=no","")
-				#print url
-				sTitle = " " 
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'Cloudvid' in url:
-					sTitle = " (Cloudvid)"
-				if url.startswith('//'):
-					url = 'http:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-			progress_.VSclose(progress_) 
-
-
-    #(.+?) 
-
-
-    #(.+?)
-               
-
-    sPattern = '<iframe width=560 height=315 src=(.+?) frameborder'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = str(aEntry)
-				sTitle = " " 
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'Cloudvid' in url:
-					sTitle = " (Cloudvid)"
-				if url.startswith('//'):
-					url = 'http:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-			progress_.VSclose(progress_)
-
-    # (.+?)
-               
-
-    sPattern = ' <source src="(.+?)" type="application/x-mpegURL">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = str(aEntry)
-				sTitle = "go" 
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'Cloudvid' in url:
-					sTitle = " (Cloudvid)"
-				if url.startswith('//'):
-					url = 'http:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-			progress_.VSclose(progress_) 			
+			progress_.VSclose(progress_) 		
                 
     oGui.setEndOfDirectory()

@@ -21,9 +21,6 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://fansubs.tv'
 
 
-ANIM_MOVIES = ('https://fansubs.tv/movies', 'showMovies')
-
-
 ANIM_NEWS = ('http://fansubs.tv/videos/latest?page_id=1', 'showMovies')
 
 
@@ -68,7 +65,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # .+? ([^<]+) 
 
-    sPattern = '<a href="([^<]+)" data.+?title="([^<]+)">.+?<a href="https://fansubs.tv/watch/.+?html" data-load="?link1=watch&id=.+?">.+?<img data-src="([^<]+)" alt='
+    sPattern = '<a href="([^<]+)" data.+?<img data-src="([^<]+)" alt="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -82,14 +79,14 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[2]
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
  
             sInfo = ""
  
             siteUrl = aEntry[0]
-            sThumbnail = str(aEntry[2])
+            sThumbnail = str(aEntry[1])
 
 
 
@@ -151,9 +148,7 @@ def showHosters():
 					break
             
 				url = str(aEntry[0])
-				sTitle =  str(aEntry[1])
-				if 'streamango' in url:
-					sTitle = "link : streamango"
+				sTitle =  '[COLOR gold] '+str(aEntry[1])+'[/COLOR]'
 				if url.startswith('//'):
 					url = 'http:' + url
             
@@ -184,9 +179,7 @@ def showHosters():
 					break
             
 				url = str(aEntry[0])
-				sTitle =  str(aEntry[1])
-				if 'streamango' in url:
-					sTitle = "link : streamango"
+				sTitle = '[COLOR gold] '+str(aEntry[1])+' [/COLOR]' 
 				if url.startswith('//'):
 					url = 'http:' + url
             

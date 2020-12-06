@@ -57,7 +57,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     sHtmlContent = sHtmlContent.replace('&quot;', '"')
 	 # .+? ([^<]+) 
-    sPattern = '<a class="categoryTag" href=".+?">.+?<a href=([^<]+)>.+?<span class="player">.+?<img class="lazy" src="/assets2/images/preload.gif" data-original="([^<]+)" alt="([^<]+)" />'
+    sPattern = '<h1 class="title">([^<]+)</h1>.+?<a href="([^<]+)">.+?data-original="([^<]+)" alt='
    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -68,11 +68,11 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            sUrl = str(aEntry[0]).replace("'","")
+            sUrl = str(aEntry[1])
             sUrl = URL_MAIN+sUrl
-            sTitle = str(aEntry[2])
+            sTitle = str(aEntry[0])
             sInfo = ""
-            sThumbnail = aEntry[1]
+            sThumbnail = aEntry[2]
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -100,7 +100,8 @@ def __checkForNextPage(sHtmlContent):
         return aResult
 
     return False
-	
+
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'	
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -110,12 +111,19 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
+    oParser = cParser()
+
+    sPattern =  "'true' src='(.+?)'"
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+		m3url = aResult[1][0] 
+		oRequest = cRequestHandler(m3url)
+		sHtmlContent2 = oRequest.request()
     oParser = cParser()
     
  
-    sPattern = "src='([^<]+)'" 
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    sPattern = ",src:{hls:'([^<]+)'}" 
+    aResult = oParser.parse(sHtmlContent2, sPattern)
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)

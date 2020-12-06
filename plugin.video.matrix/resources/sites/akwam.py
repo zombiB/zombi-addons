@@ -85,7 +85,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
+    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)"/>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -115,7 +115,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showlinks', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -140,7 +140,7 @@ def showSeriesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
+    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)"/>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -193,7 +193,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
+    sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)"/>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -283,7 +283,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addTV(SITE_IDENTIFIER, 'showlinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
     # .+? ([^<]+)
@@ -320,7 +320,7 @@ def showEpisodes():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showlinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
  
@@ -348,28 +348,89 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 
- 
 
-  
-def showlinks():
+def showHosters():
     oGui = cGui()
-   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?
-    sPattern = '<a href="([^<]+)" target="_blank" class="link-btn link-download d-flex align-items-center px-3"><span class="text">تحميل</span><span class="font-size-14 mr-auto">([^<]+)</span>'
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request();
+
+    oParser = cParser()       
+    sPattern =  '<a href="http([^<]+)/watch/(.+?)"'
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent1 = oRequest.request()
+
+    oParser = cParser()       
+    sPattern =  '<a href="([^<]+)".+?class="download-link"' 
+    aResult = oParser.parse(sHtmlContent1,sPattern)
+    if (aResult[0] == True):
+        m3url =  aResult[1][0]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent1 = oRequest.request()
+
+
+
+
+
+    # (.+?) .+? ([^<]+)
+               
+
+    sPattern = '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)".+?/>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent1, sPattern)
+
+
+    #print aResult
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+        
+				url = str(aEntry[0])
+				sTitle = str(aEntry[1]).decode("utf8").replace('"',"")
+				sTitle = cUtil().unescape(sTitle).encode("utf8")
+				sTitle = '[COLOR yellow]'+sTitle+'p[/COLOR]'
+
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if 'streamcherry' in url:
+					sTitle = " (streamcherry)"
+				if url.startswith('//'):
+					url = 'https:' + url
+				
+					
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = sMovieTitle+sTitle
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
+
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات التحميل--------[/COLOR]')
+    # (.+?) .+? ([^<]+)
+    sPattern = '<a href="http([^<]+)/link/(.+?)".+?class="font-size-14 mr-auto">(.+?)</span>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
     #print aResult
    
@@ -381,8 +442,9 @@ def showlinks():
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1]
-            siteUrl = aEntry[0]
+            sTitle =  aEntry[2]
+            siteUrl = 'http'+aEntry[0]+'/link/' + aEntry[1]
+            sThumbnail = ""
             sInfo = ""
  
             #print sUrl
@@ -390,15 +452,11 @@ def showlinks():
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters1', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
- 
-        progress_.VSclose(progress_)
-       
-    oGui.setEndOfDirectory()  
-
-	
-def showHosters():
+                
+    oGui.setEndOfDirectory()	
+def showHosters1():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
@@ -412,13 +470,22 @@ def showHosters():
     sHtmlContent = oRequestHandler.request(); 
     oParser = cParser()
     #recup du lien mp4
-    sPattern =  '<a href="(.+?)".+?class="download-link"' 
+    sPattern =  '<a href="(.+?)" target="_blank"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request() 
-    sPattern =  '<a href="([^<]+)" download' 
+
+    oParser = cParser()       
+    sPattern =  '<a href="([^<]+)".+?class="download-link"' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        m3url =  aResult[1][0]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent = oRequest.request()
+		    # (.+?) .+? ([^<]+)
+    sPattern =  '<a href="([^<]+)" download class="link btn btn-light"><span ' 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -441,5 +508,4 @@ def showHosters():
     
     else:
         return
-
     oGui.setEndOfDirectory()

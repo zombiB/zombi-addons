@@ -44,7 +44,7 @@ class cHoster(iHoster):
         if 'embed' in sUrl:
             self.__sUrl = self.__sUrl.replace("embed-","")
         if 'mediaplayer' not in sUrl:
-            self.__sUrl = self.__sUrl.replace("https://letsupload.co/","https://letsupload.co/plugins/mediaplayer/site/_embed.php?u=")
+            self.__sUrl = self.__sUrl.replace("https://letsupload.io/","https://letsupload.co/plugins/mediaplayer/site/_embed.php?u=")
 
     def checkUrl(self, sUrl):
         return True
