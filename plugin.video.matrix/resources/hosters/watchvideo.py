@@ -82,6 +82,17 @@ class cHoster(iHoster):
         if (aResult[0] == True):
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
+        sPattern = 'file:"(.+?m3u8)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        api_call = False
+
+        if (aResult[0] == True):
+
+            api_call = aResult[0]
+            if (api_call):
+                return True, api_call
+        
         sPattern = 'file:"([^"]+\.mp4)"(?:,label:"([^"]+)")*'
         aResult = oParser.parse(sHtmlContent, sPattern)
         

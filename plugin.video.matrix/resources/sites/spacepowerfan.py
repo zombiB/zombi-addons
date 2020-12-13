@@ -19,8 +19,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.spacepowerfan.com/'
 
-KID_MOVIES = ('https://akwam.net/movies?category=30', 'showMovies')
-ANIM_NEWS = ('https://www.spacepowerfan.com/', 'showSeries')
+ANIM_MOVIES = ('https://spacepowerfan.com/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
+ANIM_NEWS = ('https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
 
 URL_SEARCH = ('https://akwam.net/search?q=', 'showSeries')
 URL_SEARCH_MOVIES = ('https://akwam.net/search?q=', 'showMovies')
@@ -50,17 +50,22 @@ def showSearch():
 
  
 def showMovies(sSearch = ''):
+    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+
+
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?<img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)">.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>.+?<span class="badge badge-pill badge-light ml-1">([^<]+)<'
+    sgn = requests.Session()
+    data = sgn.get(sUrl).content
+    sHtmlContent = data
+ # ([^<]+) .+? (.+?)
+    sPattern = '<li class="TPostMv"> <article id="post-.+?" class="TPost C"> <a href="(.+?)"><div class="Image">.+?data-lazy-src=(.+?) /><noscript><img.+?<div class="Title">(.+?)</div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -73,15 +78,12 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
+            sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[1])
-            sThumb = str(aEntry[2])
-            sDesc = aEntry[5]
-            sQua = aEntry[0]
-            sYear = aEntry[4]
-            sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
+            siteUrl = str(aEntry[0])
+            sThumb = str(aEntry[1]).replace('"',"").replace("&quot;","").replace("amp;","")
+            sDesc = ""
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -89,7 +91,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -104,17 +106,23 @@ def showMovies(sSearch = ''):
 
  
 def showSeries(sSearch = ''):
+    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
+
+
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sgn = requests.Session()
+    data = sgn.get(sUrl).content
+    sHtmlContent = data
+    #print data
  # ([^<]+) .+?
-    sPattern = "<h3 class='post-title entry-title' itemprop='name'><a href='([^<]+)'>([^<]+)</a>.+?a href=([^<]+) imageanchor="
+    sPattern = '<li class="TPostMv"> <article class="TPost C"> <a href="([^<]+)"><div class="Image">.+?data-lazy-src="([^<]+)" /><noscript><img.+?<h3 class="Title">([^<]+)</h3>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -128,11 +136,11 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).decode("utf8")
+            sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[0])
-            sThumb = "http"+str(aEntry[2]).replace('"',"")
+            sThumb = str(aEntry[1])
             sDesc = ""
 
 
@@ -141,7 +149,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -157,6 +165,7 @@ def showSeries(sSearch = ''):
 
 def showEpisodes():
     oGui = cGui()
+    import requests
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -164,20 +173,13 @@ def showEpisodes():
     sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sgn = requests.Session()
+    data = sgn.get(sUrl).content
+    sHtmlContent = data
     
     oParser = cParser()
-    
-    #Recuperation infos
-    sNote = ''
-
-    sPattern = '<div class="widget-body"><div class="text-white"><p>([^<]+)</p>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sNote = aResult[1][0]
      # (.+?) ([^<]+) .+?
-    sPattern = 'class="text-white">([^<]+)</a>.+?<a href="(.+?)">.+?<img src="(.+?)" class="img-fluid" alt='
+    sPattern = 'img src=(.+?) alt=.+?</td><td class="MvTbTt.+?"><a href="([^<]+)">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -190,11 +192,10 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = sMovieTitle+' '+aEntry[0]
+            sTitle = aEntry[2]
             siteUrl = str(aEntry[1])
-            sThumb = aEntry[2]
-            sDesc = sNote.decode("utf8")
-            sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sThumb = aEntry[0].replace('"',"").replace("&quot;","").replace("amp;","")
+            sDesc = ""
 			
 
 
@@ -202,45 +203,8 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
-    # .+? ([^<]+)
-    sPattern = '<a href="http([^<]+).com/watch/(.+?)"'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
-
-    #print aResult
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = "مشاهدة"
-            sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
-            siteUrl = 'http'+aEntry[0]+'.com/watch/' + str(aEntry[1])
-            sThumb = sThumb
-            sDesc = ""
- 
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            
-
- 
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -266,106 +230,67 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-
-
-def showHosters():
+	 
+def showServers():
     oGui = cGui()
+    import requests
+   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+    sDesc = oInputParameterHandler.getValue('sDesc')
+
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-
-
-    # (.+?) .+? ([^<]+)
-               
-
-    sPattern = 'rel="nofollow" href="([^<]+)">'
+    sgn = requests.Session()
+    data = sgn.get(sUrl).content
+    sHtmlContent = data
+   
     oParser = cParser()
+    #Recuperation infos
+    sId = ''
+     # (.+?) ([^<]+) .+?
+    sPattern = '<iframe.+?src=(.+?) frameborder'
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
+    
+    if (aResult[0]):
 			total = len(aResult[1])
 			progress_ = progress().VScreate(SITE_NAME)
 			for aEntry in aResult[1]:
 				progress_.VSupdate(progress_, total)
 				if progress_.iscanceled():
 					break
-        
-				url = aEntry
-				sTitle = ""
-
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if url.startswith('//'):
-					url = 'https:' + url
-				
-					
+				sId = aEntry.replace('"',"").replace("&quot;","").replace("amp;","")
+				sgn = requests.Session()
+				data = sgn.get(sId).content
+				sHtmlContent2 = data    
+				sPattern = 'src="(.+?)" frameborder'
+				oParser = cParser()
+				aResult = oParser.parse(sHtmlContent2, sPattern)
+				if (aResult[0] == True):
+					total = len(aResult[1])
+					progress_ = progress().VScreate(SITE_NAME)
+					for aEntry in aResult[1]:
+						progress_.VSupdate(progress_, total)
+						if progress_.iscanceled():
+							break
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+						url = aEntry
+						sTitle = sMovieTitle
+						if url.startswith('//'):
+							url = 'http:' + url
+            
+						sHosterUrl = url 
+						oHoster = cHosterGui().checkHoster(sHosterUrl)
+						if (oHoster != False):
+							oHoster.setDisplayName(sMovieTitle)
+							oHoster.setFileName(sMovieTitle)
+							cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
 			progress_.VSclose(progress_)
-
-
-    # (.+?) .+? ([^<]+)
-               
-
-    sPattern = 'src="([^<]+)" width'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = aEntry
-				sTitle = ""
-
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if url.startswith('//'):
-					url = 'https:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_)
-                
+
+       
     oGui.setEndOfDirectory()

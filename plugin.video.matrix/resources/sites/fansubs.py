@@ -63,9 +63,9 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-  # .+? ([^<]+) 
+  # .+? ([^<]+) (.+?) .+?
 
-    sPattern = '<a href="([^<]+)" data.+?<img data-src="([^<]+)" alt="([^<]+)">'
+    sPattern = '<a href="(.+?)" data-load=.+?<img data-src="(.+?)" alt="⁣(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -79,14 +79,14 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
+            sTitle = aEntry[3]
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
  
-            sInfo = ""
+            sInfo = aEntry[0]
  
-            siteUrl = aEntry[0]
-            sThumbnail = str(aEntry[1])
+            siteUrl = aEntry[1]
+            sThumbnail = str(aEntry[2])
 
 
 

@@ -24,7 +24,7 @@ URL_MAIN = 'http://www.fel3arda.com'
 
 
 
-SPORT_LIVE = ('http://www.fel3arda.com/?m=1', 'showMovies')
+SPORT_LIVE = ('https://fel3arda.net/', 'showMovies')
 
 
 
@@ -69,7 +69,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? 
 
-    sPattern = "<li class='fa fa-tv'><a href='([^<]+)' itemprop='url'><img alt='([^<]+)' height='35' src='([^<]+)' title='([^<]+)' width='40'/></a></li>"
+    sPattern = '<a target="_parent" href="([^<]+)">.+?<img src=".+?" alt="([^<]+)" width=.+?<img src=".+?"  alt="([^<]+)" width='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -83,8 +83,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1] 
-            sThumbnail = aEntry[2]
+            sTitle =  aEntry[1]+' - '+aEntry[2]
+            sThumbnail = ""
             siteUrl = aEntry[0]
             sInfo = ""
 			
