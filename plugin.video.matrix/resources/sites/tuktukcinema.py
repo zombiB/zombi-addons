@@ -79,9 +79,9 @@ def showMovies(sSearch = ''):
 
 
 
- # ([^<]+) .+?
+    # (.+?) .+? ([^<]+)   
 
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt.+?<img src="([^<]+)">'
+    sPattern = '<a title="(.+?)" href="(.+?)" alt.+?<img data-src="(.+?)">'
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -98,7 +98,7 @@ def showMovies(sSearch = ''):
             sTitle = str(aEntry[0]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[1])+'/watch/'
+            siteUrl = str(aEntry[1])+'/watch'
             sThumbnail = str(aEntry[2])
             sInfo = ''
             annee = ''
@@ -173,7 +173,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=.+?<img src="([^<]+)">'
+    sPattern = '<a title="(.+?)" href="(.+?)" alt.+?<img data-src="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
