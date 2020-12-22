@@ -50,6 +50,9 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if '/video/' in self.__sUrl:
+            self.__sUrl = self.__sUrl.split('/')[4]
+            self.__sUrl = "https://www.4shared.com/web/embed/file/"+self.__sUrl
 
     def checkUrl(self, sUrl):
         return True

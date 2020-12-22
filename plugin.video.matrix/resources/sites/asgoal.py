@@ -82,7 +82,9 @@ def showMovies(sSearch = ''):
  
             sTitle =  aEntry[1]+' - ' +aEntry[2] 
             sThumbnail = ""
-            siteUrl = 'http:' + aEntry[0]
+            siteUrl = aEntry[0]
+            if siteUrl.startswith('//'):
+				siteUrl = 'http:' + aEntry[0]
             sInfo = ""
 			
 			
@@ -112,7 +114,7 @@ def showLive():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) # ([^<]+) .+? 
-    sPattern = 'setURL([^<]+)">(.+?)</'
+    sPattern = 'setURL([^<]+)">([^<]+)</button>'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

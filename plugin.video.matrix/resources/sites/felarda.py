@@ -134,6 +134,14 @@ def showLive():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()       
+    sPattern =  'rel="nofollow" href="(.+?)">بالنقر هنا</a>' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        m3url =  aResult[1][0]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent = oRequest.request()
     # (.+?) # ([^<]+) .+? 
     sPattern = 'scrolling="no" src="([^<]+)" width'
     

@@ -106,7 +106,9 @@ def showMoviesSearch(sSearch = ''):
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = "https:"+aEntry[1]
+            sThumb = aEntry[1]
+            if sThumb.startswith('//'):
+				sThumb = "https:"+aEntry[1]
             sDesc = ''
 
 
@@ -164,7 +166,9 @@ def showMovies(sSearch = ''):
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = "https:"+aEntry[1]
+            sThumb = aEntry[1]
+            if sThumb.startswith('//'):
+				sThumb = "https:"+aEntry[1]
             sDesc = ''
 
 
@@ -242,7 +246,9 @@ def showSeries(sSearch = ''):
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = "https:"+aEntry[1]
+            sThumb = aEntry[1]
+            if sThumb.startswith('//'):
+				sThumb = "https:"+aEntry[1]
             sDesc = ''
 
 
@@ -320,7 +326,9 @@ def showEpisodes():
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = '[COLOR aqua]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
-            sThumbnail = "https:"+aEntry[1]
+            sThumbnail = aEntry[1]
+            if sThumbnail.startswith('//'):
+				sThumbnail = "https:"+aEntry[1]
 			
 
 
