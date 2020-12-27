@@ -166,7 +166,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -225,7 +225,7 @@ def showEpisodes():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         progress_.VSclose(progress_)
 # ([^<]+) .+? 
     sPattern = '<div class="movie-item"><a href="([^<]+)"><div class="movie-.+?<h3 class="movie-title">([^<]+)</h3>'
@@ -261,7 +261,7 @@ def showEpisodes():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)

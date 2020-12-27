@@ -324,7 +324,6 @@ def showSeasons():
 			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
-		progress_.VSclose(progress_)
     # .+? ([^<]+)
 	sPattern = '<li class="MovieItem">.+?<a href="([^<]+)">.+?<img src="([^<]+)">.+?<div class="TitleBlock">([^<]+)</div>'
 
@@ -353,55 +352,7 @@ def showSeasons():
 			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			oGui.addMisc(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
-		progress_.VSclose(progress_)
 	oGui.setEndOfDirectory()
-	
-
- 
-
-def showEpisodes():
-    oGui = cGui()
-    
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    #print sHtmlContent
-    # .+? ([^<]+)
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)" alt=".+?"><div class.+?<img src="([^<]+)"><div class="TitleBlock">'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[0]
-            siteUrl = str(aEntry[1])+'/watch/'
-            sThumbnail = aEntry[2]
-            sInfo = ""
-			
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
-    oGui.setEndOfDirectory()
-	
-
  
      # (.+?)
 def __checkForNextPage(sHtmlContent):
@@ -465,7 +416,6 @@ def showHosters():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)  
                
         
     sPattern = '<a target="_blank" href="([^<]+)" class="btn download_btn col-md-1">'
@@ -501,7 +451,5 @@ def showHosters():
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-			progress_.VSclose(progress_)  
                 
     oGui.setEndOfDirectory()

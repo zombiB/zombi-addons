@@ -15,7 +15,6 @@ from resources.lib.comaddon import addon
 addons = addon() en haut de page.
 
 utiliser une fonction comaddon ou xbmcaddon
-
 https://codedocs.xyz/xbmc/xbmc/class_x_b_m_c_addon_1_1xbmcaddon_1_1_addon.html
 
 addons.VSlang(30305)
@@ -33,25 +32,9 @@ addons2.openSettings()
 Ne pas utiliser :
 class addon(xbmcaddon.Addon):
 
-
-
-
 L'utilisation de subclass peut provoquer des fuites de mémoire, signalé par ce message :
 
-
-
-
-
-the python script "\plugin.video.vstream\default.py" has left several classes in memory that we couldn't clean up. The classes include: class XBMCAddon::xbmcaddon::Addon
-
-
-
-
-
-
-
-
-
+the python script "\plugin.video.matrix\default.py" has left several classes in memory that we couldn't clean up. The classes include: class XBMCAddon::xbmcaddon::Addon
 
 # https://stackoverflow.com/questions/26588266/xbmc-addon-memory-leak
 
@@ -79,23 +62,18 @@ class addon():
      
     def VSlang(self, lang):
         return VSPath(xbmcaddon.Addon(self.addonId).getLocalizedString(lang)) if self.addonId else VSPath(ADDONVS.getLocalizedString(lang))
-        #Bug avec accent xbmc.translatePath(xbmcaddon.Addon('plugin.video.vstream').getLocalizedString(lang)).decode('utf-8')
+        #Bug avec accent xbmc.translatePath(xbmcaddon.Addon('plugin.video.matrix').getLocalizedString(lang)).decode('utf-8')
 
 """
 from resources.lib.comaddon import dialog
 
-
 Utilisation :
 dialogs = dialog()
 dialogs.VSinfo('test')
-
 https://codedocs.xyz/xbmc/xbmc/group__python___dialog.html
 """
 
 DIALOG = xbmcgui.Dialog() # Singleton
-
-
-
 
 class dialog():
 # class dialog(xbmcgui.Dialog):
@@ -103,14 +81,11 @@ class dialog():
     def VSok(self, desc, title = 'matrix'):
         return DIALOG.ok(title, desc)
 
-
     def VSyesno(self, desc, title = 'matrix'):
         return DIALOG.yesno(title, desc)
 
-
     def VSselect(self, desc, title = 'matrix'):
         return DIALOG.select(title, desc)
-
 
     def numeric(self, dialogType, heading, defaultt):
         return DIALOG.numeric(dialogType, heading, defaultt)
@@ -139,7 +114,7 @@ class dialog():
         return DIALOG.notification(str(title), str(desc), xbmcgui.NOTIFICATION_INFO, iseconds, sound)
 
     def VSerror(self, e):
-        return DIALOG.notification('matrix', 'Error: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Error: ' + str(e))
+        return DIALOG.notification('matrix', 'Error: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Erreur: ' + str(e))
 
     def VStextView(self, desc, title = "matrix"):
         return DIALOG.textviewer(title, desc)
@@ -157,7 +132,6 @@ progress_.VSclose(progress_)
 
 dialog = progress() non recommandé
 progress = progress() non recommandé
-
 https://codedocs.xyz/xbmc/xbmc/group__python___dialog_progress.html
 """
 
@@ -175,36 +149,19 @@ class empty():
     def VSclose(self, dialog):
         pass
 
-
-
-
 class progress(xbmcgui.DialogProgress):
 
     def VScreate(self, title = 'matrix', desc = ''):
 
-
         currentWindow = xbmcgui.getCurrentWindowId()
-
 #         if currentWindow == 10000 or currentWindow == 10103: # home, keyboard
         if currentWindow != 10025: # videonav
             return empty()
 
-
         global PROGRESS
         if PROGRESS == None:
             self.create(title, desc)
-
-
-
-
             PROGRESS = self
-
-
-
-
-
-
-
 
         return PROGRESS
 
@@ -225,7 +182,6 @@ class progress(xbmcgui.DialogProgress):
     def VSclose(self, dialog = ''):
         global PROGRESS
         if not dialog and PROGRESS:
-
             dialog = PROGRESS
         if not dialog:
             return
@@ -236,15 +192,11 @@ class progress(xbmcgui.DialogProgress):
         PROGRESS = None
         dialog.close()
 
-
-
-
     
 """
 from resources.lib.comaddon import window
 
 window(10101).getProperty('test')
-
 https://codedocs.xyz/xbmc/xbmc/group__python__xbmcgui__window.html
 """
 
@@ -256,7 +208,6 @@ class window(xbmcgui.Window):
 """
 from resources.lib.comaddon import listitem
 listitem.setLabel('test')
-
 https://kodi.wiki/view/InfoLabels
 https://codedocs.xyz/xbmc/xbmc/group__python__xbmcgui__listitem.html#ga0b71166869bda87ad744942888fb5f14
 """
@@ -271,8 +222,6 @@ class listitem(xbmcgui.ListItem):
 """
 from resources.lib.comaddon import VSlog
 VSlog('testtttttttttttt')
-
-
 """
 
 #xbmc des fonctions pas des class
@@ -310,14 +259,15 @@ def isKrypton():
     except:
         return False
 
-
-
-
-
-
-
-
-
+def isMatrix():
+    try:
+        version = xbmc.getInfoLabel('system.buildversion')
+        if version[0:2] >= '19':
+            return True
+        else:
+            return False
+    except:
+        return False
 
 #Transforme les "special" en chemin normal.
 def VSPath(pathSpecial):
@@ -326,5 +276,3 @@ def VSPath(pathSpecial):
     else:
         path = xbmc.translatePath(pathSpecial)
     return path
-
-

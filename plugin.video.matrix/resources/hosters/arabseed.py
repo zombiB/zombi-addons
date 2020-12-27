@@ -96,12 +96,9 @@ class cHoster(iHoster):
 		sPattern = '<span id="direct_link" style.+?<a href="([^<]+)">'
 		aResult = oParser.parse(sHtmlContent, sPattern)
 		if (aResult[0] == True):
-			api_call = aResult[1][0]
-
-		if '+' in api_call:
-			api_call = api_call.replace("[","%5B").replace("]","%5D").replace("+","%20")
+			api_call = aResult[1][0].replace("[","%5B").replace("]","%5D").replace("+","%20")
 		if (api_call):
-			return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'
+			return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://m.arabseed.me'
 
 		return False, False
         

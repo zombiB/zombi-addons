@@ -175,7 +175,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -226,7 +226,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
   # ([^<]+) .+?
     sPattern = '<li class="LodyBlock"><a href="([^<]+)"><div class="Ribbon">.+?</div><div class="Poster"><img alt="([^<]+)" src="([^<]+)" />'
 
@@ -252,7 +252,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -300,9 +300,9 @@ def showSeries():
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             if 'seasons' in sUrl:
-                oGui.addMovie(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
             else:
-                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

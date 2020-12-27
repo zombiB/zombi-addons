@@ -203,7 +203,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -257,9 +257,9 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'season' in siteUrl:
-                oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', '[COLOR cyan]'+sTitle+'[/COLOR]', '', sThumb, '', oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', '[COLOR cyan]'+sTitle+'[/COLOR]', '', sThumb, '', oOutputParameterHandler)
             else:
-                oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, '', oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

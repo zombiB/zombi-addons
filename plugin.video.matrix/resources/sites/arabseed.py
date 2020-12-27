@@ -90,7 +90,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
+    sPattern = '<div class="BlockItem ISMovie">.+?<a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -173,7 +173,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  

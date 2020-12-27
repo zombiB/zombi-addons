@@ -113,14 +113,21 @@ def showMovies(sSearch = ''):
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
             sInfo = ""
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sInfo = ""
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

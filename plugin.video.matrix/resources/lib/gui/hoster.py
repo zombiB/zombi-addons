@@ -156,6 +156,8 @@ class cHosterGui:
             return self.getHoster('gateaflam')
         if ('mycima' in sHostName):
             return self.getHoster('mycima')
+        if ('mp4upload' in sHostName):
+            return self.getHoster('mpupload')
         if ('vid4up' in sHostName):
             return self.getHoster('vidforup')
 

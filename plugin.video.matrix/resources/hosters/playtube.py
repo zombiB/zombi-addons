@@ -69,19 +69,15 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
-        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        sPattern = "<script type='text/javascript'>(.+?)</script>"
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
-            sHtmlContent = cPacker().unpack(aResult[1][0])
-          # ([^<]+) .+?
-        sPattern = 'src:"([^<]+)",type'
-        aResult = oParser.parse(sHtmlContent, sPattern)
+            sHtmlContent1 = cPacker().unpack(aResult[1][0])
+          # ([^<]+) .+? (.+?)
+        sPattern = 'file:"(.+?)"'
+        aResult = oParser.parse(sHtmlContent1, sPattern)
         if (aResult[0]):
             api_call = aResult[1][0]
-        if not aResult[0]:
-            if 'File is no longer available as it expired or has been deleted.' in sHtmlContent:
-				dialog().VSinfo("تم حذف الفيديو من الموقع")
-            return False, False
         
         #xbmc.log(str(api_call))
         

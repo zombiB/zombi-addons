@@ -396,7 +396,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
@@ -501,7 +501,7 @@ def showEpisodes():
 					oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 					oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 					oOutputParameterHandler.addParameter('sThumb', sThumb)
-					oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+					oGui.addTV(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
 				progress_.VSclose(progress_)
         else:

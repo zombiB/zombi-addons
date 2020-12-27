@@ -17,30 +17,30 @@ SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'faselhd'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.faselhd.life'
+URL_MAIN = 'https://www.faselhd.pro'
 
 
-MOVIE_EN = ('https://www.faselhd.life/movies', 'showMovies')
-MOVIE_HI = ('https://www.faselhd.life/hindi', 'showMovies')
-MOVIE_ASIAN = ('https://www.faselhd.life/asian-movies', 'showMovies')
+MOVIE_EN = ('https://www.faselhd.pro/movies', 'showMovies')
+MOVIE_HI = ('https://www.faselhd.pro/hindi', 'showMovies')
+MOVIE_ASIAN = ('https://www.faselhd.pro/asian-movies', 'showMovies')
 
-KID_MOVIES = ('https://www.faselhd.life/dubbed-movies', 'showMovies')
-MOVIE_TURK = ('https://www.faselhd.life/dubbed-movies', 'showMovies')
-SERIE_EN = ('https://www.faselhd.life/series', 'showSeries')
-REPLAYTV_NEWS = ('https://www.faselhd.life/tvshows', 'showSeries')
+KID_MOVIES = ('https://www.faselhd.pro/dubbed-movies', 'showMovies')
+MOVIE_TURK = ('https://www.faselhd.pro/dubbed-movies', 'showMovies')
+SERIE_EN = ('https://www.faselhd.pro/series', 'showSeries')
+REPLAYTV_NEWS = ('https://www.faselhd.pro/tvshows', 'showSeries')
 
-ANIM_MOVIES = ('https://www.faselhd.life/anime-movies', 'showMovies')
+ANIM_MOVIES = ('https://www.faselhd.pro/anime-movies', 'showMovies')
 SERIE_ASIA = ('https://www.faselhd.co/asian-series', 'showSeries')
-ANIM_NEWS = ('https://www.faselhd.life/anime', 'showAnimes')
-DOC_NEWS = ('https://www.faselhd.life/movies-cats/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
-DOC_SERIES = ('https://www.faselhd.life/series_genres/documentary', 'showSeries')
-MOVIE_TOP = ('https://www.faselhd.life/movies_top_votes', 'showMovies')
-MOVIE_POP = ('https://www.faselhd.life/movies_top_views', 'showMovies')
-MOVIE_PACK = ('https://www.faselhd.life/movies_collections', 'showSeries')
+ANIM_NEWS = ('https://www.faselhd.pro/anime', 'showAnimes')
+DOC_NEWS = ('https://www.faselhd.pro/movies-cats/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
+DOC_SERIES = ('https://www.faselhd.pro/series_genres/documentary', 'showSeries')
+MOVIE_TOP = ('https://www.faselhd.pro/movies_top_votes', 'showMovies')
+MOVIE_POP = ('https://www.faselhd.pro/movies_top_views', 'showMovies')
+MOVIE_PACK = ('https://www.faselhd.pro/movies_collections', 'showSeries')
 
-URL_SEARCH = ('https://www.faselhd.life/?s=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://www.faselhd.life/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.faselhd.life/?s=', 'showSeries')
+URL_SEARCH = ('https://www.faselhd.pro/?s=', 'showSeries')
+URL_SEARCH_MOVIES = ('https://www.faselhd.pro/?s=', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.faselhd.pro/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -58,7 +58,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.faselhd.life/?s='+sSearchText+"فيلم"
+        sUrl = 'https://www.faselhd.pro/?s='+sSearchText+"فيلم"
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -76,8 +76,8 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
- # ([^<]+) .+?
-    sPattern = '<div class="postDiv"><a href="([^<]+)"><img src=".+?" data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
+ # ([^<]+) .+? (.+?)
+    sPattern = '<div class="postDiv">.+?<a href="(.+?)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -135,7 +135,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="postDiv"><a href="([^<]+)"><img src=".+?" data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
+    sPattern = '<div class="postDiv">.+?<a href="(.+?)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -162,39 +162,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
-  # ([^<]+) .+?
-
-    sPattern = "href='([^<]+)' class='inactive'>([^<]+)</a>"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = str(aEntry[0])
-            sThumbnail = ""
-            sInfo = ""
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -219,7 +187,7 @@ def showAnimes(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = '<div class="postDiv"><a href="([^<]+)"><img src=".+?" data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
+    sPattern = '<div class="postDiv">.+?<a href="(.+?)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -244,7 +212,7 @@ def showAnimes(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -252,7 +220,7 @@ def showAnimes(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showAnimes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -288,12 +256,12 @@ def showSeasons():
 				nume = aEntry[1]
 
 				postdata = 'seasonID=' + postid
-				link = 'https://www.faselhd.life/series-ajax/?_action=get_season_list&_post_id='+postid
+				link = 'https://www.faselhd.pro/series-ajax/?_action=get_season_list&_post_id='+postid
 				oRequestHandler = cRequestHandler(link)
 				oRequestHandler.setRequestType(1)
 				oRequestHandler.addHeaderEntry('Referer', sUrl)
 				oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-				oRequestHandler.addHeaderEntry('origin', 'https://www.faselhd.life')
+				oRequestHandler.addHeaderEntry('origin', 'https://www.faselhd.pro')
 				oRequestHandler.addParametersLine(postdata)
 				sHtmlContent = oRequestHandler.request()
 				if sHtmlContent:
@@ -440,7 +408,7 @@ def showEpisodes():
         progress_.VSclose(progress_)
 	
      # (.+?) ([^<]+) .+?
-    sPattern = '<a href="([^<]+)">([^<]+)</a>'
+    sPattern = '<a href="([^<]+)" >([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent1, sPattern)

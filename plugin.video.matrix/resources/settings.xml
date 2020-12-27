@@ -83,7 +83,8 @@
         <setting visible="false" id="plugin_shayef" type="bool" label="shayef" default="true"/> 
         <setting visible="false" id="plugin_shoofdocs" type="bool" label="shoofdocs" default="true"/> 
         <setting visible="false" id="plugin_shoofvod" type="bool" label="shoofvod" default="true"/> 
-        <setting visible="false" id="plugin_showtv" type="bool" label="showtv" default="true"/> 
+        <setting visible="false" id="plugin_showtv" type="bool" label="showtv" default="true"/>
+        <setting visible="false" id="plugin_animeslayer" type="bool" label="animeslayer" default="true"/>  
         <setting visible="false" id="plugin_stardima" type="bool" label="stardima" default="true"/> 
         <setting visible="false" id="plugin_tuktukcinema" type="bool" label="tuktukcinema" default="true"/> 
         <setting visible="false" id="plugin_tvfun" type="bool" label="tvfun" default="true"/> 

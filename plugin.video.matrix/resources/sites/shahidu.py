@@ -238,7 +238,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -309,9 +309,7 @@ def showEpisodes():
             sTitle = sTitle
             siteUrl = str(aEntry[0]).replace("episode","watch")
             sThumbnail = str(sThumbnail)
-			
-
-
+		
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -324,7 +322,6 @@ def showEpisodes():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
 	
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -341,8 +338,6 @@ def showEpisodes():
             siteUrl = aEntry.replace("episode","watch")
             sThumbnail = str(sThumbnail)
 			
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -415,9 +410,7 @@ def __checkForNextPage(sHtmlContent):
         return aResult
 
     return False 
-
-
-  
+ 
 def showServers():
     oGui = cGui()
    
@@ -425,10 +418,8 @@ def showServers():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-	    #Affichage du menu  
+ 
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات المشاهدة--------[/COLOR]')
-
-
 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
@@ -436,8 +427,6 @@ def showServers():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-
-    #print sHtmlContent
    
     oParser = cParser()
 
@@ -456,34 +445,47 @@ def showServers():
             if progress_.iscanceled():
                 break
 
-            
+            sId = str(aEntry)
 
         for i in range(0,8):
 
-
-
-			
-            sId = str(aEntry)
-
-            #print sId
-   
-			
-
             sTitle = 'server '+': '+str(i)
-            siteUrl = sId+'&serverid='+str(i)
+            siteUrl1 = sId+'&serverid='+str(i)
             sInfo = ""
 
-
             #print siteUrl 
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
+            oRequestHandler = cRequestHandler(siteUrl1)
+            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+            oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+            oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+            oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+            sHtmlContent4 = oRequestHandler.request()
+            sPattern = "([^<]+)"
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent4, sPattern)
+            if (aResult[0] == True):
+				total = len(aResult[1])
+				progress_ = progress().VScreate(SITE_NAME)
+				for aEntry in aResult[1]:
+					progress_.VSupdate(progress_, total)
+					if progress_.iscanceled():
+						break
             
+					url = str(aEntry)
+					sTitle = sMovieTitle
+					if url.startswith('//'):
+						url = 'http:' + url
+				
+					
+            
+					sHosterUrl = url 
+					oHoster = cHosterGui().checkHoster(sHosterUrl)
+					if (oHoster != False):
+						sDisplayTitle = sTitle
+						oHoster.setDisplayName(sDisplayTitle)
+						oHoster.setFileName(sMovieTitle)
+						cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
- 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 	    #Affichage du menu  
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات التحميل--------[/COLOR]')
    
@@ -507,7 +509,7 @@ def showServers():
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent2 = oRequestHandler.request()
 
-    #print sHtmlContent2
+
     # (.+?) .+? ([^<]+)        	
     sPattern = 'href="([^<]+)">'
     oParser = cParser()
@@ -524,20 +526,6 @@ def showServers():
             
 				url = str(aEntry)
 				sTitle = sMovieTitle
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'streamcloud' in url:
-					sTitle = " (streamcloud)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
 				if url.startswith('//'):
 					url = 'http:' + url
 				
@@ -550,70 +538,5 @@ def showServers():
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
- 
       
-
-               
-       
-    oGui.setEndOfDirectory()	
-	
-def showHosters():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
-    #print 'ff='+sUrl   
-
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?
-    #print sHtmlContent           
-
-    sPattern = "([^<]+)"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry)
-				sTitle = " "
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'mystream' in url:
-					sTitle = " (mystream)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'streamango' in url:
-					sTitle = " (streamango)"
-				if url.startswith('//'):
-					url = 'http:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_) 
-                
     oGui.setEndOfDirectory()

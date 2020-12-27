@@ -387,7 +387,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showSeriesLinks', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeriesLinks', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -439,7 +439,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showEp', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEp', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

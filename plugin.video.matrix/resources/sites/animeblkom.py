@@ -138,9 +138,9 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oOutputParameterHandler.addParameter('sInfo', aEntry[3])
             if '/watch/' in siteUrl:
-                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
             else:
-				oGui.addMovie(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+				oGui.addTV(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
