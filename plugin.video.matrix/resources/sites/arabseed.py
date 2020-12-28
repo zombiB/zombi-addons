@@ -147,7 +147,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie"><a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
+    sPattern = '<div class="BlockItem ISMovie">.+?<a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -216,7 +216,7 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]+" "+aEntry[1]
+            sTitle = aEntry[1]+" "+aEntry[2]
             siteUrl = str(aEntry[0])
             sThumb = str(sThumb)
             sDesc = ""

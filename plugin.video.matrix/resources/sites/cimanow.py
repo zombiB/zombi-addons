@@ -172,7 +172,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="block"><a href="([^<]+)"><div class="block-relased-year">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div><div class="contentBoxSing">([^<]+)</div>'
+    sPattern = '<div class="block"><a href="([^<]+)">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div>.+?<div class="contentBoxSing">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -243,7 +243,7 @@ def showEps():
                 break
  
             sTitle = sMovieTitle+" "+aEntry[1]+aEntry[2]
-            siteUrl = str(aEntry[0])
+            siteUrl = str(aEntry[0]) + "watch/"
             sThumb = str(sThumb)
             sDesc = ""
  
@@ -255,7 +255,7 @@ def showEps():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServer2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        

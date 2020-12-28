@@ -67,9 +67,9 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-# ([^<]+) .+? 
+     # (.+?) ([^<]+) .+? 
 
-    sPattern = '<a href="([^<]+)" title="([^<]+)">'
+    sPattern = '<a href="(.+?)".+?title="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -98,8 +98,38 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addMovie(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
+ 
+     # (.+?) ([^<]+) .+? 
+
+    sPattern = "<div class='match-container'><a href='(.+?)' title='(.+?)'>"
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle =  aEntry[1]
+            sThumbnail = ""
+            siteUrl = aEntry[0]
+            sInfo = ""
+			
+			
+
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -158,6 +188,7 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
     oParser = cParser()
  # (.+?) # ([^<]+) .+? 
+ 
     sPattern = "dash : '(.+?)'"
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -180,6 +211,30 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
         progress_.VSclose(progress_) 
+ # (.+?) # ([^<]+) .+? 
+ 
+    sPattern = "'dash':'(.+?)'"
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = aEntry
+            sHosterUrl = url
+            sMovieTitle = sMovieTitle
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_)
  # (.+?) # ([^<]+) .+? 
 
     sPattern = 'source:"(.+?)",'
