@@ -65,7 +65,7 @@ def showMovies(sSearch = ''):
     data = sgn.get(sUrl).content
     sHtmlContent = data
  # ([^<]+) .+? (.+?)
-    sPattern = '<li class="TPostMv"> <article id="post-.+?" class="TPost C"> <a href="(.+?)"><div class="Image">.+?data-lazy-src=(.+?) /><noscript><img.+?<div class="Title">(.+?)</div>'
+    sPattern = '<article class="TPost C"><a href="(.+?)"><div class="Image">.+?data-lazy-src="(.+?)" />.+?<h3 class="Title">(.+?)</h3>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -121,8 +121,8 @@ def showSeries(sSearch = ''):
     data = sgn.get(sUrl).content
     sHtmlContent = data
     #print data
- # ([^<]+) .+?
-    sPattern = '<li class="TPostMv"> <article class="TPost C"> <a href="([^<]+)"><div class="Image">.+?data-lazy-src="([^<]+)" /><noscript><img.+?<h3 class="Title">([^<]+)</h3>'
+     # (.+?) ([^<]+) .+?
+    sPattern = '<article class="TPost C"><a href="(.+?)"><div class="Image">.+?data-lazy-src="(.+?)" />.+?<h3 class="Title">(.+?)</h3>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

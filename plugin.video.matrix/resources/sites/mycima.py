@@ -272,8 +272,8 @@ def showSeries(sSearch = ''):
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-# ([^<]+) .+?
-    sPattern = '<div class="Thumb--GridItem"><a href="(.+?)" title="(.+?)"><span class="BG--GridItem" style="background-image:url(.+?);">.+?class="year">(.+?)</span>'
+    # (.+?) .+? ([^<]+)   
+    sPattern = '<div class="Thumb--GridItem"><a href="(.+?)" title="(.+?)"><span class="BG--GridItem" style="background-image:url(.+?);">.+?<span class="year">(.+?)<'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -378,8 +378,8 @@ def showSeasons():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-    # .+? ([^<]+) 
-    sPattern = '<a class="hoverable activable" href="([^<]+)"><div class="Thumb"><span><i class="fa fa-play"></i></span></div><episodeArea><episodeTitle>([^<]+)</episodeTitle></episodeArea></a>'
+    # (.+?) .+? ([^<]+)   
+    sPattern = '<a class="hoverable activable.+?href="([^<]+)"><div class="Thumb"><span><i class="fa fa-play"></i></span></div><episodeArea><episodeTitle>([^<]+)</episodeTitle></episodeArea></a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -647,9 +647,8 @@ def showHosters():
 			progress_.VSclose(progress_)  
 
     # ([^<]+) .+?
-               
 
-    sPattern = 'class="hoverable activable" href="([^<]+)"><quality>([^<]+)</quality><resolution><i class="ion ion-md-tablet-portrait"></i>([^<]+)</resolution>'
+    sPattern = 'class="hoverable activable" href="([^<]+)"><quality>([^<]+)</quality><resolution><i class=".+?"></i>([^<]+)</resolution>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

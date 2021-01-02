@@ -7,6 +7,8 @@ from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import dialog
+import re,urllib2,urllib,xbmc
+import requests
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
@@ -50,7 +52,9 @@ class cHoster(iHoster):
         return ''
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
+        self.__sUrl = str(sUrl).replace(".html","")
+        if 'embed' in sUrl:
+            self.__sUrl = self.__sUrl.replace("embed-","")
             
     def checkUrl(self, sUrl):
         return True
@@ -63,24 +67,35 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
 
-        sUrl = self.__sUrl
+			api_call = ''
 
-        oRequest = cRequestHandler(sUrl)
-        sHtmlContent = oRequest.request()
+			oRequest = cRequestHandler(self.__sUrl)
+			sHtmlContent = oRequest.request()
+			_id = self.__sUrl.split('/')[-1].replace(".html","")
+			Sgn=requests.Session()
+			UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+			hdr = {'Host': 'www.mp4upload.com',
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
+			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+			'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+			'Accept-Encoding': 'gzip, deflate',
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Content-Length': '111',
+			'Origin': 'https://www.mp4upload.com',
+			'Connection': 'keep-alive',
+			'Referer': self.__sUrl,
+			'Upgrade-Insecure-Requests': '1'}
+			prm={
+				"op": "download2",
+				"id": _id,
+				"rand": "",
+				"referer": self.__sUrl,
+				"method_free": "+",
+				"method_premium": ""}
+			_r = Sgn.post(self.__sUrl,headers=hdr,data=prm,allow_redirects=False).headers
+			api_call = _r['Location'].replace(" ","").replace("[","%5B").replace("]","%5D").replace("+","%20")
+					
+			if (api_call):
+				return True, api_call+ '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://www.mp4upload.com'
 
-        oParser = cParser()
-        sPattern = "<script type='text/javascript'>([^<]+)</script>"
-        aResult = oParser.parse(sHtmlContent,sPattern)
-
-        if (aResult[0] == True):
-            sHtmlContent = cPacker().unpack(aResult[1][0])
-
-            sPattern = 'player.src(.+?);'
-            aResult = oParser.parse(sHtmlContent,sPattern)
-            if (aResult[0] == True):
-				api_call = aResult[1][0].replace('("',"").replace('")',"") + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
-				
-        if (api_call):
-            return True, api_call
-
-        return False, False
+			return False, False

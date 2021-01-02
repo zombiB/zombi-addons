@@ -19,7 +19,6 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://tuktukcinema.net'
 
-
 MOVIE_TOP = ('https://tuktukcinema.net/rate/', 'showMovies')
 MOVIE_EN = ('https://tuktukcinema.net/category/movies/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A/', 'showMovies')
 MOVIE_HI = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
@@ -30,11 +29,8 @@ SERIE_EN = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8
 SERIE_ASIA = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a', 'showSeries')
 SERIE_TR = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a', 'showSeries')
 ANIM_NEWS = ('https://tuktukcinema.net/category/%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
-
 SPORT_WWE = ('https://tuktukcinema.net/category/wwe/', 'showMovies')
-
 DOC_SERIES = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/', 'showMovies')
-
 URL_SEARCH = ('https://tuktukcinema.net/search/', 'showMovies')
 URL_SEARCH_MOVIES = ('https://tuktukcinema.net/search/', 'showMovies')
 URL_SEARCH_SERIES = ('https://tuktukcinema.net/search/', 'showSeries')
@@ -60,8 +56,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
   
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -73,20 +67,11 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
-
-   
     oParser = cParser()
 
-
-
     # (.+?) .+? ([^<]+)   
-
     sPattern = '<a title="(.+?)" href="(.+?)" alt.+?<img data-src="(.+?)">'
-
-
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -127,11 +112,8 @@ def showMovies(sSearch = ''):
   # ([^<]+) .+?
 
     sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
-
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -171,7 +153,6 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
  # ([^<]+) .+?
     sPattern = '<a title="(.+?)" href="(.+?)" alt.+?<img data-src="(.+?)">'
 

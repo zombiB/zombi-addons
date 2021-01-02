@@ -14,14 +14,14 @@ class cInputWindow(xbmcgui.WindowDialog):
         DimTab = kwargs.get('dimtab')
         self.DimTabTotal = DimTab[0] * DimTab[1]
         
-        bg_image = 'special://home/addons/plugin.video.vstream/resources/art/background.png'
-        check_image = 'special://home/addons/plugin.video.vstream/resources/art/trans_checked.png'
+        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
+        check_image = 'special://home/addons/plugin.video.matrix/resources/art/trans_checked.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
         self.addControl (self.ctrlBackground)
 
-        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, 'Le thème est : ' + kwargs.get('msg'), 'font40', '0xFFFF00FF')
+        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, 'Le theme est : ' + kwargs.get('msg'), 'font40', '0xFFFF00FF')
         self.addControl(self.strActionInfo)
 
         self.img = xbmcgui.ControlImage(250, 110, 780, 499, str(self.cptloc))
@@ -144,7 +144,7 @@ class cInputWindowYesNo(xbmcgui.WindowDialog):
     def __init__(self, *args, **kwargs):
         self.cptloc = kwargs.get('captcha')
 
-        bg_image = 'special://home/addons/plugin.video.vstream/resources/art/background.png'
+        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
