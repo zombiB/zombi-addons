@@ -377,7 +377,7 @@ def showSeries(sSearch = ''):
             sDesc = sDesc.decode("utf8")
             sDesc = cUtil().unescape(sDesc).encode("utf8") 
             sSeas = str(aEntry[1])+str(aEntry[0]) 
-            sDisplayTitle = ('%s %s') % (sTitle, sSeas)
+            sDisplayTitle = ('%s (%s)') % (sTitle, sSeas)
 
 
 

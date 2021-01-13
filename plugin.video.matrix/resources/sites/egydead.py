@@ -125,7 +125,7 @@ def showMoviesSearch(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
  
  
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0]+'?View=1'
             sInfo = ""
             sThumbnail = str(aEntry[2])
             annee = ''
@@ -295,7 +295,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
  
  
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0]+'?View=1'
             sInfo = ''
             sThumbnail = str(aEntry[2])
             annee = ''
@@ -417,7 +417,7 @@ def showPacks():
 				sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
  
  
-				siteUrl = aEntry[0]
+				siteUrl = aEntry[0]+'?View=1'
 				sInfo = ''
 				sThumbnail = str(aEntry[2])
 			
@@ -539,7 +539,7 @@ def showSeasons():
  
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = str(aEntry[0])
+            siteUrl = str(aEntry[0])+'?View=1'
             sThumbnail = sThumbnail
             sInfo = '[COLOR yellow]'+str(aEntry[2])+'[/COLOR]'
  
@@ -591,10 +591,7 @@ def showHosters():
     s = requests.Session()
     r = s.post(sUrl, headers=headers,data = data)
     sHtmlContent += r.content
-    # ([^<]+) (.+?)
-    #print 'sHtmlContent7'
-
-    #print sHtmlContent          
+    # ([^<]+) (.+?)       
 
     sPattern = '<li data-link="(.+?)">'
     oParser = cParser()

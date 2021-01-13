@@ -106,7 +106,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]+aEntry[3]
+            sTitle = aEntry[1]
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
@@ -115,6 +115,13 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[0]
             sInfo = ""
             sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
+            annee = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				annee = str(m.group(0))
+				sTitle = sTitle.replace(annee,'')
+            if annee:
+				sTitle = ('%s (%s)') % (sTitle, annee)
 
 
 

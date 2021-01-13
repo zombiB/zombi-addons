@@ -39,9 +39,9 @@ ANIM_NEWS = ('https://m2.arabseed.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8
 
 REPLAYTV_PLAY = ('https://m2.arabseed.net/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showEps')
 REPLAYTV_NEWS = ('https://arabseed.net/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
-URL_SEARCH = ('https://m2.arabseed.net/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://m2.arabseed.net/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://m2.arabseed.net/?s=', 'showSeries')
+URL_SEARCH = ('https://arabseed.cam/find/?find=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://arabseed.cam/find/?find=', 'showMovies')
+URL_SEARCH_SERIES = ('https://arabseed.cam/find/?find=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -63,7 +63,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://m2.arabseed.net/?s='+sSearchText
+        sUrl = 'https://arabseed.cam/find/?find='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -73,7 +73,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://m2.arabseed.net/?s='+sSearchText
+        sUrl = 'https://arabseed.cam/find/?find='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -90,7 +90,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie">.+?<a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
+    sPattern = '<a href="([^<]+)"><div class="Poster"><img class="imgOptimzer" data-image="([^<]+)" alt="([^<]+)"></div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -147,7 +147,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem ISMovie">.+?<a href="([^<]+)" title=.+?<img data-src="([^<]+)" alt="([^<]+)" class="imgLoaded">'
+    sPattern = '<a href="([^<]+)"><div class="Poster"><img class="imgOptimzer" data-image="([^<]+)" alt="([^<]+)"></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -173,7 +173,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -260,7 +260,7 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  '<div class="DownloadNow"> <a href="([^<]+)">' 
+    sPattern =  '<a href="([^<]+)" class="downloadBTn">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0] 
@@ -271,7 +271,7 @@ def showHosters():
     # (.+?) .+? ([^<]+)
                
 
-    sPattern = 'rel="nofollow" href="([^<]+)" class="download-a">.+?<p>([^<]+)</p'
+    sPattern = 'rel="nofollow" href="(.+?)" class="download.+?</span><p>(.+?)</p></a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -310,52 +310,39 @@ def showHosters():
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-			progress_.VSclose(progress_)
-               
-
-    sPattern = 'height=".+?" src="([^<]+)" scrolling=.+?FRAMEBORDER=.+?">([^<]+)</li>'
+    # (.+?) .+?
+    sPattern = '<a href="(.+?)">الحلقة<em>(.+?)</em></a>'
+    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
+    
+    #fh = open('c:\\test.txt', "w")
+    #fh.write(sHtmlContent.replace('\n',''))
+    #fh.close()
 
     #print aResult
-
-	
+   
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = str(aEntry[0])
-				sTitle = str(aEntry[1]).decode("utf8").replace('"',"")
-				sTitle = cUtil().unescape(sTitle).encode("utf8")
-				sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
-
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if url.startswith('//'):
-					url = 'https:' + url
-				
-					
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1]+" الحلقة"
+            siteUrl = str(aEntry[0])
+            sThumb = str(sThumb)
+            sDesc = ""
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
 
-			progress_.VSclose(progress_)  
+ 
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
                 
     oGui.setEndOfDirectory()

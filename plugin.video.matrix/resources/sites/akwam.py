@@ -7,7 +7,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog, dialog, addon
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.player import cPlayer
@@ -347,9 +347,10 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0'
 
-
-def showHosters():
+####################################################################
+def RecapchaBypass():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -369,7 +370,75 @@ def showHosters():
         sHtmlContent1 = oRequest.request()
 
     oParser = cParser()       
-    sPattern =  '<a href="([^<]+)".+?class="download-link"' 
+    sPattern =  '<a href="(.+?)" target="_blank".+?class="download-link"' 
+    aResult = oParser.parse(sHtmlContent1,sPattern)
+    if (aResult[0] == True):
+        m3url =  aResult[1][0]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent1 = oRequest.request()
+
+    from resolveurl.plugins.lib.captcha_lib import do_captcha
+    test = do_captcha(sHtmlContent1)
+    sPattern =  "readonly>(.+?)'}"
+    aResult = oParser.parse(test,sPattern)
+    if (aResult[0] == True):
+        testurl =  aResult[1][0]
+
+    data = 'subform=unlock&g-recaptcha-response=' + testurl
+    oRequestHandler = cRequestHandler(m3url)
+    cook = oRequestHandler.GetCookies()
+    cookies = cook + '; ' + 'XSRF-TOKEN=' + testurl + '; akwam_session=' + testurl + ';'
+    oRequestHandler.setRequestType(1)
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
+    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+    oRequestHandler.addHeaderEntry('Accept-Encoding', 'gzip')
+    oRequestHandler.addHeaderEntry('Referer', m3url)
+    oRequestHandler.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded')
+    oRequestHandler.addHeaderEntry('cookies', cookies)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<source.+?src="(.+?)"'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+    if (aResult[0] == True):
+
+        for aEntry in aResult[1]:
+            sHosterUrl = aEntry
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    oGui.setEndOfDirectory()
+###############################################################
+
+def showHosters():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request();
+
+    oParser = cParser()       
+    sPattern =  '<a href="http([^<]+)/watch/(.+?)"'
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent1 = oRequest.request()
+ 
+
+    print "ddddde"
+
+    oParser = cParser()       
+    sPattern =  '<a href="(.+?)" target="_blank".+?class="download-link"' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
@@ -377,8 +446,8 @@ def showHosters():
         sHtmlContent1 = oRequest.request()
 
 
-
-
+    print "ddddde"
+    print sHtmlContent1
 
     # (.+?) .+? ([^<]+)
                
