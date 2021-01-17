@@ -135,7 +135,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="postDiv">.+?<a href="(.+?)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
+    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

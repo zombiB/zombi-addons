@@ -519,6 +519,8 @@ def showHosters():
     bimbo = MLisTe[0]
     data =  sgn.get(link)
     scrtp  = get_Scripto(data)
+    print "scrtp"
+    print scrtp
     ln1,ln2,prm = VidStream(str(scrtp))
     ln1 = "https://"+host+ln1
     ln2 = "https://"+host+ln2

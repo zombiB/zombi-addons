@@ -435,8 +435,6 @@ def showHosters():
         sHtmlContent1 = oRequest.request()
  
 
-    print "ddddde"
-
     oParser = cParser()       
     sPattern =  '<a href="(.+?)" target="_blank".+?class="download-link"' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
@@ -445,9 +443,6 @@ def showHosters():
         oRequest = cRequestHandler(m3url)
         sHtmlContent1 = oRequest.request()
 
-
-    print "ddddde"
-    print sHtmlContent1
 
     # (.+?) .+? ([^<]+)
                
