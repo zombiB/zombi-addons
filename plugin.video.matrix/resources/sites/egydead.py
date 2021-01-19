@@ -518,7 +518,7 @@ def showSeasons():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # .+? ([^<]+)
-    sPattern = '<li><a href="([^<]+)" title="([^<]+)">([^<]+)</a></li>'
+    sPattern = '<a href="([^<]+)" title="([^<]+)">([^<]+)</a>'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -539,7 +539,7 @@ def showSeasons():
  
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            siteUrl = str(aEntry[0])+'?View=1'
+            siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = '[COLOR yellow]'+str(aEntry[2])+'[/COLOR]'
  
@@ -568,29 +568,13 @@ def showHosters():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
 
     #print sHtmlContent 
+    sUrl1 = sUrl+'?View=1'
 
-    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler = cRequestHandler(sUrl1)
     sHtmlContent = oRequestHandler.request()
 
    
     oParser = cParser()
-
-    #print sId
-    
-  # ([^<]+) .+?
-    headers = {'Host': 'ww.egydead.com',
-     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-     'Accept': '*/*',
-     'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-     'X-Requested-With': 'XMLHttpRequest',
-     'Referer': sUrl,
-     'Connection': 'keep-alive'}
-
-    data = {'View':'1'}
-    s = requests.Session()
-    r = s.post(sUrl, headers=headers,data = data)
-    sHtmlContent += r.content
     # ([^<]+) (.+?)       
 
     sPattern = '<li data-link="(.+?)">'
@@ -661,6 +645,43 @@ def showHosters():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_) 
+    # .+? ([^<]+)
+    sPattern = '<a href="([^<]+)" title="([^<]+)">([^<]+)</a>'
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    #fh = open('c:\\test.txt', "w")
+    #fh.write(sHtmlContent.replace('\n',''))
+    #fh.close()
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sDisplayTitle = '[COLOR gold]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = sThumbnail
+            sInfo = '[COLOR yellow]'+str(aEntry[2])+'[/COLOR]'
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', str(aEntry[0]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            
+
+ 
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+ 
+        progress_.VSclose(progress_)
                 
     oGui.setEndOfDirectory()

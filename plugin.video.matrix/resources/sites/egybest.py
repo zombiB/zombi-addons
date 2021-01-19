@@ -392,33 +392,67 @@ def __checkForNextPage(sHtmlContent):
         return sUrl + aResult[1][0]
 
     return False
+	
+def parseInt(sin):
+  m = re.search(r'^(\d+)[.,]?\d*?', str(sin))
+  return int(m.groups()[-1]) if m and not callable(sin) else 0
+  
+def atob(elm):
+    try:
+        ret = base64.b64decode(elm)
+    except:
+        try:
+            ret = base64.b64decode(elm+'=')
+        except:
+            try:
+                ret = base64.b64decode(elm+'==')
+            except:
+                ret = 'ERR:base64 decode error'
+    return ret
 
-def a0b(main_tab,step2,a):
+def a0d(main_tab,step2,a):
     a = a - step2
     if a<0:
         c = 'undefined'
     else:
         c = main_tab[a]
     return c
+
+def x(main_tab,step2,a):
+    return(a0d(main_tab,step2,a))
     
-def decal(tab,step):
-    for i in range(0,step):
+def decal(tab,step,step2,decal_fnc):
+    decal_fnc = decal_fnc.replace('var ','')    
+    decal_fnc = decal_fnc.replace('x(','x(tab,step2,') 
+    exec(decal_fnc)
+    aa=0
+    while True:
+        aa=aa+1
         tab.append(tab[0])
         del tab[0]
+        #print([i for i in tab[0:10]])
+        exec(decal_fnc) 
+        #print(str(aa)+':'+str(c))
+        if ((c == step) or (aa>10000)): break
+
      
 def VidStream(script):
     tmp = re.findall('function.+?{ var(.+?)=', script, re.S)
     if not tmp: return 'ERR:Varconst Not Found'
     varconst = tmp[0].strip()
     print('Varconst     = %s' % varconst)
-    tmp = re.findall('}\('+varconst+' ?,(0x[0-9a-f]{1,3})\)\);', script)
+    tmp = re.findall('}\('+varconst+'?,(0x[0-9a-f]{1,10})\)\);', script)
     if not tmp: return 'ERR:Step1 Not Found'
     step = eval(tmp[0])
     print('Step1        = 0x%s' % '{:02X}'.format(step).lower())
-    tmp = re.findall('a0b.*?a=a-(.+?);', script)
+    tmp = re.findall('a=a-(0x[0-9a-f]{1,10});', script)
     if not tmp: return 'ERR:Step2 Not Found'
     step2 = eval(tmp[0])
     print('Step2        = 0x%s' % '{:02X}'.format(step2).lower())    
+    tmp = re.findall("try{(var.*?);", script)
+    if not tmp: return 'ERR:decal_fnc Not Found'
+    decal_fnc = tmp[0]
+    print('Decal func   = " %s..."' % decal_fnc[0:135])   
     tmp = re.findall("'data':{'(_[0-9a-zA-Z]{10,20})':'ok'", script)
     if not tmp: return 'ERR:PostKey Not Found'
     PostKey = tmp[0]
@@ -430,9 +464,9 @@ def VidStream(script):
     exec(TabList) in globals(), locals()
     main_tab = locals()[varconst]
     print(varconst+'          = %.90s...'%str(main_tab))
-    decal(main_tab,step)
+    decal(main_tab,step,step2,decal_fnc)
     print(varconst+'          = %.90s...'%str(main_tab))
-    tmp = re.findall(";"+varconst[0:2]+"c\(\);(var .*?)\$\('\*'\)", script, re.S)
+    tmp = re.findall(";"+varconst[0:2]+".\(\);(var .*?)\$\('\*'\)", script, re.S)
     if not tmp: return 'ERR:List_Var Not Found'		
     List_Var = tmp[0]
     print('List_Var     = %.90s...' % List_Var)
@@ -447,7 +481,7 @@ def VidStream(script):
         elm = elm.strip()
         if 'ismob' in elm: elm=''
         if '=[]'   in elm: elm = elm.replace('=[]','={}')
-        elm = re.sub("(a0.\()", "a0b(main_tab,step2,", elm)
+        elm = re.sub("(a0.\()", "a0d(main_tab,step2,", elm)
         #if 'a0G('  in elm: elm = elm.replace('a0G(','a0G(main_tab,step2,') 
         if elm!='':
             #print('elm = %s' % elm)
@@ -466,21 +500,26 @@ def VidStream(script):
             bigString = bigString + locals()[_3Vars[1]][locals()[_3Vars[2]][i]]	
     print('bigString    = %.90s...'%bigString) 
     tmp = re.findall('var b=\'/\'\+(.*?)(?:,|;)', script, re.S)
+    if not tmp: return 'ERR:GetUrl Not Found'
+    GetUrl = str(tmp[0])
+    print('GetUrl       = %s' % GetUrl)    
+    tmp = re.findall('(_.*?)\[', GetUrl, re.S)
+    if not tmp: return 'ERR:GetVar Not Found'
+    GetVar = tmp[0]
+    print('GetVar       = %s' % GetVar)
+    GetVal = locals()[GetVar][0]
+    GetVal = atob(GetVal)
+    print('GetVal       = %s' % GetVal)
+    tmp = re.findall('}var (f=.*?);', script, re.S)        
     if not tmp: return 'ERR:PostUrl Not Found'
     PostUrl = str(tmp[0])
-    print('PostUrl      = %s' % PostUrl)    
-    tmp = re.findall('(_.*?)\[', PostUrl, re.S)
-    if not tmp: return 'ERR:PostVar Not Found'
-    PostVar = tmp[0]
-    print('PostVar      = %s' % PostVar)
-    PostVal = locals()[PostVar][0]
-    print('PostVal      = %s' % PostVal)
-    if not PostVal.endswith('='): PostVal = PostVal +'=='
-    print('PostVal      = %s' % PostVal)    
-    PostVal = base64.b64decode(PostVal)
-    print('B64Dec       = %s' % PostVal)
-    bigString = '/'+str(PostVal)+'?verify='+str(bigString)
-    return(['/'+PostVal,bigString,{ PostKey : 'ok'}])    
+    print('PostUrl      = %s' % PostUrl)
+    PostUrl = re.sub("(window\[.*?\])", "atob", PostUrl)        
+    PostUrl = re.sub("([A-F]{1,2}\()", "a0d(main_tab,step2,", PostUrl)    
+    exec(PostUrl)
+    return(['/'+GetVal,f+bigString,{ PostKey : 'ok'}])
+
+ 
 	
 
 def get_Scripto(data):
