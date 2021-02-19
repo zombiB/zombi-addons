@@ -23,11 +23,12 @@ URL_MAIN = 'http://aramosalsal.tv'
 
 RAMADAN_SERIES = ('https://aramosalsal.tv/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020/', 'showSerie')
 
+MOVIE_ASIAN = ('https://aradramatv.cc/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 SERIE_TR = ('http://aramosalsal.tv/category/turkish-serie/ts-subtitled/', 'showSerie')
 SERIE_TR_AR = ('https://aramosalsal.net/category/turkish-serie/ts-doubled/', 'showSerie')
 URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
 URL_SEARCH_MOVIES = ('https://aradramatv.co/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://aradramatv.co/?s=', 'showSeries')
+URL_SEARCH_SERIES = ('https://aradramatv.co/?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -46,7 +47,7 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'https://aradramatv.co/?s='+sSearchText
-        showMovies(sUrl)
+        showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
    
@@ -281,7 +282,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -318,7 +319,7 @@ def showLink():
         # (.+?) .+? ([^<]+)
     oParser = cParser()
     # .+? ([^<]+)
-    sPattern = 'href="([^<]+)" title="">مشاهدة الفيلم أونلاين</a></div>'
+    sPattern = '<a class="vc_general vc_btn3 vc_btn3-size-lg vc_btn3-shape-square vc_btn3-style-flat vc_btn3-color-danger" href="(.+?)" title'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -336,7 +337,7 @@ def showLink():
  
             sTitle = sMovieTitle
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry
+            siteUrl = aResult[1][0]
             sThumb = sThumb
             sDesc = sNote.decode("utf8")
             sDesc = cUtil().unescape(sDesc).encode("utf8")
@@ -349,7 +350,7 @@ def showLink():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        
@@ -381,18 +382,19 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
     # (.+?) .+? ([^<]+)
     oParser = cParser()  
-	
+
+
     sPattern =  '<a class="first_A" href="([^<]+)" title=' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
-        sHtmlContent = oRequest.request()
+        sHtmlContent1 = oRequest.request()
                
         
     sPattern = 'src="(.+?)"'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent1, sPattern)
 	
     if (aResult[0] == True):
         total = len(aResult[1])

@@ -5,9 +5,10 @@ import re
 import string
 import unicodedata
 
-from resources.lib.comaddon import addon, xbmc
+from resources.lib.comaddon import addon, xbmc, isMatrix, VSlog
 from resources.lib.db import cDb
 from resources.lib.util import QuoteSafe
+from resources.lib.unidecode import *
 import random
 
 # rouge E26543
@@ -151,7 +152,8 @@ class cGuiElement:
         return self.__sSiteName
 
     def setFileName(self, sFileName):
-        self.__sFileName = self.str_conv(sFileName)
+
+        self.__sFileName = sFileName
 
     def getFileName(self):
         return self.__sFileName
@@ -318,7 +320,7 @@ class cGuiElement:
     def setDescription(self, sDescription):
         #Py3
         try:
-            self.__sDescription = sDescription.encode('latin-1')
+            self.__sDescription = str(sDescription.encode('latin-1'),'utf-8')
         except:
             self.__sDescription = sDescription
 
@@ -395,20 +397,18 @@ class cGuiElement:
 
     def str_conv(self, data):
         # Pas d'autre solution pour le moment que de faire comme ca.
-        if isinstance(data, str):
-            # Must be encoded in UTF-8
-            try:
-                data = data.decode('utf8')
-            except AttributeError:
-                pass
+        if not isMatrix():
+            if isinstance(data, str):
+                # Must be encoded in UTF-8
+                try:
 
-        try:
-            data = data.decode('utf8')
-        except (AttributeError, UnicodeEncodeError):
-            pass
+                    data = data.decode('utf8')
+                except AttributeError:
+                    pass
 
-        data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
-        # cherche la saison et episode puis les balises [color]titre[/color]
+
+            data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
+       # cherche la saison et episode puis les balises [color]titre[/color]
         # data, saison = self.getSaisonTitre(data)
         # data, episode = self.getEpisodeTitre(data)
         # supprimer les balises
@@ -477,7 +477,7 @@ class cGuiElement:
 
         sTitle = self.__sFileName
 
-        # sTitle = self.__sTitle.decode('latin-1').encode('utf-8')
+        #sTitle = self.__sTitle.decode('latin-1').encode('utf-8')
         # sTitle = re.sub(r'\[.*\]|\(.*\)', r'', str(self.__sFileName))
         # sTitle = sTitle.replace('VF', '').replace('VOSTFR', '').replace('FR', '')
 

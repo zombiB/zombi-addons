@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.fn-team.com/'
 
-MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showSeries')
+MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
 SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')
 RAMADAN_SERIES = ('http://www.fn-team.com/?cat=54', 'showSeries')
 KID_CARTOON = ('http://www.fn-team.com/?cat=6', 'showSeries')
@@ -47,7 +47,6 @@ def showSearch():
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
-  
  
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -61,7 +60,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  #.+?([^<]+)
 
-    sPattern = '<div class="mega-menu-post"><div class="post-thumbnail"><a class="mega-menu-link" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" width='
+    sPattern = '<h2 class="post-box-title"><a href="([^<]+)">([^<]+)</a></h2>.+?<img width=".+?" height=".+?" src="([^<]+)" class='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -75,7 +74,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).replace("&#8217;","'")
+            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("فيلم","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
             sInfo = str(aEntry[1])
@@ -86,7 +85,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -98,7 +97,7 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
+  
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -125,7 +124,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).replace("&#8217;","'")
+            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("فيلم","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
             sInfo = str(aEntry[1])
@@ -136,7 +135,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -192,14 +191,14 @@ def showHosters():
             
 				url = str(aEntry[0])
 				Squality = str(aEntry[1])
-				sTitle = Squality 
+				sTitle = ' ['+Squality+'] ' 
 				if url.startswith('//'):
 					url = 'http:' + url
             
 				sHosterUrl = url
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = sTitle
+					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -229,7 +228,7 @@ def showHosters():
 				sHosterUrl = url
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = sTitle
+					sDisplayTitle = sMovieTitle+sTitle
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

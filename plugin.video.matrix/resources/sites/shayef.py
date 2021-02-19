@@ -23,7 +23,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://www.shayef.com'
 
 RAMADAN_SERIES = ('https://www.shayef.net/MosalsalatRamadan.asp', 'showSerie')
-SERIE_AR = ('http://www.shayef.com/Mosalsalat.asp?Leter=2', 'showMovies')
+SERIE_AR = ('https://mobile.shayefpro.com/MosalsalatArab.asp', 'showMovies')
 
 
 

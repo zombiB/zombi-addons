@@ -16,7 +16,7 @@
         <setting id="meta-view" type="bool" label="30006" default="false"/>
         <setting label="30005" type="lsep"/>
         <setting type="sep"/>
-        <setting id="api_tmdb" type="text" label="API"  default="92ab39516970ab9d86396866456ec9b6"/>
+        <setting id="api_tmdb" type="text" label="API"  default="b7cf9324cbeb6f4fb811144aa9397093"/>
         <setting id="poster_tmdb" type="select" label="30007" values="w92|w154|w185|w342|w500|w780|original" default="w342"/>
         <setting id="backdrop_tmdb" type="select" label="30008" values="w300|w780|w1280|original" default="w1280"/>
         <setting id="extendedinfo-view" type="bool" label="30009" default="false"/>
@@ -80,7 +80,6 @@
         <setting visible="false" id="plugin_qdoc" type="bool" label="qdoc" default="true"/> 
         <setting visible="false" id="plugin_radioquran" type="bool" label="radioquran" default="true"/>  
         <setting visible="false" id="plugin_shahidu" type="bool" label="shahidu" default="true"/> 
-        <setting visible="false" id="plugin_shayef" type="bool" label="shayef" default="true"/> 
         <setting visible="false" id="plugin_shoofdocs" type="bool" label="shoofdocs" default="true"/> 
         <setting visible="false" id="plugin_shoofvod" type="bool" label="shoofvod" default="true"/> 
         <setting visible="false" id="plugin_showtv" type="bool" label="showtv" default="true"/>
@@ -96,6 +95,7 @@
         <setting visible="false" id="plugin_ahdaf" type="bool" label="ahdaf" default="true"/> 
         <setting visible="false" id="plugin_akoam" type="bool" label="akoam" default="true"/> 
         <setting visible="false" id="plugin_akwam" type="bool" label="akwam" default="true"/> 
+        <setting visible="false" id="plugin_xsanime" type="bool" label="xsanime" default="true"/>
         <setting visible="false" id="plugin_alarab" type="bool" label="alarab" default="true"/> 
         <setting visible="false" id="plugin_alfajertv" type="bool" label="alfajertv" default="true"/> 
         <setting visible="false" id="plugin_animeblkom" type="bool" label="animeblkom" default="true"/> 
@@ -120,16 +120,13 @@
         <setting visible="false" id="plugin_felarda" type="bool" label="felarda" default="true"/>
         <setting visible="false" id="plugin_fnteam" type="bool" label="fnteam" default="true"/>
         <setting visible="false" id="plugin_geoarabic" type="bool" label="geoarabic" default="true"/>
-        <setting visible="false" id="plugin_halqat" type="bool" label="halqat" default="true"/>
         <setting visible="false" id="plugin_helal" type="bool" label="helal" default="true"/>
         <setting visible="false" id="plugin_hidaya" type="bool" label="hidaya" default="true"/>
-        <setting visible="false" id="plugin_katkoute" type="bool" label="katkoute" default="true"/>
         <setting visible="false" id="plugin_kingfoot" type="bool" label="kingfoot" default="true"/>
         <setting visible="false" id="plugin_lodynet" type="bool" label="lodynet" default="true"/>
         <setting visible="false" id="plugin_movizland" type="bool" label="movizland" default="true"/>
         <setting visible="false" id="plugin_movsu" type="bool" label="movsu" default="true"/>
-        <setting visible="false" id="plugin_mycima" type="bool" label="mycima" default="true"/>
-        <setting visible="false" id="plugin_myegy" type="bool" label="myegy" default="true"/>     
+        <setting visible="false" id="plugin_mycima" type="bool" label="mycima" default="true"/>    
     </category>
 
     <!-- Enregistrement -->

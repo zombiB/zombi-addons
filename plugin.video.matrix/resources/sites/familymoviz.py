@@ -204,11 +204,18 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
             sInfo = aEntry[3].decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
             sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
 
@@ -217,7 +224,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -257,16 +264,18 @@ def showSeries(sSearch = ''):
                 break
  
             sTitle = aEntry[0].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[1]
             sInfo = ""
+            sDisplayTitle = sTitle.split('S')[0]
 
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
@@ -328,7 +337,7 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            sTitle = cUtil().unescape(sTitle).encode("utf8").replace("Cut"," [Cut] ").replace("مترجمة","").replace("مترجم","") 
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
             sInfo = aEntry[3].decode("utf8")
@@ -345,7 +354,7 @@ def showEpisodes():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
 

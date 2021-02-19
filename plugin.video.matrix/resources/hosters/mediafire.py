@@ -68,24 +68,10 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
             #(.+?)([^<]+)
         oParser = cParser()
-        sPattern =  'aria-label="Download file".+?href="(.+?)">(.+?)</a>'
+        sPattern =  'aria-label="Download file".+?href="(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
-            url = []
-            qua = []
-            for x in aResult[1]:
-                url.append(x[0])
-                qua.append(x[1])
-
-            #Si une seule url
-            if len(url) == 1:
-                api_call = url[0]
-            #si plus de une
-            elif len(url) > 1:
-            #Affichage du tableau
-                ret = VScreateDialogSelect(qua)
-                if (ret > -1):
-                    api_call = url[ret]
+        if (aResult[0]):
+            api_call = aResult[1][0]
         if (api_call):
             return True, api_call + '|User-Agent=' + UA
                      

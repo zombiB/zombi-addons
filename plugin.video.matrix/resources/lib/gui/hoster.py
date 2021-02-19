@@ -492,6 +492,8 @@ class cHosterGui:
 
         if ('kaydo.ws' in sHostName):
             return self.getHoster('lien_direct')
+        if ('king-shoot.xyz' in sHostName):
+            return self.getHoster('lien_direct')
         if ('infinityload' in sHostName):
             return self.getHoster('lien_direct')
         if ('us.archive.' in sHostName):

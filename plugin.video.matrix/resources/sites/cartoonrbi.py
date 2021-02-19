@@ -156,7 +156,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, aEntry[1], oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, aEntry[1], oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -215,7 +215,7 @@ def showEps():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', aEntry[1], '', sThumbnail, aEntry[2], oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', aEntry[1], '', sThumbnail, aEntry[2], oOutputParameterHandler)
  
         progress_.VSclose(progress_)
  
@@ -292,7 +292,7 @@ def showLink():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, "", oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, "", oOutputParameterHandler)
  
         progress_.VSclose(progress_) 
                
@@ -369,7 +369,7 @@ def showLinkS():
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-	    oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+	    oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
  
         progress_.VSclose(progress_)

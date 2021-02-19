@@ -83,12 +83,11 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1]
+            sTitle =  aEntry[1].replace("بث مباشر","")
             sThumbnail = ""
             siteUrl = aEntry[0]
             sInfo = ""
-			
-			
+            sTitle = sTitle.split('بتاريخ')[0]
 
 
 
@@ -97,7 +96,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -212,8 +211,12 @@ def showHosters4():
                 sPattern =  'var link = "(.+?)";'
                 aResult = oParser.parse(sHtmlContent4,sPattern)
                 if (aResult[0] == True):
-					url = aResult[1][0]
+					url = aResult[1][0]+ '&Referer=' + "https://kora-online.tv"
                 sPattern =  "dash: '(.+?)'};"
+                aResult = oParser.parse(sHtmlContent4,sPattern)
+                if (aResult[0] == True):
+					url = aResult[1][0]
+                sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent4,sPattern)
                 if (aResult[0] == True):
 					url = aResult[1][0]

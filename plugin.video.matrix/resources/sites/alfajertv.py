@@ -33,7 +33,7 @@ SERIE_HEND = ('http://show.alfajertv.com/genre/indian-series/', 'showSeries')
 SERIE_EN = ('http://show.alfajertv.com/genre/english-series/', 'showSeries')
 SERIE_AR = ('http://show.alfajertv.com/genre/arabic-series/', 'showSeries')
 
-REPLAYTV_PLAY = ('http://show.alfajertv.com/genre/plays/', 'showSeries')
+REPLAYTV_PLAY = ('http://show.alfajertv.com/genre/plays/', 'showMovies')
 
 RAMADAN_SERIES = ('https://show.alfajertv.com/genre/arabic-series/', 'showSeries')
 URL_SEARCH = ('http://fajer.show/?s=', 'showMoviesSearch')
@@ -46,7 +46,11 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'Search Series', 'search.png', oOutputParameterHandler)
 
             
     oGui.setEndOfDirectory()
@@ -57,7 +61,17 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'http://fajer.show/?s='+sSearchText
-        showMovies(sUrl)
+        showMoviesSearch(sUrl)
+        oGui.setEndOfDirectory()
+        return
+ 
+def showSearchSeries():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'http://fajer.show/?s='+sSearchText
+        showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
  
@@ -91,7 +105,13 @@ def showMoviesSearch(sSearch = ''):
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])		
+            sThumb = str(aEntry[1])	
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)	
             sDesc = ""
 
 
@@ -100,7 +120,7 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -492,11 +512,10 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[3].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
-            sDesc =  aEntry[2]
+            sDesc =  ""
 
  
             #print sUrl

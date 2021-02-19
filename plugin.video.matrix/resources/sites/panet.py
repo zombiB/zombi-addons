@@ -52,7 +52,7 @@ def load():
 
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANIME[0])
+    oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showEps', 'افلام كارتون', 'news.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
@@ -86,7 +86,7 @@ def load():
     
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
+    oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رسوم متحركة , برامج اطفال', 'animesvostfr.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
@@ -152,13 +152,13 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = str(aEntry[2])
             siteUrl = URL_MAIN+str(aEntry[0])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[1]))
 
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[1], aEntry[3], oOutputParameterHandler)
@@ -209,7 +209,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[4]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showEps', aEntry[4], '', aEntry[2], aEntry[3], oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', aEntry[4], '', aEntry[2], aEntry[3], oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -278,7 +278,7 @@ def showEps():
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[1], aEntry[2], oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[1], aEntry[2], oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        

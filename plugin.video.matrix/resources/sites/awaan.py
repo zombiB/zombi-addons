@@ -109,7 +109,7 @@ def showMovies(sSearch = ''):
     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
     oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-    oGui.addMovie(SITE_IDENTIFIER, 'showMovies', sTitle, '', 'next.png', '', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle,'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -152,7 +152,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addMisc(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
     page = sUrl.split('?p=')[1]
@@ -165,9 +165,7 @@ def showSeries(sSearch = ''):
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-    oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-    oGui.addMovie(SITE_IDENTIFIER, 'showSeries', sTitle, '', 'next.png', '', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -229,7 +227,7 @@ def showEps():
             
 
  
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
     page = sUrl.split('?p=')[1]
@@ -244,7 +242,7 @@ def showEps():
     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
     oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-    oGui.addMovie(SITE_IDENTIFIER, 'showEps', sTitle, '', 'next.png', '', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showEps', sTitle,'next.png', oOutputParameterHandler)
  
 
        

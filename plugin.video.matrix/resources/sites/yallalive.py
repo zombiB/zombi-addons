@@ -19,14 +19,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.yalla-shoot.com/mobile/'
 
-
-
 SPORT_FOOT = ('http://www.yalla-shoot.com/mobile/index.php', 'showMovies')
-
-
-
-URL_SEARCH = ('', 'showMovies')
-FUNCTION_SEARCH = 'showMovies'
  
 def load():
     oGui = cGui()
@@ -34,25 +27,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-    
-
-            
+               
     oGui.setEndOfDirectory()
 
-	
-def showSearch():
-    oGui = cGui()
- 
-    sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
-        sUrl = ''+sSearchText
-        showMovies(sUrl)
-        oGui.setEndOfDirectory()
-        return
-   
-
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -60,13 +37,12 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+		
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+?
-
-    sPattern = '<li><a href="([^<]+)">.+?<img src="https://www.yalla-shoot.com/images/upload/images/.+?.png" width="30" /><br>([^<]+)</td>.+?<img src="https://www.yalla-shoot.com/images/upload/images/.+?.png" width="30" /><br>([^<]+)</td>'
+    sPattern = '<a href="([^<]+)" class="matsh_live"><div.+?class="fc_name">([^<]+)</td>.+?class="fc_name">([^<]+)</td>.+?<span class="matsh.+?">([^<]+)</span> </td>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -80,15 +56,14 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1] +'---' + aEntry[2] 
+            sTitle = aEntry[2] +' vs ' + aEntry[1] 
             sThumbnail = ""
             siteUrl = URL_MAIN + aEntry[0]
-            sInfo = ""
+            sInfo = aEntry[3]
+            if "جارية" in sInfo:
+                sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
 			
 			
-
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -106,20 +81,17 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
-
-
+# ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
-    sPattern = ''
+    sPattern = '<td><a href="([^<]+)"><img src="https://www.yalla-shoot.com/img/yesterday.png"></a></td>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
-        aResult = URL_MAIN+aResult[1][0]
+        aResult = aResult[1][0]
         return aResult
 
-    return False 
- 
- 	
+    return False
+  	
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()

@@ -1,8 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 import xbmcplugin
+import xbmc
 
-from resources.lib.comaddon import listitem, addon, dialog, isKrypton, window, xbmc
+from resources.lib.comaddon import listitem, addon, dialog, isKrypton, window
 from resources.lib.db import cDb
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.gui.guiElement import cGuiElement
@@ -158,7 +159,10 @@ class cGui:
 
     # Meme mode d'affichage qu'un film, avec la description si fournie, mais il n'y a pas de recherche des Métadonnées
     def addMisc(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler='', sCat=5):
-        cGui.CONTENT = 'movies'
+        if sThumbnail or sDesc:
+            cGui.CONTENT = 'movies'
+        else:
+            cGui.CONTENT = 'files'
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(sId)
         oGuiElement.setFunction(sFunction)
@@ -350,6 +354,7 @@ class cGui:
         # if oGuiElement.getMeta():
         #     oOutputParameterHandler.addParameter('sMeta', oGuiElement.getMeta())
         if oGuiElement.getCat():
+            cGui.sCat = oGuiElement.getCat()
             oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
 
         sItemUrl = self.__createItemUrl(oGuiElement, oOutputParameterHandler)
@@ -378,6 +383,7 @@ class cGui:
 
     # affiche les liens playable
     def addHost(self, oGuiElement, oOutputParameterHandler=''):
+        oInputParameterHandler = cInputParameterHandler()
 
         cGui.CONTENT = 'files'
 
@@ -385,6 +391,10 @@ class cGui:
             sSiteUrl = oOutputParameterHandler.getValue('siteUrl')
             oGuiElement.setSiteUrl(sSiteUrl)
 
+        # On récupere le sCat du fichier précédent.
+        sCat = oInputParameterHandler.getValue('sCat')
+        if sCat:
+            oGuiElement.setCat(sCat)
         oListItem = self.createListItem(oGuiElement)
         oListItem.setProperty('IsPlayable', 'true')
         oListItem.setProperty('Video', 'true')
@@ -410,8 +420,10 @@ class cGui:
         oListItem.setInfo(oGuiElement.getType(), oGuiElement.getItemValues())
         # oListItem.setThumbnailImage(oGuiElement.getThumbnail())
         # oListItem.setIconImage(oGuiElement.getIcon())
-        oListItem.setArt({'poster': oGuiElement.getPoster(), 'thumb': oGuiElement.getThumbnail(), 'icon': oGuiElement.getIcon(), 'fanart': oGuiElement.getFanart()})
-
+        oListItem.setArt({'poster': oGuiElement.getPoster(),
+                          'thumb': oGuiElement.getThumbnail(),
+                          'icon': oGuiElement.getIcon(),
+                          'fanart': oGuiElement.getFanart()})
         aProperties = oGuiElement.getItemProperties()
         for sPropertyKey, sPropertyValue in aProperties.items():
             oListItem.setProperty(sPropertyKey, str(sPropertyValue))
@@ -625,6 +637,7 @@ class cGui:
 
     def updateDirectory(self):  # refresh the content
         xbmc.executebuiltin('Container.Refresh')
+        xbmc.sleep(500)    # Nécessaire pour laisser le temps du refresh
 
     def viewBA(self):
         oInputParameterHandler = cInputParameterHandler()

@@ -184,7 +184,7 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = sMovieTitle+" الحلقة"+aEntry[1]
+            sTitle = sMovieTitle+" E"+aEntry[1]
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(sThumbnail)
             sInfo = sInfo.decode("utf8")
@@ -198,7 +198,7 @@ def showEps():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        

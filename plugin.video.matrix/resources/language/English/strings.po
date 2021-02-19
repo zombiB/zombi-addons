@@ -1071,6 +1071,10 @@ msgctxt "#70012"
 msgid "Kids"
 msgstr ""
 
+msgctxt "#30501"
+msgid "Classic"
+msgstr ""
+
 msgctxt "#70013"
 msgid "Pack"
 msgstr ""

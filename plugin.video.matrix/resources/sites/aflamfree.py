@@ -22,9 +22,6 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://www.aflamfree.top/'
 MOVIE_PACK = ('https://www.aflamfree.top/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 
-
-
-
 URL_SEARCH = ('https://www.aflamfree.top/?s=', 'showMoviesearch')
 URL_SEARCH_MOVIES = ('https://www.aflamfree.top/?s=', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
@@ -34,24 +31,20 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showMoviesearch', 'Search', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', 'search.png', oOutputParameterHandler)
                 
     oGui.setEndOfDirectory()
-
-	
 	
 def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.aflamfree.site/?s='+sSearchText
+        sUrl = 'https://www.aflamfree.top/?s='+sSearchText
         showMoviesearch(sUrl)
         oGui.setEndOfDirectory()
         return
    
-
- 
 def showMoviesearch(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -83,6 +76,12 @@ def showMoviesearch(sSearch = ''):
             sTitle = aEntry[2].replace("&#8217;","'")  
             siteUrl = aEntry[0]
             sThumbnail = aEntry[1] 
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear) 
             sInfo = '[COLOR aqua]'+aEntry[3]+'/10[/COLOR]' 
 			
 			
@@ -94,7 +93,7 @@ def showMoviesearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -163,7 +162,7 @@ def showPack(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
-
+      # (.+?) ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
     sPattern = "href='([^<]+)'>Next &rsaquo;</a>"
     oParser = cParser()
@@ -206,7 +205,13 @@ def showLive():
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")  
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1] 
+            sThumbnail = aEntry[1]
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear) 
             sInfo = '[COLOR aqua]'+aEntry[3]+'/10[/COLOR]' 
  
             #print sUrl
@@ -214,7 +219,7 @@ def showLive():
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-	    oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+	    oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
  
         progress_.VSclose(progress_)
@@ -316,7 +321,7 @@ def showLive2():
             
 
  
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        

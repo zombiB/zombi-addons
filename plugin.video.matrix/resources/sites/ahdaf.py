@@ -19,14 +19,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.ahdaf-kooora.com/'
 
-
-
 SPORT_FOOT = ('http://www.ahdaf-kooora.com/', 'showMovies')
 
-
-
-URL_SEARCH = ('', 'showMovies')
-FUNCTION_SEARCH = 'showMovies'
  
 def load():
     oGui = cGui()
@@ -39,20 +33,6 @@ def load():
             
     oGui.setEndOfDirectory()
 
-	
-def showSearch():
-    oGui = cGui()
- 
-    sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
-        sUrl = ''+sSearchText
-        showMovies(sUrl)
-        oGui.setEndOfDirectory()
-        return
-   
-
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -94,31 +74,14 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
  
-
-
-def __checkForNextPage(sHtmlContent):
-    sPattern = ''
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        aResult = URL_MAIN+aResult[1][0]
-        return aResult
-
-    return False 
-	
 def showLive():
     oGui = cGui()
    
@@ -159,9 +122,9 @@ def showLive():
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             if 'كمبيوتر'  in sTitle or 'متعددة'  in sTitle:
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+                oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
             else: 
-	            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+	            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
  
         progress_.VSclose(progress_)
@@ -184,7 +147,7 @@ def showHosters():
     #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','')
 
          # (.+?) ([^<]+)   
-    sPattern = '<a href="([^<]+)".+?">([^<]+)<'
+    sPattern = '<a href="(.+?)".+?">([^<]+)<'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -216,7 +179,7 @@ def showHosters():
         progress_.VSclose(progress_) 
               
          # (.+? ([^<]+)   
-    sPattern = '<a href="([^<]+)" target="_blank">([^<]+)<br />'
+    sPattern = '<a href="(.+?)" target="_blank">(.+?)<br />'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -258,7 +221,7 @@ def showHosters():
         progress_.VSclose(progress_) 
 
          # (.+? ([^<]+)   
-    sPattern = '<a href="([^<]+)" target="_blank">([^<]+)</a>'
+    sPattern = '<a href="(.+?)" target="_blank">(.+?)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

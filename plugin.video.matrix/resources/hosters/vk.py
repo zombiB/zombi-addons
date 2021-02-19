@@ -92,21 +92,15 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
         url=[]
         qua=[]
-
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-
-        sPattern =  '"url.+?":"(.+?)\.(\d+).mp4'
+     # (.+?) ([^<]+) .+?
+        sPattern =  '"hls":"(.+?)",'
 
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-
-            for aEntry in aResult[1]:
-                 url.append(aEntry[0])
-                 qua.append(str(aEntry[1]))
-
-            api_call = dialog().VSselectqual(qua, url)
+            api_call = aResult[1][0] + '&Referer=' + self.__sUrl
 
             if (api_call):
                 return True, api_call

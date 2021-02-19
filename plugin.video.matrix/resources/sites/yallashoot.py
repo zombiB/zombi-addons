@@ -19,14 +19,8 @@ SITE_DESC = 'sport vod'
 URL_MAIN = 'http://www.yalla-shoot.com/live/'
 URL_MAIN_link = 'http://www.yalla-shoot.com/live/video.php'
 SPORT_FOOT = ('https://www.yalla-shoot.com/live/video.php', 'showMovies')
-
-
 SPORT_SPORTS = ('http://', 'load')
 SPORT_GENRES = ('http://', 'showGenres')
-
-
-URL_SEARCH = ('http://www.yalla-shoot.com/app/', 'showMovies')
-FUNCTION_SEARCH = 'showMovies'
 
 def load():
     oGui = cGui()
@@ -36,18 +30,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)  
             
     oGui.setEndOfDirectory()
-  
-def showSearch():
-    oGui = cGui()
-    sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
-            sUrl = ''  
-            showMovies(sUrl)
-            oGui.setEndOfDirectory()
-            return  
-
-    
-    
+   
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -58,8 +41,6 @@ def showGenres():
     liste.append( ["أهداف ","http://www.yalla-shoot.com/live/video.php?type=1"] )
     liste.append( ["الأشواط ","http://www.yalla-shoot.com/live/video.php?type=4"] )
     liste.append( ["ملخصات","http://www.yalla-shoot.com/live/video.php?type=2"] )
-
-    
 	            
     for sTitle,sUrl in liste:
         
@@ -114,7 +95,6 @@ def showMovies(sSearch = ''):
 
     if not sSearch:
         oGui.setEndOfDirectory()
-
 
 def __checkForNextPage(sHtmlContent):
     sPattern = "<li><a href='(.+?)'>التالى</a></li>"
@@ -201,6 +181,3 @@ def showHosters():
 
                 
     oGui.setEndOfDirectory()    
-
-
-    

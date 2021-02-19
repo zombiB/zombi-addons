@@ -138,7 +138,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sMovieTitle2', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
 		
@@ -160,7 +160,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = 'div class="episodes-card-title"><h3><a href="([^<]+)">([^<]+)</a></h3></div> <noscript><img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?data-content="([^<]+)"><h3>'
+    sPattern = '<div class="episodes-card-title"><h3><a href="([^<]+)">([^<]+)</a></h3>.+?<img class="img-responsive" src="([^<]+)" alt="([^<]+)" />.+?data-content="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -173,22 +173,23 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).decode("utf8")
+            sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle+"-"+aEntry[3]
+            sEp = aEntry[1].replace("الحلقة","E").replace(" ","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[2]).replace("(","").replace(")","")
             sDesc = str(aEntry[4]).decode("utf8")
             sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sDisplayTitle = ('%s %s') % (sTitle, sEp)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sMovieTitle2', str(aEntry[3]))
+            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -268,7 +269,7 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
+					sDisplayTitle = sMovieTitle2
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -306,7 +307,7 @@ def showHosters():
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
+					sDisplayTitle = sMovieTitle2
 					oHoster.setDisplayName(sDisplayTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -340,7 +341,8 @@ def showHosters():
 				if progress_.iscanceled():
 					break
  
-				sTitle = str(sMovieTitle2)+"-"+str(aEntry[1])
+				sEp = aEntry[1].replace("الحلقة","E").replace(" ","")
+				sTitle = str(sMovieTitle)+" "+sEp
 				siteUrl = aEntry[0]
 				sThumbnail = ""
 				sInfo = ""
@@ -348,10 +350,10 @@ def showHosters():
             #print sUrl
 				oOutputParameterHandler = cOutputParameterHandler()
 				oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-				oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-				oOutputParameterHandler.addParameter('sMovieTitle2', sMovieTitle2)
+				oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+				oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
 				oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-				oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+				oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
                 
     oGui.setEndOfDirectory()	
