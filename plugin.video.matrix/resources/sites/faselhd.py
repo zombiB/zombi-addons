@@ -260,7 +260,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" not in aEntry[2]:
+            if "فيلم" in aEntry[2]:
 				continue
  
             sTitle = str(aEntry[2]).decode("utf8")
