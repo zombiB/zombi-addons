@@ -8,7 +8,6 @@ import unicodedata
 from resources.lib.comaddon import addon, xbmc, isMatrix, VSlog
 from resources.lib.db import cDb
 from resources.lib.util import QuoteSafe
-from resources.lib.unidecode import *
 import random
 
 # rouge E26543
