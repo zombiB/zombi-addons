@@ -250,7 +250,7 @@ def showSerie(sSearch = ''):
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
@@ -275,6 +275,7 @@ def showEpisodes():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
     sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
@@ -304,14 +305,14 @@ def showEpisodes():
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle+" S"+aEntry[2])
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle2+" S"+aEntry[2])
             oOutputParameterHandler.addParameter('sMovieTitle2', sMovieTitle+" E"+aEntry[2])
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'season' in siteUrl:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes', sMovieTitle+" S"+aEntry[2], '', sThumb, '', oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes', sMovieTitle2+" S"+aEntry[2], '', sThumb, '', oOutputParameterHandler)
             else:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showServers1', sMovieTitle+" E"+aEntry[2], '', sThumb, '', oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showServers1', sMovieTitle.replace(" موسم "," S")+" E"+aEntry[2], '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -564,6 +565,7 @@ def showServers():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -636,7 +638,7 @@ def showServers1():
             #print siteUrl 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle2)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle2.replace(" موسم "," S"))
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             
@@ -663,7 +665,7 @@ def showServers1():
 					break
             
 				url = str(aEntry)
-				sTitle = sMovieTitle2
+				sTitle = sMovieTitle2.replace(" موسم "," S")
 				if 'thevideo.me' in url:
 					sTitle = " (thevideo.me)"
 				if 'flashx' in url:

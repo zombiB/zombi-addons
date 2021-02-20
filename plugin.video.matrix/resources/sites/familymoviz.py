@@ -79,8 +79,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<'
-
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="(.+?)".+?<p class="exp-news">([^<]+)<'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -99,6 +98,12 @@ def showMoviesSearch(sSearch = ''):
             siteUrl = aEntry[0]
             sInfo = aEntry[3].decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
 
@@ -107,7 +112,7 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -132,7 +137,7 @@ def showSearchSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<'
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="(.+?)".+?<p class="exp-news">([^<]+)<'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

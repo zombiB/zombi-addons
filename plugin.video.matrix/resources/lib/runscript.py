@@ -149,7 +149,7 @@ class cClear:
             except:
                 self.DIALOG.VSerror("%s, %s" % (self.ADDON.VSlang(30205), sUrl))
             return
-
+			
         elif (env == 'addon'): # Vider le cache des métadonnées
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
                 cached_Cache = "special://home/userdata/addon_data/plugin.video.matrix/video_cache.db"
@@ -176,7 +176,7 @@ class cClear:
 
         elif (env == 'clean'):
             liste = ['Historiques', 'Lecture en cours', 'Marqués vues', 'Marque-Pages', 'Téléchargements']
-            ret = self.DIALOG.VSselect(liste, self.ADDON.VSlang(30110))
+            ret = self.DIALOG.VSselect(liste, self.ADDON.VSlang(34110))
             cached_DB = "special://home/userdata/addon_data/plugin.video.matrix/matrix.db"
             # important seul xbmcvfs peux lire le special
             try:
@@ -230,6 +230,17 @@ class cClear:
                 except:
                     self.DIALOG.VSerror(self.ADDON.VSlang(30096))
             return
+
+        elif (env == 'sett'):
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
+                file = "special://home/userdata/addon_data/plugin.video.matrix/settings.xml"
+                try:
+                    xbmcvfs.rmdir(file, True)
+                    self.DIALOG.VSok(self.ADDON.VSlang(30195))
+                except:
+                    self.DIALOG.VSerror(self.ADDON.VSlang(30196))
+            return
+
 
         elif (env == 'uplog'):
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):

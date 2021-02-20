@@ -17,12 +17,12 @@ msgid "Auto-activate subtitles"
 msgstr "Activation auto des sous-titres"
 
 msgctxt "#30003"
-msgid "Activate filtering search"
-msgstr "Activation filtrage recherche"
+msgid "Downloads Completed"
+msgstr "Telechargements Termine"
 
 msgctxt "#30004"
-msgid "Filter Error"
-msgstr "Erreur du filtre"
+msgid "Downloads Stopped"
+msgstr "Telechargements Arrete"
 
 msgctxt "#30005"
 msgid "matrix will be faster with your own API key."
@@ -31,6 +31,14 @@ msgstr "matrix sera plus rapide avec votre propre clef API."
 msgctxt "#30006"
 msgid "Search Metadata (slowed the Addon)"
 msgstr "Recherche les Metadonnees (ralenti l'Addon)"
+
+msgctxt "#30195"
+msgid "file deleted,[CR](Important relaunch Kodi)"
+msgstr "file deleted,[CR](Important relaunch Kodi)"
+
+msgctxt "#30196"
+msgid "file not deleted ,Error"
+msgstr "file not deleted ,Error"
 
 msgctxt "#30007"
 msgid "Posters Size"
@@ -49,16 +57,16 @@ msgid "Color Text note"
 msgstr "Couleur texte information"
 
 msgctxt "#30011"
-msgid "Select"
-msgstr "Selectionner"
+msgid "Initialization error"
+msgstr "Erreur initialisation"
 
 msgctxt "#30012"
-msgid "Name"
-msgstr "Nom"
+msgid "Downloads already started"
+msgstr "Telechargements deja demarres"
 
 msgctxt "#30013"
 msgid "Matrix update"
-msgstr "Matrix mise a jour"
+msgstr "mise a jour Matrix "
 
 msgctxt "#30014"
 msgid "Update complete"
@@ -72,21 +80,29 @@ msgctxt "#30016"
 msgid "Activate search history"
 msgstr "Activer l'historique de recherche"
 
+msgctxt "#30020"
+msgid "File not found"
+msgstr "Fichier introuvable"
+
 msgctxt "#30021"
 msgid "General"
 msgstr "General"
+
+msgctxt "#30022"
+msgid "Unsupported format"
+msgstr "Format non supporté"
 
 msgctxt "#30023"
 msgid "Plugins Preferences"
 msgstr "Plugins Preferences"
 
 msgctxt "#30024"
-msgid "Host"
-msgstr "Hôte"
+msgid "Unable to download"
+msgstr "Téléchargement impossible"
 
 msgctxt "#30025"
-msgid "Home"
-msgstr "Accueil"
+msgid "Stop Downloads"
+msgstr "Arrêter les Téléchargements"
 
 msgctxt "#30026"
 msgid "IPTV and TV Guide"
@@ -139,6 +155,14 @@ msgstr "Pas possible pour ce site"
 msgctxt "#30038"
 msgid "Bookmarking not possible for this link"
 msgstr "Mise en Marque-page pas possible pour ce lien"
+
+msgctxt "#30039"
+msgid "Download List"
+msgstr "Liste de Téléchargement"
+
+msgctxt "#30040"
+msgid "Clean the list (Finished files)"
+msgstr "Nettoyer la liste (Fichiers finis)"
 
 msgctxt "#30041"
 msgid "History deleted"
@@ -208,6 +232,14 @@ msgctxt "#30057"
 msgid "Delete a database"
 msgstr "Supprimer une BDD"
 
+msgctxt "#31157"
+msgid "Delete settings file"
+msgstr "Supprimer le fichier settings"
+
+msgctxt "#31158"
+msgid "Deletes the settings file"
+msgstr "Supprime le fichier settings"
+
 msgctxt "#30058"
 msgid "Removes the BDD from the cache for metadata"
 msgstr "Supprime la BDD du cache pour les metadonnees"
@@ -261,8 +293,24 @@ msgid "Choose your sources click OK [CR] - To validate the modifications click a
 msgstr "Choisissez vos sources cliquez OK [CR]- Pour valider les modifications cliquez encore sur OK"
 
 msgctxt "#30071"
-msgid "Use Extendedinfo"
-msgstr "Utiliser Extendedinfo"
+msgid "Updated list"
+msgstr "Liste mise à jour"
+
+msgctxt "#30072"
+msgid "File deleted"
+msgstr "Fichier supprimé"
+
+msgctxt "#30073"
+msgid "Error, file cannot be deleted"
+msgstr "Erreur, fichier non supprimable"
+
+msgctxt "#30074"
+msgid "Are you sure you want to delete this file? \nNon-reversible operation."
+msgstr "Voulez vous vraiment supprimer ce fichier ? \nOpération non réversible."
+
+msgctxt "#30075"
+msgid "Starting the full list"
+msgstr "Démarrage de la liste complète"
 
 msgctxt "#30076"
 msgid "Search"
@@ -277,7 +325,7 @@ msgid "Search (Movie)"
 msgstr "Recherche (Films)"
 
 msgctxt "#30079"
-msgid "Search (Tvshow/Anim)"
+msgid "Search (Tvshows/Animes)"
 msgstr "Recherche (Series/Animes)"
 
 msgctxt "#30080"
@@ -288,33 +336,80 @@ msgctxt "#30081"
 msgid "[COLOR gold]Results for: %s[/COLOR]"
 msgstr "[COLOR gold]Resultats pour: %s[/COLOR]"
 
+msgctxt "#30082"
+msgid "Name already used"
+msgstr "Nom déjà utilisé"
+
+msgctxt "#30083"
+msgid "Add to download list"
+msgstr "Ajout en liste de téléchargement"
+
+msgctxt "#30084"
+msgid "Unable to download"
+msgstr "Téléchargement impossible"
+
+msgctxt "#30085"
+msgid "Download failed"
+msgstr "Echec du téléchargement"
+
+msgctxt "#30086"
+msgid "Download Started"
+msgstr "Téléchargement Démarré"
+
+msgctxt "#30087"
+msgid "Clear Cache matrix, Error"
+msgstr "Nettoyage du cache matrix, Erreur"
 msgctxt "#30088"
 msgid "Visual search"
 msgstr "Recherche visuelle"
 
 msgctxt "#30089"
-msgid "Search 2"
-msgstr "Recherche 2"
+msgid "Clear matrix Cache, Successful"
+msgstr "Nettoyage du cache matrix, Réussi"
 
 msgctxt "#30090"
-msgid "Search 3"
-msgstr "Recherche 3"
+msgid "Suppression Database, Successful"
+msgstr "Suppression BDD, Réussi"
 
 msgctxt "#30091"
-msgid "Search 4"
-msgstr "Recherche 4"
+msgid "Suppression Database, Error"
+msgstr "Suppression BDD, Erreur"
 
 msgctxt "#30092"
-msgid "Multiple Choices"
-msgstr "Choix Multiples"
+msgid "Clear Kodi Cache, Successful[CR](Important relaunch Kodi)"
+msgstr "Nettoyage du cache Kodi, Réussi[CR](Important relancer Kodi)"
 
 msgctxt "#30093"
-msgid "Select Search Engine"
-msgstr "Selectionner un Moteur de Recherche"
+msgid "Clear Kodi Cache, Error"
+msgstr "Nettoyage du cache Kodi, Erreur"
 
 msgctxt "#30094"
 msgid "Select your Sources"
 msgstr "Selectionner vos Sources"
+
+msgctxt "#30095"
+msgid "Clear Archive_cache Cache, Successful[CR](Important relaunch Kodi)"
+msgstr "Nettoyage du Cache Archive_cache, Réussi[CR](Important relancer Kodi)"
+
+msgctxt "#30096"
+msgid "Clear Archive_cache Cache, Error"
+msgstr "Nettoyage du Cache Archive_cache, Erreur"
+
+msgctxt "#30097"
+msgid "This code must be transmitted when you open an Issue, please note it:"
+msgstr "Ce code doit être transmis lorsque vous ouvrez une Issue, veuillez le noter:"
+
+msgctxt "#30098"
+msgid "Are you sure? This will erase all thumbnails"
+msgstr "Êtes-vous sûr ? Ceci effacera toutes les vignettes"
+
+msgctxt "#30099"
+msgid "Import/Export Database, Successful"
+msgstr "Import/Export de la Base de Données, Réussi"
+
+msgctxt "#30100"
+msgid "Import/Export Database, Error"
+msgstr "Import/Export de la Base de Données, Erreur"
 
 msgctxt "#30101"
 msgid "New"
@@ -329,7 +424,7 @@ msgid "Indian"
 msgstr "Indien"
 
 msgctxt "#30136"
-msgid "Indian"
+msgid "Indian Dubbed"
 msgstr "Indien doublee"
 
 msgctxt "#30137"
@@ -341,7 +436,7 @@ msgid "Asian"
 msgstr "asiatique"
 
 msgctxt "#30111"
-msgid "Asian"
+msgid "Asian Dubbed"
 msgstr "asiatique doublee"
 
 msgctxt "#30105"
@@ -365,8 +460,12 @@ msgid "Turkish"
 msgstr "Turques"
 
 msgctxt "#30110"
-msgid "Turkish"
+msgid "Turkish Dubbed"
 msgstr "Turques doublee"
+
+msgctxt "#30111"
+msgid "List"
+msgstr "Liste"
 
 msgctxt "#30112"
 msgid "Documentary"
@@ -540,6 +639,10 @@ msgctxt "#30222"
 msgid "Delete:"
 msgstr "Supprimer:"
 
+msgctxt "#30223"
+msgid "Rename"
+msgstr "Renommer"
+
 msgctxt "#30300"
 msgid "Library"
 msgstr "Librairie"
@@ -651,6 +754,14 @@ msgstr "Telecharger et Lire"
 msgctxt "#30327"
 msgid "1Fichier"
 msgstr "1Fichier"
+
+msgctxt "#30328"
+msgid "Token"
+msgstr "Token"
+
+msgctxt "#30329"
+msgid "Token (Optional)"
+msgstr "Token (Optionnel)"
 
 msgctxt "#30330"
 msgid "Search"
@@ -789,8 +900,8 @@ msgid "Divers"
 msgstr "Divers"
 
 msgctxt "#30411"
-msgid "Block  notifications sound"
-msgstr "Bloquer le son des notifications"
+msgid "Enable sound notifications"
+msgstr "Activer le son des notifications"
 
 msgctxt "#30412"
 msgid "[COLOR red]Delete entry[/COLOR]"
@@ -857,7 +968,7 @@ msgid "Movies (Top Rated)"
 msgstr "Films (Les mieux notes)"
 
 msgctxt "#30428"
-msgid "Movies (Kinds)"
+msgid "Movies (Genres)"
 msgstr "Films (Genres)"
 
 msgctxt "#30429"
@@ -870,10 +981,11 @@ msgstr "Series (a la TV)"
 
 msgctxt "#30431"
 msgid "TV Shows (Top Rated)"
+
 msgstr "Series (Les mieux notees)"
 
 msgctxt "#30432"
-msgid "TV Shows (Kinds)"
+msgid "TV Shows (Genres)"
 msgstr "Series (Genres)"
 
 msgctxt "#30433"
@@ -1072,9 +1184,26 @@ msgctxt "#70012"
 msgid "Kids"
 msgstr "Enfants"
 
+msgctxt "#31101"
+msgid "Url"
+msgstr "Url"
+
+msgctxt "#31102"
+msgid "Use the skin display for the information windows"
+msgstr "Utiliser la fenetre d'information du skin"
+
+# Alldebrid
+msgctxt "#31000"
+msgid "Multimedia folder URL (Optional)"
+msgstr "URL du dossier multimedia (Optionnel)"
+
+msgctxt "#34110"
+msgid "Database to delete"
+msgstr "Base de données à supprimer"
+
 msgctxt "#30501"
-msgid "Classique"
-msgstr ""
+msgid "Classic"
+msgstr "Classique"
 
 msgctxt "#70013"
 msgid "Pack"

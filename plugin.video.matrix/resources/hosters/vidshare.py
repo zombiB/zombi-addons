@@ -67,9 +67,15 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('Referer',self.__sUrl)
         sHtmlContent = oRequest.request()
+        print sHtmlContent
 
 
         oParser = cParser()
+
+        sPattern = 'sources.+?src.+?"(.+?)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
 
         sPattern = 'src: "([^<]+)", type'
         aResult = oParser.parse(sHtmlContent, sPattern)

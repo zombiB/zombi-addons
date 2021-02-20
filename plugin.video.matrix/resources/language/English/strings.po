@@ -17,11 +17,11 @@ msgid "Auto-activate subtitles"
 msgstr ""
 
 msgctxt "#30003"
-msgid "Activate filtering search"
+msgid "Downloads Completed"
 msgstr ""
 
 msgctxt "#30004"
-msgid "Filter Error"
+msgid "Downloads Stopped"
 msgstr ""
 
 msgctxt "#30005"
@@ -30,6 +30,14 @@ msgstr ""
 
 msgctxt "#30006"
 msgid "Search Metadata (slowed the Addon)"
+msgstr ""
+
+msgctxt "#30195"
+msgid "file deleted,[CR](Important relaunch Kodi)"
+msgstr ""
+
+msgctxt "#30196"
+msgid "file not deleted ,Error"
 msgstr ""
 
 msgctxt "#30007"
@@ -49,11 +57,11 @@ msgid "Color Text note"
 msgstr ""
 
 msgctxt "#30011"
-msgid "Select"
+msgid "Initialization error"
 msgstr ""
 
 msgctxt "#30012"
-msgid "Name"
+msgid "Downloads already started"
 msgstr ""
 
 msgctxt "#30013"
@@ -72,8 +80,16 @@ msgctxt "#30016"
 msgid "Activate search history"
 msgstr ""
 
+msgctxt "#30020"
+msgid "File not found"
+msgstr ""
+
 msgctxt "#30021"
 msgid "General"
+msgstr ""
+
+msgctxt "#30022"
+msgid "Unsupported format"
 msgstr ""
 
 msgctxt "#30023"
@@ -81,11 +97,11 @@ msgid "Plugins Preferences"
 msgstr ""
 
 msgctxt "#30024"
-msgid "Host"
+msgid "Unable to download"
 msgstr ""
 
 msgctxt "#30025"
-msgid "Home"
+msgid "Stop Downloads"
 msgstr ""
 
 msgctxt "#30026"
@@ -138,6 +154,14 @@ msgstr ""
 
 msgctxt "#30038"
 msgid "Bookmarking not possible for this link"
+msgstr ""
+
+msgctxt "#30039"
+msgid "Download List"
+msgstr ""
+
+msgctxt "#30040"
+msgid "Clean the list (Finished files)"
 msgstr ""
 
 msgctxt "#30041"
@@ -208,6 +232,14 @@ msgctxt "#30057"
 msgid "Delete a database"
 msgstr ""
 
+msgctxt "#31157"
+msgid "Delete settings file"
+msgstr ""
+
+msgctxt "#31158"
+msgid "Deletes the settings file"
+msgstr ""
+
 msgctxt "#30058"
 msgid "Removes the BDD from the cache for metadata"
 msgstr ""
@@ -261,7 +293,23 @@ msgid "Choose your sources click OK [CR] - To validate the modifications click a
 msgstr ""
 
 msgctxt "#30071"
-msgid "Use Extendedinfo"
+msgid "Updated list"
+msgstr ""
+
+msgctxt "#30072"
+msgid "File deleted"
+msgstr ""
+
+msgctxt "#30073"
+msgid "Error, file cannot be deleted"
+msgstr ""
+
+msgctxt "#30074"
+msgid "Are you sure you want to delete this file? \nNon-reversible operation."
+msgstr ""
+
+msgctxt "#30075"
+msgid "Starting the full list"
 msgstr ""
 
 msgctxt "#30076"
@@ -277,7 +325,7 @@ msgid "Search (Movie)"
 msgstr ""
 
 msgctxt "#30079"
-msgid "Search (Tvshows/Anime)"
+msgid "Search (Tvshows/Animes)"
 msgstr ""
 
 msgctxt "#30080"
@@ -288,34 +336,81 @@ msgctxt "#30081"
 msgid "[COLOR gold]Results for: %s[/COLOR]"
 msgstr ""
 
+msgctxt "#30082"
+msgid "Name already used"
+msgstr ""
+
+msgctxt "#30083"
+msgid "Add to download list"
+msgstr ""
+
+msgctxt "#30084"
+msgid "Unable to download"
+msgstr ""
+
+msgctxt "#30085"
+msgid "Download failed"
+msgstr ""
+
+msgctxt "#30086"
+msgid "Download Started"
+msgstr ""
+
+msgctxt "#30087"
+msgid "Clear Cache matrix, Error"
+msgstr ""
+
 msgctxt "#30088"
 msgid "Visual search"
 msgstr ""
 
 msgctxt "#30089"
-msgid "Search 2"
+msgid "Clear matrix Cache, Successful"
 msgstr ""
 
 msgctxt "#30090"
-msgid "Search 3"
+msgid "Suppression Database, Successful"
 msgstr ""
 
 msgctxt "#30091"
-msgid "Search 4"
+msgid "Suppression Database, Error"
 msgstr ""
 
 msgctxt "#30092"
-msgid "Multiple Choices"
+msgid "Clear Kodi Cache, Successful[CR](Important relaunch Kodi)"
 msgstr ""
 
 msgctxt "#30093"
-msgid "Select Search Engine"
+msgid "Clear Kodi Cache, Error"
 msgstr ""
 
 msgctxt "#30094"
 msgid "Select your Sources"
 msgstr ""
 
+msgctxt "#30095"
+msgid "Clear Archive_cache Cache, Successful[CR](Important relaunch Kodi)"
+msgstr ""
+
+msgctxt "#30096"
+msgid "Clear Archive_cache Cache, Error"
+msgstr ""
+
+msgctxt "#30097"
+msgid "This code must be transmitted when you open an Issue, please note it:"
+msgstr ""
+
+msgctxt "#30098"
+msgid "Are you sure? This will erase all thumbnails"
+msgstr ""
+
+msgctxt "#30099"
+msgid "Import/Export Database, Successful"
+msgstr ""
+
+msgctxt "#30100"
+msgid "Import/Export Database, Error"
+msgstr ""
 msgctxt "#30101"
 msgid "New"
 msgstr ""
@@ -341,7 +436,7 @@ msgid "Asian"
 msgstr ""
 
 msgctxt "#30111"
-msgid "Asian Dubbed "
+msgid "Asian Dubbed"
 msgstr ""
 
 msgctxt "#30105"
@@ -366,6 +461,10 @@ msgstr ""
 
 msgctxt "#30110"
 msgid "Turkish Dubbed"
+msgstr ""
+
+msgctxt "#30111"
+msgid "List"
 msgstr ""
 
 msgctxt "#30112"
@@ -540,6 +639,10 @@ msgctxt "#30222"
 msgid "Delete:"
 msgstr ""
 
+msgctxt "#30223"
+msgid "Rename"
+msgstr ""
+
 msgctxt "#30300"
 msgid "Library"
 msgstr ""
@@ -652,6 +755,13 @@ msgctxt "#30327"
 msgid "1Fichier"
 msgstr ""
 
+msgctxt "#30328"
+msgid "Token"
+msgstr ""
+
+msgctxt "#30329"
+msgid "Token (Optional)"
+msgstr ""
 msgctxt "#30330"
 msgid "Search"
 msgstr ""
@@ -789,7 +899,7 @@ msgid "Divers"
 msgstr ""
 
 msgctxt "#30411"
-msgid "Block  notifications sound"
+msgid "Enable sound notifications"
 msgstr ""
 
 msgctxt "#30412"
@@ -798,6 +908,7 @@ msgstr ""
 
 msgctxt "#30413"
 msgid "[COLOR red]Delete history[/COLOR]"
+msgstr ""
 
 msgctxt "#30414"
 msgid "[COLOR gold]Full series search[/COLOR]"
@@ -856,72 +967,71 @@ msgid "Movies (Top Rated)"
 msgstr ""
 
 msgctxt "#30428"
-msgid "Movies (Kinds)"
-msgstr ""msgstr ""
+msgid "Movies (Genres)"
+msgstr ""
 
 msgctxt "#30429"
 msgid "TV Shows (Popular)"
-msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30430"
 msgid "TV Shows (on TV)"
-msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30431"
 msgid "TV Shows (Top Rated)"
-msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30432"
-msgid "TV Shows (Kinds)"
-msgstr ""msgstr ""
+msgid "TV Shows (Genres)"
+msgstr ""
 
 msgctxt "#30433"
 msgid "Actors (Popular)"
-msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30434"
 msgid "Movies (Favorites)"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30435"
 msgid "Movies (Rated)"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30436"
 msgid "Movies (Watched)"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30437"
 msgid "TV Shows (Favorites)"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30438"
 msgid "TV Shows (Rated)"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30439"
 msgid "Episodes (Rated)"
-msgstr ""msgstr ""msgstr ""
-
+msgstr ""
 msgctxt "#30440"
 msgid "TV Shows (Watched)"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30441"
 msgid "My Lists"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30442"
 msgid "You must be logged in"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30443"
 msgid "Add: rated"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30444"
 msgid "Add: Watched"
-msgstr ""msgstr ""msgstr ""
+msgstr ""
 
 msgctxt "#30445"
 msgid "Add: Favorites"
@@ -940,7 +1050,7 @@ msgid "Select a quality"
 msgstr ""
 
 msgctxt "#30449"
-msgid "About"
+msgid "About/Sources"
 msgstr ""
 
 msgctxt "#30450"
@@ -1070,6 +1180,23 @@ msgstr ""
 msgctxt "#70012"
 msgid "Kids"
 msgstr ""
+
+msgctxt "#31101"
+msgid "Url"
+msgstr ""
+
+msgctxt "#31102"
+msgid "Use the skin display for the information windows"
+msgstr ""
+
+# Alldebrid
+msgctxt "#31000"
+msgid "Multimedia folder URL (Optional)"
+msgstr ""
+
+msgctxt "#34110"
+msgid "Database to delete"
+msgstr "Base de données à supprimer"
 
 msgctxt "#30501"
 msgid "Classic"
