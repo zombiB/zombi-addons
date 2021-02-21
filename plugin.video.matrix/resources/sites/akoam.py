@@ -88,7 +88,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = ' <div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
+    sPattern = '<div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -153,7 +153,7 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = ' <div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
+    sPattern = '<div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -237,7 +237,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="subject_box shape" >.+?<a href="([^<]+)">.+?<img src="([^<]+)" alt.+?<h3>([^<]+)</h3>'
+    sPattern = '<div class="subject_box shape"><a href="(.+?)"><img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -502,8 +502,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-# ([^<]+) .+?
-    sPattern = '<div class="subject_box shape" >.+?<a href="([^<]+)">.+?<img src="([^<]+)" alt.+?<h3>([^<]+)</h3>'
+# ([^<]+) .+? (.+?)
+    sPattern = '<div class="subject_box shape"><a href="(.+?)"><img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

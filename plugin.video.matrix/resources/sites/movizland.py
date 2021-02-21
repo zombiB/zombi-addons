@@ -42,7 +42,7 @@ ANIM_NEWS = ('https://hd.movizland.online/category/series/anime-series/', 'showM
 
 URL_SEARCH = ('https://hd.movizland.online/search/', 'showMoviesearch')
 URL_SEARCH_MOVIES = ('https://hd.movizland.online/search/', 'showMovies')
-URL_SEARCH_SERIES = ('https://hd.movizland.online/search/', 'showSeries')
+URL_SEARCH_SERIES = ('https://hd.movizland.online/search/', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -65,7 +65,7 @@ def showSeriesSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'https://hd.movizland.online/search/'+sSearchText
-        showSeries(sUrl)
+        showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
  
@@ -157,7 +157,7 @@ def showSearchSeries(sSearch = ''):
 
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem"><a href="([^<]+)"><div class="EPSNumber">.+?<div class="BlockImageItem"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-defaultb size-defaultb wp-post-image" alt="([^<]+)" />'
+    sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?src="([^<]+)" class.+?<div class="BlockTitle">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -179,13 +179,15 @@ def showSearchSeries(sSearch = ''):
  
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("و الأخيرة","").replace("والأخيرة","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             
             sThumbnail = aEntry[1]
-            sInfo = ''
-            sDisplayTitle2 = sTitle.split('ال')[0]
+            sInfo = ""
+            sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
-            sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").split('ال')[0]
+            sDisplayTitle3 = sTitle.split('الحلقة')[0].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
+            sDisplayTitle = sTitle.split('الحلقة ')[-1].split('ال')[0]
+            sDisplayTitle = sDisplayTitle3+" "+" E"+sDisplayTitle
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -195,7 +197,7 @@ def showSearchSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
 
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -475,8 +477,12 @@ def showEpisodes():
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()       
-     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="BlockItem"><a href="([^<]+)"><div class="EPSNumber"> <em>([^<]+)</em> <span>([^<]+)</span>'
+ 
+
+      # (.+?) ([^<]+) .+?
+
+    sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?src="([^<]+)" class.+?<div class="BlockTitle">([^<]+)</div>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -489,21 +495,35 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
+            if "فيلم" in aEntry[2]:
+				continue
+ 
 
-
-            sTitle = sMovieTitle2 +"E"+aEntry[1]
-            siteUrl = str(aEntry[0])
-            sThumbnail = sThumbnail
-            sInfo = aEntry[1]
-			
+            siteUrl = aEntry[0]
+ 
+            sTitle = aEntry[2].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("و الأخيرة","").replace("والأخيرة","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            
+            sThumbnail = aEntry[1]
+            sInfo = ""
+            sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
+            sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
+            sDisplayTitle3 = sTitle.split('الحلقة')[0].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
+            sDisplayTitle = sTitle.split('الحلقة ')[-1].split('ال')[0]
+            sDisplayTitle = sDisplayTitle3+" "+" E"+sDisplayTitle
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sMovieTitle2)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+			
+            if '/series/' in siteUrl:
+                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes', 'Episodes', '', sThumbnail, sInfo, oOutputParameterHandler)
+            else:
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo,  oOutputParameterHandler)
         
         progress_.VSclose(progress_)
        
@@ -581,8 +601,6 @@ def showHosters():
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-			progress_.VSclose(progress_)
     # ([^<]+) (.+?)      
 
     sPattern = 'rel="nofollow" href="(.+?)">'
@@ -609,9 +627,7 @@ def showHosters():
 					oHoster.setDisplayName(sTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_)             
+				            
 
     sPattern = 'rel="nofollow" href="(.+?)">'
     oParser = cParser()
@@ -638,9 +654,7 @@ def showHosters():
 					oHoster.setDisplayName(sMovieTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_)            
+				          
 
     sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
     oParser = cParser()
@@ -667,9 +681,7 @@ def showHosters():
 					oHoster.setDisplayName(sMovieTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_)           
+				         
 
     sPattern = '<IFRAME allowfullscreen SRC="(.+?)" FRAMEBORDER'
     oParser = cParser()
@@ -699,39 +711,6 @@ def showHosters():
 				
 
 			progress_.VSclose(progress_) 
-
-    oParser = cParser()       
-     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="BlockItem"><a href="([^<]+)"><div class="EPSNumber"> <em>([^<]+)</em> <span>([^<]+)</span>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-
-
-            sTitle = sMovieTitle2 +"E"+aEntry[1]
-            siteUrl = str(aEntry[0])
-            sThumbnail = sThumbnail
-            sInfo = aEntry[1]
-			
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sMovieTitle2)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters1', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
                 
     oGui.setEndOfDirectory()
  
@@ -796,7 +775,6 @@ def showHosters1():
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)
     # ([^<]+) (.+?)      
 
     sPattern = 'rel="nofollow" href="(.+?)">'
@@ -824,8 +802,7 @@ def showHosters1():
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-			progress_.VSclose(progress_)             
+            
 
     sPattern = 'rel="nofollow" href="(.+?)">'
     oParser = cParser()
@@ -852,9 +829,7 @@ def showHosters1():
 					oHoster.setDisplayName(sMovieTitle)
 					oHoster.setFileName(sMovieTitle)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-			progress_.VSclose(progress_)            
+				            
 
     sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
     oParser = cParser()
@@ -880,6 +855,152 @@ def showHosters1():
 				if (oHoster != False):
 					oHoster.setDisplayName(sMovieTitle)
 					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+
+			progress_.VSclose(progress_)     
+                
+    oGui.setEndOfDirectory()
+ 
+def showHosters2():
+    oGui = cGui()
+    import requests
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+
+    #print sHtmlContent 
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+   
+    oParser = cParser()
+
+  # ([^<]+) .+?
+    headers = {'Host': '4k.movizland.online',
+     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+     'Accept': '*/*',
+     'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+     'X-Requested-With': 'XMLHttpRequest',
+     'Referer': sUrl,
+     'Connection': 'keep-alive'}
+
+    data = {'watch':'1'}
+    s = requests.Session()
+    r = s.post(sUrl, headers=headers,data = data)
+    sHtmlContent += r.content
+    # ([^<]+) (.+?)      
+
+    sPattern = '</td><td>([^<]+)</td><td><a href="(.+?)" target'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry[1])
+				sTitle =  str(aEntry[0])
+				if '?download' in url:
+					url = url.replace("moshahda","ddcdd")
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle2)
+					oHoster.setFileName(sMovieTitle2)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+    # ([^<]+) (.+?)      
+
+    sPattern = 'rel="nofollow" href="(.+?)">'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry[1])
+				sTitle =  str(aEntry[0])
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sTitle)
+					oHoster.setFileName(sMovieTitle2)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				           
+
+    sPattern = 'rel="nofollow" href="(.+?)">'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				if 'vidcloud' in url:
+					sTitle = " (vidcloud)"
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle2)
+					oHoster.setFileName(sMovieTitle2)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				           
+
+    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				if 'vidcloud' in url:
+					sTitle = " (vidcloud)"
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle2)
+					oHoster.setFileName(sMovieTitle2)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
