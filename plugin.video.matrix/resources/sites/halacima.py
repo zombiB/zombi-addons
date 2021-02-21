@@ -39,7 +39,7 @@ SERIE_DUBBED = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%
 
 URL_SEARCH = ('https://m.halacima.net/search/page.html', 'showMovies')
 URL_SEARCH_MOVIES = ('https://m.halacima.net/search/', 'showMovies')
-URL_SEARCH_SERIES = ('https://m.halacima.net/search/', 'showSerie')
+URL_SEARCH_SERIES = ('https://m.halacima.net/search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -47,9 +47,11 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
-    
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH MOVIES', 'search.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
             
     oGui.setEndOfDirectory()
  
@@ -60,6 +62,16 @@ def showSearch():
     if (sSearchText != False):
         sUrl = 'https://m.halacima.net/search/'+sSearchText
         showMovies(sUrl)
+        oGui.setEndOfDirectory()
+        return
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'https://m.halacima.net/search/'+sSearchText
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
    

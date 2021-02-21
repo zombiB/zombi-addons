@@ -39,9 +39,7 @@ DOC_SERIES = ('https://www.arblionz.org/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%
 
 SPORT_WWE = ('https://www.arblionz.org/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86/', 'showMovies')
 
-URL_SEARCH = ('https://www.arblionz.org/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.arblionz.org/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.arblionz.org/?s=', 'showSeries')
+URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -59,7 +57,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.arblionz.org/?s='+sSearchText
+        sUrl = ''+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

@@ -206,7 +206,7 @@ def showSeriesSearch(sSearch = ''):
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
@@ -251,7 +251,7 @@ def showSeriesSearch(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -461,7 +461,7 @@ def showSeasons():
  
      # (.+?)
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a href="(.+?)" >الصفحة التالية &laquo;</a></li>'
+    sPattern = '<li><a href="([^<]+)">الصفحة التالية &laquo;</a></li>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
