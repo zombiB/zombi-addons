@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.matrix" name="matrix" version="3.7.6" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="3.7.7" provider-name="zombi">
     <requires>
         <import addon="xbmc.python" version="2.24.0"/>
         <import addon="script.module.simplejson" version="3.3.0"/>
@@ -12,7 +12,7 @@
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <news>version="3.7.6" Sites Fixed/Updated</news>
+        <news>version="3.7.7" Sites Fixed/Updated</news>
         <summary lang="en">https://zombib.github.io/</summary>
         <summary lang="fr">https://zombib.github.io/</summary>
         <description lang="en">https://zombib.github.io/</description>

@@ -28,8 +28,8 @@ KID_MOVIES = ('https://www.familymoviz.net/category/movies/familymovies/', 'show
 SERIE_EN = ('https://www.familymoviz.net/foreignseries/', 'showSeries')
 
 URL_SEARCH = ('https://www.familymoviz.net/?s=', 'showSeriesSearch')
-URL_SEARCH_MOVIES = ('https://www.familymoviz.net/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES= ('https://www.familymoviz.net/?s=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://www.familymoviz.net/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
+URL_SEARCH_SERIES= ('https://www.familymoviz.net/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -52,7 +52,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.familymoviz.net/?s='+sSearchText
+        sUrl = 'https://www.familymoviz.net/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -62,7 +62,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.familymoviz.net/?s='+sSearchText
+        sUrl = 'https://www.familymoviz.net/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -165,7 +165,7 @@ def showSearchSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

@@ -74,6 +74,16 @@ def showSearch():
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'https://tool.egybest.ltd/explore/?q='+sSearchText
+        showMoviesSearch(sUrl)
+        oGui.setEndOfDirectory()
+        return
 
 	
 def showMoviesSearch(sSearch = ''):
@@ -131,7 +141,7 @@ def showMoviesSearch(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMoviesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()

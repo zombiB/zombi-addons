@@ -35,8 +35,8 @@ ANIM_MOVIES = ('https://ww.egydead.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%
 ANIM_NEWS = ('https://ww.egydead.com/series-category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A/', 'showSeries')
 
 URL_SEARCH = ('https://ww.egydead.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://ww.egydead.com/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://ww.egydead.com/?s=', 'showSearchSeries')
+URL_SEARCH_MOVIES = ('https://ww.egydead.com/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://ww.egydead.com/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -59,7 +59,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://ww.egydead.com/?s='+sSearchText
+        sUrl = 'https://ww.egydead.com/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -69,7 +69,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://ww.egydead.com/?s='+sSearchText
+        sUrl = 'https://ww.egydead.com/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -104,9 +104,6 @@ def showMoviesSearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" not in aEntry[1]:
-				continue
 				
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -180,9 +177,6 @@ def showSearchSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" in aEntry[1]:
-				continue
 				
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")

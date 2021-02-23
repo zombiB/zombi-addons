@@ -48,8 +48,8 @@ REPLAYTV_PLAY = ('https://akwam.co/shows?section=45', 'showSeries')
 
 
 URL_SEARCH = ('https://akwam.co/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://akwam.co/search?q=', 'showMovies')
-URL_SEARCH_SERIES = ('https://akwam.co/search?q=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://akwam.co/search?q=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = ('https://akwam.co/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -72,7 +72,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://akwam.co/search?q='+sSearchText
+        sUrl = 'https://akwam.co/search?q=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -82,7 +82,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://akwam.co/search?q='+sSearchText
+        sUrl = 'https://akwam.co/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -113,9 +113,6 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "الموسم"  in aEntry[3]:
-				continue
  
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -171,9 +168,6 @@ def showSeriesSearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "الموسم"  not in aEntry[3]:
-				continue
  
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")

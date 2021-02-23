@@ -41,8 +41,8 @@ SERIE_TR = ('https://hd.movizland.online/category/series/turkish-series/', 'show
 ANIM_NEWS = ('https://hd.movizland.online/category/series/anime-series/', 'showMovies')
 
 URL_SEARCH = ('https://hd.movizland.online/search/', 'showMoviesearch')
-URL_SEARCH_MOVIES = ('https://hd.movizland.online/search/', 'showMovies')
-URL_SEARCH_SERIES = ('https://hd.movizland.online/search/', 'showSearchSeries')
+URL_SEARCH_MOVIES = ('https://hd.movizland.online/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = ('https://hd.movizland.online/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -64,7 +64,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://hd.movizland.online/search/'+sSearchText
+        sUrl = 'https://hd.movizland.online/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -74,7 +74,7 @@ def showSearch():
 
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://hd.movizland.online/search/'+sSearchText
+        sUrl = 'https://hd.movizland.online/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -107,9 +107,6 @@ def showMoviesearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" not in aEntry[2]:
-				continue
  
 
             siteUrl = aEntry[0]
@@ -170,9 +167,6 @@ def showSearchSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" in aEntry[2]:
-				continue
  
 
             siteUrl = aEntry[0]
@@ -239,9 +233,6 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" not in aEntry[2]:
-				continue
  
 
             siteUrl = aEntry[0]
@@ -425,9 +416,6 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم"  in aEntry[2]:
-				continue
  
 
             sTitle = aEntry[2].decode("utf8")

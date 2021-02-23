@@ -38,9 +38,9 @@ ANIM_NEWS = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%
 REPLAYTV_NEWS = ('https://shahid4u.cc/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
 
 
-URL_SEARCH = ('https://shahid4u.cc/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://shahid4u.cc/search?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://shahid4u.cc/search?s=', 'showSerie')
+URL_SEARCH = ('https://shahid4u.onl/search?s=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://shahid4u.onl/search?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = ('https://shahid4u.onl/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -61,7 +61,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://shahid4u.com/?s='+sSearchText
+        sUrl = 'https://shahid4u.onl/search?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -71,7 +71,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://shahid4u.com/?s='+sSearchText
+        sUrl = 'https://shahid4u.onl/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -119,9 +119,6 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" not in aEntry[2]:
-				continue
  
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -236,9 +233,6 @@ def showSerie(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" in aEntry[2]:
-				continue
  
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")

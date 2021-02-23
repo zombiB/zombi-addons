@@ -36,8 +36,8 @@ MOVIE_POP = ('https://www.faselhd.pro/movies_top_views', 'showMovies')
 MOVIE_PACK = ('https://www.faselhd.pro/movies_collections', 'showPacks')
 
 URL_SEARCH = ('https://www.faselhd.pro/?s=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://www.faselhd.pro/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.faselhd.pro/?s=', 'showSeries')
+URL_SEARCH_MOVIES = ('https://www.faselhd.pro/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.faselhd.pro/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -57,7 +57,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.faselhd.pro/?s='+sSearchText
+        sUrl = 'https://www.faselhd.pro/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -67,7 +67,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.faselhd.pro/?s='+sSearchText
+        sUrl = 'https://www.faselhd.pro/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -211,9 +211,6 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" not in aEntry[2]:
-				continue
- 
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
@@ -272,9 +269,6 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم"  in aEntry[2]:
-				continue
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")

@@ -274,6 +274,8 @@ class cHosterGui:
             return self.getHoster('vodlocker')
         if ('cima4up' in sHostName):
             return self.getHoster('cimaup')
+        if ('cimanow' in sHostName):
+            return self.getHoster('cimanow')
         if ('ok.ru' in sHostName):
             return self.getHoster('ok_ru')
         if ('vimeo.com' in sHostName):
@@ -425,6 +427,8 @@ class cHosterGui:
             return self.getHoster('fajerlive')
         if ('movs4u.club' in sHostName):
             return self.getHoster('movs4u')
+        if ('tune' in sHostName):
+            return self.getHoster('tune')
         if ('mystream' in sHostName):
             return self.getHoster('mystream')
         if ('letsupload' in sHostName):

@@ -41,8 +41,8 @@ DOC_NEWS = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9
 DOC_SERIES = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showSerie')
 SPORT_NEWS = ('https://www.cimaclub.io/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D9%87-wwe', 'showMovies')
 URL_SEARCH = ('https://www.cimaclub.io/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.cimaclub.io/search?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.cimaclub.in/search?s=', 'showSerie')
+URL_SEARCH_MOVIES = ('https://www.cimaclub.io/search?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.cimaclub.in/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -64,7 +64,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.cimaclub.in/search?s='+sSearchText
+        sUrl = 'https://www.cimaclub.in/search?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -74,7 +74,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.cimaclub.io/search?s='+sSearchText
+        sUrl = 'https://www.cimaclub.io/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -125,9 +125,6 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" not in aEntry[2]:
-				continue
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -192,9 +189,6 @@ def showSerie(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" in aEntry[3]:
-				continue
  
             sTitle = aEntry[3].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("انمى","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","") 
             siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")

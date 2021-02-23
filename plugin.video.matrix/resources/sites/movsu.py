@@ -303,7 +303,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="result-item">.+?<img src="([^<]+)" alt="([^<]+)" />.+?<div class="title"><a href="([^<]+)">.+?<span class="year">([^<]+)</span>.+?<p>([^<]+)</p>'
+    sPattern = '<div class="thumbnail animation-2"><a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="movies">.+?<span class="year">([^<]+)</span>.+?<div class="contenido"><p>([^<]+)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -317,10 +317,10 @@ def showMoviesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
+            sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8") 
-            sThumbnail = aEntry[0]
-            siteUrl = aEntry[2]
+            sThumbnail = aEntry[1]
+            siteUrl = aEntry[0]
             sDesc = aEntry[4].decode("utf8")
             sDesc = cUtil().unescape(sDesc).encode("utf8")
             sYear = aEntry[3]
@@ -340,7 +340,7 @@ def showMoviesSearch(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMoviesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -393,7 +393,7 @@ def showSearchSeries(sSearch = ''):
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()

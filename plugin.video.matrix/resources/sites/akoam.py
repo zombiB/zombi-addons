@@ -37,8 +37,8 @@ SERIE_TR = ('https://old.akwam.co/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D
 SERIE_GENRES = (True, 'showGenres')
 DOC_NEWS = ('https://old.akwam.co/cat/94/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
 URL_SEARCH = ('https://old.akwam.co/search/', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://old.akwam.co/search/', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://old.akwam.co/search/', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://old.akwam.co/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://old.akwam.co/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -61,7 +61,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://old.akwam.co/search/'+sSearchText
+        sUrl = 'https://old.akwam.co/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -71,7 +71,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://old.akwam.co/search/'+sSearchText
+        sUrl = 'https://old.akwam.co/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -101,9 +101,6 @@ def showMoviesSearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" not in aEntry[2]:
-				continue
  
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -166,9 +163,6 @@ def showSeriesSearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم"  in aEntry[2]:
-				continue
  
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")

@@ -34,8 +34,8 @@ ANIM_NEWS = ('https://tuktukcinema.net/category/%d8%a7%d9%86%d9%85%d9%8a/', 'sho
 SPORT_WWE = ('https://tuktukcinema.net/category/wwe/', 'showMovies')
 DOC_SERIES = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/', 'showMovies')
 URL_SEARCH = ('https://tuktukcinema.net/search/', 'showMovies')
-URL_SEARCH_MOVIES = ('https://tuktukcinema.net/search/', 'showMovies')
-URL_SEARCH_SERIES = ('https://tuktukcinema.net/search/', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://tuktukcinema.net/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = ('https://tuktukcinema.net/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -56,7 +56,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://tuktukcinema.net/search/'+sSearchText
+        sUrl = 'https://tuktukcinema.net/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -66,7 +66,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://tuktukcinema.net/search/'+sSearchText
+        sUrl = 'https://tuktukcinema.net/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -94,9 +94,6 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم" not in aEntry[0]:
-				continue
  
             sTitle = str(aEntry[0]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -185,9 +182,6 @@ def showSeriesSearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم"  in aEntry[0]:
-				continue
  
             sTitle = str(aEntry[0]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -280,9 +274,6 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "فيلم"  in aEntry[0]:
-				continue
  
             sTitle = str(aEntry[0]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")

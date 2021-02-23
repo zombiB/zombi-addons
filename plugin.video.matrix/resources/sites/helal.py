@@ -38,7 +38,7 @@ KID_CARTOON = ('https://www.4helal.me/c/Cartoon-Dubbed', 'showSerie')
 
 SPORT_WWE = ('https://www.4helal.me/cat/2/%D8%A7%D9%84%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A/1.html', 'showMovies')
 URL_SEARCH = ('https://www.4helal.me/tag/', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.4helal.me/tag/', 'showMovies')
+URL_SEARCH_MOVIES = ('https://www.4helal.me/tag/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
 URL_SEARCH_SERIES = ('https://www.4helal.me/tag/', 'showSerieSearch')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
@@ -47,7 +47,11 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
 
             
     oGui.setEndOfDirectory()
@@ -57,10 +61,21 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.4helal.me/tag/'+sSearchText
+        sUrl = 'https://www.4helal.me/tag/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = 'https://www.4helal.me/tag/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        showSerieSearch(sUrl)
+        oGui.setEndOfDirectory()
+        return
+ 
   
 
  
@@ -89,9 +104,6 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "مسلسل"  in aEntry[3]:
-				continue
  
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
@@ -207,9 +219,6 @@ def showSerieSearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "مسلسل" not in aEntry[2]:
-				continue
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
