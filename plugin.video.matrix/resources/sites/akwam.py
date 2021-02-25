@@ -44,7 +44,7 @@ DOC_NEWS = ('https://akwam.co/movies?category=28', 'showMovies')
 DOC_SERIES = ('https://akwam.co/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
 
 REPLAYTV_NEWS = ('https://akwam.co/shows?section=42', 'showSeries')
-REPLAYTV_PLAY = ('https://akwam.co/shows?section=45', 'showSeries')
+REPLAYTV_PLAY = ('https://akwam.co/shows?section=45', 'showMovies')
 
 
 URL_SEARCH = ('https://akwam.co/search?q=', 'showSeries')
