@@ -463,6 +463,7 @@ def showFolderList():
     liste = []
     liste.append( ['Top 50 des plus grands films', '10'] )
     liste.append( ['Gagnants des Oscars', '31670'] )
+    liste.append( ['Best Picture Winners - The Golden Globes', '2469'] )
     liste.append( ['Les films fascinants ', '43'] )
     liste.append( ['science-fiction', '3945'] )
     liste.append( ['Les adaptations', '9883'] )

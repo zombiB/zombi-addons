@@ -312,7 +312,16 @@ def showHosters4():
                 break
             
             url = aEntry
-            print "zzéésHtmlContent"
+            if '.php?' in url:
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent2 = St.get(url).content
+                oParser = cParser()
+                sPattern =  'source: "(.+?)",'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if (aResult[0] == True):
+					url = aResult[1][0]
+                print "zzéésHtmlContent"
+                print url
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent2 = St.get(url).content
@@ -334,7 +343,7 @@ def showHosters4():
 					url2 = aResult[1][0].split('hls:')
 					url2 = url2[1].split('+')
 					url2 = url2[0].replace("'","")
-					sUrl = url2+live+'/'+ch+'.m3u8' + '|User-Agent=' + "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Mobile Safari/537.36" + '&Referer=' + 'https://m.king-shoot.xyz/'+ '&Origin=https://fajer.live'
+					Url = url2+live+'/'+ch+'.m3u8'
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent4 = St.get(url).content
@@ -344,8 +353,8 @@ def showHosters4():
 					a = var[0][0]
 					a = a.replace('\\','')
 					b = var[0][1]
-					sUrl = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
-            sHosterUrl = sUrl
+					url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
+            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + 'https://king-shoot.com/'
             sMovieTitle = 'link'
             
 

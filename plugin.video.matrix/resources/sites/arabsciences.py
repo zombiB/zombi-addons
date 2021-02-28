@@ -94,7 +94,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+?
-    sPattern = '<a aria-label="([^<]+)" href=([^<]+) class=post-thumb><img.+?data-orig-file="([^<]+)" data.+?class=post-excerpt>([^<]+)</p>'
+    sPattern = '<a aria-label="([^<]+)" href="([^<]+)" class="post-thumb">.+?data-orig-file="([^<]+)" data.+?class="post-excerpt">([^<]+)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -142,7 +142,7 @@ def showMovies(sSearch = ''):
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'class="last-page first-last-pages"><a href=([^<]+)><span'
+    sPattern = '<a href="([^<]+)"><span class="pagination-icon" aria-hidden="true"></span>الصفحة التالية</a>'
 	 #.+? ([^<]+)
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
