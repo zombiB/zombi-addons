@@ -160,6 +160,8 @@ class cHosterGui:
             return self.getHoster('mpupload')
         if ('youdbox' in sHostName):
             return self.getHoster('youdbox')
+        if ('yourupload' in sHostName):
+            return self.getHoster('yourupload')
         if ('vid4up' in sHostName):
             return self.getHoster('vidforup')
 
@@ -318,9 +320,9 @@ class cHosterGui:
         if ('watchvideo' in sHostName):
              return self.getHoster('watchvideo')
         if ('drive.google.com' in sHostName):
-            return self.getHoster('googledrive')
+            return self.getHoster('resolver')
         if ('docs.google.com' in sHostName):
-            return self.getHoster('googledrive')
+            return self.getHoster('resolver')
         if ('vidwatch' in sHostName):
             return self.getHoster('vidwatch')
         if ('up2stream' in sHostName):

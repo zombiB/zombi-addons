@@ -179,7 +179,7 @@ def showHosters():
 					break
             
 				url = str(aEntry)
-				url = str(aEntry).replace('?rel=0','')
+				url = str(aEntry).replace('?rel=0','').replace('"','')
 				if url.startswith('//'):
 					url = 'http:' + url
 				
@@ -209,7 +209,7 @@ def showHosters():
 					break
             
 				url = str(aEntry)
-				url = str(aEntry).replace('?rel=0','')
+				url = str(aEntry).replace('?rel=0','').replace('"','')
 				if url.startswith('//'):
 					url = 'http:' + url
 				

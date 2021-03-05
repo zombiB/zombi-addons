@@ -87,13 +87,13 @@ class cHoster(iHoster):
             
             #Replissage des tableaux
 			for i in aResult[1]:
-				url.append("https://watch9.cimanow.net"+str(i[0]).replace("+","%20").replace(" ","%20"))
+				url.append("https://watch9.cimanow.net"+str(i[0]).replace("[","%5B").replace("]","%5D").replace("+","%20").replace(" ","%20"))
 				qua.append(str(i[1])+'p')
 
 			api_call = dialog().VSselectqual(qua, url)
 
 			if (api_call):
-				return True, api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + self.__sUrl
+				return True, api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + self.__sUrl+'&Host=watch8.cimanow.net'
 
 		return False, False
         

@@ -18,7 +18,7 @@ SITE_NAME = 'xsanime'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://ww.xsanime.com'
-ANIM_NEWS = ('https://ww.xsanime.com/', 'showSeries')
+ANIM_NEWS = ('https://ww.xsanime.com/episodes', 'showSeries')
 ANIM_MOVIES = ('https://ww.xsanime.com/movies_list/', 'showMovies')
 
 URL_SEARCH = ('https://ww.xsanime.com/?s=', 'showSeries')
@@ -83,7 +83,7 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -128,7 +128,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -151,7 +151,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<a title="([^<]+)" href="([^<]+)">.+?style="background-image: url([^<]+);"></div>'
+    sPattern = '<div class="itemtype_episode"><a href="([^<]+)" title="([^<]+)"><div class="itemtype_episode_poster"><img class="imgInit" data-image="([^<]+)" alt'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -165,10 +165,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[0]).decode("utf8")
+            sTitle = str(aEntry[1]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[1])
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","")
+            siteUrl = str(aEntry[0])
             sThumb = str(aEntry[2]).replace("(","").replace(")","")
             sDesc = ''
             sDisplayTitle = sTitle.split('الحلقة')[0].replace("Season ","")
@@ -181,7 +181,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle2, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServers', sDisplayTitle2, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -210,30 +210,93 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 
-
-def showHosters():
+def showServers():
     oGui = cGui()
+    import requests
+   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+    sDesc = oInputParameterHandler.getValue('sDesc')
+
+    #print sHtmlContent 
+
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()       
-
-
-    # (.+?) .+? ([^<]+)
-               
-
-    sPattern = '<a href="([^<]+)" target="_blank">'
+   
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sPattern = 'data-i="(.+?)" data-id="(.+?)" class'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				headers = {'Host': 'ww.xsanime.com',
+							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Accept': '*/*',
+							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Referer': sUrl,
+							'Connection': 'keep-alive'}
+				spost = aEntry[0]
+				sId = aEntry[1]
+				data = {'id':sId,'i':spost}
+				s = requests.Session()
+				
+				r = s.post('https://ww.xsanime.com/wp-content/themes/Elshaikh/Inc/Ajax/Single/Server.php', headers=headers,data = data)  
+				sHtmlContent += r.content     
+    sPattern = '<iframe src="(.+?)" scrolling'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle
+				if 'thevideo.me' in url:
+					sTitle = " (thevideo.me)"
+				if 'flashx' in url:
+					sTitle = " (flashx)"
+				if 'streamcherry' in url:
+					sTitle = " (streamcherry)"
+				if 'cloudvideo' in url:
+					sTitle = " (cloudvideo)"
+				if 'vcstream' in url:
+					sTitle = " (vcstream)"
+				if 'userscloud' in url:
+					sTitle = " (userscloud)"
+				if 'clicknupload' in url:
+					sTitle = " (clicknupload)"
+				if url.startswith('//'):
+					url = 'http:' + url
+            
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					oHoster.setDisplayName(sMovieTitle2)
+					oHoster.setFileName(sMovieTitle2)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
-
-    #print aResult
+    
+    # (.+?) .+? ([^<]+)        	
+    sPattern = 'href="(.+?)" class="download--item">'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
     if (aResult[0] == True):
@@ -243,71 +306,39 @@ def showHosters():
 				progress_.VSupdate(progress_, total)
 				if progress_.iscanceled():
 					break
-        
-				url = aEntry
-				sTitle = sMovieTitle2
-
+            
+				url = str(aEntry)
+				sTitle = sMovieTitle
 				if 'thevideo.me' in url:
 					sTitle = " (thevideo.me)"
 				if 'flashx' in url:
 					sTitle = " (flashx)"
 				if 'streamcherry' in url:
 					sTitle = " (streamcherry)"
+				if 'cloudvideo' in url:
+					sTitle = " (cloudvideo)"
+				if 'streamcloud' in url:
+					sTitle = " (streamcloud)"
+				if 'userscloud' in url:
+					sTitle = " (userscloud)"
+				if 'clicknupload' in url:
+					sTitle = " (clicknupload)"
 				if url.startswith('//'):
-					url = 'https:' + url
+					url = 'http:' + url
 				
 					
             
 				sHosterUrl = url 
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sDisplayTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-    sPattern = 'data-server="([^<]+)" data-i='
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-        
-				url = aEntry
-				sTitle = sMovieTitle2
-
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if url.startswith('//'):
-					url = 'https:' + url
-				
-					
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sDisplayTitle)
+					oHoster.setDisplayName(sMovieTitle2)
+					oHoster.setFileName(sMovieTitle2)
 					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------قائمه الحلقات --------[/COLOR]')
+    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------------------------[/COLOR]')
     # (.+?) .+? ([^<]+)
-    sPattern = '<li class=" "><a href="([^<]+)">.+?<span class="number">([^<]+)</span>'
+    sPattern = 'href="([^<]+)">الحلقة<em>(.+?)</em></a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -333,7 +364,9 @@ def showHosters():
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)        
-           
-                
-    oGui.setEndOfDirectory()	
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
+				
+
+	progress_.VSclose(progress_)
+       
+    oGui.setEndOfDirectory()
