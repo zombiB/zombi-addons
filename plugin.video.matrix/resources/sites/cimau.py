@@ -20,6 +20,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://cima4u.io'
 
 
+MOVIE_FAM = ('http://ww1.cima4u.io/ajaxcenter/action/HomepageLoader/types/780/archive/category%7C2/', 'showMovies')
 MOVIE_EN = ('http://cima4u.io/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/', 'showMovies')
 MOVIE_AR = ('http://cima4u.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A-arabic-movies/', 'showMovies')
 MOVIE_HI = ('http://cima4u.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A-indian-movies/', 'showMovies')
@@ -137,6 +138,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -281,7 +283,7 @@ def showPack():
             sTitle = sTitle.replace("</em>","").replace("<em>","").replace("</span>","").replace("<span>","").replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1])
-            sInfo = ""
+            sDesc = ""
             sYear = ''
             sDub = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -300,7 +302,8 @@ def showPack():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
        
@@ -313,6 +316,7 @@ def showLinks():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sDesc = oInputParameterHandler.getValue('sDesc')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -320,13 +324,12 @@ def showLinks():
     oParser = cParser()
     
     #Recuperation infos
-    sNote = ''
 
     sPattern = '<h2>القصة</h2><p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
-        sNote = aResult[1][0]
+        sDesc = aResult[1][0]
     
     oParser = cParser()
     # .+? ([^<]+)
@@ -360,7 +363,7 @@ def showLinks():
 					sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
 					siteUrl = str(aEntry[0])
 					sThumb = str(aEntry[1]).replace("(","").replace(")","")
-					sDesc = sNote
+					sDesc = sDesc
 					sYear = ''
 					m = re.search('([0-9]{4})', sTitle)
 					if m:
@@ -374,6 +377,7 @@ def showLinks():
 					oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 					oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 					oOutputParameterHandler.addParameter('sThumb', sThumb)
+					oOutputParameterHandler.addParameter('sDesc', sDesc)
 					oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
 				progress_.VSclose(progress_)
@@ -416,7 +420,7 @@ def showLinks():
             sPage = str(aEntry[0])
             sTitle = 'server '+':'+ aEntry[1]
             siteUrl = 'http://live.cima4u.io/structure/server.php?id='+sPage
-            sDesc = sNote
+            sDesc = sDesc
 
 
             #print siteUrl 
@@ -509,11 +513,11 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("&#8217;","'").replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = aEntry[2].replace("&#8217;","'").replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sDesc = ""
-            sDisplayTitle2 = sTitle.split('حلقة')[0]
+            sDisplayTitle2 = sTitle.split('حلقة')[0].split('الموسم')[0].split('موسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("موسم","S").replace("S ","S").split('حلقة')[0]
 
@@ -626,6 +630,7 @@ def showEpisodes():
 					oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 					oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 					oOutputParameterHandler.addParameter('sThumb', sThumb)
+					oOutputParameterHandler.addParameter('sDesc', sDesc)
 					oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
 				progress_.VSclose(progress_)
@@ -658,6 +663,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
@@ -687,6 +693,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)

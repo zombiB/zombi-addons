@@ -44,13 +44,13 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30425), 'pop.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'movie/now_playing')
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30426), 'film.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'movie/top_rated')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30427), 'top.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'movie/now_playing')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30426), 'film.png', oOutputParameterHandler)
+	
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'genre/movie/list')
     oGui.addDir(SITE_IDENTIFIER, 'showGenreMovie', addons.VSlang(30428), 'genres.png', oOutputParameterHandler)
@@ -237,7 +237,7 @@ def getContext():
     yn.append(False)
     lang.append(addons.VSlang(30447))
 
-    ret = dialogs.select('TMDB',lang)
+    ret = dialogs.VSselect(lang, 'TMDB')
     if ret > -1:
         return disp[ret], fow[ret], yn[ret]
 

@@ -66,7 +66,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<a href="([^<]+)"target="_blank" class="AlbaSposrTable live".+?title="([^<]+)" src=.+?title="(.+?)"'
+    sPattern = '<a href="([^<]+)" target="_blank" class="AlbaSposrTable.+?" rel="(.+?)">.+?title="([^<]+)" src=.+?title="(.+?)"'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -80,12 +80,14 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1]+' - ' +aEntry[2] 
+            sTitle =  aEntry[2]+' - ' +aEntry[3] 
             sThumbnail = ""
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
 				siteUrl = 'http:' + aEntry[0]
-            sInfo = ""
+            sInfo = aEntry[1]
+            if "live" in sInfo:
+                sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
 			
 			
 

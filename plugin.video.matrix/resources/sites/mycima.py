@@ -20,6 +20,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://mycima.to'
 
 MOVIE_CLASSIC = ('https://mycima.plus/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/arabic-movies-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/list/old/', 'showMovies')
+MOVIE_FAM = ('https://mycima.life/mpaa/pg/', 'showMovies')
 MOVIE_EN = ('https://mycima.plus/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/4-movies-english-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 
 MOVIE_AR = ('https://mycima.plus/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/arabic-movies-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showMovies')
@@ -114,11 +115,16 @@ def showMovies(sSearch = ''):
             sInfo = ""
             sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
             sYear = ''
+            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
 				sYear = str(m.group(0))
 				sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+            m = re.search('مدبلج', sTitle)
+            if m:
+				sDub = str(m.group(0))
+				sTitle = sTitle.replace(sDub,'')
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
 
 
 

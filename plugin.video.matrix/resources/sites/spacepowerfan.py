@@ -22,9 +22,7 @@ URL_MAIN = 'https://www.spacepowerfan.com/'
 ANIM_MOVIES = ('https://spacepowerfan.com/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
 ANIM_NEWS = ('https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
 
-URL_SEARCH = ('https://akwam.net/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://akwam.net/search?q=', 'showMovies')
-URL_SEARCH_SERIES = ('https://akwam.net/search?q=', 'showSeries')
+URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -65,7 +63,7 @@ def showMovies(sSearch = ''):
     data = sgn.get(sUrl).content
     sHtmlContent = data
  # ([^<]+) .+? (.+?)
-    sPattern = '<article class="TPost C"><a href="(.+?)"><div class="Image">.+?data-lazy-src="(.+?)" />.+?<h3 class="Title">(.+?)</h3>'
+    sPattern = '<article.+?href="([^<]+)"><div.+?data-lazy-src="([^<]+)" />.+?class="Title">([^<]+)</h3><span class="Year">(.+?)</span>.+?class="Description"><p>([^<]+)</p>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -80,10 +78,18 @@ def showMovies(sSearch = ''):
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("مدبلج بالعربية","مدبلج").replace("فيلم","").replace("مدبلج بالعربي","مدبلج")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace('"',"").replace("&quot;","").replace("amp;","")
-            sDesc = ""
+            sDesc = str(aEntry[4]).decode("utf8")
+            sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sYear = aEntry[3]
+            sDub = ''
+            m = re.search('مدبلج', sTitle)
+            if m:
+				sDub = str(m.group(0))
+				sTitle = sTitle.replace(sDub,'')
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -91,7 +97,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  

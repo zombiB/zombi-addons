@@ -35,7 +35,8 @@ SERIE_TR = ('http://vod.alarab.com/q/%D9%85%D8%AA%D8%B1%D8%AC%D9%85', 'showSerie
 SERIE_GENRES = (True, 'showGenres')
 
 
-REPLAYTV_NEWS = ('https://vod.alarab.com/view-313/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA', 'showSeries')
+REPLAYTV_NEWS = ('https://watch.alarab.com/view-311/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86', 'showSeries')
+REPLAYTV_PLAY = ('https://vod.alarab.com/view-313/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA', 'showMovies')
 NETS_NEWS = ('https://vod.alarab.com/view-309/%D9%85%D9%82%D8%A7%D8%B7%D8%B9-%D9%85%D8%B6%D8%AD%D9%83%D8%A9', 'showEps')
 KID_CARTOON = ('https://vod.alarab.com/view-4/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showSeries')
 URL_SEARCH = ('https://vod.alarab.com/#/search;query=', 'showMovies')
@@ -109,7 +110,7 @@ def showMovies(sSearch = ''):
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","")
+            sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("بدون تحميل","").replace("انتاج ","").replace("على العرب","")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
             sInfo = ""

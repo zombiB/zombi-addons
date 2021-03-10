@@ -20,7 +20,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://blkom.com'
 ANIM_NEWS = ('https://blkom.com/anime-list', 'showSeries')
 
-ANIM_MOVIES = ('https://blkom.com/movie-list', 'showSeries')
+ANIM_MOVIES = ('https://blkom.com/movie-list', 'showMovies')
 URL_SEARCH_SERIES = ('https://blkom.com/search?query=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
@@ -55,9 +55,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-
-    sPattern = '<div class="content-inner"> <div class="poster"> <a href="([^<]+)"> <img class="lazy" data-original="(.+?)" alt="(.+?)"> </a> </div> <div class="info">.+?<div class="story"> <div class="story-text"> <p>(.+?)</p>'
-
+    sPattern = '<img class="lazy" data-original="([^<]+)" alt.+?<div class="name"> <a href="([^<]+)">([^<]+)</a> </div> <div class="overlay">.+?<div class="story-text"> <p>([^<]+)</p>.+?<div class="badge red" title=.+?>(.+?)</'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -72,20 +70,23 @@ def showMovies(sSearch = ''):
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("poster","")
-            siteUrl = URL_MAIN+str(aEntry[0])
-            sThumbnail = URL_MAIN+str(aEntry[1])
+            siteUrl = URL_MAIN+str(aEntry[1])
+            sThumbnail = URL_MAIN+str(aEntry[0])
             sInfo = aEntry[3].decode("utf8")
             sInfo = cUtil().unescape(sInfo).encode("utf8")
-            sInfo = '[COLOR yellow]'+aEntry[3]+'[/COLOR]'
+            sYear = aEntry[4]
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle',sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sInfo', aEntry[3])
+            if '/watch/' in siteUrl:
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+            else:
+				oGui.addMovie(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -97,7 +98,7 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
+			
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:

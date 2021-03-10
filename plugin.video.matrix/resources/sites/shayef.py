@@ -27,7 +27,7 @@ SERIE_AR = ('https://mobile.shayefpro.com/MosalsalatArab.asp', 'showMovies')
 
 
 
-REPLAYTV_NEWS = ('http://www.shayef.net/BramejTV.asp', 'showSerie')
+REPLAYTV_NEWS = ('https://mobile.shayefpro.com/BramejTV.asp', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -67,7 +67,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = sHtmlContent.decode("windows-1256").encode("windows-1256")
  
 
-    sPattern = '<div class="vi-box-top">.+?<img src="([^<]+)" /></a>.+?<a href="([^<]+)"><h4>([^<]+)</h4></a>'
+    sPattern = '<a href="([^<]+)">.+?<img class="t-img"src="([^<]+)" />.+?<h4>([^<]+)</h4>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -82,8 +82,8 @@ def showSerie(sSearch = ''):
                 break
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[1])
-            sThumbnail = str(aEntry[0])
+            siteUrl = str(aEntry[0])
+            sThumbnail = str(aEntry[1])
             sInfo = ''
 
 
@@ -237,7 +237,7 @@ def showEps():
     sHtmlContent = oRequestHandler.request()
     sHtmlContent = sHtmlContent.decode("ISO-8859-1").encode("ISO-8859-1")
 
-    sPattern = '<a href="([^<]+)"><h2>([^<]+)</h2></a>'
+    sPattern = '<div class="series-box-top"><a href="([^<]+)">.+?<h4>([^<]+)</h4>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -22,8 +22,8 @@ ANIM_NEWS = ('https://ww.xsanime.com/episodes', 'showSeries')
 ANIM_MOVIES = ('https://ww.xsanime.com/movies_list/', 'showMovies')
 
 URL_SEARCH = ('https://ww.xsanime.com/?s=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://ww.xsanime.com/wp-content/themes/YourColor-XSAnime/SearchComplete.php?tpe=&search=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://ww.xsanime.com/wp-content/themes/YourColor-XSAnime/SearchComplete.php?tpe=&search=', 'showMoviesSearch')
+URL_SEARCH_MOVIES = ('https://ww.xsanime.com/?s=', 'showMovies')
+URL_SEARCH_SERIES = ('https://ww.xsanime.com/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -40,12 +40,12 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://ww.xsanime.com/wp-content/themes/YourColor-XSAnime/SearchComplete.php?tpe=&search='+sSearchText
-        showMoviesSearch(sUrl)
+        sUrl = 'https://ww.xsanime.com/?s='+sSearchText
+        showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-
-def showMoviesSearch(sSearch = ''):
+		
+def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -56,7 +56,7 @@ def showMoviesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<a href="([^<]+)">([^<]+)</a>'
+    sPattern = '<div class="itemtype_anime"><a href="([^<]+)" title="([^<]+)"><div class="itemtype_anime_poster"><img class="imgInit" data-image="([^<]+)" alt'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -74,50 +74,6 @@ def showMoviesSearch(sSearch = ''):
             sTitle = cUtil().unescape(sTitle).encode("utf8")
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
             siteUrl = str(aEntry[0])
-            sThumb = ''
-            sDesc = ''
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory()
-def showMovies(sSearch = ''):
-    oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
-    sPattern = '<div class="MovieItem"><a title="([^<]+)" href="([^<]+)"><div class="BGMovieItem" style="background-image: url([^<]+);"></div>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = str(aEntry[0]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[1])
             sThumb = str(aEntry[2]).replace("(","").replace(")","")
             sDesc = ''
 

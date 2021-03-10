@@ -447,6 +447,10 @@ msgctxt "#30106"
 msgid "Years"
 msgstr "Annees"
 
+msgctxt "#33107"
+msgid "Family"
+msgstr "Familiales"
+
 msgctxt "#30107"
 msgid "Arabic"
 msgstr "arabes"
@@ -602,6 +606,10 @@ msgstr "Bande annonce"
 msgctxt "#30213"
 msgid "Search Similar"
 msgstr "Recherche Similaire"
+
+msgctxt "#33213"
+msgid "Parents Guide"
+msgstr "Parents Guide"
 
 msgctxt "#30214"
 msgid "Trakt"

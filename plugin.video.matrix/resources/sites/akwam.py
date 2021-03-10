@@ -20,6 +20,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://akwam.co'
 
+MOVIE_FAM = ('https://akwam.in/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_AR = ('https://akwam.co/movies?section=29', 'showMovies')
 MOVIE_DUBBED = ('https://akwam.co/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_EN = ('https://akwam.co/movies?section=30', 'showMovies')
@@ -129,6 +130,8 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -277,7 +280,7 @@ def showEpisodes():
     #Recuperation infos
     sNote = ''
 
-    sPattern = '<div class="widget-body"><div class="text-white"><p>([^<]+)</p>'
+    sPattern = '<p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
@@ -310,6 +313,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
@@ -337,13 +341,14 @@ def showEpisodes():
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
             siteUrl = 'http'+aEntry[0]+'.com/watch/' + str(aEntry[1])
             sThumb = sThumb
-            sDesc = ""
+            sDesc = sNote
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
             
 
  
@@ -448,9 +453,20 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sDesc = oInputParameterHandler.getValue('sDesc')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
+    
+    oParser = cParser()
+    
+    #Recuperation infos
+
+    sPattern = '<p>([^<]+)</p>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sDesc = aResult[1][0]
 
     oParser = cParser()       
     sPattern =  '<a href="http([^<]+)/watch/(.+?)"'
@@ -537,7 +553,7 @@ def showHosters():
             sTitle =  sMovieTitle+sTitle
             siteUrl = 'http'+aEntry[0]+'/link/' + aEntry[1]
             sThumbnail = ""
-            sInfo = ""
+            sInfo = sDesc
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()

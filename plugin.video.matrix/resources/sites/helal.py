@@ -21,6 +21,7 @@ URL_MAIN = 'https://www.4helal.me'
 
 
 RAMADAN_SERIES = ('https://www.4helal.me/cat/4/مسلسلات_عربية/1.html', 'showSerie')
+MOVIE_FAM = ('https://r.4helal.co/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85+%D8%B9%D8%A7%D8%A6%D9%84%D9%8A%D8%A9', 'showMovies')
 MOVIE_EN = ('https://www.4helal.me/cat/21/%D8%A7%D9%81%D9%84%D8%A7%D9%85_%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9/1.html', 'showMovies')
 MOVIE_HI = ('https://www.4helal.me/cat/23/أفلام_هندية/1.html', 'showMovies')
 KID_MOVIES = ('https://www.4helal.me/genre/animation-movies', 'showMovies')
@@ -36,7 +37,6 @@ DOC_NEWS = ('https://www.4helal.me/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85+%D9%88%D8%
 
 KID_CARTOON = ('https://www.4helal.me/c/Cartoon-Dubbed', 'showSerie')
 
-SPORT_WWE = ('https://www.4helal.me/cat/2/%D8%A7%D9%84%D9%82%D8%B3%D9%85_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A/1.html', 'showMovies')
 URL_SEARCH = ('https://www.4helal.me/tag/', 'showMovies')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
@@ -110,11 +110,16 @@ def showMovies(sSearch = ''):
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = '[COLOR aqua]'+aEntry[2]+'/10[/COLOR]'
             sYear = ''
+            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
 				sYear = str(m.group(0))
 				sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+            m = re.search('مدبلج', sTitle)
+            if m:
+				sDub = str(m.group(0))
+				sTitle = sTitle.replace(sDub,'')
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
 
 
             oOutputParameterHandler = cOutputParameterHandler()

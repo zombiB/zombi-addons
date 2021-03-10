@@ -18,7 +18,6 @@ SITE_NAME = 'movsfouru'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.movs4u.life/'
-
 MOVIE_EN = ('https://www.movs4u.life/movie/', 'showMovies')
 KID_MOVIES = ('https://www.movs4u.life/genre/animation/', 'showMovies')
 MOVIE_HI = ('https://www.movs4u.life/genre/india-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
@@ -167,7 +166,7 @@ def showMovie(sSearch = ''):
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
@@ -573,6 +572,16 @@ def showLink():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    
+    oParser = cParser()
+    
+    #Recuperation infos
+
+    sPattern = '<p>([^<]+)</p>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sDesc = aResult[1][0]
 	
      # ([^<]+) .+?
     sPattern = 'href="([^<]+)" target="_blank">(.+?)</a>'
@@ -597,7 +606,7 @@ def showLink():
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8") 
             siteUrl = URL_MAIN + aEntry[0]
-            sDesc = ""
+            sDesc = sDesc
 
 
  
@@ -635,7 +644,7 @@ def showLink():
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8") 
             siteUrl = aEntry[0]
-            sDesc = ""
+            sDesc = sDesc
 
 
  

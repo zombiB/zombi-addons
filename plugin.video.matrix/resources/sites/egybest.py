@@ -30,6 +30,7 @@ URL_MAIN = 'https://tool.egybest.ltd'
 host = 'tool.egybest.ltd'
 
 
+MOVIE_FAM = ('https://tool.egybest.ltd/movies/family-subbed', 'showMovies')
 MOVIE_EN = ('https://tool.egybest.ltd/movies/subbed', 'showMovies')
 MOVIE_AR = ('https://tool.egybest.ltd/movies/arab', 'showMovies')
 MOVIE_HI = ('https://tool.egybest.ltd/movies/hindi', 'showMovies')

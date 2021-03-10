@@ -37,7 +37,6 @@ REPLAYTV_NEWS = ('https://www.arblionz.org/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%
 DOC_NEWS = ('https://www.arblionz.org/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 DOC_SERIES = ('https://www.arblionz.org/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showSeries')
 
-SPORT_WWE = ('https://www.arblionz.org/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86/', 'showMovies')
 
 URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'

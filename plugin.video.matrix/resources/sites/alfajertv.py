@@ -21,7 +21,7 @@ URL_MAIN = 'http://show.alfajertv.com'
 
 MOVIE_EN = ('http://show.alfajertv.com/genre/english-movies/', 'showMovies')
 MOVIE_AR = ('http://show.alfajertv.com/genre/arabic-movies/', 'showMovies')
-
+MOVIE_FAM = ('https://show.alfajertv.com/genre/family/', 'showMovies')
 MOVIE_HI = ('http://show.alfajertv.com/genre/indian-movies/', 'showMovies')
 MOVIE_TOP = ('http://show.alfajertv.com/imdb/', 'showTopMovies')
 
@@ -440,7 +440,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article id=".+?" class="item tvshows "><div class="poster"><img src="([^<]+)" alt="([^<]+)"><div class="rating"><span class="icon-star2"></span>([^<]+)</div><div class="mepo"> </div><a href="([^<]+)"><div class="see">'
+    sPattern = '<article id=".+?" class="item tvshows "><div class="poster"><img src="([^<]+)" alt="([^<]+)"><div class="rating"><span class="icon-star2"></span>([^<]+)</div><div class="mepo"> </div><a href="([^<]+)"><div class="see">.+?class="texto">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -459,13 +459,15 @@ def showSeries(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[3])
             sThumb = str(aEntry[0])		
-            sDesc = '[COLOR yellow]'+aEntry[2]+'/10[/COLOR]'
+            sDesc = aEntry[4].decode("utf8")
+            sDesc = cUtil().unescape(sDesc).encode("utf8")
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -489,9 +491,21 @@ def showEpisodes():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sDesc = oInputParameterHandler.getValue('sDesc')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    
+    oParser = cParser()
+    
+    #Recuperation infos
+    sNote = ''
+
+    sPattern = '<p>([^<]+)</p>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sNote = aResult[1][0]
 # ([^<]+) .+? 
     sPattern = "<div class='imagen'><a href='([^<]+)'><img src='([^<]+)'></a></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='.+?'>([^<]+)</a> <span class='date'>"
 
@@ -515,7 +529,7 @@ def showEpisodes():
             sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
-            sDesc =  ""
+            sDesc =  sNote
 
  
             #print sUrl

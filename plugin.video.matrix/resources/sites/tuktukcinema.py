@@ -21,6 +21,7 @@ URL_MAIN = 'https://tuktukcinema.net'
 
 MOVIE_TOP = ('https://tuktukcinema.net/category/movies/?key=imdb', 'showMovies')
 MOVIE_POP = ('https://tuktukcinema.net/category/movies/?key=views', 'showMovies')
+MOVIE_FAM = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/?gnr=%D8%B9%D8%A7%D8%A6%D9%84%D9%8A', 'showMovies')
 MOVIE_EN = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_CLASSIC = ('https://tuktukcinema.net/channel/classical-movies/', 'showMovies')
 MOVIE_HI = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
@@ -30,8 +31,8 @@ MOVIE_TURK = ('https://tuktukcinema.net/category/movies/%d8%a7%d9%81%d9%84%d8%a7
 SERIE_EN = ('https://tuktukcinema.net/category/series/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showSeries')
 SERIE_ASIA = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a', 'showSeries')
 SERIE_TR = ('https://tuktukcinema.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a', 'showSeries')
-ANIM_NEWS = ('https://tuktukcinema.net/category/%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
-SPORT_WWE = ('https://tuktukcinema.net/category/wwe/', 'showMovies')
+ANIM_NEWS = ('https://tuktukcinema.net/category/series/?sercat=%d9%82%d8%a7%d8%a6%d9%85%d8%a9-%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a', 'showSeries')
+SPORT_WWE = ('https://tuktukcinema.net/category/tvshows/', 'showMovies')
 DOC_SERIES = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/', 'showMovies')
 URL_SEARCH = ('https://tuktukcinema.net/search/', 'showMovies')
 URL_SEARCH_MOVIES = ('https://tuktukcinema.net/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
@@ -102,11 +103,16 @@ def showMovies(sSearch = ''):
             sThumbnail = str(aEntry[2])
             sInfo = ''
             sYear = ''
+            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
 				sYear = str(m.group(0))
 				sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+            m = re.search('مدبلج', sTitle)
+            if m:
+				sDub = str(m.group(0))
+				sTitle = sTitle.replace(sDub,'')
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -192,7 +198,7 @@ def showSeriesSearch(sSearch = ''):
 				sTitle = sTitle.replace(sYear,'')
             siteUrl = str(aEntry[1])+'/watch/'
             sThumbnail = str(aEntry[2])
-            sInfo = str(aEntry[0])
+            sInfo = ""
             sDisplayTitle2 = sTitle.split('ال')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
@@ -284,7 +290,7 @@ def showSeries(sSearch = ''):
 				sTitle = sTitle.replace(sYear,'')
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
-            sInfo = str(aEntry[0])
+            sInfo = ""
             sDisplayTitle2 = sTitle.split('ال')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
@@ -359,8 +365,11 @@ def showSeasons():
 	oParser = cParser()
 	sId1 = ""
 	sId2 = ""
+	sPattern = '<p>([^<]+)</p>'
+	aResult = oParser.parse(sHtmlContent, sPattern)
+	if (aResult[0]):
+	     sNote = aResult[1][0]
     
-    #Recuperation infos (.+?)
 
 	sPattern = '<div class="loadTabsInSeries" data-slug="(.+?)" data-parent=".+?" data-id="(.+?)"></div><section'
 	aResult = oParser.parse(sHtmlContent, sPattern)
@@ -407,10 +416,10 @@ def showSeasons():
 			if progress_.iscanceled():
 				break
  
-			sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("والاخيرة","").replace("مسلسل","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الحلقة","E").replace("E ","E").split('ال')[0]
+			sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace(" والأخيرة","").replace("والاخيرة","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الحلقة","E").replace("E ","E").split('ال')[0]
 			siteUrl = str(aEntry[0])+'/watch/'
 			sThumbnail = aEntry[1]
-			sInfo = ""
+			sInfo = sNote
 			
 
 
@@ -438,7 +447,7 @@ def showSeasons():
 			sTitle = aEntry[2].replace("الموسم","S").replace("S ","S")
 			siteUrl = str(aEntry[0])
 			sThumbnail = aEntry[1]
-			sInfo = ""
+			sInfo = sNote
 			
 
 
@@ -453,6 +462,14 @@ def showSeasons():
      # (.+?)
 def __checkForNextPage(sHtmlContent):
     sPattern = '<li><a href="([^<]+)">الصفحة التالية &laquo;</a></li>'
+	
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+ 
+    if (aResult[0] == True):
+        #print aResult[1][0]
+        return aResult[1][0]
+    sPattern = 'href="(.+?)">&laquo;</a>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

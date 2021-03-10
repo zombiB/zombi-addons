@@ -191,11 +191,16 @@ def showMovies(sSearch = ''):
             siteUrl = str(aEntry[0]) + "watch/"
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sYear = ''
+            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
 				sYear = str(m.group(0))
 				sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+            m = re.search('مدبلج', sTitle)
+            if m:
+				sDub = str(m.group(0))
+				sTitle = sTitle.replace(sDub,'')
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
             sDesc = aEntry[3]
 
 

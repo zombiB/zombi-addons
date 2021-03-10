@@ -38,6 +38,12 @@ MOVIE_TOP2013 = (URL_MAIN + 'search/title?year=2013,2013&title_type=feature&expl
 MOVIE_TOP2012 = (URL_MAIN + 'search/title?year=2012,2012&title_type=feature&explore=languages', 'showMovies')
 MOVIE_TOP2011 = (URL_MAIN + 'search/title?year=2011,2011&title_type=feature&explore=languages', 'showMovies')
 MOVIE_TOP2010 = (URL_MAIN + 'search/title?year=2010,2010&title_type=feature&explore=languages', 'showMovies')
+MOVIE_FAMILY = (URL_MAIN + 'search/title/?genres=family&title_type=feature&explore=genres', 'showMovies')
+MOVIE_SAFE1 = (URL_MAIN + 'list/ls071966357/', 'showMovies')
+MOVIE_SAFE2 = (URL_MAIN + 'list/ls051507148/', 'showMovies')
+MOVIE_SAFE3 = (URL_MAIN + 'list/ls049481487/', 'showMovies')
+MOVIE_SAFE4 = (URL_MAIN + 'list/ls025574708/', 'showMovies')
+MOVIE_SAFE5 = (URL_MAIN + 'list/ls036376058/', 'showMovies')
 
 
 def unescape(text):
@@ -126,6 +132,30 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2010[0])
     oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2010[1], 'Top Films 2010', 'star.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_FAMILY[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_FAMILY[1], 'Top 50 Family Movies', 'star.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE1[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE1[1], 'SAFE MOVIES 1', 'star.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE2[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE2[1], 'SAFE MOVIES 2', 'star.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE3[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE3[1], 'SAFE MOVIES 3', 'star.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE4[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE4[1], 'SAFE MOVIES 4', 'star.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE5[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE5[1], 'SAFE MOVIES 5', 'star.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 
 
@@ -188,6 +218,12 @@ def showMovies(sSearch=''):
 
 def __checkForNextPage(sHtmlContent):
     oParser = cParser()
+    sPattern = '<a class="flat-button lister-page-next next-page" href="([^<]+)">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+    if (aResult[0] == True):
+        sUrl = ('%s/%s') % (URL_MAIN, aResult[1][0])
+        return sUrl
     sPattern = 'href="([^"]+?)"class="lister-page-next'
     aResult = oParser.parse(sHtmlContent, sPattern)
 

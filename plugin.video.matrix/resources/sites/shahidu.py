@@ -35,7 +35,7 @@ SERIE_EN = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D
 SERIE_AR = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 ANIM_NEWS = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
-REPLAYTV_NEWS = ('https://shahid4u.cc/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
+REPLAYTV_NEWS = ('https://shahid4u.cc/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSerie')
 
 
 URL_SEARCH = ('https://shahid4u.onl/search?s=', 'showMovies')
@@ -127,11 +127,16 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[0].replace("film","watch").replace("/episode/","/watch/")
             sInfo = ""
             sYear = ''
+            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
 				sYear = str(m.group(0))
 				sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+            m = re.search('مدبلج', sTitle)
+            if m:
+				sDub = str(m.group(0))
+				sTitle = sTitle.replace(sDub,'')
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
  
 
 
@@ -181,7 +186,7 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
             sInfo = ""
@@ -236,7 +241,7 @@ def showSerie(sSearch = ''):
  
             sTitle = aEntry[2].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1])
             sInfo = ""

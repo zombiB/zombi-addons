@@ -447,6 +447,10 @@ msgctxt "#30106"
 msgid "Years"
 msgstr ""
 
+msgctxt "#33107"
+msgid "Family"
+msgstr ""
+
 msgctxt "#30107"
 msgid "Arabic"
 msgstr ""
@@ -601,6 +605,10 @@ msgstr ""
 
 msgctxt "#30213"
 msgid "Search Similar"
+msgstr ""
+
+msgctxt "#33213"
+msgid "Parents Guide"
 msgstr ""
 
 msgctxt "#30214"
@@ -959,7 +967,7 @@ msgid "Movies (Popular)"
 msgstr ""
 
 msgctxt "#30426"
-msgid "Movies (Theater)"
+msgid "Movies (on Theater)"
 msgstr ""
 
 msgctxt "#30427"

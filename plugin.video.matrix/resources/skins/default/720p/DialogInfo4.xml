@@ -432,6 +432,11 @@
 								<onclick>noop</onclick>
 							</item>
 							<item>
+								<label>[B]tagline[/B]</label>
+								<label2>$INFO[Window.Property(tagline)]</label2>
+								<onclick>noop</onclick>
+							</item>
+							<item>
 								<label>[B]Genre[/B]</label>
 								<label2>$INFO[Window.Property(Genre)]</label2>
 								<onclick>noop</onclick>
@@ -444,11 +449,6 @@
 							<item>
 								<label>[B]Classification[/B]</label>
 								<label2>$INFO[Window.Property(mpaa)]</label2>
-								<onclick>noop</onclick>
-							</item>
-							<item>
-								<label>[B]Première[/B]</label>
-								<label2>$INFO[Window.Property(releaseDate)]</label2>
 								<onclick>noop</onclick>
 							</item>
 							<item>

@@ -22,6 +22,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://m.halacima.net/'
 SERIE_TR_AR = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
 MOVIE_EN = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_FAM = ('https://m.halacima.net/genre/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%A7%D8%A6%D9%84%D9%8A.html', 'showMovies')
 MOVIE_HI = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
 KID_MOVIES = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D9%86%D9%85%D9%8A', 'showMovies')
 MOVIE_ASIAN = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showMovies')
@@ -114,13 +115,17 @@ def showMovies(sSearch = ''):
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0].replace("/movies/","/watch_movies/")
             sInfo = ""
-            annee = ''
+            sYear = ''
+            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				annee = str(m.group(0))
-				sTitle = sTitle.replace(annee,'')
-            if annee:
-				sTitle = sTitle + '(' + annee + ')'
+				sYear = str(m.group(0))
+				sTitle = sTitle.replace(sYear,'')
+            m = re.search('مدبلج', sTitle)
+            if m:
+				sDub = str(m.group(0))
+				sTitle = sTitle.replace(sDub,'')
+            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
  
 
 
@@ -129,7 +134,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
   # ([^<]+) .+? (.+?)
