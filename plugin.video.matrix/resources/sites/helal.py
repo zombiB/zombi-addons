@@ -38,6 +38,8 @@ DOC_NEWS = ('https://www.4helal.me/tag/%D8%A7%D9%81%D9%84%D8%A7%D9%85+%D9%88%D8%
 KID_CARTOON = ('https://www.4helal.me/c/Cartoon-Dubbed', 'showSerie')
 
 URL_SEARCH = ('https://www.4helal.me/tag/', 'showMovies')
+URL_SEARCH_MOVIES = ('https://www.4helal.me/tag/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.4helal.me/tag/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSerieSearch')
 FUNCTION_SEARCH = 'showMoviesSearch'
  
 def load():
@@ -105,7 +107,7 @@ def showMovies(sSearch = ''):
  
             sTitle = str(aEntry[3]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","").replace("والأخيرة","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = '[COLOR aqua]'+aEntry[2]+'/10[/COLOR]'
@@ -120,6 +122,11 @@ def showMovies(sSearch = ''):
 				sDub = str(m.group(0))
 				sTitle = sTitle.replace(sDub,'')
             sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
+
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
+                    continue
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -168,7 +175,7 @@ def showSerie(sSearch = ''):
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مسلسل","").replace("انمي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مسلسل","").replace("انمي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("والأخيرة","").replace("WEBRip","").replace("HD","").replace("720","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = ""
@@ -225,13 +232,18 @@ def showSerieSearch(sSearch = ''):
  
             sTitle = str(aEntry[2]).decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مسلسل","").replace("انمي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مسلسل","").replace("انمي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("والأخيرة","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = ""
             sDisplayTitle2 = sTitle.split('الحلقة')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sDisplayTitle = sTitle.replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم العاشر","S10").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
+
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
+                    continue
 
 
 
@@ -285,7 +297,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مسلسل","").replace("انمي","").replace("الموسم "," S").replace("الحلقة "," E")
+            sTitle = aEntry[1].replace("مسلسل","").replace("والأخيرة","").replace("انمي","").replace("الموسم "," S").replace("الحلقة "," E")
  
             siteUrl = aEntry[0]
             sInfo = ""
@@ -321,7 +333,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مسلسل","").replace("انمي","").replace("الموسم "," S").replace("الحلقة "," E")
+            sTitle = aEntry[1].replace("مسلسل","").replace("والأخيرة","").replace("انمي","").replace("الموسم "," S").replace("الحلقة "," E")
  
             siteUrl = aEntry[0]
             sInfo = ""

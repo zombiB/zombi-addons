@@ -22,7 +22,6 @@ ANIM_NEWS = ('https://ww.xsanime.com/episodes', 'showSeries')
 ANIM_MOVIES = ('https://ww.xsanime.com/movies_list/', 'showMovies')
 
 URL_SEARCH = ('https://ww.xsanime.com/?s=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://ww.xsanime.com/?s=', 'showMovies')
 URL_SEARCH_SERIES = ('https://ww.xsanime.com/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
@@ -77,6 +76,11 @@ def showMovies(sSearch = ''):
             sThumb = str(aEntry[2]).replace("(","").replace(")","")
             sDesc = ''
 
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
+                    continue
+
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -129,6 +133,11 @@ def showSeries(sSearch = ''):
             sDesc = ''
             sDisplayTitle = sTitle.split('الحلقة')[0].replace("Season ","")
             sDisplayTitle2 = sTitle.replace("الحلقة "," E").replace("Season ","S")
+
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
+                    continue
 
 
             oOutputParameterHandler = cOutputParameterHandler()

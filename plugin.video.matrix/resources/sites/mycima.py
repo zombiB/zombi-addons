@@ -126,6 +126,11 @@ def showMovies(sSearch = ''):
 				sTitle = sTitle.replace(sDub,'')
             sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
 
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
+                    continue
+
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -187,6 +192,11 @@ def showSeries(sSearch = ''):
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sInfo = ''
             sDisplayTitle = sDisplayTitle.replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم العاشر","S10").replace("الموسم","S").replace("S ","S").replace("موسم","S").replace("S ","S").split('حلقة')[0]
+
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
+                    continue
 
 			
 
@@ -275,6 +285,41 @@ def showSeasons():
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
+	
+    sPattern = 'href="(.+?)">موسم(.+?)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = str(sMovieTitle)+' S'+aEntry[1].replace("S ","S")
+            sTitle = sTitle.replace("S ","S")
+            siteUrl = str(aEntry[0])
+            sThumbnail = sThumbnail
+            sInfo = ""
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            
+
+ 
+            oGui.addEpisode(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+ 
+    # (.+?) .+? ([^<]+)   
     sPattern = '<a class="hoverable activable.+?href="([^<]+)"><div class="Thumb"><span><i class="fa fa-play"></i></span></div><episodeArea><episodeTitle>([^<]+)</episodeTitle></episodeArea></a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -305,39 +350,6 @@ def showSeasons():
 
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
-    sPattern = '<a class="hoverable activable" href="([^<]+)">([^<]+)</a>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-
-
-    #print aResult
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = str(sMovieTitle)+aEntry[1].replace("موسم "," S")
-            siteUrl = str(aEntry[0])
-            sThumbnail = sThumbnail
-            sInfo = ""
- 
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            
-
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
     # .+? ([^<]+)

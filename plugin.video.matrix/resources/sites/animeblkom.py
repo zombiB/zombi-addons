@@ -132,6 +132,11 @@ def showSeries(sSearch = ''):
             sYear = aEntry[4]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
+                    continue
+
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

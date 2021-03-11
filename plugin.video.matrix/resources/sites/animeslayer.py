@@ -81,6 +81,11 @@ def showMovies(sSearch = ''):
             sDesc = str(aEntry[3]).decode("utf8")
             sDesc = cUtil().unescape(sDesc).encode("utf8")
 
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
+                    continue
+
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

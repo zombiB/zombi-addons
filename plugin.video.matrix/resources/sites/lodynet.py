@@ -32,7 +32,6 @@ SERIE_LATIN = ('https://www.lodynet.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%
 SERIE_GENRES = (True, 'showGenres')
 
 URL_SEARCH = ('http://www.lodynet.tv/search/', 'showMovies')
-URL_SEARCH_SERIES = ('http://www.lodynet.tv/search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

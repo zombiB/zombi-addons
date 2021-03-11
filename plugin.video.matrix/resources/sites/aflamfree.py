@@ -83,6 +83,11 @@ def showMoviesearch(sSearch = ''):
 				sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear) 
             sInfo = '[COLOR aqua]'+aEntry[3]+'/10[/COLOR]' 
+
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
+                    continue
 			
 			
 

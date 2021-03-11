@@ -525,11 +525,12 @@ class cGui:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
         oOutputParameterHandler.addParameter('sTitle', oGuiElement.getTitle())
+        oOutputParameterHandler.addParameter('sYear', oGuiElement.getYear())
         oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
 
         self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewSimil', self.ADDON.VSlang(30213))
 
-    # Recherche similaire
+    #  
     def createContexMenuParents(self, oGuiElement, oOutputParameterHandler=''):
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
@@ -695,8 +696,6 @@ class cGui:
                 sIMDb = 'tt9536846'
                 meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
                 sIMDb = str(meta['imdb_id'])
-                print "aResultee"
-                print sIMDb
 
                 sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
                 oRequest = urllib2.Request(sUrl)
@@ -715,8 +714,6 @@ class cGui:
                 aResult = oParser.parse(sContent, sPattern)
                 if (aResult[0]):
                     Stext0 = aResult[1][0]
-                print "aResultee"
-                print sUrl
                 if 'Rated R' in Stext0 and 'sex' not in Stext0:
                     Stext = 'غير مناسب للمشاهدة العائلية'
                 if 'Rated R' in Stext0 and 'sex'  in Stext0 or 'nudity'  in Stext0:
@@ -754,9 +751,10 @@ class cGui:
         oInputParameterHandler = cInputParameterHandler()
         sCleanTitle = oInputParameterHandler.getValue('sFileName') if oInputParameterHandler.exist('sFileName') else xbmc.getInfoLabel('ListItem.Property(sCleanTitle)')
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
+        sYear = oInputParameterHandler.getValue('sYear') if oInputParameterHandler.exist('sYear') else xbmc.getInfoLabel('ListItem.Year')
 
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('searchtext', sCleanTitle)
+        oOutputParameterHandler.addParameter('searchtext', sCleanTitle+' '+sYear)
         oOutputParameterHandler.addParameter('sCat', sCat)
         oOutputParameterHandler.addParameter('readdb', 'False')
 

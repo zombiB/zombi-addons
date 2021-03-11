@@ -144,6 +144,11 @@ def showMovies(sSearch = ''):
 				sTitle = sTitle.replace(sDub,'')
             sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
 
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
+                    continue
+
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -200,6 +205,11 @@ def showSerie(sSearch = ''):
  
             if "E" not in sDisplayTitle:
 				sDisplayTitle=sDisplayTitle+" E"+aEntry[2]
+
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
+                    continue
 
 
             oOutputParameterHandler = cOutputParameterHandler()

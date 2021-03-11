@@ -133,7 +133,7 @@ class cShowBA:
 
     def SearchBA(self, window=False):
 
-        sTitle = self.search + ' trailer' 
+        sTitle = self.search +self.year+ ' trailer' 
 
 
         # Le lien sur la BA est déjà connu

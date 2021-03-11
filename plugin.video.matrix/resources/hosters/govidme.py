@@ -59,18 +59,18 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-
-        oRequest = cRequestHandler(self.__sUrl)
-        sHtmlContent = oRequest.request()
-        if 'Video is processing now' in sHtmlContent:
-			dialog().VSinfo("Video is processing...")
         
         api_call = ''
-        #type1/([^"]+)/
+
+        oRequest = cRequestHandler(self.__sUrl)
+        oRequest.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Mobile Safari/537.36')
+        oRequest.addHeaderEntry('referer', 'https://www.cimaclub.onl/')
+        oRequest.addHeaderEntry('host', 'govid.me')
+        sHtmlContent = oRequest.request()
         oParser = cParser()
 
        # (.+?) .+? ([^<]+)
-        sPattern =  'file:"(.+?)",label:"(.+?)"}' 
+        sPattern =  'file:"([^<]+)",label:"([^<]+)"}' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
             #initialisation des tableaux

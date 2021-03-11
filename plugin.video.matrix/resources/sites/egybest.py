@@ -122,6 +122,11 @@ def showMoviesSearch(sSearch = ''):
 				sThumb = "https:"+aEntry[1]
             sDesc = ''
 
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
+                    continue
+
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

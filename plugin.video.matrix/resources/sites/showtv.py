@@ -92,6 +92,11 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[2]
             sInfo = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
 
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
+                    continue
+
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -167,6 +172,11 @@ def showSeries(sSearch = ''):
             sThumbnail = aEntry[0]
             siteUrl = aEntry[2]
             sInfo = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
+
+            # Filtrer les résultats
+            if sSearch and total > 5:
+                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
+                    continue
 
 
 
