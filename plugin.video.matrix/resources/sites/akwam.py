@@ -49,8 +49,8 @@ REPLAYTV_PLAY = ('https://akwam.co/shows?section=45', 'showMovies')
 
 
 URL_SEARCH = ('https://akwam.co/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://akwam.co/search?q=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = ('https://akwam.co/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://akwam.cc/search?section=movie&q=', 'showMovies')
+URL_SEARCH_SERIES = ('https://akwam.cc/search?section=series&q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

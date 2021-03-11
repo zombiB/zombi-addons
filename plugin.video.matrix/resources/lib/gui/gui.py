@@ -751,10 +751,9 @@ class cGui:
         oInputParameterHandler = cInputParameterHandler()
         sCleanTitle = oInputParameterHandler.getValue('sFileName') if oInputParameterHandler.exist('sFileName') else xbmc.getInfoLabel('ListItem.Property(sCleanTitle)')
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
-        sYear = oInputParameterHandler.getValue('sYear') if oInputParameterHandler.exist('sYear') else xbmc.getInfoLabel('ListItem.Year')
 
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('searchtext', sCleanTitle+' '+sYear)
+        oOutputParameterHandler.addParameter('searchtext', sCleanTitle)
         oOutputParameterHandler.addParameter('sCat', sCat)
         oOutputParameterHandler.addParameter('readdb', 'False')
 

@@ -184,6 +184,27 @@ def showHosters():
 
         progress_.VSclose(progress_) 
     # (.+?) # ([^<]+) .+? 
+    sPattern = 'src="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = aEntry
+            sHosterUrl = url
+            sMovieTitle = sMovieTitle
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+    # (.+?) # ([^<]+) .+? 
     sPattern = 'file:"(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
