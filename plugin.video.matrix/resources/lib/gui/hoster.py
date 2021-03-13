@@ -358,6 +358,8 @@ class cHosterGui:
             return self.getHoster('kvid')
         if ('vidlo' in sHostName):
             return self.getHoster('vidlo')
+        if ('myvid' in sHostName):
+            return self.getHoster('myvid')
         if ('youwatch' in sHostName):
             return self.getHoster('youwatch')
         if ('videott' in sHostName):
