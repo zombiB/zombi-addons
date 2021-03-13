@@ -336,7 +336,7 @@ def showHosters():
     # (.+?) .+?
     #print sHtmlContent           
 
-    sPattern = 'data-src="(.+?)" frameborder'
+    sPattern = 'data-src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -364,7 +364,7 @@ def showHosters():
     # (.+?) .+?
     #print sHtmlContent           
 
-    sPattern = 'href="(.+?)" target'
+    sPattern = 'href="([^<]+)" target'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -393,65 +393,6 @@ def showHosters():
 				
                 
     oGui.setEndOfDirectory()  
-def showHosters2():
-    import requests
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
-
-
-    oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('origin', 'www.arblionz.org')
-    oRequestHandler.addHeaderEntry('Cookie', cook)
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Referer', 'https://www.arblionz.org/download/%D9%81%D9%8A%D9%84%D9%85-beyond-the-woods-2020-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86')
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?       
-
-    sPattern = "([^<]+)"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry)
-				sTitle = ""
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'mystream' in url:
-					sTitle = " (mystream)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'streamango' in url:
-					sTitle = " (streamango)"
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-                
-    oGui.setEndOfDirectory() 
 # (.+?) .+? 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<a class="page-link current".+?</a><a class="page-link" href="(.+?)">'

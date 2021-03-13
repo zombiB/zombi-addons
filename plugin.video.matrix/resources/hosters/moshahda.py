@@ -49,6 +49,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if not "embed" in sUrl:
+			self.__sUrl = sUrl.replace("moshahda.online/","moshahda.online/embed-")
 
     def checkUrl(self, sUrl):
         return True
@@ -87,7 +89,7 @@ class cHoster(iHoster):
             
             #Replissage des tableaux
 			for i in aResult[1]:
-				url.append(str(i[0]))
+				url.append(str(i[0]).replace("moshahda.online","moshahda.online/hls").replace("v.mp4","index-v1-a1.m3u8"))
 				qua.append(str(i[1]))
 
 			api_call = dialog().VSselectqual(qua, url)
