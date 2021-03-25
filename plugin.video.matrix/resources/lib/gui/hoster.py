@@ -508,6 +508,8 @@ class cHosterGui:
             return self.getHoster('lien_direct')
         if ('ddsdd' in sHostName):
             return self.getHoster('lien_direct')
+        if ('ffsff' in sHostName):
+            return self.getHoster('lien_direct')
         if ('fbcdn.net' in sHostName):
             return self.getHoster('lien_direct')
         if ('blogspot.com' in sHostName):

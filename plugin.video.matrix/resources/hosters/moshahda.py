@@ -2,10 +2,10 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-import re,xbmcgui
+import re
 
 class cHoster(iHoster):
 
@@ -64,20 +64,21 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 		print self.__sUrl
 		UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
-        
 		oRequest = cRequestHandler(self.__sUrl)
+		oRequest.addHeaderEntry('user-agent',UA)
+		oRequest.addHeaderEntry('Referer',self.__sUrl)
 		sHtmlContent = oRequest.request()
-        
 		oParser = cParser()
 		
-		sPattern = "<script type='text/javascript'>(.+?)</script>"
+		sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
 		aResult = oParser.parse(sHtmlContent, sPattern)
-		sHtmlContent2 = cPacker().unpack(aResult[1][0])
+		if (aResult[0] == True):
+		    sHtmlContent = cPacker().unpack(aResult[1][0])
 
         
             # (.+?) .+?
-		sPattern = 'file:"(.+?)",label:"(.+?)"'
-		aResult = oParser.parse(sHtmlContent2, sPattern)
+		sPattern = ',{file:"(.+?)",label:"(.+?)"'
+		aResult = oParser.parse(sHtmlContent, sPattern)
         
 		api_call = False
 
@@ -89,7 +90,7 @@ class cHoster(iHoster):
             
             #Replissage des tableaux
 			for i in aResult[1]:
-				url.append(str(i[0]).replace("moshahda.online","moshahda.online/hls").replace("v.mp4","index-v1-a1.m3u8"))
+				url.append(str(i[0]))
 				qua.append(str(i[1]))
 
 			api_call = dialog().VSselectqual(qua, url)

@@ -18,27 +18,27 @@ SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'arblionz'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://new.arblionz.org'
-MOVIE_EN = ('https://new.arblionz.org/film/13/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
-MOVIE_AR = ('https://new.arblionz.org/film/12/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
-MOVIE_HI = ('https://new.arblionz.org/film/14/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
-RAMADAN_SERIES = ('https://new.arblionz.org/series/21/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2020', 'showMovies')
+URL_MAIN = 'https://new.arblionz.live'
+MOVIE_EN = ('https://new.arblionz.live/film/13/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_AR = ('https://new.arblionz.live/film/12/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_HI = ('https://new.arblionz.live/film/14/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
+RAMADAN_SERIES = ('https://new.arblionz.live/series/21/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2020', 'showMovies')
 
-KID_MOVIES = ('https://new.arblionz.org/film/genre/%D8%A7%D9%86%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
-SERIE_TR = ('https://new.arblionz.org/series/18/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9', 'showSeries')
+KID_MOVIES = ('https://new.arblionz.live/film/genre/%D8%A7%D9%86%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
+SERIE_TR = ('https://new.arblionz.live/series/18/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9', 'showSeries')
 SERIE_TR_AR = ('https://www.arblionz.org/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9/', 'showSeries')
-SERIE_EN = ('https://new.arblionz.org/series/16/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
-SERIE_AR = ('https://new.arblionz.org/series/15/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
+SERIE_EN = ('https://new.arblionz.live/series/16/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
+SERIE_AR = ('https://new.arblionz.live/series/15/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
 
-ANIM_NEWS = ('https://new.arblionz.org/series/19/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9', 'showSeries')
+ANIM_NEWS = ('https://new.arblionz.live/series/19/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9', 'showSeries')
 
-REPLAYTV_NEWS = ('https://new.arblionz.org/tv', 'showMovies')
+REPLAYTV_NEWS = ('https://new.arblionz.live/tv', 'showMovies')
 
-DOC_NEWS = ('https://new.arblionz.org/film/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
-DOC_SERIES = ('https://new.arblionz.org/series/16/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showSeries')
+DOC_NEWS = ('https://new.arblionz.live/film/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
+DOC_SERIES = ('https://new.arblionz.live/series/16/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showSeries')
 
 
-URL_SEARCH = ('https://new.arblionz.org/search?s=', 'showMovies')
+URL_SEARCH = ('https://new.arblionz.live/search?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -60,7 +60,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://new.arblionz.org/search?s='+sSearchText
+        sUrl = 'https://new.arblionz.live/search?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -70,7 +70,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://new.arblionz.org/search?s='+sSearchText
+        sUrl = 'https://new.arblionz.live/search?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -378,6 +378,7 @@ def showHosters():
 					break
             
 				url = str(aEntry)
+				url = url.replace("moshahda","ffsff")
 				sTitle = sMovieTitle
 				if url.startswith('//'):
 					url = 'http:' + url

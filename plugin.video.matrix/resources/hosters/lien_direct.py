@@ -72,6 +72,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         api_call = self.__sUrl.replace("ddsdd","uppom")
+        api_call = self.__sUrl.replace("ffsff","moshahda")
         #full moviz lien direct final nowvideo
             
 
@@ -80,8 +81,10 @@ class cHoster(iHoster):
             api_call = api_call.split('|')[0] + '|Referer=http://www.mangacity.org/jwplayer/player.swf'
         if 'cimanow.net' in api_call:
             api_call = api_call.replace("+","%20").replace(" ","%20").replace("[","%5B").replace("]","%5D")+ '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + 'https://watch9.cimanow.net/'
-        print "api_callaResult"
-        print api_call
+	   
+        if 'moshahda' in api_call:
+            UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
+            api_call = api_call + '|User-Agent=' + UA + '&Referer=https://moshahda.online' 
 
        
         if 'akwam.download' in api_call:
