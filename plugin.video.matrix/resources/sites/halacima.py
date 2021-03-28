@@ -137,6 +137,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addMovie(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)

@@ -68,12 +68,8 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
-        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            sHtmlContent = cPacker().unpack(aResult[1][0])
             
-        sPattern =  'src:"(http.+?m3u8)",' #sPattern = '{file:"([^"]+)",label:"(\d+)"}'
+        sPattern =  'src: "(.+?)",' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
             m3url = aResult[1][0] 
@@ -82,6 +78,8 @@ class cHoster(iHoster):
    
         sPattern =  ',RESOLUTION=(.+?),.+?(http.+?m3u8)' 
         aResult = oParser.parse(sHtmlContent,sPattern)
+        print "aResultee"
+        print sHtmlContent
         if (aResult[0] == True):
             #initialisation des tableaux
             url=[]

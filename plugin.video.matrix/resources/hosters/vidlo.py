@@ -66,7 +66,12 @@ class cHoster(iHoster):
 
             # (.+?) .+? ([^<]+)
         oParser = cParser()
-        sPattern = 'file:"(.+?)",label:"(.+?)"}'
+        #test pour voir si code
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+        sPattern = ',{file:"(.+?)",label:"(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
         #print "fffffd"
         #print aResult
@@ -86,6 +91,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
 
             if (api_call):
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+                return True, api_call + '|User-Agent=' + UA + '&Referer=https://www.vidlo.us' 
 
         return False, False

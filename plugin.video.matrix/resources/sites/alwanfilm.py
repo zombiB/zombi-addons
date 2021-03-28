@@ -66,7 +66,7 @@ def showMovies(sSearch = ''):
 
   # .+? ([^<]+) (.+?) .+?
 
-    sPattern = '<img alt="(.+?)" data-src="(.+?)" class.+?<a href="(.+?)"><div class="see">.+?class="texto">(.+?)<'
+    sPattern = '<img data-src="(.+?)" loading="lazy" class="lazyload" alt="(.+?)"><div class=.+?<a href="(.+?)"><div.+?<div class="texto lazyload">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -80,14 +80,14 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0]
+            sTitle = aEntry[1]
             sTitle = sTitle.decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8")
  
             sInfo = aEntry[3]
  
             siteUrl = aEntry[2]
-            sThumbnail = str(aEntry[1])
+            sThumbnail = str(aEntry[0])
             sDub = ''
             m = re.search('باﻷلوان', sTitle)
             if m:

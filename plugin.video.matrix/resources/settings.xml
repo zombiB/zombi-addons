@@ -82,6 +82,7 @@
         <setting visible="false" id="plugin_radioquran" type="bool" label="radioquran" default="true"/>
         <setting visible="false" id="plugin_faselhd" type="bool" label="faselhd" default="true"/>   
         <setting visible="false" id="plugin_shahidu" type="bool" label="shahidu" default="true"/> 
+        <setting visible="false" id="plugin_egyclub" type="bool" label="egyclub" default="true"/> 
         <setting visible="false" id="plugin_shoofvod" type="bool" label="shoofvod" default="true"/> 
         <setting visible="false" id="plugin_showtv" type="bool" label="showtv" default="true"/>
         <setting visible="false" id="plugin_animeslayer" type="bool" label="animeslayer" default="true"/>  

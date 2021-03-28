@@ -504,7 +504,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?style="background-image:url([^<]+);"></div>.+?</div></div>([^<]+)</div>'
+    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?style="background-image:url([^<]+)"></div>.+?</div></div>([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -579,7 +579,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-	
+
 def showEpisodes():
     oGui = cGui()
     

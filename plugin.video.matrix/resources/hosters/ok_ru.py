@@ -1,22 +1,29 @@
-#coding: utf-8
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 #
+
+try:  # Python 2
+    import urllib2
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+
+import json
+
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 from resources.lib.util import cUtil
-import urllib2
-import json
+
 
 class cHoster(iHoster):
-
     def __init__(self):
         self.__sDisplayName = 'Ok.ru'
         self.__sFileName = self.__sDisplayName
         self.__sHD = ''
 
     def getDisplayName(self):
-        return  self.__sDisplayName
+        return self.__sDisplayName
 
     def setDisplayName(self, sDisplayName):
         self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR] [COLOR khaki]' + self.__sHD + '[/COLOR]'
@@ -46,7 +53,7 @@ class cHoster(iHoster):
         return ''
 
     def getHostAndIdFromUrl(self, sUrl):
-        sPattern = 'https*:\/\/((?:(?:ok)|(?:odnoklassniki))\.ru)\/.+?\/([0-9]+)'
+        sPattern = 'https*:\/\/.*?((?:(?:ok)|(?:odnoklassniki))\.ru)\/.+?\/([0-9]+)'
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
         if (aResult[0] == True):
@@ -55,11 +62,6 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        if sUrl.startswith('http://www.ok'):
-            self.__sUrl = self.__sUrl.replace("www.","")
-        if sUrl.startswith('https://www.ok'):
-            self.__sUrl = self.__sUrl.replace("www.","")
-        
 
     def checkUrl(self, sUrl):
         return True
@@ -84,13 +86,12 @@ class cHoster(iHoster):
         response = urllib2.urlopen(req)
         sHtmlContent = response.read()
         response.close()
+
         oParser = cParser()
 
-        sHtmlContent = oParser.abParse(sHtmlContent,'data-options=', '" data-player-container', 14)
+        sHtmlContent = oParser.abParse(sHtmlContent, 'data-options=', '" data-player-container', 14)
         sHtmlContent = cUtil().removeHtmlTags(sHtmlContent)
-        sHtmlContent = sHtmlContent.decode('utf-8')
-        sHtmlContent = cUtil().unescape(sHtmlContent).encode("utf8")
-
+        sHtmlContent = cUtil().unescape(sHtmlContent)  # .decode('utf-8'))
 
         page = json.loads(sHtmlContent)
         page = json.loads(page['flashvars']['metadata'])
@@ -103,9 +104,8 @@ class cHoster(iHoster):
 
             # Si au moins 1 url
             if (url):
-                #dialogue qualité
+                # dialogue qualité
                 api_call = dialog().VSselectqual(qua, url)
-
 
 
         if (api_call):

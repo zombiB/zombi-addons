@@ -170,7 +170,7 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[2])
             sInfo = ""
@@ -221,7 +221,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;","'")
+            sTitle = aEntry[1].replace("&#8217;","'").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("اون لاين","").replace("الحلقة "," E")
             siteUrl = str(aEntry[0])
             sThumbnail = ""
             sInfo = ""
@@ -248,7 +248,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[1].replace("&#8217;","'").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("اون لاين","").replace("الحلقة "," E")
             siteUrl = str(aEntry[0])
             sThumbnail = str(sThumbnail)
 			
@@ -256,9 +256,9 @@ def showEpisodes():
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[1]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', aEntry[1], '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

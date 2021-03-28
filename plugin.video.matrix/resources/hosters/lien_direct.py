@@ -79,8 +79,6 @@ class cHoster(iHoster):
         #https://watch9.cimanow.net/uploads/2021/02/19/_Cima-Now.CoM_+I.Care.a.Lot.2021.HD/[Cima-Now.CoM]+I.Care.a.Lot.2021.HD-720p.mp4
         if 'pixsil' in api_call:
             api_call = api_call.split('|')[0] + '|Referer=http://www.mangacity.org/jwplayer/player.swf'
-        if 'cimanow.net' in api_call:
-            api_call = api_call.replace("+","%20").replace(" ","%20").replace("[","%5B").replace("]","%5D")+ '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + 'https://watch9.cimanow.net/'
 	   
         if 'moshahda' in api_call:
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'

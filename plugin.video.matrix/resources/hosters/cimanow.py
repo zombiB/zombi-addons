@@ -63,16 +63,15 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
 		api_call = ''
+		sId = self.__sUrl.split('/e/')[0]
 
 		oRequest = cRequestHandler(self.__sUrl)
 		oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:70.0) Gecko/20100101 Firefox/70.0')
 		oRequest.addHeaderEntry('Referer', 'https://cimanow.tv/')
 		sHtmlContent = oRequest.request()
 		oParser = cParser()
-		print "sHtmlContente"
     
     #/uploads/2021/02/19/_Cima-Now.CoM_ I.Care.a.Lot.2021.HD/[Cima-Now.CoM] I.Care.a.Lot.2021.HD-360p.mp4
-		sId = ''
 
 		sPattern = '<source src="(.+?)" type="video/mp4" size="(.+?)">'
 		aResult = oParser.parse(sHtmlContent, sPattern)
@@ -87,13 +86,13 @@ class cHoster(iHoster):
             
             #Replissage des tableaux
 			for i in aResult[1]:
-				url.append("https://watch9.cimanow.net"+str(i[0]).replace("[","%5B").replace("]","%5D").replace("+","%20").replace(" ","%20"))
+				url.append(sId+str(i[0]).replace("[","%5B").replace("]","%5D").replace("+","%20").replace(" ","%20"))
 				qua.append(str(i[1])+'p')
 
 			api_call = dialog().VSselectqual(qua, url)
 
 			if (api_call):
-				return True, api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + self.__sUrl+'&Host=watch8.cimanow.net'
+				return True, api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + self.__sUrl
 
 		return False, False
         
