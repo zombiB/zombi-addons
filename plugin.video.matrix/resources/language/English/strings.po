@@ -17,11 +17,11 @@ msgid "Auto-activate subtitles"
 msgstr ""
 
 msgctxt "#30003"
-msgid "Downloads Completed"
+msgid "Downloading Completed"
 msgstr ""
 
 msgctxt "#30004"
-msgid "Downloads Stopped"
+msgid "Downloading Stopped"
 msgstr ""
 
 msgctxt "#30005"
@@ -29,7 +29,7 @@ msgid "matrix will be faster with your own API key."
 msgstr ""
 
 msgctxt "#30006"
-msgid "Search Metadata (slowed the Addon)"
+msgid ""
 msgstr ""
 
 msgctxt "#30195"
@@ -61,7 +61,7 @@ msgid "Initialization error"
 msgstr ""
 
 msgctxt "#30012"
-msgid "Downloads already started"
+msgid "Downloading already started"
 msgstr ""
 
 msgctxt "#30013"
@@ -77,7 +77,7 @@ msgid "Update"
 msgstr ""
 
 msgctxt "#30016"
-msgid "Activate search history"
+msgid "Enable search history"
 msgstr ""
 
 msgctxt "#30020"
@@ -93,15 +93,15 @@ msgid "Unsupported format"
 msgstr ""
 
 msgctxt "#30023"
-msgid "Plugins Preferences"
+msgid "Plugins settings"
 msgstr ""
 
 msgctxt "#30024"
-msgid "Unable to download"
+msgid "Failed to download"
 msgstr ""
 
 msgctxt "#30025"
-msgid "Stop Downloads"
+msgid "Stop Downloading"
 msgstr ""
 
 msgctxt "#30026"
@@ -117,7 +117,7 @@ msgid "PVR addon setting"
 msgstr ""
 
 msgctxt "#30029"
-msgid "Play default"
+msgid "Default player"
 msgstr ""
 
 msgctxt "#30030"
@@ -181,7 +181,7 @@ msgid "Bookmark deleted"
 msgstr ""
 
 msgctxt "#30045"
-msgid "Type the link you want to search"
+msgid "Type the link you want to play"
 msgstr ""
 
 msgctxt "#30046"
@@ -193,7 +193,7 @@ msgid "Last auto update on:"
 msgstr ""
 
 msgctxt "#30048"
-msgid "Next update check on: "
+msgid "Next update  on: "
 msgstr ""
 
 msgctxt "#30049"
@@ -205,7 +205,7 @@ msgid "Recording path"
 msgstr ""
 
 msgctxt "#30051"
-msgid "Activate recording"
+msgid "enable recording"
 msgstr ""
 
 msgctxt "#30052"
@@ -273,7 +273,7 @@ msgid "Using ResolverUrl will allow you to use premium link generators"
 msgstr ""
 
 msgctxt "#30066"
-msgid "Go through ResolverUrl"
+msgid "Use ResolverUrl"
 msgstr ""
 
 msgctxt "#30067"
@@ -321,7 +321,7 @@ msgid "[COLOR gold]Select your search for: %s[/COLOR]"
 msgstr ""
 
 msgctxt "#30078"
-msgid "Search (Movie)"
+msgid "Search (Movies)"
 msgstr ""
 
 msgctxt "#30079"
@@ -365,7 +365,7 @@ msgid "Visual search"
 msgstr ""
 
 msgctxt "#30089"
-msgid "Clear matrix Cache, Successful"
+msgid "matrix Cache successfully cleared"
 msgstr ""
 
 msgctxt "#30090"
@@ -373,15 +373,15 @@ msgid "Suppression Database, Successful"
 msgstr ""
 
 msgctxt "#30091"
-msgid "Suppression Database, Error"
+msgid "Error while deleting Database"
 msgstr ""
 
 msgctxt "#30092"
-msgid "Clear Kodi Cache, Successful[CR](Important relaunch Kodi)"
+msgid "Kodi Cache successfully cleared [CR](Important restart Kodi)"
 msgstr ""
 
 msgctxt "#30093"
-msgid "Clear Kodi Cache, Error"
+msgid "Error while deleting Kodi Cache"
 msgstr ""
 
 msgctxt "#30094"
@@ -389,11 +389,11 @@ msgid "Select your Sources"
 msgstr ""
 
 msgctxt "#30095"
-msgid "Clear Archive_cache Cache, Successful[CR](Important relaunch Kodi)"
+msgid "Archive Cache successfully cleared [CR](Important restart Kodi)"
 msgstr ""
 
 msgctxt "#30096"
-msgid "Clear Archive_cache Cache, Error"
+msgid "Error while deleting Cache"
 msgstr ""
 
 msgctxt "#30097"
@@ -492,7 +492,7 @@ msgid "All the sources"
 msgstr ""
 
 msgctxt "#30117"
-msgid "TV Programs"
+msgid "Programs"
 msgstr ""
 
 msgctxt "#30120"
@@ -504,7 +504,7 @@ msgid "Series"
 msgstr ""
 
 msgctxt "#30122"
-msgid "Animes"
+msgid "Anime"
 msgstr ""
 
 msgctxt "#30125"
@@ -584,7 +584,7 @@ msgid "Bookmarks"
 msgstr ""
 
 msgctxt "#30208"
-msgid "Information"
+msgid "Informations"
 msgstr ""
 
 msgctxt "#30209"
@@ -616,7 +616,7 @@ msgid "Trakt"
 msgstr ""
 
 msgctxt "#30215"
-msgid "Start download"
+msgid "Start downloading"
 msgstr ""
 
 msgctxt "#30216"
@@ -624,7 +624,7 @@ msgid "Remove from list"
 msgstr ""
 
 msgctxt "#30217"
-msgid "[COLOR red]Delete definitely[/COLOR]"
+msgid "[COLOR red]Delete permanently[/COLOR]"
 msgstr ""
 
 msgctxt "#30218"
@@ -688,7 +688,7 @@ msgid "History"
 msgstr ""
 
 msgctxt "#30309"
-msgid "Disconnection"
+msgid "logout"
 msgstr ""
 
 msgctxt "#30310"
@@ -875,7 +875,7 @@ msgid "Password"
 msgstr ""
 
 msgctxt "#30403"
-msgid "Activate"
+msgid "Enable"
 msgstr ""
 
 msgctxt "#30404"
@@ -1204,7 +1204,7 @@ msgstr ""
 
 msgctxt "#34110"
 msgid "Database to delete"
-msgstr "Base de données à supprimer"
+msgstr ""
 
 msgctxt "#30501"
 msgid "Classic"

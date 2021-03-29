@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'cimau'
 SITE_NAME = 'cima4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://cima4u.io'
+URL_MAIN = 'http://ww1.cima4u.io'
 
 
 MOVIE_FAM = ('http://ww1.cima4u.io/ajaxcenter/action/HomepageLoader/types/780/archive/category%7C2/', 'showMovies')
@@ -780,7 +780,9 @@ def showHosters():
 				if url.startswith('//'):
 					url = 'http:' + url
             
-				sHosterUrl = url 
+				sHosterUrl = url
+				if 'userload' in sHosterUrl:
+				    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                         
 				oHoster = cHosterGui().checkHoster(sHosterUrl)
 				if (oHoster != False):
 					sDisplayTitle = sMovieTitle+sTitle

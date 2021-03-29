@@ -1,0 +1,1218 @@
+﻿# Addon Name: matrix
+# Addon id: plugin.video.matrix
+# Addon Provider: matrix
+msgid ""
+msgstr ""
+
+msgctxt "#30000"
+msgid "Logging"
+msgstr "تسجيل الدخول"
+
+msgctxt "#30001"
+msgid "Videoplayer"
+msgstr "مشغل الفيديو"
+
+msgctxt "#30002"
+msgid "Auto-activate subtitles"
+msgstr "التفعيل التلقائي للترجمات"
+
+msgctxt "#30003"
+msgid "Downloading Completed"
+msgstr "اكتمل التحميل"
+
+msgctxt "#30004"
+msgid "Downloading Stopped"
+msgstr "توقف التحميل"
+
+msgctxt "#30005"
+msgid "matrix will be faster with your own API key."
+msgstr "ستعمل ماتريكس أسرع باستخدام مفتاح API الخاص بك."
+
+msgctxt "#30006"
+msgid "Search Metadata (may slow the Addon)"
+msgstr "البحث عن البيانات التعريفية (تؤدي الى إبطاء الاضافة)"
+
+msgctxt "#30195"
+msgid "file deleted,[CR](Important relaunch Kodi)"
+msgstr "تم حذف الملف (يجب إعادة تشغيل كودي)"
+
+msgctxt "#30196"
+msgid "file not deleted ,Error"
+msgstr "لم يتم حذف الملف ، خطأ"
+
+msgctxt "#30007"
+msgid "Posters Size"
+msgstr "حجم الملصقات"
+
+msgctxt "#30008"
+msgid "Fanarts Size"
+msgstr "حجم  الFanarts"
+
+msgctxt "#30009"
+msgid "Use extendedinfo"
+msgstr "استخدم extendedinfo"
+
+msgctxt "#30010"
+msgid "Color Text note"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Initialization error"
+msgstr "خطأ في التهيئة"
+
+msgctxt "#30012"
+msgid "Downloading already started"
+msgstr "عملية التنزيل بدأت بالفعل"
+
+msgctxt "#30013"
+msgid "Matrix update"
+msgstr "تحديث ماتريكس"
+
+msgctxt "#30014"
+msgid "update completed successfully"
+msgstr "اكتمل التحديث بنجاح"
+
+msgctxt "#30015"
+msgid "Update"
+msgstr "تحديث"
+
+msgctxt "#30016"
+msgid "Enable search history"
+msgstr "تمكين سجل البحث"
+
+msgctxt "#30020"
+msgid "File not found"
+msgstr "الفيديو لا يعمل"
+
+msgctxt "#30021"
+msgid "General"
+msgstr "عام"
+
+msgctxt "#30022"
+msgid "Unsupported format"
+msgstr "صيغة غير مدعومة"
+
+msgctxt "#30023"
+msgid "Plugins settings"
+msgstr "إعدادات الإضافات"
+
+msgctxt "#30024"
+msgid "Failed to download"
+msgstr "فشل في التحميل"
+
+msgctxt "#30025"
+msgid "Stop Downloading"
+msgstr "ايقاف التحميل"
+
+msgctxt "#30026"
+msgid "IPTV and TV Guide"
+msgstr ""
+
+msgctxt "#30027"
+msgid "Waiting time for player (ms)"
+msgstr "مهلة البث (مللي ثانية)"
+
+msgctxt "#30028"
+msgid "PVR addon settings"
+msgstr "إعدادات PVR"
+
+msgctxt "#30029"
+msgid "Default player"
+msgstr "المشغل الافتراضي"
+
+msgctxt "#30030"
+msgid "Play"
+msgstr "تشغيل"
+
+msgctxt "#30031"
+msgid "Metadata"
+msgstr "البيانات التعريفية"
+
+msgctxt "#30032"
+msgid "View"
+msgstr "طريقة العرض"
+
+msgctxt "#30033"
+msgid "Tools"
+msgstr "أدوات"
+
+msgctxt "#30034"
+msgid "About"
+msgstr "معلومات"
+
+msgctxt "#30035"
+msgid "Support Us"
+msgstr "ادعمنا"
+
+msgctxt "#30036"
+msgid "Changelog"
+msgstr "سجل التغييرات"
+
+msgctxt "#30037"
+msgid "Not possible for this site"
+msgstr "غير ممكن لهذا الموقع"
+
+msgctxt "#30038"
+msgid "Bookmarking not possible for this link"
+msgstr "لا يمكن انشاء العلامة"
+
+msgctxt "#30039"
+msgid "Download List"
+msgstr "قائمة التحميلات"
+
+msgctxt "#30040"
+msgid "Clean the list (Finished files)"
+msgstr "تنظيف القائمة (الملفات المنتهية)"
+
+msgctxt "#30041"
+msgid "History deleted"
+msgstr "تم حذف السجل"
+
+msgctxt "#30042"
+msgid "Successfully registered"
+msgstr "سجلت بنجاح"
+
+msgctxt "#30043"
+msgid "Bookmark already present"
+msgstr "المرجعية موجودة بالفعل"
+
+msgctxt "#30044"
+msgid "Bookmark deleted"
+msgstr "تم حذف الإشارة المرجعية"
+
+msgctxt "#30045"
+msgid "Type the link you want to play"
+msgstr "اكتب الرابط الذي تريد أن تشغله "
+
+msgctxt "#30046"
+msgid "Here is your link: "
+msgstr "ها هو الرابط الخاص بك: "
+
+msgctxt "#30047"
+msgid "Last auto update on: "
+msgstr "آخر تحديث تلقائي في: "
+
+msgctxt "#30048"
+msgid "Next update on: "
+msgstr "التحديث التالي في: "
+
+msgctxt "#30049"
+msgid "Path ffmpeg"
+msgstr "مسار ffmpeg"
+
+msgctxt "#30050"
+msgid "Recording path"
+msgstr "مسار التسجيل"
+
+msgctxt "#30051"
+msgid "enable recording"
+msgstr "تمكين التسجيل"
+
+msgctxt "#30052"
+msgid "Minute automatically add to your chosen duration (in minutes)"
+msgstr "تُضاف الدقائق تلقائيًا إلى المدة التي اخترتها (بالدقائق)"
+
+msgctxt "#30053"
+msgid "Time interval between each time check (in seconds)"
+msgstr "الفاصل الزمني بين كل مرة تحقق (بالثواني)"
+
+msgctxt "#30054"
+msgid "Url of your log:"
+msgstr "رابط السجل الخاص بك :"
+
+msgctxt "#30055"
+msgid "Import/Export the BDD (Bookmark, History, etc.)"
+msgstr "استيراد / تصدير BDD (إشارة مرجعية ، محفوظات ، إلخ.)"
+
+msgctxt "#30056"
+msgid "Remove BDD from Matrix"
+msgstr "إزالة BDD من Matrix"
+
+msgctxt "#30057"
+msgid "Delete a database"
+msgstr "احذف قاعدة بيانات"
+
+msgctxt "#31157"
+msgid "Delete settings file"
+msgstr "احذف ملف الإعدادات"
+
+msgctxt "#31158"
+msgid "Deletes the settings file"
+msgstr "يحذف ملف الإعدادات"
+
+msgctxt "#30058"
+msgid "Removes the BDD from the cache for metadata"
+msgstr "يزيل BDD من ذاكرة التخزين المؤقت لبيانات التعريف"
+
+msgctxt "#30059"
+msgid "Delete temporary Kodi files"
+msgstr "احذف ملفات كودي المؤقتة"
+
+msgctxt "#30060"
+msgid "Delete temporary browsing files from Kodi"
+msgstr "احذف ملفات التصفح المؤقتة من كودي"
+
+msgctxt "#30061"
+msgid "Clear .fi Files"
+msgstr "مسح ملفات .fi"
+
+msgctxt "#30062"
+msgid "Deletes temporary Kodi physical and BDD image files"
+msgstr "يحذف ملفات صور كودي المادية و BDD المؤقتة"
+
+msgctxt "#30063"
+msgid "Clear Thumbnails"
+msgstr "مسح الصور المصغرة"
+
+msgctxt "#30064"
+msgid "Refresh Skin"
+msgstr "تحديث السكين"
+
+msgctxt "#30065"
+msgid "Using ResolverUrl will allow you to use premium link generators"
+msgstr "سيسمح لك استخدام ResolverUrl باستخدام مولدات الارتباط المتميزة"
+
+msgctxt "#30066"
+msgid "Use ResolverUrl"
+msgstr "استخدم ResolverUrl"
+
+msgctxt "#30067"
+msgid "Configure ResolverUrl"
+msgstr "إعدادات ResolverUrl"
+
+msgctxt "#30068"
+msgid "WARNING: Matrix does not manage this part, [CR] remember to deactivate it if the videos no longer work."
+msgstr "تحذير: لا تدير ماتريكس هذا الجزء ، [CR]  قم بإلغاء تنشيطها إذا لم تعد مقاطع الفيديو تعمل."
+
+msgctxt "#30069"
+msgid "Unless you have a premium link generator, [CR] checking this box will bring you more problems than advantages."
+msgstr "ما لم يكن لديك اشتراك برميوم ، [CR] تحديد هذا المربع سيجلب لك مشاكل أكثر من المزايا."
+
+msgctxt "#30070"
+msgid "Choose your sources click OK [CR] - To validate the modifications click again on OK"
+msgstr "اختر مصادرك ، انقر فوق موافق [CR] - للتحقق من صحة التعديلات ، انقر مرة أخرى على موافق"
+
+msgctxt "#30071"
+msgid "Updated list"
+msgstr "قائمة محدثة"
+
+msgctxt "#30072"
+msgid "File deleted"
+msgstr "تم حذف الملف"
+
+msgctxt "#30073"
+msgid "Error, file cannot be deleted"
+msgstr "خطأ ، لا يمكن حذف الملف"
+
+msgctxt "#30074"
+msgid "Are you sure you want to delete this file? \nNon-reversible operation."
+msgstr "هل أنت متأكد أنك تريد حذف هذا الملف؟"
+
+msgctxt "#30075"
+msgid "Starting the full list"
+msgstr "بدء القائمة الكاملة"
+
+msgctxt "#30076"
+msgid "Search"
+msgstr "البحث"
+
+msgctxt "#30077"
+msgid "[COLOR gold]Select your search for: %s[/COLOR]"
+msgstr "[COLOR gold]حدد البحث عن: %s[/COLOR]"
+
+msgctxt "#30078"
+msgid "Search (Movies)"
+msgstr " البحث في ( الأفلام ) "
+
+msgctxt "#30079"
+msgid "Search (Tvshows/Animes)"
+msgstr "البحث في ( المسلسلات و الأنمي )"
+
+msgctxt "#30080"
+msgid "Search (Other category)"
+msgstr "بحث (فئة أخرى)"
+
+msgctxt "#30081"
+msgid "[COLOR gold]Results for: %s[/COLOR]"
+msgstr "[COLOR gold]نتائج البحث عن: %s[/COLOR]"
+
+msgctxt "#30082"
+msgid "Name already used"
+msgstr "الاسم مستخدم بالفعل"
+
+msgctxt "#30083"
+msgid "Add to download list"
+msgstr "أضف إلى قائمة التنزيل"
+
+msgctxt "#30084"
+msgid "Unable to download"
+msgstr "غير قادر على التحميل"
+
+msgctxt "#30085"
+msgid "Download failed"
+msgstr "فشل في التحميل"
+
+msgctxt "#30086"
+msgid "Download Started"
+msgstr "بدأ التنزيل"
+
+msgctxt "#30087"
+msgid "Clear Cache matrix, Error"
+msgstr "مسح  ذاكرة التخزين المؤقت ، خطأ"
+
+msgctxt "#30088"
+msgid "Visual search"
+msgstr "البحث المرئي"
+
+msgctxt "#30089"
+msgid "matrix Cache successfully cleared"
+msgstr "تم مسح ذاكرة التخزين المؤقت بنجاح"
+
+msgctxt "#30090"
+msgid "database successfully cleared"
+msgstr "تم مسح قاعدة البيانات بنجاح"
+
+msgctxt "#30091"
+msgid "Error while deleting Database"
+msgstr "خطأ أثناء حذف قاعدة البيانات"
+
+msgctxt "#30092"
+msgid "Kodi Cache successfully cleared [CR](Important restart Kodi)"
+msgstr "تم مسح ذاكرة التخزين المؤقت لـ كودي بنجاح [CR] (أعد تشغيل كودي )"
+
+msgctxt "#30093"
+msgid "Error while deleting Kodi Cache"
+msgstr "خطأ أثناء حذف ذاكرة التخزين المؤقت لـكودي"
+
+msgctxt "#30094"
+msgid "Select your Sources"
+msgstr "حدد المصادر الخاصة بك"
+
+msgctxt "#30095"
+msgid "Archive Cache successfully cleared [CR](Important restart Kodi)"
+msgstr "تم مسح ذاكرة التخزين المؤقت بنجاح"
+
+msgctxt "#30096"
+msgid "Error while deleting Cache"
+msgstr "خطأ أثناء حذف ذاكرة التخزين المؤقت"
+
+msgctxt "#30097"
+msgid "This code must be transmitted when you open an Issue, please note it:"
+msgstr "يجب إرسال هذا الرمز عند فتح مشكلة ، يرجى حفظه:"
+
+msgctxt "#30098"
+msgid "Are you sure? This will erase all thumbnails"
+msgstr "هل أنت متأكد؟ سيؤدي هذا إلى مسح جميع الصور المصغرة"
+
+msgctxt "#30099"
+msgid "Import/Export Database, Successful"
+msgstr "استيراد / تصدير قاعدة البيانات ، بنجاح"
+
+msgctxt "#30100"
+msgid "Import/Export Database, Error"
+msgstr "استيراد / تصدير قاعدة البيانات ، خطأ"
+
+msgctxt "#30101"
+msgid "New"
+msgstr "جديد"
+
+msgctxt "#30102"
+msgid "Foreign"
+msgstr "أجنبية"
+
+msgctxt "#30103"
+msgid "Indian"
+msgstr "هندية"
+
+msgctxt "#30136"
+msgid "Indian Dubbed"
+msgstr "هندية مدبلجة"
+
+msgctxt "#30137"
+msgid "Latin"
+msgstr "لاتينية"
+
+msgctxt "#30104"
+msgid "Asian"
+msgstr "اسيوية"
+
+msgctxt "#30111"
+msgid "Asian Dubbed"
+msgstr "اسيوية مدبلجة"
+
+msgctxt "#30105"
+msgid "Genre"
+msgstr "النوع"
+
+msgctxt "#30106"
+msgid "Years"
+msgstr "السنوات"
+
+msgctxt "#33107"
+msgid "Family"
+msgstr "عائلية"
+
+msgctxt "#30107"
+msgid "Arabic"
+msgstr "عربية"
+
+msgctxt "#30108"
+msgid "English"
+msgstr "انجليزية"
+
+msgctxt "#30109"
+msgid "Turkish"
+msgstr "تركية"
+
+msgctxt "#30110"
+msgid "Turkish Dubbed"
+msgstr "تركية مدبلجة"
+
+msgctxt "#30111"
+msgid "List"
+msgstr "قائمة"
+
+msgctxt "#30112"
+msgid "Documentary"
+msgstr "وثائقية"
+
+msgctxt "#30113"
+msgid "Sport"
+msgstr "رياضة"
+
+msgctxt "#30114"
+msgid "Web video"
+msgstr "مقاطع فيديو"
+
+msgctxt "#30115"
+msgid "Television / Radio"
+msgstr "تلفزيون / راديو"
+
+msgctxt "#30116"
+msgid "All the sources"
+msgstr "كل المصادر"
+
+msgctxt "#30117"
+msgid "Programs"
+msgstr "برامج"
+
+msgctxt "#30120"
+msgid "Movies"
+msgstr "أفلام"
+
+msgctxt "#30121"
+msgid "Series"
+msgstr "مسلسلات"
+
+msgctxt "#30122"
+msgid "Anime"
+msgstr "أنمي"
+
+msgctxt "#30125"
+msgid "Research Update (source only)"
+msgstr ""
+
+msgctxt "#30126"
+msgid "Beta Tester (not recommended)"
+msgstr ""
+
+msgctxt "#30127"
+msgid "Tools"
+msgstr "أدوات"
+
+msgctxt "#30128"
+msgid "Clear the addon cache"
+msgstr "امسح ذاكرة التخزين المؤقت للاضافة"
+
+msgctxt "#30129"
+msgid "Clear Kodi Cache"
+msgstr "امسح ذاكرة التخزين المؤقت لكودي"
+
+msgctxt "#30130"
+msgid "Lists"
+msgstr "القوائم"
+
+msgctxt "#30134"
+msgid "Football"
+msgstr "كرة القدم"
+
+msgctxt "#30135"
+msgid "WWE"
+msgstr "مصارعة"
+
+msgctxt "#30138"
+msgid "Sources"
+msgstr "المصادر"
+
+msgctxt "#30145"
+msgid "Download folder"
+msgstr "مجلد التحميل"
+
+msgctxt "#30146"
+msgid "Show / Hide search settings"
+msgstr "إظهار / إخفاء إعدادات البحث"
+
+msgctxt "#30160"
+msgid "Quality HD"
+msgstr "جودة HD"
+
+msgctxt "#30201"
+msgid "Playlist"
+msgstr "قائمة التشغيل"
+
+msgctxt "#30202"
+msgid "Download"
+msgstr "تحميل"
+
+msgctxt "#30203"
+msgid "Webradio"
+msgstr "ويبراديو"
+
+msgctxt "#30204"
+msgid "[COLOR red]No informations[/COLOR]"
+msgstr "[COLOR red]لا توجد معلومات[/COLOR]"
+
+msgctxt "#30205"
+msgid "Connection Failed"
+msgstr "فشل الاتصال"
+
+msgctxt "#30206"
+msgid "Marked seen/Not seen"
+msgstr "وضع علامة مشاهد / غير مشاهد"
+
+msgctxt "#30207"
+msgid "Bookmarks"
+msgstr "إشارات مرجعية"
+
+msgctxt "#30208"
+msgid "Informations"
+msgstr "معلومات"
+
+msgctxt "#30209"
+msgid "[COLOR red]Delete Bookmark[/COLOR]"
+msgstr "[COLOR red]حذف الإشارة المرجعية[/COLOR]"
+
+msgctxt "#30210"
+msgid "Bookmark"
+msgstr "إشارة مرجعية"
+
+msgctxt "#30211"
+msgid "[COLOR red]Clear this category[/COLOR]"
+msgstr "[COLOR red]امسح هذه الفئة[/COLOR]"
+
+msgctxt "#30212"
+msgid "Trailer"
+msgstr "الاعلان"
+
+msgctxt "#30213"
+msgid "Search Similar"
+msgstr "البحث عن مشابه"
+
+msgctxt "#33213"
+msgid "Parents Guide"
+msgstr "تصنيف المحتوى"
+
+msgctxt "#30214"
+msgid "Trakt"
+msgstr "Trakt"
+
+msgctxt "#30215"
+msgid "Start downloading"
+msgstr "ابدأ التنزيل"
+
+msgctxt "#30216"
+msgid "Remove from list"
+msgstr "إزالة من القائمة"
+
+msgctxt "#30217"
+msgid "[COLOR red]Delete permanently[/COLOR]"
+msgstr "[COLOR red]الحذف بشكل نهائي[/COLOR]"
+
+msgctxt "#30218"
+msgid "Stop downloading"
+msgstr "ايقاف التنزيل"
+
+msgctxt "#30219"
+msgid "Read"
+msgstr "قراءة"
+
+msgctxt "#30220"
+msgid "Reset"
+msgstr "إعادة ضبط"
+
+msgctxt "#30221"
+msgid "Add:"
+msgstr "اضافة:"
+
+msgctxt "#30222"
+msgid "Delete:"
+msgstr "حذف:"
+
+msgctxt "#30223"
+msgid "Rename"
+msgstr "إعادة تسمية"
+
+msgctxt "#30300"
+msgid "Library"
+msgstr "المكتبة"
+
+msgctxt "#30301"
+msgid "To configure in kodi if you want them to be imported"
+msgstr ""
+
+msgctxt "#30302"
+msgid "Auto update"
+msgstr "التحديث التلقائي"
+
+msgctxt "#30303"
+msgid "Enable/Disable"
+msgstr "تفعيل/تعطيل"
+
+msgctxt "#30304"
+msgid "Go to [COLOR teal]%s[/COLOR] Enter the code [COLOR teal]%s[/COLOR]"
+msgstr "انتقل إلى [COLOR teal]%s[/COLOR] أدخل الرمز  [COLOR teal]%s[/COLOR]"
+
+msgctxt "#30305"
+msgid "[COLOR khaki]Click here to login[/COLOR]"
+msgstr "[COLOR khaki]انقر هنا لتسجيل الدخول[/COLOR]"
+
+msgctxt "#30306"
+msgid "[COLOR khaki]Hello, %s[/COLOR]"
+msgstr "[COLOR khaki]Hello, %s[/COLOR]"
+
+msgctxt "#30307"
+msgid "Movies (%s/%s) seen / Series seen (%s) / episodes (%s/%s) seen"
+msgstr "Movie (%s/%s) seen / Series seen (%s) / episodes (%s/%s) seen"
+
+msgctxt "#30308"
+msgid "search history"
+msgstr "سجل البحث"
+
+msgctxt "#30309"
+msgid "logout"
+msgstr "تسجيل خروج"
+
+msgctxt "#30310"
+msgid "Collection"
+msgstr "التجميعات"
+
+msgctxt "#30311"
+msgid "Watchlist"
+msgstr "قائمة المشاهدة"
+
+msgctxt "#30312"
+msgid "Seen"
+msgstr "تمت مشاهدته"
+
+msgctxt "#30313"
+msgid "Recommended"
+msgstr "موصى به"
+
+msgctxt "#30314"
+msgid "BoxOffice"
+msgstr "البوكس اوفيس"
+
+msgctxt "#30315"
+msgid "Popular"
+msgstr "الأكثر شهرة"
+
+msgctxt "#30316"
+msgid "Most viewed this week"
+msgstr "الأكثر مشاهدة هذا الأسبوع"
+
+msgctxt "#30317"
+msgid "Most viewed of the month"
+msgstr "الأكثر مشاهدة لهذا الشهر"
+
+msgctxt "#30318"
+msgid "Watchlist (seasons)"
+msgstr "قائمة المشاهدة (المواسم)"
+
+msgctxt "#30319"
+msgid "Watchlist (episodes)"
+msgstr "قائمة المشاهدة (الحلقات)"
+
+msgctxt "#30320"
+msgid "You have successfully logged out"
+msgstr "لقد قمت بتسجيل الخروج بنجاح"
+
+msgctxt "#30321"
+msgid "Add collection"
+msgstr "أضف المجموعة"
+
+msgctxt "#30322"
+msgid "Add watch history"
+msgstr "أضف سجل المشاهدة"
+
+msgctxt "#30323"
+msgid "Add watchlist"
+msgstr "أضف قائمة المشاهدة"
+
+msgctxt "#30324"
+msgid "Library"
+msgstr "المكتبة"
+
+msgctxt "#30325"
+msgid "Uptobox"
+msgstr "Uptobox"
+
+msgctxt "#30326"
+msgid "Download and Play"
+msgstr "تحميل وتشغيل"
+
+msgctxt "#30327"
+msgid "1Fichier"
+msgstr "1Fichier"
+
+msgctxt "#30328"
+msgid "Token"
+msgstr "رمز"
+
+msgctxt "#30329"
+msgid "Token (Optional)"
+msgstr "رمز (اختياري)"
+
+msgctxt "#30330"
+msgid "Search"
+msgstr "البحث"
+
+msgctxt "#30331"
+msgid "Calendar"
+msgstr "التقويم"
+
+msgctxt "#30332"
+msgid "WebTv"
+msgstr "ويب تي في"
+
+msgctxt "#30340"
+msgid "Trakt integration"
+msgstr "Trakt integration"
+
+msgctxt "#30341"
+msgid "Show personnal lists"
+msgstr "إظهار القوائم الشخصية"
+
+msgctxt "#30342"
+msgid "Movies"
+msgstr "أفلام"
+
+msgctxt "#30343"
+msgid "Show watchlist"
+msgstr "عرض قائمة المشاهدة"
+
+msgctxt "#30344"
+msgid "Show watched list"
+msgstr "عرض قائمة العناصر التي تم مشاهدتها"
+
+msgctxt "#30345"
+msgid "Show recommended movies"
+msgstr "عرض الأفلام الموصى بها"
+
+msgctxt "#30346"
+msgid "Show BoxOffice"
+msgstr "عرض BoxOffice"
+
+msgctxt "#30347"
+msgid "Show popular"
+msgstr "إظهار الملفات الشائعة"
+
+msgctxt "#30348"
+msgid "Show most weekly viewed"
+msgstr "إظهار الأكثر مشاهدة أسبوعيا"
+
+msgctxt "#30349"
+msgid "Show most monthly viewed"
+msgstr "إظهار الأكثر مشاهدة شهريًا"
+
+msgctxt "#30351"
+msgid "TV Shows"
+msgstr "المسلسلات"
+
+msgctxt "#30352"
+msgid "Show watchlist"
+msgstr "عرض قائمة المشاهدة"
+
+msgctxt "#30353"
+msgid "Show seasons watchlist"
+msgstr "عرض قائمة مشاهدة المواسم"
+
+msgctxt "#30354"
+msgid "Show episodes watchlist"
+msgstr "عرض قائمة مشاهدة الحلقات"
+
+msgctxt "#30355"
+msgid "Show watched list"
+msgstr "عرض قائمة العناصر التي تم مشاهدتها"
+
+msgctxt "#30356"
+msgid "Show recommended TV Shows"
+msgstr "عرض المسلسلات التلفزيونية الموصى بها"
+
+msgctxt "#30357"
+msgid "Show popular"
+msgstr "إظهار الملفات الشائعة"
+
+msgctxt "#30358"
+msgid "Show most weekly viewed"
+msgstr "إظهار الأكثر مشاهدة أسبوعيا"
+
+msgctxt "#30359"
+msgid "Show most monthly viewed"
+msgstr "إظهار الأكثر مشاهدة شهريًا"
+
+msgctxt "#30360"
+msgid "My personnal Trakt lists"
+msgstr "قوائم Trakt الشخصية الخاصة بي"
+
+msgctxt "#30400"
+msgid "Premium/Login"
+msgstr "برميوم / تسجيل الدخول"
+
+msgctxt "#30401"
+msgid "Username"
+msgstr "اسم المستخدم"
+
+msgctxt "#30402"
+msgid "Password"
+msgstr "كلمة المرور"
+
+msgctxt "#30403"
+msgid "Enable"
+msgstr "تفعيل"
+
+msgctxt "#30404"
+msgid "View : Movies (recommended 50-51-500-501-508) "
+msgstr ""
+
+msgctxt "#30405"
+msgid "View: Tvshow (recommended 50-51-500-501-508) "
+msgstr ""
+
+msgctxt "#30406"
+msgid "View: Default (recommended 50-51-500) "
+msgstr ""
+
+msgctxt "#30407"
+msgid "Vue: Home (recommended 50-51-500) "
+msgstr ""
+
+msgctxt "#30408"
+msgid "Enable customized view"
+msgstr ""
+
+msgctxt "#30409"
+msgid "Close"
+msgstr "إغلاق"
+
+msgctxt "#30410"
+msgid "Divers"
+msgstr "متنوع"
+
+msgctxt "#30411"
+msgid "Enable sound notifications"
+msgstr "تفعيل الإخطارات الصوتية"
+
+msgctxt "#30412"
+msgid "[COLOR red]Delete entry[/COLOR]"
+msgstr "[COLOR red]حذف العنصر[/COLOR]"
+
+msgctxt "#30413"
+msgid "[COLOR red]Delete history[/COLOR]"
+msgstr "[COLOR red] حذف السجل[/COLOR]"
+
+msgctxt "#30414"
+msgid "[COLOR gold]Full series search[/COLOR]"
+msgstr "[COLOR gold]بحث كامل عن المسلسل[/COLOR]"
+
+msgctxt "#30415"
+msgid "[COLOR gold]Full season search[/COLOR]"
+msgstr "[COLOR gold]بحث كامل الموسم[/COLOR]"
+
+msgctxt "#30416"
+msgid "[COLOR gold]Search history[/COLOR]"
+msgstr "[COLOR gold]سجل البحث[/COLOR]"
+
+msgctxt "#30417"
+msgid "[COLOR orange]Search on Alluc_ee[/COLOR]"
+msgstr ""
+
+msgctxt "#30418"
+msgid "[COLOR green]Update available[/COLOR]"
+msgstr "[COLOR green]تحديث متوفر[/COLOR]"
+
+msgctxt "#30419"
+msgid "View: Visual search (recommended 500)"
+msgstr ""
+
+msgctxt "#30420"
+msgid "Enable/Disable sources"
+msgstr ""
+
+msgctxt "#30421"
+msgid "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid Matrix, only then click YES"
+msgstr ""
+
+msgctxt "#30422"
+msgid "Enable log records"
+msgstr ""
+
+msgctxt "#30423"
+msgid "Search a Movie"
+msgstr "ابحث عن فيلم"
+
+msgctxt "#30424"
+msgid "Search a Serie"
+msgstr "ابحث عن مسلسل"
+
+msgctxt "#30425"
+msgid "Movies (Popular)"
+msgstr " أفلام (شائعة)"
+
+msgctxt "#30426"
+msgid "Movies (on Theater)"
+msgstr " أفلام (في السينما)"
+
+msgctxt "#30427"
+msgid "Movies (Top Rated)"
+msgstr "أفلام (الأعلى تقييمًا)"
+
+msgctxt "#30428"
+msgid "Movies (Genres)"
+msgstr "أفلام (الأنواع)"
+
+msgctxt "#30429"
+msgid "TV Shows (Popular)"
+msgstr "مسلسلات  (شائعة)"
+
+msgctxt "#30430"
+msgid "TV Shows (on TV)"
+msgstr "مسلسلات  (تعرض الآن)"
+
+msgctxt "#30431"
+msgid "TV Shows (Top Rated)"
+msgstr "مسلسلات  (الأعلى تقييمًا)"
+
+msgctxt "#30432"
+msgid "TV Shows (Genres)"
+msgstr "مسلسلات  (الأنواع)"
+
+msgctxt "#30433"
+msgid "Actors (Popular)"
+msgstr "الممثلين  (شائع)"
+
+msgctxt "#30434"
+msgid "Movies (Favorites)"
+msgstr "أفلام (المفضلة)"
+
+msgctxt "#30435"
+msgid "Movies (Rated)"
+msgstr "أفلام (مصنفة)"
+
+msgctxt "#30436"
+msgid "Movies (Watched)"
+msgstr "أفلام (مشاهدة)"
+
+msgctxt "#30437"
+msgid "TV Shows (Favorites)"
+msgstr "المسلسلات (المفضلة)"
+
+msgctxt "#30438"
+msgid "TV Shows (Rated)"
+msgstr "المسلسلات (المصنفة)"
+
+msgctxt "#30439"
+msgid "Episodes (Rated)"
+msgstr "الحلقات (المصنفة)"
+
+msgctxt "#30440"
+msgid "TV Shows (Watched)"
+msgstr "المسلسلات (المشاهدة)"
+
+msgctxt "#30441"
+msgid "My Lists"
+msgstr "قوائمي"
+
+msgctxt "#30442"
+msgid "You must be logged in"
+msgstr "يجب أن تكون مسجلا"
+
+msgctxt "#30443"
+msgid "Add: rated"
+msgstr "إضافة: مصنفة"
+
+msgctxt "#30444"
+msgid "Add: Watched"
+msgstr "إضافة: مشاهدة"
+
+msgctxt "#30445"
+msgid "Add: Favorites"
+msgstr "إضافة مفضلة"
+
+msgctxt "#30446"
+msgid "[COLOR red]Delete: Watched[/COLOR]"
+msgstr "[COLOR red]حذف: مشاهدة[/COLOR]"
+
+msgctxt "#30447"
+msgid "[COLOR red]Delete: Favorites[/COLOR]"
+msgstr "[COLOR red]حذف: المفضلة[/COLOR]"
+
+msgctxt "#30448"
+msgid "Select a quality"
+msgstr "حدد الجودة"
+
+msgctxt "#30449"
+msgid "About/Sources"
+msgstr "حول / المصادر"
+
+msgctxt "#30450"
+msgid "Search (Actor, Actress)"
+msgstr "بحث (ممثل، ممثلة)"
+
+msgctxt "#30451"
+msgid "Default mode"
+msgstr "الوضع الافتراضي"
+
+msgctxt "#30452"
+msgid "Always ask me"
+msgstr "اسألني دائما"
+
+msgctxt "#30453"
+msgid "Continue streaming via Uptostream"
+msgstr "استمر عبر Uptostream"
+
+msgctxt "#30454"
+msgid "Continue direct via UpToBox"
+msgstr "استمر عبر UpToBox"
+
+msgctxt "#30455"
+msgid "My accounts"
+msgstr "حساباتي"
+
+msgctxt "#30456"
+msgid "Are you sure?"
+msgstr "هل أنت متأكد؟"
+
+msgctxt "#30457"
+msgid "Trailer"
+msgstr "الاعلان"
+
+msgctxt "#30458"
+msgid "Recommended"
+msgstr "موصى به"
+
+msgctxt "#30459"
+msgid "Similar"
+msgstr "مشابه"
+
+msgctxt "#30460"
+msgid "Casting"
+msgstr "كادر التمثيل"
+
+msgctxt "#30461"
+msgid "Synopsis"
+msgstr "ملخص"
+
+msgctxt "#30462"
+msgid "Director"
+msgstr "المخرج"
+
+msgctxt "#30463"
+msgid "Release date"
+msgstr "تاريخ الاصدار"
+
+msgctxt "#30464"
+msgid "Duration"
+msgstr "المدة"
+
+msgctxt "#30465"
+msgid "Minute"
+msgstr "دقيقة"
+
+msgctxt "#30466"
+msgid "Actor/Role"
+msgstr "الممثل / الدور"
+
+msgctxt "#30467"
+msgid "Birth"
+msgstr "ولد"
+
+msgctxt "#30468"
+msgid "Place"
+msgstr "مكان"
+
+msgctxt "#30469"
+msgid "Hoster Direct"
+msgstr ""
+
+msgctxt "#70001"
+msgid "TOP"
+msgstr "الأفضل"
+
+msgctxt "#70002"
+msgid "Dubbed"
+msgstr "مدبلجة"
+
+msgctxt "#70003"
+msgid "Quran kareem"
+msgstr "القرآن الكريم"
+
+msgctxt "#70004"
+msgid "Nasheed"
+msgstr "نشيد"
+
+msgctxt "#70005"
+msgid "Cartoon"
+msgstr "كارتون"
+
+msgctxt "#70006"
+msgid "Ramadan"
+msgstr "رمضان"
+
+msgctxt "#70007"
+msgid "Animation"
+msgstr "انميشن"
+
+msgctxt "#70008"
+msgid "Popular"
+msgstr "رائج"
+
+msgctxt "#70009"
+msgid "Islamic"
+msgstr "إسلامية"
+
+msgctxt "#70010"
+msgid "Plays"
+msgstr "مسرح"
+
+msgctxt "#70011"
+msgid "Live"
+msgstr "مباشر"
+
+msgctxt "#70012"
+msgid "Kids"
+msgstr "الأطفال"
+
+msgctxt "#31101"
+msgid "Url"
+msgstr ""
+
+msgctxt "#31102"
+msgid "Use the skin display for the information windows"
+msgstr ""
+
+# Alldebrid
+msgctxt "#31000"
+msgid "Multimedia folder URL (Optional)"
+msgstr ""
+
+msgctxt "#34110"
+msgid "Database to delete"
+msgstr "قاعدة البيانات المطلوب حذفها"
+
+msgctxt "#30501"
+msgid "Classic"
+msgstr "كلاسيكية"
+
+msgctxt "#70013"
+msgid "Pack"
+msgstr "سلسلة"

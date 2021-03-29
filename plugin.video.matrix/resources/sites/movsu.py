@@ -586,6 +586,7 @@ def showLink():
     oParser = cParser()
     
     #Recuperation infos
+    sDesc = ''
 
     sPattern = '<p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -593,43 +594,37 @@ def showLink():
     if (aResult[0]):
         sDesc = aResult[1][0]
 	
-     # ([^<]+) .+?
-    sPattern = 'href="([^<]+)" target="_blank">(.+?)</a>'
-
+    sPattern = "data-url='([^<]+)'>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
+
 
     #print aResult
-   
+
+	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8") 
-            siteUrl = URL_MAIN + aEntry[0]
-            sDesc = sDesc
-
-
- 
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
+			total = len(aResult[1])
+			progress_ = progress().VScreate(SITE_NAME)
+			for aEntry in aResult[1]:
+				progress_.VSupdate(progress_, total)
+				if progress_.iscanceled():
+					break
+        
+				url = str(aEntry)
+				#print url
+				sTitle = " " 
+				if url.startswith('//'):
+					url = 'http:' + url
+				if 'yandex/?v=' in url:
+					url = url.split('/?v=')[1]
             
-
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+				sHosterUrl = url 
+				oHoster = cHosterGui().checkHoster(sHosterUrl)
+				if (oHoster != False):
+					sDisplayTitle = sMovieTitle+sTitle
+					oHoster.setDisplayName(sDisplayTitle)
+					oHoster.setFileName(sMovieTitle)
+					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 	
      # ([^<]+) .+?
     sPattern = "data-url='([^<]+)'><i class='icon-play3'></i><span class='title'>.+?</span><span class='server'>([^<]+)</span>"
@@ -654,6 +649,44 @@ def showLink():
             sTitle = aEntry[1].decode("utf8")
             sTitle = cUtil().unescape(sTitle).encode("utf8") 
             siteUrl = aEntry[0]
+            sDesc = sDesc
+
+
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+
+            
+
+ 
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+	
+     # ([^<]+) .+?
+    sPattern = 'href="([^<]+)" target="_blank">(.+?)</a>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    #fh = open('c:\\test.txt', "w")
+    #fh.write(sHtmlContent.replace('\n',''))
+    #fh.close()
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].decode("utf8")
+            sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            siteUrl = URL_MAIN + aEntry[0]
             sDesc = sDesc
 
 

@@ -114,7 +114,7 @@ class dialog():
         return DIALOG.notification(str(title), str(desc), xbmcgui.NOTIFICATION_INFO, iseconds, sound)
 
     def VSerror(self, e):
-        return DIALOG.notification('matrix', 'Error: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Erreur: ' + str(e))
+        return DIALOG.notification('matrix', 'Error: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Error: ' + str(e))
 
     def VStextView(self, desc, title = "matrix"):
         return DIALOG.textviewer(title, desc)

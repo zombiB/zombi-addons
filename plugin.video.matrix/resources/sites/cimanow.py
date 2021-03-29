@@ -176,7 +176,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="block"><a href="(.+?)">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div><div class="contentBoxSing">([^<]+)</div>'
+    sPattern = '<div class="block"><a href="(.+?)">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div>.+?<div class="contentBoxSing">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -441,7 +441,7 @@ def showServer2():
 				if progress_.iscanceled():
 					break
             
-				headers = {'Host': 'cimanow.tv',
+				headers = {'Host': 'ar.cimanow.cc',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -454,7 +454,7 @@ def showServer2():
 				data = {'id':sId,'server':spost}
 				s = requests.Session()
 				
-				r = s.post('https://cimanow.tv/wp-content/themes/CimaNow/Interface/server.php', headers=headers,data = data)  
+				r = s.post('https://ar.cimanow.cc/wp-content/themes/CimaNow/Interface/server.php', headers=headers,data = data)  
 				sHtmlContent += r.content     
     sPattern = '<iframe src="(.+?)" scrolling'
     oParser = cParser()

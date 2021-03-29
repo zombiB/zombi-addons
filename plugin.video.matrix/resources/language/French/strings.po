@@ -17,11 +17,11 @@ msgid "Auto-activate subtitles"
 msgstr "Activation auto des sous-titres"
 
 msgctxt "#30003"
-msgid "Downloads Completed"
+msgid "Downloading Completed"
 msgstr "Telechargements Termine"
 
 msgctxt "#30004"
-msgid "Downloads Stopped"
+msgid "Downloading Stopped"
 msgstr "Telechargements Arrete"
 
 msgctxt "#30005"
@@ -29,7 +29,7 @@ msgid "matrix will be faster with your own API key."
 msgstr "matrix sera plus rapide avec votre propre clef API."
 
 msgctxt "#30006"
-msgid "Search Metadata (slowed the Addon)"
+msgid "Search Metadata (may slow the Addon)"
 msgstr "Recherche les Metadonnees (ralenti l'Addon)"
 
 msgctxt "#30195"
@@ -61,7 +61,7 @@ msgid "Initialization error"
 msgstr "Erreur initialisation"
 
 msgctxt "#30012"
-msgid "Downloads already started"
+msgid "Downloading already started"
 msgstr "Telechargements deja demarres"
 
 msgctxt "#30013"
@@ -77,7 +77,7 @@ msgid "Update"
 msgstr "Mise a jour"
 
 msgctxt "#30016"
-msgid "Activate search history"
+msgid "Enable search history"
 msgstr "Activer l'historique de recherche"
 
 msgctxt "#30020"
@@ -93,15 +93,15 @@ msgid "Unsupported format"
 msgstr "Format non supporté"
 
 msgctxt "#30023"
-msgid "Plugins Preferences"
+msgid "Plugins settings"
 msgstr "Plugins Preferences"
 
 msgctxt "#30024"
-msgid "Unable to download"
+msgid "Failed to download"
 msgstr "Téléchargement impossible"
 
 msgctxt "#30025"
-msgid "Stop Downloads"
+msgid "Stop Downloading"
 msgstr "Arrêter les Téléchargements"
 
 msgctxt "#30026"
@@ -181,7 +181,7 @@ msgid "Bookmark deleted"
 msgstr "Marque-page supprime"
 
 msgctxt "#30045"
-msgid "Type the link you want to search"
+msgid "Type the link you want to play"
 msgstr "Tapez le lien que vous souhaitez rechercher"
 
 msgctxt "#30046"
@@ -193,7 +193,7 @@ msgid "Last auto update on:"
 msgstr "Derniere mise a jour auto le:"
 
 msgctxt "#30048"
-msgid "Next update check on: "
+msgid "Next update on: "
 msgstr "Prochaine verification de mise a jour le: "
 
 msgctxt "#30049"
@@ -205,7 +205,7 @@ msgid "Recording path"
 msgstr "Chemin d'enregistrement"
 
 msgctxt "#30051"
-msgid "Activate recording"
+msgid "enable recording"
 msgstr "Activer l'enregistrement"
 
 msgctxt "#30052"
@@ -273,7 +273,7 @@ msgid "Using ResolverUrl will allow you to use premium link generators"
 msgstr "Utiliser ResolverUrl vous permettra d'utiliser les debrideurs"
 
 msgctxt "#30066"
-msgid "Go through ResolverUrl"
+msgid "Use ResolverUrl"
 msgstr "Passer par ResolverUrl"
 
 msgctxt "#30067"
@@ -321,7 +321,7 @@ msgid "[COLOR gold]Select your search for: %s[/COLOR]"
 msgstr "[COLOR gold]Selectionnez votre recherche pour: %s[/COLOR]"
 
 msgctxt "#30078"
-msgid "Search (Movie)"
+msgid "Search (Movies)"
 msgstr "Recherche (Films)"
 
 msgctxt "#30079"
@@ -364,7 +364,7 @@ msgid "Visual search"
 msgstr "Recherche visuelle"
 
 msgctxt "#30089"
-msgid "Clear matrix Cache, Successful"
+msgid "matrix Cache successfully cleared"
 msgstr "Nettoyage du cache matrix, Réussi"
 
 msgctxt "#30090"
@@ -372,15 +372,15 @@ msgid "Suppression Database, Successful"
 msgstr "Suppression BDD, Réussi"
 
 msgctxt "#30091"
-msgid "Suppression Database, Error"
+msgid "Error while deleting Database"
 msgstr "Suppression BDD, Erreur"
 
 msgctxt "#30092"
-msgid "Clear Kodi Cache, Successful[CR](Important relaunch Kodi)"
+msgid "Kodi Cache successfully cleared [CR](Important restart Kodi)"
 msgstr "Nettoyage du cache Kodi, Réussi[CR](Important relancer Kodi)"
 
 msgctxt "#30093"
-msgid "Clear Kodi Cache, Error"
+msgid "Error while deleting Kodi Cache"
 msgstr "Nettoyage du cache Kodi, Erreur"
 
 msgctxt "#30094"
@@ -388,11 +388,11 @@ msgid "Select your Sources"
 msgstr "Selectionner vos Sources"
 
 msgctxt "#30095"
-msgid "Clear Archive_cache Cache, Successful[CR](Important relaunch Kodi)"
+msgid "Archive Cache successfully cleared [CR](Important restart Kodi)"
 msgstr "Nettoyage du Cache Archive_cache, Réussi[CR](Important relancer Kodi)"
 
 msgctxt "#30096"
-msgid "Clear Archive_cache Cache, Error"
+msgid "Error while deleting Cache"
 msgstr "Nettoyage du Cache Archive_cache, Erreur"
 
 msgctxt "#30097"
@@ -504,7 +504,7 @@ msgid "Series"
 msgstr "Series"
 
 msgctxt "#30122"
-msgid "Animes"
+msgid "Anime"
 msgstr "Animes"
 
 msgctxt "#30125"
@@ -584,8 +584,8 @@ msgid "Bookmarks"
 msgstr "Marque-Pages"
 
 msgctxt "#30208"
-msgid "Information"
-msgstr "Information"
+msgid "Informations"
+msgstr "Informations"
 
 msgctxt "#30209"
 msgid "[COLOR red]Delete Bookmark[/COLOR]"
@@ -609,14 +609,14 @@ msgstr "Recherche Similaire"
 
 msgctxt "#33213"
 msgid "Parents Guide"
-msgstr "Parents Guide"
+msgstr "Guide Parental"
 
 msgctxt "#30214"
 msgid "Trakt"
 msgstr "Trakt"
 
 msgctxt "#30215"
-msgid "Start download"
+msgid "Start downloading"
 msgstr "Demarrer le telechargement"
 
 msgctxt "#30216"
@@ -624,7 +624,7 @@ msgid "Remove from list"
 msgstr "Supprimer de la liste"
 
 msgctxt "#30217"
-msgid "[COLOR red]Delete definitely[/COLOR]"
+msgid "[COLOR red]Delete permanently[/COLOR]"
 msgstr "[COLOR red]Supprimer definitivement[/COLOR]"
 
 msgctxt "#30218"
@@ -688,7 +688,7 @@ msgid "History"
 msgstr "Historique"
 
 msgctxt "#30309"
-msgid "Disconnection"
+msgid "logout"
 msgstr "Deconnexion"
 
 msgctxt "#30310"
@@ -876,7 +876,7 @@ msgid "Password"
 msgstr "Mot de passe"
 
 msgctxt "#30403"
-msgid "Activate"
+msgid "Enable"
 msgstr "Activer"
 
 msgctxt "#30404"

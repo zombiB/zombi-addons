@@ -301,8 +301,8 @@ class cHosterGui:
             return self.getHoster('supervideo')
         if ('uqload.' in sHostName):
             return self.getHoster('uqload')
-        if ('letwatch' in sHostName):
-            return self.getHoster('letwatch')
+        if ('userload' in sHostName):
+            return self.getHoster('userload')
         if ('easyvid' in sHostName):
             return self.getHoster('easyvid')
         if ('www.amazon' in sHostName):
@@ -476,7 +476,7 @@ class cHosterGui:
         if ('myvi.ru' in sHostName):
             return self.getHoster('resolver')
         if ('yandex' in sHostName):
-            return self.getHoster('resolver')
+            return self.getHoster('yadisk')
         if ('jetload' in sHostName):
             return self.getHoster('resolver')
 
