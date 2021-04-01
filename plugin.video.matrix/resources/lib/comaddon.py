@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
 
-import xbmcaddon, xbmcgui, xbmc, xbmcvfs 
+import xbmcaddon, xbmcgui, xbmc, xbmcvfs
 
 """System d'importation
 
@@ -177,7 +177,7 @@ class progress(xbmcgui.DialogProgress):
         global COUNT
         COUNT += 1
         iPercent = int(float(COUNT * 100) / total)
-        dialog.update(iPercent, 'Loading: ' + str(COUNT) + '/' + str(total) + " " + text)
+        dialog.update(iPercent, addon().VSlang(40000)+ str(COUNT) + '/' + str(total) + " " + text)
 
     def VSclose(self, dialog = ''):
         global PROGRESS

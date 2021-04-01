@@ -434,7 +434,7 @@ def showSeries(sSearch = ''):
  
  
             siteUrl = aEntry[0]
-            sInfo = aEntry[2]
+            sInfo = ""
             sThumbnail = str(aEntry[1])
             sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
@@ -557,7 +557,7 @@ def showHosters():
     oParser = cParser()
 
   # ([^<]+) .+?
-    headers = {'Host': 'sa.movizland.online',
+    headers = {'Host': 'movizland.top',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -730,7 +730,7 @@ def showHosters1():
     oParser = cParser()
 
   # ([^<]+) .+?
-    headers = {'Host': 'sa.movizland.online',
+    headers = {'Host': 'movizland.top',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -774,31 +774,6 @@ def showHosters1():
 				
 
     # ([^<]+) (.+?)      
-
-    sPattern = 'rel="nofollow" href="(.+?)">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry[1])
-				sTitle =  str(aEntry[0])
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
             
 
@@ -816,8 +791,6 @@ def showHosters1():
 					break
             
 				url = str(aEntry)
-				if 'vidcloud' in url:
-					sTitle = " (vidcloud)"
 				if url.startswith('//'):
 					url = 'http:' + url
             
@@ -878,7 +851,7 @@ def showHosters2():
     oParser = cParser()
 
   # ([^<]+) .+?
-    headers = {'Host': 'sa.movizland.online',
+    headers = {'Host': 'movizland.top',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -962,8 +935,6 @@ def showHosters2():
 					break
             
 				url = str(aEntry)
-				if 'vidcloud' in url:
-					sTitle = " (vidcloud)"
 				if url.startswith('//'):
 					url = 'http:' + url
             
@@ -989,8 +960,6 @@ def showHosters2():
 					break
             
 				url = str(aEntry)
-				if 'vidcloud' in url:
-					sTitle = " (vidcloud)"
 				if url.startswith('//'):
 					url = 'http:' + url
             

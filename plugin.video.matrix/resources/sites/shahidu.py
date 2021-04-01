@@ -534,42 +534,42 @@ def showServers():
 
 
 
-    oRequestHandler = cRequestHandler(sUrl2)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    sHtmlContent2 = oRequestHandler.request()
+        oRequestHandler = cRequestHandler(sUrl2)
+        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+        oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+        oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+        oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+        sHtmlContent2 = oRequestHandler.request()
 
 
     # (.+?) .+? ([^<]+)        	
-    sPattern = 'href="([^<]+)">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
+        sPattern = 'href="([^<]+)">'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent2, sPattern)
 
 	
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        if (aResult[0] == True):
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
             
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if url.startswith('//'):
-					url = 'http:' + url
+                url = str(aEntry)
+                sTitle = sMovieTitle
+                if url.startswith('//'):
+                   url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                sHosterUrl = url 
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                   sDisplayTitle = sTitle
+                   oHoster.setDisplayName(sDisplayTitle)
+                   oHoster.setFileName(sMovieTitle)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
       
     oGui.setEndOfDirectory()
  

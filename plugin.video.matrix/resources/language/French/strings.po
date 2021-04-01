@@ -1216,3 +1216,8 @@ msgstr "Classique"
 msgctxt "#70013"
 msgid "Pack"
 msgstr "Pack"
+
+
+msgctxt "#40000"
+msgid "Loading: "
+msgstr "Chargement: "

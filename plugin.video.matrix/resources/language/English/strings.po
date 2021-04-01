@@ -1213,3 +1213,8 @@ msgstr ""
 msgctxt "#70013"
 msgid "Pack"
 msgstr ""
+
+
+msgctxt "#40000"
+msgid "Loading: "
+msgstr ""

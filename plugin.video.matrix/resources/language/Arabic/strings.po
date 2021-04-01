@@ -1216,3 +1216,7 @@ msgstr "كلاسيكية"
 msgctxt "#70013"
 msgid "Pack"
 msgstr "سلسلة"
+
+msgctxt "#40000"
+msgid "Loading: "
+msgstr " جار التحميل : "
