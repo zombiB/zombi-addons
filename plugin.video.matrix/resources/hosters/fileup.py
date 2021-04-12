@@ -83,8 +83,8 @@ class cHoster(iHoster):
             sPattern = 'file:"([^"]+)",flashplayer:'
             aResult = oParser.parse(sHtmlContent,sPattern)
             if (aResult[0] == True):
-				api_call = aResult[1][0] + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
-				
+                api_call = aResult[1][0] + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+                
         if (api_call):
             return True, api_call
 

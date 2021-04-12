@@ -1,5 +1,10 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi
+try:  # Python 2
+    import urllib2
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
@@ -7,42 +12,45 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
+import requests
 import unicodedata
- 
+
+UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+
 SITE_IDENTIFIER = 'cimaclub'
 SITE_NAME = 'cimaclub'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.cimaclub.cam'
+URL_MAIN = 'https://www.cimaclub.best'
 
-MOVIE_FAM = ('https://www.cimaclub.onl/getposts?genre=%D8%B9%D8%A7%D8%A6%D9%84%D9%8A&category=1', 'showMovies')
 
-MOVIE_TOP = ('https://www.cimaclub.io/getposts?type=one&data=rating', 'showMovies')
-MOVIE_EN = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
-MOVIE_AR = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
-MOVIE_TURK = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9', 'showMovies')
-MOVIE_HI = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
-MOVIE_ASIAN = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showMovies')
-KID_MOVIES = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
+MOVIE_FAM = (URL_MAIN + '/getposts?genre=%D8%B9%D8%A7%D8%A6%D9%84%D9%8A&category=1', 'showMovies')
+MOVIE_TOP = (URL_MAIN + '/getposts?type=one&data=rating', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86', 'showMovies')
 
-SERIE_LATIN = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%84%D9%8A%D8%A9', 'showSerie')
-SERIE_DUBBED = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D9%87', 'showSerie')
-SERIE_ASIA = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D9%88%D8%B1%D9%8A', 'showSerie')
-SERIE_HEND = ('https://www.cimaclub.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSerie')
-SERIE_TR = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D9%87', 'showSerie')
-SERIE_EN = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSerie')
+SERIE_LATIN = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%B1%D8%A7%D8%B2%D9%8A%D9%84%D9%8A%D8%A9', 'showSerie')
+SERIE_DUBBED = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D9%87', 'showSerie')
+SERIE_ASIA = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D9%88%D8%B1%D9%8A', 'showSerie')
+SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSerie')
+SERIE_TR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D9%87', 'showSerie')
+SERIE_EN = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-ANIM_NEWS = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%8A%D9%85%D9%8A', 'showSerie')
-DOC_NEWS = ('https://www.cimaclub.io/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
-DOC_SERIES = ('https://www.cimaclub.io/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showSerie')
-SPORT_NEWS = ('https://www.cimaclub.io/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D9%87-wwe', 'showMovies')
-URL_SEARCH = ('https://www.cimaclub.io/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.cimaclub.io/search?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.cimaclub.in/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSerie')
+ANIM_NEWS = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%8A%D9%85%D9%8A', 'showSerie')
+DOC_NEWS = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
+DOC_SERIES = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showSerie')
+SPORT_NEWS = (URL_MAIN + '/category/%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D8%B9%D9%87-wwe', 'showMovies')
+URL_SEARCH = (URL_MAIN + '/search?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -64,7 +72,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.cimaclub.in/search?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/search?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -74,7 +82,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.cimaclub.io/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -110,6 +118,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
      # (.+?) ([^<]+) .+?
 
     sPattern = '<div class="content-box">.+?<a href="([^<]+)" data-src="([^<]+)" class="image"></a>.+?<h3>([^<]+)</h3></a>'
@@ -126,28 +136,18 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج")
-            siteUrl = str(aEntry[0]).replace("/film/","/watch/").replace("/post/","/watch/")
-            sThumb = str(aEntry[1]).replace("(","").replace(")","")
-            sDesc = ""
+            sTitle = str(aEntry[2])
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
+            siteUrl = str(aEntry[0]).replace('/film/','/watch/').replace('/post/','/watch/')
+            sThumb = str(aEntry[1]).replace('(','').replace(')','')
+            sDesc = ''
             sYear = ''
             sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
-            m = re.search('مدبلج', sTitle)
-            if m:
-				sDub = str(m.group(0))
-				sTitle = sTitle.replace(sDub,'')
-            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
-                    continue
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -179,6 +179,8 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
  
      # (.+?) ([^<]+) .+?
     sPattern = '<div class="content-box">.+?<a href="([^<]+)" data-src="([^<]+)" class="image"></a>.+?<em>(.+?)</em>.+?<h3>([^<]+)</h3></a>'
@@ -195,21 +197,16 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[3].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("انمى","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","") 
+            sTitle = aEntry[3].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("انمى","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")  
             siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
-            sDesc = sTitle
+            sDesc = ""
             sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").split('الحلقة')[0]
  
             if "E" not in sDisplayTitle:
-				sDisplayTitle=sDisplayTitle+" E"+aEntry[2]
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
-                    continue
+                sDisplayTitle=sDisplayTitle+" E"+aEntry[2]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -238,15 +235,15 @@ def showSerie(sSearch = ''):
                 break
  
             if "الحلقة" in aEntry[2]:
-				continue
+                continue
  
             if "فيلم" in aEntry[2]:
-				continue
+                continue
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("انمى","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","") 
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("انمى","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")  
             siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
-            sDesc = sTitle
+            sDesc = ''
             sDisplayTitle2 = sTitle.split('الحلقة')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").split('الحلقة')[0]
@@ -360,7 +357,7 @@ def showEpisodes1():
                 break
  
             if 'season' in aEntry[0]:
-				continue
+                continue
  
             sTitle = ""
             siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")
@@ -453,6 +450,17 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
+def getCookie(head):
+    # get cookie
+    cookies = ''
+    if 'Set-Cookie' in head:
+        oParser = cParser()
+        sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
+        aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
+        if (aResult[0] == True):
+            for cook in aResult[1]:
+                cookies = cookies + cook[0] + '=' + cook[1] + ';'
+            return cookies
   
 def showServers():
     oGui = cGui()
@@ -464,24 +472,30 @@ def showServers():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
 	    #Affichage du menu  
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات المشاهدة--------[/COLOR]')
-
-
-
+ 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
+    print ("sHtmlContent2")
 
-    #print sHtmlContent
    
     oParser = cParser()
-
-    sId='0'
-    # (.+?) ([^<]+) .+?
+    
+    #Recuperation infos
 
     sPattern = '&_post_id=([^<]+)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        spost = aResult[1][0]
+    # (.+?) ([^<]+) .+?
+
+    sPattern = 'data-embedd="(.+?)">([^<]+)<'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
@@ -495,19 +509,17 @@ def showServers():
 
             
 
-        for i in range(0,5):
 
 
 
 			
-            sId = "https://www.cimaclub.io/ajaxCenter?_action=getserver&_post_id="+aEntry
-
+            sId = URL_MAIN + '/ajaxCenter?_action=getserver&_post_id='+spost
 
    
 			
 
-            sTitle = 'server '+': '+str(i)
-            siteUrl = sId+'&serverid='+str(i)
+            sTitle = 'server '+': '+aEntry[1]
+            siteUrl = sId+'&serverid='+aEntry[0]
             sInfo = ""
 
 
@@ -533,41 +545,27 @@ def showServers():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				sTitle = sMovieTitle2
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'streamcloud' in url:
-					sTitle = " (streamcloud)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            sTitle = sMovieTitle2
+            if url.startswith('//'):
+               url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 	    #Affichage du menu  
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]----------------------------[/COLOR]')
  
@@ -586,9 +584,9 @@ def showServers():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مسلسل","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E").split('ال')[0] 
+            sTitle = aEntry[1].replace("مسلسل","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E").split('ال')[0]  
             if "E" not in sTitle:
-				sTitle=sMovieTitle+sTitle+" E"+aEntry[2]
+                sTitle=sTitle+" E"+aEntry[2]
             siteUrl = str(aEntry[0]).replace("/episode/","/watch/").replace("/post/","/watch/")
             sThumb = ""
             sDesc = ""
@@ -656,7 +654,7 @@ def showServers1():
 
 
 			
-            sId = "https://www.cimaclub.io/ajaxCenter?_action=getserver&_post_id="+aEntry
+            sId = URL_MAIN + '/ajaxCenter?_action=getserver&_post_id='+aEntry
 
 
    
@@ -689,41 +687,27 @@ def showServers1():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				sTitle = sMovieTitle2.replace(" موسم "," S").replace("الموسم ","S")
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'streamcloud' in url:
-					sTitle = " (streamcloud)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            sTitle = sMovieTitle2.replace(" موسم "," S").replace("الموسم ","S")
+            if url.startswith('//'):
+               url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
        
     oGui.setEndOfDirectory() 
 def showHosters():
@@ -755,37 +739,31 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
         
-				url = str(aEntry)
-				sTitle = " "
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'Cloudvid' in url:
-					sTitle = " (Cloudvid)"
-				if 'govid' in url:
-					url = url.replace("play","down").replace("embed-","")
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            sTitle = " "
+            if 'govid' in url:
+               url = url.replace("play","down").replace("embed-","")
+            if url.startswith('//'):
+                              url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sMovieTitle+sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_) 		
+        progress_.VSclose(progress_) 		
                 
     oGui.setEndOfDirectory()

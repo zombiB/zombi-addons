@@ -7,10 +7,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'watanflix'
@@ -98,12 +98,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[3])
             siteUrl = str(aEntry[2])
             sThumbnail = str(aEntry[4])
-            sInfo = str(aEntry[1]).decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = str(aEntry[1])
             sYear = aEntry[0]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
@@ -152,12 +150,11 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
 				
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
+            
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[3])
-            sInfo = str(aEntry[0]).decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = str(aEntry[0])
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -215,8 +212,7 @@ def showHosters():
             if progress_.iscanceled():
                 break
             
-            sTitle = sMovieTitle+str(aEntry[2]).replace("</b>","").replace("<b>","").replace("الحلقة "," E").replace("E ","E")
-            
+            sTitle = sMovieTitle+str(aEntry[2])            
             sThumbnail = str(aEntry[1])
             url = str(aEntry[0])
             if url.startswith('//'):

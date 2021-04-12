@@ -7,10 +7,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'eyoon'
@@ -74,8 +74,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[1])
+            
             siteUrl = str(aEntry[0])
             sThumbnail = ""
             sInfo = ""
@@ -130,8 +130,8 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[0]
+            
             sTitle = sTitle.replace("اون لاين + تحميل","")
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
@@ -213,7 +213,7 @@ def showServer():
     data = {'action':'eyoon_anime_player_get_server','eyoon_anime_server':'2','eyoon_anime_post':sId}
     s = requests.Session()
     r = s.post('https://eyoon.co/wp-admin/admin-ajax.php', headers=headers,data = data)
-    sHtmlContent += r.content
+    sHtmlContent = r.content
     sHtmlContent = sHtmlContent.replace('https://www.youtube.com/embed/','')
     
     # (.+?) .+?
@@ -225,48 +225,29 @@ def showServer():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = "//ok.ru/videoembed/"+str(aEntry)
+            url = "//ok.ru/videoembed/"+str(aEntry)
 
 				#print url
-				sTitle = " "
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'mystream' in url:
-					sTitle = " (mystream)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'streamcloud' in url:
-					sTitle = " (streamcloud)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if 'streamango' in url:
-					sTitle = " (streamango)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            sTitle = " "
+            if url.startswith('//'):
+               url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)
                
 
     sPattern = 'src="([^<]+)" allowfullscreen=""'
@@ -275,29 +256,29 @@ def showServer():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				url = url.replace('https://docs.google.com','https://drive.google.com')
-				sTitle = "link : " 
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            url = url.replace('https://docs.google.com','https://drive.google.com')
+            sTitle = "link : " 
+            if url.startswith('//'):
+               url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_) 
+        progress_.VSclose(progress_) 
        
     oGui.setEndOfDirectory()
  
@@ -319,30 +300,30 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				sTitle = "link : " 
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            sTitle = "link : " 
+            if url.startswith('//'):
+               url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)
+        progress_.VSclose(progress_)
     #(.+?)
                
 
@@ -352,29 +333,29 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				sTitle = "link : " 
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            sTitle = "link : " 
+            if url.startswith('//'):
+               url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_) 
+        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()

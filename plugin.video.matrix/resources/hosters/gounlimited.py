@@ -68,7 +68,7 @@ class cHoster(iHoster):
                 if (aResult[0] == True):
                     api_call = aResult[1][0]
                     if api_call.startswith('//'):
-						api_call = 'http:' + api_call
+                        api_call = 'http:' + api_call
         else:
             api_call = self.__sUrl
 

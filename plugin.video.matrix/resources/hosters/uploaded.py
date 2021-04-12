@@ -61,7 +61,7 @@ class cHoster(iHoster):
     def getMediaLink(self):
 
         self.oPremiumHandler = cPremiumHandler(self.getPluginIdentifier())
-        print self.oPremiumHandler.isPremiumModeAvailable()
+        print (self.oPremiumHandler.isPremiumModeAvailable())
 
         if (not self.oPremiumHandler.isPremiumModeAvailable()):
             oDialog = dialog().VSok('ATTENTION, Pas de streaming sans premium.')
@@ -79,7 +79,7 @@ class cHoster(iHoster):
 
         api_call = url + '|' + self.oPremiumHandler.AddCookies()
 
-        #print api_call
+        #print(api_call)
 
         if (api_call):
             return True, api_call

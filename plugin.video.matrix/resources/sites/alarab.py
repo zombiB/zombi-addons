@@ -7,39 +7,39 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.player import cPlayer
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
 import xbmcgui
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'alarab'
 SITE_NAME = 'alarab'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://vod.alarab.com'
+URL_MAIN = 'https://watch.alarab.com/'
 
-MOVIE_CLASSIC = ('https://vod.alarab.com/view-6181/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%B5%D8%B1%D9%8A%D8%A9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9', 'showMovies')
-RAMADAN_SERIES = ('https://vod.alarab.com/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2020', 'showSeries')
-MOVIE_EN = ('https://vod.alarab.com/view-5553/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
-MOVIE_AR = ('http://vod.alarab.com/view-1/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_CLASSIC = (URL_MAIN + '/view-6181/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%B5%D8%B1%D9%8A%D8%A9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9', 'showMovies')
+RAMADAN_SERIES = (URL_MAIN + '/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSeries')
+MOVIE_EN = (URL_MAIN + '/view-5553/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/view-1/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
 
-MOVIE_HI = ('https://vod.alarab.com/view-297/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/view-297/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
 
-KID_MOVIES = ('https://vod.alarab.com/view-295/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showMovies')
-SERIE_AR = ('https://vod.alarab.com/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
-SERIE_TR = ('http://vod.alarab.com/q/%D9%85%D8%AA%D8%B1%D8%AC%D9%85', 'showSerie')
+KID_MOVIES = (URL_MAIN + '/view-295/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showMovies')
+SERIE_AR = (URL_MAIN + '/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
+SERIE_TR = (URL_MAIN + '/q/%D9%85%D8%AA%D8%B1%D8%AC%D9%85', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 
 
-REPLAYTV_NEWS = ('https://watch.alarab.com/view-311/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86', 'showSeries')
-REPLAYTV_PLAY = ('https://vod.alarab.com/view-313/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA', 'showMovies')
-NETS_NEWS = ('https://vod.alarab.com/view-309/%D9%85%D9%82%D8%A7%D8%B7%D8%B9-%D9%85%D8%B6%D8%AD%D9%83%D8%A9', 'showEps')
-KID_CARTOON = ('https://vod.alarab.com/view-4/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showSeries')
-URL_SEARCH = ('https://vod.alarab.com/#/search;query=', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN + '/view-311/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + '/view-313/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA', 'showMovies')
+NETS_NEWS = (URL_MAIN + '/view-309/%D9%85%D9%82%D8%A7%D8%B7%D8%B9-%D9%85%D8%B6%D8%AD%D9%83%D8%A9', 'showEps')
+KID_CARTOON = (URL_MAIN + '/view-4/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showSeries')
+URL_SEARCH = (URL_MAIN + '/#/search;query=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -57,7 +57,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://vod.alarab.com/#/search;query='+sSearchText
+        sUrl = URL_MAIN + '/#/search;query='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -92,6 +92,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  
      # (.+?) ([^<]+) .+?
     sPattern = '<div class="video-box"><a href="([^<]+)"><img.+?data-src="([^<]+)" alt="([^<]+)" />'
@@ -108,17 +110,16 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("بدون تحميل","").replace("انتاج ","").replace("على العرب","")
+            sTitle = str(aEntry[2])
+            sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("بدون تحميل","").replace("انتاج ","").replace("على العرب","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
             sInfo = ""
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
             sInfo = ""
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
@@ -166,8 +167,8 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[2]
+            
             sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","").replace("اونلاين","")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(sThumbnail)
@@ -197,8 +198,8 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl =  URL_MAIN + str(aEntry[0])
             sThumbnail = ""
@@ -225,6 +226,8 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
   # ([^<]+) .+?
     sPattern = '<a href="([^<]+)" class="re_con_cat"><img src="([^<]+)" alt="([^<]+)" /><div class="">([^<]+)</div>'
 
@@ -240,8 +243,8 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[2]
+            
             sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
@@ -277,6 +280,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
       # (.+?) ([^<]+) .+?
     sPattern = '<div class="description-box "><div class="video-box"><a href="([^<]+)"><img   src="/placeholder-600x400.png" class="lazyload" data-src="([^<]+)" alt="([^<]+)" /></a></div><div class="description-video"><div class="heading-date"><h2><a href=".+?">([^<]+)</a></h2>'
 
@@ -292,8 +297,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[2]
+            
             sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
@@ -350,7 +355,7 @@ def showHosters():
     if (aResult[0] == True):
         m3url = aResult[1][0]
         if m3url.startswith('//'):
-			m3url = 'http:' + m3url 	
+                m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
     #recup du lien mp4
@@ -362,7 +367,7 @@ def showHosters():
         
         sUrl = str(aResult[1][0])
         if sUrl.startswith('//'):
-			sUrl = 'http:' + sUrl 
+                sUrl = 'http:' + sUrl 
                  
         #on lance video directement
         oGuiElement = cGuiElement()

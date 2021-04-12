@@ -88,8 +88,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
+            
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
@@ -342,8 +342,8 @@ def showMoviesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
+            
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
@@ -397,8 +397,8 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
+            
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
@@ -449,8 +449,8 @@ def showPack(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
+            
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("WEBRip","").replace("HD","").replace("720","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")

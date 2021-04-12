@@ -90,7 +90,7 @@ class cHoster(iHoster):
                 for i in aResult[1]:
                     url.append(str(i[0]))
                     qua.append(str(i[1]))
-					
+                	
                 api_call = dialog().VSselectqual(qua,url)
                 
         if not api_call:
@@ -104,7 +104,7 @@ class cHoster(iHoster):
             aResult = oParser.parse(sHtmlContent,sPattern)
             if (aResult[0] == True):
                 api_call = aResult[1][0]
-				
+                
         if (api_call):
             return True, api_call
 

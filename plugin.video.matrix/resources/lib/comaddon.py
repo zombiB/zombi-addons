@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
 
-import xbmcaddon, xbmcgui, xbmc, xbmcvfs
+import xbmcaddon, xbmcgui, xbmc, xbmcplugin, xbmcvfs 
 
 """System d'importation
 

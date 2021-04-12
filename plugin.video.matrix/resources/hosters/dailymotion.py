@@ -64,7 +64,7 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         api_call = False
-	UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+        UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
         url=[]
         qua=[]
         
@@ -73,7 +73,7 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
         oRequest.addHeaderEntry('Cookie', "ff=off")
         sHtmlContent = oRequest.request()
-
+        
 
         oParser = cParser()
 

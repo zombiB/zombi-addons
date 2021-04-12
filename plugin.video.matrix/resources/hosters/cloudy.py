@@ -83,7 +83,7 @@ class cHoster(iHoster):
             for x in aResult[1]:
                 url.append(x[0])
                 qua.append(x[1])
-					
+                	
                 api_call = dialog().VSselectqual(qua,url)
                     
         if (api_call):

@@ -7,11 +7,11 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'fansubs'
@@ -80,8 +80,8 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[2]
-            sTitle = sTitle.decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = sTitle
+            
  
             sInfo = ''
  
@@ -140,28 +140,26 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry[0])
-				sTitle =  '[COLOR gold] '+str(aEntry[1])+'[/COLOR]'
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry[0])
+            sTitle =  '[COLOR gold] '+str(aEntry[1])+'[/COLOR]'
+            if url.startswith('//'):
+               url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sMovieTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-			progress_.VSclose(progress_) 
     # ([^<]+)
                
 
@@ -171,27 +169,27 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry[0])
-				sTitle = '[COLOR gold] '+str(aEntry[1])+' [/COLOR]' 
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry[0])
+            sTitle = '[COLOR gold] '+str(aEntry[1])+' [/COLOR]' 
+            if url.startswith('//'):
+               url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+' '+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sMovieTitle+' '+sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_) 
+        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()

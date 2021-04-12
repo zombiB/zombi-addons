@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi.(@geekzombi)
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-import urllib2,urllib,re
-import unicodedata
+import re
  
 SITE_IDENTIFIER = 'yallalive'
 SITE_NAME = 'yallalive'
@@ -60,7 +56,9 @@ def showMovies(sSearch = ''):
             sThumbnail = ""
             siteUrl = URL_MAIN + aEntry[0]
             sInfo = aEntry[3]
-            if "جارية" in sInfo:
+            if isMatrix(): 
+               sInfo = str(sInfo.encode('latin-1'),'utf-8')
+            if 'جارية' in sInfo:
                 sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
 			
 			

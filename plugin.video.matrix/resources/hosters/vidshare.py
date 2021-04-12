@@ -67,7 +67,6 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('Referer',self.__sUrl)
         sHtmlContent = oRequest.request()
-        print sHtmlContent
 
 
         oParser = cParser()
@@ -81,12 +80,12 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
-				
+                
         if (api_call):
             return True, api_call
 
 
-			
+        	
         sPattern = "<script type='text/javascript'>var player = new Clappr.Player(.+?)</script>"
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
@@ -96,12 +95,12 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent2, sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0] + '&Referer=' + self.__sUrl
-				
+                
         if (api_call):
             return True, api_call
 
 
-		
+        
         sPattern = "<script type='text/javascript'>(.+?)</script>"
         aResult = oParser.parse(sHtmlContent,sPattern)
  
@@ -114,12 +113,12 @@ class cHoster(iHoster):
             aResult = oParser.parse(sHtmlContent3,sPattern2)
 
             if (aResult[0] == True):
-				api_call = aResult[1][0] + '&Referer=' + self.__sUrl
+                api_call = aResult[1][0] + '&Referer=' + self.__sUrl
         if (api_call):
             return True, api_call
 
-			
+        	
  
-		
+        
 
         return False, False

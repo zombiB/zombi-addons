@@ -9,10 +9,12 @@ import json
 import xbmcvfs
 import string
 import unicodedata
+
 import webbrowser
 
+from resources.lib.librecaptcha.gui import cInputWindowYesNo
 from resources.lib.util import QuotePlus
-from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix
+from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix, xbmc
 from resources.lib.handler.requestHandler import cRequestHandler
 
 try:
@@ -67,7 +69,7 @@ class cTMDb:
     CACHE = 'special://home/userdata/addon_data/plugin.video.matrix/video_cache.db'
 
     # important seul xbmcvfs peux lire le special
-    if not isMatrix:
+    if not isMatrix():
         REALCACHE = VSPath(CACHE).decode('utf-8')
     else:
         REALCACHE = VSPath(CACHE)
@@ -240,11 +242,18 @@ class cTMDb:
     def get_idbyname(self, name, year='', mediaType='movie', page=1):
         #Pour les series il faut enlever le numero de l episode et la saison.
         if mediaType == "tv":
-            m = re.search('(?i)(\wpisode ([0-9\.\-\_]+))', name)
-            m1 = re.search('(?i)(s(?:eason )*([0-9]+))', name)
+            m = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))', name)
+
+            m1 = re.search('(?i)( s(?:aison +)*([0-9]+(?:\-[0-9\?]+)*))', name)
+ 
             name = name.replace(m.group(1), '').replace(m1.group(1), '').replace('+', ' ')
 
-
+        #On enleve le contenu entre paranthese.
+        try:
+            name = name.split('(')[0]
+        except:
+            pass
+			
         if year:
             term = QuotePlus(name) + '&year=' + year
         else:
@@ -621,7 +630,7 @@ class cTMDb:
             data = {'text':meta['overview'],'gfrom':'en','gto':'ar','key':'ABC'}
             s = requests.Session()
             r = s.post('https://www.arabtran.com/gtranslate/', headers=headers,data = data)
-            _meta['plot'] = r.content
+            _meta['plot'] = r.content.decode('utf8')
         elif 'parts' in meta: # Il s'agit d'une collection, on récupere le plot du premier film
             _meta['plot'] = meta['parts'][0]['overview']
         elif 'biography' in meta: # Il s'agit d'une personne, on récupere sa bio
@@ -660,7 +669,7 @@ class cTMDb:
                 else:
                     _meta['genre'] += ' / ' + genre
 
-            if not isMatrix:
+            if not isMatrix():
                 _meta['genre'] = unicode(_meta['genre'], 'utf-8')
 
         elif 'parts' in meta:   # Il s'agit d'une collection, on récupere le genre du premier film 
@@ -672,7 +681,7 @@ class cTMDb:
                 else:
                     _meta['genre'] += ' / ' + genre
 
-            if not isMatrix:
+            if not isMatrix():
                 _meta['genre'] = unicode(_meta['genre'], 'utf-8')
 
         trailer_id = ''
@@ -754,7 +763,7 @@ class cTMDb:
             crews = []
             
             if len(casts) > 0:
-                #licast = []
+                licast = []
                 if 'crew' in listCredits:
                     crews = listCredits['crew']
                 if len(crews)>0:
@@ -763,9 +772,9 @@ class cTMDb:
                     _meta['credits'] = "{u'cast': " + str(casts) + '}'
 #                 _meta['credits'] = "{u'cast': " + str(casts) + ", u'crew': "+str(crews) + "}"
 #                 _meta['credits'] = 'u\'cast\': ' + str(casts) + ''
-                #for cast in casts:
-                #    licast.append((cast['name'], cast['character'], self.poster + str(cast['profile_path']), str(cast['id'])))
-                #_meta['cast'] = licast
+                for cast in casts:
+                    licast.append((cast['name'], cast['character']))
+                _meta['cast'] = licast
 
             #if 'crew' in listCredits:
             if len(crews) > 0:

@@ -180,7 +180,7 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
         except:
             pass
     except:
-        DIALOG.VSok("Veuillez vider le cache des métadonnées Paramètre - outils - 'vider le cache de matrix'")
+        DIALOG.VSok("Veuillez vider le cache des metadonnees Parametre - outils - 'vider le cache de matrix'")
         pass
         
 

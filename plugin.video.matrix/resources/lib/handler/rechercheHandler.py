@@ -97,7 +97,7 @@ class cRechercheHandler:
         sText = self.getText()
         if not sText:
             return False
-        sCat =  self.getCat()
+        sCat = self.getCat()
         if not sCat:
             return False
 
@@ -108,7 +108,8 @@ class cRechercheHandler:
                 meta['title'] = sText
                 meta['disp'] = sCat
                 cDb().insert_history(meta)
-        except: pass
+        except:
+            pass
 
         sFolder = "special://home/addons/plugin.video.matrix/resources/sites"
 

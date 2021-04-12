@@ -1,6 +1,5 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
-
 # Venom.
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
@@ -8,10 +7,9 @@ from resources.lib.gui.contextElement import cContextElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.player import cPlayer
-
 from resources.lib.handler.requestHandler import cRequestHandler
-
 from resources.lib.comaddon import dialog, addon, VSlog
+
 
 
 class cHosterGui:
@@ -117,21 +115,21 @@ class cHosterGui:
         oGui.addHost(oGuiElement, oOutputParameterHandler)
 
     def checkHoster(self, sHosterUrl):
-        #securite
-        if (not sHosterUrl):
+        # securite
+        if not sHosterUrl:
             return False
 
-        #Petit nettoyage
+        # Petit nettoyage
         sHosterUrl = sHosterUrl.split('|')[0]
         sHosterUrl = sHosterUrl.lower()
 
-        #Recuperation du host
+        # Recuperation du host
         try:
             sHostName = sHosterUrl.split('/')[2]
         except:
             sHostName = sHosterUrl
 
-        #L'user a active l'url resolver ?
+        # L'user a active l'url resolver ?
         if self.ADDON.getSetting('UserResolveurl') == 'true':
             import resolveurl
             hmf = resolveurl.HostedMediaFile(url=sHosterUrl)
@@ -147,6 +145,8 @@ class cHosterGui:
 
             return self.getHoster('yadisk')
         if (('uppom' in sHostName)or ('upbom' in sHostName)):
+            return self.getHoster('uppom')
+        if ('uppoom' in sHostName):
             return self.getHoster('uppom')
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')
@@ -201,8 +201,12 @@ class cHosterGui:
             return self.getHoster('vidtodo')
         if ('vidbm' in sHostName):
             return self.getHoster('vidbm')
+        if ('vedbom' in sHostName):
+            return self.getHoster('vidbm')
         if ('vidbem' in sHostName):
             return self.getHoster('vidbem')
+        if ('vedshar' in sHostName):
+            return self.getHoster('vidshare')
         if ('vidshar' in sHostName):
             return self.getHoster('vidshare')
         if ('vidshare' in sHostName):
@@ -211,6 +215,8 @@ class cHosterGui:
             return self.getHoster('streamwire')
         if ('vup' in sHostName):
             return self.getHoster('streamwire')
+        if ('kobatube' in sHostName):
+            return self.getHoster('govid')
         if ('govid.co' in sHostName):
             return self.getHoster('govid')
         if ('french-vid' in sHostName or 'fembed.' in sHostName or 'yggseries' in sHostName or 'sendvid' in sHostName or 'vfsplayer' in sHostName or 'fsimg' in sHostName or 'fem.tohds' in sHostName):
@@ -320,9 +326,9 @@ class cHosterGui:
         if ('wstream.' in sHostName):
             return self.getHoster('wstream')
         if ('drive.google.com' in sHostName):
-            return self.getHoster('resolver')
+            return self.getHoster('googledrive')
         if ('docs.google.com' in sHostName):
-            return self.getHoster('resolver')
+            return self.getHoster('googledrive')
         if ('vidwatch' in sHostName):
             return self.getHoster('vidwatch')
         if ('up2stream' in sHostName):
@@ -358,6 +364,8 @@ class cHosterGui:
             return self.getHoster('kvid')
         if ('vidlo' in sHostName):
             return self.getHoster('vidlo')
+        if ('myviid' in sHostName):
+            return self.getHoster('myvid')
         if ('myvid' in sHostName):
             return self.getHoster('myvid')
         if ('youwatch' in sHostName):
@@ -462,7 +470,7 @@ class cHosterGui:
 
 
         if ('flashx' in sHostName):
-            return self.getHoster('resolver')
+            return self.getHoster('flashx')
         if (('thevideo.me' in sHostName) or ('video.tt' in sHostName) or ('vev.io' in sHostName)):
             return self.getHoster('resolver')
 
@@ -553,7 +561,7 @@ class cHosterGui:
         if ('livestream.com' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('nitroflare' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'multiup' in sHostName):
+        if ('nitroflare' in sHostName or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'multiup' in sHostName):
             return False
 
         #Si aucun hebergeur connu on teste les liens directs
@@ -586,8 +594,7 @@ class cHosterGui:
         if bGetRedirectUrl == 'True':
             sMediaUrl = self.__getRedirectUrl(sMediaUrl)
 
-        VSlog('Hoster - play ' + sMediaUrl)
-
+        VSlog('Hoster - play : ' + sMediaUrl)
         oHoster = self.getHoster(sHosterIdentifier)
         oHoster.setFileName(sFileName)
 

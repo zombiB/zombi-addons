@@ -73,7 +73,11 @@ class cePg:
             text = self.get_epg("CanalComplet", sTime)
         elif not "CanalComplet" in sTitle:
             sChannel = sTitle.replace('+', 'plus')
-            sChannel = cUtil().CleanName(sChannel).replace(' ', '-')
+
+            try:
+                sChannel = cUtil().CleanName(sChannel).replace(' ', '-')
+            except:
+                pass
             sHtmlContent = oParser.abParse(sHtmlContent, sChannel, '<!-- program -->')
             if not sChannel in sHtmlContent:
                 return ''
@@ -141,7 +145,12 @@ class cePg:
         info['cover_url'] = ''
         
         sChannel = sChannel.replace('+', 'plus')
-        sChannel = oUtil.CleanName(sChannel)
+
+        try:
+            sChannel = oUtil.CleanName(sChannel)
+        except:
+            pass
+ 
         sChannel = sChannel.lower().replace(' ', '-')
 
         sUrl = 'https://playtv.fr/chaine-tv/en-direct/' + sChannel

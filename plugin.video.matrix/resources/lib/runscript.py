@@ -419,7 +419,7 @@ class cClear:
 
     # def ClearDir(self, dir, clearNested=False):
     #     try:
-    #         dir = dir.decode("utf8")
+    #         dir = dir
     #     except:
     #         pass
     #     for the_file in os.listdir(dir):
@@ -436,7 +436,7 @@ class cClear:
 
     # def ClearDir2(self, dir, clearNested=False):
     #     try:
-    #         dir = dir.decode("utf8")
+    #         dir = dir
     #     except:
     #         pass
     #     try:os.unlink(dir)

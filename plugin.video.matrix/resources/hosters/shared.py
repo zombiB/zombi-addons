@@ -2,16 +2,16 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog, xbmcgui
+from resources.lib.comaddon import VSlog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-import re,xbmcgui
+import re
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = '4shared'
+        self.__sDisplayName = 'forshared'
         self.__sFileName = self.__sDisplayName
         self.__sHD = ''
 

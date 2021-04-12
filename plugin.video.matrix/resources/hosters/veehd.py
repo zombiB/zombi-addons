@@ -2,7 +2,8 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
-import re,urllib
+from resources.lib.util import Unquote, Quote
+import re
 
 class cHoster(iHoster):
 
@@ -81,7 +82,7 @@ class cHoster(iHoster):
             sPattern = ',"url":"([^"]+)","scaling":"fit"}'
             r3 = re.search(sPattern,sHtmlContent)
             if (r3):
-                api_call = urllib.unquote(r3.group(1))
+                api_call = unquote(r3.group(1))
 
         if (api_call):
             return True, api_call

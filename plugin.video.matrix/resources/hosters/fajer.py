@@ -59,37 +59,37 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-		print self.__sUrl
+        print (self.__sUrl)
         
-		oRequest = cRequestHandler(self.__sUrl)
-		sHtmlContent = oRequest.request()
+        oRequest = cRequestHandler(self.__sUrl)
+        sHtmlContent = oRequest.request()
         
 
         
-		oParser = cParser()
+        oParser = cParser()
         
             # (.+?) .+?
-		sPattern = '#EXT-X-STREAM-INF:BANDWIDTH=(.+?),RESOLUTION=.+?/drive//hls/(.+?).m3u8'
-		aResult = oParser.parse(sHtmlContent, sPattern)
+        sPattern = '#EXT-X-STREAM-INF:BANDWIDTH=(.+?),RESOLUTION=.+?/drive//hls/(.+?).m3u8'
+        aResult = oParser.parse(sHtmlContent, sPattern)
 
         
-		api_call = False
+        api_call = False
 
-		if (aResult[0] == True):
+        if (aResult[0] == True):
             
             #initialisation des tableaux
-			url=[]
-			qua=[]
+        	url=[]
+        	qua=[]
 
             #Replissage des tableaux
-			for i in aResult[1]:
-				url.append("https://fajer.video/drive/hls/"+str(i[1])+".m3u8")
-				qua.append(str(i[0]).replace("1500000","720p").replace("3000000","1080p").replace("500000","360p").replace("750000","480p"))
+        	for i in aResult[1]:
+                url.append("https://fajer.video/drive/hls/"+str(i[1])+".m3u8")
+                qua.append(str(i[0]).replace("1500000","720p").replace("3000000","1080p").replace("500000","360p").replace("750000","480p"))
 
-			api_call = dialog().VSselectqual(qua, url)
+        	api_call = dialog().VSselectqual(qua, url)
  
-			if (api_call):
-				return True, api_call
+        	if (api_call):
+                return True, api_call
             
-		return False, False
+        return False, False
         

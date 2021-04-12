@@ -73,7 +73,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         if 'Video is processing now' in sHtmlContent:
-			dialog().VSinfo("Video is processing...")
+        	dialog().VSinfo("Video is processing...")
         
         api_call = ''
         #type1/([^"]+)/

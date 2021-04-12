@@ -7,11 +7,11 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.player import cPlayer
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'egyclub'
@@ -86,9 +86,7 @@ def showMovies(sSearch = ''):
 
 
     oRequestHandler = cRequestHandler(sUrl)
-    sgn = requests.Session()
-    data = sgn.get(sUrl).content
-    sHtmlContent = data
+    sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
     sPattern = '<div class="BlockItem">.+?<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlockMovieNormal InFilmBlock">([^<]+)</div>.+?<div class="DescBlockMovieNormal">([^<]+)</div>'
 
@@ -104,8 +102,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("مترجم","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("أون لاين","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
@@ -113,8 +110,8 @@ def showMovies(sSearch = ''):
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -181,7 +178,7 @@ def showMovie():
 
     s = requests.Session()
     r = s.post('https://www.egy-club.com/wp-content/themes/Final/Interface/Ajax/archive/block.php', headers=headers,data = data)
-    sHtmlContent = r.content
+    sHtmlContent = r.content.decode('utf8',errors='ignore')
      # (.+?) ([^<]+) .+?
     sPattern = '<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlockMovieNormal InFilmBlock">([^<]+)</div>.+?<div class="DescBlockMovieNormal">([^<]+)</div>'
 
@@ -199,8 +196,7 @@ def showMovie():
  
 
 
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
             sTitle = sTitle.replace("مشاهدة","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("أون لاين","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
@@ -208,8 +204,8 @@ def showMovie():
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 			
 
@@ -257,9 +253,7 @@ def showSeries(sSearch = ''):
 
 
     oRequestHandler = cRequestHandler(sUrl)
-    sgn = requests.Session()
-    data = sgn.get(sUrl).content
-    sHtmlContent = data
+    sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
     sPattern = '<div class="BlockItem">.+?<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlockMovieNormal InFilmBlock">([^<]+)</div>.+?<div class="DescBlockMovieNormal">([^<]+)</div>'
 
@@ -275,8 +269,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("مترجم","").replace("كامل","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("كامل","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
@@ -350,7 +343,7 @@ def showSerie():
 
     s = requests.Session()
     r = s.post('https://www.egy-club.com/wp-content/themes/Final/Interface/Ajax/archive/block.php', headers=headers,data = data)
-    sHtmlContent = r.content
+    sHtmlContent = r.content.decode('utf8',errors='ignore')
      # (.+?) ([^<]+) .+?
     sPattern = '<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlockMovieNormal InFilmBlock">([^<]+)</div>.+?<div class="DescBlockMovieNormal">([^<]+)</div>'
 
@@ -368,8 +361,7 @@ def showSerie():
  
 
 
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
             sTitle = sTitle.replace("مشاهدة","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("أون لاين","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
@@ -377,8 +369,8 @@ def showSerie():
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 			
 
@@ -432,6 +424,8 @@ def showServer():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('utf8',errors='ignore').decode('utf8',errors='ignore')
 
    
     oParser = cParser()
@@ -446,9 +440,9 @@ def showServer():
         sId = aResult[1][0]
     
     for i in range(0,7):
-				progress_ = progress().VScreate(SITE_NAME)
+        progress_ = progress().VScreate(SITE_NAME)
             
-				headers = {'Host': 'www.egy-club.com',
+        headers = {'Host': 'www.egy-club.com',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -456,53 +450,36 @@ def showServer():
 							'X-Requested-With': 'XMLHttpRequest',
 							'Referer': sUrl,
 							'Connection': 'keep-alive'}
-				data = {'action':'GetServer','post':sId,'id':str(i)}
-				s = requests.Session()
+        data = {'action':'GetServer','post':sId,'id':str(i)}
+        s = requests.Session()
 				
-				r = s.post('https://www.egy-club.com/wp-admin/admin-ajax.php', headers=headers,data = data)
-				sHtmlContent += r.content          
+        r = s.post('https://www.egy-club.com/wp-admin/admin-ajax.php', headers=headers,data = data)
+        sHtmlContent = r.content          
     # (.+?) ([^<]+) .+?
     sPattern = '<iframe.+?src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if 'fajer.video' in url:
-					url = url.split('id=')[1]
-					url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'vcstream' in url:
-					sTitle = " (vcstream)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            sTitle = sMovieTitle
+            if url.startswith('//'):
+                url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_)  
+        progress_.VSclose(progress_)  
        
     oGui.setEndOfDirectory()

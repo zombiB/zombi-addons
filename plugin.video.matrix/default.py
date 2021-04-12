@@ -7,7 +7,6 @@ from resources.lib.handler.pluginHandler import cPluginHandler
 from resources.lib.handler.rechercheHandler import cRechercheHandler
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-
 from resources.lib.comaddon import progress, VSlog, addon, window, xbmc
 from resources.lib.util import Quote
 # http://kodi.wiki/view/InfoLabels
@@ -23,18 +22,6 @@ class main:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     def __init__(self):
         self.parseUrl()
         # Ne pas desactiver la ligne d'en dessous, car sinon ca genere des probleme de Db sous Android.
@@ -42,7 +29,6 @@ class main:
         # PROBLEME réglé le 31/05/20 !!
         # Dans runScript."clean" on supprimait les tables pour vider le cache, il fallait donc les recréer.
         # Maintenant on vide les tables sans les supprimer. 
-
         # cDb()._create_tables()
 
     def parseUrl(self):
@@ -55,9 +41,12 @@ class main:
         
         # Exclue les appels par des plugins qu'on ne sait pas gérer, par exemple :  plugin://plugin.video.vstream/extrafanart
         oPluginHandler = cPluginHandler()
+        pluginPath = oPluginHandler.getPluginPath()
 #         if oPluginHandler.getPluginPath() != 'plugin://plugin.video.vstream/':
 #             cGui().setEndOfDirectory()
 #             return
+        if pluginPath == 'plugin://plugin.video.vstream/extrafanart/':
+            return
         
         oInputParameterHandler = cInputParameterHandler()
 
@@ -106,14 +95,12 @@ class main:
             function()
             return
 
-
         if oInputParameterHandler.exist('site'):
             sSiteName = oInputParameterHandler.getValue('site')
             if oInputParameterHandler.exist('title'):
                 sTitle = oInputParameterHandler.getValue('title')
             else:
                 sTitle = 'none'
-
 
             VSlog('load site ' + sSiteName + ' and call function ' + sFunction)
             cStatistic().callStartPlugin(sSiteName, sTitle)
@@ -150,19 +137,15 @@ class main:
                 return
 
             if sSiteName == 'globalSources':
-
                 oGui = cGui()
-
                 aPlugins = oPluginHandler.getAvailablePlugins(True)
 
                 if len(aPlugins) == 0:
                     addons = addon()
                     addons.openSettings()
                     oGui.updateDirectory()
-
                 else:
                     for aPlugin in aPlugins:
-
                         oOutputParameterHandler = cOutputParameterHandler()
                         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
                         icon = 'sites/%s.png' % (aPlugin[1])
@@ -178,7 +161,6 @@ class main:
                 return
             # if isAboutGui(sSiteName, sFunction) == True:
                 # return
-
 
             # charge sites
             try:
@@ -200,9 +182,7 @@ def setSetting(plugin_id, value):
     setting = addons.getSetting(plugin_id)
 
     # la modification est possible seulement si le parametre existe
-
-
-    if setting != '' and setting != value:
+    if setting != value:
         addons.setSetting(plugin_id, value)
         return True
 
@@ -219,19 +199,17 @@ def setSetting(plugin_id, value):
 def setSettings(oInputParameterHandler):
     addons = addon()
     
-    for i in range(1, 50):
+    for i in range(1, 100):
         plugin_id = oInputParameterHandler.getValue('id' + str(i))
         if plugin_id:
             value = oInputParameterHandler.getValue('value' + str(i))
             value = value.replace('\n', '')
-            if value:
-                setting = addons.getSetting(plugin_id)
-            
-                # la modification est possible seulement si le parametre existe
-                if setting != '' and setting != value:
-                    addons.setSetting(plugin_id, value)
+            oldSetting = addons.getSetting(plugin_id)
+            # modifier si différent
+            if oldSetting != value:
+                addons.setSetting(plugin_id, value)
+
     return True
-            
     
 def isHosterGui(sSiteName, sFunction):
     if sSiteName == 'cHosterGui':
@@ -298,7 +276,6 @@ def searchGlobal():
     addons = addon()
 
     oInputParameterHandler = cInputParameterHandler()
-
     sSearchText = oInputParameterHandler.getValue('searchtext')
     sCat = oInputParameterHandler.getValue('sCat')
 
@@ -312,15 +289,11 @@ def searchGlobal():
     total = len(aPlugins)
     progress_ = progress().VScreate()
 
-
-
-
     # kodi 17 vire la fenetre busy qui se pose au dessus de la barre de Progress
     try:
         xbmc.executebuiltin('Dialog.Close(busydialog)')
     except:
         pass
-
 
     oGui.addText('globalSearch', addons.VSlang(30081) % sSearchText, 'search.png')
     sSearchText = Quote(sSearchText)
@@ -328,54 +301,30 @@ def searchGlobal():
     count = 0
     for plugin in aPlugins:
  
-
-
         progress_.VSupdate(progress_, total, plugin['name'], True)
         if progress_.iscanceled():
-            progress_.close()
             break
  
         oGui.searchResults[:] = []  # vider le tableau de résultats pour les récupérer par source
-
-
-
-
         _pluginSearch(plugin, sSearchText)
 
         if len(oGui.searchResults) > 0:  # Au moins un résultat
             count += 1
 
-
-
             # nom du site
             oGui.addText(plugin['identifier'], '%s. [COLOR olive]%s[/COLOR]' % (count, plugin['name']), 'sites/%s.png' % (plugin['identifier']))
-
             for result in oGui.searchResults:
                 oGui.addFolder(result['guiElement'], result['params'])
  
     if not count:   # aucune source ne retourne de résultats
         oGui.addText('globalSearch')  # "Aucune information"
 
-
     progress_.VSclose(progress_)
-
-
 
     cGui.CONTENT = 'files'
 
-
-
-
-
-
-
-
-
-
-
     oGui.setEndOfDirectory()
     return True
-
 
 
 def _pluginSearch(plugin, sSearchText):

@@ -133,7 +133,7 @@ class cShowBA:
 
     def SearchBA(self, window=False):
 
-        sTitle = self.search +self.year+ ' trailer' 
+        sTitle = self.search +self.year+ ' trailer'  
 
 
         # Le lien sur la BA est déjà connu
@@ -143,12 +143,9 @@ class cShowBA:
                 
         # Sinon recherche dans youtube
         if not urlTrailer:
-            urlTrailer = 'https://www.youtube.com/results?q=' + QuotePlus(sTitle) + '&sp=EgIYAQ%253D%253D'
+            urlTrailer2 = 'https://www.youtube.com/results?q=' + QuotePlus(sTitle) + '&sp=EgIYAQ%253D%253D'
             
-            oRequestHandler = cRequestHandler(urlTrailer)
-            oRequestHandler.setRequestType(1)
-            oRequestHandler.addHeaderEntry('User-Agent','Mozilla/5.0 (Windows NT 6.1; WOW64; rv:70.0) Gecko/20100101 Firefox/70.0')
-            oRequestHandler.addHeaderEntry('Referer', 'https://www.youtube.com')
+            oRequestHandler = cRequestHandler(urlTrailer2)
 
             sHtmlContent = oRequestHandler.request()
     

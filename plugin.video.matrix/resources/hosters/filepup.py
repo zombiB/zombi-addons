@@ -2,7 +2,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
-import re,urllib2
+import re
 import xbmcgui
 
 class cHoster(iHoster):
@@ -60,7 +60,6 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         url = self.__sUrl
-        print url
     
         oRequestHandler = cRequestHandler(url)
         #oRequestHandler.addParameters('login', '1')

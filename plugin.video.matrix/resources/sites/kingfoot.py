@@ -7,14 +7,14 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.player import cPlayer
 from resources.lib.util import Unquote, Quote, QuotePlus
 import xbmcgui
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'kingfoot'
@@ -300,6 +300,68 @@ def showHosters4():
     St=requests.Session()
     sHtmlContent = St.get(url,headers=hdr).json()
 
+    sPattern = "'link': '(.+?)',"
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = aEntry
+            if '.php?' in url:
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent2 = St.get(url).content
+                oParser = cParser()
+                sPattern =  'source: "(.+?)",'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if (aResult[0] == True):
+                   url = aResult[1][0]
+            if 'embed' in url:
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent2 = St.get(url).content
+                oParser = cParser()
+                sPattern =  'src="(.+?)" scrolling="no">'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if (aResult[0] == True):
+                   url = aResult[1][0]
+            if 'multi.html' in url:
+                url2 = url.split('=') 
+                live = url2[1].replace("&ch","")
+                ch = url2[2]
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent2 = St.get(url).content
+                oParser = cParser()
+                sPattern =  "var src = (.+?),"
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if (aResult[0] == True):
+                    url2 = aResult[1][0].split('hls:')
+                    url2 = url2[1].split('+')
+                    url2 = url2[0].replace("'","")
+                    url = url2+live+'/'+ch+'.m3u8'
+            if '/dash/' in url:
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent4 = St.get(url).content
+                regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
+                var = re.findall(regx,sHtmlContent4,re.S)
+                if var:
+                   a = var[0][0]
+                   a = a.replace('\\','')
+                   b = var[0][1]
+                   url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
+            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + 'https://king-shoot.com/'
+            sMovieTitle = 'link'
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
     sPattern = "'link': u'(.+?)',"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -319,9 +381,7 @@ def showHosters4():
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if (aResult[0] == True):
-					url = aResult[1][0]
-                print "zzéésHtmlContent"
-                print url
+                   url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent2 = St.get(url).content
@@ -329,7 +389,7 @@ def showHosters4():
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if (aResult[0] == True):
-					url = aResult[1][0]
+                   url = aResult[1][0]
             if 'multi.html' in url:
                 url2 = url.split('=') 
                 live = url2[1].replace("&ch","")
@@ -340,20 +400,20 @@ def showHosters4():
                 sPattern =  "var src = (.+?),"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if (aResult[0] == True):
-					url2 = aResult[1][0].split('hls:')
-					url2 = url2[1].split('+')
-					url2 = url2[0].replace("'","")
-					Url = url2+live+'/'+ch+'.m3u8'
+                    url2 = aResult[1][0].split('hls:')
+                    url2 = url2[1].split('+')
+                    url2 = url2[0].replace("'","")
+                    url = url2+live+'/'+ch+'.m3u8'
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent4 = St.get(url).content
                 regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
                 var = re.findall(regx,sHtmlContent4,re.S)
                 if var:
-					a = var[0][0]
-					a = a.replace('\\','')
-					b = var[0][1]
-					url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
+                   a = var[0][0]
+                   a = a.replace('\\','')
+                   b = var[0][1]
+                   url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
             sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + 'https://king-shoot.com/'
             sMovieTitle = 'link'
             

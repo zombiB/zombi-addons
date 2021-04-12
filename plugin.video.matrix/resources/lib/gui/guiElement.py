@@ -151,9 +151,13 @@ class cGuiElement:
         return self.__sSiteName
 
     def setFileName(self, sFileName):
+        if isMatrix():
+            self.__sFileName = sFileName
+        else:
+            self.__sFileName = sFileName
 
-        self.__sFileName = sFileName
 
+			
     def getFileName(self):
         return self.__sFileName
 
@@ -177,8 +181,10 @@ class cGuiElement:
             # traitement du titre pour les caracteres spéciaux déplacé dans parser plus global
             # traitement du titre pour retirer le - quand c'est une Saison. Tiret, tiret moyen et cadratin
             sTitle = sTitle.replace(' - Saison', ' Saison').replace(' – Saison', ' Saison').replace(' — Saison', ' Saison')
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني و الثلاثون","S32").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الأول","S1").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("Season ","S").replace("موسم","S").replace("S ","S").replace("E ","E")
 
-            sTitle = sTitle.decode('utf-8')
+            if not isMatrix():
+                sTitle = sTitle.decode('utf-8')
         except:
             pass
 
@@ -202,7 +208,7 @@ class cGuiElement:
             #~ sTitle = sTitle.replace(cle.upper(), index[cle]).replace(cle, index[cle]).replace('(%s)' % (cle), index[cle])
 
         #~ #recherche Qualité
-        #~ index = {'1080i': '(1080)', '1080p': '(1080)', '1080I': '(1080)', '1080P': '(1080)', '720i': '(720)', '720p': '(720)', '720I': '(720)', '720P': '(720)'}
+        index = {'1080i': '(1080)', '1080p': '(1080)', '1080I': '(1080)', '1080P': '(1080)', '720i': '(720)', '720p': '(720)', '720I': '(720)', '720P': '(720)'}
         #~ for cle in index:
             #~ sTitle = sTitle.replace(cle, index[cle]).replace('[%s]' % (cle), index[cle])
 
@@ -274,9 +280,11 @@ class cGuiElement:
             sTitle2 = '%s [COLOR %s](%s)[/COLOR]' % (sTitle2, self.__sDecoColor, self.__Year)
 
         # on repasse en utf-8
-        try:
+        if not isMatrix():
+
             return sTitle2.encode('utf-8')
-        except AttributeError:
+        else:
+
             return sTitle2
 
     def getEpisodeTitre(self, sTitle):
@@ -294,10 +302,27 @@ class cGuiElement:
     def setTitle(self, sTitle):
         #Convertie les bytes en strs pour le replace.
         self.__sCleanTitle = sTitle.replace('[]', '').replace('()', '').strip()
-        try:
-            sTitle = sTitle.strip().decode('utf-8')
-        except:
-            pass
+
+        if isMatrix():
+            #Python 3 decode sTitle
+            try:
+                sTitle = str(sTitle.encode('latin-1'),'utf-8')
+            except:
+                pass
+        else:
+            try:
+
+
+
+
+
+
+
+
+
+                sTitle = sTitle.strip().decode('utf-8')
+            except:
+                pass
 
         if not sTitle.startswith('[COLOR'):
             self.__sTitle = self.TraiteTitre(sTitle)
@@ -318,9 +343,13 @@ class cGuiElement:
 
     def setDescription(self, sDescription):
         #Py3
-        try:
-            self.__sDescription = str(sDescription.encode('latin-1'),'utf-8')
-        except:
+        if isMatrix():
+            try:
+
+                self.__sDescription = str(sDescription.encode('latin-1'),'utf-8')
+            except:
+                pass
+        else:
             self.__sDescription = sDescription
 
     def getDescription(self):
@@ -405,9 +434,8 @@ class cGuiElement:
                 except AttributeError:
                     pass
 
-
             data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
-       # cherche la saison et episode puis les balises [color]titre[/color]
+        # cherche la saison et episode puis les balises [color]titre[/color]
         # data, saison = self.getSaisonTitre(data)
         # data, episode = self.getEpisodeTitre(data)
         # supprimer les balises

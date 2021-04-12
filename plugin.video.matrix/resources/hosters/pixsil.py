@@ -2,7 +2,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
-import re,urllib2
+import re
 import xbmcgui
 
 class cHoster(iHoster):
@@ -63,7 +63,7 @@ class cHoster(iHoster):
         
         api_call = api_call + '|Referer=http://www.mangacity.org/jwplayer/player.swf'
         
-        print api_call
+        print(api_call)
 
         if (api_call):
             return True, api_call

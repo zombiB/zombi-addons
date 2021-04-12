@@ -7,13 +7,13 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.player import cPlayer
 import xbmcgui
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'shayef'
@@ -129,32 +129,32 @@ def showMovies(sSearch = ''):
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent2, sPattern)
         if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+           total = len(aResult[1])
+           progress_ = progress().VScreate(SITE_NAME)
+           for aEntry in aResult[1]:
+               progress_.VSupdate(progress_, total)
+               if progress_.iscanceled():
+                  break
 				
-				sTitle = '	مسلسلات تبدا بحرف : '+str(aEntry[1])
-				sUrl = str(aEntry[0])
-				sThumbnail = ""
-				sInfo = ""
-				if not 'http' in sUrl:
-					sUrl = str(URL_MAIN) + sUrl
-				oOutputParameterHandler = cOutputParameterHandler()
-				oOutputParameterHandler.addParameter('siteUrl', sUrl)
-				oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-				oGui.addMisc(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-			progress_.VSclose(progress_)
+               sTitle = '	مسلسلات تبدا بحرف : '+str(aEntry[1])
+               sUrl = str(aEntry[0])
+               sThumbnail = ""
+               sInfo = ""
+               if not 'http' in sUrl:
+                  sUrl = str(URL_MAIN) + sUrl
+               oOutputParameterHandler = cOutputParameterHandler()
+               oOutputParameterHandler.addParameter('siteUrl', sUrl)
+               oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+               oGui.addMisc(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+           progress_.VSclose(progress_)
 
 
             
-			sNextPage = __checkForNextPage(sHtmlContent)
-			if (sNextPage != False):
-				oOutputParameterHandler = cOutputParameterHandler()
-				oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-				oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+           sNextPage = __checkForNextPage(sHtmlContent)
+           if (sNextPage != False):
+              oOutputParameterHandler = cOutputParameterHandler()
+              oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+              oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
     if not sSearch:
         oGui.setEndOfDirectory()

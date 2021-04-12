@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
+from resources.lib.comaddon import xbmc, isMatrix
 try:
     import htmlentitydefs
     import urllib
@@ -32,14 +33,15 @@ class cUtil:
         return count
 
     def CheckOccurence(self, str1, str2):
-        ignoreListe = ['3d', 'la', 'le', 'les', 'un', 'une', 'de', 'des', 'du', 'en', 'a', 'au', 'aux', 'the', 'in', 'of', 'and', 'mais', 'ou', 'no', 'dr', 'contre', 'qui',
+        ignoreListe = ['3d', 'la', 'le', 'les', 'un', 'une', 'de', 'des', 'du', 'en', 'a', 'au', 'aux', 'is', 'the', 'in', 'of', 'and', 'mais', 'ou', 'no', 'dr', 'contre', 'dans', 'qui',
                        'et', 'donc', 'or', 'ni', 'ne', 'pas', 'car', 'je', 'tu', 'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles', 'i', 'you', 'he', 'she', 'it', 'we', 'they',
                        'my', 'your', 'his', 'its', 'our']
 
         str1 = str1.replace('+', ' ').replace('%20', ' ').replace(':', ' ').replace('-', ' ')
         str2 = str2.replace(':', ' ').replace('-', ' ')
-        str1 = self.CleanName(str1)
-        str2 = self.CleanName(str2)
+        
+        str1 = self.CleanName(str1.replace('.', ' '))
+        str2 = self.CleanName(str2.replace('.', ' '))
 
         i = 0
         list2 = str2.split(' ')     # Comparaison mot à mot
@@ -117,18 +119,19 @@ class cUtil:
         return re.sub('&#?\w+;', fixup, text)
 
     def CleanName(self, name):
-        # vire accent et '\'
-        try:
-            name = unicode(name, 'utf-8')  # converti en unicode pour aider aux convertions
-        except:
-            pass
+        if not isMatrix():
+            # vire accent et '\'
+            try:
+                name = unicode(name, 'utf-8')  # converti en unicode pour aider aux convertions
+            except:
+                pass
 
-        try:
-            name = unicodedata.normalize('NFD', name).encode('ascii', 'ignore').decode('unicode_escape')
-            name = name.encode('utf-8') #on repasse en utf-8
-        except TypeError:
-            #name = unicodedata.normalize('NFKD', name.decode("utf-8")).encode('ASCII', 'ignore')
-            pass
+            try:
+                name = unicodedata.normalize('NFD', name).encode('ascii', 'ignore').decode('unicode_escape')
+                name = name.encode('utf-8') #on repasse en utf-8
+            except TypeError:
+                #name = unicodedata.normalize('NFKD', name.decode("utf-8")).encode('ASCII', 'ignore')
+                pass
 
         #on cherche l'annee
         annee = ''

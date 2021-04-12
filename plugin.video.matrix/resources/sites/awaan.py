@@ -7,12 +7,12 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.player import cPlayer
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'awaan'
@@ -66,6 +66,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  # .+? ([^<]+)
 
     sPattern = '<div class="col-md-3 col-sm-4 col-xs-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?data-src="([^<]+)" style'
@@ -82,8 +84,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[1])
+            
             siteUrl = str(aEntry[0])
             sThumbnail = 'https:'+str(aEntry[2])
             sInfo = ""
@@ -124,6 +126,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  #.+?([^<]+)
 
     sPattern = ' <div class="col-md-3 col-sm-4 col-xs-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?<div class="img-div scaleZoomImg">.+?<div class="embed-responsive-item image-div lazy-image-handler" data-src="([^<]+)" style'
@@ -140,8 +144,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
 
-            sTitle = str(aEntry[1]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[1])
+            
             siteUrl = str(aEntry[0])+'?p=1'
             sThumbnail = 'https:'+str(aEntry[2])
             sInfo = ""
@@ -193,6 +197,8 @@ def showEps():
     sLink = sUrl
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
 # ([^<]+) .+?
     sPattern = '<div class="embed-responsive-item image-div  lazy-image-handler  "  data-src="([^<]+)"  style="background-image.+?<div class="content">.+?<a href="([^<]+)" class="title-link">([^<]+)</a>'
 
@@ -267,7 +273,7 @@ def showHosters():
     if (aResult[0] == True):
         m3url = aResult[1][0]
         if m3url.startswith('//'):
-			m3url = 'http:' + m3url 	
+           m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
 
@@ -278,7 +284,7 @@ def showHosters():
     if (aResult[0] == True):
         m3url = aResult[1][0]
         if m3url.startswith('//'):
-			m3url = 'http:' + m3url 	
+           m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
     #recup du lien mp4
@@ -290,7 +296,7 @@ def showHosters():
         
         sUrl = str(aResult[1][0])
         if sUrl.startswith('//'):
-			sUrl = 'http:' + sUrl 
+           sUrl = 'http:' + sUrl 
                  
         #on lance video directement
         oGuiElement = cGuiElement()

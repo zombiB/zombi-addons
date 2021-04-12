@@ -10,10 +10,8 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.player import cPlayer
-import xbmcgui
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'asgoal'
@@ -84,7 +82,7 @@ def showMovies(sSearch = ''):
             sThumbnail = ""
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
-				siteUrl = 'http:' + aEntry[0]
+                siteUrl = 'http:' + aEntry[0]
             sInfo = aEntry[1]
             if "live" in sInfo:
                 sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
@@ -148,6 +146,7 @@ def showLive():
        
     oGui.setEndOfDirectory()  
 def showHosters():
+    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -155,10 +154,10 @@ def showHosters():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0')
-    oRequestHandler.addHeaderEntry('referer', 'https://live.as-goal.tv/')
-    sHtmlContent = oRequestHandler.request();
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','Accept-Encoding' : 'gzip','referer' : 'https://live.as-goal.tv/'}
+    St=requests.Session()
+    sHtmlContent = St.get(sUrl,headers=hdr)
+    sHtmlContent = sHtmlContent.content
     oParser = cParser()
     # (.+?) # ([^<]+) .+? 
     sPattern = "source: '(.+?)',"
@@ -250,7 +249,7 @@ def showHosters():
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(url,sPattern)
                 if (aResult[0] == True):
-					url = aResult[1][0]
+                   url = aResult[1][0]
  
             sHosterUrl = url
             sMovieTitle = str(aEntry[1])
@@ -289,7 +288,7 @@ def showHosters():
                 sPattern =  '(http[^<]+m3u8)'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if (aResult[0] == True):
-					url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
+                   url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
  
             sHosterUrl = url
             sMovieTitle = sMovieTitle

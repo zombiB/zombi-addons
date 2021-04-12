@@ -7,7 +7,6 @@ from resources.lib.comaddon import dialog
 import unicodedata
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
 import re
-import urllib2
 class cHoster(iHoster):
 
     def __init__(self):
@@ -47,7 +46,7 @@ class cHoster(iHoster):
         
     def __getIdFromUrl(self, sUrl):
         return ''
-		
+        
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
         
@@ -79,10 +78,13 @@ class cHoster(iHoster):
         #https://watch9.cimanow.net/uploads/2021/02/19/_Cima-Now.CoM_+I.Care.a.Lot.2021.HD/[Cima-Now.CoM]+I.Care.a.Lot.2021.HD-720p.mp4
         if 'pixsil' in api_call:
             api_call = api_call.split('|')[0] + '|Referer=http://www.mangacity.org/jwplayer/player.swf'
-	   
+ 	   
         if 'moshahda' in api_call:
+
+
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
             api_call = api_call + '|User-Agent=' + UA + '&Referer=https://moshahda.online' 
+ 
 
        
         if 'akwam.download' in api_call:
@@ -90,7 +92,7 @@ class cHoster(iHoster):
        
         if '+' in api_call:
             api_call = api_call.replace("[","%5B").replace("]","%5D").replace("+","%20")
-			
+        	
         if 'bittube.video/videos/' in api_call:
             api_call = api_call + '-1080.mp4' 
             api_call = api_call.replace("/videos/embed/","/download/videos/")
@@ -108,16 +110,16 @@ class cHoster(iHoster):
             import requests
             oParser = cParser()
             sHtmlContent=requests.get(api_call).content
-			
+        	
             sPattern =  ',RESOLUTION=(.+?),.+?(http.+?.m3u8)'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if (aResult[0] == True):
-				url=[]
-				qua=[]
-				for i in aResult[1]:
-					url.append(str(i[1]))
-					qua.append(str(i[0]).split('x')[1]+"p")
-				api_call = dialog().VSselectqual(qua, url)
+               url=[]
+               qua=[]
+               for i in aResult[1]:
+                  url.append(str(i[1]))
+                  qua.append(str(i[0]).split('x')[1]+"p")
+               api_call = dialog().VSselectqual(qua, url)
 
             
         #Special pour hd-stream.in et film-streaming.co

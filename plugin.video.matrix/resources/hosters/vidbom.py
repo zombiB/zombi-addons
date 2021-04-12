@@ -72,7 +72,7 @@ class cHoster(iHoster):
         sPattern =  '(?:[>;]\s*)(ﾟωﾟ.+?\(\'_\'\);)'
         aResult = oParser.parse(sHtmlContent, sPattern)
          
-		
+        
         if aResult[0]:
             for i in aResult[1]:
                 decoded = AADecoder(i).decode()

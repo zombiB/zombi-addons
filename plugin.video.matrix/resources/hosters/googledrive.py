@@ -87,7 +87,6 @@ class cHoster(iHoster):
         response = urllib2.urlopen(req)
         sHtmlContent = response.read()
 
-
         Headers = response.headers
         response.close()
 
@@ -105,7 +104,7 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if not aResult[0]:
             if '"errorcode","150"]' in sHtmlContent:
-                dialog().VSinfo("Nombre de lectures max dépassé")
+                dialog().VSinfo("Nombre de lectures max depasse")
             return False, False
 
         sListUrl = aResult[1][0]

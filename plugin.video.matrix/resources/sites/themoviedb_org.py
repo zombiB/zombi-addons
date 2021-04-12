@@ -44,6 +44,10 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30425), 'pop.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
+
+
+
+
     oOutputParameterHandler.addParameter('siteUrl', 'movie/top_rated')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', addons.VSlang(30427), 'top.png', oOutputParameterHandler)
 

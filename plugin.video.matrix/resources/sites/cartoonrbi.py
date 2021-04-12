@@ -11,7 +11,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'cartoonrbi'
@@ -101,6 +101,7 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 		
 def __checkForNextPage(sHtmlContent):
+    sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     sPattern = "<a href='([^<]+)'>«"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -111,6 +112,7 @@ def __checkForNextPage(sHtmlContent):
     return False	
 	
 def __checkForNextPageEp(sHtmlContent):
+    sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     sPattern = "<a href='([^<]+)'>«"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -168,11 +170,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
- 
- 
-
-  
+   
 def showEps():
     oGui = cGui()
    
@@ -235,11 +233,12 @@ def showLink():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sUrl = sUrl.replace("cartoon","watch-")
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    #print sUrl
+    #print sUrlhttps://www.arteenz.com/watch-32738.html https://www.arteenz.com/cartoon32738.html
    
     
     #Recuperation infos
@@ -318,10 +317,10 @@ def showLink():
             url = url.replace('?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com') 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False): 
-				   sDisplayTitle = sTitle
-				   oHoster.setDisplayName(sDisplayTitle)
-				   oHoster.setFileName(sTitle)
-				   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                sDisplayTitle = sTitle
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
         progress_.VSclose(progress_) 
@@ -369,7 +368,7 @@ def showLinkS():
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-	    oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
  
         progress_.VSclose(progress_)
@@ -410,10 +409,10 @@ def showHosters():
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False): 
-				   sDisplayTitle = sTitle
-				   oHoster.setDisplayName(sDisplayTitle)
-				   oHoster.setFileName(sTitle)
-				   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                sDisplayTitle = sTitle
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
         progress_.VSclose(progress_) 

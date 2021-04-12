@@ -7,37 +7,37 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
-import base64
+
 UA = 'Mozilla'
 SITE_IDENTIFIER = 'cimanow'
-SITE_NAME = 'cima-now'
+SITE_NAME = 'cimanow'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://cima-now.com'
+URL_MAIN = 'https://en.cimanow.cc'
 
-MOVIE_EN = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
-MOVIE_AR = ('https://cimanow.cam/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبية/', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showMovies')
 
-MOVIE_HI = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
 
-MOVIE_TURK = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
-KID_MOVIES = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/', 'showMovies')
-SERIE_TR = ('https://cima-now.com/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
+MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/', 'showMovies')
+SERIE_TR = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
 
-RAMADAN_SERIES = ('https://cima-now.com/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries')
-SERIE_EN = ('https://cima-now.com/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
-SERIE_AR = ('https://cima-now.com/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/رمضان-2021/', 'showSeries')
+SERIE_EN = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries')
 
 
-REPLAYTV_NEWS = ('https://cima-now.com/category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
-URL_SEARCH = ('https://cima-now.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://cimanow.tv/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = ('https://cimanow.tv/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+REPLAYTV_NEWS = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
+URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -59,7 +59,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://cimanow.tv/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -69,7 +69,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://cimanow.tv/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -100,22 +100,15 @@ def showSearchSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","")
+            sTitle = str(aEntry[2])
             siteUrl = str(aEntry[0]) + "watch/"
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sDesc = ""
             sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
-            sDisplayTitle3 = sTitle.split('الحلقة')[0].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
+            sDisplayTitle3 = sTitle.split('الحلقة')[0]
             sDisplayTitle = sTitle.split('الحلقة ')[-1].split('ال')[0]
             sDisplayTitle = sDisplayTitle3+" "+" E"+sDisplayTitle
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
-                    continue
 
 
 
@@ -129,6 +122,9 @@ def showSearchSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
+    sStart = '</section>'
+    sEnd = '</ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
     oParser = cParser()
@@ -143,8 +139,8 @@ def showSearchSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -174,9 +170,12 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
+
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="block"><a href="(.+?)">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div>.+?<div class="contentBoxSing">([^<]+)</div>'
+    sPattern = '<article aria-label="post"><a href="([^<]+)">.+?aria-label="year">([^<]+)</li>.+?</em>([^<]+)<em>.+?<img src="([^<]+)" width'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -190,28 +189,12 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0]) + "watch/"
-            sThumb = str(aEntry[1]).replace("(","").replace(")","")
-            sYear = ''
-            sDub = ''
-            m = re.search('([0-9]{4})', sTitle)
-            if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
-            m = re.search('مدبلج', sTitle)
-            if m:
-				sDub = str(m.group(0))
-				sTitle = sTitle.replace(sDub,'')
-            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
-            sDesc = aEntry[3]
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
-                    continue
+            sTitle = str(aEntry[2])
+            siteUrl = str(aEntry[0]) + 'watching/'
+            sThumb = str(aEntry[3])
+            sYear = str(aEntry[1])
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+            sDesc = ""
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -220,10 +203,13 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer2', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
   # ([^<]+) .+?
+    sStart = '</section>'
+    sEnd = '</ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
+    sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -237,8 +223,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -272,7 +258,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="block"><a href="(.+?)">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div>'
+    sPattern = '<a href="([^<]+)">.+?<li>الموسم (.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?<img src="(.+?)" w'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -287,20 +273,18 @@ def showSeries(sSearch = ''):
                 break
  
             if "الحلقة" in aEntry[2]:
-				continue
+                continue
  
             if "فيلم" in aEntry[2]:
-				continue
+                continue
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","")
+            sTitle = str(aEntry[2])+' S'+str(aEntry[1])
             siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1]).replace("(","").replace(")","")
-            sDesc = sTitle
+            sThumb = str(aEntry[3]).replace("(","").replace(")","")
+            sDesc = ""
             sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
-            sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
-            sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace(" الثانى","2").split('الحلقة')[0].split('الموسم')[0]
+            sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0].split('الموسم')[0]
+            sDisplayTitle = sTitle
 
 
 
@@ -314,6 +298,9 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
+    sStart = '</section>'
+    sEnd = '</ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
     oParser = cParser()
@@ -328,8 +315,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -361,7 +348,7 @@ def showEps():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+?
-    sPattern = '<div class="block"><a href="([^<]+)"><div class="episodeNumber"><strong>(.+?)</strong>(.+?)</div>'
+    sPattern = 'href="([^<]+)">.+?src="([^<]+)" alt="([^<]+)" />.+?<em>([^<]+)</em>'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -380,10 +367,9 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = sMovieTitle2+" E"+aEntry[2]
-            sTitle = sTitle.replace("E ","E")
-            siteUrl = str(aEntry[0]) + "watch/"
-            sThumb = str(sThumb)
+            sTitle = sMovieTitle+' E'+aEntry[3]
+            siteUrl = str(aEntry[0]) + "watching/"
+            sThumb = aEntry[1]
             sDesc = ""
  
             #print sUrl
@@ -401,184 +387,139 @@ def showEps():
        
     oGui.setEndOfDirectory() 
 
-
-def showServer2():
-    oGui = cGui()
+  
+def showServer():
     import requests
+    oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    sDesc = oInputParameterHandler.getValue('sDesc')
-
-    #print sHtmlContent 
-
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','Accept-Encoding' : 'gzip','referer' : 'https://web.cimavids.live/'}
+    St=requests.Session()
+    sHtmlContent = St.get(sUrl,headers=hdr)
+    sHtmlContent = sHtmlContent.content
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
 
    
     oParser = cParser()
-    
-    #Recuperation infos
-    sId = ''
-     # (.+?) ([^<]+) .+?
-    sPattern = "<link rel='shortlink' href='([^<]+)' />"
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-		sId = aResult[1][0].split('p=')[1]
-     # (.+?) ([^<]+) .+?
-    sPattern = '<li data-server="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				headers = {'Host': 'ar.cimanow.cc',
-							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Accept': '*/*',
-							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-							'X-Requested-With': 'XMLHttpRequest',
-							'Referer': sUrl,
-							'Connection': 'keep-alive'}
-				spost = aEntry
-				snume = aEntry
-				data = {'id':sId,'server':spost}
-				s = requests.Session()
-				
-				r = s.post('https://ar.cimanow.cc/wp-content/themes/CimaNow/Interface/server.php', headers=headers,data = data)  
-				sHtmlContent += r.content     
-    sPattern = '<iframe src="(.+?)" scrolling'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'vcstream' in url:
-					sTitle = " (vcstream)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle2)
-					oHoster.setFileName(sMovieTitle2)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-      # (.+?) ([^<]+) .+			
-    sPattern = '<script src="(.+?)">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-            
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'vcstream' in url:
-					sTitle = " (vcstream)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if url.startswith('//'):
-					url = 'http:' + url
-            
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle2)
-					oHoster.setFileName(sMovieTitle2)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-       	
 
     
     # (.+?) .+? ([^<]+)        	
-    sPattern = '<a href="([^<]+)" class="downloadserver">'
+    sPattern = '<a href="([^<]+)">.+?class="fa fa-download"></i>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'streamcloud' in url:
-					sTitle = " (streamcloud)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry[0])
+            sTitle = sMovieTitle
+            sThumb = sThumbnail
+            if url.startswith('//'):
+               url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle2)
-					oHoster.setFileName(sMovieTitle2)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_)
-       
+        progress_.VSclose(progress_)
+    #Recuperation infos
+    sId = ''
+     # (.+?) ([^<]+) .+?
+
+    sPattern = 'data-index="([^<]+)" data-id="([^<]+)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+
+            
+
+			
+
+            sTitle = 'server '
+            siteUrl = URL_MAIN + '/wp-content/themes/Cima%20Now%20New/core.php?action=switch&index='+aEntry[0]+'&id='+aEntry[1]
+            oRequest = cRequestHandler(siteUrl)
+            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','Accept-Encoding' : 'gzip','referer' : 'https://web.cimavids.live/'}
+            params = {'action':'switch','index':aEntry[0],'id':aEntry[1]}
+            St=requests.Session()
+            sHtmlContent = St.get(siteUrl,headers=hdr,params=params)
+            sHtmlContent = sHtmlContent.content
+            sPattern = '<iframe src="(.+?)" scrolling'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+                total = len(aResult[1])
+                progress_ = progress().VScreate(SITE_NAME)
+                for aEntry in aResult[1]:
+                    progress_.VSupdate(progress_, total)
+                    if progress_.iscanceled():
+                       break
+            
+                    url = str(aEntry)
+                    sTitle = sMovieTitle
+                    if url.startswith('//'):
+                       url = 'http:' + url
+            
+                    sHosterUrl = url 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle2)
+                       oHoster.setFileName(sMovieTitle2)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sPattern = '<a href="(.+?)">.+?<i class="fa fa-download"></i>(.+?)</a>'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+                total = len(aResult[1])
+                progress_ = progress().VScreate(SITE_NAME)
+                for aEntry in aResult[1]:
+                    progress_.VSupdate(progress_, total)
+                    if progress_.iscanceled():
+                       break
+            
+                    url = str(aEntry[0])
+                    sTitle = sMovieTitle
+                    if url.startswith('//'):
+                       url = 'http:' + url
+            
+                    sHosterUrl = url 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle2)
+                       oHoster.setFileName(sMovieTitle2)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+
+                progress_.VSclose(progress_)
+                
+                
     oGui.setEndOfDirectory()
+
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -600,43 +541,29 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if 'cloudvideo' in url:
-					sTitle = " (cloudvideo)"
-				if 'streamcloud' in url:
-					sTitle = " (streamcloud)"
-				if 'userscloud' in url:
-					sTitle = " (userscloud)"
-				if 'clicknupload' in url:
-					sTitle = " (clicknupload)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            sTitle = sMovieTitle
+            if url.startswith('//'):
+               url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_)
+        progress_.VSclose(progress_)
                 
                 
     oGui.setEndOfDirectory()

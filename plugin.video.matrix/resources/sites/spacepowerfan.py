@@ -7,10 +7,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'spacepowerfan'
@@ -59,9 +59,7 @@ def showMovies(sSearch = ''):
 
 
     oRequestHandler = cRequestHandler(sUrl)
-    sgn = requests.Session()
-    data = sgn.get(sUrl).content
-    sHtmlContent = data
+    sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
     sPattern = '<article.+?href="([^<]+)"><div.+?data-lazy-src="([^<]+)" />.+?class="Title">([^<]+)</h3><span class="Year">(.+?)</span>.+?class="Description"><p>([^<]+)</p>'
     oParser = cParser()
@@ -76,22 +74,13 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("مدبلج بالعربية","مدبلج").replace("فيلم","").replace("مدبلج بالعربي","مدبلج")
+            sTitle = str(aEntry[2])
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace('"',"").replace("&quot;","").replace("amp;","")
-            sDesc = str(aEntry[4]).decode("utf8")
-            sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sDesc = str(aEntry[4])
             sYear = aEntry[3]
             sDub = ''
-            m = re.search('مدبلج', sTitle)
-            if m:
-				sDub = str(m.group(0))
-				sTitle = sTitle.replace(sDub,'')
             sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -123,9 +112,7 @@ def showSeries(sSearch = ''):
 
 
     oRequestHandler = cRequestHandler(sUrl)
-    sgn = requests.Session()
-    data = sgn.get(sUrl).content
-    sHtmlContent = data
+    sHtmlContent = oRequestHandler.request()
     #print data
      # (.+?) ([^<]+) .+?
     sPattern = '<article class="TPost C"><a href="(.+?)"><div class="Image">.+?data-lazy-src="(.+?)" />.+?<h3 class="Title">(.+?)</h3>'
@@ -142,9 +129,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            sTitle = str(aEntry[2])
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
             sDesc = ""
@@ -179,9 +164,7 @@ def showEpisodes():
     sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
-    sgn = requests.Session()
-    data = sgn.get(sUrl).content
-    sHtmlContent = data
+    sHtmlContent = oRequestHandler.request()
     
     oParser = cParser()
      # (.+?) ([^<]+) .+?
@@ -248,9 +231,7 @@ def showServers():
     sDesc = oInputParameterHandler.getValue('sDesc')
 
     oRequestHandler = cRequestHandler(sUrl)
-    sgn = requests.Session()
-    data = sgn.get(sUrl).content
-    sHtmlContent = data
+    sHtmlContent = oRequestHandler.request()
    
     oParser = cParser()
     #Recuperation infos
@@ -260,41 +241,41 @@ def showServers():
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-				sId = aEntry.replace('"',"").replace("&quot;","").replace("amp;","")
-				sgn = requests.Session()
-				data = sgn.get(sId).content
-				sHtmlContent2 = data    
-				sPattern = 'src="(.+?)" frameborder'
-				oParser = cParser()
-				aResult = oParser.parse(sHtmlContent2, sPattern)
-				if (aResult[0] == True):
-					total = len(aResult[1])
-					progress_ = progress().VScreate(SITE_NAME)
-					for aEntry in aResult[1]:
-						progress_.VSupdate(progress_, total)
-						if progress_.iscanceled():
-							break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            sId = aEntry.replace('"',"").replace("&quot;","").replace("amp;","")
+            sgn = requests.Session()
+            data = sgn.get(sId).content
+            sHtmlContent2 = data    
+            sPattern = 'src="(.+?)" frameborder'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+            if (aResult[0] == True):
+                total = len(aResult[1])
+                progress_ = progress().VScreate(SITE_NAME)
+                for aEntry in aResult[1]:
+                    progress_.VSupdate(progress_, total)
+                    if progress_.iscanceled():
+                       break
             
-						url = aEntry
-						sTitle = sMovieTitle
-						if url.startswith('//'):
-							url = 'http:' + url
-            
-						sHosterUrl = url 
-						oHoster = cHosterGui().checkHoster(sHosterUrl)
-						if (oHoster != False):
-							oHoster.setDisplayName(sMovieTitle)
-							oHoster.setFileName(sMovieTitle)
-							cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    url = aEntry
+                    sTitle = sMovieTitle
+                    if url.startswith('//'):
+                       url = 'http:' + url
+                       
+                    sHosterUrl = url 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-			progress_.VSclose(progress_)
+        progress_.VSclose(progress_)
 				
 
 

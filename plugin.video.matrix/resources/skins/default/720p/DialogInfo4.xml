@@ -452,6 +452,11 @@
 								<onclick>noop</onclick>
 							</item>
 							<item>
+
+
+
+
+
 								<label>[B]rating[/B] / [B]Votes[/B]</label>
 								<label2>$INFO[Window.Property(rating)] / $INFO[Window.Property(votes)]</label2>
 								<onclick>noop</onclick>

@@ -7,10 +7,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'showtv'
@@ -19,12 +19,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.4show.tv'
 
-MOVIE_EN = ('https://www.4show.tv/movies.html', 'showMovies')
-SERIE_EN = ('https://www.4show.tv/tv-series.html', 'showSeries')
+MOVIE_EN = (URL_MAIN + '/movies.html', 'showMovies')
+SERIE_EN = (URL_MAIN + '/tv-series.html', 'showSeries')
 
-URL_SEARCH = ('https://www.4show.tv/search?q=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.4show.tv/search?q=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.4show.tv/search?q=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '/search?q=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?q=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -44,7 +44,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.4show.tv/search?q='+sSearchText
+        sUrl = URL_MAIN + '/search?q='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -54,7 +54,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.4show.tv/search?q='+sSearchText
+        sUrl = URL_MAIN + '/search?q='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -86,16 +86,13 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[3].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[3]
+            if isMatrix(): 
+               sTitle = str(aEntry[3].encode('latin-1'),'utf-8')
+            
             sThumbnail = aEntry[0]
             siteUrl = aEntry[2]
             sInfo = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
-                    continue
 
 
 
@@ -123,8 +120,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -167,16 +164,11 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[3].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[3]
+            
             sThumbnail = aEntry[0]
             siteUrl = aEntry[2]
             sInfo = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
-                    continue
 
 
 
@@ -204,8 +196,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -298,8 +290,8 @@ def showLinks():
                 break
             
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             siteUrl = aEntry[0]
             sInfo = ""
 

@@ -1,17 +1,14 @@
-﻿#-*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 #zombi.(@geekzombi)
+import re
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-import urllib2,urllib,re
-import unicodedata
+from resources.lib.comaddon import progress, isMatrix
  
 SITE_IDENTIFIER = 'ahdaf'
 SITE_NAME = 'ahdaf'
@@ -19,7 +16,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.ahdaf-kooora.com/'
 
-SPORT_FOOT = ('http://www.ahdaf-kooora.com/', 'showMovies')
+SPORT_FOOT = (URL_MAIN, 'showMovies')
 
  
 def load():
@@ -43,7 +40,11 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
+    
+    if not isMatrix():
+       sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
+    if isMatrix():
+       sHtmlContent = sHtmlContent.encode('cp1252').decode('cp1256')
  
 # ([^<]+) .+?
     sPattern = '<td class="alt1Active" align="right" id=".+?">.+?<a href="([^<]+)"><strong>([^<]+)</strong></a>'
@@ -60,7 +61,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#39;","'")
+            sTitle = str(aEntry[1])
             sThumbnail = aEntry[0]
             siteUrl = URL_MAIN + aEntry[0]
             sInfo = '' 
@@ -92,7 +93,11 @@ def showLive():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
+    
+    if not isMatrix():
+       sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
+    if isMatrix():
+       sHtmlContent = sHtmlContent.encode('cp1252').decode('cp1256')
     # (.+?) ([^<]+)
     sPattern = '<a href="([^<]+)" id="thread_title_.+?">([^<]+)</a>'
     
@@ -111,7 +116,7 @@ def showLive():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#39;","'")
+            sTitle = aEntry[1]
             sThumbnail = aEntry[0]
             siteUrl = URL_MAIN + aEntry[0]
             sInfo = '' 
@@ -121,10 +126,7 @@ def showLive():
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            if 'كمبيوتر'  in sTitle or 'متعددة'  in sTitle:
-                oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
-            else: 
-	            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
  
         progress_.VSclose(progress_)
@@ -143,8 +145,11 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
-    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','')
+    
+    if not isMatrix():
+       sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
+    if isMatrix():
+       sHtmlContent = sHtmlContent.encode('cp1252').decode('cp1256')
 
          # (.+?) ([^<]+)   
     sPattern = '<a href="(.+?)".+?">([^<]+)<'
@@ -202,11 +207,11 @@ def showHosters():
 
             if 'goo.gl' in sHosterUrl or 'bit.ly' in sHosterUrl:
                 try:
-					import requests
-					url = sHosterUrl
-					session = requests.Session()  # so connections are recycled
-					resp = session.head(url, allow_redirects=True)
-					sHosterUrl = resp.url
+                    import requests
+                    url = sHosterUrl
+                    session = requests.Session()  # so connections are recycled
+                    resp = session.head(url, allow_redirects=True)
+                    sHosterUrl = resp.url
                 except:
                     pass
             
@@ -244,11 +249,11 @@ def showHosters():
 
             if 'goo.gl' in sHosterUrl or 'bit.ly' in sHosterUrl:
                 try:
-					import requests
-					url = sHosterUrl
-					session = requests.Session()  # so connections are recycled
-					resp = session.head(url, allow_redirects=True)
-					sHosterUrl = resp.url
+                    import requests
+                    url = sHosterUrl
+                    session = requests.Session()  # so connections are recycled
+                    resp = session.head(url, allow_redirects=True)
+                    sHosterUrl = resp.url
                 except:
                     pass
             

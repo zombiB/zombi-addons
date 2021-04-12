@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+# https://github.com/Kodi-vStream/venom-xbmc-addons
 
 class iHoster:
 
@@ -8,10 +10,10 @@ class iHoster:
         raise NotImplementedError()
 
     def setFileName(self, sFileName):
-	raise NotImplementedError()
+        raise NotImplementedError()
 
     def getFileName(self):
-	raise NotImplementedError()
+        raise NotImplementedError()
 
     def getPluginIdentifier(self):
         raise NotImplementedError()

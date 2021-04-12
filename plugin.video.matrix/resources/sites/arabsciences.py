@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi.(@geekzombi)
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-import urllib2,urllib,re
-import unicodedata
+import re
  
 SITE_IDENTIFIER = 'arabsciences'
 SITE_NAME = 'arabsciences'
@@ -21,9 +17,6 @@ URL_MAIN = 'https://arabsciences.com'
 
 DOC_NEWS = ('https://arabsciences.com/category/tv-channels/', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
-
-
-
 
 URL_SEARCH = ('https://arabsciences.com/?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
@@ -108,12 +101,11 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[0]
+            
             sThumbnail = aEntry[2]
             siteUrl = aEntry[1]
-            sInfo = aEntry[3].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = aEntry[3]
 			
 			
 
@@ -142,7 +134,7 @@ def showMovies(sSearch = ''):
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a href="([^<]+)"><span class="pagination-icon" aria-hidden="true"></span>الصفحة التالية</a>'
+    sPattern = '<a href="([^<]+)"><span class="pagination-icon" aria-hidden="true">'
 	 #.+? ([^<]+)
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -171,26 +163,26 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             
-				url = str(aEntry)
-				url = str(aEntry).replace('?rel=0','').replace('"','')
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            url = str(aEntry).replace('?rel=0','').replace('"','')
+            if url.startswith('//'):
+                url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
     sPattern = 'https://www.youtube.com/embed/(.+?)"'
     oParser = cParser()
@@ -198,24 +190,25 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             
-				url = 'https://www.youtube.com/embed/'+aEntry
+            url = 'https://www.youtube.com/embed/'+aEntry
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				          
+           
 
     sPattern = '<iframe src=([^<]+) width='
     oParser = cParser()
@@ -223,28 +216,28 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
             
-				url = str(aEntry)
-				url = str(aEntry).replace('?rel=0','').replace('"','')
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            url = str(aEntry).replace('?rel=0','').replace('"','')
+            if url.startswith('//'):
+               url = 'http:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)
+        progress_.VSclose(progress_)
                 
     oGui.setEndOfDirectory()

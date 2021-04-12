@@ -78,12 +78,11 @@
         <setting visible="false" id="plugin_panet" type="bool" label="panet" default="true"/> 
         <setting visible="false" id="plugin_egybest" type="bool" label="egybest" default="true"/> 
         <setting visible="false" id="plugin_qdoc" type="bool" label="qdoc" default="true"/> 
-        <setting visible="false" id="plugin_arblionz" type="bool" label="arblionz" default="true"/> 
         <setting visible="false" id="plugin_radioquran" type="bool" label="radioquran" default="true"/>
         <setting visible="false" id="plugin_faselhd" type="bool" label="faselhd" default="true"/>   
         <setting visible="false" id="plugin_shahidu" type="bool" label="shahidu" default="true"/> 
-        <setting visible="false" id="plugin_egyclub" type="bool" label="egyclub" default="true"/> 
         <setting visible="false" id="plugin_shoofvod" type="bool" label="shoofvod" default="true"/> 
+        <setting visible="false" id="plugin_egyclub" type="bool" label="egyclub" default="true"/> 
         <setting visible="false" id="plugin_showtv" type="bool" label="showtv" default="true"/>
         <setting visible="false" id="plugin_animeslayer" type="bool" label="animeslayer" default="true"/>  
         <setting visible="false" id="plugin_tuktukcinema" type="bool" label="tuktukcinema" default="true"/> 
@@ -125,7 +124,19 @@
         <setting visible="false" id="plugin_lodynet" type="bool" label="lodynet" default="true"/>
         <setting visible="false" id="plugin_movizland" type="bool" label="movizland" default="true"/>
         <setting visible="false" id="plugin_movsu" type="bool" label="movsu" default="true"/>
-        <setting visible="false" id="plugin_mycima" type="bool" label="mycima" default="true"/>    
+        <setting visible="false" id="plugin_mycima" type="bool" label="mycima" default="true"/> 
+        <setting visible="false" id="plugin_arblionz" type="bool" label="arblionz" default="true"/> 
+        <setting visible="false" id="plugin_alwanfilm" type="bool" label="alwanfilm" default="true"/>
+        <setting visible="false" id="plugin_asgoal" type="bool" label="asgoal" default="true"/> 
+        <setting visible="false" id="plugin_halacima" type="bool" label="halacima" default="true"/> 
+        <setting visible="false" id="plugin_koraonline" type="bool" label="koraonline" default="true"/> 
+        <setting visible="false" id="plugin_replay" type="bool" label="replay" default="true"/> 
+        <setting visible="false" id="plugin_shayef" type="bool" label="shayef" default="true"/>  
+        <setting visible="false" id="plugin_topimdb" type="bool" label="topimdb" default="true"/>  
+        <setting visible="false" id="plugin_themoviedb_org" type="bool" label="themoviedb_org" default="true"/>  
+        <setting visible="false" id="plugin_spacepowerfan" type="bool" label="spacepowerfan" default="true"/>  
+        <setting visible="false" id="plugin___init__" type="bool" label="___init__" default="true"/>  
+        <setting visible="false" id="plugin_tunitv" type="bool" label="tunitv" default="true"/>   
     </category>
 
     <!-- Enregistrement -->
@@ -203,6 +214,7 @@
 
     <!-- Integration trakt -->
     <category label="30340">
+        <setting id="trakt_number_element" type="number" label="31200" default="10"/>
         <setting id="trakt_show_lists" type="bool" label="30341" default="true"/>
 
         <setting type="lsep" label="30342"/>

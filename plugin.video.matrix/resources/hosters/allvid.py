@@ -58,49 +58,49 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-		print self.__sUrl
+        print (self.__sUrl)
         
-		oRequest = cRequestHandler(self.__sUrl)
-		sHtmlContent = oRequest.request()
+        oRequest = cRequestHandler(self.__sUrl)
+        sHtmlContent = oRequest.request()
         
         #fh = open('c:\\test.txt', "w")
         #fh.write(sHtmlContent)
         #fh.close()
         
-		oParser = cParser()
+        oParser = cParser()
         
         #lien indirect
-		sPattern = '<iframe.+?src="([^"]+)"'
-		aResult = oParser.parse(sHtmlContent, sPattern)
-		if (aResult[0] == True):
-			oRequest = cRequestHandler(aResult[1][0])
-			sHtmlContent = oRequest.request()
+        sPattern = '<iframe.+?src="([^"]+)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+        	oRequest = cRequestHandler(aResult[1][0])
+        	sHtmlContent = oRequest.request()
         
         #test pour voir si code
-		sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
-		aResult = oParser.parse(sHtmlContent, sPattern)
-		if (aResult[0] == True):
-			sHtmlContent = cPacker().unpack(aResult[1][0])
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+        	sHtmlContent = cPacker().unpack(aResult[1][0])
         
-		sPattern = 'file:"([^"]+\.mp4)"(?:,label:"([^"]+)")*'
-		aResult = oParser.parse(sHtmlContent, sPattern)
+        sPattern = 'file:"([^"]+\.mp4)"(?:,label:"([^"]+)")*'
+        aResult = oParser.parse(sHtmlContent, sPattern)
         
-		api_call = False
+        api_call = False
 
-		if (aResult[0] == True):
+        if (aResult[0] == True):
             
             #initialisation des tableaux
-			url=[]
-			qua=[]
+        	url=[]
+        	qua=[]
             
             #Replissage des tableaux
-			for i in aResult[1]:
-				url.append(str(i[0]))
-				qua.append(str(i[1]))
+        	for i in aResult[1]:
+        	    url.append(str(i[0]))
+        	    qua.append(str(i[1]))
 
-			api_call = dialog().VSselectqual(qua, url)
+        	api_call = dialog().VSselectqual(qua, url)
  
-			if (api_call):
-				return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+        	if (api_call):
+        	   return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
             
-		return False, False
+        return False, False

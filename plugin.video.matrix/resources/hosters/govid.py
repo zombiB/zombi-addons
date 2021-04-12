@@ -3,7 +3,7 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-import urllib, urllib2, re
+import  re
 UA = 'Android'
 
 class cHoster(iHoster):
@@ -64,12 +64,9 @@ class cHoster(iHoster):
 
 	
         oRequestHandler = cRequestHandler(self.__sUrl)
-        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-        oRequestHandler.addHeaderEntry('Host', 'govid.co')
-        oRequestHandler.addHeaderEntry('Referer', 'https://www.cimaclub.me/watch/%D9%85%D8%B4%D8%A7%D9%87%D8%AF%D8%A9-%D9%81%D9%8A%D9%84%D9%85-no-place-2020-%D9%85%D8%AA%D8%B1%D8%AC%D9%85')
         sHtmlContent = oRequestHandler.request()
         if 'Video is processing now' in sHtmlContent:
-			dialog().VSinfo("Video is processing...")
+        	dialog().VSinfo("Video is processing...")
         
         api_call = ''
         #type1/([^"]+)/
@@ -83,9 +80,14 @@ class cHoster(iHoster):
 
             if (api_call):
                 return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
-
-       # (.+?) .+? ([^<]+)
         sPattern =  "file:'(.+?)'," 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
+
+            if (api_call):
+                return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
+        sPattern =  'playbackUrl": "(.+?)"' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0]

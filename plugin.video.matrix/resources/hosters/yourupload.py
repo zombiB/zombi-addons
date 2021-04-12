@@ -50,7 +50,7 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
         if 'embed' not in self.__sUrl:
-			self.__sUrl = self.__sUrl.replace("/watch/","/embed/")
+            self.__sUrl = self.__sUrl.replace("/watch/","/embed/")
 
     def checkUrl(self, sUrl):
         return True
@@ -62,7 +62,6 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        print self.__sUrl
         
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()

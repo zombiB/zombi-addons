@@ -7,7 +7,7 @@ from resources.lib.parser import cParser
 from resources.lib.gui.gui import cGui
 
 from resources.lib.packer import cPacker
-import urllib, urllib2, re
+import re
 
 class cHoster(iHoster):
 

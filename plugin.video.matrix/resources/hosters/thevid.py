@@ -4,7 +4,7 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.lib.gui.gui import cGui
 from resources.hosters.hoster import iHoster
-import urllib, urllib2, re
+import  re
 
 from resources.lib.packer import cPacker
 
@@ -65,7 +65,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         if 'Not Found' in sHtmlContent:
-			dialog().VSinfo("404 Not Found")
+        	dialog().VSinfo("404 Not Found")
         
         oParser = cParser()
               

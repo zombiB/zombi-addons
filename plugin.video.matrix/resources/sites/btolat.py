@@ -116,9 +116,9 @@ def showHosters():
     sPattern =  "'true' src='(.+?)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
-		m3url = aResult[1][0] 
-		oRequest = cRequestHandler(m3url)
-		sHtmlContent2 = oRequest.request()
+        m3url = aResult[1][0] 
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent2 = oRequest.request()
     oParser = cParser()
     
  

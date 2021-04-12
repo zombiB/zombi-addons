@@ -42,7 +42,7 @@ class cHoster(iHoster):
         if 'embed-' in self.__sUrl:
             self.__sUrl = self.__sUrl.rsplit('=', 1)[0]
         #print "self.__sUrl" 
-        #print self.__sUrl  
+        #print (self.__sUrl)  
 
         if not self.__sUrl.startswith('https'):
             self.__sUrl = self.__sUrl.replace('http', 'https')

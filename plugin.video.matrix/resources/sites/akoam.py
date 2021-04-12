@@ -7,40 +7,49 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog, dialog, addon, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-from resources.lib.gui.guiElement import cGuiElement
-import xbmcgui
-import urllib2,urllib,re
+from resources.lib.player import cPlayer
+import re
 import unicodedata
- 
+
 SITE_IDENTIFIER = 'akoam'
 SITE_NAME = 'akoam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://old.akwam.co'
-
-MOVIE_CLASSIC = ('https://old.akwam.co/cat/165/%D8%A7%D8%B1%D8%B4%D9%8A%D9%81-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
-MOVIE_PACK = ('https://old.akwam.co/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
-MOVIE_EN = ('https://old.akwam.co/cat/156/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
-KID_MOVIES = ('https://old.akwam.co/cat/179/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
-MOVIE_AR = ('https://old.akwam.co/cat/155/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
-MOVIE_HI = ('https://old.akwam.co/cat/168/%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
-REPLAYTV_NEWS = ('https://old.akwam.co/cat/81/%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSeries')
-SERIE_AR = ('https://old.akwam.co/cat/80/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
-SERIE_EN = ('https://old.akwam.co/cat/166/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
-SERIE_DUBBED = ('https://old.akwam.co/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
-ANIM_NEWS = ('https://old.akwam.co/cat/83/%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A', 'showMovies')
-SERIE_ASIA = ('https://old.akwam.co/cat/185/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showSeries')
-SERIE_TR = ('https://old.akwam.co/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
+URL_MAIN = 'https://akwam.ws'
+MOVIE_MOVIE = (True, 'showMenuMovies')
+MOVIE_CLASSIC = (URL_MAIN + '/cat/165/%D8%A7%D8%B1%D8%B4%D9%8A%D9%81-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_PACK = (URL_MAIN + '/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
+MOVIE_EN = (URL_MAIN + '/cat/156/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/cat/179/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/cat/155/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/cat/168/%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN + '/cat/81/%D8%A7%D9%84%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSeries')
+SERIE_AR = (URL_MAIN + '/cat/80/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showSeries')
+SERIE_EN = (URL_MAIN + '/cat/166/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/cat/185/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showSeries')
+SERIE_TR = (URL_MAIN + '/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/cat/83/%D8%A7%D9%84%D8%A7%D9%86%D9%85%D9%8A', 'showMovies')
 SERIE_GENRES = (True, 'showGenres')
-DOC_NEWS = ('https://old.akwam.co/cat/94/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
-URL_SEARCH = ('https://old.akwam.co/search/', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://old.akwam.co/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://old.akwam.co/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
+DOC_NEWS = (URL_MAIN + '/cat/94/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9', 'showMovies')
+URL_SEARCH = (URL_MAIN + '/search/', 'showMoviesSearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
+URL_SEARCH_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSearch'
- 
+
+def showMenuMovies():
+    oGui = cGui()
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH_MOVIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()
+
+
 def load():
     oGui = cGui()
 
@@ -61,7 +70,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://old.akwam.co/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -71,7 +80,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://old.akwam.co/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -86,6 +95,8 @@ def showMoviesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():            
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
       # (.+?) ([^<]+) .+?
 
     sPattern = '<div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
@@ -97,40 +108,31 @@ def showMoviesSearch(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
- 
- 
+
+
+            sTitle = aEntry[2]
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = aEntry[0]
             sInfo = ""
             sThumbnail = str(aEntry[1]).replace("'background-image: url(","").replace(");'","")
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
-            sDisplayTitle = sDisplayTitle.split('مدبلج')[0]
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
-                    continue
 
 
-
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -153,9 +155,12 @@ def showSeriesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():            
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
+    sPattern = '<div class="tags_box"><a href="([^<]+)"><div class="tag_box_image" style=([^<]+)></div><h1>([^<]+)</h1>'
+
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -164,37 +169,31 @@ def showSeriesSearch(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("السلسلة الوثائقية","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
- 
- 
+            sTitle = str(aEntry[2])
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("السلسلة الوثائقية","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("المسلسل الإذاعي","(المسلسل الإذاعي)").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = aEntry[0]
-            sInfo = ""
+            sInfo = ''
             sThumbnail = str(aEntry[1]).replace("'background-image: url(","").replace(");'","")
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
+                  sYear = str(m.group(0))
+                  sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
             sDisplayTitle2 = sTitle.split('الموسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").split('الموسم')[0]
 
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
-                    continue
 
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
+
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -228,7 +227,8 @@ def showGenres():
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
         oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
        
-    oGui.setEndOfDirectory()  
+    oGui.setEndOfDirectory() 
+	
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -239,6 +239,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():            
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
       # (.+?) ([^<]+) .+?
 
     sPattern = '<div class="subject_box shape"><a href="(.+?)"><img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
@@ -249,38 +251,30 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = str(aEntry[2])
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = aEntry[0]
             sInfo = ''
-            sThumbnail = str(aEntry[1])
+            sThumb = str(aEntry[1])
             sYear = ''
-            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
-            m = re.search('مدبلج', sTitle)
-            if m:
-				sDub = str(m.group(0))
-				sTitle = sTitle.replace(sDub,'')
-            sTitle = sTitle.split('الموسم')[0]
-            sTitle = sTitle.split('الحلقة')[0]
-            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
+               sYear = str(m.group(0))
+               sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumb)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -329,6 +323,7 @@ def showLink():
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -346,26 +341,25 @@ def showLink():
         
             if aEntry[2]:
                 sTitle = aEntry[0].split('akoam', 1)[0]
-                sTitle = sTitle.replace("."," ").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720P","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080P","").replace("1080p","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("WEB","")
+                sTitle = sTitle.replace("."," ").replace("Ep","E").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720P","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080P","").replace("1080p","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("WEB","")
                 sYear = ''
                 m = re.search('([0-9]{4})', sTitle)
                 if m:
-					sYear = str(m.group(0))
-					sTitle = sTitle.replace(sYear,'')
+                   sYear = str(m.group(0))
+                   sTitle = sTitle.replace(sYear,'')
                 sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
                 siteUrl = aEntry[2]
-                sInfo = sNote.decode("utf8")
-                sInfo = cUtil().unescape(sInfo).encode("utf8")
+                sThumbnail = sThumbnail
+                sInfo = sNote
+
                 sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
-                oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-		if 'akwam'  in siteUrl:
-			oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-		if '/video/'  in siteUrl:
-			oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        progress_.VSclose(progress_)
+        if 'akwam'  in siteUrl:
+            oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        if '/video/'  in siteUrl:
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
     # (.+?) .+?
     sPattern = '<a href="https://akwam.net/movie/(.+?)" target="_blank"><span style='
 
@@ -381,6 +375,7 @@ def showLink():
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -392,7 +387,6 @@ def showLink():
             sInfo = ""
  
             #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -411,7 +405,6 @@ def showLinks():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    sUrl = sUrl.replace("/download/","/watching/")
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
  
@@ -420,80 +413,50 @@ def showLinks():
 
    
     oParser = cParser()
+    oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-
-    if cook: 
-		m3url = urllib.unquote(cook)
-		sPattern = '"route":"(.+?)",'
-		oParser = cParser()
-		aResult = oParser.parse(m3url, sPattern) 
-		if (aResult[0] == True):
-			m3url = aResult[1][0].replace('download','watching')
-		oRequest = cRequestHandler(m3url)
-		sHtmlContent = oRequest.request()
-		if '/watching/'  in m3url:
-    # ([^<]+) .+? (.+?)
-               
-			
-			sPattern = 'file: "(.+?)",'
-			oParser = cParser()
-			aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-			if (aResult[0] == True):
-					total = len(aResult[1])
-					progress_ = progress().VScreate(SITE_NAME)
-					for aEntry in aResult[1]:
-						progress_.VSupdate(progress_, total)
-						if progress_.iscanceled():
-							break
-            
-						url = str(aEntry)
-						if url.startswith('//'):
-							url = 'http:' + url
-            
-						sHosterUrl = url 
-						oHoster = cHosterGui().checkHoster(sHosterUrl)
-						if (oHoster != False):
-							oHoster.setDisplayName(sMovieTitle)
-							oHoster.setFileName(sMovieTitle)
-							cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-					progress_.VSclose(progress_)
-		if '/video/'  in m3url:
     # ([^<]+) .+?
-               
 
-			sPattern = 'SRC="([^<]+)" FRAMEBORDER.+?</IFRAME>'
-			oParser = cParser()
-			aResult = oParser.parse(sHtmlContent, sPattern)
+    oRequestHandler.setRequestType(1)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('origin', 'www.arblionz.org')
+    oRequestHandler.addHeaderEntry('Cookie', cook)
+    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('Referer', sUrl)
+    sHtmlContent = oRequestHandler.request()
+    #print sHtmlContent           
+
+
+    sPattern = '"direct_link":"(.+?)",'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-			if (aResult[0] == True):
-					total = len(aResult[1])
-					progress_ = progress().VScreate(SITE_NAME)
-					for aEntry in aResult[1]:
-						progress_.VSupdate(progress_, total)
-						if progress_.iscanceled():
-							break
-            
-						url = str(aEntry)
-						if url.startswith('//'):
-							url = 'http:' + url
-            
-						sHosterUrl = url 
-						oHoster = cHosterGui().checkHoster(sHosterUrl)
-						if (oHoster != False):
-							oHoster.setDisplayName(sMovieTitle)
-							oHoster.setFileName(sMovieTitle)
-							cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
 
-					progress_.VSclose(progress_) 
-        
+                break
+            
+            url = str(aEntry)
+            sTitle = sMovieTitle
+            if url.startswith('//'):
 
-       
+                url = 'http:' + url
+            
+            sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                sDisplayTitle = sTitle
+                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+         
     oGui.setEndOfDirectory()
 	
 def showSeries(sSearch = ''):
@@ -516,15 +479,15 @@ def showSeries(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
 
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("مسلسل","").replace("انمي","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = str(aEntry[2])
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("مسلسل","").replace("انمي","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = aEntry[0]
             sInfo = ""
             sThumbnail = str(aEntry[1])
@@ -534,7 +497,6 @@ def showSeries(sSearch = ''):
 			
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
@@ -556,7 +518,7 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<li class='pagination_next'>.+?<a href='([^<]+)' class='ako-arrow ako-left-arrow'></a>"
+    sPattern = '<a class="next" href="(.+?)">'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -604,20 +566,19 @@ def showSeasons():
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = ""
  
             #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', str(aEntry[0]))
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -635,6 +596,7 @@ def showSeasons():
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -651,19 +613,18 @@ def showSeasons():
                    
         
             if aEntry[2]:
-                sTitle = aEntry[0].split('akoam', 1)[0]
+                sTitle = aEntry[0].replace("."," ").replace("WEB"," ").replace("Ep","E").split('akoam', 1)[0]
                 sTitle = sTitle.replace("."," ").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","")
                 sYear = ''
                 m = re.search('([0-9]{4})', sTitle)
                 if m:
-					sYear = str(m.group(0))
-					sTitle = sTitle.replace(sYear,'')
+                    sYear = str(m.group(0))
+                    sTitle = sTitle.replace(sYear,'')
                 sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
                 siteUrl = aEntry[2]
-                sInfo = sNote.decode("utf8")
-                sInfo = cUtil().unescape(sInfo).encode("utf8")
+                sInfo = sNote
+
                 sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
-                oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -687,7 +648,7 @@ def showSeasons2():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         for aEntry in aResult[1]:
-			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
+             m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
     
@@ -707,20 +668,21 @@ def showSeasons2():
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
             sTitle = "link"
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            
+
             sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry)
             sThumbnail = sThumbnail
             sInfo = ""
  
             #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -751,26 +713,27 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                   break
+
             
-				url = str(aEntry)
-				sTitle = sMovieTitle
-				if url.startswith('//'):
-					url = 'http:' + url
+                url = str(aEntry)
+                sTitle = sMovieTitle
+                if url.startswith('//'):
+                   url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                sHosterUrl = url 
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                   oHoster.setDisplayName(sMovieTitle)
+                   oHoster.setFileName(sMovieTitle)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_) 
+
                 
     oGui.setEndOfDirectory()

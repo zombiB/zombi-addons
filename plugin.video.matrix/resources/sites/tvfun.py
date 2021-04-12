@@ -7,12 +7,12 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.packer import cPacker
 from resources.lib.aadecode import AADecoder
-import urllib2,urllib,re
+import re
 import unicodedata
 import base64
  
@@ -81,19 +81,17 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8").replace("مدبلج"," [مدبلج] ")
+            sTitle = aEntry[1]
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = str(aEntry[2])
             sInfo = aEntry[3]
-            sDisplayTitle = sTitle.split('[مدبلج]')[0]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
@@ -113,8 +111,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -170,8 +168,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8").replace("الحلقة "," E").replace("والأخيرة","")
+            sTitle = aEntry[1]
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
@@ -233,8 +230,8 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = str(aEntry[0])
@@ -334,41 +331,41 @@ def showHosters():
     sPattern =  "PGlmcmFt([^<]+)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
-		total = len(aResult[1])
-		progress_ = progress().VScreate(SITE_NAME)
-		for aEntry in aResult[1]:
-			progress_.VSupdate(progress_, total)
-			if progress_.iscanceled():
-				break
-			m3url = "PGlmcmFt" + aEntry
-			sHtmlContent2 = base64.b64decode(m3url)
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
+            m3url = "PGlmcmFt" + aEntry
+            sHtmlContent2 = base64.b64decode(m3url)
     # (.+?)       
-			sPattern = 'src="(.+?)" allowfullscreen'
-			oParser = cParser()
-			aResult = oParser.parse(sHtmlContent2, sPattern)
+            sPattern = 'src="(.+?)" allowfullscreen'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent2, sPattern)
 
-			if (aResult[0] == True):
-					total = len(aResult[1])
-					progress_ = progress().VScreate(SITE_NAME)
-					for aEntry in aResult[1]:
-						progress_.VSupdate(progress_, total)
-						if progress_.iscanceled():
-							break
+            if (aResult[0] == True):
+               total = len(aResult[1])
+               progress_ = progress().VScreate(SITE_NAME)
+               for aEntry in aResult[1]:
+                   progress_.VSupdate(progress_, total)
+                   if progress_.iscanceled():
+                       break
         
-						url = str(aEntry).replace("https://dai.ly/","https://www.dailymotion.com/video/")
-						sTitle = " " 
-						if url.startswith('//'):
-							url = 'http:' + url
+                   url = str(aEntry).replace("https://dai.ly/","https://www.dailymotion.com/video/")
+                   sTitle = " " 
+                   if url.startswith('//'):
+                       url = 'http:' + url
             
-						sHosterUrl = url 
-						oHoster = cHosterGui().checkHoster(sHosterUrl)
-						if (oHoster != False):
-							sDisplayTitle = sMovieTitle+sTitle
-							oHoster.setDisplayName(sDisplayTitle)
-							oHoster.setFileName(sDisplayTitle)
-							cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                   sHosterUrl = url 
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       sDisplayTitle = sMovieTitle+sTitle
+                       oHoster.setDisplayName(sDisplayTitle)
+                       oHoster.setFileName(sDisplayTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-					progress_.VSclose(progress_)  
+        progress_.VSclose(progress_)  
                 
     oGui.setEndOfDirectory()

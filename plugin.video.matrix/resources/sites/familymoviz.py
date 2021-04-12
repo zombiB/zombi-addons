@@ -7,17 +7,17 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'familymoviz'
 SITE_NAME = 'familymoviz'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.familymoviz.net'
+URL_MAIN = 'http://www.familymoviz.com'
 
 MOVIE_FAM = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
@@ -93,22 +93,18 @@ def showMoviesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            sTitle = aEntry[2] 
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut"," [Cut] ")
+             
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
-            sInfo = aEntry[3].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = aEntry[3]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
-            m = re.search('Cut', sTitle)
-            if m:
-				sDub = str(m.group(0))
-				sTitle = sTitle.replace(sDub,'')
-            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
 
@@ -156,12 +152,12 @@ def showSearchSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8") 
+            sTitle = aEntry[2]
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut"," [Cut] ")
+             
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
-            sInfo = aEntry[3].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = aEntry[3]
 
 
 
@@ -212,19 +208,16 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8") 
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","")
+            sTitle = aEntry[1]
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut"," [Cut] ")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
-            sInfo = aEntry[3].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
-            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
+            sInfo = aEntry[3]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
@@ -273,9 +266,9 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S")
+            sTitle = aEntry[0]
+            
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut"," [Cut] ")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[1]
             sInfo = ""
@@ -346,12 +339,10 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8").replace("Cut"," [Cut] ").replace("مترجمة","").replace("مترجم","") 
+            sTitle = aEntry[1].replace("Cut"," [Cut] ").replace("مترجمة","").replace("مترجم","") 
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
-            sInfo = aEntry[3].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = aEntry[3]
 
 
  
@@ -434,11 +425,11 @@ def showHosters():
 
             if 'goo.gl' in url or 'bit.ly' in url:
                 try:
-					import requests
-					url = url
-					session = requests.Session()  # so connections are recycled
-					resp = session.head(url, allow_redirects=True)
-					url = resp.url
+                    import requests
+                    url = url
+                    session = requests.Session()  # so connections are recycled
+                    resp = session.head(url, allow_redirects=True)
+                    url = resp.url
                 except:
                     pass
             if 'file-up.org' in url:

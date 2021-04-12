@@ -202,6 +202,11 @@
 								<visible>!IsEmpty(Window(Home).Property(ListItem.mpaa))+!Control.HasFocus(50)</visible>
 							</item>
 							<item>
+
+
+
+
+
 								<label>[B]Intérêt[/B]: $INFO[Window(Home).Property(ListItem.rating)] / $INFO[Window(Home).Property(ListItem.votes),[B]Votes[/B]: ]</label>
 								<onclick>noop</onclick>
 								<visible>!Control.HasFocus(50)</visible>

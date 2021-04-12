@@ -62,38 +62,38 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
 
-		api_call = ''
-		sId = self.__sUrl.split('/e/')[0]
-
-		oRequest = cRequestHandler(self.__sUrl)
-		oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:70.0) Gecko/20100101 Firefox/70.0')
-		oRequest.addHeaderEntry('Referer', 'https://cimanow.tv/')
-		sHtmlContent = oRequest.request()
-		oParser = cParser()
+        api_call = ''
+        sId = self.__sUrl.split('/e/')[0]
     
-    #/uploads/2021/02/19/_Cima-Now.CoM_ I.Care.a.Lot.2021.HD/[Cima-Now.CoM] I.Care.a.Lot.2021.HD-360p.mp4
+        oRequestHandler = cRequestHandler(self.__sUrl)
+        hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','Referer' : 'https://en.cimanow.cc/','Host' : sId.replace("https://",""),'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
+        St=requests.Session()
+        sHtmlContent = St.get(self.__sUrl,headers=hdr).content
+        print ("sHtmlContent2")
+        print (sHtmlContent)
 
-		sPattern = '<source src="(.+?)" type="video/mp4" size="(.+?)">'
-		aResult = oParser.parse(sHtmlContent, sPattern)
+        oParser = cParser()
+        sPattern = '<source src="(.+?)" type="video/mp4" size="(.+?)">'
+        aResult = oParser.parse(sHtmlContent, sPattern)
         
-		api_call = False
+        api_call = False
 
-		if (aResult[0] == True):
+        if (aResult[0] == True):
             
             #initialisation des tableaux
-			url=[]
-			qua=[]
+        	url=[]
+        	qua=[]
             
             #Replissage des tableaux
-			for i in aResult[1]:
-				url.append(sId+str(i[0]).replace("[","%5B").replace("]","%5D").replace("+","%20").replace(" ","%20"))
-				qua.append(str(i[1])+'p')
+        	for i in aResult[1]:
+        	   url.append(sId+str(i[0]).replace("[","%5B").replace("]","%5D").replace("+","%20").replace(" ","%20"))
+        	   qua.append(str(i[1])+'p')
 
-			api_call = dialog().VSselectqual(qua, url)
+        	api_call = dialog().VSselectqual(qua, url)
 
-			if (api_call):
-				return True, api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + self.__sUrl
+        	if (api_call):
+        	   return True, api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + self.__sUrl
 
-		return False, False
+        return False, False
         
 

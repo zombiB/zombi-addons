@@ -57,7 +57,7 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('Cookie', 'hds2=1')
         sHtmlContent = oRequest.request()
         if '<p>Video will be converted and ready to play soon</p>' in sHtmlContent:
-			dialog().VSok("Video will be ready to play soon")
+            dialog().VSok("Video will be ready to play soon")
 
         sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>'
         aResult = oParser.parse(sHtmlContent,sPattern)

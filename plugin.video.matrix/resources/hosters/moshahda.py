@@ -2,10 +2,10 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
+from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-import re
+import re,xbmcgui
 
 class cHoster(iHoster):
 
@@ -50,7 +50,7 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
         if not "embed" in sUrl:
-			self.__sUrl = sUrl.replace("moshahda.online/","moshahda.online/embed-")
+               self.__sUrl = sUrl.replace("moshahda.online/","moshahda.online/embed-")
 
     def checkUrl(self, sUrl):
         return True
@@ -62,41 +62,43 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-		print self.__sUrl
-		UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
-		oRequest = cRequestHandler(self.__sUrl)
-		oRequest.addHeaderEntry('user-agent',UA)
-		oRequest.addHeaderEntry('Referer',self.__sUrl)
-		sHtmlContent = oRequest.request()
-		oParser = cParser()
-		
-		sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
-		aResult = oParser.parse(sHtmlContent, sPattern)
-		if (aResult[0] == True):
-		    sHtmlContent = cPacker().unpack(aResult[1][0])
+        print (self.__sUrl)
+        UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+        
+        oRequest = cRequestHandler(self.__sUrl)
+        oRequest.addHeaderEntry('user-agent',UA)
+        oRequest.addHeaderEntry('Referer',self.__sUrl)
+        sHtmlContent = oRequest.request()
+        
+        oParser = cParser()
+        
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            sHtmlContent = cPacker().unpack(aResult[1][0])
 
         
             # (.+?) .+?
-		sPattern = ',{file:"(.+?)",label:"(.+?)"'
-		aResult = oParser.parse(sHtmlContent, sPattern)
+        sPattern = ',{file:"(.+?)",label:"(.+?)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
         
-		api_call = False
+        api_call = False
 
-		if (aResult[0] == True):
+        if (aResult[0] == True):
             
             #initialisation des tableaux
-			url=[]
-			qua=[]
+            url=[]
+            qua=[]
             
             #Replissage des tableaux
-			for i in aResult[1]:
-				url.append(str(i[0]))
-				qua.append(str(i[1]))
+            for i in aResult[1]:
+                url.append(str(i[0]))
+                qua.append(str(i[1]))
 
-			api_call = dialog().VSselectqual(qua, url)
+            api_call = dialog().VSselectqual(qua, url)
  
-			if (api_call):
-				return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+            if (api_call):
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
             
-		return False, False
-        
+        return False, False
+   

@@ -49,7 +49,7 @@ class cHoster(iHoster):
 
     def checkUrl(self, sUrl):
         return True
-		
+        
     def getUrl(self,url):
             return 
 
@@ -57,7 +57,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        print self.__sUrl
+        print (self.__sUrl)
         
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()

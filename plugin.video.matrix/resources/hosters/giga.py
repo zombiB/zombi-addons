@@ -1,9 +1,19 @@
-#-*- coding: utf-8 -*-
-from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import VSlog, xbmcgui
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+# 2 hoster giga & 2gigalink
+# from resources.lib.handler.requestHandler import cRequestHandler
+
+try:  # Python 2
+    import urllib2
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+
+import ssl
+
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
-import re
+
 
 class cHoster(iHoster):
 
@@ -13,10 +23,10 @@ class cHoster(iHoster):
         self.__sHD = ''
 
     def getDisplayName(self):
-        return  self.__sDisplayName
+        return self.__sDisplayName
 
     def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
 
     def setFileName(self, sFileName):
         self.__sFileName = sFileName
@@ -50,9 +60,6 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
 
-        import urllib2
-        import ssl
-
         the_url = self.__sUrl
         myContext = ssl._create_unverified_context()
 
@@ -63,9 +70,14 @@ class cHoster(iHoster):
 
         oParser = cParser()
         sPattern = "var mp4v = '(.+?)'"
-        aResult = oParser.parse(sHtmlContent,sPattern)
-
+        aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             return True, aResult[1][0]
+        else:
+            # streamgk
+            sPattern = '<a id="downloadb" class="btn btn-default.+?href="([^"]+)"'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if (aResult[0] == True):
+                return True, aResult[1][0]
 
         return False, False

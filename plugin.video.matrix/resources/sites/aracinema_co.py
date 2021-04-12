@@ -7,10 +7,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
  
@@ -82,22 +82,15 @@ def showMovies(sSearch = ''):
                 break
  
             if "فيلم" not in aEntry[1]:
-				continue
+                continue
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
             sTitle = sTitle.replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
-            sDesc = aEntry[3].decode("utf8")
-            sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sDesc = aEntry[3]
             sYear = aEntry[4]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
-                    continue
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -147,9 +140,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
+            sTitle = aEntry[1]
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = aEntry[3]
@@ -204,22 +195,18 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
+            sTitle = aEntry[1]
+            sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0].split('مدبلج')[0].split('مسلسل')[0]
+            if isMatrix(): 
+               sDisplayTitle2 = str(sTitle.encode('latin-1'),'utf-8').split('الحلقة')[0].split('الموسم')[0].split('مدبلج')[0].split('مسلسل')[0]
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ""
 
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
-                    continue
-
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
 
@@ -281,7 +268,9 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[1].replace("الحلقة "," E")
+            if isMatrix(): 
+               sTitle = str(aEntry[1].encode('latin-1'),'utf-8').replace("الحلقة "," E")
             siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = sNote
@@ -349,8 +338,7 @@ def showLink():
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
             siteUrl = aResult[1][0]
             sThumb = sThumb
-            sDesc = sNote.decode("utf8")
-            sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sDesc = sNote
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -399,12 +387,12 @@ def showHosters():
     if (aResult[0] == True):
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
-        sHtmlContent1 = oRequest.request()
+        sHtmlContent = oRequest.request()
                
         
     sPattern = 'src="(.+?)"'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent1, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if (aResult[0] == True):
         total = len(aResult[1])

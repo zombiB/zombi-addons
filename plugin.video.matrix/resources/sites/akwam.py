@@ -7,50 +7,49 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, dialog, addon
+from resources.lib.comaddon import progress, VSlog, dialog, addon, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.player import cPlayer
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'akwam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://akwam.co'
-
-MOVIE_FAM = ('https://akwam.in/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
+URL_MAIN = 'https://akwam.cc'
+MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_AR = ('https://akwam.co/movies?section=29', 'showMovies')
-MOVIE_DUBBED = ('https://akwam.co/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
-MOVIE_EN = ('https://akwam.co/movies?section=30', 'showMovies')
-MOVIE_HI = ('https://akwam.co/movies?section=31', 'showMovies')
-MOVIE_ASIAN = ('https://akwam.co/movies?section=33', 'showMovies')
-KID_MOVIES = ('https://akwam.co/movies?category=30', 'showMovies')
-MOVIE_TURK = ('https://akwam.co/movies?section=32', 'showMovies')
-MOVIE_TOP = ('https://akwam.co/movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
-RAMADAN_SERIES = ('https://akwam.co/series?section=29', 'showSeries')
-SERIE_EN = ('https://akwam.co/series?section=30', 'showSeries')
-SERIE_AR = ('https://akwam.co/series?section=29', 'showSeries')
-SERIE_HEND = ('https://akwam.co/series?section=31', 'showSeries')
-SERIE_ASIA = ('https://akwam.co/series?section=33', 'showSeries')
-SERIE_TR = ('https://akwam.co/series?section=32', 'showSeries')
-SERIE_DUBBED = ('https://akwam.co/series?section=30&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+MOVIE_DUBBED = (URL_MAIN + '/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/movies?section=30', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/movies?section=31', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/movies?section=33', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/movies?category=30', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/movies?section=32', 'showMovies')
+MOVIE_TOP = (URL_MAIN + '/movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
+RAMADAN_SERIES = (URL_MAIN + '/series?section=0&category=87&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+SERIE_EN = (URL_MAIN + '/series?section=30', 'showSeries')
+SERIE_AR = (URL_MAIN + '/series?section=29', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/series?section=31', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/series?section=33', 'showSeries')
+SERIE_TR = (URL_MAIN + '/series?section=32', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/series?section=30&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 
-SERIE_TR_AR = ('https://akwam.co/series?section=32&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
-SERIE_HEND_AR = ('https://akwam.co/series?section=31&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
-ANIM_NEWS = ('https://akwam.co/series?category=30', 'showSeries')
+SERIE_TR_AR = (URL_MAIN + '/series?section=32&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+SERIE_HEND_AR = (URL_MAIN + '/series?section=31&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/series?category=30', 'showSeries')
 
-DOC_NEWS = ('https://akwam.co/movies?category=28', 'showMovies')
-DOC_SERIES = ('https://akwam.co/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
+DOC_NEWS = (URL_MAIN + '/movies?category=28', 'showMovies')
+DOC_SERIES = (URL_MAIN + '/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
 
-REPLAYTV_NEWS = ('https://akwam.co/shows?section=42', 'showSeries')
-REPLAYTV_PLAY = ('https://akwam.co/shows?section=45', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN + '/shows?section=42', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + '/shows?section=45', 'showMovies')
 
 
-URL_SEARCH = ('https://akwam.co/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://akwam.cc/search?section=movie&q=', 'showMovies')
-URL_SEARCH_SERIES = ('https://akwam.cc/search?section=series&q=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '/search?q=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -73,7 +72,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://akwam.co/search?q=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/search?q=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -83,7 +82,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://akwam.co/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -99,6 +98,9 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
+    
 
  # ([^<]+) .+?
     sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">(.+?)</span>'
@@ -115,20 +117,13 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            sTitle = str(aEntry[3])
             siteUrl = str(aEntry[1])
             sThumb = str(aEntry[2])
             sDesc = ''
             sQua = aEntry[0]
             sYear = aEntry[4]
             sDisplayTitle = ('%s (%s) [%s] ') % (sTitle, sYear, sQua)
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
-                    continue
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -162,6 +157,8 @@ def showSeriesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  # ([^<]+) .+?
     sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">(.+?)</span>'
 
@@ -177,9 +174,7 @@ def showSeriesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            sTitle = str(aEntry[3])
             siteUrl = str(aEntry[1])
             sThumb = str(aEntry[2])
             sYear = aEntry[4]
@@ -189,16 +184,11 @@ def showSeriesSearch(sSearch = ''):
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
             sDesc = '[COLOR yellow]'+aEntry[0]+'[/COLOR]'
 
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
-                    continue
-
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -224,6 +214,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  # ([^<]+) .+? (.+?)
     sPattern = '<span class="label series"><i class="icon-play mr-1"></i>([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">(.+?)</span>'
 
@@ -239,9 +231,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            sTitle = str(aEntry[3])
             sTitle2 = sTitle
             siteUrl = str(aEntry[1])
             sThumb = str(aEntry[2])
@@ -311,11 +301,16 @@ def showEpisodes():
  
             sEp = aEntry[0].split(':')[0]
             sDes = aEntry[0].split(': ')[-1]
-            sTitle = sMovieTitle2+' '+sEp.replace("الحلقة "," E")+' ['+sDes+'] '
+    
+            if not isMatrix():
+               sEp = sEp.replace("الحلقة "," E")+' ['+sDes+'] '
+               sTitle = sMovieTitle2+' '+sEp
+            if isMatrix():
+               sEp = str(sEp.encode('latin-1'),'utf-8').replace("الحلقة "," E")+' ['+str(sDes.encode('latin-1'),'utf-8')+'] '
+               sTitle = sMovieTitle2+' '+sEp
             siteUrl = str(aEntry[1])
             sThumb = aEntry[2]
-            sDesc = sNote.decode("utf8")
-            sDesc = cUtil().unescape(sDesc).encode("utf8")
+            sDesc = sNote
 			
 
 
@@ -407,7 +402,7 @@ def RecapchaBypass():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         for aEntry in aResult[1]:
-			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
+            m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
         oRequest = cRequestHandler(m3url)
         sHtmlContent1 = oRequest.request()
 
@@ -467,6 +462,8 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     
     oParser = cParser()
     
@@ -483,7 +480,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         for aEntry in aResult[1]:
-			m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
+            m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
         oRequest = cRequestHandler(m3url)
         sHtmlContent1 = oRequest.request()
  
@@ -500,7 +497,7 @@ def showHosters():
     # (.+?) .+? ([^<]+)
                
 
-    sPattern = '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)".+?/>'
+    sPattern = '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent1, sPattern)
 
@@ -509,36 +506,29 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                   break
         
-				url = str(aEntry[0])
-				sTitle = str(aEntry[1]).decode("utf8").replace('"',"")
-				sTitle = cUtil().unescape(sTitle).encode("utf8")
-				sTitle = ' ['+sTitle+'p] '
-
-				if 'thevideo.me' in url:
-					sTitle = " (thevideo.me)"
-				if 'flashx' in url:
-					sTitle = " (flashx)"
-				if 'streamcherry' in url:
-					sTitle = " (streamcherry)"
-				if url.startswith('//'):
-					url = 'https:' + url
+                url = str(aEntry[0])
+                sTitle = str(aEntry[1]).replace('"',"")
+				
+                sTitle = ' ['+sTitle+'p] '
+                if url.startswith('//'):
+                   url = 'https:' + url
 				
 					
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sMovieTitle+sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                sHosterUrl = url 
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                    sDisplayTitle = sMovieTitle+sTitle
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات التحميل--------[/COLOR]')

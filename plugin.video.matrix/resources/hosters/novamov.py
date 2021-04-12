@@ -2,6 +2,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.gui.gui import cGui
 from resources.hosters.hoster import iHoster
+from resources.lib.util import Unquote, Quote
 import urllib
 
 class cHoster(iHoster):
@@ -83,7 +84,7 @@ class cHoster(iHoster):
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            stream_url = urllib.unquote(aResult[1][0])
+            stream_url = unquote(aResult[1][0])
             return True, stream_url
         else:
             cGui().showInfo(self.__sDisplayName, 'file not found' , 5)

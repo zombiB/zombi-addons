@@ -14,7 +14,11 @@ from resources.lib.parser import cParser
 from resources.lib.util import QuotePlus
 from resources.lib.util import cUtil
 from resources.lib.comaddon import progress
-import urllib2,urllib,re
+import re
+try:
+    import urllib2
+except ImportError:
+    import urllib.request as urllib2 
 
 class cGui:
 
@@ -421,12 +425,11 @@ class cGui:
 
         # voir : https://kodi.wiki/view/InfoLabels
         oListItem.setInfo(oGuiElement.getType(), oGuiElement.getItemValues())
-        # oListItem.setThumbnailImage(oGuiElement.getThumbnail())
-        # oListItem.setIconImage(oGuiElement.getIcon())
         oListItem.setArt({'poster': oGuiElement.getPoster(),
                           'thumb': oGuiElement.getThumbnail(),
                           'icon': oGuiElement.getIcon(),
                           'fanart': oGuiElement.getFanart()})
+
         aProperties = oGuiElement.getItemProperties()
         for sPropertyKey, sPropertyValue in aProperties.items():
             oListItem.setProperty(sPropertyKey, str(sPropertyValue))
@@ -459,7 +462,7 @@ class cGui:
         oGuiElement.addContextItem(oContext)
 
     # marque page
-    def createContexMenuBookmark(self, oGuiElement, oOutputParameterHandler = ''):
+    def createContexMenuBookmark(self, oGuiElement, oOutputParameterHandler=''):
         oOutputParameterHandler.addParameter('sCleanTitle', oGuiElement.getCleanTitle())
         oOutputParameterHandler.addParameter('sId', oGuiElement.getSiteName())
         oOutputParameterHandler.addParameter('sFav', oGuiElement.getFunction())
@@ -530,7 +533,7 @@ class cGui:
 
         self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewSimil', self.ADDON.VSlang(30213))
 
-    #  
+    #MenuParents 
     def createContexMenuParents(self, oGuiElement, oOutputParameterHandler=''):
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
@@ -541,7 +544,6 @@ class cGui:
         oOutputParameterHandler.addParameter('sType', sType)
 
         self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getImdbId(), 'viewParents', self.ADDON.VSlang(33213))
-
     def CreateSimpleMenu(self, oGuiElement, oOutputParameterHandler, sFile, sName, sFunction, sTitle):
         oContext = cContextElement()
         oContext.setFile(sFile)
@@ -609,9 +611,6 @@ class cGui:
             oOutputParameterHandler = cOutputParameterHandler()
 
         sParams = oOutputParameterHandler.getParameterAsUri()
-        # cree une id unique
-        # if oGuiElement.getSiteUrl():
-            # print(str(hash(oGuiElement.getSiteUrl())))
 
         sPluginPath = cPluginHandler().getPluginPath()
 
@@ -629,7 +628,6 @@ class cGui:
             self.addText('cGui')
 
         xbmcplugin.addDirectoryItems(iHandler, self.listing, len(self.listing))
-
         xbmcplugin.setPluginCategory(iHandler, '')
         xbmcplugin.setContent(iHandler, cGui.CONTENT)
         xbmcplugin.addSortMethod(iHandler, xbmcplugin.SORT_METHOD_NONE)
@@ -640,12 +638,12 @@ class cGui:
             xbmc.executebuiltin('Container.SetViewMode(' + str(ForceViewMode) + ')')
         else:
             if self.ADDON.getSetting('active-view') == 'true':
-                if cGui.CONTENT == 'movies':
+                if cGui.CONTENT == 'movies' or  cGui.CONTENT == 'artists':
                     # xbmc.executebuiltin('Container.SetViewMode(507)')
                     xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting('movie-view'))
                 elif cGui.CONTENT == 'tvshows':
                     xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting('serie-view'))
-                elif cGui.CONTENT == 'files':
+                elif cGui.CONTENT == 'files' or cGui.CONTENT == 'episodes':
                     xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting('default-view'))
 
         # bug affichage Kodi 18
@@ -653,7 +651,7 @@ class cGui:
 
     def updateDirectory(self):  # refresh the content
         xbmc.executebuiltin('Container.Refresh')
-        xbmc.sleep(500)    # Nécessaire pour laisser le temps du refresh
+        xbmc.sleep(600)    # Nécessaire pour laisser le temps du refresh
 
     def viewBA(self):
         oInputParameterHandler = cInputParameterHandler()
@@ -675,79 +673,83 @@ class cGui:
         oInputParameterHandler = cInputParameterHandler()
         # sParams = oInputParameterHandler.getAllParameter()
         sId = oInputParameterHandler.getValue('sId')
-
         sTest = '%s?site=%s' % (sPluginPath, sId)
+
         xbmc.executebuiltin('Container.Update(%s, replace)' % sTest)
 
     def viewInfo(self):
-        from resources.lib.config import WindowsBoxes
+        if addon().getSetting('information-view') == "false":
+            from resources.lib.config import WindowsBoxes
 
-        oInputParameterHandler = cInputParameterHandler()
-        sCleanTitle = oInputParameterHandler.getValue('sFileName') if oInputParameterHandler.exist('sFileName') else xbmc.getInfoLabel('ListItem.Property(sCleanTitle)')
-        sMeta = oInputParameterHandler.getValue('sMeta') if oInputParameterHandler.exist('sMeta') else xbmc.getInfoLabel('ListItem.Property(sMeta)')
-        sYear = oInputParameterHandler.getValue('sYear') if oInputParameterHandler.exist('sYear') else xbmc.getInfoLabel('ListItem.Year')
+            oInputParameterHandler = cInputParameterHandler()
+            sCleanTitle = oInputParameterHandler.getValue('sFileName') if oInputParameterHandler.exist('sFileName') else xbmc.getInfoLabel('ListItem.Property(sCleanTitle)')
+            sMeta = oInputParameterHandler.getValue('sMeta') if oInputParameterHandler.exist('sMeta') else xbmc.getInfoLabel('ListItem.Property(sMeta)')
+            sYear = oInputParameterHandler.getValue('sYear') if oInputParameterHandler.exist('sYear') else xbmc.getInfoLabel('ListItem.Year')
 
-        WindowsBoxes(sCleanTitle, sCleanTitle, sMeta, sYear)
+            WindowsBoxes(sCleanTitle, sCleanTitle, sMeta, sYear)
+        else:
+            # On appel la fonction integrer a Kodi pour charger les infos.
+            xbmc.executebuiltin('Action(Info)')
 		
     def viewParents(self):
-                oInputParameterHandler = cInputParameterHandler()
-                sFileName = oInputParameterHandler.getValue('sFileName')
-                sType = oInputParameterHandler.getValue('sType')
-                sIMDb = 'tt9536846'
-                meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
-                sIMDb = str(meta['imdb_id'])
+        oInputParameterHandler = cInputParameterHandler()
+        sFileName = oInputParameterHandler.getValue('sFileName')
+        sType = oInputParameterHandler.getValue('sType')
+        sIMDb = 'tt9536846'
+        meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
+        sIMDb = str(meta['imdb_id'])
 
-                sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
-                oRequest = urllib2.Request(sUrl)
-                oResponse = urllib2.urlopen(oRequest)
-                DIALOG = dialog()
+        sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
+        oRequest = urllib2.Request(sUrl)
+        oResponse = urllib2.urlopen(oRequest)
+        DIALOG = dialog()
 
                 # En python 3 on doit décoder la reponse
-                if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
-                    sContent = oResponse.read().decode('utf-8')
-                else:
-                    sContent = oResponse.read()
-                Stext = "لم يقع تصنيف المحتوى"
-                Stext0 = ""
-                oParser = cParser()
-                sPattern = '>MPAA</td>.+?<td>([^<]+)<'
-                aResult = oParser.parse(sContent, sPattern)
-                if (aResult[0]):
-                    Stext0 = aResult[1][0]
-                if 'Rated R' in Stext0 and 'sex' not in Stext0:
-                    Stext = 'غير مناسب للمشاهدة العائلية'
-                if 'Rated R' in Stext0 and 'sex'  in Stext0 or 'nudity'  in Stext0:
-                    Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
-                if 'Rated R' not in Stext0:
-                    sPattern = 'Nudity</h4>.+?ipl-status-pill.+?">([^<]+)</span>'
-                    aResult = oParser.parse(sContent, sPattern)
-                    if (aResult[0]):
-                        Stext2 = aResult[1][0]
-                        if 'None'  in Stext2:
-                            Stext = '  مناسب للمشاهدة العائلية'
-                        if 'Mild'  in Stext2:
-                            Stext = '   بعض المواد قد لا تكون مناسبة'
-                        if 'Moderate'  in Stext2:
-                            Stext = '   غير مناسب للمشاهدة العائلية'
-                        if 'Severe'  in Stext2:
-                            Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
-                    Stext1 = re.findall('class="ipl-zebra-list__item">([^<]+)<div', sContent, re.S) 
-                    if Stext1:
-                        Stext1 = ' '.join(Stext1)
-                        if 'kiss'  in Stext1:
-                            Stext = Stext+"\n"+' قد يحتوي بعض القبلات '
-                        if 'cleavage'  in Stext1 or 'bikini'  in Stext1:
-                            Stext = Stext+"\n"+' ملابس غير ملائمة في بعض المشاهد '
-                        if 'have sex'  in Stext1 or 'topless'  in Stext1:
-                            Stext = Stext+"\n"+' لقطات غير مناسبة للمشاهدة العائلية '
-                Stextf = Stext+"\n"+Stext0
+        if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+            sContent = oResponse.read().decode('utf-8')
+        else:
+            sContent = oResponse.read()
+        Stext = "لم يقع تصنيف المحتوى"
+        Stext0 = ""
+        oParser = cParser()
+        sPattern = '>MPAA</td>.+?<td>([^<]+)<'
+        aResult = oParser.parse(sContent, sPattern)
+        if (aResult[0]):
+            Stext0 = aResult[1][0]
+        if 'Rated R' in Stext0 and 'sex' not in Stext0:
+            Stext = 'غير مناسب للمشاهدة العائلية'
+        if 'Rated R' in Stext0 and 'sex'  in Stext0 or 'nudity'  in Stext0:
+            Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
+        if 'Rated R' not in Stext0:
+            sPattern = 'Nudity</h4>.+?ipl-status-pill.+?">([^<]+)</span>'
+            aResult = oParser.parse(sContent, sPattern)
+            if (aResult[0]):
+               Stext2 = aResult[1][0]
+               if 'None'  in Stext2:
+                  Stext = '  مناسب للمشاهدة العائلية'
+               if 'Mild'  in Stext2:
+                  Stext = '   بعض المواد قد لا تكون مناسبة'
+               if 'Moderate'  in Stext2:
+                  Stext = '   غير مناسب للمشاهدة العائلية'
+               if 'Severe'  in Stext2:
+                  Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
+            Stext1 = re.findall('class="ipl-zebra-list__item">([^<]+)<div', sContent, re.S) 
+            if Stext1:
+               Stext1 = ' '.join(Stext1)
+               if 'kiss'  in Stext1:
+                  Stext = Stext+"\n"+' قد يحتوي بعض القبلات '
+               if 'cleavage'  in Stext1 or 'bikini'  in Stext1:
+                  Stext = Stext+"\n"+' ملابس غير ملائمة في بعض المشاهد '
+               if 'have sex'  in Stext1 or 'topless'  in Stext1:
+                  Stext = Stext+"\n"+' لقطات غير مناسبة للمشاهدة العائلية '
+        Stextf = Stext+"\n"+Stext0
 
 
-                ret = DIALOG.VSok(Stextf)
+        ret = DIALOG.VSok(Stextf)
 
     def viewSimil(self):
         sPluginPath = cPluginHandler().getPluginPath()
-        
+
         oInputParameterHandler = cInputParameterHandler()
         sCleanTitle = oInputParameterHandler.getValue('sFileName') if oInputParameterHandler.exist('sFileName') else xbmc.getInfoLabel('ListItem.Property(sCleanTitle)')
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
@@ -776,14 +778,21 @@ class cGui:
         sFunction = oInputParameterHandler.getValue('OldFunction')
         siteUrl = oInputParameterHandler.getValue('siteUrl')
 
+        if siteUrl.endswith('/'):  # for the url http.://www.1test.com/annee-2020/page-2/
+            urlSource = siteUrl.rsplit('/', 2)[0]
+            endOfUrl = siteUrl.rsplit('/', 2)[1] + '/'
+        else:  # for the url http.://www.1test.com/annee-2020/page-2 or /page-2.html
+            urlSource = siteUrl.rsplit('/', 1)[0]
+            endOfUrl = siteUrl.rsplit('/', 1)[1]
+
         oParser = cParser()
-        oldNum = oParser.getNumberFromString(siteUrl)
+        oldNum = oParser.getNumberFromString(endOfUrl)
         newNum = 0
         if oldNum:
             newNum = self.showNumBoard()
         if newNum:
             try:
-                siteUrl = siteUrl.replace(oldNum, newNum)
+                siteUrl = urlSource + '/' + endOfUrl.replace(oldNum, newNum, 1)
 
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -833,14 +842,14 @@ class cGui:
             else:
                 db.insert_watched(meta)
             # To test
-            # xbmc.executebuiltin('Container.Refresh')
+            # updateDirectory()
 
         else:
             # Use kodi buildin feature
             xbmc.executebuiltin('Action(ToggleWatched)')
 
         # Not usefull ?
-        # xbmc.executebuiltin('Container.Refresh')
+        # updateDirectory()
 
     def showKeyBoard(self, sDefaultText='', heading=''):
         keyboard = xbmc.Keyboard(sDefaultText)
@@ -857,7 +866,7 @@ class cGui:
         dialogs = dialog()
         numboard = dialogs.numeric(0, self.ADDON.VSlang(30019), sDefaultNum)
         # numboard.doModal()
-        if numboard != None:
+        if numboard is not None:
             return numboard
 
         return False

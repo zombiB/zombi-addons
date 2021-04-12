@@ -2,7 +2,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
-import re,urllib2
+import re
 
 
 class cHoster(iHoster):
@@ -61,7 +61,7 @@ class cHoster(iHoster):
 
         api_call =''
         
-        #print self.__sUrl
+        #print (self.__sUrl)
         
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
@@ -73,7 +73,7 @@ class cHoster(iHoster):
         if (aResult[0] == True):
             api_call = aResult[1][0]
         
-        #print api_call
+        #print(api_call)
         
         if (api_call):
             return True, api_call

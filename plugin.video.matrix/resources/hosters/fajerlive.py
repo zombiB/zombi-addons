@@ -1,10 +1,8 @@
 ﻿#-*- coding: utf-8 -*-
 
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
+from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
-import re
 import json
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
 
@@ -75,13 +73,12 @@ class cHoster(iHoster):
         # oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         oRequest.addHeaderEntry('Referer', self.__sUrl)
         oRequest.addParametersLine(postdata)
-        sHtmlContent = oRequest.request()
 
-        page = json.loads(sHtmlContent)
-        if page:
+        sHtmlContent = json.loads(oRequest.request())
+        if sHtmlContent:
             url = []
             qua = []
-            for x in page['data']:
+            for x in sHtmlContent['data']:
                 url.append(x['file'])
                 qua.append(x['label'])
 

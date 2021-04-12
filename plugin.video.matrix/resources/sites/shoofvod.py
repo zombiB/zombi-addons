@@ -7,12 +7,12 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, dialog, addon
+from resources.lib.comaddon import progress, VSlog, dialog, addon, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.player import cPlayer
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'shoofvod'
@@ -142,8 +142,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1]
+            
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = URL_MAIN + str(aEntry[0])
@@ -324,7 +324,7 @@ def showHosters():
         
         sUrl = str(aResult[1][0])
         if sUrl.startswith('//'):
-			sUrl = 'http:' + sUrl 
+           sUrl = 'http:' + sUrl 
                  
         #on lance video directement
         oGuiElement = cGuiElement()

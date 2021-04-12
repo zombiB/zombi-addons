@@ -95,6 +95,6 @@ class cHoster(iHoster):
 
         if (api_call):
             return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
-        print api_call 
+        print(api_call) 
 
         return False, False

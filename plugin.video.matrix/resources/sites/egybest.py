@@ -18,7 +18,7 @@ import requests,re,time
 sgn = requests.Session()
 from resources.lib.CloudflareScraper import CloudflareScraper
 scraper = CloudflareScraper()
-import urllib2,urllib,re
+import re
 import unicodedata
 import sys
  
@@ -113,19 +113,12 @@ def showMoviesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
+            sTitle = str(aEntry[2])
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
-				sThumb = "https:"+aEntry[1]
+                sThumb = "https:"+aEntry[1]
             sDesc = ''
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_MOVIES[0], ''), sTitle) == 0:
-                    continue
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -135,11 +128,11 @@ def showMoviesSearch(sSearch = ''):
 			
             if 'movie'  in siteUrl: 
 			
-				oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 			
             if 'series'  in siteUrl: 
 			
-				oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -178,20 +171,15 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
+            sTitle = str(aEntry[2])
+            
+            sTitle = sTitle
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
-				sThumb = "https:"+aEntry[1]
+                sThumb = "https:"+aEntry[1]
             sDesc = ''
             sYear = ''
-            m = re.search('([0-9]{4})', sTitle)
-            if m:
-				sYear = str(m.group(0))
-				sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -199,7 +187,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
@@ -264,13 +252,13 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
+            
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
-				sThumb = "https:"+aEntry[1]
+                sThumb = "https:"+aEntry[1]
             sDesc = ''
 
 
@@ -344,12 +332,12 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[2].replace(" الحادي عشر","11").replace(" الثاني عشر","12").replace(" الثالث عشر","13").replace(" الرابع عشر","14").replace(" الخامس عشر","15").replace(" السادس عشر","16").replace(" السابع عشر","17").replace(" الثامن عشر","18").replace(" التاسع عشر","19").replace(" العشرون","20").replace(" الحادي و العشرون","21").replace(" الثاني و العشرون","22").replace(" الثالث و العشرون","23").replace(" الرابع والعشرون","24").replace(" الخامس و العشرون","25").replace(" السادس والعشرون","26").replace(" السابع والعشرون","27").replace(" الثامن والعشرون","28").replace(" التاسع والعشرون","29").replace(" الثلاثون","30").replace(" الحادي و الثلاثون","31").replace(" الثاني والثلاثون","32").replace(" الاول","1").replace(" الثاني","2").replace(" الثانى","2").replace(" الثالث","3").replace(" الرابع","4").replace(" الخامس","5").replace(" السادس","6").replace(" السابع","7").replace(" الثامن","8").replace(" التاسع","9").replace(" العاشر","10").replace("الموسم","S")
+            sTitle =  aEntry[2]
             siteUrl = str(aEntry[0])
             sThumbnail = aEntry[1]
             sInfo = ""
             if sThumbnail.startswith('//'):
-				sThumbnail = "https:"+aEntry[1]
+                sThumbnail = "https:"+aEntry[1]
 			
 
 
@@ -545,7 +533,7 @@ def VidStream(script):
 
 def get_Scripto(data):
     script = ''
-    scrtp = re.findall("<script.*?>(.*?)</script>", data.content, re.S)
+    scrtp = re.findall("<script.*?>(.*?)</script>", data.content.decode('utf-8'), re.S)
     for s in scrtp:
         if '(){ var' in s:
             #print s
@@ -565,51 +553,45 @@ def showHosters():
     url = sUrl
     MLisTe = []
     host = url.split('//')[1].split('/')[0]
-    print host
     url = url+"#download"
     rgx = '<iframe class="auto-size" src="(.+?)"'
     tmx = '<td class="tar">.+?dl _open_window" data-url="(.+?)"'
-    data = sgn.get(url).content
+    data = sgn.get(url).content.decode('utf-8')
     link = "https://"+host+re.findall(rgx,data)[0]
     _tar = re.findall(tmx,data)
     for href in _tar:
         href = "https://"+host+href
         MLisTe.append((href))
-    print link
     bimbo = MLisTe[0]
     data =  sgn.get(link)
     scrtp  = get_Scripto(data)
-    print "scrtp"
-    print scrtp
     ln1,ln2,prm = VidStream(str(scrtp))
     ln1 = "https://"+host+ln1
     ln2 = "https://"+host+ln2
     sgn.get(ln1)
-    T = sgn.post(ln2,data=prm).content
-    print "REPONSE = ",T
+    T = sgn.post(ln2,data=prm).content.decode('utf-8')
     if T == 'ok':
-        data = sgn.get(link).content
+        data = sgn.get(link).content.decode('utf-8')
         sPattern = '<source src="(.+?)" type="application/x-mpegURL">'
         oParser = cParser()
         aResult = oParser.parse(data, sPattern)
         if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
-				kurl = "https://tool.egybest.ltd"+str(aEntry)
-				print kurl
-				sTitle =  sMovieTitle
-				sHosterUrl = kurl
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					sDisplayTitle = sTitle
-					oHoster.setDisplayName(sDisplayTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-			progress_.VSclose(progress_)
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                   break
+                kurl = "https://tool.egybest.ltd"+str(aEntry)
+                sTitle =  sMovieTitle
+                sHosterUrl = kurl
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                   sDisplayTitle = sTitle
+                   oHoster.setDisplayName(sDisplayTitle)
+                   oHoster.setFileName(sMovieTitle)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            progress_.VSclose(progress_)
 
 
                 

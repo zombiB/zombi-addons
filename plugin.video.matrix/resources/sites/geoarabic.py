@@ -7,10 +7,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'geoarabic'
@@ -103,8 +103,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].decode("utf8").replace("'", "")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = aEntry[1].replace("'", "")
+            
             sThumbnail = aEntry[2].replace('w50-h26', 'w400-h720')
             siteUrl = aEntry[0].replace('"', '')
             sInfo = aEntry[3] 
@@ -169,45 +169,45 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
 
-				Id = str(aEntry[0])
-				Vid = str(aEntry[1])
-				url = ""
-				if 'no_video' in Vid:
-					Id = ""
-				if 'ID' in Id:
-					url = 'http://www.youtube.com/watch?v=' + Vid
-				if 'IDGoogle' in Id:
-					url = 'https://drive.google.com/file/d/' + Vid + '/preview'
-				if '2ID' in Id:
-					url = 'http://www.youtube.com/watch?v=' + Vid
-				if '2IDOk' in Id:
-					url = 'http://ok.ru/videoembed/' + Vid
-				if 'IDOk' in Id:
-					url = 'http://ok.ru/videoembed/' + Vid
-				if 'IDRutube' in Id:
-					url = 'https://rutube.ru/play/embed/' + Vid
-				if 'IDDaily' in Id:
-					url = 'https://www.dailymotion.com/embed/video/' + Vid
-				if '2IDDaily' in Id:
-					url = 'https://www.dailymotion.com/embed/video/' + Vid
-				if url.startswith('//'):
-					url = 'http:' + url
+            Id = str(aEntry[0])
+            Vid = str(aEntry[1])
+            url = ""
+            if 'no_video' in Vid:
+               Id = ""
+            if 'ID' in Id:
+               url = 'http://www.youtube.com/watch?v=' + Vid
+            if 'IDGoogle' in Id:
+               url = 'https://drive.google.com/file/d/' + Vid + '/preview'
+            if '2ID' in Id:
+               url = 'http://www.youtube.com/watch?v=' + Vid
+            if '2IDOk' in Id:
+               url = 'http://ok.ru/videoembed/' + Vid
+            if 'IDOk' in Id:
+               url = 'http://ok.ru/videoembed/' + Vid
+            if 'IDRutube' in Id:
+               url = 'https://rutube.ru/play/embed/' + Vid
+            if 'IDDaily' in Id:
+               url = 'https://www.dailymotion.com/embed/video/' + Vid
+            if '2IDDaily' in Id:
+               url = 'https://www.dailymotion.com/embed/video/' + Vid
+            if url.startswith('//'):
+               url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_) 
+        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()

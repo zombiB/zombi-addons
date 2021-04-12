@@ -7,10 +7,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-import urllib2,urllib,re
+import re
 import unicodedata
  
 SITE_IDENTIFIER = 'animeblkom'
@@ -55,7 +55,9 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
+
     sPattern = '<img class="lazy" data-original="([^<]+)" alt.+?<div class="name"> <a href="([^<]+)">([^<]+)</a> </div> <div class="overlay">.+?<div class="story-text"> <p>([^<]+)</p>.+?<div class="badge red" title=.+?>(.+?)</'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -68,26 +70,24 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
+            
+            sTitle = sTitle.replace("poster","")
             siteUrl = URL_MAIN+str(aEntry[1])
             sThumbnail = URL_MAIN+str(aEntry[0])
-            sInfo = aEntry[3].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = aEntry[3]
+            sInfo = '[COLOR yellow]'+aEntry[3]+'[/COLOR]'
             sYear = aEntry[4]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle',sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oOutputParameterHandler.addParameter('sInfo', aEntry[3])
             if '/watch/' in siteUrl:
                 oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
             else:
-				oGui.addMovie(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-
+                oGui.addMovie(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -98,7 +98,7 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-			
+ 
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -123,30 +123,22 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).decode("utf8")
-            sTitle = cUtil().unescape(sTitle).encode("utf8")
+            sTitle = str(aEntry[2])
             siteUrl = URL_MAIN+str(aEntry[1])
             sThumbnail = URL_MAIN+str(aEntry[0])
-            sInfo = aEntry[3].decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = aEntry[3]
             sYear = aEntry[4]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
-
-            # Filtrer les résultats
-            if sSearch and total > 5:
-                if cUtil().CheckOccurence(sSearch.replace(URL_SEARCH_SERIES[0], ''), sTitle) == 0:
-                    continue
-
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle',sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oOutputParameterHandler.addParameter('sInfo', aEntry[3])
+            oOutputParameterHandler.addParameter('sInfo', sInfo)
             if '/watch/' in siteUrl:
                 oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
             else:
-				oGui.addTV(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -170,6 +162,8 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+        sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     # (.+?) .+?
     sPattern = '<li class="episode-link.+?href="([^<]+)"> <span>الحلقة</span> <span class="separator">:</span> <span>([^<]+)<'
     
@@ -193,8 +187,7 @@ def showEps():
             sTitle = sMovieTitle+" E"+aEntry[1]
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(sThumbnail)
-            sInfo = sInfo.decode("utf8")
-            sInfo = cUtil().unescape(sInfo).encode("utf8")
+            sInfo = sInfo
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -246,43 +239,40 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                   break
 
 
  
 
 
-				sSub = aEntry[0].replace('active',"")
-				sSub = sSub+' ترجمة'
+                sSub = aEntry[0].replace('active',"")
+                sSub = sSub+' ترجمة'
             
-				if aEntry[0]:
-					oGui.addText(SITE_IDENTIFIER,'[COLOR coral]'+sSub+'[/COLOR]')
+                if aEntry[0]:
+                   oGui.addText(SITE_IDENTIFIER,'[COLOR coral]'+sSub+'[/COLOR]')
                    
         
-				if aEntry[1]:
-					url = str(aEntry[1])
-					sTitle = str(aEntry[2]).decode("utf8").replace('"',"")
-					sTitle = cUtil().unescape(sTitle).encode("utf8")
-					sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
-					if url.startswith('//'):
-						url = 'https:' + url
+                if aEntry[1]:
+                    url = str(aEntry[1])
+                    sTitle = str(aEntry[2]).replace('"',"")
+					
+                    sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
+                    if url.startswith('//'):
+                       url = 'https:' + url
             
-					sHosterUrl = url 
-					oHoster = cHosterGui().checkHoster(sHosterUrl)
-					if (oHoster != False):
-						sDisplayTitle = sMovieTitle+sTitle
-						oHoster.setDisplayName(sDisplayTitle)
-						oHoster.setFileName(sMovieTitle)
-						cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                    sHosterUrl = url 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if (oHoster != False):
+                       sDisplayTitle = sMovieTitle+sTitle
+                       oHoster.setDisplayName(sDisplayTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-			progress_.VSclose(progress_)
-
     # (.+?) .+? ([^<]+)
                
 
@@ -296,39 +286,39 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                   break
 
 
  
 
 
-				sSub = aEntry[0]
+                sSub = aEntry[0]
             
-				if aEntry[0]:
-					oGui.addText(SITE_IDENTIFIER,'[COLOR coral]'+sSub+'[/COLOR]')
+                if aEntry[0]:
+                   oGui.addText(SITE_IDENTIFIER,'[COLOR coral]'+sSub+'[/COLOR]')
                    
         
-				if aEntry[1]:
-					url = str(aEntry[1])
-					sTitle = str(aEntry[0]).decode("utf8").replace('"',"")
-					sTitle = cUtil().unescape(sTitle).encode("utf8")
-					sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
-					if url.startswith('//'):
-						url = 'https:' + url
+                if aEntry[1]:
+                    url = str(aEntry[1])
+                    sTitle = str(aEntry[0]).replace('"',"")
+					
+                    sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
+                    if url.startswith('//'):
+                       url = 'https:' + url
             
-					sHosterUrl = url 
-					oHoster = cHosterGui().checkHoster(sHosterUrl)
-					if (oHoster != False):
-						sDisplayTitle = sMovieTitle+sTitle
-						oHoster.setDisplayName(sDisplayTitle)
-						oHoster.setFileName(sMovieTitle)
-						cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                    sHosterUrl = url 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if (oHoster != False):
+                        sDisplayTitle = sMovieTitle+sTitle
+                        oHoster.setDisplayName(sDisplayTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_)
+            progress_.VSclose(progress_)
     oGui.setEndOfDirectory()

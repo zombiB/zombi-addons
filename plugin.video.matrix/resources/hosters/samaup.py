@@ -1,9 +1,21 @@
-﻿from resources.lib.handler.requestHandler import cRequestHandler
+﻿# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+#
+try:  # Python 2
+    import urllib2
+    from urllib2 import URLError as UrlError
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+    from urllib.error import URLError as UrlError
+
+import re
+
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
-from resources.lib.comaddon import progress
 from resources.hosters.hoster import iHoster
-import re,urllib2,urllib,xbmc
+import xbmc
 
 
 class cHoster(iHoster):

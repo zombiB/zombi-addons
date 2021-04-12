@@ -2,7 +2,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
-import re,urllib2
+import re
 #import xbmcgui
 
 import xbmc
