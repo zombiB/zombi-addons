@@ -32,7 +32,7 @@ class cHoster(iHoster):
         return True
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)#.replace('https://mystream.to/watch/', 'https://embed.mystream.to/')
+        self.__sUrl = str(sUrl).replace('https://mystream.to/watch/', 'https://embed.mystream.to/')
 
     def checkUrl(self, sUrl):
         return True
@@ -76,7 +76,7 @@ def temp_decode(data):
 
         pos = re.search(r"(\(!\[\]\+\"\"\)\[.+?\]\+)", first_group)
         if pos:
-            first_group = first_group.replace(pos.group(1), 'l').replace('$.__+', 't').replace('$._+', 'u').replace('$._$+', 'o')
+            first_group = first_group.replace('$.__+', 't').replace('$._+', 'u').replace('$._$+', 'o')
 
             tmplist = []
             js = re.search(r'(\$={.+?});', data)
@@ -111,6 +111,7 @@ def temp_decode(data):
                 first_group = first_group.replace('\\"', '\\').replace("\"\\\\\\\\\"", "\\\\") \
                                          .replace('\\"', '\\').replace('"', '').replace("+", "")
 
+                first_group = re.sub('(\(\!\[\]\)\[.+?\]+)','l',first_group) 
             try:
                 final_data = first_group.encode('ascii').decode('unicode-escape').encode('ascii').decode('unicode-escape')
                 return final_data

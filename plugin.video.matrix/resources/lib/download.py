@@ -1,16 +1,6 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-
-
-
-
-
-
-
-
-
-
 try:
     import urllib2
 
@@ -22,10 +12,9 @@ import threading
 import xbmcplugin
 import xbmcvfs
 import xbmcgui
-
 import xbmc
 
-from resources.lib.comaddon import addon, dialog, progress, VSlog, VSupdate, VSPath
+from resources.lib.comaddon import addon, dialog, progress, VSlog, VSupdate, VSPath, isMatrix
 from resources.lib.db import cDb
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
@@ -37,16 +26,12 @@ from resources.lib.util import cUtil, UnquotePlus
 
 # try:
 #     import StorageServer
-#     Memorise = StorageServer.StorageServer('matrixDownloader')
+#     Memorise = StorageServer.StorageServer('VstreamDownloader')
 # except:
 #     print('Le download ne marchera pas correctement')
 
 
 SITE_IDENTIFIER = 'cDownload'
-
-
-
-
 
 # http://kodi.wiki/view/Add-on:Common_plugin_cache
 # https://pymotw.com/2/threading/
@@ -62,9 +47,7 @@ SITE_IDENTIFIER = 'cDownload'
 
 
 class cDownloadProgressBar(threading.Thread):
-
     DIALOG = dialog()
-
     ADDON = addon()
 
     def __init__(self, *args, **kwargs):
@@ -107,7 +90,7 @@ class cDownloadProgressBar(threading.Thread):
         # diag.isFinished()
 
         xbmcgui.Window(10101).setProperty('arret', '0')
-        # self.Memorise.set('matrixDownloaderWorking', '1')
+        # self.Memorise.set('VstreamDownloaderWorking', '1')
 
         headers = self.oUrlHandler.info()
 
@@ -122,14 +105,12 @@ class cDownloadProgressBar(threading.Thread):
 
         # mise a jour pour info taille
         self.__updatedb(TotDown, iTotalSize)
-
         self.DIALOG.VSinfo(self.ADDON.VSlang(30086))
 
         while not (self.processIsCanceled or diag.isFinished()):
 
             data = self.oUrlHandler.read(chunk)
             if not data:
-
                 print('DL err')
                 break
 
@@ -138,7 +119,7 @@ class cDownloadProgressBar(threading.Thread):
             self.__updatedb(TotDown, iTotalSize)
 
             self.__stateCallBackFunction(TotDown, iTotalSize)
-            # if self.Memorise.get('matrixDownloaderWorking') == '0':
+            # if self.Memorise.get('VstreamDownloaderWorking') == '0':
                 # self.processIsCanceled = True
             if xbmcgui.Window(10101).getProperty('arret') == '1':
                 self.processIsCanceled = True
@@ -152,9 +133,8 @@ class cDownloadProgressBar(threading.Thread):
         self.__oDialog.close()
 
         # On autorise le prochain DL
-
         # ????????????????
-        # Memorise.unlock('matrixDownloaderLock')
+        # Memorise.unlock('VstreamDownloaderLock')
 
         # fait une pause pour fermer le Dialog
         xbmc.sleep(900)
@@ -169,8 +149,6 @@ class cDownloadProgressBar(threading.Thread):
             meta['status'] = 2
             try:
                 cDb().update_download(meta)
-
-
                 self.DIALOG.VSinfo(self.ADDON.VSlang(30003), self.__sTitle)
                 self.RefreshDownloadList()
             except:
@@ -179,8 +157,6 @@ class cDownloadProgressBar(threading.Thread):
             meta['status'] = 0
             try:
                 cDb().update_download(meta)
-
-
                 self.DIALOG.VSinfo(self.ADDON.VSlang(30004), self.__sTitle)
                 self.RefreshDownloadList()
             except:
@@ -246,16 +222,14 @@ class cDownloadProgressBar(threading.Thread):
             self.file = xbmcvfs.File(self.__fPath, 'w')
         except:
             VSlog('download error ' + self.__sUrl)
-
             self.DIALOG.VSinfo('Download error', self.ADDON.VSlang(30011))
             return
 
-        # if not Memorise.lock('matrixDownloaderLock'):
+        # if not Memorise.lock('VstreamDownloaderLock'):
         #     self.DIALOG.VSinfo(self.ADDON.VSlang(30012), 'Download error')
         #     return
 
         if xbmc.getCondVisibility('Window.IsVisible(10151)'):
-
             self.DIALOG.VSinfo('Erreur', self.ADDON.VSlang(30012))
             return
 
@@ -271,7 +245,7 @@ class cDownloadProgressBar(threading.Thread):
     def StopAll(self):
 
         self.processIsCanceled = True
-        # Memorise.unlock('matrixDownloaderLock')
+        # Memorise.unlock('VstreamDownloaderLock')
         # Memorise.set('SimpleDownloaderQueue', '0')
         xbmcgui.Window(10101).setProperty('SimpleDownloaderQueue', '0')
 
@@ -289,11 +263,9 @@ class cDownloadProgressBar(threading.Thread):
             VSupdate()
 
 
-
 class cDownload:
     DIALOG = dialog()
     ADDON = addon()
-
 
     def __init__(self):
         pass
@@ -315,12 +287,6 @@ class cDownload:
 
         return '%.*f %s' % (2, iBytes/(1024*1024.0), 'MB')
 
-
-
-
-
-
-
     def isDownloading(self):
 
         if not xbmc.getCondVisibility('Window.IsVisible(10151)'):
@@ -330,7 +296,6 @@ class cDownload:
     def download(self, sDBUrl, sTitle, sDownloadPath, FastMode=False):
 
         if self.isDownloading():
-
             self.DIALOG.VSinfo('Erreur', self.ADDON.VSlang(30012))
             return False
 
@@ -341,8 +306,6 @@ class cDownload:
         oHoster = cHosterGui().checkHoster(sDBUrl)
         oHoster.setUrl(sDBUrl)
         aLink = oHoster.getMediaLink()
-
-
 
         if aLink[0]:
             sUrl = aLink[1]
@@ -364,13 +327,10 @@ class cDownload:
             else:
                 cDownloadProgressBar(title=self.__sTitle, url=sUrl, Dpath=sDownloadPath).start()
 
-
             VSlog('Download Ok ' + sDownloadPath)
 
         except:
-
             self.DIALOG.VSinfo(self.ADDON.VSlang(30024), sTitle)
-
             VSlog('Unable to download')
             return False
 
@@ -378,9 +338,8 @@ class cDownload:
 
     def __createTitle(self, sUrl, sTitle):
 
-
-        sTitle = cUtil().FormatSerie(sTitle)
         sTitle = cUtil().CleanName(sTitle)
+        sTitle = cUtil().FormatSerie(sTitle)
 
         aTitle = sTitle.rsplit('.')
         # Si deja extension
@@ -405,7 +364,8 @@ class cDownload:
         sPluginPath = cPluginHandler().getPluginPath()
         sItemUrl = '%s?site=%s&function=%s&title=%s' % (sPluginPath, SITE_IDENTIFIER, 'StartDownloadList', 'title')
         # meta = {'title': 'Démarrer la liste'}
-        item = xbmcgui.ListItem('Démarrer la liste', iconImage='special://home/addons/plugin.video.matrix/resources/art/download.png')
+        item = xbmcgui.ListItem('Démarrer la liste')
+        item.setArt({'icon':'special://home/addons/plugin.video.matrix/resources/art/download.png'})
 
         # item.setInfo(type='Video', infoLabels=meta)
         # item.setProperty('Video', 'false')
@@ -429,7 +389,6 @@ class cDownload:
         try:
             cDb().clean_download()
             self.DIALOG.VSinfo(self.ADDON.VSlang(30071))
-
         except:
             pass
 
@@ -474,8 +433,6 @@ class cDownload:
         # oGuiElement.getInfoLabel()
 
         oPlayer = cPlayer()
-
-
         # if not (sys.argv[1] == '-1'):
             # oPlayer.run(oGuiElement, sTitle, path)
         # else:
@@ -487,7 +444,6 @@ class cDownload:
         oInputParameterHandler = cInputParameterHandler()
         path = oInputParameterHandler.getValue('sPath')
 
-
         oDialog = self.DIALOG.VSyesno(self.ADDON.VSlang(30074))
         if (oDialog == 1):
             meta = {}
@@ -497,11 +453,9 @@ class cDownload:
             try:
                 cDb().del_download(meta)
                 xbmcvfs.delete(path)
-
                 self.DIALOG.VSinfo(self.ADDON.VSlang(30072))
                 VSupdate()
             except:
-
                 self.DIALOG.VSinfo(self.ADDON.VSlang(30073))
 
     def GetNextFile(self):
@@ -534,7 +488,6 @@ class cDownload:
             return
 
         title = data[1]
-
         url = UnquotePlus(data[2])
         path = data[3]
         # thumbnail = UnquotePlus(data[4])
@@ -543,7 +496,6 @@ class cDownload:
         self.download(url, title, path)
 
     def StartDownloadList(self):
-
         self.DIALOG.VSinfo(self.ADDON.VSlang(30075))
         # Memorise.set('SimpleDownloaderQueue', '1')
         xbmcgui.Window(10101).setProperty('SimpleDownloaderQueue', '1')
@@ -552,11 +504,9 @@ class cDownload:
 
     def StopDownloadList(self):
 
-
         # oInputParameterHandler = cInputParameterHandler()
         # path = oInputParameterHandler.getValue('sPath')
         # status = oInputParameterHandler.getValue('sStatus')
-
 
         # WINDOW_PROGRESS = xbmcgui.Window(10101)
         # WINDOW_PROGRESS.close()
@@ -581,17 +531,17 @@ class cDownload:
     def getDownloadList(self):
         oGui = cGui()
 
-
         row = cDb().get_download()
 
+        oOutputParameterHandler = cOutputParameterHandler()
         for data in row:
 
             title = data[1]
-
             url = UnquotePlus(data[2])
             path = data[3]
             # cat = data[4]
             thumbnail = UnquotePlus(data[5])
+
             # The url is unicode format ? Not managed yet
             try:
                 thumbnail = str(thumbnail)
@@ -602,7 +552,6 @@ class cDownload:
             totalsize = data[7]
             status = data[8]
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('sUrl', url)
             oOutputParameterHandler.addParameter('sMovieTitle', title)
             oOutputParameterHandler.addParameter('sThumbnail', thumbnail)
@@ -616,7 +565,15 @@ class cDownload:
             elif status == '2':
                 sStatus = '[COLOR=green][Fini] [/COLOR]'
 
+
             if size:
+                
+                if isMatrix():
+                    try:
+                        title = title.decode()
+                    except:
+                        pass
+
                 sTitle = sStatus + title + ' (' + self.__formatFileSize(size) + '/' + self.__formatFileSize(totalsize) + ')'
             else:
                 sTitle = sStatus + title
@@ -692,7 +649,6 @@ class cDownload:
                     xbmcvfs.File(sDownloadPath, 'w')
 
                 try:
-
                     VSlog(self.ADDON.VSlang(30083) + ' ' + str(sUrl))
                     meta['title'] = sTitle
                     meta['path'] = sDownloadPath
@@ -703,8 +659,6 @@ class cDownload:
 
                 except:
                     # print_exc()
-
-
                     self.DIALOG.VSinfo(self.ADDON.VSlang(30084), sTitle)
                     VSlog('Unable to download')
 
@@ -760,7 +714,6 @@ class cDownload:
                 if row:
 
                     title = row[0][1]
-
                     url = UnquotePlus(row[0][2])
                     path = row[0][3]
                     # thumbnail = UnquotePlus(row[0][4])
@@ -791,13 +744,11 @@ class cDownload:
 
                         # if not (sys.argv[1] == '-1'):
                             # oPlayer.run(oGuiElement, title, path)
-
                         # else:
                         oPlayer.clearPlayList()
                         oPlayer.addItemToPlaylist(oGuiElement)
                         oPlayer.startPlayer()
 
                     else:
-
                         self.DIALOG.VSinfo('Erreur', self.ADDON.VSlang(30085))
         return

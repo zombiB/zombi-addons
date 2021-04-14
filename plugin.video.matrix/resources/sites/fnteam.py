@@ -21,7 +21,6 @@ URL_MAIN = 'http://www.fn-team.com/'
 
 MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
 SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')
-RAMADAN_SERIES = ('http://www.fn-team.com/?cat=54', 'showSeries')
 KID_CARTOON = ('http://www.fn-team.com/?cat=6', 'showSeries')
 REPLAYTV_PLAY = ('http://www.fn-team.com/?cat=3', 'showSeries')
 

@@ -21,7 +21,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://aramosalsal.tv'
 
 
-RAMADAN_SERIES = ('https://aramosalsal.tv/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020/', 'showSerie')
+SERIE_AR = ('https://aramosalsal.tv/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020/', 'showSerie')
 
 MOVIE_ASIAN = ('https://aradramatv.cc/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 SERIE_TR = ('http://aramosalsal.tv/category/turkish-serie/ts-subtitled/', 'showSerie')

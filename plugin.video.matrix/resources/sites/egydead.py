@@ -415,6 +415,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8')
 # ([^<]+) .+?
     sPattern = '<li class="movieItem"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)">'
 
@@ -431,9 +433,7 @@ def showSeries(sSearch = ''):
                 break
  
 
-            sTitle = str(aEntry[1].replace("الحلقة "," E")
-            if isMatrix(): 
-               sTitle = str(aEntry[1].encode('latin-1'),'utf-8').replace("الحلقة "," E")
+            sTitle = str(aEntry[1]).replace("الحلقة "," E")
             siteUrl = aEntry[0]
             sInfo = ''
             sThumbnail = str(aEntry[2])
@@ -497,6 +497,8 @@ def showSeasons():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8')
     # .+? ([^<]+)
     sPattern = '<a href="([^<]+)" title="([^<]+)">([^<]+)</a>'
     
@@ -517,7 +519,7 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[1].replace("الحلقة "," E")
             
             siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
@@ -555,6 +557,8 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl1)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8')
 
    
     oParser = cParser()
@@ -645,9 +649,7 @@ def showHosters():
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1].replace("الحلقة "," E")
-            if isMatrix(): 
-               sTitle = str(aEntry[1].encode('latin-1'),'utf-8').replace("الحلقة "," E")
+            sTitle = str(aEntry[1]).replace("الحلقة "," E")
             siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = ''

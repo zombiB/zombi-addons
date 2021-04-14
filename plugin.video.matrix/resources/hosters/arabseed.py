@@ -92,7 +92,7 @@ class cHoster(iHoster):
         data = {'op':'download2','id':sId,'rand':'','referer':'','method_free':'','method_premium':''}
         s = requests.Session()
         r = s.post(sUrl, headers = headers,data = data)
-        sHtmlContent += r.content
+        sHtmlContent = r.content
         sPattern = '<span id="direct_link" style.+?<a href="([^<]+)">'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):

@@ -7,7 +7,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 import re
@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'cimau'
 SITE_NAME = 'cima4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://w3.cima4u.show/'
+URL_MAIN = 'https://cima4u.show'
 
 
 MOVIE_FAM = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/780/archive/category%7C2/', 'showMovies')
@@ -29,7 +29,7 @@ MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac
 MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/turkish-movies/', 'showMovies')
 
 KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86-movies-anime-cartoon/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/13.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D8%AA%D8%B1%D9%83%D9%8A%D9%87+%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D9%87.html', 'showSeries')
+SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-series-turkish/', 'showSeries')
 SERIE_TR_AR = (URL_MAIN + '/14.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D8%AA%D8%B1%D9%83%D9%8A%D9%87+%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D9%87.html', 'showSeries')
 
 SERIE_ASIA = (URL_MAIN + '/19.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9+%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9.html', 'showSeries')
@@ -488,9 +488,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]
-            if isMatrix():
-               sTitle = str(aEntry[2].encode('latin-1'),'utf-8') 
+            sTitle = str(aEntry[2].encode('latin-1'),'utf-8')
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace("(","").replace(")","")
             sDesc = ""
@@ -558,8 +556,7 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix():
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
+    sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     
     oParser = cParser()
     

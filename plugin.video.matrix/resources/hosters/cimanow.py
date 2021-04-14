@@ -4,9 +4,8 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
-import re
-import requests
-UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
+import re,requests
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
 
@@ -50,6 +49,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if 'embed' not in self.__sUrl:
+            self.__sUrl = self.__sUrl.replace("/watch/","/embed/")
 
     def checkUrl(self, sUrl):
         return True
@@ -61,39 +62,24 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-
-        api_call = ''
-        sId = self.__sUrl.split('/e/')[0]
-    
-        oRequestHandler = cRequestHandler(self.__sUrl)
         hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','Referer' : 'https://en.cimanow.cc/','Host' : sId.replace("https://",""),'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
-        St=requests.Session()
-        sHtmlContent = St.get(self.__sUrl,headers=hdr).content
-        print ("sHtmlContent2")
+        sHtmlContent = requests.get(self.__sUrl,headers=hdr).content.decode('utf8')
+        print ("sHtmlrequests")
         print (sHtmlContent)
-
+        
+        #https://www.yourupload.com/embed/8a7isfMAQ1T1
+        
         oParser = cParser()
-        sPattern = '<source src="(.+?)" type="video/mp4" size="(.+?)">'
+        
+            # (.+?) .+?
+        sPattern = "file: '(.+?)',"
         aResult = oParser.parse(sHtmlContent, sPattern)
         
         api_call = False
 
         if (aResult[0] == True):
-            
-            #initialisation des tableaux
-        	url=[]
-        	qua=[]
-            
-            #Replissage des tableaux
-        	for i in aResult[1]:
-        	   url.append(sId+str(i[0]).replace("[","%5B").replace("]","%5D").replace("+","%20").replace(" ","%20"))
-        	   qua.append(str(i[1])+'p')
+            api_call = aResult[1][0]
 
-        	api_call = dialog().VSselectqual(qua, url)
-
-        	if (api_call):
-        	   return True, api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + self.__sUrl
-
-        return False, False
+            if (api_call):
+                return True, api_call + '|User-Agent=' + UA+ '&Referer=' + self.__sUrl
         
-

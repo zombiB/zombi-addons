@@ -22,7 +22,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.tvfun.ma/'
 
-RAMADAN_SERIES = ('https://ww.tvfun.ma/ts,mosalsalat-ramadan-2020/', 'showSeries')
+RAMADAN_SERIES = ('https://a.tvfun.me/ts,mosalsalat-ramadan-2021/', 'showSeries')
 SERIE_TR = ('https://www.tvfun.ma/mosalsalat-torkia/', 'showSeries')
 SERIE_DUBBED = ('https://www.tvfun.live/ts,mosalsalat--modablaja/', 'showSeries')
 SERIE_HEND = ('https://www.tvfun.ma/mosalsalat-hindia/', 'showSeries')
@@ -67,8 +67,8 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
 
-    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar"><img src="([^<]+)" loading=.+?<span class="count">([^<]+)</span>'
-	
+    sPattern = '<div class="ThumbBigDiv"><div class=".+?-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar"><img src="([^<]+)" loading=.+?<span class="count">([^<]+)</span>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

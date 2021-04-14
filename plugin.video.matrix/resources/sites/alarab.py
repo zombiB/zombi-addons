@@ -355,11 +355,11 @@ def showHosters():
     if (aResult[0] == True):
         m3url = aResult[1][0]
         if m3url.startswith('//'):
-                m3url = 'http:' + m3url 	
+           m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
     #recup du lien mp4
-    sPattern = 'src="([^<]+)" type='
+    sPattern = '"src": "(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     

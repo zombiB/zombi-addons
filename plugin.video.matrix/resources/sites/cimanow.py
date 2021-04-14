@@ -256,6 +256,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
      # (.+?) ([^<]+) .+?
 
     sPattern = '<a href="([^<]+)">.+?<li>الموسم (.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?<img src="(.+?)" w'
@@ -282,8 +284,7 @@ def showSeries(sSearch = ''):
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[3]).replace("(","").replace(")","")
             sDesc = ""
-            sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
-            sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0].split('الموسم')[0]
+            sDisplayTitle2 = str(aEntry[2])
             sDisplayTitle = sTitle
 
 
@@ -302,7 +303,7 @@ def showSeries(sSearch = ''):
     sEnd = '</ul>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
+    sPattern = '<li><a href="(.+?)">(.+?)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -347,8 +348,14 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?
-    sPattern = 'href="([^<]+)">.+?src="([^<]+)" alt="([^<]+)" />.+?<em>([^<]+)</em>'
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
+    oParser = cParser()
+    sStart = '<section aria-label="seasons">'
+    sEnd = '<ul class="tabcontent" id="related">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    # (.+?) .+?  ([^<]+)
+    sPattern = '<a href="([^<]+)">([^<]+)<em>'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -367,10 +374,10 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = sMovieTitle+' E'+aEntry[3]
-            siteUrl = str(aEntry[0]) + "watching/"
-            sThumb = aEntry[1]
-            sDesc = ""
+            sTitle = sMovieTitle+aEntry[1]
+            siteUrl = str(aEntry[0]) 
+            sThumb = sThumb
+            sDesc = siteUrl
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -381,7 +388,42 @@ def showEps():
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServer2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+    # (.+?) .+?  ([^<]+)
+    sPattern = '<li><a href="(.+?)"><img src=".+?" alt="logo" />.+?<img src="([^<]+)" alt="([^<]+)" />.+?<i class="fas fa-play"></i><em>(.+?)</em>'
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    #fh = open('c:\\test.txt', "w")
+    #fh.write(sHtmlContent.replace('\n',''))
+    #fh.close()
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = sMovieTitle2+' E'+aEntry[3] 
+            siteUrl = str(aEntry[0]) + 'watching/'
+            sThumb = aEntry[1]
+            sDesc = siteUrl
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            
+
+ 
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        
@@ -399,12 +441,11 @@ def showServer():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
  
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','Accept-Encoding' : 'gzip','referer' : 'https://web.cimavids.live/'}
+    cook = oRequestHandler.GetCookies()
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'en.cimanow.cc','referer' : 'https://web.cimavids.live/'}
     St=requests.Session()
     sHtmlContent = St.get(sUrl,headers=hdr)
-    sHtmlContent = sHtmlContent.content
-    if isMatrix(): 
-       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
+    sHtmlContent = sHtmlContent.content.decode('utf8')
 
    
     oParser = cParser()

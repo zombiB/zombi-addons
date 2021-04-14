@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'alfajertv'
 SITE_NAME = 'alfajertv'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://show.alfajertv.com'
+URL_MAIN = 'https://show.alfajertv.com'
 
 MOVIE_EN = (URL_MAIN + '/genre/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/genre/arabic-movies/', 'showMovies')
@@ -36,7 +36,7 @@ SERIE_AR = (URL_MAIN + '/genre/arabic-series/', 'showSeries')
 
 REPLAYTV_PLAY = (URL_MAIN + '/genre/plays/', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + '/genre/رمضان-2021/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/genre/ramadan2021', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')
