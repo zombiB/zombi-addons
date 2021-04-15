@@ -248,7 +248,7 @@ def showEps():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = 'href="/series/home/(.+?)"><img src="(.+?)" alt="(.+?)"><div class="panet-title">(.+?)</div><div class="panet-info">(.+?)</'
+    sPattern = 'href="/mosalsalat/home/(.+?)"><img src="(.+?)" alt="(.+?)"><div class="panet-title">(.+?)</div><div class="panet-info">(.+?)</'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -266,7 +266,7 @@ def showEps():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            siteUrl = URL_MAIN+'/series/home/'+str(aEntry[0])
+            siteUrl = URL_MAIN+'/mosalsalat/home/'+str(aEntry[0])
 
  
             #print sUrl

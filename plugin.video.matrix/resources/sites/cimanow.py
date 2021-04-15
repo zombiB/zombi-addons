@@ -374,10 +374,10 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = sMovieTitle+aEntry[1]
+            sTitle = sMovieTitle+aEntry[1].replace("الموسم"," S").replace("S ","S")
             siteUrl = str(aEntry[0]) 
             sThumb = sThumb
-            sDesc = siteUrl
+            sDesc = ""
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -412,7 +412,7 @@ def showEps():
             sTitle = sMovieTitle2+' E'+aEntry[3] 
             siteUrl = str(aEntry[0]) + 'watching/'
             sThumb = aEntry[1]
-            sDesc = siteUrl
+            sDesc = ""
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -445,7 +445,7 @@ def showServer():
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'en.cimanow.cc','referer' : 'https://web.cimavids.live/'}
     St=requests.Session()
     sHtmlContent = St.get(sUrl,headers=hdr)
-    sHtmlContent = sHtmlContent.content.decode('utf8')
+    sHtmlContent = sHtmlContent.content
 
    
     oParser = cParser()

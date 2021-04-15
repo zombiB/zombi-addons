@@ -427,8 +427,6 @@ def showSeries(sSearch = ''):
                 break
  
             sTitle = str(aEntry[1])
-            if isMatrix():
-               sTitle = str(aEntry[1].encode('latin-1'),'utf-8')
             siteUrl = aEntry[3]
             sThumb = aEntry[0]		
             sDesc = ""
