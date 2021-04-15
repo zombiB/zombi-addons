@@ -171,14 +171,14 @@ msgstr "تم حذف السجل"
 msgctxt "#30042"
 msgid "Successfully registered"
 msgstr "سجلت بنجاح"
-
+ 
 msgctxt "#30043"
 msgid "Bookmark already present"
-msgstr "المرجعية موجودة بالفعل"
+msgstr "المفضلة موجودة بالفعل"
 
 msgctxt "#30044"
 msgid "Bookmark deleted"
-msgstr "تم حذف الإشارة المرجعية"
+msgstr "تم حذف  المفضلة"
 
 msgctxt "#30045"
 msgid "Type the link you want to play"
@@ -222,7 +222,7 @@ msgstr "رابط السجل الخاص بك :"
 
 msgctxt "#30055"
 msgid "Import/Export the BDD (Bookmark, History, etc.)"
-msgstr "استيراد / تصدير BDD (إشارة مرجعية ، محفوظات ، إلخ.)"
+msgstr "استيراد / تصدير BDD (المفضلة ، محفوظات ، إلخ.)"
 
 msgctxt "#30056"
 msgid "Remove BDD from Matrix"
@@ -582,7 +582,7 @@ msgstr "وضع علامة مشاهد / غير مشاهد"
 
 msgctxt "#30207"
 msgid "Bookmarks"
-msgstr "إشارات مرجعية"
+msgstr "المفضلة"
 
 msgctxt "#30208"
 msgid "Informations"
@@ -594,7 +594,7 @@ msgstr "[COLOR red]حذف الإشارة المرجعية[/COLOR]"
 
 msgctxt "#30210"
 msgid "Bookmark"
-msgstr "إشارة مرجعية"
+msgstr "المفضلة"
 
 msgctxt "#30211"
 msgid "[COLOR red]Clear this category[/COLOR]"
