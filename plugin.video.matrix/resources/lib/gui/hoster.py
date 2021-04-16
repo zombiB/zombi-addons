@@ -164,10 +164,10 @@ class cHosterGui:
             return self.getHoster('aparat')
         if ('yourupload' in sHostName):
             return self.getHoster('yourupload')
-        if ('anafasts' in sHostName):
-            return self.getHoster('anafasts')
-        if ('anacdn' in sHostName):
-            return self.getHoster('anafasts')
+        if ('hdup' in sHostName):
+            return self.getHoster('hdup')
+        if ('vidspeeds' in sHostName):
+            return self.getHoster('vidspeeds')
         if ('vid4up' in sHostName):
             return self.getHoster('vidforup')
 
