@@ -145,6 +145,8 @@ def showSeries(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  # ([^<]+) .+? (.+?)
     sPattern = '<img alt="([^<]+)" src="([^<]+)" style=.+?<h3><a href="([^<]+)" title'
 
@@ -223,6 +225,8 @@ def showSeasons():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
    
     oParser = cParser()
      # (.+?) ([^<]+) .+?

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.matrix" name="matrix" version="4.0.4" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="4.0.5" provider-name="zombi">
     <requires>
 
         <trycatch>
             <try>
-                <import addon="xbmc.python" version="3.6.0"/>
+                <import addon="xbmc.python" version="3.0.0"/>
             </try>
 
             <catch>
                 <import addon="xbmc.python" version="2.24.0"/>
             </catch>
         </trycatch>
+        <import addon="script.kodi.loguploader" version="1.0.3"/>
         <import addon="script.module.simplejson" version="3.3.0"/>
         <import addon="script.module.resolveurl" version="5.0.00"/>
         <import addon="script.module.requests" version="2.9.1"/>
@@ -45,7 +46,7 @@
 
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
-        <news>plugin.video.matrix-4.0.4</news>
+        <news>plugin.video.matrix-4.0.5</news>
         <summary lang="en">https://zombib.github.io/</summary>
         <summary lang="fr">https://zombib.github.io/</summary>
         <description lang="en">https://zombib.github.io/</description>

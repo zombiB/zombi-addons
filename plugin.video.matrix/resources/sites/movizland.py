@@ -398,6 +398,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 # ([^<]+) .+?
     sPattern = '<div class="BlockItem"><a href="(.+?)">.+?<img width=".+?" height=".+?" src="([^<]+)" class.+?class="BlockTitle">([^<]+)</div>'
 
@@ -459,6 +461,8 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 
     oParser = cParser()       
  
@@ -564,26 +568,26 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             
-				url = str(aEntry[1])
-				sTitle =  str(aEntry[0])
-				if '?download' in url:
-					url = url.replace("moshahda","ddcdd")
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry[1])
+            sTitle =  str(aEntry[0])
+            if '?download' in url:
+                url = url.replace("moshahda","ddcdd")
+            if url.startswith('//'):
+                url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
     # ([^<]+) (.+?)      
 
@@ -593,24 +597,24 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+             progress_.VSupdate(progress_, total)
+             if progress_.iscanceled():
+                break
             
-				url = str(aEntry[1])
-				sTitle =  str(aEntry[0])
-				if url.startswith('//'):
-					url = 'http:' + url
+             url = str(aEntry[1])
+             sTitle =  str(aEntry[0])
+             if url.startswith('//'):
+                url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+             sHosterUrl = url 
+             oHoster = cHosterGui().checkHoster(sHosterUrl)
+             if (oHoster != False):
+                oHoster.setDisplayName(sTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				            
 
     sPattern = 'rel="nofollow" href="(.+?)">'
@@ -619,25 +623,25 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             
-				url = str(aEntry)
-				if 'vidcloud' in url:
-					sTitle = " (vidcloud)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            if 'vidcloud' in url:
+                sTitle = " (vidcloud)"
+            if url.startswith('//'):
+                url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				          
 
     sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
@@ -646,25 +650,25 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             
-				url = str(aEntry)
-				if 'vidcloud' in url:
-					sTitle = " (vidcloud)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            if 'vidcloud' in url:
+                sTitle = " (vidcloud)"
+            if url.startswith('//'):
+                url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				         
 
     sPattern = '<IFRAME allowfullscreen SRC="(.+?)" FRAMEBORDER'
@@ -673,28 +677,28 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-			total = len(aResult[1])
-			progress_ = progress().VScreate(SITE_NAME)
-			for aEntry in aResult[1]:
-				progress_.VSupdate(progress_, total)
-				if progress_.iscanceled():
-					break
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             
-				url = str(aEntry)
-				if 'vidcloud' in url:
-					sTitle = " (vidcloud)"
-				if url.startswith('//'):
-					url = 'http:' + url
+            url = str(aEntry)
+            if 'vidcloud' in url:
+                sTitle = " (vidcloud)"
+            if url.startswith('//'):
+                url = 'http:' + url
             
-				sHosterUrl = url 
-				oHoster = cHosterGui().checkHoster(sHosterUrl)
-				if (oHoster != False):
-					oHoster.setDisplayName(sMovieTitle)
-					oHoster.setFileName(sMovieTitle)
-					cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-			progress_.VSclose(progress_) 
+        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()
  
@@ -859,13 +863,15 @@ def showHosters2():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 
    
     oParser = cParser()
 
   # ([^<]+) .+?
     headers = {'Host': 'movizland.top',
-     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+     'User-Agent': 'Mozilla/5.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -948,8 +954,6 @@ def showHosters2():
                break
             
             url = str(aEntry)
-            if 'vidcloud' in url:
-               sTitle = " (vidcloud)"
             if url.startswith('//'):
                url = 'http:' + url
             sHosterUrl = url 
@@ -974,8 +978,6 @@ def showHosters2():
                 break
             
             url = str(aEntry)
-            if 'vidcloud' in url:
-                sTitle = " (vidcloud)"
             if url.startswith('//'):
                 url = 'http:' + url
             
