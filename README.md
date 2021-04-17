@@ -8,7 +8,11 @@
 <br />
 ماتريكس تعمل على كودي 18 و 19
 <br />
+<br />
+<br />
 <a href="https://zombib.github.io/">شرح طريقة التثبيت</a>
+<br />
+<br />
 <br />
   <b>
 <img src="https://github.com/zombiB/zombi-addons/blob/master/plugin.video.matrix/icon.png?raw=true" title="matrix">
