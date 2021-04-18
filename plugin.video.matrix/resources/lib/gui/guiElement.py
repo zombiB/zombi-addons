@@ -9,7 +9,6 @@ from resources.lib.comaddon import addon, xbmc, isMatrix, VSlog
 from resources.lib.db import cDb
 from resources.lib.util import QuoteSafe
 import random
-
 # rouge E26543
 # jaune F7D571
 # bleu clair 87CEEC  ou skyblue / hoster
@@ -267,10 +266,22 @@ class cGuiElement:
             sTitle2 = sTitle2 + 'E' + self.__Episode
 
         # Titre unique pour pour marquer VU (avec numéro de l'épisode pour les séries)
-        self.__sTitleWatched = sTitle.replace(' ', '')
+        arabBuck = {"'":"ء", "|":"آ", "?":"أ", "&":"ؤ", "<":"إ", "}":"ئ", "A":"ا", "b":"ب", "p":"ة", "t":"ت", "v":"ث", "g":"ج", "H":"ح", "x":"خ", "d":"د", "*":"ذ", "r":"ر", "z":"ز", "s":"س", "$":"ش", "S":"ص", "D":"ض", "T":"ط", "Z":"ظ", "E":"ع", "G":"غ", "_":"ـ", "f":"ف", "q":"ق", "k":"ك", "l":"ل", "m":"م", "n":"ن", "h":"ه", "w":"و", "Y":"ى", "y":"ي", "F":"ً", "N":"ٌ", "K":"ٍ", "~":"ّ", "o":"ْ", "u":"ُ", "a":"َ", "i":"ِ"}
+        if not isMatrix():
+
+           for char in sTitle:
+               ordbuckArab = {ord(v.decode('utf8')): unicode(k) for (k, v) in arabBuck.iteritems()}
+               sTitle4 = sTitle.translate(ordbuckArab)
+        else:
+
+           for char in sTitle:
+               ordbuckArab = {ord(v):(k) for (k, v) in arabBuck.items()}
+               sTitle4 = sTitle.translate(ordbuckArab)
+
+
+        self.__sTitleWatched = self.str_conv(sTitle4).replace(' ', '')
         if sTitle2:
             self.__sTitleWatched += '_' + sTitle2
-            self.__sTitleWatched = re.sub('([\(|\[][^\)\(\]\[]+?[\]|\)])', '', self.__sTitleWatched)
 
         if sTitle2:
             sTitle2 = '[COLOR %s]%s[/COLOR] ' % (self.__sDecoColor, sTitle2)
@@ -719,3 +730,5 @@ class cGuiElement:
 
         trailer_id = random.choice(trailers)
         return cTMDb.URL_TRAILER % trailer_id
+    # Arabic Transliteration based on Buckwalter
+    # dictionary source is buckwalter2unicode.py http://www.redhat.com/archives/fedora-extras-commits/2007-June/msg03617.html 

@@ -72,11 +72,7 @@ class cHoster(iHoster):
         sPattern =  "<script type='text/javascript'>([^<]+)</script>"
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            print ("sHtmlContent2")
-            print (aResult[1][0])
             stri = cPacker().unpack(aResult[1][0])
-            print ("sHtmlContent2")
-            print (aResult[1][0])
             sPattern =  'file:"([^<]+)",label:"(.+?)"'
             aResult = oParser.parse(stri, sPattern)
             if (aResult[0] == True):

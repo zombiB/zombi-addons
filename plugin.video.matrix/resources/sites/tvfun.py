@@ -168,7 +168,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl

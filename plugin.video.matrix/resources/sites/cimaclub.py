@@ -482,7 +482,6 @@ def showServers():
     sHtmlContent = oRequestHandler.request()
     if isMatrix(): 
        sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
-    print ("sHtmlContent2")
 
    
     oParser = cParser()

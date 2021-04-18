@@ -193,7 +193,6 @@ def showServers():
     sHtmlContent = oRequestHandler.request() 
     if isMatrix(): 
        sHtmlContent = sHtmlContent.encode('iso-8859-9',errors='ignore').decode('utf8',errors='ignore')
-    print ("sHtmlContent2")
 
     
     # (.+?) .+? ([^<]+)        	

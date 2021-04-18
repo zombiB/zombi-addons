@@ -577,8 +577,6 @@ def showLink():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    print ("sHtmlContent2")
-    print (sUrl)
 	
      # ([^<]+) .+?
     sPattern = 'href="([^<]+)" target="_blank">(.+?)</a>'
