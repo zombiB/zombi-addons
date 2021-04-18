@@ -281,9 +281,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     if isMatrix(): 
-       sHtmlContent = sHtmlContent.encode('latin1').decode('utf8')
-    print ("sHtmlContent2")
-    print (sHtmlContent)	
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
   # ([^<]+) .+?
     sPattern = '<a href="([^<]+)" class="col-6 col-s-4 col-m-3 col-l-1 button-block"><h3>الموسم<span>([^<]+)</span></h3></a>'
 

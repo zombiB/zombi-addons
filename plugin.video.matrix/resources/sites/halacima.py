@@ -110,7 +110,7 @@ def showMovies(sSearch = ''):
                 continue
  
             sTitle = aEntry[1]
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]") 
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","") 
             
             sTitle = sTitle
             sThumbnail = aEntry[2]
@@ -204,7 +204,7 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[1]
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]") 
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","") 
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0].replace("/episodes/","/watch_episodes/")
             sInfo = ""
@@ -289,7 +289,7 @@ def showSerie(sSearch = ''):
  
             sTitle = aEntry[2]
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","") 
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","") 
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1])
             sInfo = ""
@@ -331,8 +331,6 @@ def showServers():
     sHtmlContent = oRequestHandler.request()
     if isMatrix(): 
        sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
-    print ("sHtmlContent2")
-    print (sUrl)
 
    
     oParser = cParser()
@@ -343,9 +341,6 @@ def showServers():
     
     if (aResult[0]):
         sId2 = aResult[1][0]
-    print ("sHtmlContent2")
-    print (sId2)
-    
     #Recuperation infos
     sId = ''
      # (.+?) ([^<]+) .+?
@@ -372,11 +367,9 @@ def showServers():
             data = {'server':sId,'postID':sId2,'Ajax':'1'}
             s = requests.Session()			
             r = s.post('https://m.halacima.net/ajax/getPlayer', headers=headers,data = data)
-            print ("sHtmlContent2")  
-            print (r)
-            if isMatrix():   
-               r = r.encode('latin-1', errors='ignore').decode('utf8')
-            sHtmlContent = r.content
+            sHtmlContent = r.content 
+            if isMatrix(): 
+               sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')           
             sPattern = "<iframe.+?src='([^<]+)' frameborder"
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)

@@ -469,6 +469,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 # ([^<]+) .+? (.+?)
     sPattern = '<div class="subject_box shape"><a href="(.+?)"><img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
 

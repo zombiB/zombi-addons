@@ -88,6 +88,8 @@ def showMovies(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
       # (.+?) ([^<]+) .+?
     sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)" title="([^<]+)">.+?background-image:url([^<]+);">.+?<span class="year">(.+?)</span>'
 

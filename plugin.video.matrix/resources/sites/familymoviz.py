@@ -192,6 +192,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  
     # (.+?) ([^<]+) .+?
     sPattern = '<div class="watch_aflam2"><a href="([^<]+)">([^<]+)</a></div><a class="imaf"><img width=".+?" height=".+?" src="(.+?)" class.+?<p class="description"><a style=".+?" href=".+?">([^<]+)</a>'
@@ -250,6 +252,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  
     # (.+?) ([^<]+) .+?
     sPattern = '<div class="watch_aflam2"><a>([^<]+)</a></div><a class="imaf" href="([^<]+)"><img src="([^<]+)"></a>'
@@ -318,6 +322,8 @@ def showEpisodes():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 	
     # (.+?) ([^<]+) .+?
     sPattern = '<div class="watch_aflam2"><a href="([^<]+)">([^<]+)</a></div><a class="imaf"><img width=".+?" height=".+?" src="([^<]+)" class=.+?<p class="description"><a style=".+?" href=".+?">([^<]+)</a>'

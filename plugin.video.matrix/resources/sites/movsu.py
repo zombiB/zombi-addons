@@ -84,7 +84,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     if isMatrix(): 
-       sHtmlContent = sHtmlContent.encode('iso-8859-6',errors='ignore').decode('utf8',errors='ignore')
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # (.+?) ([^<]+) .+?
 
     sPattern = '<img src="([^<]+)" alt="([^<]+)">.+?<span class="quality">([^<]+)</span>.+?<a href="([^<]+)"><div class="see".+?<span>([^<]+)</span>.+?<div class="texto">([^<]+)</div>'
