@@ -314,9 +314,8 @@ def showLink():
     if (aResult[0]):
         sNote = aResult[1][0]
      # (.+?) ([^<]+) .+?
-    sPattern = "class='sub_file_title'>([^<]+)<i>([^<]+)</i>.+?target='_blank' href='([^<]+)'>([^<]+)</a></div>"
-
-
+    sPattern = "class='sub_file_title'>([^<]+)<i>([^<]+)</i>.+?target='_blank' href='([^<]+)'>([^<]+)</a>"
+		
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -356,10 +355,10 @@ def showLink():
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-        if 'akwam'  in siteUrl:
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        if '/video/'  in siteUrl:
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                if 'akwam'  in siteUrl:
+                    oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                if '/video/'  in siteUrl:
+                    oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
     # (.+?) .+?
     sPattern = '<a href="https://akwam.net/movie/(.+?)" target="_blank"><span style='
 

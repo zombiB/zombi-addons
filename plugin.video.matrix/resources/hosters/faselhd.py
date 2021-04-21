@@ -6,7 +6,7 @@ from resources.lib.comaddon import dialog
 from resources.lib.comaddon import progress, VSlog
 import re
 import base64
-UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36'
 
 class cHoster(iHoster):
 
@@ -61,6 +61,8 @@ class cHoster(iHoster):
         api_call = ''
         oParser = cParser()
         oRequest = cRequestHandler(self.__sUrl)
+        oRequest.addHeaderEntry('user-agent',UA)
+        oRequest.addHeaderEntry('referer','https://www.faselhd.pro/')
         data = oRequest.request()
 #############################################################
 #
@@ -84,6 +86,8 @@ class cHoster(iHoster):
                         	nb = int(t_ch[0])+int(t_int[0])
                         	page = page + chr(nb)
         	    t_url = re.findall('file":"(.*?)"', page, re.S)
+        	    print ("sHtmlContent2")
+        	    print (t_url)
         	    if t_url:
                 	api_call = t_url[0].replace('\\','').replace("['",'').replace("']",'')
                 	core = api_call

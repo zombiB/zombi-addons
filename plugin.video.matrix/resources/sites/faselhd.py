@@ -596,7 +596,6 @@ def showLink():
  
         progress_.VSclose(progress_) 
     # (.+?)
-               
 
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
     oParser = cParser()
