@@ -20,8 +20,9 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://cima4u.show'
 
 
+RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
 MOVIE_FAM = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/780/archive/category%7C2/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-english/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A-arabic-movies/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A-indian-movies/', 'showMovies')
 MOVIE_PACK = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-movies-english/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9-full-pack/', 'showPacks')
@@ -322,6 +323,39 @@ def showLinks():
     
     if (aResult[0]):
         sDesc = aResult[1][0]
+    # (.+?) ([^<]+)
+
+    sPattern = '<a href="([^<]+)" target="_blank"'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+
+    #print aResult
+
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+               break
+        
+            url = aEntry
+            sTitle = " "
+
+            if url.startswith('//'):
+               url = 'http:' + url
+				
+					
+            
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               sDisplayTitle = sMovieTitle+sTitle
+               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     
     oParser = cParser()
     # .+? ([^<]+)
@@ -371,7 +405,6 @@ def showLinks():
                    oOutputParameterHandler.addParameter('sDesc', sDesc)
                    oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
-               progress_.VSclose(progress_)
  
                sNextPage = __checkForNextPage(sHtmlContent2)
                if (sNextPage != False):
@@ -381,6 +414,8 @@ def showLinks():
         else:
                oRequest = cRequestHandler(m3url)
                sHtmlContent = oRequest.request()
+				
+
 
             
     sPattern =  '<meta itemprop="embedURL" content="(.+?)" />' 
@@ -429,42 +464,6 @@ def showLinks():
 
  
         progress_.VSclose(progress_)
-    # (.+?)
-               
-
-    sPattern = '<a href="(.+?)" target="_blank" class="download_link">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
-        
-            url = str(aEntry)
-
-            if url.startswith('//'):
-               url = 'http:' + url
-				
-					
-            
-            sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-               sDisplayTitle = sMovieTitle+sTitle
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-        progress_.VSclose(progress_) 
        
     oGui.setEndOfDirectory()  
 

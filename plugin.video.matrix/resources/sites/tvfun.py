@@ -67,7 +67,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
 
-    sPattern = '<div class="ThumbBigDiv"><div class=".+?-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar"><img src="([^<]+)" loading=.+?<span class="count">([^<]+)</span>'
+    sPattern = '<div class="serie-thumb">.+?<a href="([^<]+)" title="([^<]+)">.+?<picture itemprop="categoryAvatar">.+?<img src="([^<]+)" loading="lazy".+?<span class="count">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -81,7 +81,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[1].replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
@@ -154,7 +154,7 @@ def showEpisodes():
     if (aResult[0] == True):
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+?
-    sPattern = '<div class="ThumbBigDiv"><div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar"><img src="([^<]+)" loading='
+    sPattern = '<div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar">.+?<img src="([^<]+)" loading='
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -168,7 +168,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E")
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
