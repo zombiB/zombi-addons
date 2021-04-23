@@ -102,7 +102,8 @@ def showSearchSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[4])+' S'+str(aEntry[3])+' E'+str(aEntry[1])
+            sTitle = str(aEntry[4])+'S'+str(aEntry[3])+' E'+str(aEntry[1])
+            sTitle = sTitle.replace("S ","S")
             siteUrl = str(aEntry[0]) + "watching/"
             sThumb = str(aEntry[5])
             sDesc = ""

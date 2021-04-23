@@ -38,6 +38,7 @@ DOC_NEWS = (URL_MAIN + '/cat/94/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%88%D8%AB%D8%A
 URL_SEARCH = (URL_MAIN + '/search/', 'showMoviesSearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
+URL_SEARCH_MISC = (URL_MAIN + '/search/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSearch'
 
 def showMenuMovies():
@@ -198,7 +199,7 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

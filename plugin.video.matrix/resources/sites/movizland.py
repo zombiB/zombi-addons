@@ -259,10 +259,11 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

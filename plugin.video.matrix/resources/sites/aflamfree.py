@@ -22,6 +22,7 @@ MOVIE_ANNEES = (True, 'showYears')
 MOVIE_PACK = (URL_MAIN + '%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 URL_SEARCH = (URL_MAIN + '?s=', 'showMoviesearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMoviesearch')
+URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
 	 
 def load():
