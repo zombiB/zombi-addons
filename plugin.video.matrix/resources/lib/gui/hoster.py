@@ -243,6 +243,8 @@ class cHosterGui:
 
         if ('vidhd' in sHostName):
             return self.getHoster('vidhd')
+        if ('oktube' in sHostName):
+            return self.getHoster('vidhd')
         if ('filez.' in sHostName):
             return self.getHoster('filez')
 

@@ -84,9 +84,11 @@ def showSearchSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="block"><a href="(.+?)">.+?<div class="backg" style="background-image:url([^<]+);"></div>.+?<div class="titleBoxSing">([^<]+)</div>'
+    sPattern = '<article aria-label="post"><a href="(.+?)">.+?<li aria-label="episode"><em>.+?</em>(.+?)</li><li aria-label="year">(.+?)</li>.+?<li>الموسم(.+?)</li>.+?</em>(.+?)<em>.+?<img src="(.+?)" width'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -100,15 +102,12 @@ def showSearchSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = str(aEntry[0]) + "watch/"
-            sThumb = str(aEntry[1]).replace("(","").replace(")","")
+            sTitle = str(aEntry[4])+' S'+str(aEntry[3])+' E'+str(aEntry[1])
+            siteUrl = str(aEntry[0]) + "watching/"
+            sThumb = str(aEntry[5])
             sDesc = ""
-            sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
-            sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
-            sDisplayTitle3 = sTitle.split('الحلقة')[0]
-            sDisplayTitle = sTitle.split('الحلقة ')[-1].split('ال')[0]
-            sDisplayTitle = sDisplayTitle3+" "+" E"+sDisplayTitle
+            sDisplayTitle2 = str(aEntry[1])
+            sDisplayTitle = sTitle
 
 
 
@@ -118,7 +117,7 @@ def showSearchSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showServer2', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
@@ -273,9 +272,6 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            if "الحلقة" in aEntry[2]:
-                continue
  
             if "فيلم" in aEntry[2]:
                 continue

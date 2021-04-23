@@ -36,6 +36,7 @@ REPLAYTV_NEWS = ('https://p.brstej.com:2053/category1.php?cat=tv100', 'showMovie
 
 
 URL_SEARCH = ('https://p.brstej.com:2053/search.php?keywords=', 'showMovies')
+URL_SEARCH_SERIES = ('https://p.brstej.com:2053/search.php?video-id=&keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -57,7 +58,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://p.brstej.com:2053/search.php?keywords=love&video-id='+sSearchText
+        sUrl = 'https://p.brstej.com:2053/search.php?keywords='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -67,7 +68,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://p.brstej.com:2053/search.php?keywords=love&video-id='+sSearchText
+        sUrl = 'https://p.brstej.com:2053/search.php?video-id=&keywords='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -180,37 +181,38 @@ def showSeries(sSearch = ''):
   # ([^<]+) .+?
 
     oParser = cParser()
-    sStart = '<ul class="pagination pagination-sm pagination-arrows">'
-    sEnd = '<div class="col-md-3">'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    if 'class="pagination pagination-sm pagination-arrows' in sHtmlContent:
+        sStart = '<ul class="pagination pagination-sm pagination-arrows">'
+        sEnd = '<div class="col-md-3">'
+        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    sPattern = '<li class=""><a href="([^<]+)">([^<]+)</a>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
+        sPattern = '<li class=""><a href="([^<]+)">([^<]+)</a>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
+        if (aResult[0] == True):
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                   break
  
-            sTitle = aEntry[1]
+                sTitle = aEntry[1]
             
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = URL_MAIN+'/'+str(aEntry[0])
-            sThumbnail = ""
-            sInfo = ""
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = URL_MAIN+'/'+str(aEntry[0])
+                sThumbnail = ""
+                sInfo = ""
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
+            progress_.VSclose(progress_)
  
     if not sSearch:
         oGui.setEndOfDirectory()  

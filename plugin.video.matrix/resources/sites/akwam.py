@@ -48,8 +48,8 @@ REPLAYTV_PLAY = (URL_MAIN + '/shows?section=45', 'showMovies')
 
 
 URL_SEARCH = (URL_MAIN + '/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search?section=movie&year=0&rating=0&formats=0&quality=0&q=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?section=series&year=0&rating=0&formats=0&quality=0&q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -72,7 +72,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/search?q=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/search?section=movie&year=0&rating=0&formats=0&quality=0&q='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -82,7 +82,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/search?q=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/search?section=series&year=0&rating=0&formats=0&quality=0&q='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -103,7 +103,7 @@ def showMovies(sSearch = ''):
     
 
  # ([^<]+) .+?
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">(.+?)</span>'
+    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)"/>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -159,8 +159,8 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     if isMatrix():
        sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
- # ([^<]+) .+?
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">(.+?)</span>'
+ # ([^<]+) .+? (.+?)
+    sPattern = '<span class="label quality">(.+?)</span>.+?<a href="(.+?)" class="box">.+?data-src="(.+?)" class="img-fluid w-100 lazy" alt="(.+?)"/>.+?<span class="badge badge-pill badge-secondary ml-1">(.+?)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -217,7 +217,7 @@ def showSeries(sSearch = ''):
     if isMatrix():
        sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  # ([^<]+) .+? (.+?)
-    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)" />.+?<span class="badge badge-pill badge-secondary ml-1">(.+?)</span>'
+    sPattern = '<span class="label quality">([^<]+)</span>.+?<a href="([^<]+)" class="box">.+?data-src="([^<]+)" class="img-fluid w-100 lazy" alt="([^<]+)"/>.+?<span class="badge badge-pill badge-secondary ml-1">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
