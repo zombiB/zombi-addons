@@ -61,10 +61,24 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'Search Series', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSearchAll', 'Search All', 'search.png', oOutputParameterHandler)
     
 
             
     oGui.setEndOfDirectory()
+ 
+def showSearchAll():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = URL_MAIN + '/search/'+sSearchText
+        showSeriesSearch(sUrl)
+        oGui.setEndOfDirectory()
+        return  
  
 def showSearch():
     oGui = cGui()

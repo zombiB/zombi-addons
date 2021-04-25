@@ -477,8 +477,6 @@ def showServer():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
-
-        progress_.VSclose(progress_)
     #Recuperation infos
     sId = ''
      # (.+?) ([^<]+) .+?

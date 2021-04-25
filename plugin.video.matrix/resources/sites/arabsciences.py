@@ -19,6 +19,7 @@ DOC_NEWS = ('https://arabsciences.com/category/tv-channels/', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
 
 URL_SEARCH = ('https://arabsciences.com/?s=', 'showMovies')
+URL_SEARCH_MISC = ('https://arabsciences.com/?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

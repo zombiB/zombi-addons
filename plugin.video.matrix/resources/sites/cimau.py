@@ -36,7 +36,7 @@ SERIE_TR_AR = (URL_MAIN + '/14.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D8%AA
 SERIE_ASIA = (URL_MAIN + '/19.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9+%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9.html', 'showSeries')
 
 SERIE_ASIA_AR = (URL_MAIN + '/20.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9+%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-series-english/', 'showSeries')
+SERIE_EN = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-اجنبي-english/', 'showSeries')
 SERIE_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9-arabic-series/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/23.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D9%87%D9%86%D8%AF%D9%8A%D8%A9+%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9.html', 'showSeries')
 SERIE_HEND_AR = (URL_MAIN + '/22.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D9%87%D9%86%D8%AF%D9%8A%D8%A9+%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
@@ -138,8 +138,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
@@ -447,23 +445,45 @@ def showLinks():
             sTitle = 'server '+':'+ aEntry[1]
             siteUrl = 'https://live.cima4u.live/structure/server.php?id='+sPage
             sDesc = sDesc
+    
+            oRequestHandler = cRequestHandler(siteUrl)
+            sData = oRequestHandler.request();
+    # (.+?)
+               
+
+            sPattern = '<iframe.+?src="(.+?)"'
+            oParser = cParser()
+            aResult = oParser.parse(sData, sPattern)
 
 
-            #print siteUrl 
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
+    #print aResult
 
+	
+            if (aResult[0] == True):
+                total = len(aResult[1])
+                progress_ = progress().VScreate(SITE_NAME)
+                for aEntry in aResult[1]:
+                    progress_.VSupdate(progress_, total)
+                    if progress_.iscanceled():
+                       break
+        
+                    url = str(aEntry)
+                    sTitle = " "
+                    if url.startswith('//'):
+                       url = 'http:' + url
             
+                    sHosterUrl = url 
+                    if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                         
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if (oHoster != False):
+                       sDisplayTitle = sMovieTitle+sTitle
+                       oHoster.setDisplayName(sDisplayTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
 
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-            
-
- 
-        progress_.VSclose(progress_)
+                
        
     oGui.setEndOfDirectory()  
 
