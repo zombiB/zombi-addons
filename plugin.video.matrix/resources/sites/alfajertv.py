@@ -113,7 +113,7 @@ def showMoviesSearch(sSearch = ''):
                 sYear = m.group(0)
                 sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)	
-            sDesc = ""
+            sDesc = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -166,7 +166,7 @@ def showSeriesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]		
-            sDesc = ""
+            sDesc = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -273,7 +273,7 @@ def showTopMovies(sSearch = ''):
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]		
-            sDesc = ""
+            sDesc = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -292,7 +292,7 @@ def showTopMovies(sSearch = ''):
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
-        oGui.setEndOfDirectory()	 
+        oGui.setEndOfDirectory() 
 def showServer():
     oGui = cGui()
     import requests
@@ -339,7 +339,7 @@ def showServer():
                    data = {'action':'doo_player_ajax','post':post,'nume':nume,'type':'movie'}
                    s = requests.Session()
                    r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
-                   sHtmlContent = r.content.decode('utf8')   
+                   sHtmlContent = r.content.decode('utf8')  
                    sPattern = "<iframe.+?src='([^<]+)' frameborder"
                    oParser = cParser()
                    aResult = oParser.parse(sHtmlContent, sPattern)
@@ -386,7 +386,7 @@ def showServer():
                            if url.startswith('//'):
                               url = 'http:' + url
             
-                           sHosterUrl = url 
+                           sHosterUrl = url
                            oHoster = cHosterGui().checkHoster(sHosterUrl)
                            if (oHoster != False):
                               oHoster.setDisplayName(sMovieTitle)
@@ -429,7 +429,7 @@ def showSeries(sSearch = ''):
             sTitle = str(aEntry[1]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[3]
             sThumb = aEntry[0]		
-            sDesc = ""
+            sDesc = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -498,7 +498,7 @@ def showEpisodes():
             sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
-            sDesc =  ""
+            sDesc =  ''
 
  
             #print sUrl
@@ -528,54 +528,3 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
-def showHosters():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-
-
-    #print sHtmlContent
-    #(.+?)
-               
-
-    sPattern = '<iframe.+?src="(.+?)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
-            for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                   break
-        
-                url = aEntry
-                sTitle = " "
-                if url.startswith('//'):
-                    url = 'http:' + url
-				
-					
-            
-                sHosterUrl = url 
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if (oHoster != False):
-                    sDisplayTitle = sMovieTitle+sTitle
-                    oHoster.setDisplayName(sDisplayTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-            progress_.VSclose(progress_) 
-                
-    oGui.setEndOfDirectory()

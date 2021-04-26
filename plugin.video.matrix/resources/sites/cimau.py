@@ -327,7 +327,6 @@ def showLinks():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-
     #print aResult
 
 	
@@ -474,7 +473,7 @@ def showLinks():
             
                     sHosterUrl = url 
                     if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                         
+                       sHosterUrl = sHosterUrl + "|Referer=userload.co"                            
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if (oHoster != False):
                        sDisplayTitle = sMovieTitle+sTitle
@@ -764,7 +763,7 @@ def showHosters():
             
            sHosterUrl = url 
            if 'userload' in sHosterUrl:
-              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                         
+              sHosterUrl = sHosterUrl + "|Referer=userload.co"                         
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if (oHoster != False):
               sDisplayTitle = sMovieTitle+sTitle

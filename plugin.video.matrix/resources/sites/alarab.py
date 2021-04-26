@@ -114,13 +114,12 @@ def showMovies(sSearch = ''):
             sTitle = sTitle.replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("بدون تحميل","").replace("انتاج ","").replace("على العرب","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
-            sInfo = ""
+            sInfo = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
-            sInfo = ""
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
@@ -203,7 +202,7 @@ def showEps():
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl =  URL_MAIN + str(aEntry[0])
             sThumbnail = ""
-            sInfo = ""
+            sInfo = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()

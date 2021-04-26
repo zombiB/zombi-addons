@@ -71,84 +71,34 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
 
-        api_call = ''
+        	api_call = ''
 
-        oRequest = cRequestHandler(self.__sUrl)
-        sHtmlContent = oRequest.request()
-        oParser = cParser()
+        	oRequest = cRequestHandler(self.__sUrl)
+        	sHtmlContent = oRequest.request()
+        	_id = self.__sUrl.split('/')[-1].replace(".html","")
+        	Sgn=requests.Session()
+        	UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+        	hdr = {'Host': 'sama-share.com',
+        	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
+        	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        	'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+        	'Accept-Encoding': 'gzip, deflate',
+        	'Content-Type': 'application/x-www-form-urlencoded',
+        	'Content-Length': '161',
+        	'Origin': 'https://sama-share.com/',
+        	'Connection': 'keep-alive',
+        	'Referer': self.__sUrl,
+        	'Upgrade-Insecure-Requests': '1'}
+        	prm={
+                "op": "download1",
+                "id": _id,
+                "rand": "",
+                "referer": "",
+                "method_free": "téléchargement libre"}
+        	_r = Sgn.post(self.__sUrl,headers=hdr,data=prm,allow_redirects=False).headers
+        	api_call = _r['Location'].replace(" ","").replace("[","%5B").replace("]","%5D").replace("+","%20")
+                	
+        	if (api_call):
+        	   return True, api_call+ '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://sama-share.com/'
 
-        #methode1 
-        #lien indirect
-        if 'samaup' in sHtmlContent:
-            POST_Data              = {}
-            POST_Data['op']        = re.findall('input type="hidden" name="op" value="([^<>"]*)"',sHtmlContent)[0]
-            #POST_Data['usr_login'] = re.findall('input type="hidden" name="usr_login" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['id']        = re.findall('input type="hidden" name="id" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['fname']     = re.findall('input type="hidden" name="fname" value="([^<>"]*)"',sHtmlContent)[0]
-            #POST_Data['referer']   = re.findall('input type="hidden" name="referer" value="([^<>"]*)"',sHtmlContent)[0]
-            #POST_Data['hash']      = re.findall('input type="hidden" name="hash" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['method_free']   = re.findall('<input type="submit" name="method_free" class=".+?" value="([^<>"]*)">',sHtmlContent)[0]
-            
-            UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
-            headers = {'User-Agent': UA ,
-                       'Host' : 'www.samaup.org',
-                       'Referer' : self.__sUrl ,
-                       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                       'Content-Type': 'application/x-www-form-urlencoded'}
-            
-            postdata = urllib.urlencode(POST_Data)
-            
-            req = urllib2.Request(self.__sUrl,postdata,headers)
-            
-            xbmc.sleep(10*1000)
-            
-            response = urllib2.urlopen(req)
-            sHtmlContent = response.read()
-            #print sHtmlContent
-            response.close()
-
-        #methode1 
-        #lien indirect
-        if 'samaup' in sHtmlContent:
-            POST_Data              = {}
-            POST_Data['op']        = re.findall('input type="hidden" name="op" value="([^<>"]*)"',sHtmlContent)[0]
-            #POST_Data['usr_login'] = re.findall('input type="hidden" name="usr_login" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['id']        = re.findall('input type="hidden" name="id" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['referer']     = re.findall('input type="hidden" name="referer" value="([^<>"]*)"',sHtmlContent)[0]
-            #POST_Data['referer']   = re.findall('input type="hidden" name="referer" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['rand']      = re.findall('input type="hidden" name="rand" value="([^<>"]*)"',sHtmlContent)[0]
-            POST_Data['method_free']   = re.findall('input type="hidden" name="method_free" value="([^<>"]*)">',sHtmlContent)[0]
-            
-            UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
-            headers = {'User-Agent': UA ,
-                       'Host' : 'www.samaup.org',
-                       'Referer' : self.__sUrl ,
-                       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                       'Content-Type': 'application/x-www-form-urlencoded'}
-            
-            postdata = urllib.urlencode(POST_Data)
-
-            
-            req = urllib2.Request(self.__sUrl,postdata,headers)
-            
-            xbmc.sleep(10*1000)
-            
-            response = urllib2.urlopen(req)
-            sHtmlContent = response.read()
-            response.close()
-
-             #print sHtmlContent
-                         
-            #fh = open('c:\\test.txt', "w")
-            #fh.write(sHtmlContent)
-            #fh.close()
-     
-        sPattern = '<div id="direct_link"><a href="(.+?)">'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0]
-
-        if (api_call):
-            return True, api_call 
-
-        return False, False
+        	return False, False

@@ -449,7 +449,7 @@ def showServer():
 
     
     # (.+?) .+? ([^<]+)        	
-    sPattern = '<a href="([^<]+)">.+?class="fa fa-download"></i>'
+    sPattern = '<a href="([^<]+)"><i class="fas fa-cloud-download-alt"></i>(.+?)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -462,8 +462,9 @@ def showServer():
             if progress_.iscanceled():
                break
             
-            url = str(aEntry[0])
-            sTitle = sMovieTitle
+            url = aEntry[0]
+            sTitle = ' ['+aEntry[1]+'] '
+            url = url.replace("cimanow","rrsrr")
             sThumb = sThumbnail
             if url.startswith('//'):
                url = 'http:' + url
@@ -473,7 +474,8 @@ def showServer():
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-               oHoster.setDisplayName(sMovieTitle)
+               sDisplayTitle = sMovieTitle+sTitle
+               oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				

@@ -551,7 +551,7 @@ def showHosters():
                 break
             
             url = str(aEntry)
-            url = url.replace("uppom","ddsdd")
+            url = url.replace("upbbom","ddsdd")
             sTitle =  ""
             if url.startswith('//'):
                 url = 'http:' + url
@@ -584,7 +584,7 @@ def showHosters():
                 break
             
             url = str(aEntry[0])
-            url = url.replace("uppom","ddsdd")
+            url = url.replace("upbbom","ddsdd")
             sTitle = sMovieTitle+' ['+str(aEntry[2])+str(aEntry[1])+'] '
             if url.startswith('//'):
                 url = 'http:' + url

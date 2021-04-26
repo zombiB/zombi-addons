@@ -144,10 +144,6 @@ class cHosterGui:
         if ('yadi.sk' in sHostName):
 
             return self.getHoster('yadisk')
-        if (('uppom' in sHostName)or ('upbom' in sHostName)):
-            return self.getHoster('uppom')
-        if ('uppoom' in sHostName):
-            return self.getHoster('uppom')
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')
         if ('vidsat' in sHostName):
@@ -290,8 +286,6 @@ class cHosterGui:
             return self.getHoster('vodlocker')
         if ('cima4up' in sHostName):
             return self.getHoster('cimaup')
-        if ('cimanow' in sHostName):
-            return self.getHoster('cimanow')
         if ('ok.ru' in sHostName):
             return self.getHoster('ok_ru')
         if ('vimeo.com' in sHostName):
@@ -398,8 +392,6 @@ class cHosterGui:
             return self.getHoster('gounlimited')
         if ('mixdrop' in sHostName):
             return self.getHoster('mixdrop')
-        if ('samaup' in sHostName):
-            return self.getHoster('samaup')
         if ('vidabc' in sHostName):
             return self.getHoster('vidabc')
         if ('vshare' in sHostName):
@@ -449,8 +441,6 @@ class cHosterGui:
             return self.getHoster('tune')
         if ('mystream' in sHostName):
             return self.getHoster('mystream')
-        if ('letsupload' in sHostName):
-            return self.getHoster('letsupload')
 
 
         if ('prostream' in sHostName):
@@ -484,7 +474,7 @@ class cHosterGui:
             return self.getHoster('resolver')
 
         if (('cloudvideo' in sHostName) or ('streamcloud' in sHostName) or ('userscloud' in sHostName)):
-            return self.getHoster('resolver')
+            return self.getHoster('cloudvid')
         if ('clicknupload' in sHostName):
             return self.getHoster('resolver')
         if ('myvi.ru' in sHostName):
@@ -494,10 +484,6 @@ class cHosterGui:
         if ('jetload' in sHostName):
             return self.getHoster('resolver')
 
-
-
-        if ('rapidgator' in sHostName):
-            return self.getHoster('resolver')
         if ('streamcherry' in sHostName):
             return self.getHoster('resolver')
 
@@ -523,6 +509,8 @@ class cHosterGui:
         if ('ddsdd' in sHostName):
             return self.getHoster('lien_direct')
         if ('ffsff' in sHostName):
+            return self.getHoster('lien_direct')
+        if ('rrsrr' in sHostName):
             return self.getHoster('lien_direct')
         if ('fbcdn.net' in sHostName):
             return self.getHoster('lien_direct')

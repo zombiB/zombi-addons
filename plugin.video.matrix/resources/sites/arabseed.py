@@ -472,7 +472,9 @@ def showEps():
 				
 					
             
-            sHosterUrl = url 
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                sDisplayTitle = sMovieTitle3+sTitle
@@ -583,7 +585,9 @@ def showHosters():
 				
 					
             
-            sHosterUrl = url 
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                sDisplayTitle = sMovieTitle+sTitle

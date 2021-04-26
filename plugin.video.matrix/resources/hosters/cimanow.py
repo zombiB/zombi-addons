@@ -48,9 +48,7 @@ class cHoster(iHoster):
         return ''
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-        if 'embed' not in self.__sUrl:
-            self.__sUrl = self.__sUrl.replace("/watch/","/embed/")
+        self.__sUrl = sUrl
 
     def checkUrl(self, sUrl):
         return True
@@ -62,22 +60,22 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','Referer' : 'https://en.cimanow.cc/','Host' : sId.replace("https://",""),'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
-        sHtmlContent = requests.get(self.__sUrl,headers=hdr).content.decode('utf8')
-        
-        #https://www.yourupload.com/embed/8a7isfMAQ1T1
-        
+        s = requests.Session()
+        r = s.get(self.__sUrl).content
+
         oParser = cParser()
-        
-            # (.+?) .+?
-        sPattern = "file: '(.+?)',"
+        sPattern =  '<source src="([^"]+)" type=\'(.+?)\'>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
-
         if (aResult[0] == True):
-            api_call = aResult[1][0]
-
-            if (api_call):
-                return True, api_call + '|User-Agent=' + UA+ '&Referer=' + self.__sUrl
-        
+            url = []
+            qua = []
+            for x in aResult[1]:
+                url.append(x[0])
+                qua.append(x[1])
+                	
+                api_call = dialog().VSselectqual(qua,url)
+                    
+        if (api_call):
+            return True, api_call + '|User-Agent=' + UA 
+            
+        return False, False
