@@ -1,17 +1,14 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
+
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'familymoviz'
 SITE_NAME = 'familymoviz'
@@ -21,7 +18,6 @@ URL_MAIN = 'http://www.familymoviz.com'
 
 MOVIE_FAM = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
-
 MOVIE_AR = ('https://www.familymoviz.net/category/movies/arabicmovies/', 'showMovies')
 
 KID_MOVIES = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
@@ -179,9 +175,6 @@ def showSearchSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
    
-
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -297,9 +290,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
- 
- 
+   
 def __checkForNextPage(sHtmlContent):
     sPattern = "<a href='([^<]+)'>&rsaquo;</a>"
 	
@@ -379,11 +370,9 @@ def showHosters():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-
-
-    #print sUrl
-   
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
+  
     oParser = cParser()
     
     #Recuperation infos
@@ -396,10 +385,7 @@ def showHosters():
         sNote = aResult[1][0]
     if (sNote):
         oGui.addText(SITE_IDENTIFIER,'مده الحذف : ' + str(sNote))
-
-    
-    
- 
+   
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
     sNote2 = ''
     # (.+?) ([^<]+) .+?
@@ -411,6 +397,28 @@ def showHosters():
     if (sNote2):
         oGui.addText(SITE_IDENTIFIER,'الارشاد العائلي : ' + str(sNote2))
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
+
+    sPattern = 'SRC="(.+?)" FRAMEBORDER'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            
+            url = str(aEntry)
+            if url.startswith('//'):
+                url = 'http:' + url
+            
+            sHosterUrl = url
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
 
     # (.+?) ([^<]+) .+?
@@ -449,32 +457,5 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        progress_.VSclose(progress_) 
-
-
-
-    sPattern = 'src="(.+?)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            url = str(aEntry)
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
-        progress_.VSclose(progress_) 
 
     oGui.setEndOfDirectory()

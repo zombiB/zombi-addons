@@ -359,7 +359,9 @@ def showServer():
                            if url.startswith('//'):
                               url = 'http:' + url
             
-                           sHosterUrl = url 
+                           sHosterUrl = url
+                           if 'mystream' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                            oHoster = cHosterGui().checkHoster(sHosterUrl)
                            if (oHoster != False):
                               oHoster.setDisplayName(sMovieTitle)
@@ -387,6 +389,8 @@ def showServer():
                               url = 'http:' + url
             
                            sHosterUrl = url
+                           if 'mystream' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                            oHoster = cHosterGui().checkHoster(sHosterUrl)
                            if (oHoster != False):
                               oHoster.setDisplayName(sMovieTitle)

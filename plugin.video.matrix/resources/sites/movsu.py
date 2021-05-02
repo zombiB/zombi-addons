@@ -3,7 +3,6 @@
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
@@ -140,6 +139,8 @@ def showPacks(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1',errors='ignore').decode('utf8',errors='ignore')
      # (.+?) ([^<]+) .+?
 
     sPattern = '<a class="fulllink" href="([^<]+)"></a>.+?<img src="([^<]+)" alt="([^<]+)">'
@@ -156,7 +157,7 @@ def showPacks(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("بجودة","").replace("اونلاين","").replace("مدبلجة","مدبلج").replace("كامل","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("سلسلة افلام","").replace("سلسلة اجزاء","")
             
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
@@ -171,7 +172,7 @@ def showPacks(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showPack', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oGui.addMoviePack(SITE_IDENTIFIER, 'showPack', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -376,6 +377,15 @@ def showSeriesLinks():
     #print sUrl
         # ([^<]+) .+?
     oParser = cParser()
+    
+    #Recuperation infos
+
+    sPattern = ' <p class="post-content mb-3">([^<]+)</p>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sDesc = aResult[1][0]
+			
     sPattern = '<i class="senumb">([^<]+)</i>.+?<i>([^<]+)</i>'
     sPattern = sPattern + '|' + '<a href="([^<]+)" id="episodeactive" class="colorsw">.+?<div class="titlepisode">([^<]+)</div>.+?<span class="numepisode">([^<]+)</span>'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -397,7 +407,7 @@ def showSeriesLinks():
             elif aEntry[2]:
                 sTitle = sMovieTitle+Season+' E'+aEntry[4]+' [ '+ str(aEntry[3])+' ] '
                 sUrl= str(aEntry[2])
-                sDate= ''
+                sDate= sDesc
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', sUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
@@ -470,7 +480,13 @@ def showLink():
                    if url.startswith('//'):
                       url = 'http:' + url
             
-                   sHosterUrl = url 
+                   sHosterUrl = url
+                   if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'moshahda' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                   if 'mystream' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if (oHoster != False):
                       sDisplayTitle = sMovieTitle+sTitle
@@ -530,7 +546,13 @@ def showLink():
                     if url.startswith('//'):
                         url = 'http:' + url
             
-                    sHosterUrl = url 
+                    sHosterUrl = url
+                    if 'userload' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'moshahda' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                    if 'mystream' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if (oHoster != False):
                         sDisplayTitle = sMovieTitle+sTitle
@@ -683,6 +705,12 @@ def showHosters():
                 url = 'http:' + url
             
             sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                 sDisplayTitle = sMovieTitle+sTitle
@@ -716,7 +744,13 @@ def showHosters():
             if url.startswith('//'):
                url = 'http:' + url
             
-            sHosterUrl = url 
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                sDisplayTitle = sMovieTitle+sTitle
@@ -793,6 +827,12 @@ def showHosters():
                 url = 'http:' + url
             
             sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                 sDisplayTitle = sMovieTitle+sTitle

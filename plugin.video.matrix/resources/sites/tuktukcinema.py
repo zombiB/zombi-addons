@@ -398,7 +398,7 @@ def showSeasons():
 	sPattern = '<li class="MovieItem">.+?<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlock">([^<]+)</div>'
 
 	oParser = cParser()
-	aResult = oParser.parse(sHtmlContent, sPattern)
+	aResult = oParser.parse(data, sPattern)
 		
 	if (aResult[0] == True):
 		total = len(aResult[1])
@@ -408,7 +408,7 @@ def showSeasons():
 			if progress_.iscanceled():
 				break
  
-			sTitle = aEntry[2].replace("الموسم","S").replace("S ","S")
+			sTitle = sMovieTitle+aEntry[2].replace("الموسم","S").replace("S ","S")
 			siteUrl = str(aEntry[0])
 			sThumbnail = aEntry[1]
 			sInfo = sNote
@@ -417,7 +417,7 @@ def showSeasons():
 			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-			oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+			oGui.addSeason(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
 	oGui.setEndOfDirectory()
  
@@ -474,7 +474,12 @@ def showHosters():
                     url = 'http:' + url
 								
                 sHosterUrl = url 
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'userload' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'moshahda' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                if 'mystream' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if (oHoster != False):
                     sDisplayTitle = sMovieTitle+sTitle
@@ -501,7 +506,12 @@ def showHosters():
                    url = 'http:' + url
             
                 sHosterUrl = url
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'userload' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'moshahda' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                if 'mystream' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if (oHoster != False):
                    sDisplayTitle = sMovieTitle+sTitle

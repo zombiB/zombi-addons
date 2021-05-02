@@ -45,10 +45,13 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
 
-        url = self.__sUrl
+        sReferer = ""
+        url = self.__sUrl.split('|Referer=')[0]
+        sReferer = self.__sUrl.split('|Referer=')[1]
 
         oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.addHeaderEntry('Referer', sReferer)
         oRequest.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
         sHtmlContent = oRequest.request()
 

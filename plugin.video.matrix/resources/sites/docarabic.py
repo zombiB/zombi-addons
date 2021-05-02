@@ -22,9 +22,6 @@ URL_MAIN = 'https://docarabic.wordpress.com/'
 DOC_NEWS = ('https://docarabic.wordpress.com/', 'showMovies')
 
 
-
-
-
 URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -135,10 +132,10 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     sHtmlContent = sHtmlContent.replace('facebook','')
-    #([^<]+)
+    #([^<]+) (.+?)
                
 
-    sPattern = '<a href="([^<]+)"'
+    sPattern = '<a href="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

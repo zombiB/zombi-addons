@@ -40,9 +40,6 @@ def load():
             
     oGui.setEndOfDirectory()
 
-
-	
-	
 	
 def showSearch():
     oGui = cGui()
@@ -144,8 +141,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
- 
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:

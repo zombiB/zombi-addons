@@ -63,11 +63,15 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         print (self.__sUrl)
+        sReferer = ""
+        url = self.__sUrl.split('|Referer=')[0]
+        sReferer = self.__sUrl.split('|Referer=')[1]
+		
         UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
         
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('user-agent',UA)
-        oRequest.addHeaderEntry('Referer',self.__sUrl)
+        oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
         
         oParser = cParser()
@@ -76,6 +80,29 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             sHtmlContent = cPacker().unpack(aResult[1][0])
+            
+        sPattern =  '{file:"(.+?)"}' #sPattern = '{file:"([^"]+)",label:"(\d+)"}'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            m3url = aResult[1][0] 
+            oRequest = cRequestHandler(m3url)
+            sHtmlContent = oRequest.request()
+   
+        sPattern =  ',RESOLUTION=(.+?),.+?(http.+?m3u8)' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            #initialisation des tableaux
+            url=[]
+            qua=[]
+            #Replissage des tableaux
+            for i in aResult[1]:
+                url.append(str(i[1]))
+                qua.append(str(i[0]))
+
+            api_call = dialog().VSselectqual(qua, url)
+
+            if (api_call):
+                return True, api_call
 
         
             # (.+?) .+?

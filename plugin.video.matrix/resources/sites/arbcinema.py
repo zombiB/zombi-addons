@@ -291,9 +291,9 @@ def showLink():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'download' in sTitle:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addLink(SITE_IDENTIFIER, 'showServer', sTitle, sThumb, sDesc, oOutputParameterHandler)
             else:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showServer2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addLink(SITE_IDENTIFIER, 'showServer2', sTitle, sThumb, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        
@@ -342,7 +342,7 @@ def showServer():
     data = sId
     data = {'id':data,'key':'0','type':'normal'}
     s = requests.Session()
-    r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server/download.php', headers=headers,data = data)
+    r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server/download.php',data = data)
     sHtmlContent = r.content
     
     # (.+?) .+? ([^<]+)        	
@@ -418,7 +418,7 @@ def showServer2():
 					'Connection': 'keep-alive'}
         data = {'watch':'1'}
         s = requests.Session()
-        r = s.post(sUrl, headers=headers,data = data)
+        r = s.post(sUrl,data = data)
         sHtmlContent = r.content       
 
         sPattern2 = '<li data-name="([^<]+)" data-type="free"'
@@ -443,10 +443,10 @@ def showServer2():
 							'Connection': 'keep-alive'}
                data = {'id':sId,'name':nume,'type':'free'}
                s = requests.Session()
-               r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers,data = data)
+               r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server.php',data = data)
                sHtmlContent = r.content       
 
-               sPattern3 = '<IFRAME SRC="([^<]+)" FRAMEBORDER='
+               sPattern3 = '<IFRAME.+?SRC="([^<]+)".+?FRAMEBORDER='
 
                oParser = cParser()
                aResult = oParser.parse(sHtmlContent, sPattern3)

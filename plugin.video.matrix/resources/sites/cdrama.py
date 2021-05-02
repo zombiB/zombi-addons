@@ -49,8 +49,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
   
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:

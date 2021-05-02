@@ -73,8 +73,8 @@ class cHoster(iHoster):
             api_call = self.__sUrl
 
         if (api_call).endswith('.mp4'):
-            return True, api_call+ '|User-Agent=' + UA+'&verifypeer=false'
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl+ '&Origin=https://fajer.live' +'&verifypeer=f
         else:
-            return True, api_call + '|User-Agent=' + UA+'&verifypeer=false'
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl+ '&Origin=https://fajer.live' +'&verifypeer=f
 
         return False, False

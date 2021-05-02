@@ -71,7 +71,6 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         api_call = self.__sUrl.replace("ddsdd","upbbom")
-        api_call = self.__sUrl.replace("ffsff","moshahda")
         api_call = self.__sUrl.replace("rrsrr","cimanow")
         #full moviz lien direct final nowvideo
             
@@ -79,11 +78,10 @@ class cHoster(iHoster):
         if 'pixsil' in api_call:
             api_call = api_call.split('|')[0] + '|Referer=http://www.mangacity.org/jwplayer/player.swf'
  	   
-        if 'moshahda' in api_call:
-
-
+        if 'ffsff' in api_call:
+            api_call = self.__sUrl.replace("ffsff","moshahda")
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
-            api_call = api_call + '|User-Agent=' + UA + '&Referer=https://moshahda.online' 
+            api_call = api_call + '|User-Agent=' + UA + '&Referer=https://arblionz.cam/' 
  
 
        

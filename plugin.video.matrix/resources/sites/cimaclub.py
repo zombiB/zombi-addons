@@ -328,7 +328,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'season' in siteUrl:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes', sMovieTitle+" S"+aEntry[2], '', sThumb, '', oOutputParameterHandler)
+                oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sMovieTitle+" S"+aEntry[2], '', sThumb, '', oOutputParameterHandler)
             else:
                 oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sMovieTitle.replace(" موسم "," S")+" E"+aEntry[2], '', sThumb, '', oOutputParameterHandler)
         
@@ -435,7 +435,7 @@ def showSeries():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'seasons' in sUrl:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumb, '', oOutputParameterHandler)
+                oGui.addSeason(SITE_IDENTIFIER, 'showSeries', aEntry[1], '', sThumb, '', oOutputParameterHandler)
             else:
                 oGui.addEpisode(SITE_IDENTIFIER, 'showServers', aEntry[1], '', sThumb, '', oOutputParameterHandler)
         

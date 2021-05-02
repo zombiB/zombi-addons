@@ -83,8 +83,6 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     if isMatrix(): 
@@ -179,8 +177,10 @@ def showMovie():
     data = {'taxonomy':'category','slug':slug,'termid':'2','offset':sId}
 
     s = requests.Session()
-    r = s.post('https://www.egy-club.com/wp-content/themes/Final/Interface/Ajax/archive/block.php', headers=headers,data = data)
+    r = s.post('https://www.egy-club.com/wp-content/themes/Final/Interface/Ajax/archive/block.php', data = data)
     sHtmlContent = r.content.decode('utf8',errors='ignore')
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # (.+?) ([^<]+) .+?
     sPattern = '<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlockMovieNormal InFilmBlock">([^<]+)</div>.+?<div class="DescBlockMovieNormal">([^<]+)</div>'
 
@@ -317,7 +317,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('slug', slug)
             oOutputParameterHandler.addParameter('sId', "20")
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showSerie', sTitle, '', '', '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSerie', sTitle, '', '', '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -404,7 +404,7 @@ def showSerie():
         oOutputParameterHandler.addParameter('slug', slug)
         oOutputParameterHandler.addParameter('sId', int(sId)+20)
 			
-        oGui.addMovie(SITE_IDENTIFIER, 'showSerie', sTitle, '', 'next.png', '', oOutputParameterHandler)
+        oGui.addTV(SITE_IDENTIFIER, 'showSerie', sTitle, '', 'next.png', '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
        
@@ -457,34 +457,34 @@ def showServer():
         data = {'action':'GetServer','post':sId,'id':str(i)}
         s = requests.Session()
 				
-        r = s.post('https://www.egy-club.com/wp-admin/admin-ajax.php', headers=headers,data = data)
-        sHtmlContent = r.content.decode('utf8',errors='ignore')        
+        r = s.post('https://www.egy-club.com/wp-admin/admin-ajax.php',data = data)
+        page = r.content.decode('utf8',errors='ignore')        
 
     # (.+?) ([^<]+) .+?
-    sPattern = '<iframe.+?src="(.+?)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
+        sPattern = '<iframe.+?src="(.+?)"'
+        oParser = cParser()
+        aResult = oParser.parse(page, sPattern)
+        if (aResult[0] == True):
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                   break
             
-            url = str(aEntry)
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-                url = 'http:' + url
+                url = str(aEntry)
+                sTitle = sMovieTitle
+                if url.startswith('//'):
+                   url = 'http:' + url
             
-            sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                sHosterUrl = url 
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                   oHoster.setDisplayName(sMovieTitle)
+                   oHoster.setFileName(sMovieTitle)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-        progress_.VSclose(progress_)  
+            progress_.VSclose(progress_)  
        
     oGui.setEndOfDirectory()
