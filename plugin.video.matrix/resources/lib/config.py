@@ -3,20 +3,14 @@
 from resources.lib.comaddon import addon, dialog, listitem, xbmc, xbmcgui, VSlog, isMatrix
 from resources.lib.tmdb import cTMDb
 from datetime import date, datetime
-
-
-
 import unicodedata
 import xbmcvfs
 import time
-
-
 
 # -----------------------
 #     Cookies gestion
 
 # ------------------------
-
 
 class GestionCookie():
 
@@ -32,7 +26,6 @@ class GestionCookie():
             
         return t
         
-
     def DeleteCookie(self, Domain):
 
         Name = '/'.join([self.PathCache, 'cookie_%s.txt']) % (Domain)
@@ -75,7 +68,6 @@ class GestionCookie():
     def AddCookies(self):
         cookies = self.Readcookie(self.__sHosterIdentifier)
         return 'Cookie=' + cookies
-
         
     def MixCookie(self,ancien_cookies, new_cookies):
         t1 = self.MakeListwithCookies(ancien_cookies)
@@ -89,7 +81,6 @@ class GestionCookie():
             cookies = cookies + c + '=' + t1[c] + ';'
         cookies = cookies[:-1]
         return cookies
-
 
 # -------------------------------
 #     Configuration gestion
@@ -139,8 +130,6 @@ class cConfig():
     def getFileCache(self):
         return False
 
-
-
 def WindowsBoxes(sTitle, sFileName, metaType, year=''):
 
     ADDON = addon()
@@ -161,21 +150,13 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
     except:
         pass
     
-
     # Sinon on gere par matrix via la lib TMDB
-
-
 
     sType = str(metaType).replace('1', 'movie').replace('2', 'tvshow').replace('3', 'collection').replace('4', 'anime')
 
     try:
         meta = cTMDb().get_meta(sType, sFileName, tmdb_id = xbmc.getInfoLabel('ListItem.Property(TmdbId)'), year = year)
-
-
-
         try:
-
-
             meta['plot'] = str(meta['plot'].encode('latin-1'), 'utf-8')
         except:
             pass
@@ -183,7 +164,6 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
         DIALOG.VSok("Veuillez vider le cache des metadonnees Parametre - outils - 'vider le cache de matrix'")
         pass
         
-
     # si rien ne marche
     if (not meta['imdb_id'] and not meta['tmdb_id'] and not meta['tvdb_id']):
         # dialog par defaut
@@ -216,7 +196,6 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
         meta['durationH'] = 0
         meta['durationM'] = 0
 
-
     # affichage du dialog perso
     class XMLDialog(xbmcgui.WindowXMLDialog):
 
@@ -240,45 +219,21 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
             # par default le resumer#
             color = ADDON.getSetting('deco_color')
             self.setProperty('color', color)
-
-
-
-
-
             self.poster = 'https://image.tmdb.org/t/p/%s' % self.ADDON.getSetting('poster_tmdb')
             self.none_poster = 'https://eu.ui-avatars.com/api/?background=000&size=512&name=%s&color=FFF&font-size=0.33'
 
             #self.getControl(50).setVisible(False)
-
-
             #self.getControl(90).setVisible(False)
             #self.getControl(5200).setVisible(False)
             #self.getControl(52100).setVisible(False)
             #self.getControl(52200).setVisible(False)
             # synopsis_first
             self.setFocusId(9000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #            self.getControl(50).reset()
             
             if 'credits' in meta and meta['credits']:
                 cast = []
                 crew = []
-
-
 
                 #Decodage python 3
                 try:
@@ -326,11 +281,6 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
 
             # try:
             #     for slabel, slabel2, sicon, sid in meta['cast']:
-
-
-
-
-
             #         listitem_ = listitem(label=slabel, label2=slabel2, iconImage=sicon)
             #         listitem_.setProperty('id', str(sid))
             #         listitems.append(listitem_)
@@ -342,8 +292,7 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
             
             # title
             # self.getControl(1).setLabel(meta['title'])
-            meta['title'] = sTitle
-            
+            meta['title'] = sTitle           
             # self.getControl(49).setVisible(True)
             # self.getControl(2).setImage(meta['cover_url'])
             # self.getControl(3).setLabel(meta['rating'])
@@ -352,8 +301,6 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                 meta['rating'] = '-'
             if 'votes' not in meta or meta['votes'] == '0':
                 meta['votes'] = '-'
- 
-
             for prop in meta:
                 #Py3 unicode == str.
                 try:
@@ -365,8 +312,7 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                     if isinstance(meta[prop], str):
                         self.setProperty(prop, meta[prop].encode('utf-8'))
                     else:
-                        self.setProperty(prop, str(meta[prop]))                    
-                   
+                        self.setProperty(prop, str(meta[prop]))                                     
         def credit(self, meta='', control=''):
             #self.getControl(control).reset()
             listitems = []
@@ -378,19 +324,13 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                 for i in meta:
                     try:
                         sTitle = unicodedata.normalize('NFKD', i['title']).encode('ascii', 'ignore')
-
-
-
                     except:
-
-
                         sTitle = 'Aucune information'
                         
                     if i['poster_path']:
                         sThumbnail = self.poster+str(i['poster_path'])
                     else :
-                        sThumbnail = self.none_poster % sTitle
-                    
+                        sThumbnail = self.none_poster % sTitle           
                     # sId = i['id']
 
                     listitem_ = listitem(label=sTitle)
@@ -399,51 +339,12 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                     except:
                         listitem_.setInfo('video', {'rating': str(i['vote_average'])})
 
-
                     listitem_.setArt({'icon':sThumbnail})
                     listitems.append(listitem_)
                 self.getControl(control).addItems(listitems)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             except:
                 pass
-
-
-
-            
+          
             #self.getControl(52100).setVisible(False)
             #self.getControl(52200).setVisible(True)
             #self.setFocusId(5205)
@@ -451,27 +352,10 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
 
         def onClick(self, controlId):
 
-
             if controlId == 11:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 from resources.lib.ba import cShowBA
                 cBA = cShowBA()
                 cBA.SetSearch(sFileName)
-
-
                 cBA.SetYear(year)
                 cBA.SetTrailerUrl(self.getProperty('trailer'))
                 cBA.SearchBA(True)
@@ -484,19 +368,13 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
             elif controlId == 50 or controlId == 5200 :
                 # print(self.getControl(50).ListItem.Property('id'))
                 item = self.getControl(controlId).getSelectedItem()
-                sid = item.getProperty('id')
-                
-
+                sid = item.getProperty('id')              
                 grab = cTMDb()
-                sUrl = 'person/' + str(sid)
-                
-                
+                sUrl = 'person/' + str(sid)                               
                 try:
                     meta = grab.getUrl(sUrl, term = "append_to_response=movie_credits,tv_credits")
                     meta_credits = meta['movie_credits']['cast']
-                    self.credit(meta_credits, 5215)
-                    
-         
+                    self.credit(meta_credits, 5215)                             
                     try:
                         sTitle = unicodedata.normalize('NFKD', meta['name']).encode('ascii', 'ignore')
                     except:
@@ -512,8 +390,7 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                             age = ''
                     else:
                         age = meta['deathday']
-                        
-                  
+                                         
                     self.setProperty('Person_name', sTitle)
                     self.setProperty('Person_birthday', meta['birthday'])
                     self.setProperty('Person_place_of_birth', meta['place_of_birth'])
@@ -541,25 +418,13 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
 
                     self.credit(meta, 5205)
 
-
                 except:
-
-
-
-
-
-
-
-
-                    pass
+                   pass
                 try:
                     meta = grab.getUrl(sUrl_recom)
                     meta = meta['results']
 
                     self.credit(meta, 5210)
-
-
-
                 except:
                     return
 
@@ -578,11 +443,7 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                 except:
                     return
 
-
-
                 self.close()
-
-
 
                 # Si lancé depuis la page Home de Kodi, il faut d'abord en sortir pour lancer la recherche
                 if xbmc.getCondVisibility('Window.IsVisible(home)'):
@@ -592,9 +453,6 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                 xbmc.executebuiltin('Container.Update(%s)' % sTest)
                 return
             # elif controlId == 2:
-
-
-
             #     print("paseeeee")
             #     xbmc.executebuiltin('Dialog.Close(all, force)')
             #     xbmc.executebuiltin('ActivateWindow(12005)')
@@ -604,8 +462,6 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
             self.controlId = controlId
             #fullscreen end return focus menu
             if controlId == 40:
-
-
                 while xbmc.Player().isPlaying():
                     xbmc.sleep(500)
                     if not xbmc.Player().isPlaying():
@@ -618,22 +474,15 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                 # item = self.getControl(50).getSelectedItem()
                 # sid = item.getProperty('id')
 
-
         def _close_dialog(self):
             self.close()
 
         def onAction(self, action):
             if action.getId() in (104, 105, 1, 2):
-
-
-
-
                 return
 
             if action.getId() in (9, 10, 11, 30, 92, 216, 247, 257, 275, 61467, 61448):
                 self.close()
-
-
 
     path = 'special://home/addons/plugin.video.matrix'
     # self.__oPath.decode('utf-8')

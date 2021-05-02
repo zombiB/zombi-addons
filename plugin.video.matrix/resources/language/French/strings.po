@@ -81,7 +81,7 @@ msgid "Enable search history"
 msgstr "Activer l'historique de recherche"
 
 msgctxt "#30020"
-msgid "File not found"
+msgid "File Not Found or removed"
 msgstr "Fichier introuvable"
 
 msgctxt "#30021"

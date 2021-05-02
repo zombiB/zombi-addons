@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'faselhd'
@@ -392,15 +388,19 @@ def showSeasons():
 
             postdata = 'seasonID=' + postid
             link = 'https://www.faselhd.pro/series-ajax/?_action=get_season_list&_post_id='+postid
-            oRequestHandler = cRequestHandler(link)
-            oRequestHandler.setRequestType(1)
-            oRequestHandler.addHeaderEntry('Referer', sUrl)
-            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-            oRequestHandler.addHeaderEntry('origin', 'https://www.faselhd.pro')
-            oRequestHandler.addParametersLine(postdata)
-            sHtmlContent = oRequestHandler.request()
+            headers = {'Host': 'www.faselhd.pro',
+							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Accept': '*/*',
+							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Referer': sUrl,
+							'Connection': 'keep-alive'}
+            s = requests.Session()	
+            r = s.post(link,data = postdata)
+            sHtmlContent = r.content  
             if isMatrix(): 
-               sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
+               sHtmlContent = sHtmlContent.decode('utf8',errors='ignore') 
             if sHtmlContent:
                sPattern = '<a href="([^<]+)>([^<]+)</a>' 
 
@@ -417,7 +417,7 @@ def showSeasons():
                          continue
  
                       sTitle = aEntry[1].replace("الحلقة "," E")
-                      sTitle = sMovieTitle+nume+sTitle
+                      sTitle = sMovieTitle+' S'+nume+sTitle
                       siteUrl = aEntry[0].replace(' class="active"', "").replace('"', "") 
                       sThumbnail = sThumbnail
                       sInfo = ""
@@ -433,7 +433,7 @@ def showSeasons():
             
 
  
-                      oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+                      oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        

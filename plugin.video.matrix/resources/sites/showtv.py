@@ -86,14 +86,16 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3]
-            if isMatrix(): 
-               sTitle = str(aEntry[3].encode('latin-1'),'utf-8')
-            
-            sThumbnail = aEntry[0]
-            siteUrl = aEntry[2]
-            sInfo = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
-
+            sTitle = str(aEntry[3]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            siteUrl = str(aEntry[2])
+            sThumbnail = str(aEntry[0])
+            sInfo = str(aEntry[1])
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -103,7 +105,6 @@ def showMovies(sSearch = ''):
 
             oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern = '<a href="([^<]+)" data-ci-pagination-page="(.+?)">'
@@ -222,6 +223,8 @@ def showEps():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 	
 # ([^<]+) .+?
 

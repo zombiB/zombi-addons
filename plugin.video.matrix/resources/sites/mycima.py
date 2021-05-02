@@ -109,7 +109,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1]
             sTitle = sTitle
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
+            sTitle = sTitle.replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
  
  
             siteUrl = aEntry[0]
@@ -337,7 +337,7 @@ def showSeasons():
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
     # .+? ([^<]+)
@@ -565,9 +565,6 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-            progress_.VSclose(progress_)  
-
     # ([^<]+) .+?
 
     sPattern = 'class="hoverable activable" href="([^<]+)"><quality>([^<]+)</quality><resolution><i class=".+?"></i>([^<]+)</resolution>'
@@ -583,9 +580,9 @@ def showHosters():
             if progress_.iscanceled():
                 break
             
-            url = str(aEntry[0])
+            url = aEntry[0]
             url = url.replace("upbbom","ddsdd")
-            sTitle = sMovieTitle+' ['+str(aEntry[2])+str(aEntry[1])+'] '
+            sTitle = sMovieTitle+' ['+aEntry[2]+aEntry[1]+'] '
             if url.startswith('//'):
                 url = 'http:' + url
 				
@@ -599,6 +596,5 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-            progress_.VSclose(progress_)  
                 
     oGui.setEndOfDirectory()

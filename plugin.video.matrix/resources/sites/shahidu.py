@@ -1,46 +1,40 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi.
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-import re,xbmc
-import unicodedata
-import requests
-import sys 
+import re
  
 SITE_IDENTIFIER = 'shahidu'
 SITE_NAME = 'shahid4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shahid4u.cc'
+URL_MAIN = 'https://shahid4u.land'
 
-RAMADAN_SERIES = ('https://shahid4u.land/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSerie')
-MOVIE_EN = ('https://shahid4u.cc/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
-MOVIE_HI = ('https://shahid4u.cc/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
-MOVIE_AR = ('https://shahid4u.cc/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
+RAMADAN_SERIES = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSerie')
+MOVIE_EN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
 
-DOC_NEWS = ('https://shahid4u.cc/genre/Documentary', 'showMovies')
-DOC_SERIES = ('https://shahid4u.cc/genre/Documentary', 'showSerie')
-SERIE_HEND = ('https://shahid4u.cc/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
+DOC_NEWS = (URL_MAIN + '/genre/Documentary', 'showMovies')
+DOC_SERIES = (URL_MAIN + '/genre/Documentary', 'showSerie')
+SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
 
-SERIE_TR = ('https://shahid4u.cc/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
-SERIE_EN = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSerie')
-SERIE_AR = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
+SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
+SERIE_EN = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSerie')
+SERIE_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-ANIM_NEWS = ('https://shahid4u.cc/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
-REPLAYTV_NEWS = ('https://shahid4u.cc/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSerie')
+ANIM_NEWS = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
+REPLAYTV_NEWS = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSerie')
 
 
-URL_SEARCH = ('https://shahid4u.onl/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://shahid4u.onl/search?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = ('https://shahid4u.onl/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSerie')
+URL_SEARCH = (URL_MAIN + '/search?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -61,7 +55,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://shahid4u.onl/search?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/search?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -71,7 +65,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://shahid4u.onl/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/search?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -308,9 +302,9 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, '', oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
+
   # ([^<]+) .+?
     sPattern = '<a href="([^<]+)" class="col-6 col-s-4 col-m-3 col-l-1 button-block"><h3>الحلقة <span>([^<]+)</span></h3></a>'
 
@@ -385,8 +379,10 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
   # ([^<]+) .+?
-    sPattern = '<a href="([^<]+)" data-src="([^<]+)" class="image"></a>.+?<em>(.+?)</em></span>'
+    sPattern = '<a href="(.+?)" data-src="(.+?)" class="image"></a>.+?<em>(.+?)</em></span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -400,8 +396,8 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = "E" + aEntry[2]+str(sMovieTitle)
-            siteUrl = str(aEntry[0]).replace("episode","watch")
+            sTitle = "E" + aEntry[2]+sMovieTitle
+            siteUrl = aEntry[0].replace("/episode/","/watch/")
             sThumbnail = aEntry[1]
 			
 
@@ -515,7 +511,7 @@ def showServers():
     
     if (aResult[0]):
         sId = aResult[1][0]
-        sUrl2 = 'https://shahid4u.cc/ajaxCenter?_action=getdownloadlinks&postId='+sId
+        sUrl2 = URL_MAIN + '/ajaxCenter?_action=getdownloadlinks&postId='+sId
 
 
 

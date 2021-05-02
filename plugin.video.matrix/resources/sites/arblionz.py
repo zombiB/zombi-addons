@@ -1,18 +1,15 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-from resources.lib.player import cPlayer
-import re
-import unicodedata
+
  
 SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'arblionz'
@@ -89,6 +86,8 @@ def showMovies(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  # ([^<]+) .+?
     sPattern = '<img.+?src="([^<]+)" class="attachment-medium size-medium wp-post-image" alt="([^<]+)" loading.+?<a href="([^<]+)" class="lnk-blk"></a>'
 
@@ -148,6 +147,8 @@ def showSeries(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  # ([^<]+) .+?
     sPattern = '<img.+?src="([^<]+)" class="attachment-medium size-medium wp-post-image" alt="([^<]+)" loading.+?<a href="([^<]+)" class="lnk-blk"></a>'
 
@@ -201,6 +202,8 @@ def showSeasons():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     
     oParser = cParser()
     sSeason = ''
@@ -232,7 +235,7 @@ def showSeasons():
  
 
 
-            sTitle = aEntry[0].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الأول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
+            sTitle = aEntry[0].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الأول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
             siteUrl = URL_MAIN+str(aEntry[2])
             sThumb = URL_MAIN+aEntry[1]
             sDesc = ""
@@ -246,7 +249,7 @@ def showSeasons():
             if '/episode/'  in aEntry[2] :
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
             else: 
-	            oGui.addEpisode(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+	            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
     # (.+?)
@@ -266,6 +269,8 @@ def showEps():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
 
     #print sHtmlContent
    
@@ -299,7 +304,7 @@ def showEps():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
     # (.+?)
@@ -326,6 +331,8 @@ def showHosters():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', 'https://www.arblionz.org/download/%D9%81%D9%8A%D9%84%D9%85-beyond-the-woods-2020-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86')
     sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     # (.+?) .+?
     #print sHtmlContent           
 

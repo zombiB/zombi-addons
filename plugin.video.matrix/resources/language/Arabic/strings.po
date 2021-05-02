@@ -81,7 +81,7 @@ msgid "Enable search history"
 msgstr "تمكين سجل البحث"
 
 msgctxt "#30020"
-msgid "File not found"
+msgid "File Not Found or removed"
 msgstr "الفيديو لا يعمل"
 
 msgctxt "#30021"

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from resources.lib.statistic import cStatistic
+#from resources.lib.statistic import cStatistic
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.home import cHome
 from resources.lib.gui.gui import cGui
@@ -97,13 +97,13 @@ class main:
 
         if oInputParameterHandler.exist('site'):
             sSiteName = oInputParameterHandler.getValue('site')
-            if oInputParameterHandler.exist('title'):
-                sTitle = oInputParameterHandler.getValue('title')
-            else:
-                sTitle = 'none'
+            # if oInputParameterHandler.exist('title'):
+                # sTitle = oInputParameterHandler.getValue('title')
+            # else:
+                # sTitle = 'none'
 
             VSlog('load site ' + sSiteName + ' and call function ' + sFunction)
-            cStatistic().callStartPlugin(sSiteName, sTitle)
+            # cStatistic().callStartPlugin(sSiteName, sTitle)
 
             if isHosterGui(sSiteName, sFunction):
                 return
@@ -181,7 +181,8 @@ def setSetting(plugin_id, value):
     addons = addon()
     setting = addons.getSetting(plugin_id)
 
-    # la modification est possible seulement si le parametre existe
+    # modifier si différent
+	
     if setting != value:
         addons.setSetting(plugin_id, value)
         return True
@@ -288,7 +289,6 @@ def searchGlobal():
 
     total = len(aPlugins)
     progress_ = progress().VScreate()
-
     # kodi 17 vire la fenetre busy qui se pose au dessus de la barre de Progress
     try:
         xbmc.executebuiltin('Dialog.Close(busydialog)')

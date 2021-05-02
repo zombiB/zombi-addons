@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'spacepowerfan'
 SITE_NAME = 'spacepowerfan'
@@ -22,7 +18,7 @@ URL_MAIN = 'https://www.spacepowerfan.com/'
 ANIM_MOVIES = ('https://spacepowerfan.com/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
 ANIM_NEWS = ('https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
 
-URL_SEARCH = ('', 'showSeries')
+URL_SEARCH = ('https://spacepowerfan.com/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -40,13 +36,11 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://akwam.net/search?q='+sSearchText
-        showMovies(sUrl)
+        sUrl = 'https://spacepowerfan.com/?s='+sSearchText
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
-  
-
- 
+   
 def showMovies(sSearch = ''):
     import requests
     oGui = cGui()
@@ -56,10 +50,10 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  # ([^<]+) .+? (.+?)
     sPattern = '<article.+?href="([^<]+)"><div.+?data-lazy-src="([^<]+)" />.+?class="Title">([^<]+)</h3><span class="Year">(.+?)</span>.+?class="Description"><p>([^<]+)</p>'
     oParser = cParser()
@@ -74,7 +68,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2])
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مدبلج بالعربية","مدبلج").replace("مدبلج للعربية","مدبلج").replace("مدبلج بالعربي","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace('"',"").replace("&quot;","").replace("amp;","")
             sDesc = str(aEntry[4])
@@ -99,7 +93,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
- 
 def showSeries(sSearch = ''):
     import requests
     oGui = cGui()
@@ -109,13 +102,13 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
     #print data
      # (.+?) ([^<]+) .+?
-    sPattern = '<article class="TPost C"><a href="(.+?)"><div class="Image">.+?data-lazy-src="(.+?)" />.+?<h3 class="Title">(.+?)</h3>'
+    sPattern = '<a href="(.+?)">.+?data-lazy-src="(.+?)".+?class="Title">(.+?)</'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -129,10 +122,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2])
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مدبلج بالعربية","مدبلج").replace("مدبلج للعربية","مدبلج").replace("مدبلج بالعربي","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
-            sDesc = ""
+            sDesc = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -153,7 +146,6 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
 def showEpisodes():
     oGui = cGui()
     import requests
@@ -162,13 +154,22 @@ def showEpisodes():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
     oRequestHandler = cRequestHandler(sUrl)
+    cook = oRequestHandler.GetCookies()
+    oRequestHandler.setRequestType(1)
+    oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('origin', 'spacepowerfan.com')
+    oRequestHandler.addHeaderEntry('Cookie', cook)
+    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('Referer', 'https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/')
     sHtmlContent = oRequestHandler.request()
-    
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
+
     oParser = cParser()
      # (.+?) ([^<]+) .+?
-    sPattern = 'img src=(.+?) alt=.+?</td><td class="MvTbTt.+?"><a href="([^<]+)">([^<]+)</a>'
+    sPattern = '<span class="Num">(.+?)</span>.+?<a href="([^<]+)" class="MvTbImg">.+?data-lazy-src="([^<]+)">.+?<a href=".+?">([^<]+)</a><span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -182,8 +183,9 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[1])
-            sThumb = aEntry[0].replace('"',"").replace("&quot;","").replace("amp;","")
+            siteUrl = str(aEntry[0])
+            sThumb = sThumb
+            sIcon = aEntry[1].replace('"',"").replace("&quot;","").replace("amp;","")
             sDesc = ""
 			
 
@@ -192,7 +194,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, sIcon, sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -204,9 +206,6 @@ def showEpisodes():
        
     oGui.setEndOfDirectory()
 	
-
- 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = "<a class='blog-pager-older-link' href='([^<]+)' id"
 	
@@ -218,7 +217,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
 	 
 def showServers():
     oGui = cGui()
@@ -274,10 +272,6 @@ def showServers():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
-
         progress_.VSclose(progress_)
-				
-
-
-       
+				       
     oGui.setEndOfDirectory()

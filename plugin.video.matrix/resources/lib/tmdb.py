@@ -8,13 +8,12 @@ import json
 
 import xbmcvfs
 import string
-import unicodedata
 
 import webbrowser
 
 from resources.lib.librecaptcha.gui import cInputWindowYesNo
 from resources.lib.util import QuotePlus
-from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix, xbmc
+from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix, xbmc, xbmcgui
 from resources.lib.handler.requestHandler import cRequestHandler
 
 try:
@@ -171,6 +170,7 @@ class cTMDb:
                      "premiered TEXT, "\
                      "poster_path TEXT,"\
                      "playcount INTEGER,"\
+                     "overview TEXT, "\
                      "UNIQUE(imdb_id, tmdb_id, season)"\
                      ");"
 
@@ -212,17 +212,26 @@ class cTMDb:
 
         if (total > 0):
             url = 'https://www.themoviedb.org/authenticate/'
-            try:
+            if not xbmc.getCondVisibility('system.platform.android'):
                 #Si possible on ouvre la page automatiquement dans un navigateur internet.
                 webbrowser.open(url + result['request_token'])
-            except:
-                pass
 
-            sText = (self.ADDON.VSlang(30421)) % (url, result['request_token'])
 
-            DIALOG = dialog()
-            if not DIALOG.VSyesno(sText):
-                return False
+
+                sText = (self.ADDON.VSlang(30421)) % (url, result['request_token'])
+
+                DIALOG = dialog()
+                if not DIALOG.VSyesno(sText):
+                    return False
+            else:
+                from resources.lib import pyqrcode
+                qr = pyqrcode.create(url + result['request_token'])
+                qr.png('special://home/userdata/addon_data/plugin.video.matrix/qrcode.png', scale=5)
+                oSolver = cInputWindowYesNo(captcha='special://home/userdata/addon_data/plugin.video.matrix/qrcode.png', msg="Scanner le QRCode pour acceder au lien d'autorisation", roundnum=1)
+                retArg = oSolver.get()
+                DIALOG = dialog()
+                if retArg == "N":
+                    return False
 
             result = self._call('authentication/session/new', 'request_token=' + result['request_token'])
 
@@ -240,11 +249,11 @@ class cTMDb:
 
     # cherche dans les films ou serie l'id par le nom, return ID ou FALSE
     def get_idbyname(self, name, year='', mediaType='movie', page=1):
-        #Pour les series il faut enlever le numero de l episode et la saison.
+        #Pour les series il faut enlever le numero de l episode et la season.
         if mediaType == "tv":
             m = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))', name)
 
-            m1 = re.search('(?i)( s(?:aison +)*([0-9]+(?:\-[0-9\?]+)*))', name)
+            m1 = re.search('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))', name)
  
             name = name.replace(m.group(1), '').replace(m1.group(1), '').replace('+', ' ')
 
@@ -269,14 +278,24 @@ class cTMDb:
         # cherche 1 seul resultat
         if 'total_results' in meta and meta['total_results'] != 0:
             if meta['total_results'] > 1:
-                qua = []
-                url = []
-                for aEntry in meta['results']:
-                   url.append(aEntry["id"])
-                   qua.append(aEntry['name'])
+                listitems = []
 
-                #Affichage du tableau
-                tmdb_id = dialog().VSselectqual(qua, url)
+                listitem = xbmcgui.ListItem()
+                # boucle commit
+
+
+                for i in meta['results']:
+                    icon = self.fanart + str(i['backdrop_path'])
+                    login = i["name"]
+                    desc = i["overview"]
+                    listitem = xbmcgui.ListItem(label = login, label2 = desc)
+                    listitem.setArt({'icon': icon, 'thumb': icon})
+                    listitem.setUniqueIDs({'tmdb' : i['id'] }, "tmdb")
+                    listitems.append(listitem)
+
+
+
+                tmdb_id = self.Box(listitems)
 
             else:
                 tmdb_id = meta['results'][0]['id']
@@ -554,6 +573,7 @@ class cTMDb:
         _meta['backdrop_url'] = ''
         _meta['episode'] = 0
         _meta['playcount'] = 0
+        _meta['season'] = []
 
         if 'title' in meta and meta['title']:
             _meta['title'] = meta['title']
@@ -607,9 +627,9 @@ class cTMDb:
         try:
             duration = 0
             if 'runtime' in meta and meta['runtime']:
-                duration = int(meta['runtime'])
+                duration = float(meta['runtime'])
             elif 'episode_run_time' in meta and meta['episode_run_time']:
-                duration = int(meta['episode_run_time'][0])
+                duration = float(meta['episode_run_time'][0])
             
             if duration < 300 : # en minutes
                 duration *= 60  # Convertir les minutes TMDB en secondes pour KODI
@@ -729,7 +749,7 @@ class cTMDb:
             _meta['backdrop_url'] = self.fanart + str(_meta['backdrop_path'])
 
 
-        # special saisons
+        # special seasons
         if 's_poster_path' in meta and meta['s_poster_path']:
             _meta['poster_path'] = meta['s_poster_path']
             _meta['cover_url'] = self.poster + str(meta['s_poster_path'])
@@ -790,6 +810,12 @@ class cTMDb:
                             _meta['writer'] += ' / '
                         _meta['writer'] += '%s (%s)' % (crew['job'], crew['name'])
 
+        if 'seasons' in meta and meta['seasons']:
+            _meta['season'] = meta['seasons']
+
+        if 's_overview' in meta and meta['s_overview']:
+            _meta['plot'] = meta['s_overview']
+
         return _meta
 
     def _clean_title(self, title):
@@ -816,16 +842,19 @@ class cTMDb:
                     name += 'saga'
                 sql_select = sql_select + ' WHERE title = \'%s\'' % name
 
-        elif media_type == 'tvshow' or media_type == 'anime':
+        elif media_type == 'tvshow' or media_type == 'anime' or media_type == 'season':
 
             sql_select = 'SELECT * FROM tvshow'
             if season:
                 sql_select = 'SELECT *, season.poster_path as s_poster_path, season.premiered as s_premiered, ' \
-                             'season.year as s_year FROM tvshow LEFT JOIN season ON tvshow.imdb_id = season.imdb_id '
+                             'season.year as s_year, season.overview as s_overview FROM tvshow LEFT JOIN season ON tvshow.imdb_id = season.imdb_id '
             if tmdb_id:
                 sql_select = sql_select + ' WHERE tvshow.tmdb_id = \'%s\'' % tmdb_id
             else:
-                sql_select = sql_select + ' WHERE tvshow.title = \'%s\'' % name
+                if season:
+                    sql_select = sql_select + ' WHERE tvshow.title = \'%s\'' %  name
+                else:
+                    sql_select = sql_select + ' WHERE tvshow.title = \'%s\'' %  name
 
 
             if year:
@@ -891,10 +920,11 @@ class cTMDb:
     # Cache pour les séries (et animes)
     def _cache_save_tvshow(self, meta, name, media_type, season, year):
 
-        # ecrit les saisons dans la BDD
-        if 'seasons' in meta:
+        # ecrit les seasons dans la BDD
+        if 'season' in meta:
             self._cache_save_season(meta, season)
-            del meta['seasons']
+            #Petite manipulation pour les skin qui affiche le nombre total de season.
+            meta['season'] = len(meta['season'])
             
         if not year and 'year' in meta:
             year = meta['year']
@@ -918,21 +948,44 @@ class cTMDb:
 
     def _cache_save_season(self, meta, season):
 
-        for s in meta['seasons']:
+        for s in meta['season']:
             if s['season_number'] != None and ('%02d' % int(s['season_number'])) == season:
                 meta['s_poster_path'] = s['poster_path']
                 meta['s_premiered'] = s['air_date']
                 meta['s_year'] = s['air_date']
+                meta['s_overview'] = s['overview']
 
             try:
-                sql = 'INSERT INTO season (imdb_id, tmdb_id, season, year, premiered, poster_path, playcount) VALUES ' \
-                      '(?, ?, ?, ?, ?, ?, ?) '
-                self.dbcur.execute(sql, (meta['imdb_id'], s['id'], s['season_number'], s['air_date'], s['air_date'], s['poster_path'], 6))
+                sql = 'INSERT INTO season (imdb_id, tmdb_id, season, year, premiered, poster_path, playcount, overview) VALUES ' \
+                      '(?, ?, ?, ?, ?, ?, ?, ?)'
+                self.dbcur.execute(sql, (meta['imdb_id'], s['id'], s['season_number'], s['air_date'], s['air_date'], s['poster_path'], 6, s['overview']))
 
                 self.db.commit()
 #                 VSlog('SQL INSERT Successfully')
-            except Exception:
-                VSlog('SQL ERROR INSERT into table season')
+            except Exception as e:
+                if 'no column named overview' in e.message:
+                    self.dbcur.execute("DROP TABLE season")
+                    self.db.commit()
+
+                    ex = "CREATE TABLE IF NOT EXISTS season ("\
+                                 "imdb_id TEXT, "\
+                                 "tmdb_id TEXT, " \
+                                 "season INTEGER, "\
+                                 "year INTEGER,"\
+                                 "premiered TEXT, "\
+                                 "poster_path TEXT,"\
+                                 "playcount INTEGER,"\
+                                 "overview TEXT, "\
+                                 "UNIQUE(imdb_id, tmdb_id, season)"\
+                                 ");"
+                    self.dbcur.execute(ex)
+                    self.db.commit()
+                    VSlog('Table recreated')
+
+                    self.dbcur.execute(sql_select)
+                    matchedrow = self.dbcur.fetchone()
+                else:
+                    VSlog('SQL ERROR INSERT into table season')
                 pass
 
     def get_meta(self, media_type, name, imdb_id='', tmdb_id='', year='', season='', episode='', update=False):
@@ -959,7 +1012,11 @@ class cTMDb:
 
 #         VSlog('Attempting to retrieve meta data for %s: %s %s %s %s' % (media_type, name, year, imdb_id, tmdb_id))
 
-        # recherche dans la base de données
+        #Obligatoire pour pointer vers les bonnes infos dans la base de données
+        if media_type == "season":
+            name = re.sub('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))(?:(.+?)(?:P|sd)|)','',name)
+
+        # recherche dans la base de données  nées
         if not update:
             meta = self._cache_search(media_type, self._clean_title(name), tmdb_id, year, season, episode)
             if meta:
@@ -1066,3 +1123,31 @@ class cTMDb:
         if genre:
             return genre
         return genreID
+
+    def Box(self, listitems):
+        addons = addon()
+
+        class XMLDialog(xbmcgui.WindowXMLDialog):
+
+            def __init__(self, *args, **kwargs):
+                self.tmdb_id = ""
+
+            def onInit(self):
+                self.container = self.getControl(6)
+                self.button = self.getControl(5)
+                self.getControl(3).setVisible(False)
+                self.getControl(1).setLabel("Choisissez le bon contenu")
+                self.list = self.container.addItems(listitems)
+                self.setFocus(self.container)
+
+            def onClick(self, controlId):
+                self.tmdb_id = self.getControl(controlId).getSelectedItem().getUniqueID('tmdb')
+                self.close()
+
+        path = 'special://home/addons/plugin.video.vstream'
+        wd = XMLDialog('DialogSelect.xml', path, 'Default')
+        wd.doModal()
+        tmdb_id = wd.tmdb_id
+        del wd
+
+        return tmdb_id

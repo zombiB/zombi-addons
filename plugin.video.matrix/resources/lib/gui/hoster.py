@@ -6,22 +6,26 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.player import cPlayer
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import dialog, addon, VSlog
-
 
 
 class cHosterGui:
 
     SITE_NAME = 'cHosterGui'
     ADDON = addon()
-    DIALOG = dialog()
 
     # step 1 - bGetRedirectUrl in ein extra optionsObject verpacken
     def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False):
 
         oInputParameterHandler = cInputParameterHandler()
+
+        # Gestion NextUp
+        siteUrl = oInputParameterHandler.getValue('siteUrl')
+        sourceID = oInputParameterHandler.getValue('sourceID')
+        seasonUrl = oInputParameterHandler.getValue('seasonUrl')
+        nextSeasonFunc = oInputParameterHandler.getValue('nextSeasonFunc')
+        nextEpisode = oInputParameterHandler.getValue('nextEpisode')
 
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(self.SITE_NAME)
@@ -49,7 +53,11 @@ class cHosterGui:
         oOutputParameterHandler.addParameter('sTitleWatched', oGuiElement.getTitleWatched())
         oOutputParameterHandler.addParameter('sTitle', oHoster.getDisplayName())
         oOutputParameterHandler.addParameter('sId', 'cHosterGui')
-        oOutputParameterHandler.addParameter('siteUrl', sMediaUrl)
+        oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+        oOutputParameterHandler.addParameter('sourceID', sourceID)
+        oOutputParameterHandler.addParameter('nextEpisode', nextEpisode)
+        oOutputParameterHandler.addParameter('nextSeasonFunc', nextSeasonFunc)
+        oOutputParameterHandler.addParameter('seasonUrl', seasonUrl)
         # oOutputParameterHandler.addParameter('sFav', 'play')
         # oOutputParameterHandler.addParameter('sCat', '4')
 
@@ -61,7 +69,7 @@ class cHosterGui:
         else:
             oGuiElement.setCat('4')
 
-        # context playlit menu
+        # context playlist menu
         oContext = cContextElement()
         oContext.setFile('cHosterGui')
         oContext.setSiteName(self.SITE_NAME)
@@ -355,7 +363,7 @@ class cHosterGui:
             return self.getHoster('wholecloud')
         if ('gorillavid' in sHostName):
             return self.getHoster('gorillavid')
-        if ('clipwatching' in sHostName):
+        if ('clipwatching' in sHostName) or ('highstream' in sHostName):
             return self.getHoster('clipwatching')
 
         if ('vidfast' in sHostName):
@@ -398,7 +406,7 @@ class cHosterGui:
             return self.getHoster('vshare')
         if ('giga' in sHostName):
             return self.getHoster('giga')
-        if ('anavids' in sHostName):
+        if (('anavids' in sHostName) or ('anavidz' in sHostName)):
             return self.getHoster('anavids')
 
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
@@ -425,7 +433,7 @@ class cHosterGui:
 
 
 
-        if ('goo.gl' in sHostName or 'bit.ly' in sHostName):
+        if (('goo.gl' in sHostName) or ('bit.ly' in sHostName)):
             return self.getHoster('allow_redirects')
 
 
@@ -555,7 +563,7 @@ class cHosterGui:
         if ('livestream.com' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('nitroflare' in sHostName or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'multiup' in sHostName):
+        if ('nitroflare' in sHostName or 'letsupload' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'multiup' in sHostName):
             return False
 
         #Si aucun hebergeur connu on teste les liens directs
@@ -580,7 +588,10 @@ class cHosterGui:
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
         bGetRedirectUrl = oInputParameterHandler.getValue('bGetRedirectUrl')
         sFileName = oInputParameterHandler.getValue('sFileName')
-        sTitle = oInputParameterHandler.getValue('title')
+        sTitle = oInputParameterHandler.getValue('sTitle')
+        siteUrl = oInputParameterHandler.getValue('siteUrl')
+        sCat = oInputParameterHandler.getValue('sCat')
+		
 
         if not sTitle:
             sTitle = sFileName
@@ -588,7 +599,13 @@ class cHosterGui:
         if bGetRedirectUrl == 'True':
             sMediaUrl = self.__getRedirectUrl(sMediaUrl)
 
-        VSlog('Hoster - play : ' + sMediaUrl)
+        try:
+            mediaDisplay = sMediaUrl.split('/')
+            VSlog('Hoster - play : %s/ ... /%s' % ('/'.join(mediaDisplay[0:3]), mediaDisplay[-1]))
+        except:
+            VSlog('Hoster - play : ' + sMediaUrl)
+				
+
         oHoster = self.getHoster(sHosterIdentifier)
         oHoster.setFileName(sFileName)
 
@@ -600,27 +617,47 @@ class cHosterGui:
             oHoster.setUrl(sMediaUrl)
             aLink = oHoster.getMediaLink()
 
-            if aLink[0]:
-                oGuiElement = cGuiElement()
-                oGuiElement.setSiteName(self.SITE_NAME)
-                oGuiElement.setMediaUrl(aLink[1])
-                oGuiElement.setTitle(sTitle)
-                oGuiElement.getInfoLabel()
+            if aLink[0] or aLink[1] : # Le hoster ne sait pas résoudre mais a retourné une autre url
+                if not aLink[0] :   # Voir exemple avec allDebrid qui : return False, URL
+                    oHoster = self.checkHoster(aLink[1], debrid=False)
+                    if oHoster:
+                        oHoster.setFileName(sFileName)
+                        sHosterName = oHoster.getDisplayName()
+                        oDialog.VSinfo(sHosterName, 'Resolve')
+                        oHoster.setUrl(sMediaUrl)
+                        aLink = oHoster.getMediaLink()
 
-                oPlayer = cPlayer()
 
-                # sous titres ?
-                if len(aLink) > 2:
-                    oPlayer.AddSubtitles(aLink[2])
 
-                oPlayer.run(oGuiElement, oHoster.getFileName(), aLink[1])
-                return
-            else:
-                oDialog.VSerror(self.ADDON.VSlang(30020))
-                return
 
-        except:
+
+
+
+                if aLink[0] :
+                    oGuiElement = cGuiElement()
+                    oGuiElement.setSiteName(self.SITE_NAME)
+                    oGuiElement.setSiteUrl(siteUrl)
+                    oGuiElement.setMediaUrl(aLink[1])
+                    oGuiElement.setTitle(sTitle)
+                    oGuiElement.setCat(sCat)
+                    oGuiElement.getInfoLabel()
+    
+                    from resources.lib.player import cPlayer
+                    oPlayer = cPlayer()
+    
+                    # sous titres ?
+                    if len(aLink) > 2:
+                        oPlayer.AddSubtitles(aLink[2])
+    
+                    return oPlayer.run(oGuiElement, oHoster.getFileName(), aLink[1])
+
             oDialog.VSerror(self.ADDON.VSlang(30020))
+            return
+
+        except Exception as e:
+            oDialog.VSerror(self.ADDON.VSlang(30020))
+            import traceback
+            traceback.print_exc()
             return
 
         oGui.setEndOfDirectory()
@@ -649,6 +686,7 @@ class cHosterGui:
             oGuiElement.setMediaUrl(aLink[1])
             oGuiElement.setTitle(oHoster.getFileName())
 
+            from resources.lib.player import cPlayer
             oPlayer = cPlayer()
             oPlayer.addItemToPlaylist(oGuiElement)
             dialog().VSinfo(str(oHoster.getFileName()), 'Playlist')

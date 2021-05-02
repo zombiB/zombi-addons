@@ -94,6 +94,8 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
     sPattern = "<li><a href='(.+?)'>التالى</a></li>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -143,7 +145,6 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        progress_.VSclose(progress_) 
  
     sPattern = '<a href="([^<]+)" target="_blank"' 
     aResult = oParser.parse(sHtmlContent, sPattern)

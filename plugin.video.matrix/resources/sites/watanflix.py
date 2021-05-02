@@ -1,18 +1,15 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-import re
-import unicodedata
- 
+
 SITE_IDENTIFIER = 'watanflix'
 SITE_NAME = 'watanflix'
 SITE_DESC = 'arabic vod'
@@ -26,6 +23,7 @@ KID_CARTOON = ('http://watanflix.com/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84'
 SERIE_GENRES = (True, 'showGenres')
 
 URL_SEARCH = ('https://watanflix.com/ar/search?q=', 'showSeries')
+URL_SEARCH_SERIES = ('https://watanflix.com/ar/search?q=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -34,8 +32,7 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-
-            
+           
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -44,10 +41,61 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'https://watanflix.com/ar/search?q='+sSearchText
-        showSeries(sUrl)
+        showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
-  
+ 
+def showSeriesSearch(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    sHtmlContent = sHtmlContent.encode('utf8',errors='ignore').decode('utf8',errors='ignore')
+ # .+? ([^<]+)
+
+    sPattern = ',"title":"(.+?)",.+?,"url":"(.+?)","class'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = str(aEntry[0])
+            siteUrl = str(aEntry[1])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+   
 
 def showGenres():
     oGui = cGui()
@@ -60,10 +108,7 @@ def showGenres():
     liste.append( ["حارة-شامية","https://watanflix.com/ar/type/%D8%AD%D8%A7%D8%B1%D8%A9-%D8%B4%D8%A7%D9%85%D9%8A%D8%A9"] )
     liste.append( ["تاريخي-سيرة-ذاتيه-وثائقي","https://watanflix.com/ar/type/%D8%AA%D8%A7%D8%B1%D9%8A%D8%AE%D9%8A-%D8%B3%D9%8A%D8%B1%D8%A9-%D8%B0%D8%A7%D8%AA%D9%8A%D9%87-%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A"] )
     liste.append( ["غموض-تشويق","https://watanflix.com/ar/type/%D8%BA%D9%85%D9%88%D8%B6-%D8%AA%D8%B4%D9%88%D9%8A%D9%82"] )
-
-
     
-	            
     for sTitle,sUrl in liste:
         
         oOutputParameterHandler = cOutputParameterHandler()
@@ -93,6 +138,7 @@ def showSeries(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -105,8 +151,6 @@ def showSeries(sSearch = ''):
             sYear = aEntry[0]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
-
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -145,19 +189,17 @@ def showSerie(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
 				
-            sTitle = str(aEntry[2])
-            
+            sTitle = str(aEntry[2])           
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[3])
             sInfo = str(aEntry[0])
 
-
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -198,8 +240,7 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     #.+? ([^<]+)
-              
-        
+                     
     sPattern = '<div style="overflow: hidden">.+?<a href="([^<]+)" target="_blank" class="linkPlay">.+?<img src="([^<]+)"  style=" margin: -13% 0 -10% 0; width: 100%;">.+?<i class="play-icon"></i>.+?</a>.+?</div>.+?<div><p><b>.+?</b><br/>([^<]+)</p></div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

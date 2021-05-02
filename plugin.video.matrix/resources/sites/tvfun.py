@@ -1,19 +1,12 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-from resources.lib.packer import cPacker
-from resources.lib.aadecode import AADecoder
-import re
-import unicodedata
 import base64
  
 SITE_IDENTIFIER = 'tvfun'
@@ -32,8 +25,9 @@ SERIE_LATIN = ('https://ww.tvfun.ma/mosalsalat-latinia/', 'showSeries')
 KID_CARTOON = ('https://www.tvfun.live/dessin-animee/', 'showSeries')
 REPLAYTV_NEWS = ('https://www.tvfun.ma/programme-tv/', 'showSeries')
 
-URL_SEARCH = ('https://www.tvfun.ma/q/', 'showSeries')
-FUNCTION_SEARCH = 'showSeries'
+URL_SEARCH = ('https://a.tvfun.me/q/', 'showSeriesSearch')
+URL_SEARCH_SERIES = ('https://a.tvfun.me/q/', 'showSeriesSearch')
+FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
     oGui = cGui()
@@ -51,7 +45,7 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'https://www.tvfun.ma/q/'+sSearchText
-        showSeries(sUrl)
+        showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
   
@@ -130,6 +124,121 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
  
 
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+  
+def showSeriesSearch(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = 'class="current">(.+?)<div id="sidebar">'  
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern) 
+     
+
+    if (aResult[0] == True):
+        sHtmlContent = aResult[1][0]
+   # ([^<]+) .+?
+    sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)">.+?<img src="(.+?)" loading='
+	
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
+            siteUrl = str(aEntry[0])
+            if siteUrl.startswith('//'):
+                siteUrl = 'http:' + siteUrl
+            sThumbnail = aEntry[2]
+			
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+   #([^<]+) .+?
+    sPattern = 'class="videocontainer"> <iframe src="([^<]+)" id="([^<]+)"'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = "playlist"
+            siteUrl = 'https:'+str(aEntry[0])
+            if siteUrl.startswith('//'):
+                siteUrl = 'http:' + siteUrl
+            sThumbnail = sThumbnail
+            sInfo = ""
+			
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+  #([^<]+) .+?
+
+    sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1]
+            
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			
+            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
  
     if not sSearch:
         oGui.setEndOfDirectory()

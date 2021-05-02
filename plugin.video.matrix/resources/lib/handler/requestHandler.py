@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 #
-from requests import Session, Request, HTTPError
+from requests import Session, Request, RequestException
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix
 
 class cRequestHandler:
@@ -150,6 +150,8 @@ class cRequestHandler:
 
         sContent = ''
 
+        if self.BUG_SSL == True:
+            self.verify = False
         if self.__cType == cRequestHandler.REQUEST_TYPE_GET:
             method = "GET"
         else:
@@ -187,11 +189,12 @@ class cRequestHandler:
             else:
                 sContent = oResponse.json()
 
-        except HTTPError as e:
-            if 'CERTIFICATE_VERIFY_FAILED' in str(e.reason) and self.BUG_SSL == False:
+        except RequestException  as e:
+
+            if 'CERTIFICATE_VERIFY_FAILED' in str(e) and self.BUG_SSL == False:
                 self.BUG_SSL = True
                 return self.__callRequest()
-            elif 'getaddrinfo failed' in str(e.reason) and self.__enableDNS == False:
+            elif 'getaddrinfo failed' in str(e) and self.__enableDNS == False:
                 # Retry with DNS only if addon is present
                 import xbmcvfs
                 if xbmcvfs.exists('special://home/addons/script.module.dnspython/'):
@@ -200,7 +203,7 @@ class cRequestHandler:
                 else:
                     error_msg = addon().VSlang(30470)
             else:
-                error_msg = "%s (%s),%s" % (addon().VSlang(30205), e.reason, self.__sUrl)
+                error_msg = "%s (%s),%s" % (addon().VSlang(30205), e, self.__sUrl)
 
             dialog().VSerror(error_msg)
             sContent = ''
@@ -274,7 +277,12 @@ def MPencode(fields):
     form_data = []
 
     if fields:
-        for (key, value) in fields.iteritems():
+        try:
+            data = fields.iteritems()
+        except:
+            data = fields.items()
+
+        for (key, value) in data:
             if not hasattr(value, 'read'):
                 itemstr = '--%s\r\nContent-Disposition: form-data; name="%s"\r\n\r\n%s\r\n' % (random_boundary, key, value)
                 form_data.append(itemstr)
@@ -297,7 +305,11 @@ def __randy_boundary(length=10, reshuffle=False):
     import string
     import random
 
-    character_string = string.letters + string.digits
+    if isMatrix():
+        character_string = string.ascii_letters + string.digits
+    else:
+        character_string = string.letters + string.digits
+
     boundary_string = []
     for i in range(0, length):
         rand_index = random.randint(0, len(character_string) - 1)

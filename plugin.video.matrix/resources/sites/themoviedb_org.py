@@ -640,8 +640,8 @@ def showSeries(sSearch=''):
             cGui.CONTENT = "tvshows"
             oGuiElement = cGuiElement()
             oGuiElement.setTmdbId(sId)
-            oGuiElement.setSiteName(SITE_IDENTIFIER) # a activer pour  saisons
-            oGuiElement.setFunction('showSeriesSaison')
+            oGuiElement.setSiteName(SITE_IDENTIFIER) # a activer pour  seasons
+            oGuiElement.setFunction('showSeriesSeason')
             oGuiElement.setTitle(sTitle)
             oGuiElement.setFileName(sTitle)
             oGuiElement.setIcon('series.png')
@@ -675,7 +675,7 @@ def showSeries(sSearch=''):
     oGui.setEndOfDirectory(view)
 
 
-def showSeriesSaison():
+def showSeriesSeason():
     oGui = cGui()
     grab = cTMDb()
     addons = addon()
@@ -726,7 +726,7 @@ def showSeriesSaison():
             i = grab._format(i,'')
             sId, sTitle, sGenre, sThumb, sFanart, sDesc, sYear = i['tmdb_id'], i['title'], i['genre'], i['cover_url'], i['backdrop_url'], i['plot'], i['year']
 
-            sTitle = 'Saison ' + str(SSeasonNum) + ' (' + str(sNbreEp) + ')'
+            sTitle = 'Season ' + str(SSeasonNum) + ' (' + str(sNbreEp) + ')'
 
             sUrl = 'tv/' + str(sId) + '/season/' + str(SSeasonNum)
 
@@ -786,7 +786,7 @@ def showSeriesEpisode():
 
     oGui = cGui()
 
-    # recherche saison complete
+    # recherche season complete
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', sMovieTitle)
     # oOutputParameterHandler.addParameter('type', 'serie')

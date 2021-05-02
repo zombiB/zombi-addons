@@ -389,13 +389,13 @@ def showSeriesLinks():
                 break
                         
             if aEntry[0]:
-                Saison = ' S'+str(aEntry[0])
+                Season = ' S'+str(aEntry[0])
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addText(SITE_IDENTIFIER, '[COLOR yellow]'+ Saison + '[/COLOR]')
+                oGui.addText(SITE_IDENTIFIER, '[COLOR yellow]'+ Season + '[/COLOR]')
             elif aEntry[2]:
-                sTitle = sMovieTitle+Saison+' E'+aEntry[4]+' [ '+ str(aEntry[3])+' ] '
+                sTitle = sMovieTitle+Season+' E'+aEntry[4]+' [ '+ str(aEntry[3])+' ] '
                 sUrl= str(aEntry[2])
                 sDate= ''
                 oOutputParameterHandler = cOutputParameterHandler()

@@ -77,7 +77,5 @@ class cHoster(iHoster):
             #Rajout d'un header ?
             api_call = api_call + '|User-Agent=Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
             return True, api_call
-        else:
-            cGui().showInfo(self.__sDisplayName, 'file not found' , 5)
         
         return False, False

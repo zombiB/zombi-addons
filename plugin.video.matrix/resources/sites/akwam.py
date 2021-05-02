@@ -46,6 +46,7 @@ DOC_SERIES = (URL_MAIN + '/shows?section=46&category=0&rating=0&year=0&formats=0
 REPLAYTV_NEWS = (URL_MAIN + '/shows?section=42', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + '/shows?section=45', 'showMovies')
 
+MOVIE_ANNEES = (True, 'showYears')
 
 URL_SEARCH = (URL_MAIN + '/search?q=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search?section=movie&year=0&rating=0&formats=0&quality=0&q=', 'showMovies')
@@ -70,6 +71,15 @@ def load():
     
 
             
+    oGui.setEndOfDirectory()
+
+def showYears():
+    oGui = cGui()
+    oOutputParameterHandler = cOutputParameterHandler()
+    for i in reversed(range(1925, 2022)):
+        sYear = str(i)
+        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/movies?section=0&category=0&rating=0&language=0&formats=0&quality=0&year=' + sYear)  # / inutile
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sYear, 'annees.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
  
 def showSearchAll():
@@ -337,18 +347,13 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
+
     # .+? ([^<]+)
     sPattern = '<a href="http([^<]+).com/watch/(.+?)"'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
-
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -364,7 +369,6 @@ def showEpisodes():
             sThumb = sThumb
             sDesc = sNote
  
-            #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
@@ -547,7 +551,7 @@ def showHosters():
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات التحميل--------[/COLOR]')
+
     # (.+?) .+? ([^<]+)
     sPattern = '<a href="http([^<]+)/link/(.+?)".+?class="font-size-14 mr-auto">(.+?)</span>'
 

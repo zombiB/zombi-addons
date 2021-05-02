@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-
 import xbmcvfs
-
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.util import QuotePlus, Unquote
-from resources.lib.comaddon import dialog, addon, VSlog, VSPath
-
+from resources.lib.comaddon import dialog, addon, VSlog, VSPath, isMatrix
 
 SITE_IDENTIFIER = 'cDb'
 SITE_NAME = 'DB'
@@ -17,21 +14,17 @@ try:
 except:
     from pysqlite2 import dbapi2 as sqlite
 
-
 class cDb:
 
-
-    DB = 'special://home/userdata/addon_data/plugin.video.matrix/matrix.db'
     # important seul xbmcvfs peux lire le special
+    DB = 'special://home/userdata/addon_data/plugin.video.matrix/matrix.db'
     try:
         REALDB = VSPath(DB).decode('utf-8')
-
 
     except AttributeError:
         REALDB = VSPath(DB)
 
     def __init__(self):
-
 
         VSlog('DB engine for db : ' + sqlite.__name__)
 
@@ -114,10 +107,6 @@ class cDb:
                         ");"
         self.dbcur.execute(sql_create)
 
-
-
-
-
         sql_create = "CREATE TABLE IF NOT EXISTS download ("\
                         "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
                         "title TEXT, "\
@@ -136,21 +125,24 @@ class cDb:
 
     # Ne pas utiliser cette fonction pour les chemins
     def str_conv(self, data):
-        if isinstance(data, str):
-            # Must be encoded in UTF-8
+        if not isMatrix():
+            if isinstance(data, str):
+                # Must be encoded in UTF-8
+                try:
+                    data = data.decode('utf8')
+                except AttributeError:
+                    pass
+            import unicodedata
+            data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
+            
             try:
-                data = data.decode('utf8')
-
-            except AttributeError:
+                data = data.decode('string-escape')  # ATTENTION: provoque des bugs pour les chemins a cause du caractere '/'
+            except:
                 pass
-        import unicodedata
-        data = unicodedata.normalize('NFKD', data).encode('ascii', 'ignore')
-        
-        try:
-            data = data.decode('string-escape')  # ATTENTION: provoque des bugs pour les chemins a cause du caractere '/'
-        except:
-            pass
 
+        else:
+            data = data.encode().decode()
+				
         return data
 
     # ***********************************
@@ -177,15 +169,6 @@ class cDb:
                 VSlog('SQL UPDATE history Successfully')
             VSlog('SQL ERROR INSERT, title = %s, %s' % (title, e) )
             pass
-
-
-
-
-
-
-
-
-
 
     def get_history(self):
         sql_select = 'SELECT * FROM history'
@@ -216,9 +199,6 @@ class cDb:
             oGui.updateDirectory()
             return False, False
         except Exception:
-
-
-
             VSlog('SQL ERROR DELETE : %s' % sql_delete)
             return False, False
 
@@ -233,41 +213,15 @@ class cDb:
 
         site = QuotePlus(meta['site'])
         ex = 'INSERT INTO watched (title, site) VALUES (?, ?)'
-        self.dbcur.execute(ex, (title, site))
+
         try:
+            self.dbcur.execute(ex, (title, site))
             self.db.commit()
             VSlog('SQL INSERT watched Successfully')
         except Exception:
 
             VSlog('SQL ERROR INSERT watched : title = %s, site = %s' % (title, site) )
             pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def get_watched(self, meta):
         title = meta['title']
@@ -287,25 +241,6 @@ class cDb:
         except Exception:
             VSlog('SQL ERROR %s' % sql_select)
             return None
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def del_watched(self, meta):
         title = meta['title']
@@ -331,11 +266,15 @@ class cDb:
         # hoster = meta['hoster']
         point = meta['point']
         ex = "DELETE FROM resume WHERE hoster = '%s'" % site
-        self.dbcur.execute(ex)
-        ex = 'INSERT INTO resume (title, hoster, point) VALUES (?, ?, ?)'
-        self.dbcur.execute(ex, (title, site, point))
+        try:
+            self.dbcur.execute(ex)
+        except Exception:
+            VSlog('SQL ERROR - ' + ex)
+            pass
 
         try:
+            ex = 'INSERT INTO resume (title, hoster, point) VALUES (?, ?, ?)'
+            self.dbcur.execute(ex, (title, site, point))
             self.db.commit()
         except Exception:
             VSlog('SQL ERROR INSERT resume, title = %s' % title)
@@ -369,8 +308,6 @@ class cDb:
             VSlog('SQL ERROR %s' % sql_select)
             return False, False
 
-
-
     # ***********************************
     #   Bookmark fonctions
 
@@ -385,7 +322,6 @@ class cDb:
             sIcon = meta['icon'].decode('UTF-8')
         except:
             sIcon = meta['icon']
-
 
         try:
             ex = 'INSERT INTO favorite (title, siteurl, site, fav, cat, icon, fanart) VALUES (?, ?, ?, ?, ?, ?, ?)'
@@ -414,22 +350,13 @@ class cDb:
             VSlog('SQL ERROR EXECUTE')
             return None
 
-
-
-
-
-
-
     def del_bookmark(self, sSiteUrl='', sMovieTitle='', sCat = '', sAll = False):
         
         sql_delete = None
 
-
         # Tous supprimer
         if sAll:
             sql_delete = 'DELETE FROM favorite;'
-
-
 
         # Supprimer un bookmark selon son titre
         elif sMovieTitle:
@@ -438,66 +365,13 @@ class cDb:
             title = title.replace("'", r"''")
             sql_delete = "DELETE FROM favorite WHERE siteurl = '%s' AND title = '%s'" % (siteUrl, title)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         # Supprimer un bookmark selon son url
         elif sSiteUrl:
             siteUrl = QuotePlus(sSiteUrl)
-
-
-
-
             sql_delete = "DELETE FROM favorite WHERE siteurl = '%s'" % siteUrl
-
-
-
-
         # Supprimer toute une catégorie
         elif sCat:
             sql_delete = "DELETE FROM favorite WHERE cat = '%s'" % sCat
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         if sql_delete:
             from resources.lib.gui.gui import cGui
             try:
@@ -516,7 +390,6 @@ class cDb:
                 VSlog('SQL ERROR %s' % sql_delete)
                 return False, False
 
-
     # ***********************************
     #   Download fonctions
 
@@ -530,9 +403,9 @@ class cDb:
         sPath = meta['path']
 
         ex = 'INSERT INTO download (title, url, path, cat, icon, size, totalsize, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-        self.dbcur.execute(ex, (title,url, sPath,meta['cat'],sIcon, '', '', 0))
 
         try:
+            self.dbcur.execute(ex, (title,url, sPath,meta['cat'],sIcon, '', '', 0))
             self.db.commit()
             VSlog('SQL INSERT download Successfully')
             dialog().VSinfo(addon().VSlang(30042), meta['title'])

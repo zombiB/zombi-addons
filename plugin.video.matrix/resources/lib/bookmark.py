@@ -19,23 +19,20 @@ class cFav:
     DIALOG = dialog()
     ADDON = addon()
 
-
-
     # Suppression d'un bookmark, d'une catégorie, ou tous les bookmarks
     def delBookmark(self):
         oInputParameterHandler = cInputParameterHandler()
         if not self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
             return False
-        
+       
         sAll = oInputParameterHandler.exist('sAll')
         sCat = oInputParameterHandler.getValue('sCat')
         siteUrl = oInputParameterHandler.getValue('siteUrl')
         sTitle = oInputParameterHandler.getValue('sCleanTitle')
-#         sTitle = cUtil().CleanName(sTitle)
+        # sTitle = cUtil().CleanName(sTitle)
         
         cDb().del_bookmark(siteUrl, sTitle, sCat, sAll)
         return True
-
 
     # Suppression d'un bookmark depuis un Widget
     def delBookmarkMenu(self):
@@ -58,11 +55,6 @@ class cFav:
         compt = [0, 0, 0, 0, 0, 0, 0, 0]
         for i in row:
             compt[int(i[5])] = compt[int(i[5])] + 1
-
-
-
-
-
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sCat', '1')
@@ -102,10 +94,7 @@ class cFav:
 
     def getFav(self):
         oGui = cGui()
-
         oInputParameterHandler = cInputParameterHandler()
-
-
 
         row = cDb().get_bookmark()
 
@@ -129,7 +118,6 @@ class cFav:
                 thumbnail = data[6]
 
             try:
-
                 try:
                     siteurl = data[2].encode('utf-8')
                 except:
@@ -137,6 +125,7 @@ class cFav:
 
                 if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
                     siteurl = UnquotePlus(siteurl.decode('utf-8'))
+                    title = str(title, 'utf-8')
                 else:
                     siteurl = UnquotePlus(siteurl)
 
@@ -170,28 +159,26 @@ class cFav:
                 oGuiElement.setIcon("mark.png")
                 if (cat  == '1'):
                     cGui.CONTENT = 'movies'
-                    oGuiElement.setMeta(cat)
+                    oGuiElement.setMeta(1)
                     oGuiElement.setCat(1)
                 elif (cat == '2'):
                     cGui.CONTENT = 'tvshows'
-                    oGuiElement.setMeta(cat)
+                    oGuiElement.setMeta(2)
                     oGuiElement.setCat(2)
                 else:
+                    cGui.CONTENT = 'videos'
                     oGuiElement.setMeta(0)
                     oGuiElement.setCat(cat)
                 oGuiElement.setThumbnail(thumbnail)
                 oGuiElement.setFanart(fanart)
                 oGuiElement.addItemProperties('isBookmark', True)
 
-
-                oGui.CreateSimpleMenu(oGuiElement,oOutputParameterHandler, 'cFav', 'cFav', 'delBookmark', self.ADDON.VSlang(30412))
+                oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'delBookmark', self.ADDON.VSlang(30412))
 
                 if (function == 'play'):
                     oGui.addHost(oGuiElement, oOutputParameterHandler)
                 else:
                     oGui.addFolder(oGuiElement, oOutputParameterHandler)
-
-
 
             except:
                 oGui.addDir(SITE_IDENTIFIER, 'DoNothing', '[COLOR red]ERROR[/COLOR]', 'films.png', oOutputParameterHandler)
@@ -209,10 +196,6 @@ class cFav:
     def setBookmark(self):
         oInputParameterHandler = cInputParameterHandler()
 
-
-
-
-
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
         if int(sCat) not in (1, 2, 5):
             self.DIALOG.VSinfo('Error', self.ADDON.VSlang(30038))
@@ -225,11 +208,9 @@ class cFav:
         sSite = oInputParameterHandler.getValue('sId') if oInputParameterHandler.exist('sId') else xbmc.getInfoLabel('ListItem.Property(sId)')
         sFav = oInputParameterHandler.getValue('sFav') if oInputParameterHandler.exist('sFav') else xbmc.getInfoLabel('ListItem.Property(sFav)')
 
-
-
-
-
-
+        if sTitle == '':
+            self.DIALOG.VSinfo('Error', 'Probleme sur titre')
+            return
 
         meta['siteurl'] = sSiteUrl
         meta['title'] = sTitle

@@ -247,6 +247,8 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 
     sPattern = 'href="/mosalsalat/home/(.+?)"><img src="(.+?)" alt="(.+?)"><div class="panet-title">(.+?)</div><div class="panet-info">(.+?)</'
 
@@ -267,18 +269,19 @@ def showEps():
             if progress_.iscanceled():
                 break
             siteUrl = URL_MAIN+'/mosalsalat/home/'+str(aEntry[0])
+            sTitle = sMovieTitle+str(aEntry[2]).replace("الحلقة "," E").replace("حلقة "," E")
 
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[2]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[1]))
 
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[1], aEntry[2], oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', aEntry[1], '', oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        

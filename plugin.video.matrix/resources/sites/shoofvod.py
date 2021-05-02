@@ -1,19 +1,19 @@
 ﻿ #-*- coding: utf-8 -*-
 #zombi.(@geekzombi)
-from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
+
+
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, dialog, addon, isMatrix
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-from resources.lib.gui.guiElement import cGuiElement
+
+
 from resources.lib.player import cPlayer
 import re
-import unicodedata
+
  
 SITE_IDENTIFIER = 'shoofvod'
 SITE_NAME = 'shoofvod'
@@ -21,28 +21,39 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://shoofvod.com/'
 
-RAMADAN_SERIES = ('http://shoofvod.com/Cat-98-1', 'showSeries')
-MOVIE_EN = ('http://shoofvod.com/al_751319_1', 'showMovies')
-MOVIE_AR = ('http://shoofvod.com/Cat-100-1', 'showMovies')
+RAMADAN_SERIES = (URL_MAIN + '/Cat-98-1', 'showSeries')
 
-MOVIE_HI = ('http://shoofvod.com/Cat-132-1', 'showMovies')
-MOVIE_TURK = ('http://shoofvod.com/Cat-48-1', 'showMovies')
-SERIE_DUBBED = ('http://shoofvod.com/Cat-129-1', 'showSeries')
 
-MOVIE_ANIME = ('http://shoofvod.com/Cat-57-1', 'showMovies')
-DOC_NEWS = ('http://shoofvod.com/Cat-23-1', 'showMovies')
 
-SERIE_AR = ('http://shoofvod.com/Cat-98-1', 'showSeries')
-SERIE_TR = ('http://shoofvod.com/Cat-128-1', 'showSeries')
-SERIE_TR_AR = ('http://shoofvod.com/Cat-129-1', 'showSeries')
+
+MOVIE_EN = (URL_MAIN + '/al_751319_1', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/Cat-100-1', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/Cat-132-1', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/Cat-48-1', 'showMovies')
+MOVIE_ANIME = (URL_MAIN + '/Cat-57-1', 'showMovies')
+
+
+
+DOC_NEWS = (URL_MAIN + '/Cat-23-1', 'showMovies')
+
+SERIE_DUBBED = (URL_MAIN + '/Cat-129-1', 'showSeries')
+SERIE_AR = (URL_MAIN + '/Cat-98-1', 'showSeries')
+SERIE_TR = (URL_MAIN + '/Cat-128-1', 'showSeries')
+SERIE_TR_AR = (URL_MAIN + '/Cat-129-1', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/Cat-130-1', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-SERIE_HEND = ('http://shoofvod.com/Cat-130-1', 'showSerie')
 
-REPLAYTV_NEWS = ('http://shoofvod.com/Cat-39-1', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + '/Cat-39-1', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + '/Cat-44-1', 'showEps')
 
-REPLAYTV_PLAY = ('http://shoofvod.com/Cat-44-1', 'showEps')
-KID_CARTOON = ('http://shoofvod.com/Cat-56-1', 'showSeries')
-URL_SEARCH = ('', 'showMovies')
+
+KID_CARTOON = (URL_MAIN + '/Cat-56-1', 'showSeries')
+
+URL_SEARCH = (URL_MAIN + '/Search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/Search/', 'showMovies')
+
+
+URL_SEARCH_MOVIES = (URL_MAIN + '/Search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -50,7 +61,7 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
 
             
     oGui.setEndOfDirectory()
@@ -60,21 +71,22 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = ''+sSearchText
+        sUrl = URL_MAIN + '/Search/'+sSearchText
+
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
    
 
  
-def showGenre():
+def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
 	
-    liste.append( ['مسلسلات سورية - لبنانية','http://shoofvod.com/Cat-93-1'] )
+    liste.append( ['مسلسلات سورية - لبنانية',URL_MAIN + '/Cat-93-1'] )
 
  
     for sTitle,sUrl in liste:
@@ -95,6 +107,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  
      # (.+?) ([^<]+) .+?
     sPattern = '<div class="col-md-3 col-sm-4 col-xs-4 col-xxs-6 item">.+?<a href="([^<]+)">.+?<img src="([^<]+)" class.+?<div class="title"><h4>([^<]+)</h4></div>'
@@ -111,21 +125,34 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("&#8217;","'") 
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
-            siteUrl = URL_MAIN+str(aEntry[0])
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
+
+
+            siteUrl = URL_MAIN+aEntry[0]
             siteUrl = siteUrl.replace('vidpage_','Play/')
-            sThumbnail = str(aEntry[1])
-            sInfo = ""
-            sYear = ""
+            sThumbnail = aEntry[1]
+            sInfo = ''
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
+            sDisplayTitle2 = sTitle.split('مدبلج')[0]
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
+
+
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            if 'الحلقة' in aEntry[2]:
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            else:
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
   # ([^<]+) .+?
 
     sPattern ='class="page" href="([^<]+)">([^<]+)</a>'
@@ -175,6 +202,8 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
       # (.+?) ([^<]+) .+?
     sPattern = '<div class="col-md-3 col-sm-4 col-xs-4 col-xxs-6 item">.+?<a href="([^<]+)">.+?<img src="([^<]+)" class.+?<div class="title"><h4>([^<]+)</h4></div>'
 
@@ -190,16 +219,17 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(aEntry[1])
             sInfo = ""
+            sDisplayTitle2 = sTitle.split('مدبلج')[0]
 			
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
@@ -239,6 +269,8 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # (.+?) ([^<]+) .+?
     sPattern = '<div class="col-md-3 col-sm-4 col-xs-4 col-xxs-6 item">.+?<a href="([^<]+)">.+?<img src="([^<]+)" class="img-responsive mrg-btm-5">.+?<div class="title"><h4>([^<]+)</h4></div>'
 
@@ -259,7 +291,7 @@ def showEps():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+str(aEntry[0])
             siteUrl = siteUrl.replace('vidpage_','Play/')
             sThumbnail = str(aEntry[1])
@@ -300,7 +332,8 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]
-        m3url = 'http://shoofvod.com' + m3url 
+        m3url = URL_MAIN + '' + m3url 
+
 			
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()

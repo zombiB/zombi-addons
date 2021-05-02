@@ -106,9 +106,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
-            
-            sTitle = sTitle.replace("&#8217;", "'").replace("مشاهدة","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
+            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[2])
             sInfo = ""
@@ -150,6 +148,8 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  
  # ([^<]+) .+?
     sPattern = '<li class="LodyBlock TermBlock"><a href="([^<]+)"><.+?<img alt="([^<]+)" src="([^<]+)" />'
@@ -201,6 +201,8 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
   #([^<]+) .+?
 
     sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
@@ -217,7 +219,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;","'").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("اون لاين","").replace("الحلقة "," E")
+            sTitle = aEntry[1].replace("&#8217;","'").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("اون لاين","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = str(aEntry[0])
             sThumbnail = ""
             sInfo = ""
@@ -276,6 +278,8 @@ def showSeries():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
   #([^<]+).+?
     sPattern = '<div class="movief"><a href="([^<]+)">([^<]+)</a></div>'
 

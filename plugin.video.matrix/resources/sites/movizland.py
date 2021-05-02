@@ -559,7 +559,7 @@ def showHosters():
 
     data = {'watch':'1'}
     s = requests.Session()
-    r = s.post(sUrl, headers=headers,data = data)
+    r = s.post(sUrl,data = data)
     sHtmlContent += r.content
     # ([^<]+) (.+?)      
 
@@ -732,7 +732,7 @@ def showHosters1():
 
     data = {'watch':'1'}
     s = requests.Session()
-    r = s.post(sUrl, headers=headers,data = data)
+    r = s.post(sUrl,data = data)
     sHtmlContent += r.content
     # ([^<]+) (.+?)      
 
@@ -882,7 +882,7 @@ def showHosters2():
 
     data = {'watch':'1'}
     s = requests.Session()
-    r = s.post(sUrl, headers=headers,data = data)
+    r = s.post(sUrl,data = data)
     sHtmlContent = r.content
     # ([^<]+) (.+?)      
 

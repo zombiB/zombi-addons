@@ -87,6 +87,8 @@ def showMovies(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  # ([^<]+) .+?
     sPattern = '<div class="BlockItem">.+?<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlockMovieNormal InFilmBlock">([^<]+)</div>.+?<div class="DescBlockMovieNormal">([^<]+)</div>'
 
@@ -103,10 +105,10 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = str(aEntry[2])
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("مترجم","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("أون لاين","")
-            siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
-            sDesc = str(aEntry[3])
+            sTitle = sTitle.replace("مشاهدة","").replace("مشاهده","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("مترجم","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("أون لاين","")
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1]
+            sDesc = aEntry[3]
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -456,7 +458,8 @@ def showServer():
         s = requests.Session()
 				
         r = s.post('https://www.egy-club.com/wp-admin/admin-ajax.php', headers=headers,data = data)
-        sHtmlContent = r.content          
+        sHtmlContent = r.content.decode('utf8',errors='ignore')        
+
     # (.+?) ([^<]+) .+?
     sPattern = '<iframe.+?src="(.+?)"'
     oParser = cParser()

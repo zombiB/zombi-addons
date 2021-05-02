@@ -140,6 +140,11 @@ class cShowBA:
         urlTrailer = self.sTrailerUrl
         
         # Sinon recherche de la BA officielle dans TMDB
+
+
+
+
+
                 
         # Sinon recherche dans youtube
         if not urlTrailer:

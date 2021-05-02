@@ -159,7 +159,7 @@ def showMovies(sSearch = ''):
             sDesc = ''
             sYear = ''
             sDub = ''
-            m = re.search('([0-9]{4})', sTitle)
+            m = re.search('([1-2][0-9]{3})', sTitle)
             if m:
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')

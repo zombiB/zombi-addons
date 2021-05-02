@@ -18,14 +18,12 @@ except ImportError:  # Python 3
 # old version
 from requests.packages.urllib3.util.ssl_ import create_urllib3_context
 
-
 # #####################################################################################################################
 #
 # Ok so a big thx to VeNoMouS for this code
 # From this url https://github.com/VeNoMouS/cloudscraper
 # Franchement si vous etes content de voir revenir vos sites allez mettre une etoile sur son github.
 #
-
 # #####################################################################################################################
 
 
@@ -38,7 +36,6 @@ class CipherSuiteAdapter(HTTPAdapter):
             self.ssl_context = create_urllib3_context(
                     ssl_version=getattr(ssl, 'PROTOCOL_TLSv1_3', ssl.PROTOCOL_TLSv1_2),
                     ciphers=self.cipherSuite
-
                     )
         else:
             self.ssl_context = create_urllib3_context(ssl_version=ssl.PROTOCOL_TLSv1)
@@ -52,7 +49,6 @@ class CipherSuiteAdapter(HTTPAdapter):
     def proxy_manager_for(self, *args, **kwargs):
         kwargs['ssl_context'] = self.ssl_context
         return super(CipherSuiteAdapter, self).proxy_manager_for(*args, **kwargs)
-
 
 #######################################################################################################################
 
@@ -79,13 +75,11 @@ if (False):
     requests_log.setLevel(logging.DEBUG)
     requests_log.propagate = True
 
-
 # ---------------------------------------------------------
 # Gros probleme, mais qui a l'air de passer
 # Le headers 'Cookie' apparait 2 fois, il faudrait lire la precedente valeur
 # la supprimer et remettre la nouvelle avec les 2 cookies
 # Non conforme au protocole, mais ca marche (pour le moment)
-
 # -----------------------------------------------------------
 
 # Cookie path
@@ -116,54 +110,7 @@ if (False):
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class CloudflareBypass(object):
-
     def __init__(self):
         self.state = False
         self.HttpReponse = None
@@ -173,11 +120,8 @@ class CloudflareBypass(object):
         self.Header = None
         self.RedirectionUrl = None
 
-
-
     # Return param for head
     def GetHeadercookie(self, url):
-
         Domain = re.sub(r'https*:\/\/([^/]+)(\/*.*)', '\\1', url)
         cook = GestionCookie().Readcookie(Domain.replace('.', '_'))
         if cook == '':

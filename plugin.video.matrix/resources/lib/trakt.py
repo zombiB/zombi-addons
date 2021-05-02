@@ -37,7 +37,7 @@ class cTrakt:
         self.__sType = ''
 
     def getToken(self):
-        oOutputParameterHandler = cOutputParameterHandler()
+
         oRequestHandler = cRequestHandler(URL_API + 'oauth/device/code')
         oRequestHandler.setRequestType(1)
         oRequestHandler.addHeaderEntry('Content-Type', 'application/json')
@@ -523,7 +523,7 @@ class cTrakt:
                         show = i['show']
                         sTitle = self.getLocalizedTitle(show, 'shows')
                         sTrakt, sImdb, sTmdb, sYear, sFirst_aired = show['ids']['trakt'], show['ids']['imdb'], show['ids']['tmdb'], show['year'], i['first_aired']
-                        sSaison, sEpisode = i['episode']['season'], i['episode']['number']
+                        sSeason, sEpisode = i['episode']['season'], i['episode']['number']
                         cTrakt.CONTENT = '2'
                     else:
                         movie = i['movie']
@@ -540,7 +540,7 @@ class cTrakt:
                         sTitle = self.decode(sTitle)
                         searchtext = ('%s') % (sTitle)
                         sFile = ('%s - (%s)') % (sTitle, sYear)
-                        sTitle = ('%s (S%02dE%02d)') % (self.decode(sTitle,  Unicode=True), sSaison, sEpisode)
+                        sTitle = ('%s (S%02dE%02d)') % (self.decode(sTitle,  Unicode=True), sSeason, sEpisode)
 
                     sFunction = 'showSearch'
                     sId = 'globalSearch'
@@ -868,15 +868,17 @@ class cTrakt:
         sSeason = oInputParameterHandler.getValue('sSeason')
         sEpisode = oInputParameterHandler.getValue('sEpisode')
 
-        sType = sType.replace('1', 'movies').replace('2', 'shows')
+        sType = sType.replace('1', 'movies').replace('2', 'shows').replace('3', 'shows').replace('4', 'shows').replace('6', 'shows')
 
         # Mettre en vu automatiquement.
         if Action == "SetWatched":
             sTitle = oInputParameterHandler.getValue('sFileName')
 
             if sType == "shows":
-                sSeason = re.search('(?i)( s(?:aison +)*([0-9]+(?:\-[0-9\?]+)*))',sTitle).group(2)
-                sEpisode = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))',sTitle).group(2)
+                if not sSeason:
+                    sSeason = re.search('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))',sTitle).group(2)
+                if not sEpisode:
+                    sEpisode = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))',sTitle).group(2)
             else:
                 sSeason = False
                 sEpisode = False

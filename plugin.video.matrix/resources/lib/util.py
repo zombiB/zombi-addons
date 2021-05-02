@@ -184,16 +184,16 @@ class cUtil:
                 SXEX = '0' + SXEX
             SXEX = 'E' + SXEX
 
-            # pr les saisons
-            m = re.search('(?i)(s(?:aison )*([0-9]+))', string)
+            # pr les seasons
+            m = re.search('(?i)(s(?:eason )*([0-9]+))', string)
             if m:
                 string = string.replace(m.group(1), '')
                 SXEX = 'S' + '%02d' % int(m.group(2)) + SXEX
             string = string + ' ' + SXEX
 
         else:
-            # pas d'episode mais y a t il des saisons ?
-            m = re.search('(?i)(s(?:aison )*([0-9]+))(?:$| )', string)
+            # pas d'episode mais y a t il des seasons ?
+            m = re.search('(?i)(s(?:eason )*([0-9]+))(?:$| )', string)
             if m:
                 string = string.replace(m.group(1), '')
                 SXEX = 'S' + '%02d' % int(m.group(2))

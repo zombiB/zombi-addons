@@ -4,7 +4,6 @@ import xbmcplugin
 import xbmc
 from resources.lib.tmdb import cTMDb
 from resources.lib.comaddon import listitem, addon, dialog, isKrypton, window
-from resources.lib.db import cDb
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -12,13 +11,13 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.pluginHandler import cPluginHandler
 from resources.lib.parser import cParser
 from resources.lib.util import QuotePlus
-from resources.lib.util import cUtil
-from resources.lib.comaddon import progress
 import re
-try:
+
+try:  # Python 2
     import urllib2
-except ImportError:
-    import urllib.request as urllib2 
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
 
 class cGui:
 
@@ -26,227 +25,140 @@ class cGui:
     CONTENT = 'files'
     searchResults = []
     listing = []
+    episodeListing = [] # Pour gérer l'enchainement des episodes
     ADDON = addon()
 
     if isKrypton():
         CONTENT = 'addons'
 
-    def addMovie(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
-        cGui.CONTENT = 'movies'
+    def getEpisodeListing(self):
+        return self.episodeListing
+    
+    def addNewDir(self, Type, sId, sFunction, sLabel, sIcon, sThumbnail='', sDesc='', oOutputParameterHandler='', sMeta=0, sCat=None):
         oGuiElement = cGuiElement()
+        # dir ou link => CONTENT par défaut = files
+        if Type != 'dir' and Type != 'link':
+            cGui.CONTENT = Type
         oGuiElement.setSiteName(sId)
         oGuiElement.setFunction(sFunction)
         oGuiElement.setTitle(sLabel)
         oGuiElement.setIcon(sIcon)
-        oGuiElement.setThumbnail(sThumbnail)
-        oGuiElement.setPoster(sThumbnail)
-        oGuiElement.setMeta(1)
+
+        if sThumbnail == '':
+            oGuiElement.setThumbnail(oGuiElement.getIcon())
+            
+        else:       
+            oGuiElement.setThumbnail(sThumbnail)
+            oGuiElement.setPoster(sThumbnail)
+
+        oGuiElement.setMeta(sMeta)
         oGuiElement.setDescription(sDesc)
-        # oGuiElement.setMovieFanart()
-        oGuiElement.setCat(1)
 
-        if oOutputParameterHandler.getValue('sMovieTitle'):
-            sTitle = oOutputParameterHandler.getValue('sMovieTitle')
-            oGuiElement.setFileName(sTitle)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    # Coffret et integrale de films
-    def addMoviePack(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
-        cGui.CONTENT = 'movies'
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        oGuiElement.setIcon(sIcon)
-        oGuiElement.setThumbnail(sThumbnail)
-        oGuiElement.setPoster(sThumbnail)
-        oGuiElement.setMeta(3)
-        oGuiElement.setDescription(sDesc)
-        # oGuiElement.setMovieFanart()
-        oGuiElement.setCat(1)
-
-        if oOutputParameterHandler.getValue('sMovieTitle'):
-            sTitle = oOutputParameterHandler.getValue('sMovieTitle')
-            oGuiElement.setFileName(sTitle)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    def addTV(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
-        cGui.CONTENT = 'tvshows'
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        oGuiElement.setIcon(sIcon)
-        oGuiElement.setThumbnail(sThumbnail)
-        oGuiElement.setPoster(sThumbnail)
-        oGuiElement.setMeta(2)
-        oGuiElement.setDescription(sDesc)
-        # oGuiElement.setTvFanart()
-        oGuiElement.setCat(2)
-
-        if oOutputParameterHandler.getValue('sMovieTitle'):
-            sTitle = oOutputParameterHandler.getValue('sMovieTitle')
-            oGuiElement.setFileName(sTitle)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    def addAnime(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
-        cGui.CONTENT = 'tvshows'
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        oGuiElement.setIcon(sIcon)
-        oGuiElement.setThumbnail(sThumbnail)
-        oGuiElement.setPoster(sThumbnail)
-        oGuiElement.setMeta(4)  # Recherche des Métas spécifiques Animation
-        oGuiElement.setDescription(sDesc)
-        # oGuiElement.setTvFanart()
-        oGuiElement.setCat(2)
-
-        if oOutputParameterHandler.getValue('sMovieTitle'):
-            sTitle = oOutputParameterHandler.getValue('sMovieTitle')
-            oGuiElement.setFileName(sTitle)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    # Affichage d'un épisode, sans recherche de Métadonnées, et menu adapté
-    def addEpisode(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
-        
-        # comportement proche de addMisc
-        self.addMisc(sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, sCat=2)
-        cGui.CONTENT = 'files'
-
-    # Affichage d'une personne (acteur, réalisateur, ..)
-    def addPerson(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler=''):
-        cGui.CONTENT = 'movies'
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        oGuiElement.setIcon(sIcon)
-        oGuiElement.setMeta(7)
-#         oGuiElement.setCat(7)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    # Affichage d'un réseau de distribution du média
-    def addNetwork(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler=''):
-        cGui.CONTENT = 'files'
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        oGuiElement.setIcon(sIcon)
-        oGuiElement.setMeta(8)
-#         oGuiElement.setCat(7)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    # Meme mode d'affichage qu'un film, avec la description si fournie, mais il n'y a pas de recherche des Métadonnées
-    def addMisc(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler='', sCat=5):
-        if sThumbnail or sDesc:
-            cGui.CONTENT = 'movies'
-        else:
-            cGui.CONTENT = 'files'
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        oGuiElement.setIcon(sIcon)
-        oGuiElement.setThumbnail(sThumbnail)
-        oGuiElement.setDescription(sDesc)
-        # oGuiElement.setPoster(sThumbnail)
-        oGuiElement.setMeta(0)
-        # oGuiElement.setDirFanart(sIcon)
-        oGuiElement.setCat(sCat)
-
-        if oOutputParameterHandler.getValue('sMovieTitle'):
-            sTitle = oOutputParameterHandler.getValue('sMovieTitle')
-            oGuiElement.setFileName(sTitle)
-
-        self.createContexMenuWatch(oGuiElement, oOutputParameterHandler)
-        # self.createContexMenuinfo(oGuiElement, oOutputParameterHandler)
-        self.createContexMenuBookmark(oGuiElement, oOutputParameterHandler)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    def addLink(self, sId, sFunction, sLabel, sThumbnail, sDesc, oOutputParameterHandler=''):
-        cGui.CONTENT = 'files'
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        # oGuiElement.setIcon(sIcon)
-        oGuiElement.setThumbnail(sThumbnail)
-        oGuiElement.setPoster(sThumbnail)
-        oGuiElement.setDescription(sDesc)
-        oGuiElement.setMeta(0)
-        # oGuiElement.setDirFanart('')
-
-        oInputParameterHandler = cInputParameterHandler()
-        sCat = oInputParameterHandler.getValue('sCat')
-        if sCat:
+        if sCat is not None:
             oGuiElement.setCat(sCat)
-
-        try:
-            self.addFolder(oGuiElement, oOutputParameterHandler)
-        except:
-            pass
-
-    def addDir(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler=''):
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(sId)
-        oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
-        oGuiElement.setIcon(sIcon)
-        oGuiElement.setThumbnail(oGuiElement.getIcon())
-        oGuiElement.setMeta(0)
-        # oGuiElement.setDirFanart(sIcon)
+            
+        # Pour addLink on recupere le sCat precedent.
+        elif Type == 'link':
+            oInputParameterHandler = cInputParameterHandler()
+            sCat = oInputParameterHandler.getValue('sCat')
+            if sCat:
+                oGuiElement.setCat(sCat)
 
         oOutputParameterHandler.addParameter('sFav', sFunction)
 
-        # context parametre
-#        if isKrypton():
-#            self.createContexMenuSettings(oGuiElement, oOutputParameterHandler)
+        if oOutputParameterHandler.getValue('sMovieTitle'):
+            sTitle = oOutputParameterHandler.getValue('sMovieTitle')
+            oGuiElement.setFileName(sTitle)
 
         try:
             self.addFolder(oGuiElement, oOutputParameterHandler)
         except:
             pass
+
+    def addMovie(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+        self.addNewDir('movies', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 1, 1)
+
+    def addTV(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+        self.addNewDir('tvshows', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 2, 2)
+
+    def addAnime(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+        self.addNewDir('tvshows', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 4, 3)
+
+    def addMisc(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+        if sThumbnail or sDesc:
+            type = 'videos'
+        else:
+            type = 'files'
+        self.addNewDir(type, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, 5)
+
+    def addMoviePack(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+        self.addNewDir('movies', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 3, 1)
+
+    def addDir(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler='', sDesc=""):
+        self.addNewDir('dir', sId, sFunction, sLabel, sIcon, '', sDesc, oOutputParameterHandler, 0, None)
+
+    def addLink(self, sId, sFunction, sLabel, sThumbnail, sDesc, oOutputParameterHandler=''):
+        sIcon = sThumbnail
+        self.addNewDir('link', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, None)
+				
+    def addSeason(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+        # Pour gérer l'enchainement des épisodes
+        seasonUrl = oOutputParameterHandler.getValue('siteUrl')
+        oOutputParameterHandler.addParameter('sourceID', sId)
+        oOutputParameterHandler.addParameter('seasonUrl', QuotePlus(seasonUrl))
+        oOutputParameterHandler.addParameter('nextSeasonFunc', sFunction)
+
+        self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 5, 4)
+        
+
+        # Pour gérer l'enchainement des épisodes
+        nbSeason = len(self.listing)
+        if nbSeason > 1 and seasonUrl:
+            url, listItem, isFolder = self.listing.pop(nbSeason-2)
+            url += '&nextSeason=%s' % QuotePlus(seasonUrl)
+            self.listing.insert(nbSeason-2, (url, listItem, isFolder)) 
+        return
+
+    def addEpisode(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+        # Pour gérer l'enchainement des épisodes
+        oInputParameterHandler = cInputParameterHandler()
+        seasonUrl = oInputParameterHandler.getValue('seasonUrl')
+        oOutputParameterHandler.addParameter('seasonUrl', seasonUrl)
+        nextSeasonFunc = oInputParameterHandler.getValue('nextSeasonFunc')
+        oOutputParameterHandler.addParameter('nextSeasonFunc', nextSeasonFunc)
+        oOutputParameterHandler.addParameter('sourceID', sId)
+        siteUrl = oOutputParameterHandler.getValue('siteUrl')
+
+        self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, 6)
+
+        # Pour gérer l'enchainement des épisodes
+        nbEpisode = len(self.listing)
+        if nbEpisode > 1 and siteUrl:
+            url, listItem, isFolder = self.listing.pop(nbEpisode-2)
+            url += '&nextEpisode=%s' % QuotePlus(siteUrl)
+            self.listing.insert(nbEpisode-2, (url, listItem, isFolder)) 
+        return
+
+    # Affichage d'une personne (acteur, réalisateur, ..)
+    def addPerson(self, sId, sFunction, sLabel, sIcon, sThumbnail, oOutputParameterHandler=''):
+        sThumbnail = ''
+        sDesc = ''
+        self.addNewDir('artists', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 7, None)
+
+    # Affichage d'un réseau de distribution du média
+    def addNetwork(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler=''):
+        sThumbnail = ''
+        sDesc = ''
+        self.addNewDir('files', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 8, None)
 
     def addNext(self, sId, sFunction, sLabel, oOutputParameterHandler):
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(sId)
         oGuiElement.setFunction(sFunction)
-        oGuiElement.setTitle(sLabel)
+        oGuiElement.setTitle('[COLOR teal]' + sLabel + ' >>>[/COLOR]')
         oGuiElement.setIcon('next.png')
         oGuiElement.setThumbnail(oGuiElement.getIcon())
         oGuiElement.setMeta(0)
-        # oGuiElement.setDirFanart('next.png')
         oGuiElement.setCat(5)
 
         self.createContexMenuPageSelect(oGuiElement, oOutputParameterHandler)
@@ -317,7 +229,7 @@ class cGui:
         self.addFolder(oGuiElement, oOutputParameterHandler)
 
     # afficher les liens non playable
-    def addFolder(self, oGuiElement, oOutputParameterHandler = '', _isFolder=True):
+    def addFolder(self, oGuiElement, oOutputParameterHandler ='', _isFolder=True):
 
         # recherche append les reponses
         if window(10101).getProperty('search') == 'true':
@@ -347,33 +259,23 @@ class cGui:
 
         oListItem = self.createListItem(oGuiElement)
         oListItem.setProperty('IsPlayable', 'false')
-
-        # affiche tag HD
-        # if '1080' in oGuiElement.getTitle():
-        #     oListItem.addStreamInfo('video', {'aspect': '1.78', 'width': 1920, 'height': 1080})
-        # elif '720' in oGuiElement.getTitle():
-        #     oListItem.addStreamInfo('video', {'aspect': '1.50', 'width': 1280, 'height': 720})
-        # elif '2160'in oGuiElement.getTitle():
-        #     oListItem.addStreamInfo('video', {'aspect': '1.78', 'width': 3840, 'height': 2160})
-        # oListItem.addStreamInfo('audio', {'language': 'fr'})
-
-        # if oGuiElement.getMeta():
-        #     oOutputParameterHandler.addParameter('sMeta', oGuiElement.getMeta())
-        if oGuiElement.getCat():
-            cGui.sCat = oGuiElement.getCat()
-            oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
+        sCat = oGuiElement.getCat()
+        if sCat:
+            cGui.sCat = sCat
+            oOutputParameterHandler.addParameter('sCat', sCat)
 
         sItemUrl = self.__createItemUrl(oGuiElement, oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('sTitleWatched', oGuiElement.getTitleWatched())
 
-        # new context prend en charge les metas
-        if oGuiElement.getMeta() in (1, 2, 3, 4):  # Films, Séries, Saga, Animes
-            if cGui.CONTENT in ('movies', 'tvshows'):
+        if sCat:    # 1 = movies, moviePack; 2 = series, animes, episodes; 5 = MISC
+            if oGuiElement.getMeta():
                 self.createContexMenuinfo(oGuiElement, oOutputParameterHandler)
                 self.createContexMenuba(oGuiElement, oOutputParameterHandler)
+            if not oListItem.getProperty('isBookmark'):
                 self.createContexMenuBookmark(oGuiElement, oOutputParameterHandler)
 
+            if sCat in (1, 2):
                 if self.ADDON.getSetting('bstoken') != '':
                     self.createContexMenuTrakt(oGuiElement, oOutputParameterHandler)
                 if self.ADDON.getSetting('tmdb_account') != '':
@@ -383,15 +285,14 @@ class cGui:
                 self.createContexMenuParents(oGuiElement, oOutputParameterHandler)
 
         oListItem = self.__createContextMenu(oGuiElement, oListItem)
-
-        # sPluginHandle = cPluginHandler().getPluginHandle()
-        # xbmcplugin.addDirectoryItem(sPluginHandle, sItemUrl, oListItem, isFolder=_isFolder)
         self.listing.append((sItemUrl, oListItem, _isFolder))
+        
+        # Vider les paramètres pour être recyclé
+        oOutputParameterHandler.clearParameter()
 
     # affiche les liens playable
     def addHost(self, oGuiElement, oOutputParameterHandler=''):
         oInputParameterHandler = cInputParameterHandler()
-
         cGui.CONTENT = 'files'
 
         if oOutputParameterHandler.getValue('siteUrl'):
@@ -405,7 +306,6 @@ class cGui:
         oListItem = self.createListItem(oGuiElement)
         oListItem.setProperty('IsPlayable', 'true')
         oListItem.setProperty('Video', 'true')
-        oListItem.addStreamInfo('video', {})
 
         sItemUrl = self.__createItemUrl(oGuiElement, oOutputParameterHandler)
 
@@ -414,13 +314,9 @@ class cGui:
 
         oListItem = self.__createContextMenu(oGuiElement, oListItem)
 
-        # sPluginHandle = cPluginHandler().getPluginHandle()
-
-        # xbmcplugin.addDirectoryItem(sPluginHandle, sItemUrl, oListItem, isFolder=False)
         self.listing.append((sItemUrl, oListItem, False))
 
     def createListItem(self, oGuiElement):
-
         oListItem = listitem(oGuiElement.getTitle())
 
         # voir : https://kodi.wiki/view/InfoLabels
@@ -539,7 +435,6 @@ class cGui:
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
         oOutputParameterHandler.addParameter('sTitle', oGuiElement.getTitle())
         oOutputParameterHandler.addParameter('sImdbId', oGuiElement.getImdbId())
-
         sType = cGui.CONTENT.replace('tvshows', 'tvshow').replace('movies', 'movie')
         oOutputParameterHandler.addParameter('sType', sType)
 
@@ -610,6 +505,10 @@ class cGui:
         if (oOutputParameterHandler == ''):
             oOutputParameterHandler = cOutputParameterHandler()
 
+        # Pour gérer l'enchainement des épisodes
+        oOutputParameterHandler.addParameter('sSeason', oGuiElement.getSeason())
+        oOutputParameterHandler.addParameter('sEpisode', oGuiElement.getEpisode())
+
         sParams = oOutputParameterHandler.getParameterAsUri()
 
         sPluginPath = cPluginHandler().getPluginPath()
@@ -646,7 +545,9 @@ class cGui:
                 elif cGui.CONTENT == 'files' or cGui.CONTENT == 'episodes':
                     xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting('default-view'))
 
-        # bug affichage Kodi 18
+        del self.episodeListing[:] # Pour l'enchainement des episodes
+        self.episodeListing.extend(self.listing)
+		
         del self.listing[:]
 
     def updateDirectory(self):  # refresh the content
@@ -695,7 +596,6 @@ class cGui:
         oInputParameterHandler = cInputParameterHandler()
         sFileName = oInputParameterHandler.getValue('sFileName')
         sType = oInputParameterHandler.getValue('sType')
-        sIMDb = 'tt9536846'
         meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
         sIMDb = str(meta['imdb_id'])
 
@@ -834,6 +734,7 @@ class cGui:
             meta['title'] = sTitle
             meta['site'] = sSite
 
+            from resources.lib.db import cDb
             db = cDb()
             row = db.get_watched(meta)
             if row:
