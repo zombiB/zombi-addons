@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -206,8 +206,6 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
   #([^<]+) .+?
 
     sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
@@ -290,8 +288,6 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
    #([^<]+) .+?
     sPattern = 'class="videocontainer"> <iframe src="([^<]+)" id="([^<]+)"'
 
@@ -321,8 +317,6 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
   #([^<]+) .+?
 
     sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
@@ -396,8 +390,6 @@ def showEps():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
                
         
     sPattern = '<iframe.+?src="(.+?)"'

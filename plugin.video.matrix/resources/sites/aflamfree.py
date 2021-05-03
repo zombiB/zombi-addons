@@ -1,9 +1,8 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 import re
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
@@ -302,3 +301,134 @@ def showLive():
             oGui.addDir(SITE_IDENTIFIER, 'showLive', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory() 
+  
+def showLive2():
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    if isMatrix():
+       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
+  
+    oParser = cParser()
+    
+    #(.+?)
+    sInfo = ''
+
+    sPattern = '<h3 style="text-align:center">الوصف</h3><p style="text-align: center;"><strong>(.+?)</strong></p>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sInfo = aResult[1][0]
+    # (.+?) ([^<]+) .+? 
+    sPattern = '<div id="([^<]+)"> <IFRAME SRC="([^<]+)" webkitAllowFullScreen mozallowfullscreen'
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[0] 
+            siteUrl = aEntry[1].replace("r.php?url","r2.php?url") 
+            sInfo = sInfo
+            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
+    
+            oRequestHandler = cRequestHandler(siteUrl)
+            sHtmlContent = oRequestHandler.request();
+            if isMatrix():
+               sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
+
+    # (.+?)
+               
+
+            sPattern = 'source: "([^<]+)", parentId: "#player"'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+
+
+	
+            if (aResult[0] == True):
+               total = len(aResult[1])
+               progress_ = progress().VScreate(SITE_NAME)
+               for aEntry in aResult[1]:
+                   progress_.VSupdate(progress_, total)
+                   if progress_.iscanceled():
+                      break
+        
+                   url = str(aEntry)
+                   url = url.replace("scrolling=no","")
+                   sTitle = " " 
+                   if url.startswith('//'):
+                      url = 'http:' + url
+				
+					
+            
+                   sHosterUrl = url 
+                   if 'userload' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'moshahda' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'mystream' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                      sDisplayTitle = sMovieTitle+sTitle
+                      oHoster.setDisplayName(sDisplayTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+
+    #(.+?)
+               
+
+            sPattern = 'content="0; url=([^<]+)" />'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+
+
+	
+            if (aResult[0] == True):
+               total = len(aResult[1])
+               progress_ = progress().VScreate(SITE_NAME)
+               for aEntry in aResult[1]:
+                   progress_.VSupdate(progress_, total)
+                   if progress_.iscanceled():
+                      break
+        
+                   url = str(aEntry)
+                   sTitle = " " 
+                   if url.startswith('//'):
+                      url = 'http:' + url
+				
+					
+            
+                   sHosterUrl = url
+                   if 'userload' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'moshahda' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'mystream' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                      sDisplayTitle = sMovieTitle+sTitle
+                      oHoster.setDisplayName(sDisplayTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				 
+        progress_.VSclose(progress_)
+       
+    oGui.setEndOfDirectory()

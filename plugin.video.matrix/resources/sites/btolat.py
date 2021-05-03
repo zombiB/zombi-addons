@@ -1,15 +1,12 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress
-from resources.lib.util import cUtil
 import re
 
 SITE_IDENTIFIER = 'btolat'
@@ -19,9 +16,7 @@ SITE_DESC = 'sport vod'
 URL_MAIN = 'https://www.btolat.com'
 SPORT_FOOT = ('https://www.btolat.com/video', 'showMovies')
 
-
 SPORT_SPORTS = ('http://', 'load')
-
 
 URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
@@ -101,7 +96,6 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'	
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -148,6 +142,3 @@ def showHosters():
 
                 
     oGui.setEndOfDirectory()    
-
-
-    

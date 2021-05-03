@@ -1,18 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'cartoonrbi'
 SITE_NAME = 'cartoon3rbi'
@@ -20,10 +15,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://www.cartoon3rbi.net/'
 
-
 KID_MOVIES = ('http://www.cartoon3rbi.net/films.html', 'showMovies')
 KID_CARTOON = ('https://www.cartoon3rbi.net/cartoon2549.html', 'showSeries')
-
 
 URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
@@ -48,8 +41,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
    
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -186,12 +177,7 @@ def showEps():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -238,9 +224,6 @@ def showLink():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    #print sUrlhttps://www.arteenz.com/watch-32738.html https://www.arteenz.com/cartoon32738.html
-   
-    
     #Recuperation infos
     sname = '0'
 
@@ -270,32 +253,20 @@ def showLink():
                 break
 
 
-            #https://www.cartoon3rbi.net/plugins/server5/embed.php?url=L2R5UU1WRWdVSnhWbjl1dGZNbUw5Zz09&id=32737
+            
 
             sErver = aEntry[0].replace("(","")
-
-
             sPage = aEntry[1]
-            #print sErver
             siteUrl = 'https://www.cartoon3rbi.net/plugins/server'+sErver+'/embed.php?url='+sPage+'&id='+sname
             sTitle = 'server '+':'+sErver
 
-
-
-            #print siteUrl 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            
-
- 
             oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumbnail, "", oOutputParameterHandler)
- 
-        progress_.VSclose(progress_) 
-               
-        
+                       
     sPattern = '<iframe.+?src="([^<]+)" frameborder'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -326,7 +297,6 @@ def showLink():
         progress_.VSclose(progress_) 
        
     oGui.setEndOfDirectory()
-
 
 def showHosters():
     oGui = cGui()

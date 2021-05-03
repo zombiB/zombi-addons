@@ -175,7 +175,5 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
         progress_.VSclose(progress_) 
-
-
                 
     oGui.setEndOfDirectory()    

@@ -212,7 +212,7 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             if '/movie/' in siteUrl:
                 oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler) 
@@ -580,7 +580,7 @@ def showHosters():
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters1', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters1', sTitle, sThumbnail, sInfo, oOutputParameterHandler)        
            
                 
     oGui.setEndOfDirectory()	

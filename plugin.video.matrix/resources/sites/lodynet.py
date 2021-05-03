@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'lodynet'
 SITE_NAME = 'lodynet'
@@ -53,6 +49,7 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
+		
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -320,9 +317,6 @@ def showSeries():
        
         oGui.setEndOfDirectory()
  
-       
- 
- 
  # ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
     sPattern = '<li><a class="next page-numbers" href="([^<]+)">'
@@ -336,8 +330,6 @@ def __checkForNextPage(sHtmlContent):
 
     return False
   
-
-
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -376,11 +368,8 @@ def showHosters():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-        progress_.VSclose(progress_) 
     # (.+?) 
-               
-        
+                      
     sPattern = '<a href="(.+?)" target='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

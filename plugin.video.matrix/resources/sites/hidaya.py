@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'hidaya'
 SITE_NAME = 'hidaya'
@@ -44,8 +40,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
   
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -65,10 +59,6 @@ def showMovies(sSearch = ''):
 
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
 	
         if (aResult[0] == True):
            total = len(aResult[1])
@@ -107,7 +97,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = "<li class='page-item active'><a class='page-link' onclick=.+?</a></li><li class='page-item'><a class='page-link' onclick=.+?>([^<]+)</a></li>"
 	
@@ -118,8 +107,6 @@ def __checkForNextPage(sHtmlContent):
         return "https://hidaya.tn/tilawet/ajax_tilawet.php?search=&page=" + aResult[1][0]
 
     return False
-
-
 
 def showHosters():
     oGui = cGui()
@@ -139,19 +126,11 @@ def showHosters():
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
 
-
-
-
-
     # (.+?) .+? ([^<]+)
                
-
     sPattern = '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)".+?/>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
 
 	
     if (aResult[0] == True):

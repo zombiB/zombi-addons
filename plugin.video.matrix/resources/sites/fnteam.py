@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'fnteam'
 SITE_NAME = 'fn-team'
@@ -151,9 +147,6 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
- 
- 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<span id="tie-next-page"><a href="(.+?)" >'
 	
@@ -165,7 +158,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
 	
 def showHosters():
     oGui = cGui()
@@ -176,7 +168,6 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','([^<]+)')
      
 
     sPattern = '<a href="([^<]+)" target="_blank" class="[^<]+">([^<]+)</a>'
@@ -205,11 +196,7 @@ def showHosters():
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-        progress_.VSclose(progress_)
-     
-
+				    
     sPattern = '<a href="([^<]+)" class'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -235,10 +222,7 @@ def showHosters():
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-        progress_.VSclose(progress_)
-    
+				   
     else:
         
         #sPattern = '<li style.+?>(.+?)</li>|<li title=""><a href="([^<]+)">([^<]+)</a></li>'
@@ -262,7 +246,4 @@ def showHosters():
     
         progress_.VSclose(progress_)
 
-
-
     oGui.setEndOfDirectory()             
-

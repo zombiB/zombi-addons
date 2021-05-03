@@ -1,15 +1,12 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress
-from resources.lib.util import cUtil
 import re
 
 SITE_IDENTIFIER = 'beinsports_net'
@@ -21,7 +18,6 @@ SPORT_FOOT = ('https://www.beinsports.com/ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%
 SPORT_SPORTS = ('https://www.beinsports.com/ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')
 SPORT_GENRES = ('http://', 'showGenres')
 SPORT_SPORTS = ('http://', 'load')
-
 
 URL_SEARCH = ('http://www.beinsports.com/ar/search?q=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
@@ -47,8 +43,7 @@ def showSearch():
             showMovies(sUrl)
             oGui.setEndOfDirectory()
             return  
-    
-    
+        
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -74,7 +69,6 @@ def showGenres():
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
        
     oGui.setEndOfDirectory() 
-
 
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -130,7 +124,6 @@ def __checkForNextPage(sHtmlContent):
 
     return False
     
-
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -140,9 +133,7 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    #sHtmlContent = sHtmlContent.replace('<iframe src="//www.facebook.com/plugins/like.php','').replace('<iframe src="http://www.facebook.com/plugins/likebox.php','')
-               
-        
+                      
     sPattern = '<meta itemprop="embedURL" content="([^<]+)" />'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -168,4 +159,3 @@ def showHosters():
         progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()
-    

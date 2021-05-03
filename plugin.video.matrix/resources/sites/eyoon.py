@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'eyoon'
 SITE_NAME = 'eyoon'
@@ -19,10 +15,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://eyoon.co'
 
-
-
 KID_CARTOON = ('https://eyoon.co/?page_id=42764', 'showSeries')
-
 
 URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
@@ -47,7 +40,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
   
-
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -74,8 +66,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1])
-            
+            sTitle = str(aEntry[1])           
             siteUrl = str(aEntry[0])
             sThumbnail = ""
             sInfo = ""
@@ -98,8 +89,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-
-  
+ 
 def showSeasons():
     oGui = cGui()
    
@@ -116,11 +106,6 @@ def showSeasons():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
-
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -130,21 +115,17 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0]
-            
-            sTitle = sTitle.replace("اون لاين + تحميل","")
+            sTitle = aEntry[0].replace("اون لاين + تحميل","")
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
             sInfo = ""
  
-            #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             
 
- 
             oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
@@ -157,9 +138,7 @@ def showSeasons():
        
     oGui.setEndOfDirectory() 
 	
-
-      # (.+?) ([^<]+)
- 
+      # (.+?) ([^<]+) 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<div class="pages-nav"><a data-url="([^<]+)" data-text="تحميل المزيد"'
 	
@@ -171,7 +150,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
 	 
 def showServer():
     oGui = cGui()
@@ -183,24 +161,18 @@ def showServer():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     sInfo = oInputParameterHandler.getValue('sInfo')
 
-    #print sHtmlContent 
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
    
     oParser = cParser()
-    
-    #Recuperation infos
     sId = ''
-
     sPattern = 'data-post="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         sId = aResult[1][0]
 
-    #print sId
   # ([^<]+) .+?
     headers = {'Host': 'eyoon.co',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -216,9 +188,7 @@ def showServer():
     sHtmlContent = r.content
     sHtmlContent = sHtmlContent.replace('https://www.youtube.com/embed/','')
     
-    # (.+?) .+?
-    #print data
-    #print "ddv" + sHtmlContent         
+    # (.+?) .+?        
     sPattern = '\/\/ok.ru\/videoembed\/([^<]+)\"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -233,8 +203,6 @@ def showServer():
                break
             
             url = "//ok.ru/videoembed/"+str(aEntry)
-
-				#print url
             sTitle = " "
             if url.startswith('//'):
                url = 'http:' + url
@@ -246,9 +214,6 @@ def showServer():
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-               
 
     sPattern = 'src="([^<]+)" allowfullscreen=""'
     oParser = cParser()
@@ -293,7 +258,6 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
     #(.+?)
                
-
     sPattern = 'src: "(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -320,12 +284,8 @@ def showHosters():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-        progress_.VSclose(progress_)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)				
     #(.+?)
-               
 
     sPattern = 'iframe.+?src="(.+?)"'
     oParser = cParser()
@@ -345,8 +305,7 @@ def showHosters():
             if url.startswith('//'):
                url = 'http:' + url
 				
-					
-            
+					            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):

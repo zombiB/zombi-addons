@@ -73,8 +73,6 @@ class cHoster(iHoster):
             sHtmlContent = cPacker().unpack(aResult[1][0])
         sPattern = ',{file:"(.+?)",label:"(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        #print "fffffd"
-        #print aResult
         api_call = False
 
         if (aResult[0] == True):

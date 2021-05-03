@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'radioquran'
 SITE_NAME = 'radioquran'
@@ -43,7 +39,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
   
-
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -70,8 +65,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[0])
-            
+            sTitle = str(aEntry[0])           
             siteUrl = str(aEntry[3])
             sThumbnail = str(aEntry[1])
             sInfo = ""
@@ -143,10 +137,6 @@ def showEpisodes():
        
     oGui.setEndOfDirectory()
 	
-
-
- 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<a class="page-link" href="([^<]+)" rel="next"'
 	
@@ -158,8 +148,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
-
 
 def showHosters():
     oGui = cGui()
@@ -173,13 +161,9 @@ def showHosters():
 
     # (.+?) .+? ([^<]+)
                
-
     sPattern = 'src="([^<]+)" allowfullscreen frameborder='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
 
 	
     if (aResult[0] == True):
@@ -196,7 +180,7 @@ def showHosters():
                 url = 'https:' + url
 				
 					
-            
+           
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):

@@ -1,18 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-from resources.lib.player import cPlayer
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'brstej'
 SITE_NAME = 'brstej'
@@ -32,8 +27,6 @@ KID_MOVIES = ('https://p.brstej.com:2053/category1.php?cat=anime', 'showMovies')
 ANIM_NEWS = ('https://p.brstej.com:2053/category1.php?cat=anmei', 'showSeries')
 SERIE_ASIA = ('https://p.brstej.com:2053/category1.php?cat=asia', 'showSerie')
 REPLAYTV_NEWS = ('https://p.brstej.com:2053/category1.php?cat=tv100', 'showMovies')
-
-
 
 URL_SEARCH = ('https://p.brstej.com:2053/search.php?keywords=', 'showMovies')
 URL_SEARCH_SERIES = ('https://p.brstej.com:2053/search.php?video-id=&keywords=', 'showSeries')
@@ -72,7 +65,6 @@ def showSeriesSearch():
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
-
  
 def showMovies(sSearch = ''):
     import requests
@@ -82,8 +74,6 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-
-
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -134,7 +124,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
- 
 def showSeries(sSearch = ''):
     import requests
     oGui = cGui()
@@ -143,8 +132,6 @@ def showSeries(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-
-
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -215,7 +202,8 @@ def showSeries(sSearch = ''):
             progress_.VSclose(progress_)
  
     if not sSearch:
-        oGui.setEndOfDirectory()  
+        oGui.setEndOfDirectory()
+			
 def showSeasons():
     oGui = cGui()
    
@@ -224,7 +212,6 @@ def showSeasons():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
 
 
     oRequestHandler = cRequestHandler(sUrl)
@@ -274,12 +261,9 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
 
-
-
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?
-    #print sHtmlContent           
+    # (.+?) .+?          
 
     sPattern = "data-embed-url='(.+?)'>"
     oParser = cParser()
@@ -308,10 +292,7 @@ def showHosters():
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-    # (.+?) .+?
-				
-				
-                
+			               
     oGui.setEndOfDirectory()  
 # (.+?) .+? ([^<]+)
 def __checkForNextPage(sHtmlContent):

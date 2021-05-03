@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'cimau'
 SITE_NAME = 'cima4u'
@@ -347,6 +343,12 @@ def showLinks():
 					
             
             sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                sDisplayTitle = sMovieTitle+sTitle
@@ -473,7 +475,11 @@ def showLinks():
             
                     sHosterUrl = url 
                     if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=userload.co"                            
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'moshahda' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'mystream' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                           
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if (oHoster != False):
                        sDisplayTitle = sMovieTitle+sTitle
@@ -706,13 +712,7 @@ def showEpisodes():
             oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
-	
 
- 
-       
- 
- 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<li><a class="next page-numbers" href="([^<]+)">'
 	
@@ -735,18 +735,9 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
 
-
-    #print sHtmlContent
-    # (.+?)
-               
-
     sPattern = '<iframe.+?src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-    #print aResult
-
 	
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -763,14 +754,16 @@ def showHosters():
             
            sHosterUrl = url 
            if 'userload' in sHosterUrl:
-              sHosterUrl = sHosterUrl + "|Referer=userload.co"                         
+               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+           if 'moshahda' in sHosterUrl:
+               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+           if 'mystream' in sHosterUrl:
+               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                         
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if (oHoster != False):
               sDisplayTitle = sMovieTitle+sTitle
               oHoster.setDisplayName(sDisplayTitle)
               oHoster.setFileName(sMovieTitle)
               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-                
+				               
     oGui.setEndOfDirectory()

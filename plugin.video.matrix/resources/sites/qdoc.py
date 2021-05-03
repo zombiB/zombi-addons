@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'qdoc'
 SITE_NAME = 'q8doc'
@@ -23,9 +19,6 @@ DOC_NEWS = ('https://www.q8doc.com/', 'showMovies')
 DOC_SERIES = ('https://www.q8doc.com/series-list/', 'showSeries')
 DOC_GENRES = (True, 'showGenres')
 
-
-
-
 URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -35,11 +28,8 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-    
-
-            
+               
     oGui.setEndOfDirectory()
-
 	
 def showSearch():
     oGui = cGui()
@@ -51,7 +41,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
    
-
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -76,9 +65,7 @@ def showGenres():
     liste.append( ["حضارات واثار","https://www.q8doc.com/category/treasure/"] )
     liste.append( ["تاريخ وسِيَر","https://www.q8doc.com/category/history/"] )
 
-
-    
-	            
+  	            
     for sTitle,sUrl in liste:
         
         oOutputParameterHandler = cOutputParameterHandler()
@@ -87,8 +74,6 @@ def showGenres():
        
     oGui.setEndOfDirectory()   
 
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -120,9 +105,6 @@ def showMovies(sSearch = ''):
             sInfo = ""
 			
 			
-
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -164,15 +146,12 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
    
-            sTitle = aEntry[1]
-            
+            sTitle = aEntry[1]           
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
             sInfo = aEntry[3]
 			
-			
-
-
+		
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -191,8 +170,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-
-  
+ 
 def showEps():
     oGui = cGui()
    
@@ -208,12 +186,7 @@ def showEps():
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -229,7 +202,6 @@ def showEps():
             sThumbnail = str(aEntry[2])
             sInfo = ''
  
-            #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', str(aEntry[0]))
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
@@ -282,12 +254,7 @@ def showHosters():
                 break
 
             sHosterUrl = str(aEntry[1])
-            #oHoster = __checkHoster(sHosterUrl)
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            
-
-                   
-        
+            oHoster = cHosterGui().checkHoster(sHosterUrl)                        
             if (oHoster != False):
                 sTitle = ' - ' + '[COLOR yellow]'+str(aEntry[0])+'[/COLOR]'
                 sTitle = sTitle.replace("</strong>","").replace("<strong>","")
@@ -295,7 +262,6 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
 
-        progress_.VSclose(progress_)
 			
     sPattern = 'name="main_video_url" value="([^<]+)"/>'
     oParser = cParser()
@@ -326,8 +292,6 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-        progress_.VSclose(progress_)  
 			
     sPattern = '<iframe.+?src="(.+?)"'
     oParser = cParser()
@@ -348,8 +312,7 @@ def showHosters():
             if url.startswith('//'):
                 url = 'http:' + url
 				
-					
-            
+					            
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):

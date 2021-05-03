@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -311,9 +311,7 @@ def showSeasons():
                       oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                       oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                       oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            
-
+          
  
                       oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
@@ -374,8 +372,6 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
 	
      # (.+?) ([^<]+) .+?
     sPattern = '<a href="([^<]+)" >([^<]+)</a>'
@@ -415,9 +411,6 @@ def showEpisodes():
        
     oGui.setEndOfDirectory()
 	
-
- 
-
 def showLink():
     oGui = cGui()
    
@@ -445,12 +438,7 @@ def showLink():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
-
-    #print aResult
+ 
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -475,8 +463,7 @@ def showLink():
 
  
             oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumbnail, sNote, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_) 
+
     # (.+?)
 
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
@@ -513,9 +500,7 @@ def showLink():
         progress_.VSclose(progress_) 
 
     oGui.setEndOfDirectory()       
- 
- 
- 
+  
 def __checkForNextPage(sHtmlContent):
     sPattern = "href='([^<]+)'>&rsaquo;</a>"
 	
@@ -527,7 +512,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
 
 def showHosters():
     oGui = cGui()
@@ -622,10 +606,7 @@ def showHosters():
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-  
-               
-        
+				                        
     sPattern = '<a href="(.+?)" class="download-btn" '
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -1,18 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'fansubs'
 SITE_NAME = 'fansubstv'
@@ -20,10 +15,7 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = 'http://fansubs.tv'
 
-
 ANIM_NEWS = ('http://fansubs.tv/videos/latest?page_id=1', 'showMovies')
-
-
 
 URL_SEARCH = ('http://fansubs.tv/search?keyword=', 'showSearch')
 URL_SEARCH_SERIES = ('http://fansubs.tv/search?keyword=', 'showSearch')
@@ -35,9 +27,7 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
-    
-
-            
+               
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -50,9 +40,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
    
-
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -80,14 +67,10 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[2]
-            sTitle = sTitle
-            
- 
-            sInfo = ''
- 
+            sTitle = sTitle            
+            sInfo = '' 
             siteUrl = aEntry[0]
             sThumbnail = str(aEntry[1])
-
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -158,11 +141,9 @@ def showHosters():
                sDisplayTitle = sMovieTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)				
     # ([^<]+)
                
-
     sPattern = '<source src="([^<]+)" type="video/mp4" data-quality="([^<]+)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

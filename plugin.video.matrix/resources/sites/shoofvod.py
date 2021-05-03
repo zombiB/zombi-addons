@@ -1,5 +1,5 @@
 ﻿ #-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 
 
 from resources.lib.gui.gui import cGui
@@ -9,12 +9,9 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-
-
 from resources.lib.player import cPlayer
 import re
 
- 
 SITE_IDENTIFIER = 'shoofvod'
 SITE_NAME = 'shoofvod'
 SITE_DESC = 'arabic vod'
@@ -22,37 +19,24 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://shoofvod.com/'
 
 RAMADAN_SERIES = (URL_MAIN + '/Cat-98-1', 'showSeries')
-
-
-
-
 MOVIE_EN = (URL_MAIN + '/al_751319_1', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/Cat-100-1', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/Cat-132-1', 'showMovies')
 MOVIE_TURK = (URL_MAIN + '/Cat-48-1', 'showMovies')
 MOVIE_ANIME = (URL_MAIN + '/Cat-57-1', 'showMovies')
-
-
-
 DOC_NEWS = (URL_MAIN + '/Cat-23-1', 'showMovies')
-
 SERIE_DUBBED = (URL_MAIN + '/Cat-129-1', 'showSeries')
 SERIE_AR = (URL_MAIN + '/Cat-98-1', 'showSeries')
 SERIE_TR = (URL_MAIN + '/Cat-128-1', 'showSeries')
 SERIE_TR_AR = (URL_MAIN + '/Cat-129-1', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/Cat-130-1', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
-
 REPLAYTV_NEWS = (URL_MAIN + '/Cat-39-1', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + '/Cat-44-1', 'showEps')
-
-
 KID_CARTOON = (URL_MAIN + '/Cat-56-1', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/Search/', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/Search/', 'showMovies')
-
-
 URL_SEARCH_MOVIES = (URL_MAIN + '/Search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -76,9 +60,7 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-   
-
- 
+    
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -141,8 +123,6 @@ def showMovies(sSearch = ''):
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
@@ -168,10 +148,8 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            sTitle = aEntry[1]
-            
-            sTitle =  "PAGE " + sTitle
+        
+            sTitle =  "PAGE " + aEntry[1]
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = URL_MAIN + str(aEntry[0])
 
@@ -276,12 +254,7 @@ def showEps():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -298,7 +271,7 @@ def showEps():
             sInfo = ""
 
  
-            #print sUrl
+
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -313,9 +286,6 @@ def showEps():
        
     oGui.setEndOfDirectory()
     
-  
-  
-
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()

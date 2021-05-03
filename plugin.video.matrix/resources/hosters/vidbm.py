@@ -10,7 +10,7 @@ from resources.lib.aadecode import decodeAA
 from resources.lib.packer import cPacker
 from resources.lib.aadecode import AADecoder
 import re
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog, isMatrix
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:72.0) Gecko/20100101 Firefox/72.0'
 
@@ -74,6 +74,8 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+        if isMatrix():
+           sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
         #VSlog(sHtmlContent)
         oParser = cParser()
         
@@ -86,6 +88,7 @@ class cHoster(iHoster):
         if aResult[0]:
             for i in aResult[1]:
                 decoded = AADecoder(i).decode()
+                #VSlog(decoded)
 
                 r = re.search('file:"(.+?)",', decoded, re.DOTALL | re.UNICODE)
                 if r:

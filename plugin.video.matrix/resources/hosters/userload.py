@@ -7,7 +7,7 @@ from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.aadecode import AADecoder
 from resources.lib.packer import cPacker
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog, isMatrix
 
 import requests, re 
 
@@ -73,6 +73,8 @@ class cHoster(iHoster):
 
         oRequestHandler = cRequestHandler(urlapi)
         sHtmlContent1 = oRequestHandler.request()
+        if isMatrix():
+           sHtmlContent1 = str(sHtmlContent1.encode('latin-1'),'utf-8')
 
         oParser = cParser()
         sPattern = '(ﾟωﾟ.+?\(\'_\'\);)'

@@ -196,8 +196,6 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern = '<li><a class="page-numbers" href="([^<]+)">([^<]+)</a></li>'
@@ -352,7 +350,6 @@ def showSeasons():
 				break
 			sId1 = aEntry[0]
 			sId2 = aEntry[1]
-    #print sId
 	session = requests.Session()
     
   # ([^<]+) .+?
@@ -367,7 +364,6 @@ def showSeasons():
 	   print('erreur' + str(e))
 	   return ''
 	data = response.text
-    #print sHtmlContent
     # .+? ([^<]+)
 	sPattern = ' <a href="([^<]+)" style.+?<div class="image"><img.+?src="([^<]+)" class=.+?<div class="ep-info">.+?<h2>([^<]+)</h2>'
 
@@ -429,7 +425,6 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if (aResult[0] == True):
-        #print aResult[1][0]
         return aResult[1][0]
     sPattern = 'href="(.+?)">&laquo;</a>'
 	
@@ -437,7 +432,6 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if (aResult[0] == True):
-        #print aResult[1][0]
         return aResult[1][0]
     return False
 

@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'docarabic'
 SITE_NAME = 'docarabic'
@@ -36,8 +32,7 @@ def load():
             
     oGui.setEndOfDirectory()
 
-	
-	
+		
 def showSearch():
     oGui = cGui()
  
@@ -48,9 +43,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
    
-
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -82,10 +74,6 @@ def showMovies(sSearch = ''):
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
             sInfo = ''
-			
-			
-
-
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -104,10 +92,6 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
-
- 
- 
  
 def __checkForNextPage(sHtmlContent):
     sPattern = 'class="nav-previous"><a href="([^<]+)" >'
@@ -152,9 +136,7 @@ def showHosters():
             url = str(aEntry).replace('?rel=0','')
             if url.startswith('//'):
                url = 'http:' + url
-				
-					
-            
+           
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):

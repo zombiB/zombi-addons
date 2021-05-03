@@ -1,23 +1,18 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 try:  # Python 2
     import urllib2
 
 except ImportError:  # Python 3
     import urllib.request as urllib2
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import requests
-import unicodedata
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
 
@@ -112,9 +107,6 @@ def showGenres():
     liste = []
     liste.append( ["korean series","http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D9%88%D8%B1%D9%8A%D8%A9/"] )
     liste.append( ["مسلسلات-رمضان-2016","http://cimaclub.com/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2016/"] )
-
-
-    
 	            
     for sTitle,sUrl in liste:
         
@@ -449,10 +441,6 @@ def showSeries():
        
         oGui.setEndOfDirectory()
  
-       
- 
- 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<li class="active"><a href="javascript:;">.+?</a></li><li><a href="(.+?)">'
 	
@@ -507,38 +495,20 @@ def showServers():
             if progress_.iscanceled():
                 break
 
-            
 
-
-
-
-			
             sId = URL_MAIN + '/ajaxCenter?_action=getserver&_post_id='+spost
-
-
             siteUrl = sId+'&serverid='+aEntry[0]
-
-
-            #print siteUrl 
- 
+			
             oRequestHandler = cRequestHandler(siteUrl)
             oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
             oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
             oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
             oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
             sData = oRequestHandler.request()
-
-
-    #(.+?)
-               
-
+   
             sPattern = '([^<]+)'
             oParser = cParser()
             aResult = oParser.parse(sData, sPattern)
-
-
-    #print aResult
-
 	
             if (aResult[0] == True):
                total = len(aResult[1])
@@ -555,20 +525,21 @@ def showServers():
                       url = url.replace("play","down").replace("embed-","")
                    if url.startswith('//'):
                       url = 'http:' + url
-				
-					
-            
-                   sHosterUrl = url 
+								            
+                   sHosterUrl = url
+                   if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'moshahda' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'mystream' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if (oHoster != False):
                       sDisplayTitle = sMovieTitle2
                       oHoster.setDisplayName(sDisplayTitle)
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-
-    #print sHtmlContent2
-    # (.+?) .+? ([^<]+)        	
+       	
     sPattern = 'rel="nofollow" href="(.+?)" class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -590,6 +561,12 @@ def showServers():
 					
             
             sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                sDisplayTitle = sTitle
@@ -631,11 +608,7 @@ def showServers():
             oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)	
- 
-      
-
-               
-       
+     
     oGui.setEndOfDirectory()	
  
 def showServers1():
@@ -646,10 +619,6 @@ def showServers1():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-	    #Affichage du menu  
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات المشاهدة--------[/COLOR]')
-
-
 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
@@ -657,9 +626,7 @@ def showServers1():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-
-    #print sHtmlContent
-   
+  
     oParser = cParser()
 
     sId='0'
@@ -676,40 +643,21 @@ def showServers1():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-
-            
-
+           
         for i in range(0,5):
-
-
-
 			
             sId = URL_MAIN + '/ajaxCenter?_action=getserver&_post_id='+aEntry
-
-
-   
-			
-
             sTitle = 'server '+': '+str(i)
             siteUrl = sId+'&serverid='+str(i)
             sInfo = ""
 
-
-            #print siteUrl 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle2.replace(" موسم "," S").replace("الموسم ","S"))
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            
-
- 
+			
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-	    #Affichage du menu  
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]-------سيرفرات التحميل--------[/COLOR]')
 
-
-    #print sHtmlContent2
     # (.+?) .+? ([^<]+)        	
     sPattern = 'rel="nofollow" href="(.+?)" class='
     oParser = cParser()
@@ -729,9 +677,14 @@ def showServers1():
             if url.startswith('//'):
                url = 'http:' + url
 				
-					
-            
+					            
             sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                sDisplayTitle = sTitle
@@ -756,18 +709,10 @@ def showHosters():
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
 
-
-    #(.+?)
-               
-
     sPattern = '([^<]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-
-    #print aResult
-
-	
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -786,6 +731,12 @@ def showHosters():
 					
             
             sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                sDisplayTitle = sMovieTitle+sTitle

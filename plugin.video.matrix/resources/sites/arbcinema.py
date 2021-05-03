@@ -1,18 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-from resources.lib.config import GestionCookie
-from resources.lib.comaddon import progress,VSlog, isMatrix
+from resources.lib.comaddon import progress, isMatrix
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'arbcinema'
 SITE_NAME = 'arbcinema'
@@ -367,6 +362,12 @@ def showServer():
 					
             
             sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                oHoster.setDisplayName(sMovieTitle)
@@ -466,6 +467,12 @@ def showServer2():
 							
             
                       sHosterUrl = url 
+                      if 'userload' in sHosterUrl:
+                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                      if 'moshahda' in sHosterUrl:
+                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                      if 'mystream' in sHosterUrl:
+                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
                       oHoster = cHosterGui().checkHoster(sHosterUrl)
                       if (oHoster != False):
                          sDisplayTitle = sTitle

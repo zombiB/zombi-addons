@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'geoarabic'
 SITE_NAME = 'geoarabic'
@@ -22,9 +18,6 @@ URL_MAIN = 'https://www.geoarabic.com/'
 DOC_NEWS = ('https://www.geoarabic.com/search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
 
-
-
-
 URL_SEARCH = ('?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -34,12 +27,8 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-    
-
-            
+                
     oGui.setEndOfDirectory()
-
-	
 	
 def showSearch():
     oGui = cGui()
@@ -51,8 +40,6 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
    
-
-
 def showGenres():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -64,9 +51,7 @@ def showGenres():
     liste.append( ["jazeeradoc-tv-channels","https://www.geoarabic.com/search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D8%A7%D9%84%D8%AC%D8%B2%D9%8A%D8%B1%D8%A9%20%D8%A7%D9%84%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A%D8%A9"] )
     liste.append( ["natgeowild","https://www.geoarabic.com/search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%86%D8%A7%D8%AA%20%D8%AC%D9%8A%D9%88%20%D9%88%D8%A7%D9%8A%D9%84%D8%AF"] )
     liste.append( ["othertv","https://www.geoarabic.com/search/label/%D8%A7%D9%81%D9%84%D8%A7%D9%85%20%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9"] )
-
-    
-	            
+   	            
     for sTitle,sUrl in liste:
         
         oOutputParameterHandler = cOutputParameterHandler()
@@ -75,8 +60,6 @@ def showGenres():
        
     oGui.setEndOfDirectory() 
 	
-
- 
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -110,8 +93,6 @@ def showMovies(sSearch = ''):
             sInfo = aEntry[3] 
 			
 
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -130,10 +111,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
-
- 
- 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = 'href="([^<]+)" id='
 	
@@ -145,7 +122,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
 
 def showHosters():
     oGui = cGui()

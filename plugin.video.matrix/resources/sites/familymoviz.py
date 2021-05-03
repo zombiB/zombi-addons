@@ -19,7 +19,6 @@ URL_MAIN = 'http://www.familymoviz.com'
 MOVIE_FAM = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
 MOVIE_AR = ('https://www.familymoviz.net/category/movies/arabicmovies/', 'showMovies')
-
 KID_MOVIES = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
 
 SERIE_EN = ('https://www.familymoviz.net/foreignseries/', 'showSeries')
@@ -321,12 +320,7 @@ def showEpisodes():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])

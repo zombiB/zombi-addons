@@ -1,19 +1,14 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
-from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.player import cPlayer
+from resources.lib.gui.guiElement import cGuiElement
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'awaan'
 SITE_NAME = 'awaan'
@@ -54,8 +49,7 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-  
- 
+   
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -173,8 +167,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
- 
+  
 def __checkForNextPage(sHtmlContent):
     sPattern = ''
 	
@@ -204,10 +197,6 @@ def showEps():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
     #print aResult
    
@@ -228,14 +217,9 @@ def showEps():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            
-
- 
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)           
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
-        progress_.VSclose(progress_)
     page = sUrl.split('?p=')[1]
     page = int(page)+1
     sTitle = 'More' 
@@ -249,12 +233,8 @@ def showEps():
     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
     oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
     oGui.addDir(SITE_IDENTIFIER, 'showEps', sTitle,'next.png', oOutputParameterHandler)
- 
-
        
     oGui.setEndOfDirectory()
-
- 
 
 def showHosters():
     oGui = cGui()

@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'alfajertv'
 SITE_NAME = 'alfajertv'
@@ -90,7 +86,7 @@ def showMoviesSearch(sSearch = ''):
        sHtmlContent = sHtmlContent.encode('utf8',errors='ignore').decode('utf8',errors='ignore')
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="movies">'
+    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="movies">.+?class="year">(.+?)</span>.+?<p>([^<]+)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -107,19 +103,16 @@ def showMoviesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
-            sYear = ''
-            m = re.search('([0-9]{4})', sTitle)
-            if m:
-                sYear = m.group(0)
-                sTitle = sTitle.replace(sYear,'')
+            sYear = aEntry[3]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)	
-            sDesc = ''
+            sDesc = aEntry[4]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -149,7 +142,7 @@ def showSeriesSearch(sSearch = ''):
        sHtmlContent = sHtmlContent.encode('utf8',errors='ignore').decode('utf8',errors='ignore')
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="tvshows">'
+    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="tvshows">.+?class="year">(.+?)</span>.+?<p>([^<]+)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -165,16 +158,19 @@ def showSeriesSearch(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]		
-            sDesc = ''
+            sThumb = aEntry[1]	
+            sYear = aEntry[3]
+            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)	
+            sDesc = aEntry[4]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -293,6 +289,7 @@ def showTopMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory() 
+			
 def showServer():
     oGui = cGui()
     import requests
@@ -303,7 +300,6 @@ def showServer():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    #print sHtmlContent 
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -360,6 +356,10 @@ def showServer():
                               url = 'http:' + url
             
                            sHosterUrl = url
+                           if 'userload' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'moshahda' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                            if 'mystream' in sHosterUrl:
                                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                            oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -389,8 +389,12 @@ def showServer():
                               url = 'http:' + url
             
                            sHosterUrl = url
-                           if 'mystream' in sHosterUrl:
+                           if 'userload' in sHosterUrl:
                                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'moshahda' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'mystream' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
                            oHoster = cHosterGui().checkHoster(sHosterUrl)
                            if (oHoster != False):
                               oHoster.setDisplayName(sMovieTitle)
@@ -454,9 +458,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-    
-		
-
+   		
 def showEpisodes():
     oGui = cGui()
     
@@ -502,7 +504,7 @@ def showEpisodes():
             sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
-            sDesc =  ''
+            sDesc =  sDesc
 
  
             #print sUrl

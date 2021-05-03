@@ -1,18 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
-from resources.lib.player import cPlayer
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'asgoal'
 SITE_NAME = 'as-goal'
@@ -20,11 +15,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.as-goal.com/'
 
-
-
 SPORT_LIVE = ('https://www.as-goal.com/', 'showMovies')
-
-
 
 URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
@@ -35,12 +26,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-    
-
-            
+               
     oGui.setEndOfDirectory()
-	
-	
+		
 def showSearch():
     oGui = cGui()
  
@@ -88,9 +76,6 @@ def showMovies(sSearch = ''):
                 sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
 			
 			
-
-
-
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -142,9 +127,9 @@ def showLive():
            
  
         progress_.VSclose(progress_)
-       
-       
-    oGui.setEndOfDirectory()  
+             
+    oGui.setEndOfDirectory() 
+	
 def showHosters():
     import requests
     oGui = cGui()
@@ -181,7 +166,6 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        progress_.VSclose(progress_) 
     # (.+?) # ([^<]+) .+? 
     sPattern = 'src="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -225,7 +209,6 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        progress_.VSclose(progress_) 
  # (.+?) # ([^<]+) .+? 
 
     sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'

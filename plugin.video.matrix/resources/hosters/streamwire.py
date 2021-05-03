@@ -78,8 +78,6 @@ class cHoster(iHoster):
    
         sPattern =  ',RESOLUTION=(.+?),.+?(http.+?m3u8)' 
         aResult = oParser.parse(sHtmlContent,sPattern)
-        print "aResultee"
-        print sHtmlContent
         if (aResult[0] == True):
             #initialisation des tableaux
             url=[]

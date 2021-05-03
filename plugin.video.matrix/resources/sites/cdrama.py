@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'cdrama'
 SITE_NAME = 'c-drama'
@@ -23,8 +19,6 @@ URL_MAIN = 'https://c-drama.com/'
 MOVIE_ASIAN = ('https://c-drama.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 
 SERIE_ASIA = ('https://c-drama.com/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%85%d9%83%d8%aa%d9%85%d9%84%d8%a9/', 'showSeries')
-
-
 
 URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
@@ -151,8 +145,6 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-
-
 def showEpisodes():
     oGui = cGui()
     
@@ -202,7 +194,6 @@ def showEpisodes():
        
     oGui.setEndOfDirectory()
 	  
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = ''
 	
@@ -215,8 +206,6 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 
-
-
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -227,10 +216,8 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
 
-
     # (.+?) .+? ([^<]+)
                
-
     sPattern = "data-url='([^<]+)'>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -1,17 +1,13 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi.(@geekzombi)
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'egydead'
 SITE_NAME = 'egydead'
@@ -49,9 +45,7 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
-    
-
-            
+              
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -93,11 +87,6 @@ def showMoviesSearch(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-
-    
-		 
-	
 	
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -160,10 +149,6 @@ def showSearchSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-
-    
-		 
-	
 	
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -201,7 +186,6 @@ def showSearchSeries(sSearch = ''):
             else: 
 	            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern = "<a href='([^<]+)' class='inactive'>([^<]+)</a>"
@@ -240,9 +224,6 @@ def showSearchSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-
-
-
  
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -357,6 +338,7 @@ def showPack(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
+			
 def showPacks():
 	oGui = cGui()
     
@@ -517,11 +499,6 @@ def showSeasons():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
-
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])
@@ -560,8 +537,6 @@ def showSeasons():
         progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory() 
-
-
  
 def showHosters():
     oGui = cGui()
@@ -615,9 +590,7 @@ def showHosters():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-    # ([^<]+) (.+?)
-
-    #print sHtmlContent          
+    # ([^<]+) (.+?)         
 
     sPattern = 'class="ser-link" href="(.+?)">'
     oParser = cParser()
@@ -655,12 +628,7 @@ def showHosters():
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    #fh = open('c:\\test.txt', "w")
-    #fh.write(sHtmlContent.replace('\n',''))
-    #fh.close()
 
-    #print aResult
    
     if (aResult[0] == True):
         total = len(aResult[1])

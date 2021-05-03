@@ -1,26 +1,16 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi
+#zombi https://github.com/zombiB/zombi-addons/
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 import base64
-import warnings
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
-warnings.simplefilter('ignore',InsecureRequestWarning)
-import requests,re,time
-sgn = requests.Session()
-from resources.lib.CloudflareScraper import CloudflareScraper
-scraper = CloudflareScraper()
-import re
-import unicodedata
+import requests,re
 import sys
+sgn = requests.Session()
  
 SITE_IDENTIFIER = 'egybest'
 SITE_NAME = 'egybest'
@@ -85,7 +75,6 @@ def showSeriesSearch():
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
-
 	
 def showMoviesSearch(sSearch = ''):
     oGui = cGui()
@@ -535,9 +524,6 @@ def VidStream(script):
     PostUrl = re.sub("([A-F]{1,2}\()", "a0d(main_tab,step2,", PostUrl)    
     exec(PostUrl)
     return(['/'+GetVal,f+bigString,{ PostKey : 'ok'}])
-
- 
-	
 
 def get_Scripto(data):
     script = ''

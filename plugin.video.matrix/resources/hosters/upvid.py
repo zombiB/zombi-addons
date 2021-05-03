@@ -5,6 +5,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.aadecode import AADecoder
+from resources.lib.comaddon import isMatrix
 import base64,re
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0'
 sPattern1 = '<iframe id="iframe" src="([^"]+)"'
@@ -107,6 +108,8 @@ class cHoster(iHoster):
                 oRequest.addHeaderEntry('User-Agent',UA)
                 oRequest.addHeaderEntry('Referer',sUrl)
                 sHtmlContent = oRequest.request()
+                if isMatrix():
+                   sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
                 sHtmlContent = sHtmlContent.replace('\n','')
 
                 aResult = re.search('id="code".+?value="(.+?)"', sHtmlContent,re.DOTALL)
