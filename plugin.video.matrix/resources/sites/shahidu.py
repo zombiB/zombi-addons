@@ -375,7 +375,7 @@ def showEps():
     if isMatrix(): 
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
   # ([^<]+) .+?
-    sPattern = '<a href="(.+?)" data-src="(.+?)" class="image"></a>.+?<em>(.+?)</em></span>'
+    sPattern = '<a href="([^<]+)" data-src="(.+?)" class="image"></a>.+?<em>(.+?)</em></span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -390,7 +390,7 @@ def showEps():
                 break
  
             sTitle = "E" + aEntry[2]+sMovieTitle
-            siteUrl = aEntry[0].replace("/episode/","/watch/")
+            siteUrl = aEntry[0].replace("episode","watch")
             sThumbnail = aEntry[1]
 			
 

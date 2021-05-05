@@ -18,7 +18,6 @@ URL_MAIN = 'https://www.geoarabic.com/'
 DOC_NEWS = ('https://www.geoarabic.com/search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
 
-URL_SEARCH = ('?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

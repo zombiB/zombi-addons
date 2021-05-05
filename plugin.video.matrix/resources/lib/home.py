@@ -94,7 +94,6 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'ShowTools', self.addons.VSlang(30033), 'download.png', oOutputParameterHandler)
 
         if (self.addons.getSetting('history-view') == 'true'):
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
             oGui.addDir('cHome', 'showHistory', self.addons.VSlang(30308), 'annees.png', oOutputParameterHandler)
 
@@ -199,7 +198,7 @@ class cHome:
         oOutputParameterHandler.addParameter('searchtext', searchtext)
         oGuiElement.setTitle(self.addons.VSlang(30080))
         oGuiElement.setFileName(self.addons.VSlang(30080))
-        oGuiElement.setCat(3)
+        oGuiElement.setCat(5)
         oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
         # oOutputParameterHandler = cOutputParameterHandler()
@@ -372,7 +371,7 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30106)), 'annees.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_MOVIE')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'films_host.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -435,7 +434,7 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30122), self.addons.VSlang(30105)), 'animes_genres.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'ANIM_ANIMS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'animes_host.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -455,7 +454,7 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30117), self.addons.VSlang(30105)), 'replay_genres.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'REPLAYTV_REPLAYTV')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'replay_host.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -466,15 +465,12 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'http://')
         oGui.addDir('themoviedb_org', 'showMyTmdb', 'TMDB', 'tmdb.png', oOutputParameterHandler)
 
-        oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'http://')
         oGui.addDir('cTrakt', 'getLoad', self.addons.VSlang(30214), 'trakt.png', oOutputParameterHandler)
 
-        oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'http://')
         oGui.addDir('siteuptobox', 'load', self.addons.VSlang(30325), 'sites/siteuptobox.png', oOutputParameterHandler)
 
-        oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'http://')
         oGui.addDir('siteonefichier', 'load', self.addons.VSlang(30327), 'sites/siteonefichier.png', oOutputParameterHandler)
 
@@ -513,11 +509,8 @@ class cHome:
 
             # code to get type with disp
             sType = self.addons.getSetting('search' + match[2][-1:] + '_type')
-
             if sType:
                 oOutputParameterHandler.addParameter('type', sType)
-
-
                 window(10101).setProperty('search_type', sType)
 
             oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
@@ -541,15 +534,12 @@ class cHome:
             oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
         if row:
-
-
             oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
             oGui.addDir(SITE_IDENTIFIER, 'delSearch', self.addons.VSlang(30413), 'search.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
     def delSearch(self):
-
         from resources.lib.db import cDb
         cDb().del_history()
         return True
@@ -562,15 +552,11 @@ class cHome:
 
         oPluginHandler = cSiteHandler()
         aPlugins = oPluginHandler.getAvailablePlugins(sSiteUrl)
-
         oOutputParameterHandler = cOutputParameterHandler()
         for aPlugin in aPlugins:
             try:
                 # exec('import ' + aPlugin[1])
                 # exec('sSiteUrl = ' + aPlugin[1] + '.' + sVar)
-
-
-
                 icon = 'sites/%s.png' % (aPlugin[2])
                 oOutputParameterHandler.addParameter('siteUrl', aPlugin[0])
                 oGui.addDir(aPlugin[2], aPlugin[3], aPlugin[1], icon, oOutputParameterHandler)
@@ -578,7 +564,6 @@ class cHome:
                 pass
 
         oGui.setEndOfDirectory()
-
 		
     def showHostDirect(self): #fonction de recherche
         oGui = cGui()

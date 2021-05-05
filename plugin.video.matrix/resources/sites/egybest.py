@@ -15,33 +15,32 @@ sgn = requests.Session()
 SITE_IDENTIFIER = 'egybest'
 SITE_NAME = 'egybest'
 SITE_DESC = 'arabic vod'
- 
-URL_MAIN = 'https://tool.egybest.ltd'
-host = 'tool.egybest.ltd'
+  
+URL_MAIN = 'https://back.egybest.co'
+host = 'back.egybest.co'
 
 
-MOVIE_FAM = ('https://tool.egybest.ltd/movies/family-subbed', 'showMovies')
-MOVIE_EN = ('https://tool.egybest.ltd/movies/subbed', 'showMovies')
-MOVIE_AR = ('https://tool.egybest.ltd/movies/arab', 'showMovies')
-MOVIE_HI = ('https://tool.egybest.ltd/movies/hindi', 'showMovies')
-MOVIE_ASIAN = ('https://tool.egybest.ltd/movies/japanese-korean-mandarin-chinese-cantonese-thai', 'showMovies')
-MOVIE_TURK = ('https://tool.egybest.ltd/movies/turkish', 'showMovies')
+MOVIE_FAM = (URL_MAIN + '/movies/family-subbed', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/movies/subbed', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/movies/arab', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/movies/hindi', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/movies/japanese-korean-mandarin-chinese-cantonese-thai', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/movies/turkish', 'showMovies')
 
-MOVIE_POP = ('https://tool.egybest.ltd/trending/', 'showMovies')
-KID_MOVIES = ('https://tool.egybest.ltd/movies/animation', 'showMovies')
+MOVIE_POP = (URL_MAIN + '/trending/', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/movies/animation', 'showMovies')
 
-SERIE_EN = ('https://tool.egybest.ltd/tv/', 'showSeries')
+SERIE_EN = (URL_MAIN + '/tv/', 'showSeries')
 
-DOC_NEWS = ('https://tool.egybest.ltd/movies/documentary', 'showMovies')
-DOC_SERIES = ('https://tool.egybest.ltd/tv/documentary', 'showSeries')
-REPLAYTV_PLAY = ('https://tool.egybest.ltd/masrahiyat/', 'showMovies')
+DOC_NEWS = (URL_MAIN + '/movies/documentary', 'showMovies')
+DOC_SERIES = (URL_MAIN + '/tv/documentary', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + '/masrahiyat/', 'showMovies')
 
-
-URL_SEARCH = ('https://tool.egybest.ltd/explore/?q=', 'showMoviesSearch')
-URL_SEARCH_MOVIES = ('https://tool.egybest.ltd/explore/?q=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://tool.egybest.ltd/explore/?q=', 'showMoviesSearch')
+URL_SEARCH = (URL_MAIN + '/explore/?q=', 'showMoviesSearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '/explore/?q=', 'showMoviesSearch')
+URL_SEARCH_SERIES = (URL_MAIN + '/explore/?q=', 'showMoviesSearch')
 FUNCTION_SEARCH = 'showMoviesSearch'
- 
+
 def load():
     oGui = cGui()
 
@@ -61,7 +60,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://tool.egybest.ltd/explore/?q='+sSearchText
+        sUrl = URL_MAIN + '/explore/?q='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -71,7 +70,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://tool.egybest.ltd/explore/?q='+sSearchText
+        sUrl = URL_MAIN + '/explore/?q='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return

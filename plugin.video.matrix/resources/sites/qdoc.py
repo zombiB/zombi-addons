@@ -19,7 +19,6 @@ DOC_NEWS = ('https://www.q8doc.com/', 'showMovies')
 DOC_SERIES = ('https://www.q8doc.com/series-list/', 'showSeries')
 DOC_GENRES = (True, 'showGenres')
 
-URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

@@ -373,8 +373,19 @@ class cDb:
             siteUrl = QuotePlus(sSiteUrl)
             sql_delete = "DELETE FROM favorite WHERE siteurl = '%s'" % siteUrl
         # Supprimer toute une catégorie
-        elif sCat:
-            sql_delete = "DELETE FROM favorite WHERE cat = '%s'" % sCat
+        elif sSiteUrl:
+            siteUrl = QuotePlus(sSiteUrl)
+            sql_delete = "DELETE FROM favorite WHERE siteurl = '%s'" % siteUrl
+        # Supprimer toute une catégorie
+        elif sCat:            
+            catList = ('1', '7')    # films, saga
+            if sCat not in catList:
+                catList = ('2', '3', '4', '8')
+                if sCat not in catList:
+                    catList = ('0', sCat)
+
+            sql_delete = "DELETE FROM favorite WHERE cat in %s" % str(catList)
+			
         if sql_delete:
             from resources.lib.gui.gui import cGui
             try:
@@ -388,10 +399,11 @@ class cDb:
                     
                 dialog().VSinfo(addon().VSlang(30044))
                 cGui().updateDirectory()
-                return False, False
+                return True
+
             except Exception:
                 VSlog('SQL ERROR %s' % sql_delete)
-                return False, False
+        return False
 
     # ***********************************
     #   Download fonctions

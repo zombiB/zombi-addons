@@ -20,7 +20,6 @@ MOVIE_ASIAN = ('https://c-drama.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%
 
 SERIE_ASIA = ('https://c-drama.com/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%85%d9%83%d8%aa%d9%85%d9%84%d8%a9/', 'showSeries')
 
-URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

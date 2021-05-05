@@ -165,7 +165,7 @@ def showSeries(sSearch = ''):
             
             sThumbnail = aEntry[0]
             siteUrl = aEntry[2]
-            sInfo = '[COLOR yellow]'+aEntry[1]+'[/COLOR]'
+            sInfo = ''
 
 
 

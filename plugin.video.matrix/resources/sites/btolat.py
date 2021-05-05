@@ -18,7 +18,6 @@ SPORT_FOOT = ('https://www.btolat.com/video', 'showMovies')
 
 SPORT_SPORTS = ('http://', 'load')
 
-URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
 
 def load():

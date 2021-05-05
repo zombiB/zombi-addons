@@ -453,7 +453,7 @@ def showSeries(sSearch = ''):
             if 'كامل'  in sTitle or 'كاملة'  in aEntry[1]:
                 oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
             else: 
-	            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+	            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         
         progress_.VSclose(progress_)

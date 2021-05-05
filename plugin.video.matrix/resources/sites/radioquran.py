@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://www.radioquran.tn'
 
 ISLAM_SHOWS = ('http://www.radioquran.tn/emissions', 'showSeries')
-URL_SEARCH = ('', 'showSeries')
+
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

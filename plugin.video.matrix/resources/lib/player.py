@@ -13,12 +13,6 @@ import xbmcplugin
 #https://github.com/amet/service.subtitles.demo/blob/master/service.subtitles.demo/service.py
 #player API
 #http://mirrors.xbmc.org/docs/python-docs/stable/xbmc.html#Player
-
-try:
-    xrange
-except NameError:
-    xrange = range
-
 class cPlayer(xbmc.Player):
 
     ADDON = addon()
@@ -271,12 +265,11 @@ class cPlayer(xbmc.Player):
                 meta['title'] = sTitleWatched
                 resumePoint = db.get_resume(meta)
                 if resumePoint:
-                    resumePoint = int (resumePoint)
-                    h = resumePoint/3600
-                    resumePoint = resumePoint-h*3600
-                    m = resumePoint/60
-                    s = resumePoint-m*60
-                    ret = dialog().VSselect(['Reprendre depuis %02d:%02d:%02d' %(h, m, s), 'Lire depuis le début'], 'Reprendre la lecture')
+                    h = resumePoint//3600
+                    ms = resumePoint-h*3600
+                    m = ms//60
+                    s = ms-m*60
+                    ret = dialog().VSselect(['Resume from %02d:%02d:%02d' %(h, m, s), 'Play from begining'], 'Resume')
                     if ret == 0:
                         self.seekTime(resumePoint)
                     elif ret == 1:

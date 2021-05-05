@@ -17,7 +17,6 @@ URL_MAIN = 'https://eyoon.co'
 
 KID_CARTOON = ('https://eyoon.co/?page_id=42764', 'showSeries')
 
-URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

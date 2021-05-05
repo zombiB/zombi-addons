@@ -17,7 +17,6 @@ URL_MAIN = 'https://hidaya.tn'
 
 ISLAM_QURAN = ('https://hidaya.tn/tilawet/ajax_tilawet.php?search=&page=1', 'showMovies')
 
-URL_SEARCH = ('', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

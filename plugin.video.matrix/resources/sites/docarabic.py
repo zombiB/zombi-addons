@@ -18,7 +18,6 @@ URL_MAIN = 'https://docarabic.wordpress.com/'
 DOC_NEWS = ('https://docarabic.wordpress.com/', 'showMovies')
 
 
-URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

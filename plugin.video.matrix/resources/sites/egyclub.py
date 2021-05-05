@@ -468,15 +468,15 @@ def showServer():
                    break
             
                 url = str(aEntry)
-                sTitle = sMovieTitle
+                sTitle = sMovieTitle2
                 if url.startswith('//'):
                    url = 'http:' + url
             
                 sHosterUrl = url 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if (oHoster != False):
-                   oHoster.setDisplayName(sMovieTitle)
-                   oHoster.setFileName(sMovieTitle)
+                   oHoster.setDisplayName(sTitle)
+                   oHoster.setFileName(sTitle)
                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 

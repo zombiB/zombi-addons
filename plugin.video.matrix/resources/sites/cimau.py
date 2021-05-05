@@ -631,7 +631,7 @@ def showEpisodes():
                sTitle = sMovieTitle2+" E"+str(aEntry[2])
                siteUrl = str(aEntry[0])
                sThumb = sThumb
-               sDesc = sNote
+               sDesc = ""
 			
 
 
@@ -662,7 +662,7 @@ def showEpisodes():
             sTitle = sMovieTitle2+" E"+str(aEntry[2])
             siteUrl = str(aEntry[0])
             sThumb = str(sThumb)
-            sDesc = sNote
+            sDesc = ""
 			
 
 
@@ -692,7 +692,7 @@ def showEpisodes():
             sTitle = aEntry[1]
             siteUrl = str(aEntry[0])
             sThumb = str(sThumb)
-            sDesc = sNote
+            sDesc = ""
 			
 
 

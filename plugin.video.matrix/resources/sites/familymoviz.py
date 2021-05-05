@@ -333,7 +333,7 @@ def showEpisodes():
             sTitle = aEntry[1].replace("Cut"," [Cut] ").replace("مترجمة","").replace("مترجم","") 
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
-            sInfo = aEntry[3]
+            sInfo = ""
 
 
  
@@ -392,7 +392,7 @@ def showHosters():
         oGui.addText(SITE_IDENTIFIER,'الارشاد العائلي : ' + str(sNote2))
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
 
-    sPattern = 'SRC="(.+?)" FRAMEBORDER'
+    sPattern = 'SRC="(.+?)".+?FRAMEBORDER'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

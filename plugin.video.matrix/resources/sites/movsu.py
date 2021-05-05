@@ -260,8 +260,6 @@ def showSeries(sSearch = ''):
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
             sDesc = ""
-            sYear = aEntry[3]
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
 
 
@@ -271,7 +269,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showSeriesLinks', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -283,60 +281,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-		
-def showSerie(sSearch = ''):
-    oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = sHtmlContent.encode('iso-8859-6',errors='ignore').decode('utf8',errors='ignore')
-      # .+? ([^<]+)
-
-    sPattern = '<div class="poster"> <span class="ses">([^<]+)</span> <span class="esp">([^<]+)</span> <img src="([^<]+)" alt="([^<]+)"><div class.+?<div class="mepo"> </div><a href="([^<]+)"><'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[3]
-             
-            sThumbnail = aEntry[2]
-            siteUrl = aEntry[4]
-            sDesc = str(aEntry[0])+'-'+str(aEntry[1])
-
-
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            oGui.addTV(SITE_IDENTIFIER, 'showEp', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSerie', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory()
+			
     # (.+?) ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
     sPattern = 'arrow_pag.+?href="([^<]+)">'
@@ -366,11 +311,38 @@ def showSeriesLinks():
     
     #Recuperation infos
 
-    sPattern = ' <p class="post-content mb-3">([^<]+)</p>'
+    sPattern = '<p class="post-content mb-3">([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         sDesc = aResult[1][0]
+  # ([^<]+) .+?
+    sPattern = '<a class="fulllink" href="([^<]+)"></a>.+?<img src="([^<]+)" alt="([^<]+)">.+?<span class="quality temporada2">'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle =  aEntry[2].replace(":"," ")
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[1]
+            sDesc = ""
+			
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
 			
     sPattern = '<i class="senumb">([^<]+)</i>.+?<i>([^<]+)</i>'
     sPattern = sPattern + '|' + '<a href="([^<]+)" id="episodeactive" class="colorsw">.+?<div class="titlepisode">([^<]+)</div>.+?<span class="numepisode">([^<]+)</span>'
@@ -393,17 +365,68 @@ def showSeriesLinks():
             elif aEntry[2]:
                 sTitle = sMovieTitle+Season+' E'+aEntry[4]+' [ '+ str(aEntry[3])+' ] '
                 sUrl= str(aEntry[2])
-                sDate= sDesc
+                sDesc= ""
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', sUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
                 oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sDate, oOutputParameterHandler)             
+                oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)             
     
         progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
 
+def showEps():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-6',errors='ignore').decode('utf8',errors='ignore')
+    print ("sHtmlContent2")
+    print (sHtmlContent)
+  # ([^<]+) .+?
+    sPattern = '<a class="fulllink" href="([^<]+)"></a>.+?<img src="([^<]+)" alt=".+?">.+?<span class="imdbRating episodio">([^<]+)</span>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = sMovieTitle+aEntry[2]
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[1]
+			
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+       
+    oGui.setEndOfDirectory()
+	
 def showLink():
     oGui = cGui()
    
@@ -539,95 +562,7 @@ def showLink():
 
 
     oGui.setEndOfDirectory()
-
-def showEps():
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
 	
-
-    sPattern = "<img src='([^<]+)'></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='([^<]+)'>([^<]+)</a> <span class='date'>([^<]+)</span></div></li>"
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]+aEntry[3]
-            sTitle = sTitle
-            
-            sThumbnail = aEntry[0]
-            siteUrl = aEntry[2]
-            sDesc = aEntry[4]
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            
-
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
-       
-    oGui.setEndOfDirectory()
-
-def showEp():
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-	
-      # .+? ([^<]+)
-    sPattern = "<div class='episodiotitle'><a href='([^<]+)'>([^<]+)</a> <span class='date'>([^<]+)</span>"
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            
-            siteUrl = aEntry[0]
-            sDesc = aEntry[2]
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
-       
-    oGui.setEndOfDirectory()	
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()

@@ -27,7 +27,6 @@ SPORT_LIVE = ('https://king-shoot.com/', 'showMovies')
 
 
 
-URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

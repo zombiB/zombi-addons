@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'alarab'
 SITE_NAME = 'alarab'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://watch.alarab.com/'
+URL_MAIN = 'https://watch.alarab.com'
 
 MOVIE_CLASSIC = (URL_MAIN + '/view-6181/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%B5%D8%B1%D9%8A%D8%A9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/view-8/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSeries')

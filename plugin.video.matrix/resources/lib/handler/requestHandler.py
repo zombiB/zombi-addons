@@ -195,7 +195,7 @@ class cRequestHandler:
                 self.__enableDNS = True
                 return self.__callRequest()
             else:
-                error_msg = addon().VSlang(30470)					
+                error_msg = addon().VSlang(30470)
 
         except RequestException  as e:
 

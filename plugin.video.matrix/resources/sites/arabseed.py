@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://arabseed.onl/'
 
 MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/foreign-movies-1/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/foreign-movies3/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/arabic-movies-1/', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')

@@ -17,7 +17,6 @@ URL_MAIN = 'https://www.as-goal.com/'
 
 SPORT_LIVE = ('https://www.as-goal.com/', 'showMovies')
 
-URL_SEARCH = ('', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

@@ -75,6 +75,17 @@ class cGui:
         except:
             pass
 
+    #    Categorie       sCat          Meta     CONTENT
+    #    Film            1             1        movies
+    #    Serie           2             2        tvshows
+    #    Anime           3             4        tvshows
+    #    Saison          4             5        episodes
+    #    Divers          5             0        videos
+    #    IPTV (Officiel) 6             0        files
+    #    Saga            7             3        movies
+    #    Episodes        8             0        episodes
+    #    Person          /             7        artists
+    #    Nerwork         /             8        files
     def addMovie(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         self.addNewDir('movies', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 1, 1)
 
@@ -92,7 +103,7 @@ class cGui:
         self.addNewDir(type, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, 5)
 
     def addMoviePack(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
-        self.addNewDir('movies', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 3, 1)
+        self.addNewDir('movies', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 3, 7)
 
     def addDir(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler='', sDesc=""):
         self.addNewDir('dir', sId, sFunction, sLabel, sIcon, '', sDesc, oOutputParameterHandler, 0, None)
@@ -275,15 +286,16 @@ class cGui:
             if not oListItem.getProperty('isBookmark'):
                 self.createContexMenuBookmark(oGuiElement, oOutputParameterHandler)
 
-            if sCat in (1, 2):
+            if sCat in (1, 2, 3, 4, 8):
                 if self.ADDON.getSetting('bstoken') != '':
                     self.createContexMenuTrakt(oGuiElement, oOutputParameterHandler)
                 if self.ADDON.getSetting('tmdb_account') != '':
                     self.createContexMenuTMDB(oGuiElement, oOutputParameterHandler)
+            if sCat in (1, 2, 3):
                 self.createContexMenuSimil(oGuiElement, oOutputParameterHandler)
-                self.createContexMenuWatch(oGuiElement, oOutputParameterHandler)
                 self.createContexMenuParents(oGuiElement, oOutputParameterHandler)
-
+            if sCat != 8:
+                self.createContexMenuWatch(oGuiElement, oOutputParameterHandler)
         oListItem = self.__createContextMenu(oGuiElement, oListItem)
         self.listing.append((sItemUrl, oListItem, _isFolder))
         
@@ -305,7 +317,7 @@ class cGui:
             oGuiElement.setCat(sCat)
         oListItem = self.createListItem(oGuiElement)
         oListItem.setProperty('IsPlayable', 'true')
-        oListItem.setProperty('Video', 'true')
+        # oListItem.setProperty('Video', 'true')
 
         sItemUrl = self.__createItemUrl(oGuiElement, oOutputParameterHandler)
 
