@@ -39,13 +39,13 @@ class main:
         # xbmc.log('Debug 2 >>' + str(xbmc.getInfoLabel('Container.FolderPath')), xbmc.LOGNOTICE)
 
         
-        # Exclue les appels par des plugins qu'on ne sait pas gérer, par exemple :  plugin://plugin.video.vstream/extrafanart
+        # Exclue les appels par des plugins qu'on ne sait pas gérer, par exemple :  plugin://plugin.video.matrix/extrafanart
         oPluginHandler = cPluginHandler()
         pluginPath = oPluginHandler.getPluginPath()
-#         if oPluginHandler.getPluginPath() != 'plugin://plugin.video.vstream/':
+#         if oPluginHandler.getPluginPath() != 'plugin://plugin.video.matrix/':
 #             cGui().setEndOfDirectory()
 #             return
-        if pluginPath == 'plugin://plugin.video.vstream/extrafanart/':
+        if pluginPath == 'plugin://plugin.video.matrix/extrafanart/':
             return
         
         oInputParameterHandler = cInputParameterHandler()
@@ -192,7 +192,7 @@ def setSetting(plugin_id, value):
 
 # Permet la modification des settings depuis un raccourci dans le skin (jusqu'à 50 paramètres).
 # Supporte les retours à la ligne seulement derrière le paramètre, exemple :
-# RunAddon(plugin.video.vstream,function=setSettings&id1=plugin_cinemay_com&value1=true
+# RunAddon(plugin.video.matrix,function=setSettings&id1=plugin_cinemay_com&value1=true
 # &id2=plugin_cinemegatoil_org&value2=false
 # &id3=hoster_uploaded_premium&value3=true
 # &id4=hoster_uploaded_username&value4=MyName

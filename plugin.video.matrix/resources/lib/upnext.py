@@ -27,6 +27,10 @@ class UpNext:
             return      
 
         oInputParameterHandler = cInputParameterHandler()
+        nextEpisodeFunc = oInputParameterHandler.getValue('nextEpisodeFunc')
+        if not nextEpisodeFunc:
+            return 
+
         sSiteName = oInputParameterHandler.getValue('sourceID')
         if not sSiteName:
             return 
@@ -43,7 +47,7 @@ class UpNext:
         sNextEpisode = '%02d' % (numEpisode+1)
 
         nextEpisodeUrl = oInputParameterHandler.getValue('nextEpisode')
-        seasonUrl = oInputParameterHandler.getValue('seasonUrl')
+        SeasonUrl = oInputParameterHandler.getValue('SeasonUrl')
         nextSeasonFunc = oInputParameterHandler.getValue('nextSeasonFunc')
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
 
@@ -51,12 +55,12 @@ class UpNext:
             sUrl = QuotePlus(nextEpisodeUrl)
             nextEpisodeUrl = None
         else:
-            if not seasonUrl:
+            if not SeasonUrl:
                 return 
             if not nextSeasonFunc:
                 return
 
-            sUrl, nextEpisodeUrl = self.getEpisodeFromSeason(sSiteName, nextSeasonFunc, seasonUrl, sSeason, sNextEpisode, oInputParameterHandler)
+            sUrl, nextEpisodeUrl = self.getEpisodeFromSeason(tvShowTitle, sSeason, sNextEpisode, oInputParameterHandler)
             if not sUrl:
                 return 
         
@@ -68,18 +72,18 @@ class UpNext:
         oOutputParameterHandler.addParameter('sMovieTitle', nextTitle)
         oOutputParameterHandler.addParameter('sTitle', nextTitle)
         oOutputParameterHandler.addParameter('sCat', 6) # épisode
+        oOutputParameterHandler.addParameter('sEpisode', sNextEpisode)
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
         oOutputParameterHandler.addParameter('sId', sSiteName)
         oOutputParameterHandler.addParameter('sourceID', sSiteName)
-        oOutputParameterHandler.addParameter('seasonUrl', seasonUrl)
+        oOutputParameterHandler.addParameter('SeasonUrl', SeasonUrl)
         oOutputParameterHandler.addParameter('nextSeasonFunc', nextSeasonFunc)
         
         try:
-            sFunction = "showHosters"
             sParams = oOutputParameterHandler.getParameterAsUri()
-            sys.argv[2] = '?site=%s&function=%s&title=%s&%s' % (sSiteName, sFunction, nextTitle, sParams)
+            sys.argv[2] = '?site=%s&function=%s&title=%s&%s' % (sSiteName, nextEpisodeFunc, nextTitle, sParams)
             plugins = __import__('resources.sites.%s' % sSiteName, fromlist=[sSiteName])
-            function = getattr(plugins, sFunction)
+            function = getattr(plugins, nextEpisodeFunc)
             function()
             
         except Exception as e:
@@ -110,8 +114,10 @@ class UpNext:
 
             oOutputParameterHandler.addParameter('sFav', 'play')
             oOutputParameterHandler.addParameter('sMediaUrl', str(sMediaUrl))
+            oOutputParameterHandler.addParameter('nextEpisodeFunc', nextEpisodeFunc)
             oOutputParameterHandler.addParameter('nextEpisode', nextEpisodeUrl)
             oOutputParameterHandler.addParameter('sHosterIdentifier', sHosterIdentifier)
+            
             
             sParams = oOutputParameterHandler.getParameterAsUri()
             url = 'plugin://plugin.video.matrix/?site=cHosterGui&function=play&%s' % sParams
@@ -160,18 +166,25 @@ class UpNext:
         except Exception as e:
             VSlog('UpNext : %s' % e)
          
-    # Retrouve le prochain épisode d'une série depuis l'url de la season
-    def getEpisodeFromSeason(self, sSiteName, sFunction, seasonUrl, sSeason, sNextEpisode, oInputParameterHandler):
+    # Retrouve le prochain épisode d'une série depuis l'url de la Season
+    def getEpisodeFromSeason(self, sSeasonTitle, sSeason, sNextEpisode, oInputParameterHandler):
+
+        sSiteName = oInputParameterHandler.getValue('sourceID')
+        nextSeasonFunc = oInputParameterHandler.getValue('nextSeasonFunc')
+        SeasonUrl = oInputParameterHandler.getValue('SeasonUrl')
+        sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
 
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', seasonUrl)
+        oOutputParameterHandler.addParameter('siteUrl', SeasonUrl)
         oOutputParameterHandler.addParameter('sId', sSiteName)
-        
+        oOutputParameterHandler.addParameter('sMovieTitle', sSeasonTitle)
+        oOutputParameterHandler.addParameter('sHosterIdentifier', sHosterIdentifier)
+
         try:
             sParams = oOutputParameterHandler.getParameterAsUri()
-            sys.argv[2] = '?site=%s&function=%s&%s' % (sSiteName, sFunction, sParams)
+            sys.argv[2] = '?site=%s&function=%s&%s' % (sSiteName, nextSeasonFunc, sParams)
             plugins = __import__('resources.sites.%s' % sSiteName, fromlist=[sSiteName])
-            function = getattr(plugins, sFunction)
+            function = getattr(plugins, nextSeasonFunc)
             function()
             
         except Exception as e:
@@ -181,10 +194,13 @@ class UpNext:
         for sUrl, listItem, _ in cGui().getEpisodeListing():
             siteUrl, params = sUrl.split('&', 1)
             aParams = dict(param.split('=') for param in params.split('&'))
-            if 'sSeason' in aParams and 'sEpisode' in aParams:
+            if 'sSeason' in aParams:
                 season = aParams['sSeason']
+                if season != sSeason:   # La Season est connue mais ce n'est pas la bonne 
+                    continue
+            if 'sEpisode' in aParams:
                 episode = aParams['sEpisode']
-                if season == sSeason and episode==sNextEpisode:
+                if episode==sNextEpisode:
                     siteUrl = aParams['siteUrl']
                     nextEpisodeURL = aParams['nextEpisode'] if 'nextEpisode' in aParams else None
                     return siteUrl, nextEpisodeURL
@@ -252,6 +268,5 @@ class UpNext:
                 return True # addon activé
             else:                          # UpNext non installé, on l'installe et on l'utilise
                 addonManager().installAddon(upnext_id)
-                # ce n'est pris en compte à l'installation de l'addon, il faudra attendre le prchain épisode
+                # ce n'est pas pris en compte à l'installation de l'addon, donc return False, il faudra attendre le prochain épisode
                 return False    
-    

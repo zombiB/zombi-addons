@@ -381,8 +381,7 @@ class cTrakt:
             for i in sHtmlContent:
                 # Limite les elements du calendrier
                 if not 'X-Pagination-Page-Count' in sHeaders:
-                    if progress_.getProgress() >= int(MAXRESULT):
-                        break
+                       progress_.VSupdate(progress_, total)
 
                 progress_.VSupdate(progress_, total)
                 if progress_.iscanceled():
@@ -701,7 +700,7 @@ class cTrakt:
     def getLocalizedTitle(self, item, what):
         try:
             if 'episode' not in what:
-                oRequestHandler = cRequestHandler(URL_API + '%s/%s/translations/fr' % (what, item['ids']['slug']))
+                oRequestHandler = cRequestHandler(URL_API + '%s/%s/translations/ar' % (what, item['ids']['slug']))
                 oRequestHandler.addHeaderEntry('Content-Type', 'application/json')
                 oRequestHandler.addHeaderEntry('trakt-api-key', API_KEY)
                 oRequestHandler.addHeaderEntry('trakt-api-version', API_VERS)
@@ -711,14 +710,14 @@ class cTrakt:
                 show_title = self.getLocalizedTitle(item['show'], 'shows')
                 t_values = (item['show']['ids']['slug'], item['episode']['season'], item['episode']['number'])
 
-                oRequestHandler = cRequestHandler(URL_API + 'shows/%s/seasons/%s/episodes/%s/translations/fr' % t_values)
+                oRequestHandler = cRequestHandler(URL_API + 'shows/%s/seasons/%s/episodes/%s/translations/ar' % t_values)
                 oRequestHandler.addHeaderEntry('Content-Type', 'application/json')
                 oRequestHandler.addHeaderEntry('trakt-api-key', API_KEY)
                 oRequestHandler.addHeaderEntry('trakt-api-version', API_VERS)
                 oRequestHandler.addHeaderEntry('Authorization', 'Bearer %s' % self.ADDON.getSetting('bstoken'))
                 sHtmlContent = oRequestHandler.request(jsonDecode=True)
 
-            title = next((title for title in sHtmlContent if title['language'].lower() == 'fr'), item)['title']
+            title = next((title for title in sHtmlContent if title['language'].lower() == 'ar'), item)['title']
 
             if title is None:
                 return item['title']
@@ -983,9 +982,9 @@ class cTrakt:
         # vire les espaces multiples et on laisse les espaces sans modifs car certains codent avec %20 d'autres avec +
         sMovieTitle = re.sub(' +', ' ', sMovieTitle)
 
-        self.vStreamSearch(sMovieTitle)
+        self.matrixSearch(sMovieTitle)
 
-    def vStreamSearch(self, sMovieTitle):
+    def matrixSearch(self, sMovieTitle):
         oGui = cGui()
 
         oHandler = cRechercheHandler()
@@ -1004,7 +1003,7 @@ class cTrakt:
 
         oRequestHandler = cRequestHandler('https://api.themoviedb.org/3/movie/' + str(sTmdb))
         oRequestHandler.addParameters('api_key', '92ab39516970ab9d86396866456ec9b6')
-        oRequestHandler.addParameters('language', 'fr')
+        oRequestHandler.addParameters('language', 'en')
 
         sHtmlContent = oRequestHandler.request(jsonDecode=True)
 

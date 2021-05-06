@@ -500,7 +500,7 @@ def showLink():
                    if (oHoster != False):
                       sDisplayTitle = sMovieTitle+sTitle
                       oHoster.setDisplayName(sDisplayTitle)
-                      oHoster.setFileName(sMovieTitle)
+                      oHoster.setFileName(sDisplayTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 	
      # ([^<]+) .+?
@@ -557,7 +557,7 @@ def showLink():
                     if (oHoster != False):
                         sDisplayTitle = sMovieTitle+sTitle
                         oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
+                        oHoster.setFileName(sDisplayTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
 
@@ -605,7 +605,7 @@ def showHosters():
             if (oHoster != False):
                 sDisplayTitle = sMovieTitle+sTitle
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 	
@@ -638,7 +638,7 @@ def showHosters():
             if (oHoster != False):
                sDisplayTitle = sMovieTitle+sTitle
                oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
+               oHoster.setFileName(sDisplayTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
      # ([^<]+) .+?
@@ -699,7 +699,7 @@ def showHosters():
             if (oHoster != False):
                 sDisplayTitle = sMovieTitle+sTitle
                 oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
+                oHoster.setFileName(sDisplayTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 

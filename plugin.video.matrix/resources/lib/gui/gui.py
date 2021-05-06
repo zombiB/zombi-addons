@@ -9,6 +9,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.pluginHandler import cPluginHandler
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.util import QuotePlus
 import re
@@ -79,7 +80,7 @@ class cGui:
     #    Film            1             1        movies
     #    Serie           2             2        tvshows
     #    Anime           3             4        tvshows
-    #    Saison          4             5        episodes
+    #    Season          4             5        episodes
     #    Divers          5             0        videos
     #    IPTV (Officiel) 6             0        files
     #    Saga            7             3        movies
@@ -89,7 +90,12 @@ class cGui:
     def addMovie(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         self.addNewDir('movies', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 1, 1)
 
-    def addTV(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
+    def addTV(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):# Pour gérer l'enchainement des épisodes
+        SeasonUrl = oOutputParameterHandler.getValue('siteUrl')
+        oOutputParameterHandler.addParameter('sourceID', sId)
+        oOutputParameterHandler.addParameter('SeasonUrl', QuotePlus(SeasonUrl))
+        oOutputParameterHandler.addParameter('nextSeasonFunc', sFunction)
+
         self.addNewDir('tvshows', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 2, 2)
 
     def addAnime(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
@@ -121,13 +127,12 @@ class cGui:
 
         self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 5, 4)
         
-
-        # Pour gérer l'enchainement des épisodes
-        nbSeason = len(self.listing)
-        if nbSeason > 1 and seasonUrl:
-            url, listItem, isFolder = self.listing.pop(nbSeason-2)
-            url += '&nextSeason=%s' % QuotePlus(seasonUrl)
-            self.listing.insert(nbSeason-2, (url, listItem, isFolder)) 
+        # # Pour gérer l'enchainement des Seasons
+        # nbSeason = len(self.listing)
+        # if nbSeason > 1 and SeasonUrl:
+            # url, listItem, isFolder = self.listing.pop(nbSeason-2)
+            # url += '&nextSeason=%s' % QuotePlus(SeasonUrl)
+            # self.listing.insert(nbSeason-2, (url, listItem, isFolder)) 
         return
 
     def addEpisode(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
@@ -137,6 +142,7 @@ class cGui:
         oOutputParameterHandler.addParameter('seasonUrl', seasonUrl)
         nextSeasonFunc = oInputParameterHandler.getValue('nextSeasonFunc')
         oOutputParameterHandler.addParameter('nextSeasonFunc', nextSeasonFunc)
+        oOutputParameterHandler.addParameter('nextEpisodeFunc', sFunction)
         oOutputParameterHandler.addParameter('sourceID', sId)
         siteUrl = oOutputParameterHandler.getValue('siteUrl')
 
@@ -446,11 +452,11 @@ class cGui:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
         oOutputParameterHandler.addParameter('sTitle', oGuiElement.getTitle())
-        oOutputParameterHandler.addParameter('sImdbId', oGuiElement.getImdbId())
+        oOutputParameterHandler.addParameter('sTmdbId', oGuiElement.getTmdbId())
         sType = cGui.CONTENT.replace('tvshows', 'tvshow').replace('movies', 'movie')
         oOutputParameterHandler.addParameter('sType', sType)
 
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getImdbId(), 'viewParents', self.ADDON.VSlang(33213))
+        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getTmdbId(), 'viewParents', self.ADDON.VSlang(33213))
     def CreateSimpleMenu(self, oGuiElement, oOutputParameterHandler, sFile, sName, sFunction, sTitle):
         oContext = cContextElement()
         oContext.setFile(sFile)
@@ -608,6 +614,7 @@ class cGui:
         oInputParameterHandler = cInputParameterHandler()
         sFileName = oInputParameterHandler.getValue('sFileName')
         sType = oInputParameterHandler.getValue('sType')
+        sIMDb = 'tt9536846'
         meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
         sIMDb = str(meta['imdb_id'])
 
@@ -656,9 +663,8 @@ class cGui:
                   Stext = Stext+"\n"+' لقطات غير مناسبة للمشاهدة العائلية '
         Stextf = Stext+"\n"+Stext0
 
-
         ret = DIALOG.VSok(Stextf)
-
+						
     def viewSimil(self):
         sPluginPath = cPluginHandler().getPluginPath()
 

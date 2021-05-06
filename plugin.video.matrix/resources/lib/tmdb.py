@@ -13,7 +13,6 @@ import webbrowser
 from resources.lib.librecaptcha.gui import cInputWindowYesNo
 from resources.lib.util import QuotePlus
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix, xbmc, xbmcgui
-from resources.lib.handler.requestHandler import cRequestHandler
 
 try:
     import urllib2
@@ -631,7 +630,10 @@ class cTMDb:
         except:
             _meta['duration'] = 0
 
-        if 'overview' in meta and meta['overview']:
+
+
+        
+        if 'overview' not in meta and meta['overview']:
             import requests
             headers = {'Host': 'www.arabtran.com',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',

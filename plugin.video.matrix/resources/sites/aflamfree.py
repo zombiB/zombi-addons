@@ -133,7 +133,7 @@ def showMoviesearch(sSearch = ''):
                   sYear = str(m.group(0))
                   sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear) 
-            sInfo = '[COLOR aqua]'+aEntry[3]+'/10[/COLOR]' 
+            sInfo = '' 
 			
 			
             oOutputParameterHandler = cOutputParameterHandler()
@@ -257,7 +257,7 @@ def showLive():
                   sYear = str(m.group(0))
                   sTitle = sTitle.replace(sYear,'')
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear) 
-            sInfo = '[COLOR aqua]'+aEntry[3]+'/10[/COLOR]' 
+            sInfo = ''
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -342,8 +342,7 @@ def showLive2():
  
             sTitle = aEntry[0] 
             siteUrl = aEntry[1].replace("r.php?url","r2.php?url") 
-            sInfo = sInfo
-            sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
+            sInfo = ""
     
             oRequestHandler = cRequestHandler(siteUrl)
             sHtmlContent = oRequestHandler.request();
