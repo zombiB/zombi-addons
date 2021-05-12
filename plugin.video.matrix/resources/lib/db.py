@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-import xbmcvfs
+import xbmcvfs, json
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.util import QuotePlus, Unquote
 from resources.lib.comaddon import dialog, addon, VSlog, VSPath, isMatrix
@@ -369,10 +369,6 @@ class cDb:
             sql_delete = "DELETE FROM favorite WHERE siteurl = '%s' AND title = '%s'" % (siteUrl, title)
 
         # Supprimer un bookmark selon son url
-        elif sSiteUrl:
-            siteUrl = QuotePlus(sSiteUrl)
-            sql_delete = "DELETE FROM favorite WHERE siteurl = '%s'" % siteUrl
-        # Supprimer toute une catégorie
         elif sSiteUrl:
             siteUrl = QuotePlus(sSiteUrl)
             sql_delete = "DELETE FROM favorite WHERE siteurl = '%s'" % siteUrl

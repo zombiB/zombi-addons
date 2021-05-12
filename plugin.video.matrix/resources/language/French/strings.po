@@ -1205,6 +1205,15 @@ msgctxt "#31000"
 msgid "Multimedia folder URL (Optional)"
 msgstr "URL du dossier multimedia (Optionnel)"
 
+# upnext
+msgctxt "#30505"
+msgid "Would you like to automatically play the next episode?"
+msgstr "Voulez-vous activer l'enchainement des épisodes ?"
+
+msgctxt "#30506"
+msgid "Automatically play the next episode"
+msgstr "Activer l'enchainement des épisodes"
+
 msgctxt "#34110"
 msgid "Database to delete"
 msgstr "Base de données à supprimer"

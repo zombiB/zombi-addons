@@ -99,13 +99,14 @@ def showMovies(sSearch = ''):
             sDesc = ""
             sQua = aEntry[3]
             sYear = aEntry[4]
-            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sQua)
+            sDisplayTitle = ('%s [%s]') % (sTitle, sQua)
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sYear', sYear) 
 
             oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
@@ -208,18 +209,18 @@ def showPack():
             siteUrl = aEntry[3]
             sDesc = ""
             sYear = aEntry[2]
-            sDisplayTitle = ('%s (%s) ') % (sTitle, sYear)
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sYear', sYear) 
 
             
 
  
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
        

@@ -109,13 +109,11 @@ def showMovies(sSearch = ''):
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0].replace("/movies/","/watch_movies/")
             sInfo = ''
-            annee = ''
+            sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
-                annee = str(m.group(0))
-                sTitle = sTitle.replace(annee,'')
-            if annee:
-                sTitle = sTitle + '(' + annee + ')'
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
  
 
 
@@ -123,6 +121,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         

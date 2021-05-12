@@ -115,6 +115,14 @@ class cGui:
         self.addNewDir('dir', sId, sFunction, sLabel, sIcon, '', sDesc, oOutputParameterHandler, 0, None)
 
     def addLink(self, sId, sFunction, sLabel, sThumbnail, sDesc, oOutputParameterHandler=''):
+        # Pour gérer l'enchainement des épisodes
+        oInputParameterHandler = cInputParameterHandler()
+        oOutputParameterHandler.addParameter('seasonUrl', oInputParameterHandler.getValue('seasonUrl'))
+        oOutputParameterHandler.addParameter('nextSeasonFunc', oInputParameterHandler.getValue('nextSeasonFunc'))
+        oOutputParameterHandler.addParameter('nextEpisodeFunc', oInputParameterHandler.getValue('nextEpisodeFunc'))
+        oOutputParameterHandler.addParameter('nextLinkFunc', sFunction)
+        oOutputParameterHandler.addParameter('sourceID', sId)
+		
         sIcon = sThumbnail
         self.addNewDir('link', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, None)
 				
@@ -126,34 +134,20 @@ class cGui:
         oOutputParameterHandler.addParameter('nextSeasonFunc', sFunction)
 
         self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 5, 4)
-        
-        # # Pour gérer l'enchainement des Seasons
-        # nbSeason = len(self.listing)
-        # if nbSeason > 1 and SeasonUrl:
-            # url, listItem, isFolder = self.listing.pop(nbSeason-2)
-            # url += '&nextSeason=%s' % QuotePlus(SeasonUrl)
-            # self.listing.insert(nbSeason-2, (url, listItem, isFolder)) 
+
         return
 
     def addEpisode(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         # Pour gérer l'enchainement des épisodes
         oInputParameterHandler = cInputParameterHandler()
-        seasonUrl = oInputParameterHandler.getValue('seasonUrl')
-        oOutputParameterHandler.addParameter('seasonUrl', seasonUrl)
-        nextSeasonFunc = oInputParameterHandler.getValue('nextSeasonFunc')
-        oOutputParameterHandler.addParameter('nextSeasonFunc', nextSeasonFunc)
+        oOutputParameterHandler.addParameter('seasonUrl', oInputParameterHandler.getValue('seasonUrl'))
+        oOutputParameterHandler.addParameter('nextSeasonFunc', oInputParameterHandler.getValue('nextSeasonFunc'))
         oOutputParameterHandler.addParameter('nextEpisodeFunc', sFunction)
         oOutputParameterHandler.addParameter('sourceID', sId)
         siteUrl = oOutputParameterHandler.getValue('siteUrl')
 
-        self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, 6)
+        self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, 8)
 
-        # Pour gérer l'enchainement des épisodes
-        nbEpisode = len(self.listing)
-        if nbEpisode > 1 and siteUrl:
-            url, listItem, isFolder = self.listing.pop(nbEpisode-2)
-            url += '&nextEpisode=%s' % QuotePlus(siteUrl)
-            self.listing.insert(nbEpisode-2, (url, listItem, isFolder)) 
         return
 
     # Affichage d'une personne (acteur, réalisateur, ..)

@@ -405,6 +405,9 @@ class cGuiElement:
         return self.__sFanart
 
     def setIcon(self, sIcon):
+        if not sIcon:
+            self.__sIcon = ''
+            return
         try:
             self.__sIcon = unicode(sIcon, 'utf-8')
         except:
@@ -713,7 +716,7 @@ class cGuiElement:
         sCat = str(self.getCat())
         if sCat:
             self.addItemProperties('sCat', sCat)
-            mediatypes = {'1': 'movie', '2': 'tvshow', '3': 'tvshow', '4': 'season', '5': 'video', '6': 'episode'}
+            mediatypes = {'1': 'movie', '2': 'tvshow', '3': 'tvshow', '4': 'season', '5': 'video', '6': 'video', '7': 'season', '8': 'episode'}
             if sCat in mediatypes:
                 mediatype = mediatypes[sCat]
                 if mediatype:            # video, movie, tvshow, season, episode, musicvideo

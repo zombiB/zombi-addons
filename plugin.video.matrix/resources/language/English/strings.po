@@ -1202,6 +1202,15 @@ msgctxt "#31000"
 msgid "Multimedia folder URL (Optional)"
 msgstr ""
 
+# upnext
+msgctxt "#30505"
+msgid "Would you like to automatically play the next episode?"
+msgstr ""
+
+msgctxt "#30506"
+msgid "Automatically play the next episode"
+msgstr ""
+
 msgctxt "#34110"
 msgid "Database to delete"
 msgstr ""

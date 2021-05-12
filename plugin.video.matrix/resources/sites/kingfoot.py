@@ -50,10 +50,7 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-   
-
-
- 
+    
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -142,8 +139,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
-
-
 def __checkForNextPage(sHtmlContent):
     sPattern = ''
     oParser = cParser()
@@ -153,8 +148,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult
 
     return False 
- 
-
   
 def showchannels():
     oGui = cGui()

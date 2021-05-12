@@ -74,7 +74,7 @@ def showMovies(sSearch = ''):
             sDesc = str(aEntry[4])
             sYear = aEntry[3]
             sDub = ''
-            sDisplayTitle = ('%s (%s) [%s]') % (sTitle, sYear, sDub)
+            sDisplayTitle = ('%s [%s]') % (sTitle, sDub)
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -107,10 +107,13 @@ def showSeries(sSearch = ''):
     if isMatrix(): 
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
     #print data
-     # (.+?) ([^<]+) .+?
-    sPattern = '<a href="(.+?)">.+?data-lazy-src="(.+?)".+?class="Title">(.+?)</'
-
     oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<div class="Top">'
+    sEnd = '<div class="WebDescription">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    sPattern = 'class="TPost C"> <a href="(.+?)">.+?data-lazy-src="(.+?)".+?class="Title">(.+?)</'
+
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -155,22 +158,15 @@ def showEpisodes():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
-    oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('origin', 'spacepowerfan.com')
-    oRequestHandler.addHeaderEntry('Cookie', cook)
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Referer', 'https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/')
-    sHtmlContent = oRequestHandler.request()
-    if isMatrix():
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
+    HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0',
+                   'referer': 'https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/',
+                   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
+    St=requests.Session()
+    sHtmlContent = St.get(sUrl).content.decode('utf-8')
 
     oParser = cParser()
      # (.+?) ([^<]+) .+?
-    sPattern = '<span class="Num">(.+?)</span>.+?<a href="([^<]+)" class="MvTbImg">.+?data-lazy-src="([^<]+)">.+?<a href=".+?">([^<]+)</a><span>'
-
+    sPattern = '<noscript><img src="([^<]+)" alt=".+?"></noscript>.+?</td> <td class="MvTbTtl"><a href="([^<]+)">([^<]+)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -183,9 +179,8 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[0])
-            sThumb = sThumb
-            sIcon = aEntry[1].replace('"',"").replace("&quot;","").replace("amp;","")
+            siteUrl = str(aEntry[1])
+            sThumb = aEntry[0]
             sDesc = ""
 			
 
@@ -194,7 +189,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, sIcon, sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

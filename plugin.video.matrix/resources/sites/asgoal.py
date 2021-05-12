@@ -15,7 +15,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.as-goal.com/'
 
-SPORT_LIVE = ('https://www.as-goal.com/', 'showMovies')
+SPORT_LIVE = ('https://www.as-goal.com/m/', 'showMovies')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -51,7 +51,9 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<a href="([^<]+)" target="_blank" class="AlbaSposrTable.+?" rel="(.+?)">.+?title="([^<]+)" src=.+?title="(.+?)"'
+    sPattern = '<a href="(.+?)".+?rel="([^<]+)">.+?<img alt="([^<]+)" title.+?<img alt="([^<]+)" title='
+
+
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

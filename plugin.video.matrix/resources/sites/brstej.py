@@ -26,7 +26,7 @@ MOVIE_TURK= ('https://p.brstej.com:2053/category1.php?cat=turkish-movies', 'show
 KID_MOVIES = ('https://p.brstej.com:2053/category1.php?cat=anime', 'showMovies')
 ANIM_NEWS = ('https://p.brstej.com:2053/category1.php?cat=anmei', 'showSeries')
 SERIE_ASIA = ('https://p.brstej.com:2053/category1.php?cat=asia', 'showSerie')
-REPLAYTV_NEWS = ('https://p.brstej.com:2053/category1.php?cat=tv100', 'showMovies')
+REPLAYTV_NEWS = ('https://p.brstej.com:2053/category1.php?cat=tv100', 'showSeries')
 
 URL_SEARCH = ('https://p.brstej.com:2053/search.php?keywords=', 'showMovies')
 URL_SEARCH_SERIES = ('https://p.brstej.com:2053/search.php?video-id=&keywords=', 'showSeries')
@@ -94,7 +94,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[0]).replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
+            sTitle = str(aEntry[0]).replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("برنامج","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("اونلاين","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
             siteUrl = str(aEntry[2])
             sThumb = str(aEntry[1])
             sDesc = ''
@@ -108,10 +108,11 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -152,7 +153,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[0]).replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").split('الحلقة')[0]
+            sTitle = str(aEntry[0]).replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("اونلاين","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").split('الحلقة')[0]
             siteUrl = str(aEntry[2])
             sThumb = str(aEntry[1])
             sDesc = ''

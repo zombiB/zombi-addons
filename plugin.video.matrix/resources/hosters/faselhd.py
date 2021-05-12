@@ -70,7 +70,7 @@ class cHoster(iHoster):
 # From this url https://gitlab.com/Rgysoft/iptv-host-e2iplayer/-/blob/master/IPTVPlayer/tsiplayer/host_faselhd.py
 #################################################################
 	#
-        if 'adilbo_HTML_encoder' in data:
+        if 'adilbo' in data:
         	t_script = re.findall('<script.*?;.*?\'(.*?);', data, re.S)
         	t_int = re.findall('/g.....(.*?)\)', data, re.S)
         	if t_script and t_int:
@@ -80,14 +80,12 @@ class cHoster(iHoster):
         	    sc = script.split('.')
         	    page = ''
         	    for elm in sc:
-                        c_elm = base64.b64decode(elm+'==')
+                        c_elm = base64.b64decode(elm+'==').decode()
                         t_ch = re.findall('\d+', c_elm, re.S)
                         if t_ch:
                         	nb = int(t_ch[0])+int(t_int[0])
                         	page = page + chr(nb)
         	    t_url = re.findall('file":"(.*?)"', page, re.S)
-        	    print ("sHtmlContent2")
-        	    print (t_url)
         	    if t_url:
                 	api_call = t_url[0].replace('\\','').replace("['",'').replace("']",'')
                 	core = api_call

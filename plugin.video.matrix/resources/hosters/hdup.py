@@ -67,13 +67,11 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         oParser = cParser()
-        print ("sHtmlContent2")
-        print (sHtmlContent)
-        sPattern =  "<script type='text/javascript'>([^<]+)</script>"
+        sPattern =  "<script type='text/javascript'>(.+?)</script>"
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             stri = cPacker().unpack(aResult[1][0])
-            sPattern =  'file:"([^<]+)",label:"(.+?)"'
+            sPattern =  'file:"(.+?)",label:"(.+?)"'
             aResult = oParser.parse(stri, sPattern)
             if (aResult[0] == True):
                 url=[]

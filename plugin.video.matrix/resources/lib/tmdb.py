@@ -629,11 +629,8 @@ class cTMDb:
             _meta['duration'] = duration
         except:
             _meta['duration'] = 0
-
-
-
-        
-        if 'overview' not in meta and meta['overview']:
+       
+        if 'overview' in meta and meta['overview']:
             import requests
             headers = {'Host': 'www.arabtran.com',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',

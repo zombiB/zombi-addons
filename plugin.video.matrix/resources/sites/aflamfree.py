@@ -132,7 +132,6 @@ def showMoviesearch(sSearch = ''):
             if m:
                   sYear = str(m.group(0))
                   sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear) 
             sInfo = '' 
 			
 			
@@ -141,7 +140,7 @@ def showMoviesearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -256,14 +255,13 @@ def showLive():
             if m:
                   sYear = str(m.group(0))
                   sTitle = sTitle.replace(sYear,'')
-            sDisplayTitle = ('%s (%s)') % (sTitle, sYear) 
             sInfo = ''
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
 
     #(.+?)([^<]+).+?<li>
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span></div>'
