@@ -186,7 +186,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
   # ([^<]+) .+?
 
@@ -269,21 +269,18 @@ def showSeasons():
     
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oGui = cGui()
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = str(sMovieTitle2)+aEntry[1].replace("الحلقة "," E")
             siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = ""
- 
-            oOutputParameterHandler = cOutputParameterHandler()
+            sHoster = ""
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sHost', sHoster)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             
 
@@ -469,7 +466,7 @@ def showEpisodes():
             sTitle = aEntry[2]
             
             siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[1])
+            sThumb = str(aEntry[1])
             sInfo = ""
 			
 
@@ -477,8 +474,9 @@ def showEpisodes():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sInfo', sInfo)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
        
@@ -489,7 +487,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumbnail = oInputParameterHandler.getValue('sThumb')
 
 
 
@@ -516,15 +514,11 @@ def showHosters():
             if progress_.iscanceled():
                 break
             
-            url = str(aEntry)
-            url = url.replace("upbbom","ddsdd")
+            sHosterUrl = str(aEntry)
+            sHosterUrl = sHosterUrl.replace("upbbom","ddsdd")
             sTitle =  ""
-            if url.startswith('//'):
-                url = 'http:' + url
-				
-					
-            
-            sHosterUrl = url
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -551,15 +545,12 @@ def showHosters():
             if progress_.iscanceled():
                 break
             
-            url = aEntry[0]
-            url = url.replace("upbbom","ddsdd").replace("uppbom","ddsdd")
+            sHosterUrl = aEntry[0]
+            sHosterUrl = sHosterUrl.replace("upbbom","ddsdd").replace("uppbom","ddsdd")
             sTitle = sMovieTitle+' ['+aEntry[2]+aEntry[1]+'] '
-            if url.startswith('//'):
-                url = 'http:' + url
-				
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl
 					
-            
-            sHosterUrl = url
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:

@@ -302,7 +302,6 @@ def showEps():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, sThumb, sDesc, oOutputParameterHandler)
         
@@ -363,8 +362,7 @@ def showHosters():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
     # (.+?) .+?
@@ -398,8 +396,7 @@ def showHosters():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				

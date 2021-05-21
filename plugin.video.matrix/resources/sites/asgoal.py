@@ -48,14 +48,17 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+    sStart = '<div id="Today" class='
+    sEnd = '</footer>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<a href="(.+?)".+?rel="([^<]+)">.+?<img alt="([^<]+)" title.+?<img alt="([^<]+)" title='
+    sPattern = '<a href="(.+?)".+?rel="(.+?)">.+?<img alt="(.+?)" title.+?<img alt="(.+?)" title='
 
 
 
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -73,8 +76,6 @@ def showMovies(sSearch = ''):
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sInfo = aEntry[1]
-            if "live" in sInfo:
-                sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
 			
 			
             oOutputParameterHandler = cOutputParameterHandler()

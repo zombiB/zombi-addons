@@ -495,7 +495,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             if '/series/' in siteUrl:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes', 'Episodes', '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', 'Episodes', '', sThumbnail, sInfo, oOutputParameterHandler)
             else:
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo,  oOutputParameterHandler)
         

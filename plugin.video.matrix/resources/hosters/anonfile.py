@@ -64,10 +64,7 @@ class cHoster(iHoster):
         
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-        
-        #fh = open('c:\\test.txt', "w")
-        #fh.write(sHtmlContent)
-        #fh.close()
+
         
         oParser = cParser()
         
@@ -94,7 +91,19 @@ class cHoster(iHoster):
                 return True, api_call
         
             # (.+?) .+?
-        sPattern = "class='btn btn-.+?' href='([^<]+)'>"
+        sPattern = 'class="btn btn-.+?".+?href="([^<]+)">'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        api_call = False
+
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
+
+            if (api_call):
+                return True, api_call + '|User-Agent=' + UA
+        
+            # (.+?) .+?
+        sPattern = "class='btn btn-.+?' href='(.+?)'>"
         aResult = oParser.parse(sHtmlContent, sPattern)
         
         api_call = False

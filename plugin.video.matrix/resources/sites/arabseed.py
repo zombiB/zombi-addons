@@ -505,6 +505,7 @@ def showEps():
             siteUrl = str(aEntry[0])
             sThumb = str(sThumb)
             sDesc = ''
+            sHost = ''
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -512,6 +513,7 @@ def showEps():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sMovieTitle2', sMovieTitle2)
             oOutputParameterHandler.addParameter('sMovieTitle3', sTitle)
+            oOutputParameterHandler.addParameter('sHost', sHost)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             
 

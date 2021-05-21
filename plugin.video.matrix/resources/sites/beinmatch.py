@@ -157,16 +157,17 @@ def showLive():
             if progress_.iscanceled():
                 break
  
-            sTitle = "link"+aEntry[1]
-            siteUrl = "https://beinmatch.tv/home/live/"+aEntry[0].replace("(","")+aEntry[1]
-            sInfo = ""
+            sTitle = "link HD "+aEntry[1]
+            siteUrl = "https://beinmatch.tv/home/live/"+aEntry[0].replace("(","")
+            siteUrl = siteUrl+'/'+aEntry[1]
+            sInfo = ''
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addLink(SITE_IDENTIFIER, 'showLive', sTitle, sThumbnail, sInfo, oOutputParameterHandler)        
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumbnail, sInfo, oOutputParameterHandler)        
            
  
         progress_.VSclose(progress_)
@@ -174,18 +175,14 @@ def showLive():
     oGui.setEndOfDirectory() 
 	
 def showHosters():
-    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-    
+ 
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','Accept-Encoding' : 'gzip','referer' : 'https://live.as-goal.tv/'}
-    St=requests.Session()
-    sHtmlContent = St.get(sUrl,headers=hdr)
-    sHtmlContent = sHtmlContent.content
+    sHtmlContent = oRequestHandler.request()
     oParser = cParser()
     # (.+?) # ([^<]+) .+? 
     sPattern = 'source: "(.+?)",'
@@ -199,122 +196,6 @@ def showHosters():
                 break
             
             url = aEntry
-            sHosterUrl = url
-            sMovieTitle = sMovieTitle
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
-    # (.+?) # ([^<]+) .+? 
-    sPattern = 'src="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            url = aEntry
-            sHosterUrl = url
-            sMovieTitle = sMovieTitle
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-    # (.+?) # ([^<]+) .+? 
-    sPattern = 'file:"(.+?)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            url = aEntry
-            sHosterUrl = url
-            sMovieTitle = sMovieTitle
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
- # (.+?) # ([^<]+) .+? 
-
-    sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            url = str(aEntry[0]).replace("('",'').replace("')","").replace("update_frame","")
-            url = url.split('?link=', 1)[1]
-            if url.startswith('//'):
-                url = 'http:' + url
-            if '/embed/' in url:
-                oRequestHandler = cRequestHandler(url)
-                oParser = cParser()
-                sPattern =  'src="(.+?)" scrolling="no">'
-                aResult = oParser.parse(url,sPattern)
-                if (aResult[0] == True):
-                   url = aResult[1][0]
- 
-            sHosterUrl = url
-            sMovieTitle = str(aEntry[1])
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
- # (.+?) # ([^<]+) .+? 
-
-    sPattern = 'src="(.+?)" width="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            url = aEntry[0]
-            if url.startswith('//'):
-                url = 'http:' + url
-            if 'xyz' in url:
-                oRequestHandler = cRequestHandler(url)
-                oRequestHandler.setRequestType(1)
-                oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0')
-                oRequestHandler.addHeaderEntry('referer', 'https://ch.as-goal.tv/')
-                sHtmlContent2 = oRequestHandler.request();
-                oParser = cParser()
-                sPattern =  '(http[^<]+m3u8)'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
-                   url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
- 
             sHosterUrl = url
             sMovieTitle = sMovieTitle
             

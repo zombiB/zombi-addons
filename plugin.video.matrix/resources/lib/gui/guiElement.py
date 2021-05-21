@@ -185,7 +185,7 @@ class cGuiElement:
         try:
             # traitement du titre pour les caracteres spéciaux déplacé dans parser plus global
             # traitement du titre pour retirer le - quand c'est une Season. Tiret, tiret moyen et cadratin
-            sTitle = sTitle.replace(' - Season', ' Season').replace(' – Season', ' Season').replace(' — Season', ' Season')
+            sTitle = sTitle.replace(' - Saison', ' Season').replace(' – Season', ' Season').replace(' — Season', ' Season')
             sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("الموسم","S").replace("S ","S").replace("Season ","S").replace("موسم","S").replace("S ","S").replace("E ","E")
 
             if not isMatrix():
@@ -309,6 +309,10 @@ class cGuiElement:
     def getSerieTitre(self, sTitle):
         serieTitle = re.sub(r'\[.*\]|\(.*\)', r'', sTitle)
         serieTitle = re.sub('[- –]+$', '', serieTitle)
+
+        if '|' in serieTitle:
+            serieTitle = serieTitle[:serieTitle.index('|')]
+
         # on repasse en utf-8
         if not isMatrix():
             return serieTitle.encode('utf-8')
@@ -620,6 +624,18 @@ class cGuiElement:
 
         if 'trailer' in meta and meta['trailer']:
             self.__sTrailer = meta['trailer']
+				
+        if 's_overview' in meta:
+            meta.pop('s_overview')
+
+        if 's_poster_path' in meta:
+            meta.pop('s_poster_path')
+
+        if 's_premiered' in meta:
+            meta.pop('s_premiered')
+
+        if 's_year' in meta:
+            meta.pop('s_year')
 
         for key, value in meta.items():
             self.addItemValues(key, value)

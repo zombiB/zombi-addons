@@ -289,122 +289,6 @@ def showTopMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory() 
-			
-def showServer():
-    oGui = cGui()
-    import requests
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    sDesc = oInputParameterHandler.getValue('sDesc')
-
-
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-   
-    oParser = cParser()
-    
-    #Recuperation infos
-    sId = ''
-    Host = URL_MAIN.split('//')[1]
-     # (.+?) ([^<]+) .+?
-    sPattern = 'data-post="([^<]+)" data-nume="([^<]+)">'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-                total = len(aResult[1])
-                progress_ = progress().VScreate(SITE_NAME)
-                for aEntry in aResult[1]:
-                   progress_.VSupdate(progress_, total)
-                   if progress_.iscanceled():
-                       break
-            
-                   headers = {'Host': Host,
-							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Accept': '*/*',
-							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-							'X-Requested-With': 'XMLHttpRequest',
-							'Referer': sUrl,
-							'Connection': 'keep-alive'}
-                   post = aEntry[0]
-                   nume = aEntry[1]
-                   data = {'action':'doo_player_ajax','post':post,'nume':nume,'type':'movie'}
-                   s = requests.Session()
-                   r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
-                   sHtmlContent = r.content.decode('utf8')  
-                   sPattern = "<iframe.+?src='([^<]+)' frameborder"
-                   oParser = cParser()
-                   aResult = oParser.parse(sHtmlContent, sPattern)
-                   if (aResult[0] == True):
-                       total = len(aResult[1])
-                       progress_ = progress().VScreate(SITE_NAME)
-                       for aEntry in aResult[1]:
-                           progress_.VSupdate(progress_, total)
-                           if progress_.iscanceled():
-                              break
-            
-                           url = aEntry
-                           sTitle = sMovieTitle
-                           if 'fajer.video' in url:
-                              url = url.split('id=')[1]
-                              url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
-                           if url.startswith('//'):
-                              url = 'http:' + url
-            
-                           sHosterUrl = url
-                           if 'userload' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                           if 'moshahda' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                           if 'mystream' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                           oHoster = cHosterGui().checkHoster(sHosterUrl)
-                           if (oHoster != False):
-                              oHoster.setDisplayName(sMovieTitle)
-                              oHoster.setFileName(sMovieTitle)
-                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				     
-    # (.+?) ([^<]+) .+?
-                   sPattern = 'src="([^<]+)" frameborder='
-                   oParser = cParser()
-                   aResult = oParser.parse(sHtmlContent, sPattern)
-                   if (aResult[0] == True):
-                       total = len(aResult[1])
-                       progress_ = progress().VScreate(SITE_NAME)
-                       for aEntry in aResult[1]:
-                           progress_.VSupdate(progress_, total)
-                           if progress_.iscanceled():
-                              break
-            
-                           url = aEntry
-                           sTitle = sMovieTitle
-                           if 'fajer.video' in url:
-                              url = url.split('id=')[1]
-                              url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
-                           if url.startswith('//'):
-                              url = 'http:' + url
-            
-                           sHosterUrl = url
-                           if 'userload' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                           if 'moshahda' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                           if 'mystream' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-                           oHoster = cHosterGui().checkHoster(sHosterUrl)
-                           if (oHoster != False):
-                              oHoster.setDisplayName(sMovieTitle)
-                              oHoster.setFileName(sMovieTitle)
-                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-                progress_.VSclose(progress_)  
-       
-    oGui.setEndOfDirectory()
 	
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -511,6 +395,7 @@ def showEpisodes():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
             
@@ -519,6 +404,121 @@ def showEpisodes():
             oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
         progress_.VSclose(progress_)
+       
+    oGui.setEndOfDirectory()
+			
+def showServer():
+    oGui = cGui()
+    import requests
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+   
+    oParser = cParser()
+    
+    #Recuperation infos
+    sId = ''
+    Host = URL_MAIN.split('//')[1]
+     # (.+?) ([^<]+) .+?
+    sPattern = 'data-post="([^<]+)" data-nume="([^<]+)">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+                total = len(aResult[1])
+                progress_ = progress().VScreate(SITE_NAME)
+                for aEntry in aResult[1]:
+                   progress_.VSupdate(progress_, total)
+                   if progress_.iscanceled():
+                       break
+            
+                   headers = {'Host': Host,
+							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Accept': '*/*',
+							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Referer': sUrl,
+							'Connection': 'keep-alive'}
+                   post = aEntry[0]
+                   nume = aEntry[1]
+                   data = {'action':'doo_player_ajax','post':post,'nume':nume,'type':'movie'}
+                   s = requests.Session()
+                   r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
+                   sHtmlContent = r.content.decode('utf8')  
+                   sPattern = "<iframe.+?src='([^<]+)' frameborder"
+                   oParser = cParser()
+                   aResult = oParser.parse(sHtmlContent, sPattern)
+                   if (aResult[0] == True):
+                       total = len(aResult[1])
+                       progress_ = progress().VScreate(SITE_NAME)
+                       for aEntry in aResult[1]:
+                           progress_.VSupdate(progress_, total)
+                           if progress_.iscanceled():
+                              break
+            
+                           url = aEntry
+                           sTitle = sMovieTitle
+                           if 'fajer.video' in url:
+                              url = url.split('id=')[1]
+                              url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
+                           if url.startswith('//'):
+                              url = 'http:' + url
+            
+                           sHosterUrl = url
+                           if 'userload' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'moshahda' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'mystream' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                           oHoster = cHosterGui().checkHoster(sHosterUrl)
+                           if (oHoster != False):
+                              oHoster.setDisplayName(sMovieTitle)
+                              oHoster.setFileName(sMovieTitle)
+                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				     
+    # (.+?) ([^<]+) .+?
+                   sPattern = 'src="([^<]+)" frameborder='
+                   oParser = cParser()
+                   aResult = oParser.parse(sHtmlContent, sPattern)
+                   if (aResult[0] == True):
+                       total = len(aResult[1])
+                       progress_ = progress().VScreate(SITE_NAME)
+                       for aEntry in aResult[1]:
+                           progress_.VSupdate(progress_, total)
+                           if progress_.iscanceled():
+                              break
+            
+                           url = aEntry
+                           sTitle = sMovieTitle
+                           if 'fajer.video' in url:
+                              url = url.split('id=')[1]
+                              url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
+                           if url.startswith('//'):
+                              url = 'http:' + url
+            
+                           sHosterUrl = url
+                           if 'userload' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'moshahda' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'mystream' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+                           oHoster = cHosterGui().checkHoster(sHosterUrl)
+                           if (oHoster != False):
+                              oHoster.setDisplayName(sMovieTitle)
+                              oHoster.setFileName(sMovieTitle)
+                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
+
+                progress_.VSclose(progress_)  
        
     oGui.setEndOfDirectory()
  

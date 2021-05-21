@@ -190,7 +190,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle2, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -246,7 +246,7 @@ def showSerie(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle2, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -259,7 +259,7 @@ def showSerie(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
 
-def showEpisodes():
+def showSeasons():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
@@ -297,72 +297,11 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, '', oOutputParameterHandler)
-        
-
-  # ([^<]+) .+?
-    sPattern = '<a href="([^<]+)" class="col-6 col-s-4 col-m-3 col-l-1 button-block"><h3>الحلقة <span>([^<]+)</span></h3></a>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = "E" + aEntry[1]+str(sMovieTitle2)
-            sTitle = sTitle
-            siteUrl = str(aEntry[0]).replace("episode","watch")
-            sThumbnail = str(sThumbnail)
-		
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumbnail, '', oOutputParameterHandler)
-  # ([^<]+) .+?
-    sPattern = '<a href="([^<]+)" class="col-6 col-s-4 col-m-3 col-l-1 button-block"><h3>الحلقة <span></span></h3></a>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry.replace("https://shahid4u.im/episode/","")
-            sTitle = sTitle 
-            
-            sTitle = sTitle
-            siteUrl = aEntry.replace("episode","watch")
-            sThumbnail = str(sThumbnail)
-			
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumbnail, '', oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, '', oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
 
-def showEps():
+def showEpisodes():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()

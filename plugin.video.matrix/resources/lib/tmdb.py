@@ -506,7 +506,7 @@ class cTMDb:
         result = self._call('tv/' + str(show_id), append_to_response)
         result['tmdb_id'] = show_id
         return result
-
+		
     # Get the basic informations for a specific collection id.
     def search_collection_id(self, collection_id):
         result = self._call('collection/' + str(collection_id))
@@ -742,7 +742,6 @@ class cTMDb:
             _meta['backdrop_path'] = _meta['poster_path']
             _meta['backdrop_url'] = self.fanart + str(_meta['backdrop_path'])
 
-
         # special saisons
         if 's_poster_path' in meta and meta['s_poster_path']:
             _meta['poster_path'] = meta['s_poster_path']
@@ -912,7 +911,7 @@ class cTMDb:
         # sauvegarde movie dans la BDD
         # year n'est pas forcement l'année du film mais l'année utilisée pour la recherche
         try:
-            sql = 'INSERT INTO %s (imdb_id, tmdb_id, title, year, credits, writer, director, tagline, vote_average, vote_count, runtime, ' \
+            sql = 'INSERT or IGNORE INTO %s (imdb_id, tmdb_id, title, year, credits, writer, director, tagline, vote_average, vote_count, runtime, ' \
                   'overview, mpaa, premiered, genre, studio, status, poster_path, trailer, backdrop_path, playcount) ' \
                   'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' % media_type
             self.dbcur.execute(sql, (meta['imdb_id'], meta['tmdb_id'], name, year, meta['credits'], meta['writer'], meta['director'], meta['tagline'], meta['rating'], meta['votes'], str(runtime), meta['plot'], meta['mpaa'], meta['premiered'], meta['genre'], meta['studio'], meta['status'], meta['poster_path'], meta['trailer'], meta['backdrop_path'], 0))
@@ -947,7 +946,7 @@ class cTMDb:
             
         # sauvegarde tvshow dans la BDD
         try:
-            sql = 'INSERT INTO %s (imdb_id, tmdb_id, title, year, credits, writer, director, vote_average, vote_count, runtime, ' \
+            sql = 'INSERT or IGNORE INTO %s (imdb_id, tmdb_id, title, year, credits, writer, director, vote_average, vote_count, runtime, ' \
                   'overview, mpaa, premiered, genre, studio, status, poster_path, trailer, backdrop_path, playcount, season) ' \
                   'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' % media_type
             self.dbcur.execute(sql, (meta['imdb_id'], meta['tmdb_id'], name, year, meta['credits'], meta['writer'], meta['director'], meta['rating'], meta['votes'], runtime, meta['plot'], meta['mpaa'], meta['premiered'], meta['genre'], meta['studio'], meta['status'], meta['poster_path'], meta['trailer'], meta['backdrop_path'], 0, meta['season']))
@@ -973,7 +972,7 @@ class cTMDb:
                 meta['s_overview'] = s['overview']
 
             try:
-                sql = 'INSERT INTO season (imdb_id, tmdb_id, season, year, premiered, poster_path, playcount, overview) VALUES ' \
+                sql = 'INSERT or IGNORE INTO season (imdb_id, tmdb_id, season, year, premiered, poster_path, playcount, overview) VALUES ' \
                       '(?, ?, ?, ?, ?, ?, ?, ?)'
                 self.dbcur.execute(sql, (meta['imdb_id'], s['id'], s['season_number'], s['air_date'], s['air_date'], s['poster_path'], 6, s['overview']))
 
@@ -1011,6 +1010,7 @@ class cTMDb:
         """
 
         name = re.sub(" +", " ", name)  # nettoyage du titre
+		
 
 #         VSlog('Attempting to retrieve meta data for %s: %s %s %s %s' % (media_type, name, year, imdb_id, tmdb_id))
 

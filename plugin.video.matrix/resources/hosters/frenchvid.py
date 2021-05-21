@@ -48,6 +48,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        import requests
 
         if 'yggseries.com' in self.__sUrl:
             baseUrl = 'https://yggseries.com/api/source/'
@@ -77,7 +78,7 @@ class cHoster(iHoster):
         else:
             url = baseUrl + self.__sUrl.rsplit('/', 1)[1]
 
-        postdata = 'r=' + urllib.quote_plus(self.__sUrl) + '&d=' + baseUrl.replace('https://','').replace('/api/source/','')
+        postdata = 'r=' + (self.__sUrl) + '&d=' + baseUrl.replace('https://','').replace('/api/source/','')
 
         oRequest = cRequestHandler(url)
         oRequest.setRequestType(1)

@@ -344,36 +344,6 @@ def showSeriesLinks():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
-			
-    sPattern = '<i class="senumb">([^<]+)</i>.+?<i>([^<]+)</i>'
-    sPattern = sPattern + '|' + '<a href="([^<]+)" id="episodeactive" class="colorsw">.+?<div class="titlepisode">([^<]+)</div>.+?<span class="numepisode">([^<]+)</span>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-                        
-            if aEntry[0]:
-                Season = ' S'+str(aEntry[0])
-                oOutputParameterHandler = cOutputParameterHandler()
-                oOutputParameterHandler.addParameter('sMovieTitle', str(sMovieTitle))
-                oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addText(SITE_IDENTIFIER, '[COLOR yellow]'+ Season + '[/COLOR]')
-            elif aEntry[2]:
-                sTitle = sMovieTitle+Season+' E'+aEntry[4]+' [ '+ str(aEntry[3])+' ] '
-                sUrl= str(aEntry[2])
-                sDesc= ""
-                oOutputParameterHandler = cOutputParameterHandler()
-                oOutputParameterHandler.addParameter('siteUrl', sUrl)
-                oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
-                oOutputParameterHandler.addParameter('sThumbnail', str(sThumbnail))
-                oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)             
-    
-        progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()
 
@@ -389,8 +359,6 @@ def showEps():
     sHtmlContent = oRequestHandler.request()
     if isMatrix(): 
        sHtmlContent = sHtmlContent.encode('iso-8859-6',errors='ignore').decode('utf8',errors='ignore')
-    print ("sHtmlContent2")
-    print (sHtmlContent)
   # ([^<]+) .+?
     sPattern = '<a class="fulllink" href="([^<]+)"></a>.+?<img src="([^<]+)" alt=".+?">.+?<span class="imdbRating episodio">([^<]+)</span>'
 

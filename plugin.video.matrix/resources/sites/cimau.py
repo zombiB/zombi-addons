@@ -303,7 +303,7 @@ def showLinks():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    sDesc = oInputParameterHandler.getValue('sDesc')
+    sDesc = ''
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -535,7 +535,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
@@ -628,18 +628,18 @@ def showEpisodes():
                   if progress_.iscanceled():
                      break
  
-               sTitle = sMovieTitle2+" E"+str(aEntry[2])
-               siteUrl = str(aEntry[0])
-               sThumb = sThumb
-               sDesc = ""
+                  sTitle = sMovieTitle2+" E"+str(aEntry[2])
+                  sUrl = str(aEntry[0])
+                  sThumb = sThumb
+                  sDesc = ""
 			
 
 
-               oOutputParameterHandler = cOutputParameterHandler()
-               oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-               oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-               oOutputParameterHandler.addParameter('sThumb', sThumb)
-               oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                  oOutputParameterHandler = cOutputParameterHandler()
+                  oOutputParameterHandler.addParameter('siteUrl',sUrl)
+                  oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                  oOutputParameterHandler.addParameter('sThumb', sThumb)
+                  oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         else:
             oRequest = cRequestHandler(m3url)
@@ -670,7 +670,6 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
@@ -700,7 +699,6 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)

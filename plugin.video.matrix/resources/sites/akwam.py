@@ -1,18 +1,15 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi
 from resources.lib.gui.hoster import cHosterGui
-from resources.lib.handler.hosterHandler import cHosterHandler
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, dialog, addon, isMatrix
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 from resources.lib.player import cPlayer
 import re
-import unicodedata
  
 SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'akwam'
@@ -342,7 +339,6 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
 
@@ -476,7 +472,6 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    sDesc = oInputParameterHandler.getValue('sDesc')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -487,6 +482,7 @@ def showHosters():
     
     #Recuperation infos
 
+    sDesc = ''
     sPattern = '<p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     

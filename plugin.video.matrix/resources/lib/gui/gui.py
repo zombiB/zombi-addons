@@ -70,6 +70,8 @@ class cGui:
         if oOutputParameterHandler.getValue('sMovieTitle'):
             sTitle = oOutputParameterHandler.getValue('sMovieTitle')
             oGuiElement.setFileName(sTitle)
+        else:
+            oGuiElement.setFileName(sLabel)
 
         try:
             self.addFolder(oGuiElement, oOutputParameterHandler)
@@ -91,10 +93,10 @@ class cGui:
         self.addNewDir('movies', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 1, 1)
 
     def addTV(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):# Pour gérer l'enchainement des épisodes
-        SeasonUrl = oOutputParameterHandler.getValue('siteUrl')
-        oOutputParameterHandler.addParameter('sourceID', sId)
-        oOutputParameterHandler.addParameter('SeasonUrl', QuotePlus(SeasonUrl))
-        oOutputParameterHandler.addParameter('nextSeasonFunc', sFunction)
+        # Pour gérer l'enchainement des épisodes
+        saisonUrl = oOutputParameterHandler.getValue('siteUrl')
+        oOutputParameterHandler.addParameter('saisonUrl', QuotePlus(saisonUrl))
+        oOutputParameterHandler.addParameter('nextSaisonFunc', sFunction)
 
         self.addNewDir('tvshows', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 2, 2)
 
@@ -117,21 +119,16 @@ class cGui:
     def addLink(self, sId, sFunction, sLabel, sThumbnail, sDesc, oOutputParameterHandler=''):
         # Pour gérer l'enchainement des épisodes
         oInputParameterHandler = cInputParameterHandler()
-        oOutputParameterHandler.addParameter('seasonUrl', oInputParameterHandler.getValue('seasonUrl'))
-        oOutputParameterHandler.addParameter('nextSeasonFunc', oInputParameterHandler.getValue('nextSeasonFunc'))
-        oOutputParameterHandler.addParameter('nextEpisodeFunc', oInputParameterHandler.getValue('nextEpisodeFunc'))
-        oOutputParameterHandler.addParameter('nextLinkFunc', sFunction)
-        oOutputParameterHandler.addParameter('sourceID', sId)
-		
+        oOutputParameterHandler.addParameter('saisonUrl', oInputParameterHandler.getValue('saisonUrl'))
+        oOutputParameterHandler.addParameter('nextSaisonFunc', oInputParameterHandler.getValue('nextSaisonFunc'))
         sIcon = sThumbnail
         self.addNewDir('link', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, None)
 				
     def addSeason(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         # Pour gérer l'enchainement des épisodes
-        seasonUrl = oOutputParameterHandler.getValue('siteUrl')
-        oOutputParameterHandler.addParameter('sourceID', sId)
-        oOutputParameterHandler.addParameter('seasonUrl', QuotePlus(seasonUrl))
-        oOutputParameterHandler.addParameter('nextSeasonFunc', sFunction)
+        saisonUrl = oOutputParameterHandler.getValue('siteUrl')
+        oOutputParameterHandler.addParameter('saisonUrl', QuotePlus(saisonUrl))
+        oOutputParameterHandler.addParameter('nextSaisonFunc', sFunction)
 
         self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 5, 4)
 
@@ -140,11 +137,8 @@ class cGui:
     def addEpisode(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         # Pour gérer l'enchainement des épisodes
         oInputParameterHandler = cInputParameterHandler()
-        oOutputParameterHandler.addParameter('seasonUrl', oInputParameterHandler.getValue('seasonUrl'))
-        oOutputParameterHandler.addParameter('nextSeasonFunc', oInputParameterHandler.getValue('nextSeasonFunc'))
-        oOutputParameterHandler.addParameter('nextEpisodeFunc', sFunction)
-        oOutputParameterHandler.addParameter('sourceID', sId)
-        siteUrl = oOutputParameterHandler.getValue('siteUrl')
+        oOutputParameterHandler.addParameter('saisonUrl', oInputParameterHandler.getValue('saisonUrl'))
+        oOutputParameterHandler.addParameter('nextSaisonFunc', oInputParameterHandler.getValue('nextSaisonFunc'))
 
         self.addNewDir('episodes', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 0, 8)
 
@@ -240,7 +234,7 @@ class cGui:
         self.addFolder(oGuiElement, oOutputParameterHandler)
 
     # afficher les liens non playable
-    def addFolder(self, oGuiElement, oOutputParameterHandler ='', _isFolder=True):
+    def addFolder(self, oGuiElement, oOutputParameterHandler='', _isFolder=True):
 
         # recherche append les reponses
         if window(10101).getProperty('search') == 'true':
@@ -294,7 +288,7 @@ class cGui:
             if sCat in (1, 2, 3):
                 self.createContexMenuSimil(oGuiElement, oOutputParameterHandler)
                 self.createContexMenuParents(oGuiElement, oOutputParameterHandler)
-            if sCat != 8:
+            if sCat != 6:
                 self.createContexMenuWatch(oGuiElement, oOutputParameterHandler)
         oListItem = self.__createContextMenu(oGuiElement, oListItem)
         self.listing.append((sItemUrl, oListItem, _isFolder))

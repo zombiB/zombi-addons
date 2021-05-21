@@ -327,6 +327,78 @@ def showSeasons():
 	oInputParameterHandler = cInputParameterHandler()
 	sUrl = oInputParameterHandler.getValue('siteUrl')
 	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+	sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
+	sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
+	oRequestHandler = cRequestHandler(sUrl)
+	sHtmlContent = oRequestHandler.request()
+	if isMatrix(): 
+	   sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
+
+	oParser = cParser()
+	sId1 = ""
+	sId2 = ""
+	sPattern = '<p>([^<]+)</p>'
+	aResult = oParser.parse(sHtmlContent, sPattern)
+	if (aResult[0]):
+	     sNote = aResult[1][0]
+   
+	sPattern = '<div class="loadTabsInSeries" data-slug="(.+?)" data-parent=".+?" data-id="(.+?)"></div><section'
+	aResult = oParser.parse(sHtmlContent, sPattern)
+		
+	if (aResult[0] == True):
+		for aEntry in aResult[1]:
+			sId1 = aEntry[0]
+			sId2 = aEntry[1]
+	session = requests.Session()
+    
+  # ([^<]+) .+?
+	headers = {'Host': 'tuktukcinema.net',
+		       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+		       'Referer': sUrl}
+	data = {'action':'getTabsInsSeries','id':sId2,'slug':sId1,'parent':'0'}
+
+	try:
+	   response = session.post(URL_MAIN + '/wp-admin/admin-ajax.php', data = data)
+	except requests.exceptions.RequestException as e:
+	   return ''
+	data = response.text
+    # .+? ([^<]+)
+	sPattern = '<li class="MovieItem">.+?<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlock">([^<]+)</div>'
+
+	oParser = cParser()
+	aResult = oParser.parse(data, sPattern)
+		
+	if (aResult[0] == True):
+		total = len(aResult[1])
+		progress_ = progress().VScreate(SITE_NAME)
+		for aEntry in aResult[1]:
+			progress_.VSupdate(progress_, total)
+			if progress_.iscanceled():
+				break
+ 
+			sTitle = sMovieTitle+aEntry[2].replace("الموسم","S").replace("S ","S")
+			siteUrl = str(aEntry[0])
+			sThumbnail = aEntry[1]
+			sInfo = sNote
+			
+			oOutputParameterHandler = cOutputParameterHandler()
+			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+	oGui.setEndOfDirectory()
+
+
+def showEpisodes():
+	oGui = cGui()
+	import requests
+    
+	oInputParameterHandler = cInputParameterHandler()
+	sUrl = oInputParameterHandler.getValue('siteUrl')
+	sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+	sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
 	sThumbnail = oInputParameterHandler.getValue('sThumbnail')
  
 	oRequestHandler = cRequestHandler(sUrl)
@@ -393,33 +465,8 @@ def showSeasons():
 			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
-    # .+? ([^<]+)
-	sPattern = '<li class="MovieItem">.+?<a href="([^<]+)">.+?<img data-src="([^<]+)">.+?<div class="TitleBlock">([^<]+)</div>'
-
-	oParser = cParser()
-	aResult = oParser.parse(data, sPattern)
-		
-	if (aResult[0] == True):
-		total = len(aResult[1])
-		progress_ = progress().VScreate(SITE_NAME)
-		for aEntry in aResult[1]:
-			progress_.VSupdate(progress_, total)
-			if progress_.iscanceled():
-				break
- 
-			sTitle = sMovieTitle+aEntry[2].replace("الموسم","S").replace("S ","S")
-			siteUrl = str(aEntry[0])
-			sThumbnail = aEntry[1]
-			sInfo = sNote
-			
-			oOutputParameterHandler = cOutputParameterHandler()
-			oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-			oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-			oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-			oGui.addSeason(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
 	oGui.setEndOfDirectory()
- 
+  
      # (.+?)
 def __checkForNextPage(sHtmlContent):
     sPattern = '<li><a href="([^<]+)">الصفحة التالية &laquo;</a></li>'
@@ -458,12 +505,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                   break
             
                 url = aEntry
                 sTitle = " " 
@@ -490,12 +532,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                   break
             
                 url = aEntry
                 sTitle = " " 
