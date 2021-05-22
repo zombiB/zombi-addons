@@ -89,7 +89,7 @@ def showMoviesSearch(sSearch = ''):
                 break
  
             sTitle = aEntry[2] 
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut"," [Cut] ")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut","")
              
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
@@ -148,7 +148,7 @@ def showSearchSeries(sSearch = ''):
                 break
  
             sTitle = aEntry[2]
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut"," [Cut] ")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut","")
              
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
@@ -203,7 +203,7 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[1]
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut"," [Cut] ")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut","")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
             sInfo = aEntry[3]
@@ -264,7 +264,7 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[0]
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut"," [Cut] ")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut","")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[1]
             sInfo = ""
@@ -372,7 +372,7 @@ def showHosters():
     #Recuperation infos
     sNote = ''
     # (.+?) ([^<]+) .+?
-    sPattern = '<td class="h_af">مده الحذف</td><td class="h_af2">([^<]+)</td>'
+    sPattern = '<td class="h_af">مده الحذف</td><td class="h_af2">(.+?)</td>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
@@ -383,7 +383,7 @@ def showHosters():
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
     sNote2 = ''
     # (.+?) ([^<]+) .+?
-    sPattern = '<td class="h_af">الارشاد العائلي</td><td class="h_af2">([^<]+)</td>'
+    sPattern = '<td class="h_af">الارشاد العائلي</td><td class="h_af2">(.+?)</td>'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
@@ -392,7 +392,7 @@ def showHosters():
         oGui.addText(SITE_IDENTIFIER,'الارشاد العائلي : ' + str(sNote2))
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
 
-    sPattern = 'SRC="(.+?)".+?FRAMEBORDER'
+    sPattern = 'SRC="(.+?)" FRAMEBORDER'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

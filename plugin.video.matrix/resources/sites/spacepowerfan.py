@@ -162,7 +162,13 @@ def showEpisodes():
                    'referer': 'https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/',
                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
     St=requests.Session()
-    sHtmlContent = St.get(sUrl).content.decode('utf-8')
+    
+    if not isMatrix(): 
+       sHtmlContent = St.get(sUrl).content
+    
+    if isMatrix(): 
+       sHtmlContent = St.get(sUrl).content.decode('utf-8')
+    
 
     oParser = cParser()
      # (.+?) ([^<]+) .+?

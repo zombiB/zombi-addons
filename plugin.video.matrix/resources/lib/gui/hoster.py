@@ -214,6 +214,8 @@ class cHosterGui:
             return self.getHoster('vidbem')
         if ('vedshaar' in sHostName):
             return self.getHoster('vidshare')
+        if ('vedsharr' in sHostName):
+            return self.getHoster('vidshare')
         if ('vedshar' in sHostName):
             return self.getHoster('vidshare')
         if ('vidshar' in sHostName):
