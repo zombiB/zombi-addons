@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'cimanow'
 SITE_NAME = 'cimanow'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://en.cimanow.cc'
+URL_MAIN = 'https://sa.cimanow.cc'
 
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showMovies')
@@ -83,8 +83,8 @@ def showSearchSeries(sSearch = ''):
        sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article aria-label="post"><a href="(.+?)">.+?<li aria-label="episode"><em>.+?</em>(.+?)</li><li aria-label="year">(.+?)</li>.+?<li>الموسم(.+?)</li>.+?</em>(.+?)<em>.+?<img src="(.+?)" width'
-
+    sPattern = '<article aria-label="post"><a href="(.+?)">.+?<li aria-label="episode"><em>.+?</em>(.+?)</li><li aria-label="year">(.+?)</li>.+?<li>الموسم(.+?)</li>.+?</em>(.+?)<em>.+?data-src="(.+?)" width'
+		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -170,8 +170,8 @@ def showMovies(sSearch = ''):
 
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article aria-label="post"><a href="([^<]+)">.+?aria-label="year">([^<]+)</li>.+?</em>([^<]+)<em>.+?<img src="([^<]+)" width'
-
+    sPattern = '<a href="([^<]+)">.+?<li aria-label="year">([^<]+)</li>.+?</em>([^<]+)<em>.+?data-src="(.+?)"'
+ 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -187,6 +187,8 @@ def showMovies(sSearch = ''):
             sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = str(aEntry[0]) + 'watching/'
             sThumb = str(aEntry[3])
+            if sThumb.startswith('//'):
+               sThumb = 'http:' + sThumb
             sYear = str(aEntry[1])
             sDesc = ""
 
@@ -255,7 +257,8 @@ def showSeries(sSearch = ''):
        sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)">.+?<li>الموسم (.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?<img src="(.+?)" w'
+    sPattern = '<a href="([^<]+)">.+?<li>الموسم (.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="([^<]+)" width'
+
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -434,7 +437,7 @@ def showServer():
  
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'en.cimanow.cc','referer' : 'https://web.cimavids.live/'}
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'sa.cimanow.cc','referer' : 'sUrl'}
     St=requests.Session()
     sHtmlContent = St.get(sUrl,headers=hdr)
     sHtmlContent = sHtmlContent.content
@@ -444,7 +447,8 @@ def showServer():
 
     
     # (.+?) .+? ([^<]+)        	
-    sPattern = '<a href="([^<]+)"><i class="fas fa-cloud-download-alt"></i>(.+?)</a>'
+    sPattern = '<a href="([^<]+)">.+?<i class="fas fa-cloud-download-alt"></i>([^<]+)</a>'
+		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -484,7 +488,7 @@ def showServer():
     sId = ''
      # (.+?) ([^<]+) .+?
 
-    sPattern = 'data-index="([^<]+)" data-id="([^<]+)"'
+    sPattern = 'data-index="([^<]+)" data-id="([^<]+)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
@@ -497,8 +501,6 @@ def showServer():
                 break
 
             
-
-			
 
             sTitle = 'server '
             siteUrl = URL_MAIN + '/wp-content/themes/Cima%20Now%20New/core.php?action=switch&index='+aEntry[0]+'&id='+aEntry[1]
@@ -536,7 +538,7 @@ def showServer():
                        oHoster.setDisplayName(sMovieTitle2)
                        oHoster.setFileName(sMovieTitle2)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-            sPattern = '<a href="(.+?)">.+?<i class="fa fa-download"></i>(.+?)</a>'
+            sPattern = '<a href="(.+?)">.+?<i class="fa fa-download"></i>'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
             if (aResult[0] == True):

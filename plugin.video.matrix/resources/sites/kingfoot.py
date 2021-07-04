@@ -23,7 +23,7 @@ URL_MAIN = 'https://king-shoot.com/'
 
 
 
-SPORT_LIVE = ('https://king-shoot.com/', 'showMovies')
+SPORT_LIVE = ('https://king-shoot.tv/today-matches/', 'showMovies')
 
 
 

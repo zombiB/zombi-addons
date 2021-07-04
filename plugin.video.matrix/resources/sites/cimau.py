@@ -18,7 +18,7 @@ URL_MAIN = 'https://cima4u.show'
 
 RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
 MOVIE_FAM = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/780/archive/category%7C2/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-english/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies-english/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A-arabic-movies/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A-indian-movies/', 'showMovies')
 MOVIE_PACK = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-movies-english/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9-full-pack/', 'showPacks')
@@ -319,7 +319,7 @@ def showLinks():
         sDesc = aResult[1][0]
     # (.+?) ([^<]+)
 
-    sPattern = '<a href="([^<]+)" target="_blank"'
+    sPattern = 'href="([^<]+)" target="_blank" class="download_link">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -444,7 +444,7 @@ def showLinks():
                 break
             sPage = str(aEntry[0])
             sTitle = 'server '+':'+ aEntry[1]
-            siteUrl = 'https://live.cima4u.live/structure/server.php?id='+sPage
+            siteUrl = 'https://live.cima4u.ws:2053/structure/server.php?id='+sPage
             sDesc = sDesc
     
             oRequestHandler = cRequestHandler(siteUrl)

@@ -226,6 +226,8 @@ class cHosterGui:
             return self.getHoster('streamwire')
         if ('vup' in sHostName):
             return self.getHoster('streamwire')
+        if ('koobatube' in sHostName):
+            return self.getHoster('govid')
         if ('kobatube' in sHostName):
             return self.getHoster('govid')
         if ('govid.co' in sHostName):
@@ -293,8 +295,8 @@ class cHosterGui:
         if ('streamin.to' in sHostName):
             return self.getHoster('streaminto')
 
-        if ('vodlocker' in sHostName):
-            return self.getHoster('vodlocker')
+        if ('ninjastream' in sHostName):
+            return self.getHoster('ninjastream')
         if ('cima4up' in sHostName):
             return self.getHoster('cimaup')
         if ('ok.ru' in sHostName):

@@ -44,10 +44,6 @@ class UpNext:
 
         # La saison
         sSaison = oInputParameterHandler.getValue('sSeason')
-        if not sSaison:
-            sSaison = str(guiElement.getSeason())
-            if not sSaison:
-                return
         print ("sHtmlContent2")
         print (sSaison)  
 
@@ -84,9 +80,16 @@ class UpNext:
                 return
             print ("sHtmlContent2")
             print (sMediaUrl)  
-            
+
+			
+			
+			
+			
             sFileName = tvShowTitle.replace(' & ', ' and ')   # interdit dans un titre
-            sFileName += ' - ' + 'S%sE%s' %(sSaison, sNextEpisode)
+            sFileName += ' - '
+            if sSaison:
+                sFileName += 'S%s' % sSaison
+            sFileName += 'E%s' % sNextEpisode
             nextTitle = UnquotePlus(nextTitle)
             if sLang:
                 nextTitle += ' (%s)' %sLang
@@ -119,7 +122,7 @@ class UpNext:
                     episodeid = numEpisode,
                     tvshowid = 0,
                     showtitle = tvShowTitle,
-                    season = sSaison,
+                    season = sSaison if sSaison else '',
                     episode = '%02d' % numEpisode,
                     title = '',
                     plot = '',
@@ -136,7 +139,7 @@ class UpNext:
                     episodeid = nextEpisode,
                     tvshowid = 0,
                     showtitle = tvShowTitle,
-                    season = sSaison, #déjà dans le titre    
+                    season = sSaison if sSaison else '', #déjà dans le titre    
                     episode= sNextEpisode, #déjà dans le titre
                     title = nextTitle, # titre de l'épisode
                     plot = sDesc,
@@ -156,7 +159,7 @@ class UpNext:
         except Exception as e:
             VSlog('UpNext : %s' % e)
          
-    def getMediaUrl(self, sSiteName, sFunction, sParams, iSaison, iEpisode, sLang, sHosterIdentifier, sTitle = '', sDesc = '', sThumb = ''):
+    def getMediaUrl(self, sSiteName, sFunction, sParams, sSaison, iEpisode, sLang, sHosterIdentifier, sTitle = '', sDesc = '', sThumb = ''):
 
         try:
             sys.argv[2] = '?%s' % sParams
@@ -211,7 +214,7 @@ class UpNext:
                 return hostName, sMediaUrl, sTitle, sDesc, sThumb
     
             # if sFunction != 'play':
-            return self.getMediaUrl(sSiteName, sFunction, sParams, iSaison, iEpisode, sLang, sHosterIdentifier, sTitle, sDesc, sThumb)
+            return self.getMediaUrl(sSiteName, sFunction, sParams, sSaison, iEpisode, sLang, sHosterIdentifier, sTitle, sDesc, sThumb)
 
         if sMediaUrl:    # si on n'a pas trouvé le bon host on en retourne un autre, il pourrait fonctionner
             return hostName, sMediaUrl, sTitle, sDesc, sThumb

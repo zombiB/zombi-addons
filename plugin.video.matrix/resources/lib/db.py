@@ -2,9 +2,10 @@
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
 import xbmcvfs, json
+
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.util import QuotePlus, Unquote
-from resources.lib.comaddon import dialog, addon, VSlog, VSPath, isMatrix
+from resources.lib.comaddon import dialog, addon, VSlog, VSPath, isMatrix, xbmc
 
 SITE_IDENTIFIER = 'cDb'
 SITE_NAME = 'DB'
@@ -15,21 +16,39 @@ except:
     from pysqlite2 import dbapi2 as sqlite
 
 class cDb:
+    #On chercher le profil courant.
+    request = {
+        "jsonrpc": "2.0",
+        "method": "Profiles.GetCurrentProfile",
+        "params": {
+            "properties": ["thumbnail", "lockmode"]
+        },
+        "id": 1
+    }
 
-    # important seul xbmcvfs peux lire le special
-    DB = 'special://home/userdata/addon_data/plugin.video.matrix/matrix.db'
+    req = json.dumps(request)
+    response = xbmc.executeJSONRPC(req)
+    #On recupere le nom.
+    name = json.loads(response)['result']['label']
+
+    #Le cas par defaut.
+    if name == 'Master user':
+        DB = 'special://home/userdata/addon_data/plugin.video.matrix/matrix.db'
+    else:
+        DB = 'special://home/userdata/profiles/' + name + '/addon_data/plugin.video.matrix/matrix.db'
+
     try:
         REALDB = VSPath(DB).decode('utf-8')
-
     except AttributeError:
         REALDB = VSPath(DB)
+
+    del request, req, name, response    # delete des objets temporaires
 
     def __init__(self):
 
         VSlog('DB engine for db : ' + sqlite.__name__)
 
         try:
-
             if not xbmcvfs.exists(self.DB):
                 self.db = sqlite.connect(self.REALDB)
                 self.db.row_factory = sqlite.Row
@@ -61,7 +80,6 @@ class cDb:
         # sql_create2 = 'DROP TABLE history'
 
         ''' Create table '''
-
         sql_create = "CREATE TABLE IF NOT EXISTS history ("\
                         "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
                         "title TEXT, "\
@@ -74,7 +92,6 @@ class cDb:
                         ");"
         self.dbcur.execute(sql_create)
 
-
         sql_create = "CREATE TABLE IF NOT EXISTS resume ("\
                         "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
                         "title TEXT, "\
@@ -84,7 +101,6 @@ class cDb:
                         ");"
         self.dbcur.execute(sql_create)
 
-
         sql_create = "CREATE TABLE IF NOT EXISTS watched ("\
                         "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
                         "title TEXT, "\
@@ -92,7 +108,6 @@ class cDb:
                         "UNIQUE(title, site)"\
                         ");"
         self.dbcur.execute(sql_create)
-
 
         sql_create = "CREATE TABLE IF NOT EXISTS favorite ("\
                         "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
@@ -142,7 +157,7 @@ class cDb:
 
         else:
             data = data.encode().decode()
-				
+
         return data
 
     # ***********************************
@@ -194,7 +209,6 @@ class cDb:
         try:
             self.dbcur.execute(sql_delete)
             self.db.commit()
-
             dialog().VSinfo(addon().VSlang(30041))
             oGui.updateDirectory()
             return False, False
@@ -213,13 +227,11 @@ class cDb:
 
         site = QuotePlus(meta['site'])
         ex = 'INSERT INTO watched (title, site) VALUES (?, ?)'
-
         try:
             self.dbcur.execute(ex, (title, site))
             self.db.commit()
             VSlog('SQL INSERT watched Successfully')
         except Exception:
-
             VSlog('SQL ERROR INSERT watched : title = %s, site = %s' % (title, site) )
             pass
 
@@ -238,7 +250,7 @@ class cDb:
             if matchedrow:
                 return 1
             return 0
-        except Exception:
+        except Exception as e:
             VSlog('SQL ERROR %s' % sql_select)
             return None
 
@@ -286,6 +298,7 @@ class cDb:
 
         sql_select = "SELECT point FROM resume WHERE title = '%s'" % title
         # sql_select = "SELECT * FROM resume WHERE hoster = '%s'" % site
+
         try:
             self.dbcur.execute(sql_select)
             matchedrow = self.dbcur.fetchone()
@@ -293,7 +306,7 @@ class cDb:
             if not matchedrow:
                 return 0
             return float(matchedrow[0])
-
+        
         except Exception as e:
             VSlog('SQL ERROR : %s' % sql_select)
             return None
@@ -311,9 +324,9 @@ class cDb:
             VSlog('SQL ERROR %s' % sql_select)
             return False, False
 
+
     # ***********************************
     #   Bookmark fonctions
-
     # ***********************************
 
     def insert_bookmark(self, meta):
@@ -372,16 +385,17 @@ class cDb:
         elif sSiteUrl:
             siteUrl = QuotePlus(sSiteUrl)
             sql_delete = "DELETE FROM favorite WHERE siteurl = '%s'" % siteUrl
+
         # Supprimer toute une catégorie
-        elif sCat:            
+        elif sCat:
             catList = ('1', '7')    # films, saga
             if sCat not in catList:
                 catList = ('2', '3', '4', '8')
                 if sCat not in catList:
                     catList = ('0', sCat)
-
             sql_delete = "DELETE FROM favorite WHERE cat in %s" % str(catList)
-			
+
+
         if sql_delete:
             from resources.lib.gui.gui import cGui
             try:
@@ -396,14 +410,12 @@ class cDb:
                 dialog().VSinfo(addon().VSlang(30044))
                 cGui().updateDirectory()
                 return True
-
             except Exception:
                 VSlog('SQL ERROR %s' % sql_delete)
         return False
 
     # ***********************************
     #   Download fonctions
-
     # ***********************************
 
     def insert_download(self, meta):
@@ -412,7 +424,6 @@ class cDb:
         url = QuotePlus(meta['url'])
         sIcon = QuotePlus(meta['icon'])
         sPath = meta['path']
-
         ex = 'INSERT INTO download (title, url, path, cat, icon, size, totalsize, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
 
         try:
@@ -421,7 +432,6 @@ class cDb:
             VSlog('SQL INSERT download Successfully')
             dialog().VSinfo(addon().VSlang(30042), meta['title'])
         except Exception:
-
             VSlog('SQL ERROR INSERT into download')
             pass
 

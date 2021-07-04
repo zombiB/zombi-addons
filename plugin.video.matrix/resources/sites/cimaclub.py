@@ -540,7 +540,7 @@ def showServers():
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
        	
-    sPattern = 'rel="nofollow" href="(.+?)" class='
+    sPattern = 'rel="nofollow" href="(.+?)" class'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

@@ -81,7 +81,8 @@ def showMovies(sSearch = ''):
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 
  # ([^<]+) .+? (.+?)
-    sPattern = '<div class="postDiv"><a href="([^<]+)">.+?data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
+    sPattern = '<div class="postDiv "><a href="(.+?)">.+?data-src="(.+?)" class="img-fluid lazy" alt="(.+?)" />'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
