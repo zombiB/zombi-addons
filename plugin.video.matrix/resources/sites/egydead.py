@@ -547,12 +547,14 @@ def showHosters():
     sInfo = oInputParameterHandler.getValue('sInfo')
 
     #print sHtmlContent 
-    sUrl1 = sUrl+'?View=1'
 
-    oRequestHandler = cRequestHandler(sUrl1)
+    oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8')
+
+    s = requests.Session()
+    data = {'View':'1'}
+    r = s.post(sUrl, data = data)
+    sHtmlContent = r.content.decode('utf8',errors='ignore')
 
    
     oParser = cParser()
