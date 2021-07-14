@@ -373,7 +373,7 @@ def showSeries(sSearch = ''):
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="(.+?)">.+?<img src="(.+?)" alt="(.+?)">.+?<div class="number">.+?<span>(.+?)</span></div>'
+    sPattern = '<a href="([^<]+)">.+?<img src="([^<]+)" alt="([^<]+)">.+?<div class="number">.+?<span>([^<]+)</span'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -406,7 +406,6 @@ def showSeries(sSearch = ''):
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEps', sDisplayTitle3, '', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):

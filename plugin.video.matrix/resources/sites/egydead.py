@@ -177,7 +177,7 @@ def showSearchSeries(sSearch = ''):
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle2)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail) 
             oOutputParameterHandler.addParameter('sYear', sYear) 
@@ -587,7 +587,7 @@ def showHosters():
             if (oHoster != False):
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
+               oHoster.setFileName(sDisplayTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
     # ([^<]+) (.+?)         
@@ -625,7 +625,7 @@ def showHosters():
             if (oHoster != False):
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
+               oHoster.setFileName(sDisplayTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
