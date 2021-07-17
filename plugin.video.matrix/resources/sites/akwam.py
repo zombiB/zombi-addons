@@ -343,7 +343,7 @@ def showEpisodes():
         
 
     # .+? ([^<]+)
-    sPattern = '<a href="http([^<]+).com/watch/(.+?)"'
+    sPattern = '<a href="http([^<]+)/watch/(.+?)"'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -359,7 +359,7 @@ def showEpisodes():
  
             sTitle = "مشاهدة"
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
-            siteUrl = 'http'+aEntry[0]+'.com/watch/' + str(aEntry[1])
+            siteUrl = 'http'+aEntry[0]+'/watch/' + str(aEntry[1])
             sThumb = sThumb
             sDesc = ''
  
