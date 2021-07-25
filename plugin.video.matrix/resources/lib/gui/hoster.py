@@ -405,6 +405,10 @@ class cHosterGui:
             return self.getHoster('gounlimited')
         if ('mixdrop' in sHostName):
             return self.getHoster('mixdrop')
+        if ('megaup' in sHostName):
+            return self.getHoster('megaup')
+        if ('evoload' in sHostName):
+            return self.getHoster('evoload')
         if ('vidabc' in sHostName):
             return self.getHoster('vidabc')
         if ('vshare' in sHostName):
@@ -568,7 +572,7 @@ class cHosterGui:
         if ('livestream.com' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('nitroflare' in sHostName or 'letsupload' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'multiup' in sHostName):
+        if ('nitroflare' in sHostName or 'letsupload' in sHostName  or 'fastdrive' in sHostName   or 'openload' in sHostName or 'multiup' in sHostName):
             return False
 
         #Si aucun hebergeur connu on teste les liens directs

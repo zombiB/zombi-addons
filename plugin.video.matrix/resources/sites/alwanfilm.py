@@ -65,8 +65,7 @@ def showMovies(sSearch = ''):
 
   # .+? ([^<]+) (.+?) .+?
 
-    sPattern = '<img data-src="(.+?)" loading="lazy" class="lazyload" alt="(.+?)"><div.+?<a href="(.+?)">.+?<div class="texto">(.+?)</div>'
-
+    sPattern = 'data-src="(.+?)" alt="(.+?)".+?<a href="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -79,11 +78,11 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = aEntry[1].replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             if isMatrix(): 
                sTitle = str(sTitle.encode('latin-1'),'utf-8')
             siteUrl = aEntry[2]
-            sInfo = aEntry[3]
+            sInfo = ''
             sThumbnail = str(aEntry[0])
             sDub = ''
             m = re.search('باﻷلوان', sTitle)

@@ -64,6 +64,36 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('referer','https://www.faselhd.pro/')
         data = oRequest.request()
+
+        oParser = cParser()
+        sPattern = 'link = "([^<]+)";'
+        aResult = oParser.parse(data, sPattern)
+      # (.+?) ([^<]+) .+?
+        if (aResult[0] == True):
+            url2 = aResult[1][0]
+            oRequestHandler = cRequestHandler(url2)
+            sHtmlContent2 = oRequestHandler.request()
+
+            sPattern = 'RESOLUTION=(.+?),.+?index(.+?)#EXT'
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+
+            if (aResult[0] == True):
+            
+            #initialisation des tableaux
+                url=[]
+                qua=[]
+            
+            #Replissage des tableaux
+                for i in aResult[1]:
+                    url.append(url2)
+                    qua.append(str(i[0]))
+
+                api_call = dialog().VSselectqual(qua, url)
+
+
+
+                if (api_call):
+                    return True, api_call+'|User-Agent=' + UA + '&Referer=' + self.__sUrl 
 #############################################################
 #
 # big thx to Rgysoft for this code

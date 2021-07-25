@@ -498,9 +498,9 @@ def showHosters():
         oRequest = cRequestHandler(m3url)
         sHtmlContent1 = oRequest.request()
  
-
+      # (.+?) ([^<]+) .+?
     oParser = cParser()       
-    sPattern =  '<a href="(.+?)" target="_blank".+?class="download-link"' 
+    sPattern =  '<!-- APP_DOMAIN_ALTERNATIVE.+?href="(.+?)"' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
@@ -568,6 +568,8 @@ def showHosters():
             siteUrl = 'http'+aEntry[0]+'/link/' + aEntry[1]
             sThumbnail = ""
             sInfo = sDesc
+            print ("sHtmlContent2")
+            print (siteUrl)
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
@@ -592,7 +594,7 @@ def showHosters1():
     sHtmlContent = oRequestHandler.request(); 
     oParser = cParser()
     #recup du lien mp4
-    sPattern =  '<a href="(.+?)" target="_blank"' 
+    sPattern =  '<!-- APP_DOMAIN_ALTERNATIVE.+?href="(.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
@@ -600,7 +602,7 @@ def showHosters1():
         sHtmlContent = oRequest.request() 
 
     oParser = cParser()       
-    sPattern =  '<a href="([^<]+)".+?class="download-link"' 
+    sPattern =  '<!-- APP_DOMAIN_ALTERNATIVE.+?href="(.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
