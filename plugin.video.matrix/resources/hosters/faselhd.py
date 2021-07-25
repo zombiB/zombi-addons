@@ -66,7 +66,7 @@ class cHoster(iHoster):
         data = oRequest.request()
 
         oParser = cParser()
-        sPattern = 'link = "([^<]+)";'
+        sPattern = '"file":"(.+?)","'
         aResult = oParser.parse(data, sPattern)
       # (.+?) ([^<]+) .+?
         if (aResult[0] == True):

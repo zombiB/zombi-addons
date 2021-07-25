@@ -15,7 +15,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://r.brstej.tv'
 RAMADAN_SERIES = (URL_MAIN + '/category1.php?cat=rmdan2021', 'showSeries')
-SERIE_TR = ('https://p.brstej.com:2053/category1.php?cat=turkeyseress', 'showSeries')
+SERIE_TR = ('https://p.brstej.com:2053/category2.php?cat=sitebrstej', 'showSeries')
 SERIE_HEND = ('https://p.brstej.com:2053/category1.php?cat=indeasreses2021', 'showSerie')
 SERIE_EN = ('https://p.brstej.com:2053/category1.php?cat=english', 'showSeries')
 SERIE_AR = ('https://p.brstej.com:2053/category1.php?cat=arabic-seriesss', 'showSeries')

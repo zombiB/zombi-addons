@@ -254,7 +254,7 @@ def showSeasons():
     import requests
     postid = ''
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="seasonDiv.+?" data-href="([^<]+)">.+?<div class="title">([^<]+)</div>'
+    sPattern = '<div class="seasonDiv.+?" data-href="(.+?)">.+?<div class="title">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -269,19 +269,15 @@ def showSeasons():
             postid = aEntry[0]
             nume = aEntry[1].replace("موسم "," S")
 
-            postdata = 'seasonID=' + postid
+            postdata = {'seasonID':postid}
             link = 'https://www.faselhd.pro/series-ajax/?_action=get_season_list&_post_id='+postid
             headers = {'Host': 'www.faselhd.pro',
-							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Accept': '*/*',
-							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-							'X-Requested-With': 'XMLHttpRequest',
+							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36',
 							'Referer': sUrl,
-							'Connection': 'keep-alive'}
-            s = requests.Session()	
+							'origin': 'https://www.faselhd.pro'}
+            s = requests.Session() 	
             r = s.post(link,data = postdata)
-            sHtmlContent = r.content  
+            sHtmlContent = r.content 
             if isMatrix(): 
                sHtmlContent = sHtmlContent.decode('utf8',errors='ignore') 
             if sHtmlContent:
