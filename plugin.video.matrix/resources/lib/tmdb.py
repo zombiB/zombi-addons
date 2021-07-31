@@ -591,6 +591,7 @@ class cTMDb:
 
         _meta['seasons'] = []
         _meta['nbseasons'] = 0
+        _meta['guest_stars'] = []
         if 'title' in meta and meta['title']:
             _meta['title'] = meta['title']
         elif 'name' in meta and meta['name']:
@@ -604,7 +605,7 @@ class cTMDb:
             _meta['imdb_id'] = meta['imdb_id']
         elif 'external_ids' in meta:
             _meta['imdb_id'] = meta['external_ids']['imdb_id']
-        if 'mpaa' in meta:
+        if 'mpaa' in meta and meta['mpaa']:
             _meta['mpaa'] = meta['mpaa']
         if 'media_type' in meta:
             _meta['media_type'] = meta['media_type']
@@ -927,13 +928,15 @@ class cTMDb:
 
 
         elif media_type == 'episode':
-            if not tmdb_id: # tmdb_id obligatoire, si il n'y en a pas c'est qu'on ne connait pas la série de toute façon
-                return None
+
             sql_select = 'SELECT *, episode.title as s_title, episode.poster_path as s_poster_path, episode.premiered as s_premiered, '\
                 'episode.guest_stars, episode.year as s_year, episode.overview as s_overview, '\
                 'episode.director as s_director, episode.writer as s_writer, episode.vote_average as s_vote_average, episode.vote_count as s_vote_count '\
                 'FROM tvshow LEFT JOIN episode ON tvshow.tmdb_id = episode.tmdb_id'
-            sql_select += ' WHERE tvshow.tmdb_id = \'%s\'' % tmdb_id
+            if tmdb_id:
+                sql_select += ' WHERE tvshow.tmdb_id = \'%s\'' % tmdb_id
+            else:
+                sql_select += ' WHERE tvshow.title = \'%s\'' % name
             sql_select += ' AND episode.season = \'%s\' AND episode.episode = \'%s\'' % (season,episode)
         else:
             return None
@@ -1177,7 +1180,7 @@ class cTMDb:
         if not update:
             #Obligatoire pour pointer vers les bonnes infos dans la base de données
             if not tmdb_id:
-                if media_type in ("season", "tvshow", "anime"):
+                if media_type in ("season", "tvshow", "anime", "episode"):
                     name = re.sub('(?i)( s(?:aison +)*([0-9]+(?:\-[0-9\?]+)*))(?:([^"]+)|)','',name)
 
             meta = self._cache_search(media_type, self._clean_title(name), tmdb_id, year, season, episode)

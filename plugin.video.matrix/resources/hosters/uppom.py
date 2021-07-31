@@ -70,9 +70,15 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
         oParser = cParser()
 
+        sPattern = '<a href="(.+?)/login.html">'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+    
+        if (aResult[0]):
+            sId = aResult[1][0]
+
         #methode1 
         #lien indirect
-        if "upbbom.com" in sHtmlContent:
+        if sId in sHtmlContent:
             POST_Data              = {}
             POST_Data['op']        = re.findall('input type="hidden" name="op" value="([^<>"]*)"',sHtmlContent)[0]
             #POST_Data['usr_login'] = re.findall('input type="hidden" name="usr_login" value="([^<>"]*)"',sHtmlContent)[0]
@@ -84,7 +90,7 @@ class cHoster(iHoster):
             
             UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
             headers = {'User-Agent': UA ,
-                       'Host' : 'upbbom.com',
+                       'Host' : sId,
                        'Referer' : self.__sUrl ,
                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                        'Content-Type': 'application/x-www-form-urlencoded'}
@@ -101,7 +107,7 @@ class cHoster(iHoster):
 
         #methode1 
         #lien indirect
-        if "upbbom.com" in sHtmlContent:
+        if sId in sHtmlContent:
             POST_Data              = {}
             POST_Data['op']        = re.findall('input type="hidden" name="op" value="([^<>"]*)"',sHtmlContent)[0]
             #POST_Data['usr_login'] = re.findall('input type="hidden" name="usr_login" value="([^<>"]*)"',sHtmlContent)[0]
@@ -113,7 +119,7 @@ class cHoster(iHoster):
             
             UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
             headers = {'User-Agent': UA ,
-                       'Host' : 'upbbom.com',
+                       'Host' : sId,
                        'Referer' : self.__sUrl ,
                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                        'Content-Type': 'application/x-www-form-urlencoded'}

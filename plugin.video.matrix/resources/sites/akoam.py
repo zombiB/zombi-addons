@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'akoam'
 SITE_NAME = 'akoam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://akwam.ws'
+URL_MAIN = 'https://old.akwam.cc'
 MOVIE_MOVIE = (True, 'showMenuMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/cat/165/%D8%A7%D8%B1%D8%B4%D9%8A%D9%81-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
 MOVIE_PACK = (URL_MAIN + '/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
@@ -168,7 +168,7 @@ def showSeriesSearch(sSearch = ''):
        sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="tags_box"><a href="([^<]+)"><div class="tag_box_image" style=([^<]+)></div><h1>([^<]+)</h1>'
+    sPattern = '<div class="tags_box">.+?<a href="([^<]+)">.+?style=([^<]+)>.+?<h1>(.+?)</h1>'
 
 
     oParser = cParser()
@@ -251,7 +251,7 @@ def showMovies(sSearch = ''):
        sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="subject_box shape"><a href="(.+?)"><img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
+    sPattern = '<div class="subject_box shape" >.+?<a href="(.+?)">.+?<img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -471,7 +471,7 @@ def showSeries(sSearch = ''):
     if isMatrix(): 
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 # ([^<]+) .+? (.+?)
-    sPattern = '<div class="subject_box shape"><a href="(.+?)"><img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
+    sPattern = '<div class="subject_box shape" >.+?<a href="(.+?)">.+?<img src="(.+?)" alt=.+?<h3>(.+?)</h3>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -522,7 +522,7 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a class="next" href="(.+?)">'
+    sPattern = '<a class="next".+?href="(.+?)">'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

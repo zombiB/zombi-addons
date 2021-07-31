@@ -7,7 +7,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.comaddon import dialog, addon, xbmc
+from resources.lib.comaddon import dialog, addon, xbmc, isMatrix
 from resources.lib.util import UnquotePlus
 
 SITE_IDENTIFIER = 'cFav'
@@ -24,13 +24,13 @@ class cFav:
         oInputParameterHandler = cInputParameterHandler()
         if not self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
             return False
-       
+
         sAll = oInputParameterHandler.exist('sAll')
         sCat = oInputParameterHandler.getValue('sCat')
         siteUrl = oInputParameterHandler.getValue('siteUrl')
         sTitle = oInputParameterHandler.getValue('sCleanTitle')
         # sTitle = cUtil().CleanName(sTitle)
-        
+
         cDb().del_bookmark(siteUrl, sTitle, sCat, sAll)
         return True
 
@@ -60,21 +60,16 @@ class cFav:
         oOutputParameterHandler.addParameter('sCat', '1')
         total = compt[1] + compt[7]
         oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30120), str(total)), 'mark.png', oOutputParameterHandler)
+
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sCat', '2')
         total = compt[2] + compt[3] + compt[4] + compt[8]
         oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s/%s (%s)') % (self.ADDON.VSlang(30121), self.ADDON.VSlang(30122), str(total)), 'mark.png', oOutputParameterHandler)
-        # oOutputParameterHandler = cOutputParameterHandler()
-        # oOutputParameterHandler.addParameter('sCat', '3')
-        # oGui.addDir(SITE_IDENTIFIER, 'getFav()', 'Pages', 'news.png', oOutputParameterHandler)
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sCat', '6')
         total = compt[6]
         oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30332), str(total)), 'mark.png', oOutputParameterHandler)
-        # oOutputParameterHandler = cOutputParameterHandler()
-        # oOutputParameterHandler.addParameter('sCat', '7')
-        # oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30088), str(compt[7])), 'mark.png', oOutputParameterHandler)
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sCat', '5')
@@ -109,7 +104,7 @@ class cFav:
                 else:
                     catList = sCat
                     cGui.CONTENT = 'videos'
-            gen = (x for x in row if x[5] in catList)
+            gen = (x for x in row if x['cat'] in catList)
         else:
             oGui.setEndOfDirectory()
             return
@@ -117,31 +112,31 @@ class cFav:
         for data in gen:
 
             try:
-                title = data[1].encode('utf-8')
+                title = data['title'].encode('utf-8')
             except:
-                title = data[1]
+                title = data['title']
 
             try:
-                thumbnail = data[6].encode('utf-8')
+                thumbnail = data['icon'].encode('utf-8')
             except:
-                thumbnail = data[6]
+                thumbnail = data['icon']
 
             try:
                 try:
-                    siteurl = data[2].encode('utf-8')
+                    siteurl = data['siteurl'].encode('utf-8')
                 except:
-                    siteurl = data[2]
+                    siteurl = data['siteurl']
 
-                if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+                if isMatrix():
                     siteurl = UnquotePlus(siteurl.decode('utf-8'))
                     title = str(title, 'utf-8')
                 else:
                     siteurl = UnquotePlus(siteurl)
 
-                site = data[3]
-                function = data[4]
-                cat = data[5]
-                fanart = data[7]
+                site = data['site']
+                function = data['fav']
+                cat = data['cat']
+                fanart = data['fanart']
 
                 if thumbnail == '':
                     thumbnail = 'False'
@@ -188,7 +183,7 @@ class cFav:
                     oGuiElement.setMeta(3)
                     oGuiElement.setCat(7)
                 elif (cat == '8'):          # Episodes
-                    oGuiElement.setMeta(0)
+                    oGuiElement.setMeta(6)
                     oGuiElement.setCat(8)
                 else:
                     oGuiElement.setMeta(0)
@@ -205,6 +200,7 @@ class cFav:
                     oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
             except:
+                oOutputParameterHandler = cOutputParameterHandler()
                 oGui.addDir(SITE_IDENTIFIER, 'DoNothing', '[COLOR red]ERROR[/COLOR]', 'films.png', oOutputParameterHandler)
 
         # La suppression n'est pas accessible lors de l'utilisation en Widget
