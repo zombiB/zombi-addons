@@ -373,7 +373,7 @@ def showSeries(sSearch = ''):
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)">.+?<img src="([^<]+)" alt="([^<]+)">.+?<div class="number">.+?<span>([^<]+)</span'
+    sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?<img src="([^<]+)" alt="([^<]+)">.+?<div class="number">.+?<span>([^<]+)</span'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -441,7 +441,7 @@ def showEps():
     # (.+?) .+? ([^<]+)
                
 
-    sPattern = 'rel="nofollow" href="(.+?)" class="download.+?</span><p>(.+?)</p></a>'
+    sPattern = 'rel="nofollow" href="([^<]+)" class="download.+?</span><p>([^<]+)</p></a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -479,7 +479,7 @@ def showEps():
     sEnd = '<div style="clear: both;"></div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     # (.+?) .+? ([^<]+)
-    sPattern = 'href="(.+?)">.+?<em>([^<]+)</em></a>'
+    sPattern = 'href="([^<]+)">.+?<em>([^<]+)</em></a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

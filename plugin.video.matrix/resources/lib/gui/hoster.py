@@ -196,6 +196,8 @@ class cHosterGui:
             return self.getHoster('onlystream')
         if ('rutube' in sHostName):
             return self.getHoster('rutube')
+        if ('jwplatform' in sHostName):
+            return self.getHoster('anonfile')
         if ('vk.com' in sHostName):
             return self.getHoster('vk')
         if ('vkontakte' in sHostName):
@@ -341,9 +343,9 @@ class cHosterGui:
         if ('wstream.' in sHostName):
             return self.getHoster('wstream')
         if ('drive.google.com' in sHostName):
-            return self.getHoster('googledrive')
+            return self.getHoster('resolver')
         if ('docs.google.com' in sHostName):
-            return self.getHoster('googledrive')
+            return self.getHoster('resolver')
         if ('vidwatch' in sHostName):
             return self.getHoster('vidwatch')
         if ('up2stream' in sHostName):
@@ -542,9 +544,6 @@ class cHosterGui:
         if ('amazonaws.com' in sHostName):
             return self.getHoster('lien_direct')
         if ('streamtec' in sHostName):
-            return self.getHoster('lien_direct')
-
-        if ('stardima.com' in sHostName):
             return self.getHoster('lien_direct')
 
         if ('.googleusercontent.com' in sHostName):
