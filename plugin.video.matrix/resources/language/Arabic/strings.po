@@ -509,8 +509,8 @@ msgid "Anime"
 msgstr "أنمي"
 
 msgctxt "#30125"
-msgid "Research Update (source only)"
-msgstr ""
+msgid "Continue watching"
+msgstr "تابع المشاهدة"
 
 msgctxt "#30126"
 msgid "Beta Tester (not recommended)"

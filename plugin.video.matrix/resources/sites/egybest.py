@@ -398,6 +398,7 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 	
+
 def parseInt(sin):
   m = re.search(r'^(\d+)[.,]?\d*?', str(sin))
   return int(m.groups()[-1]) if m and not callable(sin) else 0
@@ -425,7 +426,7 @@ def a0d(main_tab,step2,a):
 
 def x(main_tab,step2,a):
     return(a0d(main_tab,step2,a))
-    
+
 def decal(tab,step,step2,decal_fnc):
     decal_fnc = decal_fnc.replace('var ','')    
     decal_fnc = decal_fnc.replace('x(','x(tab,step2,') 
@@ -440,9 +441,10 @@ def decal(tab,step,step2,decal_fnc):
         #print(str(aa)+':'+str(c))
         if ((c == step) or (aa>10000)): break
 
+
      
 def VidStream(script):
-    tmp = re.findall('function.+?{ var(.+?)=', script, re.S)
+    tmp = re.findall('var(.*?)=', script, re.S)
     if not tmp: return 'ERR:Varconst Not Found'
     varconst = tmp[0].strip()
     print('Varconst     = %s' % varconst)
@@ -457,7 +459,7 @@ def VidStream(script):
     tmp = re.findall("try{(var.*?);", script)
     if not tmp: return 'ERR:decal_fnc Not Found'
     decal_fnc = tmp[0]
-    print('Decal func   = " %s..."' % decal_fnc[0:135])   
+    print('Decal func   = " %s..."' % decal_fnc[0:135])
     tmp = re.findall("'data':{'(_[0-9a-zA-Z]{10,20})':'ok'", script)
     if not tmp: return 'ERR:PostKey Not Found'
     PostKey = tmp[0]
@@ -520,13 +522,15 @@ def VidStream(script):
     PostUrl = str(tmp[0])
     print('PostUrl      = %s' % PostUrl)
     PostUrl = re.sub("(window\[.*?\])", "atob", PostUrl)        
-    PostUrl = re.sub("([A-F]{1,2}\()", "a0d(main_tab,step2,", PostUrl)    
+    PostUrl = re.sub("([A-Z]{1,2}\()", "a0d(main_tab,step2,", PostUrl)    
     exec(PostUrl)
     return(['/'+GetVal,f+bigString,{ PostKey : 'ok'}])
 
+
+
 def get_Scripto(data):
     script = ''
-    scrtp = re.findall("<script.*?>(.*?)</script>", data.content.decode('utf-8'), re.S)
+    scrtp = re.findall("<script.*?>(.*?)</script>", data, re.S)
     for s in scrtp:
         if '(){ var' in s:
             #print s
@@ -556,9 +560,9 @@ def showHosters():
         href = "https://"+host+href
         MLisTe.append((href))
     bimbo = MLisTe[0]
-    data =  sgn.get(link)
+    data =  sgn.get(link).content.decode('utf-8')
     scrtp  = get_Scripto(data)
-    ln1,ln2,prm = VidStream(str(scrtp))
+    ln1,ln2,prm = VidStream(scrtp)
     ln1 = "https://"+host+ln1
     ln2 = "https://"+host+ln2
     sgn.get(ln1)

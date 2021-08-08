@@ -507,13 +507,14 @@ msgctxt "#30122"
 msgid "Anime"
 msgstr "Animes"
 
-msgctxt "#30125"
-msgid "Research Update (source only)"
-msgstr "Recherche mise a jour (Sources Uniquement)"
 
 msgctxt "#30126"
 msgid "Beta Tester (not recommended)"
 msgstr "Beta testeur (Non recommande)"
+
+msgctxt "#30125"
+msgid "Continue watching"
+msgstr "En cours de visionnage" 
 
 msgctxt "#30127"
 msgid "Tools"

@@ -507,12 +507,12 @@ msgctxt "#30122"
 msgid "Anime"
 msgstr ""
 
-msgctxt "#30125"
-msgid "Research Update (source only)"
-msgstr ""
-
 msgctxt "#30126"
 msgid "Beta Tester (not recommended)"
+msgstr ""
+
+msgctxt "#30125"
+msgid "Continue watching"
 msgstr ""
 
 msgctxt "#30127"

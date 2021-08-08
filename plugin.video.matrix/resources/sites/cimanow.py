@@ -441,14 +441,14 @@ def showServer():
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'sa.cimanow.cc','referer' : 'sUrl'}
     St=requests.Session()
     sHtmlContent = St.get(sUrl,headers=hdr)
-    sHtmlContent = sHtmlContent.content
-
-   
+    sHtmlContent = sHtmlContent.content.decode('utf8')  
     oParser = cParser()
+    sStart = '<ul class="tabcontent" id="download">'
+    sEnd = '</ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
-    
     # (.+?) .+? ([^<]+)        	
-    sPattern = '<a href="([^<]+)">.+?<i class="fas fa-cloud-download-alt"></i>([^<]+)</a>'
+    sPattern = '<a href="(.+?)">.+?>(.+?)</a>'
 		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

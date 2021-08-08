@@ -25,9 +25,12 @@ class cHosterGui:
         site = oInputParameterHandler.getValue('site')
         saisonUrl = oInputParameterHandler.getValue('saisonUrl')
         nextSaisonFunc = oInputParameterHandler.getValue('nextSaisonFunc')
+        movieUrl = oInputParameterHandler.getValue('movieUrl')
+        movieFunc = oInputParameterHandler.getValue('movieFunc')
         sLang = oInputParameterHandler.getValue('sLang')
         sRes = oInputParameterHandler.getValue('sRes')
-
+        sFav = oInputParameterHandler.getValue('sFav')
+        sTmdbId = oInputParameterHandler.getValue('sTmdbId')
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(self.SITE_NAME)
         oGuiElement.setFunction('play')
@@ -55,11 +58,16 @@ class cHosterGui:
         oOutputParameterHandler.addParameter('sRes', sRes)
         oOutputParameterHandler.addParameter('sId', 'cHosterGui')
         oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+        oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
         # gestion NextUp
         oOutputParameterHandler.addParameter('sourceName', site)    # source d'origine
+        oOutputParameterHandler.addParameter('sourceFav', sFav)    # source d'origine
         oOutputParameterHandler.addParameter('nextSaisonFunc', nextSaisonFunc)
         oOutputParameterHandler.addParameter('saisonUrl', saisonUrl)
 
+        # gestion Lecture en cours
+        oOutputParameterHandler.addParameter('movieUrl', movieUrl)
+        oOutputParameterHandler.addParameter('movieFunc', movieFunc)
         # Catégorie de lecture
         if oInputParameterHandler.exist('sCat'):
             sCat = oInputParameterHandler.getValue('sCat')
@@ -120,7 +128,6 @@ class cHosterGui:
         # context Library menu
         oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cLibrary', 'cLibrary', 'setLibrary', self.ADDON.VSlang(30324))
 
-        # bug
         oGui.addHost(oGuiElement, oOutputParameterHandler)
 
     def checkHoster(self, sHosterUrl):
@@ -169,8 +176,6 @@ class cHosterGui:
             return self.getHoster('aparat')
         if ('yourupload' in sHostName):
             return self.getHoster('yourupload')
-        if ('hdup' in sHostName):
-            return self.getHoster('hdup')
         if ('vidspeeds' in sHostName):
             return self.getHoster('vidspeeds')
         if ('vid4up' in sHostName):

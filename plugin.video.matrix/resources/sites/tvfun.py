@@ -440,6 +440,8 @@ def showHosters():
                break
             m3url = "PGlmcmFt" + aEntry
             sHtmlContent2 = base64.b64decode(m3url)
+            print ("sHtmlContent2")
+            print (sHtmlContent2)
     # (.+?)       
             sPattern = 'src="(.+?)" allowfullscreen'
             oParser = cParser()

@@ -341,6 +341,8 @@ class cDownload:
         sTitle = cUtil().CleanName(sTitle)
         sTitle = cUtil().FormatSerie(sTitle)
 
+        if type(sTitle) is bytes:
+            sTitle = sTitle.decode('utf-8')
         aTitle = sTitle.rsplit('.')
         # Si deja extension
         if (len(aTitle) > 1):

@@ -114,6 +114,9 @@ class main:
             if isFav(sSiteName, sFunction):
                 return
 
+            if isViewing(sSiteName, sFunction):
+                return
+
             if isLibrary(sSiteName, sFunction):
                 return
 
@@ -236,6 +239,13 @@ def isFav(sSiteName, sFunction):
         return True
     return False
 
+def isViewing(sSiteName, sFunction):
+    if sSiteName == 'cViewing':
+        from resources.lib.viewing import cViewing
+        oViewing = cViewing()
+        exec("oViewing." + sFunction + "()")
+        return True
+    return False
 
 def isLibrary(sSiteName, sFunction):
     if sSiteName == 'cLibrary':

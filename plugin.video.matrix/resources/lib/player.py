@@ -7,6 +7,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.upnext import UpNext
 from resources.lib.comaddon import addon, dialog, xbmc, isKrypton, VSlog, addonManager
 from resources.lib.db import cDb
+from resources.lib.util import Unquote
 import xbmcplugin
 
 #pour les sous titres
@@ -28,10 +29,19 @@ class cPlayer(xbmc.Player):
         oInputParameterHandler = cInputParameterHandler()
 
         self.sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
-        self.sTitle = oInputParameterHandler.getValue('sTitle')
+        self.sTitle = Unquote(oInputParameterHandler.getValue('sFileName'))
+        self.sCat  = oInputParameterHandler.getValue('sCat')
+        self.sSaison = oInputParameterHandler.getValue('sSeason')
+        
         self.sSite = oInputParameterHandler.getValue('siteUrl')
-        self.sThumbnail = xbmc.getInfoLabel('ListItem.Art(thumb)')
 
+        self.sSource = oInputParameterHandler.getValue('sourceName')
+        self.sFav = oInputParameterHandler.getValue('sourceFav')
+        self.saisonUrl = oInputParameterHandler.getValue('saisonUrl')
+        self.nextSaisonFunc = oInputParameterHandler.getValue('nextSaisonFunc')
+        self.movieUrl = oInputParameterHandler.getValue('movieUrl')
+        self.movieFunc = oInputParameterHandler.getValue('movieFunc')
+        self.sTmdbId = oInputParameterHandler.getValue('sTmdbId')
         self.playBackEventReceived = False
         self.playBackStoppedEventReceived = False
         self.forcestop = False
@@ -83,7 +93,7 @@ class cPlayer(xbmc.Player):
         oGui = cGui()
         item = oGui.createListItem(oGuiElement)
         item.setPath(oGuiElement.getMediaUrl())
-
+        self.tvShowTitle = oGuiElement.getItemValue('tvshowtitle')
         #Sous titres
         if (self.Subtitles_file):
             try:
@@ -201,21 +211,25 @@ class cPlayer(xbmc.Player):
     
 
                     # Marquer VU dans la BDD Vstream
-                    # infotag = self.getVideoInfoTag()
-                    siteUrl = self.infotag.getPath()
                     sTitleWatched = self.infotag.getOriginalTitle()
                     if sTitleWatched:
                         db = cDb()
                         meta = {}
                         meta['title'] = sTitleWatched
-                        meta['site'] = siteUrl
+                        meta['cat'] = self.sCat
                         db.insert_watched(meta)
     
 
 
                         # RAZ du point de reprise
                         db.del_resume(meta)
-                    
+                        
+                        # Sortie des LECTURE EN COURS pour les films, pour les séries la suppression est manuelle
+                        if self.sCat == '1':
+                            meta['titleWatched'] = sTitleWatched
+                            meta['cat'] = self.sCat
+                            db.del_viewing(meta)
+                     
                     # Marquer VU dans les comptes perso
                     # NE FONCTIONNE PAS SI PLUSIEURS VIDEOS SE SONT ENCHAINEES (cas des épisodes)
                     if not self.multi:
@@ -239,7 +253,45 @@ class cPlayer(xbmc.Player):
                         meta['site'] = self.sSite
                         meta['point'] = self.currentTime
                         matchedrow = db.insert_resume(meta)
-        
+
+                        
+                        # Lecture en cours
+                        meta['cat'] = self.sCat
+                        meta['site'] = self.sSource
+                        meta['sTmdbId'] = self.sTmdbId
+                        
+                        # Lecture d'un épisode, on sauvegarde la saison 
+                        if self.sCat == '8':
+                            meta['cat'] = '4'  # saison
+                            tvShowTitle = self.tvShowTitle.lower().replace(' ', '')
+                            if self.sSaison:
+                                meta['season'] = self.sSaison
+                                meta['title'] = self.tvShowTitle + " S" + self.sSaison
+                                meta['titleWatched'] = tvShowTitle + "_S" + self.sSaison
+                            else:
+                                meta['title'] = self.tvShowTitle
+                                meta['titleWatched'] = tvShowTitle
+                            meta['siteurl'] = self.saisonUrl
+                            meta['fav'] = self.nextSaisonFunc
+                            db.insert_viewing(meta)
+                        else:   # Lecture d'un film
+                            
+                            # les 'divers' de moins de 45 minutes peuvent être de type 'adultes'
+                            # pas de sauvegarde en attendant mieux
+                            if self.sCat == '5' and self.totalTime < 2700:
+                                pass
+                            else:
+                                meta['title'] = self.sTitle
+                                meta['titleWatched'] = sTitleWatched
+                                if self.movieUrl and self.movieFunc:
+                                    meta['siteurl'] = self.movieUrl
+                                    meta['fav'] = self.movieFunc
+                                else:
+                                    meta['siteurl'] = self.sSite
+                                    meta['fav'] = self.sFav
+                            
+                                db.insert_viewing(meta)
+                        
         except Exception as err:
             VSlog("ERROR Player_setWatched : {0}".format(err))
 				
@@ -262,7 +314,7 @@ class cPlayer(xbmc.Player):
                 db = cDb()
                 meta = {}
                 meta['title'] = sTitleWatched
-                resumePoint = db.get_resume(meta)
+                resumePoint, total = db.get_resume(meta)
                 if resumePoint:
                     h = resumePoint//3600
                     ms = resumePoint-h*3600

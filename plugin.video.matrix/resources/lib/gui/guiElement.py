@@ -44,6 +44,9 @@ class cGuiElement:
         self.__sCleanTitle = ''
         # titre considéré Vu
         self.__sTitleWatched = ''
+        self.__ResumeTime = 0   # Durée déjà lue de la vidéo
+        self.__TotalTime = 0    # Durée totale de la vidéo
+        
         # contient le titre modifié pour BDD
         self.__sFileName = ''
         self.__sDescription = ''
@@ -131,6 +134,17 @@ class cGuiElement:
     def getEpisode(self):
         return self.__Episode
 
+    def setTotalTime(self, data):
+        self.__TotalTime = data
+
+    def getTotalTime(self):
+        return self.__TotalTime
+
+    def setResumeTime(self, data):
+        self.__ResumeTime = data
+
+    def getResumeTime(self):
+        return self.__ResumeTime
     def setMeta(self, sMeta):
         self.__sMeta = sMeta
 
@@ -444,7 +458,7 @@ class cGuiElement:
         meta = {}
         meta['title'] = self.getTitleWatched()
         meta['site'] = self.getSiteUrl()
-
+        meta['cat'] = self.getCat()
         data = self.DB.get_watched(meta)
         return data
 
@@ -740,17 +754,18 @@ class cGuiElement:
 
         # Used only if there is data in db, overwrite getMetadonne()
         sCat = str(self.getCat())
-        if sCat and sCat != 6:  # Pas besoin de vérifier si pas média
-            w = self.getWatched()
-            if w == 1:
-                self.addItemValues('playcount', w)
+        if sCat and int(sCat) in(1, 2, 3, 4, 5, 8):  # Vérifier seulement si de type média
+            if self.getWatched():
+                self.addItemValues('playcount', 1)
+					
         self.addItemProperties('siteUrl', self.getSiteUrl())
         self.addItemProperties('sCleanTitle', self.getFileName())
         self.addItemProperties('sId', self.getSiteName())
         self.addItemProperties('sFav', self.getFunction())
         self.addItemProperties('sMeta', str(self.getMeta()))
 
-
+        self.addItemProperties('resumetime', self.getResumeTime())
+        self.addItemProperties('totaltime', self.getTotalTime())
         if sCat:
             self.addItemProperties('sCat', sCat)
             mediatypes = {'1': 'movie', '2': 'tvshow', '3': 'tvshow', '4': 'season', '5': 'video', '6': 'video', '7': 'season', '8': 'episode'}
