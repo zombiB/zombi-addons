@@ -35,10 +35,10 @@ SERIE_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-ser
 SERIE_HEND = (URL_MAIN + '/23.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D9%87%D9%86%D8%AF%D9%8A%D8%A9+%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9.html', 'showSeries')
 SERIE_HEND_AR = (URL_MAIN + '/22.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D9%87%D9%86%D8%AF%D9%8A%D8%A9+%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
 
-SERIE_DUBBED = (URL_MAIN + '/33.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
+
 ANIM_NEWS = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-كرتون-anime-series/', 'showSeries')
 
-KID_CARTOON = (URL_MAIN + 'category/مسلسلات-series/مسلسلات-كرتون-anime-series/', 'showSeries')
+KID_CARTOON = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-كرتون-anime-series/', 'showSeries')
 DOC_NEWS = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showSeries')
 
@@ -112,7 +112,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1].replace("(","").replace(")","")
             sDesc = ''
@@ -134,7 +134,7 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
   # ([^<]+) .+?
 
-    sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
+    sPattern = "href='([^<]+)'>([^<]+)</a></li>"
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -152,7 +152,7 @@ def showMovies(sSearch = ''):
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -270,8 +270,8 @@ def showPack():
 
 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[1])
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[1]
             sDesc = ""
             sYear = ''
             sDub = ''
@@ -381,9 +381,9 @@ def showLinks():
                    if progress_.iscanceled():
                      break
  
-                   sTitle = str(aEntry[2])
-                   siteUrl = str(aEntry[0])
-                   sThumb = str(aEntry[1]).replace("(","").replace(")","")
+                   sTitle = aEntry[2]
+                   siteUrl = aEntry[0]
+                   sThumb = aEntry[1].replace("(","").replace(")","")
                    sDesc = sDesc
 
                    sYear = ''
@@ -440,7 +440,7 @@ def showLinks():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            sPage = str(aEntry[0])
+            sPage = aEntry[0]
             sTitle = 'server '+':'+ aEntry[1]
             siteUrl = 'https://live.cima4u.ws:2053/structure/server.php?id='+sPage
             sDesc = sDesc
@@ -466,7 +466,7 @@ def showLinks():
                     if progress_.iscanceled():
                        break
         
-                    url = str(aEntry)
+                    url = aEntry
                     sTitle = " "
                     if url.startswith('//'):
                        url = 'http:' + url
@@ -518,9 +518,9 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("&#8217;","'").replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("برنامج","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
-            siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1]).replace("(","").replace(")","")
+            sTitle = aEntry[2].replace("&#8217;","'").replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("برنامج","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]")
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1].replace("(","").replace(")","")
             sDesc = ""
             sDisplayTitle2 = sTitle.split('حلقة')[0].split('الموسم')[0].split('موسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
@@ -533,12 +533,12 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
+    sPattern = "href='([^<]+)'>([^<]+)</a></li>"
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -556,7 +556,7 @@ def showSeries(sSearch = ''):
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -626,8 +626,8 @@ def showEpisodes():
                   if progress_.iscanceled():
                      break
  
-                  sTitle = sMovieTitle2+" E"+str(aEntry[2])
-                  sUrl = str(aEntry[0])
+                  sTitle = sMovieTitle2+" E"+aEntry[2]
+                  sUrl = aEntry[0]
                   sThumb = sThumb
                   sDesc = ""
 			
@@ -642,35 +642,6 @@ def showEpisodes():
         else:
             oRequest = cRequestHandler(m3url)
             sHtmlContent = oRequest.request()
- # ([^+) .+?
-    sPattern = '<a href="([^<]+)"><em>([^<]+)</em><span>([^<]+)</span></a></li>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = sMovieTitle2+" E"+str(aEntry[2])
-            siteUrl = str(aEntry[0])
-            sThumb = str(sThumb)
-            sDesc = ""
-			
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
  # ([^<]+) .+?
     sPattern = '<a href="" data-link="([^<]+)" class="sever_link"><img src="http://live.cima4u.io/template/logo_server/1593281223_333.jpg" width="40" height="40" alt="" />([^<]+)</a>'
 
@@ -687,8 +658,8 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-            sThumb = str(sThumb)
+            siteUrl = aEntry[0]
+            sThumb = sThumb
             sDesc = ""
 			
 
@@ -743,7 +714,7 @@ def showHosters():
            if progress_.iscanceled():
               break
         
-           url = str(aEntry)
+           url = aEntry
            sTitle = " "
            if url.startswith('//'):
               url = 'http:' + url

@@ -477,9 +477,8 @@ class cDb:
         titleWatched = self.str_conv(meta['titleWatched'])
         siteurl = QuotePlus(meta['siteurl'])
         cat = meta['cat']
-        saison = ''
-        if 'season' in meta:
-            saison = meta['season']
+        saison = meta['season'] if 'season' in meta else '' 
+        sTmdbId = meta['sTmdbId'] if 'sTmdbId' in meta else ''
             
         ex = "DELETE FROM viewing WHERE title_id = '%s' and cat = '%s'" % (titleWatched, cat)
         try:
@@ -490,7 +489,7 @@ class cDb:
 
         try:
             ex = 'INSERT INTO viewing (tmdb_id, title_id, title, siteurl, site, fav, cat, season) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-            self.dbcur.execute(ex, (meta['sTmdbId'], titleWatched, title, siteurl, meta['site'], meta['fav'], cat, saison))
+            self.dbcur.execute(ex, (sTmdbId, titleWatched, title, siteurl, meta['site'], meta['fav'], cat, saison))
             self.db.commit()
 
             VSlog('SQL INSERT viewing Successfully')

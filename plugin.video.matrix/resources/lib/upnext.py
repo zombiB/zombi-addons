@@ -29,9 +29,7 @@ class UpNext:
         # tester s'il s'agit d'une série 
         tvShowTitle = guiElement.getItemValue('tvshowtitle')
         if not tvShowTitle:
-            return 
-        print ("sHtmlContent2")
-        print (tvShowTitle)     
+            return     
 
         oInputParameterHandler = cInputParameterHandler()
         
@@ -39,13 +37,10 @@ class UpNext:
         sSiteName = oInputParameterHandler.getValue('sourceName')
         if not sSiteName:
             return 
-        print ("sHtmlContent2")
-        print (sSiteName)  
 
         # La saison
         sSaison = oInputParameterHandler.getValue('sSeason')
-        print ("sHtmlContent2")
-        print (sSaison)  
+
 
         # Calcule l'épisode suivant à partir de l'épisode courant
         sEpisode = oInputParameterHandler.getValue('sEpisode')
@@ -59,16 +54,14 @@ class UpNext:
         numEpisode = int(sEpisode)
         nextEpisode = numEpisode+1
         sNextEpisode = '%02d' % nextEpisode
-        print ("sHtmlContent2")
-        print (sNextEpisode)  
+ 
         
         saisonUrl = oInputParameterHandler.getValue('saisonUrl')
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', saisonUrl)
         oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
         sParams = oOutputParameterHandler.getParameterAsUri()
-        print ("sHtmlContent2")
-        print (sParams)  
+ 
  
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
         nextSaisonFunc = oInputParameterHandler.getValue('nextSaisonFunc')
@@ -78,8 +71,6 @@ class UpNext:
             sHosterIdentifier, sMediaUrl, nextTitle, sDesc, sThumb = self.getMediaUrl(sSiteName, nextSaisonFunc, sParams, sSaison, nextEpisode, sLang, sHosterIdentifier)
             if not sMediaUrl:
                 return
-            print ("sHtmlContent2")
-            print (sMediaUrl)  
 
 			
 			
@@ -110,8 +101,7 @@ class UpNext:
             oOutputParameterHandler.addParameter('sLang', sLang)
             
             sParams = oOutputParameterHandler.getParameterAsUri()
-            print ("sHtmlContent2")
-            print (sParams)  
+ 
             url = 'plugin://plugin.video.matrix/?site=cHosterGui&function=play&%s' % sParams
             
             # sThumbnail = guiElement.getThumbnail()

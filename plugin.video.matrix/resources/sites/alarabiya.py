@@ -108,25 +108,58 @@ def __checkForNextPage(sHtmlContent):
     if (aResult[0] == True):
         #print aResult[1][0]
         return URL_MAIN+aResult[1][0]
-        print ("sHtmlContent2")
-        print (aResult[1][0])
+
 
     return False
 
 def showHosters():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request();
+    oParser = cParser()
+    
+ 
+    sPattern = ',"contentUrl": "(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+
+            url = str(aEntry)
+            if url.startswith('//'):
+                url = 'http:' + url
+            sHosterUrl = url
+			
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_) 
+
+
+                
+    oGui.setEndOfDirectory()   
+def showHosters2():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-
-    UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
-    
+  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request(); 
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
     oParser = cParser()
 		    # (.+?) .+? ([^<]+)
     sPattern =  ',"contentUrl": "(.+?)"' 
@@ -135,7 +168,7 @@ def showHosters():
     
     if (aResult[0] == True):
         
-        sUrl = str(aResult[1][0])
+        sUrl = aResult[1][0]
                  
         #on lance video directement
         oGuiElement = cGuiElement()

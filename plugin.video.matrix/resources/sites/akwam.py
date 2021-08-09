@@ -568,8 +568,7 @@ def showHosters():
             siteUrl = 'http'+aEntry[0]+'/link/' + aEntry[1]
             sThumbnail = ""
             sInfo = sDesc
-            print ("sHtmlContent2")
-            print (siteUrl)
+
  
             #print sUrl
             oOutputParameterHandler = cOutputParameterHandler()
