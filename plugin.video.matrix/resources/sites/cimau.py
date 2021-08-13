@@ -38,7 +38,7 @@ SERIE_HEND_AR = (URL_MAIN + '/22.%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA+%D9%
 
 ANIM_NEWS = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-كرتون-anime-series/', 'showSeries')
 
-KID_CARTOON = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-كرتون-anime-series/', 'showSeries')
+KID_CARTOON = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86-anime-series/full-anime-series/', 'showSeries')
 DOC_NEWS = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showSeries')
 

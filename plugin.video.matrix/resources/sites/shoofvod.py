@@ -10,7 +10,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.player import cPlayer
-import re
+import re,xbmc
 
 SITE_IDENTIFIER = 'shoofvod'
 SITE_NAME = 'shoofvod'
@@ -292,6 +292,8 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+
+    UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -325,7 +327,7 @@ def showHosters():
     
     if (aResult[0] == True):
         
-        sUrl = str(aResult[1][0])
+        sUrl = str(aResult[1][0])+ '|&User-Agent='+ UA
         if sUrl.startswith('//'):
            sUrl = 'http:' + sUrl 
                  
@@ -339,6 +341,7 @@ def showHosters():
         oPlayer = cPlayer()
         oPlayer.clearPlayList()
         oPlayer.addItemToPlaylist(oGuiElement)
+        xbmc.executebuiltin('xbmc.playercontrol(RepeatAll)')
         oPlayer.startPlayer()
         return
     
