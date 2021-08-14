@@ -398,10 +398,10 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 	
-
 def parseInt(sin):
   m = re.search(r'^(\d+)[.,]?\d*?', str(sin))
   return int(m.groups()[-1]) if m and not callable(sin) else 0
+
   
 def atob(elm):
     try:
@@ -424,8 +424,10 @@ def a0d(main_tab,step2,a):
         c = main_tab[a]
     return c
 
+
 def x(main_tab,step2,a):
     return(a0d(main_tab,step2,a))
+
 
 def decal(tab,step,step2,decal_fnc):
     decal_fnc = decal_fnc.replace('var ','')    
@@ -439,10 +441,11 @@ def decal(tab,step,step2,decal_fnc):
         #print([i for i in tab[0:10]])
         exec(decal_fnc) 
         #print(str(aa)+':'+str(c))
-        if ((c == step) or (aa>10000)): break
+        if ((aa>10000)): break
 
 
-     
+
+
 def VidStream(script):
     tmp = re.findall('var(.*?)=', script, re.S)
     if not tmp: return 'ERR:Varconst Not Found'
@@ -524,7 +527,9 @@ def VidStream(script):
     PostUrl = re.sub("(window\[.*?\])", "atob", PostUrl)        
     PostUrl = re.sub("([A-Z]{1,2}\()", "a0d(main_tab,step2,", PostUrl)    
     exec(PostUrl)
-    return(['/'+GetVal,f+bigString,{ PostKey : 'ok'}])
+    print ("sHtmlContent2")
+    print (GetVal.encode('ascii'))
+    return(['/'+GetVal.encode('ascii'),f+bigString,{ PostKey : 'ok'}])
 
 
 
@@ -547,6 +552,8 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
     url = sUrl
     MLisTe = []
     host = url.split('//')[1].split('/')[0]
@@ -562,6 +569,8 @@ def showHosters():
     bimbo = MLisTe[0]
     data =  sgn.get(link).content.decode('utf-8')
     scrtp  = get_Scripto(data)
+    if isMatrix(): 
+       scrtp = str(scrtp.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
     ln1,ln2,prm = VidStream(scrtp)
     ln1 = "https://"+host+ln1
     ln2 = "https://"+host+ln2

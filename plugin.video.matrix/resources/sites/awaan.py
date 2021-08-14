@@ -21,7 +21,6 @@ MOVIE_AR = ('https://www.awaan.ae/show/allprograms/208109/%D8%A3%D9%81%D9%84%D8%
 SERIE_AR = ('https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA?p=1', 'showSeries')
 
 RAMADAN_SERIES = ('https://www.awaan.ae/show/allprograms/214766/%D8%B1%D9%85%D8%B6%D8%A7%D9%86?p=1', 'showSeries')
-KID_CARTOON = ('https://www.awaan.ae/show/allprograms/205911/%D9%83%D8%A7%D8%B1%D8%AA%D9%88%D9%86?p=1', 'showSeries')
 REPLAYTV_NEWS = ('https://www.awaan.ae/show/allprograms/30350/%D8%AA%D8%B1%D9%81%D9%8A%D9%87?p=1', 'showSeries')
 REPLAYTV_PLAY = ('http://awaan.ae/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86?p=1', 'showEps')
 ISLAM_SHOWS = ('https://www.awaan.ae/show/allprograms/30349/%D8%A5%D8%B3%D9%84%D8%A7%D9%85%D9%8A%D8%A7%D8%AA?p=1', 'showSeries')

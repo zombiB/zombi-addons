@@ -99,6 +99,8 @@ def showSeasons():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # .+? (.+?) ([^<]+)
     sPattern = '<a aria-label="([^<]+)" href="([^<]+)" class="post-thumb"><img width=".+?" height=".+?" src="([^<]+)" class='
     
@@ -114,14 +116,14 @@ def showSeasons():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0].replace("اون لاين + تحميل","")
+            sTitle = aEntry[0].replace("اون لاين + تحميل","").replace("-","").replace(" الاخيرة","").replace("الحلقة رقم "," E").replace("الحلقة "," E")
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
             sInfo = ""
  
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             
 
@@ -162,6 +164,8 @@ def showServer():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 
    
     oParser = cParser()
@@ -183,8 +187,8 @@ def showServer():
      'Connection': 'keep-alive'}
     data = {'action':'eyoon_anime_player_get_server','eyoon_anime_server':'2','eyoon_anime_post':sId}
     s = requests.Session()
-    r = s.post('https://eyoon.co/wp-admin/admin-ajax.php', headers=headers,data = data)
-    sHtmlContent = r.content
+    r = s.post('https://eyoon.co/wp-admin/admin-ajax.php',data = data)
+    sHtmlContent = r.content.decode('utf8') 
     sHtmlContent = sHtmlContent.replace('https://www.youtube.com/embed/','')
     
     # (.+?) .+?        
@@ -209,7 +213,7 @@ def showServer():
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-               sDisplayTitle = sTitle
+               sDisplayTitle = sMovieTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -236,7 +240,7 @@ def showServer():
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-               sDisplayTitle = sTitle
+               sDisplayTitle = sMovieTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

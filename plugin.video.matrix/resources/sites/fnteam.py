@@ -123,7 +123,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("فيلم","")
+            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("الفيلم","").replace("فيلم","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
             sInfo = str(aEntry[1])

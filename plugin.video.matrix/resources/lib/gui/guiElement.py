@@ -198,7 +198,7 @@ class cGuiElement:
             # traitement du titre pour les caracteres spéciaux déplacé dans parser plus global
             # traitement du titre pour retirer le - quand c'est une Season. Tiret, tiret moyen et cadratin
             sTitle = sTitle.replace(' - Saison', ' Season').replace(' – Season', ' Season').replace(' — Season', ' Season')
-            sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("الموسم","S").replace("S ","S").replace("Season ","S").replace("موسم","S").replace("S ","S").replace("E ","E")
+            sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("S ","S").replace("Season ","S").replace("S ","S").replace("E ","E")
 
             if not isMatrix():
                 sTitle = sTitle.decode('utf-8')
