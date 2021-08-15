@@ -16,7 +16,7 @@ SITE_IDENTIFIER = 'egybest'
 SITE_NAME = 'egybest'
 SITE_DESC = 'arabic vod'
   
-URL_MAIN = 'https://back.egybest.co'
+URL_MAIN = 'https://giga.egybest.ink'
 host = 'back.egybest.co'
 
 
@@ -398,10 +398,15 @@ def __checkForNextPage(sHtmlContent):
 
     return False
 	
+#############################################################
+#
+# big thx to Rgysoft for this code
+# From this url https://gitlab.com/Rgysoft/iptv-host-e2iplayer/-/blob/master/IPTVPlayer/tsiplayer/
+#################################################################
+	
 def parseInt(sin):
   m = re.search(r'^(\d+)[.,]?\d*?', str(sin))
   return int(m.groups()[-1]) if m and not callable(sin) else 0
-
   
 def atob(elm):
     try:
@@ -414,8 +419,8 @@ def atob(elm):
                 ret = base64.b64decode(elm+'==')
             except:
                 ret = 'ERR:base64 decode error'
-    return ret
-
+    return ret.decode()
+    
 def a0d(main_tab,step2,a):
     a = a - step2
     if a<0:
@@ -424,13 +429,11 @@ def a0d(main_tab,step2,a):
         c = main_tab[a]
     return c
 
-
 def x(main_tab,step2,a):
     return(a0d(main_tab,step2,a))
 
-
 def decal(tab,step,step2,decal_fnc):
-    decal_fnc = decal_fnc.replace('var ','')    
+    decal_fnc = decal_fnc.replace('var ','global c; ') 
     decal_fnc = decal_fnc.replace('x(','x(tab,step2,') 
     exec(decal_fnc)
     aa=0
@@ -441,11 +444,8 @@ def decal(tab,step,step2,decal_fnc):
         #print([i for i in tab[0:10]])
         exec(decal_fnc) 
         #print(str(aa)+':'+str(c))
-        if ((aa>10000)): break
-
-
-
-
+        if ((c == step) or (aa>10000)): break
+      
 def VidStream(script):
     tmp = re.findall('var(.*?)=', script, re.S)
     if not tmp: return 'ERR:Varconst Not Found'
@@ -526,11 +526,9 @@ def VidStream(script):
     print('PostUrl      = %s' % PostUrl)
     PostUrl = re.sub("(window\[.*?\])", "atob", PostUrl)        
     PostUrl = re.sub("([A-Z]{1,2}\()", "a0d(main_tab,step2,", PostUrl)    
+    PostUrl = 'global f; '+PostUrl
     exec(PostUrl)
-    print ("sHtmlContent2")
-    print (GetVal.encode('ascii'))
-    return(['/'+GetVal.encode('ascii'),f+bigString,{ PostKey : 'ok'}])
-
+    return(['/'+GetVal,f+bigString,{ PostKey : 'ok'}])
 
 
 def get_Scripto(data):
@@ -548,7 +546,6 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
 
-    #print sHtmlContent 
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -569,8 +566,6 @@ def showHosters():
     bimbo = MLisTe[0]
     data =  sgn.get(link).content.decode('utf-8')
     scrtp  = get_Scripto(data)
-    if isMatrix(): 
-       scrtp = str(scrtp.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
     ln1,ln2,prm = VidStream(scrtp)
     ln1 = "https://"+host+ln1
     ln2 = "https://"+host+ln2

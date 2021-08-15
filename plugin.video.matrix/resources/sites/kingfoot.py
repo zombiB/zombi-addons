@@ -62,9 +62,9 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-# ([^<]+) .+? 
+# ([^<]+) .+? (.+?)
 
-    sPattern = '<li><a href="([^<]+)" title="([^<]+)"> <strong>([^<]+)</strong>'
+    sPattern = '<div>.+?<a href="(.+?)">.+?class="team-logo  img-responsive" alt="([^<]+)">.+?class="team-logo" alt="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -78,10 +78,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1] 
+            sTitle =  aEntry[1] +' - '+ aEntry[2]
             sThumbnail = ""
             siteUrl = aEntry[0]
-            sInfo = ""
+            sInfo = ''
 			
 			
 
@@ -283,14 +283,15 @@ def showHosters4():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'okhttp/3.9.1','Accept-Encoding' : 'gzip'}
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : '1xnews.online','referer' : sUrl}
     murl = sUrl.split('matche/', 1)[1]
     murl = murl.split('/', 1)[0]
-    url = 'http://kingfoot.best/api/matche_channels/'+murl
-    St=requests.Session()
-    sHtmlContent = St.get(url,headers=hdr).json()
+    rurl = 'https://1xnews.online/home/matche/'+murl 
+    St=requests.Session()              
+    oRequestHandler = cRequestHandler(rurl)
+    sHtmlContent = St.get(rurl).content.decode('utf-8')
 
-    sPattern = "'link': '(.+?)',"
+    sPattern = '"link":"(.+?)","server_name":"(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -301,10 +302,14 @@ def showHosters4():
             if progress_.iscanceled():
                 break
             
-            url = aEntry
+            url = aEntry[0]
             if '.php?' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://1xnews.online/'}
+                data = {'watch':'1'}
+                St=requests.Session()
+                sHtmlContent = St.get(url,headers=hdr)
+                sHtmlContent2 = sHtmlContent.content
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -343,7 +348,7 @@ def showHosters4():
                    b = var[0][1]
                    url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
             sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + 'https://king-shoot.com/'
-            sMovieTitle = 'link'
+            sMovieTitle = aEntry[1]
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)

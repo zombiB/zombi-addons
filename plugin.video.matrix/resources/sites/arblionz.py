@@ -58,10 +58,98 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = URL_MAIN + '/search?s='+sSearchText
-        showMovies(sUrl)
+        showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
+
+
+def showSearchSeries(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
  
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    print ("sHtmlContent2")
+    print (sHtmlContent)
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
+     # (.+?) ([^<]+) .+?
+
+    sPattern = '<article aria-label="post"><a href="(.+?)">.+?<li aria-label="episode"><em>.+?</em>(.+?)</li><li aria-label="year">(.+?)</li>.+?<li>الموسم(.+?)</li>.+?</em>(.+?)<em>.+?data-src="(.+?)" width'
+		
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = str(aEntry[4])+'S'+str(aEntry[3])+' E'+str(aEntry[1])
+            sTitle = sTitle.replace("S ","S")
+            siteUrl = str(aEntry[0]) + "watching/"
+            sThumb = str(aEntry[5])
+            sDesc = ""
+            sDisplayTitle2 = str(aEntry[1])
+            sDisplayTitle = sTitle
+
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+  # ([^<]+) .+?
+    sStart = '</section>'
+    sEnd = '</ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<li><a href="([^<]+)">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1]
+            
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = str(aEntry[0])
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', sTitle, '', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory() 
 def showSeriesSearch():
     oGui = cGui()
  
