@@ -14,6 +14,7 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 from resources.lib.util import cUtil
+from resources.lib.comaddon import VSlog
 
 
 class cHoster(iHoster):
@@ -76,6 +77,7 @@ class cHoster(iHoster):
         import requests
 
         v = self.getHostAndIdFromUrl(self.__sUrl)
+        VSlog(self.__sUrl)
         sId = v[1]
         sHost = v[0]
         web_url = 'http://' + sHost + '/videoembed/' + sId

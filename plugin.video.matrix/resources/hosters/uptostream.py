@@ -76,6 +76,7 @@ class cHoster(iHoster):
         return self.__sUrl
 
     def getMediaLink(self):
+        VSlog(self.__sUrl)
         self.oPremiumHandler = cPremiumHandler('uptobox')
         premium = self.oPremiumHandler.isPremiumModeAvailable()
         api_call = False

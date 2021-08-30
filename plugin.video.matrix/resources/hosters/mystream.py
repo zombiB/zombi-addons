@@ -3,6 +3,7 @@
 from resources.lib.comaddon import VSlog, xbmc
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import VSlog
 import re
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0'
@@ -44,6 +45,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         sReferer = ""
         url = self.__sUrl.split('|Referer=')[0]

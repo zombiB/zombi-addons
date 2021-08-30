@@ -19,6 +19,7 @@ from resources.lib.comaddon import dialog, VSlog
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.packer import cPacker
 from resources.lib.parser import cParser
+from resources.lib.comaddon import VSlog
 
 # Remarque : meme code que vodlocker
 
@@ -348,6 +349,7 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         api_call = False
+        VSlog(self.__sUrl)
 
         oParser = cParser()
 

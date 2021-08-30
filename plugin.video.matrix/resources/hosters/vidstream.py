@@ -60,6 +60,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(self.__sUrl )
         oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36')

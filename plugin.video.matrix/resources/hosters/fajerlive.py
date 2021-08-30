@@ -3,6 +3,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import VSlog
 import json
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
 
@@ -59,6 +60,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         url = 'https://fajer.live/api/source/' + self.__sUrl.rsplit('/', 1)[1]
 

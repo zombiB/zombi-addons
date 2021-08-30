@@ -172,12 +172,17 @@ def showMovies(sSearch = ''):
                 sThumb = "https:"+aEntry[1]
             sDesc = ''
             sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -362,7 +367,7 @@ def showEpisodes():
             sTitle = sTitle.replace("E ","E")
             siteUrl = str(aEntry[0])
             sThumbnail = str(sThumbnail)
-            sInfo = aEntry[2]
+            sInfo = ''
 			
 
 

@@ -495,15 +495,14 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             if '/series/' in siteUrl:
-                oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', 'Episodes', '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle2, '', sThumbnail, sInfo, oOutputParameterHandler)
             else:
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo,  oOutputParameterHandler)
         
         progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()
-	
-	
+		
 def __checkForNextPage(sHtmlContent):
     sPattern = '<li><a href="([^<]+)" >الصفحة التالية &laquo;</a></li>'
     oParser = cParser()

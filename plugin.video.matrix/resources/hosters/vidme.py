@@ -2,6 +2,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import VSlog
 import re
 import xbmcgui
 
@@ -58,6 +59,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         api_call =''
         

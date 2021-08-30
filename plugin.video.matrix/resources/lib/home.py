@@ -4,13 +4,12 @@
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
-#from resources.lib.handler.pluginHandler import cPluginHandler
-#from resources.lib.handler.rechercheHandler import cRechercheHandler
+# from resources.lib.handler.pluginHandler import cPluginHandler
+# from resources.lib.handler.rechercheHandler import cRechercheHandler
 from resources.lib.handler.siteHandler import cSiteHandler
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.db import cDb
-from resources.lib.comaddon import addon, window, dialog, VSlog, VSPath, xbmc
+from resources.lib.comaddon import addon, window, dialog, xbmc
 
 try:  # Python 2
     import urllib2
@@ -20,7 +19,7 @@ except ImportError:  # Python 3
 SITE_IDENTIFIER = 'cHome'
 SITE_NAME = 'Home'
 
-#temp d'execution
+# temp d'execution
 # import time, random
 
 # l = range(100000)
@@ -32,7 +31,6 @@ SITE_NAME = 'Home'
 # print(tps2 - tps1)
 
 
-addons = addon()
 class cHome:
 
     addons = addon()
@@ -141,13 +139,10 @@ class cHome:
 
     def showContact(self):
             url = 'https://github.com/zombiB/zombi-addons/issues'
-            url2 = 'https://www.tunisia-sat.com/forums/threads/3939280/'
-            url3 = 'https://www.facebook.com/groups/2597378853663026/'
-            url4 = 'https://twitter.com/geekzombi'
 
             DIALOG = dialog()
 
-            ret = DIALOG.VSselect(['https://github.com/zombiB/zombi-addons/issues', 'منتديات تونيزيا سات','Matrix : arabic vod على فيسبوك','@geekzombi على تويتر'], 'يمكنك التواصل مع مطور الاضافة على')
+            ret = DIALOG.VSselect(['https://github.com/zombiB/zombi-addons/issues'], 'يمكنك التواصل مع مطور الاضافة على')
 
     def showSearchText(self):
         oGui = cGui()
@@ -204,12 +199,11 @@ class cHome:
         oGuiElement.setCat(5)
         oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
-        # oOutputParameterHandler = cOutputParameterHandler()
         # oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         # oOutputParameterHandler.addParameter('searchtext', searchtext)
         # oOutputParameterHandler.addParameter('disp', 'search10')
         # oOutputParameterHandler.addParameter('readdb', 'True')
-        # oGui.addDir('globalSearch', 'showSearchText', 'addons.VSlang(30417), 'search.png', oOutputParameterHandler)
+        # oGui.addDir('globalSearch', 'showSearchText', 'self.addons.VSlang(30417), 'search.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -560,9 +554,9 @@ class cHome:
 
         oGui.setEndOfDirectory()
 		
-    def showHostDirect(self): #fonction de recherche
+    def showHostDirect(self):  # fonction de recherche
         oGui = cGui()
-        sUrl = oGui.showKeyBoard(heading = self.addons.VSlang(30045))
+        sUrl = oGui.showKeyBoard(heading=self.addons.VSlang(30045))
         if (sUrl != False):
 
             oHoster = cHosterGui().checkHoster(sUrl)

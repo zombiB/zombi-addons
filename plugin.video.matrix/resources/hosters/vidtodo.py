@@ -7,7 +7,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-#from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:69.0) Gecko/20100101 Firefox/69.0'
 
@@ -66,6 +66,7 @@ class cHoster(iHoster):
         return Base.group(1) + Src.group(1)
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         api_call = ''
         
         oParser = cParser()

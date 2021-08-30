@@ -180,7 +180,7 @@ class cRequestHandler:
             self.__sResponseHeader = oResponse.headers
             self.__sRealUrl = oResponse.url
 
-            if jsonDecode==False:
+            if jsonDecode == False:
                 sContent = oResponse.content
 
                 #Necessaire pour Python 3
@@ -194,15 +194,23 @@ class cRequestHandler:
                             pass
             else:
                 sContent = oResponse.json()
-                
+
+
         except ConnectionError as e:
             # Retry with DNS only if addon is present
             import xbmcvfs
-            if xbmcvfs.exists('special://home/addons/script.module.dnspython/') and self.__enableDNS == False:
-                self.__enableDNS = True
-                return self.__callRequest()
+            if self.__enableDNS == False:
+                if xbmcvfs.exists('special://home/addons/script.module.dnspython/'):
+                    self.__enableDNS = True
+                    return self.__callRequest()
+                else:
+                    error_msg = addon().VSlang(30470)
+                    dialog().VSerror(error_msg)
+                    sContent = ''
             else:
-                error_msg = addon().VSlang(30470)
+
+                sContent = ''
+                return False
 
         except RequestException  as e:
             if 'CERTIFICATE_VERIFY_FAILED' in str(e) and self.BUG_SSL == False:
@@ -222,7 +230,7 @@ class cRequestHandler:
             dialog().VSerror(error_msg)
             sContent = ''
 
-        if oResponse:
+        if oResponse != None:
             if oResponse.status_code in [503,403]:
                 if not "Forbidden" in sContent:
                     #Default

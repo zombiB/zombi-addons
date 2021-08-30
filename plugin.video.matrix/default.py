@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#from resources.lib.statistic import cStatistic
+# from resources.lib.statistic import cStatistic
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.home import cHome
 from resources.lib.gui.gui import cGui
@@ -13,14 +13,37 @@ from resources.lib.util import Quote
 # http://kodi.wiki/view/List_of_boolean_conditions
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class main:
-
-
-
-
-
-
-
 
     def __init__(self):
         self.parseUrl()
@@ -185,7 +208,6 @@ def setSetting(plugin_id, value):
     setting = addons.getSetting(plugin_id)
 
     # modifier si différent
-	
     if setting != value:
         addons.setSetting(plugin_id, value)
         return True
@@ -298,7 +320,7 @@ def searchGlobal():
         return True
 
     total = len(aPlugins)
-    progress_ = progress().VScreate()
+    progress_ = progress().VScreate(large=True)
     # kodi 17 vire la fenetre busy qui se pose au dessus de la barre de Progress
     try:
         xbmc.executebuiltin('Dialog.Close(busydialog)')

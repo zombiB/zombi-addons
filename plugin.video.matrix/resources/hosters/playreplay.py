@@ -13,6 +13,7 @@ import re
 
 from resources.hosters.hoster import iHoster
 from resources.lib.util import urlEncode
+from resources.lib.comaddon import VSlog
 
 
 class cHoster(iHoster):
@@ -72,6 +73,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         vUrl = False
         sId = self.__getIdFromUrl(self.__sUrl)
 

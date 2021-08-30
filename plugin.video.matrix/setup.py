@@ -2,8 +2,6 @@
 # https://github.com/zombiB/zombi-addons/issues
 from setuptools import setup, find_packages
 
-
-
 setup(
     name = 'matrix',
     version = '0.1',

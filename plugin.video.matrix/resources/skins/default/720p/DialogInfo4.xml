@@ -37,7 +37,7 @@
 				<posx>0</posx>
 				<posy>0</posy>
               	<fadetime>200</fadetime>
-    			<texture fallback="black-back.png">$INFO[Window.Property(backdrop_url)]</texture>
+    			<texture fallback="black-back.png">$INFO[Window.Property(backdrop_path)]</texture>
              	<aspectratio align="center" aligny="center" scalediffuse="false">scale</aspectratio>
 			</control>
 
@@ -148,7 +148,7 @@
 						</control>
 
 						<control type="image">
-							<texture background="true" diffuse="poster-big.png" fallback="no-poster2.png">$INFO[Window.Property(cover_url)]</texture>
+							<texture background="true" diffuse="poster-big.png" fallback="no-poster2.png">$INFO[Window.Property(poster_path)]</texture>
 							<bordersize>15</bordersize>
 							<aspectratio scalediffuse="false">scale</aspectratio>
 							<visible>!Control.HasFocus(50) + !Control.HasFocus(5200) + !Control.HasFocus(5205) + !Control.HasFocus(5210)  + !Control.HasFocus(5215)</visible>
@@ -302,7 +302,7 @@
 					<left>0</left>
 					<width>700</width>
 					<height>390</height>
-					<font>font32_title</font>
+					<font>font12_title</font>
 					<align>justify</align>
 					<textcolor>white</textcolor>
 					<pagecontrol>61</pagecontrol>
@@ -323,9 +323,18 @@
 				
 				<control type="label" id="1">
 					<description>header label</description>
+					<top>-50</top>
 					<height>20</height>
 					<font>font12_title</font>
 					<label>[B][UPPERCASE]$INFO[Window.Property(title)][/UPPERCASE][/B]</label>
+					<shadowcolor>black</shadowcolor>
+					<textcolor>white</textcolor>
+				</control>
+				<control type="label">
+					<description>header label</description>
+					<height>20</height>
+					<font>font12_title</font>
+					<label>[B]$INFO[Window.Property(tagline)][/B]</label>
 					<shadowcolor>black</shadowcolor>
 					<textcolor>white</textcolor>
 				</control>
@@ -432,11 +441,6 @@
 								<onclick>noop</onclick>
 							</item>
 							<item>
-								<label>[B]tagline[/B]</label>
-								<label2>$INFO[Window.Property(tagline)]</label2>
-								<onclick>noop</onclick>
-							</item>
-							<item>
 								<label>[B]Genre[/B]</label>
 								<label2>$INFO[Window.Property(Genre)]</label2>
 								<onclick>noop</onclick>
@@ -452,11 +456,11 @@
 								<onclick>noop</onclick>
 							</item>
 							<item>
-
-
-
-
-
+								<label>[B]Premiered[/B]</label>
+								<label2>$INFO[Window.Property(releaseDate)]</label2>
+								<onclick>noop</onclick>
+							</item>
+							<item>
 								<label>[B]rating[/B] / [B]Votes[/B]</label>
 								<label2>$INFO[Window.Property(rating)] / $INFO[Window.Property(votes)]</label2>
 								<onclick>noop</onclick>
@@ -1364,6 +1368,7 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
+					
 					<label>تفاصيل العمل</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
@@ -1383,6 +1388,7 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
+					
 					<label>ملخص القصة</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
@@ -1402,7 +1408,8 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
-					<label>كادر التمثيل</label>
+					
+					<label>$ADDON[plugin.video.matrix 30460]</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
 					<texturenofocus border="10" diffuse="box.png" colordiffuse="D0FFFFFF">focus.png</texturenofocus>
@@ -1420,6 +1427,7 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
+					
 					<label>أعمال مشابهة</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>

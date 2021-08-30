@@ -45,7 +45,7 @@ class cLibrary:
         sFileName = oInputParameterHandler.getValue('sFileName')
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
 
-        ret = self.DIALOG.VSselect(['Film', 'Série'], 'Sélectionner une catégorie')
+        ret = dialog().VSselect(['Film', 'Série'], 'Sélectionner une catégorie')
         if ret == 0:
             sCat = '1'
         elif ret == -1:
@@ -54,20 +54,9 @@ class cLibrary:
             sCat = '2'
 				
         sMediaUrl = QuotePlus(sMediaUrl)
+        sFileName = QuotePlus(sFileName)
 
-        try:
-            sFileName = str(sFileName.encode('latin-1'),'utf-8')
-        except:
-            pass
-
-
-        sFileNameEncode = QuotePlus(sFileName)
-
-
-        sLink = 'plugin://plugin.video.matrix/?function=play&site=cHosterGui&sFileName=' + sFileNameEncode + '&sMediaUrl=' + sMediaUrl + '&sHosterIdentifier=' + sHosterIdentifier
-
-
-
+        sLink = 'plugin://plugin.video.matrix/?function=play&site=cHosterGui&sFileName=' + sFileName + '&sMediaUrl=' + sMediaUrl + '&sHosterIdentifier=' + sHosterIdentifier
         sTitle = sFileName
 
         if sCat == '1':  # film
@@ -86,7 +75,7 @@ class cLibrary:
 
         elif sCat == '2':  # serie
             sTitle = cUtil().CleanName(sTitle)
-            sFTitle = self.showKeyBoard(sTitle, 'Recommandé Nomdeserie/Season00')
+            sFTitle = self.showKeyBoard(sTitle, 'Recommandé Nomdeserie/Saison00')
 
             try:
                 sPath = '/'.join([self.__sTVFolder, sFTitle])

@@ -115,6 +115,7 @@ class cHoster(iHoster):
         return False, False
 
     def GetMedialinkDL(self, sHtmlContent):
+        VSlog(self.__sUrl)
 
         oParser = cParser()
         api_call = False

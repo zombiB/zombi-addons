@@ -59,7 +59,7 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         
-        #VSlog(self.__sUrl)
+        VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(self.__sUrl)
         oRequest.addHeaderEntry('Referer',self.__sUrl)

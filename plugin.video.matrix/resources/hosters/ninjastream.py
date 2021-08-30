@@ -83,6 +83,7 @@ class cHoster(iHoster):
 
     # Extraction du lien et decodage si besoin
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         api_call = False
 
         oRequestHandler = cRequestHandler("https://ninjastream.to/api/video/get")

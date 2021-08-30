@@ -3,6 +3,7 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
+from resources.lib.comaddon import VSlog
 import  re
 UA = 'Android'
 
@@ -61,42 +62,18 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
 	
         oRequestHandler = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequestHandler.request()
-        if 'Video is processing now' in sHtmlContent:
-        	dialog().VSinfo("Video is processing...")
+        #VSlog(sHtmlContent)
         
         api_call = ''
-        #type1/([^"]+)/
         oParser = cParser()
 
        # (.+?) .+? ([^<]+)
-        sPattern =  '<source src="(.+?)" type' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0]
-
-            if (api_call):
-                return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
-        sPattern =  "file:'(.+?)'," 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0]
-
-            if (api_call):
-                return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
-        sPattern =  'playbackUrl": "(.+?)"' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0]
-
-            if (api_call):
-                return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
-
-       # (.+?) .+? ([^<]+)
-        sPattern =  '<small  >([^<]+)</small> <a target="_blank"  download=".+?" onclick="updateData.+?"  href="([^<]+)" > <small  >' 
+        sPattern =  '<small>([^<]+)</small> <a target="_blank" download=.+?href="([^<]+)">' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
             #initialisation des tableaux
@@ -104,12 +81,12 @@ class cHoster(iHoster):
             qua=[]
             #Replissage des tableaux
             for i in aResult[1]:
-                url.append(str(i[1]).replace("[","%5B").replace("]","%5D").replace("+","%20"))
+                url.append(str(i[1]))
                 qua.append(str(i[0]))
 
             api_call = dialog().VSselectqual(qua, url)
 
             if (api_call):
-                return True, api_call +'|User-Agent=' + UA + '&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
+                return True, api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + self.__sUrl
 
         return False, False

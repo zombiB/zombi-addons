@@ -87,6 +87,7 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         api_call = False
+        VSlog(self.__sUrl)
 
         headers = {'User-Agent': UA}
         if xbmc.getCondVisibility('system.platform.android'):

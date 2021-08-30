@@ -18,7 +18,7 @@ URL_MAIN = 'https://tuktukcinema.net'
 
 MOVIE_TOP = (URL_MAIN + '/category/movies/?key=imdb', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/movies/?key=views', 'showMovies')
-MOVIE_FAM = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/?gnr=%D8%B9%D8%A7%D8%A6%D9%84%D9%8A', 'showMovies')
+MOVIE_FAM = (URL_MAIN + '/genre/عائلي/?taxcat=الأفلام', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/channel/classical-movies/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
@@ -521,8 +521,7 @@ def showHosters():
                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if (oHoster != False):
-                    sDisplayTitle = sMovieTitle+sTitle
-                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				                     
@@ -548,8 +547,7 @@ def showHosters():
                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if (oHoster != False):
-                   sDisplayTitle = sMovieTitle+sTitle
-                   oHoster.setDisplayName(sDisplayTitle)
+                   oHoster.setDisplayName(sMovieTitle)
                    oHoster.setFileName(sMovieTitle)
                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				

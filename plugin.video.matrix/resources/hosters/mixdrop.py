@@ -3,8 +3,9 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
 from resources.lib.packer import cPacker
+UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
 
@@ -50,6 +51,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
  
         api_call = ''
+        VSlog(self.__sUrl)
         
         oParser = cParser()
 
@@ -86,6 +88,6 @@ class cHoster(iHoster):
                 api_call = 'https:' + aResult[1][0]
                 
             if (api_call):
-                return True, api_call
+                return True, api_call+ '|User-Agent=' + UA + '&Referer=' + self.__sUrl
 
         return False, False

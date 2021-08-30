@@ -182,11 +182,6 @@
 								<onclick>noop</onclick>
 							</item>
 							<item>
-								<label>[B]tagline[/B]: $INFO[Window(Home).Property(ListItem.tagline)]</label>
-								<onclick>noop</onclick>
-								<visible>!Control.HasFocus(50)</visible>
-							</item>
-							<item>
 								<label>[B]Genre[/B]: $INFO[Window(Home).Property(ListItem.Genre)]</label>
 								<onclick>noop</onclick>
 								<visible>!Control.HasFocus(50)</visible>
@@ -202,11 +197,11 @@
 								<visible>!IsEmpty(Window(Home).Property(ListItem.mpaa))+!Control.HasFocus(50)</visible>
 							</item>
 							<item>
-
-
-
-
-
+								<label>[B]Premiére[/B]: $INFO[Window(Home).Property(ListItem.premiered)]</label>
+								<onclick>noop</onclick>
+								<visible>!Control.HasFocus(50)</visible>
+							</item>
+							<item>
 								<label>[B]Intérêt[/B]: $INFO[Window(Home).Property(ListItem.rating)] / $INFO[Window(Home).Property(ListItem.votes),[B]Votes[/B]: ]</label>
 								<onclick>noop</onclick>
 								<visible>!Control.HasFocus(50)</visible>

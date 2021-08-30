@@ -4,6 +4,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.util import cUtil
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
+from resources.lib.comaddon import VSlog
 import xbmcgui, re
 
 class cHoster(iHoster):
@@ -72,6 +73,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         web_url = self.getUrl(self.__sUrl)
         

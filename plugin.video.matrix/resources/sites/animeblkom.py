@@ -78,7 +78,8 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oOutputParameterHandler.addParameter('sInfo', aEntry[3])
+            oOutputParameterHandler.addParameter('sInfo', sInfo)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             if '/watch/' in siteUrl:
                 oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
             else:
@@ -129,10 +130,11 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle',sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oOutputParameterHandler.addParameter('sInfo', sInfo)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             if '/watch/' in siteUrl:
                 oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
             else:
-                oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -145,7 +147,7 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
-def showEps():
+def showEpisodes():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -253,9 +255,7 @@ def showHosters():
         
                 if aEntry[1]:
                     url = str(aEntry[1])
-                    sTitle = str(aEntry[2]).replace('"',"")
-					
-                    sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
+                    sTitle = ''
                     if url.startswith('//'):
                        url = 'https:' + url
             
@@ -305,9 +305,7 @@ def showHosters():
         
                 if aEntry[1]:
                     url = str(aEntry[1])
-                    sTitle = str(aEntry[0]).replace('"',"")
-					
-                    sTitle = '[COLOR yellow]'+sTitle+'[/COLOR]'
+                    sTitle = ''
                     if url.startswith('//'):
                        url = 'https:' + url
             

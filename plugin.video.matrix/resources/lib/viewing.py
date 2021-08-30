@@ -55,7 +55,7 @@ class cViewing:
     def getViewing(self):
         oGui = cGui()
         DB = cDb()
-        oInputParameterHandler = cInputParameterHandler()
+        # oInputParameterHandler = cInputParameterHandler()
 
         row = DB.get_viewing()
         if not row:

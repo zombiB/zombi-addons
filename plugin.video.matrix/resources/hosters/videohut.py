@@ -3,6 +3,7 @@ from resources.lib.parser import cParser
 from resources.lib.gui.gui import cGui
 from resources.hosters.hoster import iHoster
 from resources.lib.util import Unquote, Quote
+from resources.lib.comaddon import VSlog
 import urllib
 
 class cHoster(iHoster):
@@ -82,6 +83,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         cGui().showInfo('Resolve', self.__sDisplayName, 5)
         
  

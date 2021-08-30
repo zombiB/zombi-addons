@@ -73,6 +73,7 @@ class cHoster(iHoster):
     
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+        VSlog(self.__sUrl)
         
         oParser = cParser()
         sPattern =  '<source src="([^"]+)" type=\'(.+?)\'>'

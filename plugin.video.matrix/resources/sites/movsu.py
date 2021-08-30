@@ -13,21 +13,21 @@ SITE_IDENTIFIER = 'movsu'
 SITE_NAME = 'movsfouru'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.movs4u.life/'
+URL_MAIN = 'https://movs4u.vip/'
 
-MOVIE_EN = ('https://www.movs4u.life/movie/', 'showMovies')
-KID_MOVIES = ('https://www.movs4u.life/genre/animation/', 'showMovies')
-MOVIE_HI = ('https://www.movs4u.life/genre/india-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
+MOVIE_EN = ('https://movs4u.vip/movie/', 'showMovies')
+KID_MOVIES = ('https://movs4u.vip/genre/animation/', 'showMovies')
+MOVIE_HI = ('https://movs4u.vip/genre/india-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')
 
-SERIE_EN = ('https://www.movs4u.life/tvshows/', 'showSeries')
+SERIE_EN = ('https://movs4u.vip/tvshows/', 'showSeries')
 
-MOVIE_POP = ('https://www.movs4u.life/trending/?get=movies', 'showMovies')
-MOVIE_PACK = ('https://www.movs4u.life/collection/', 'showPacks')
+MOVIE_POP = ('https://movs4u.vip/trending/?get=movies', 'showMovies')
+MOVIE_PACK = ('https://movs4u.vip/collection/', 'showPacks')
 
 
-URL_SEARCH = ('https://www.movs4u.in/movie/?search=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.movs4u.in/movie/?search=', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.movs4u.in/tvshows/?search=', 'showSeries')
+URL_SEARCH = ('https://movs4u.vip/movie/?search=', 'showMovies')
+URL_SEARCH_MOVIES = ('https://movs4u.vip/movie/?search=', 'showMovies')
+URL_SEARCH_SERIES = ('https://movs4u.vip/tvshows/?search=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -96,8 +96,8 @@ def showMovies(sSearch = ''):
              
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
-            sDesc = ""
-            sQua = aEntry[3]
+            sDesc = ''
+            sQua = ''
             sYear = aEntry[4]
             sDisplayTitle = ('%s [%s]') % (sTitle, sQua)
 
@@ -163,6 +163,7 @@ def showPacks(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sYear', sYear)
 
             oGui.addMoviePack(SITE_IDENTIFIER, 'showPack', sDisplayTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
         
@@ -467,9 +468,8 @@ def showLink():
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if (oHoster != False):
-                      sDisplayTitle = sMovieTitle+sTitle
-                      oHoster.setDisplayName(sDisplayTitle)
-                      oHoster.setFileName(sDisplayTitle)
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
 
@@ -502,9 +502,8 @@ def showLink():
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if (oHoster != False):
-                      sDisplayTitle = sMovieTitle+sTitle
-                      oHoster.setDisplayName(sDisplayTitle)
-                      oHoster.setFileName(sDisplayTitle)
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 	
      # ([^<]+) .+?
@@ -559,9 +558,8 @@ def showLink():
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if (oHoster != False):
-                        sDisplayTitle = sMovieTitle+sTitle
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sDisplayTitle)
+                        oHoster.setDisplayName(sMovieTitle)
+                        oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
 
@@ -607,9 +605,8 @@ def showHosters():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-                sDisplayTitle = sMovieTitle+sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sDisplayTitle)
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 	
@@ -640,9 +637,8 @@ def showHosters():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-               sDisplayTitle = sMovieTitle+sTitle
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sDisplayTitle)
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
      # ([^<]+) .+?
@@ -701,9 +697,8 @@ def showHosters():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-                sDisplayTitle = sMovieTitle+sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sDisplayTitle)
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 

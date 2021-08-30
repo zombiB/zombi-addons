@@ -29,8 +29,8 @@ class UpNext:
         # tester s'il s'agit d'une série 
         tvShowTitle = guiElement.getItemValue('tvshowtitle')
         if not tvShowTitle:
-            return     
 
+            return      
         oInputParameterHandler = cInputParameterHandler()
         
         # La source

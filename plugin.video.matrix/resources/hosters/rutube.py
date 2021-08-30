@@ -5,6 +5,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.gui.gui import cGui
 from resources.lib.comaddon import dialog
+from resources.lib.comaddon import VSlog
 
 import urllib
 
@@ -80,6 +81,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         stream_url = False
 
         oParser = cParser()

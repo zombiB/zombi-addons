@@ -1219,6 +1219,17 @@ msgctxt "#34110"
 msgid "Database to delete"
 msgstr "Base de données à supprimer"
 
+msgctxt "#31200"
+msgid "Choose the number of items to display"
+msgstr "Choisir le nombre d'elements a afficher"
+
+msgctxt "#31201"
+msgid "View: Seasons (recommended 50-51-500-501-508)"
+msgstr "Vue: Saisons (recommandé 50-51-500-501-508)"
+
+msgctxt "#31202"
+msgid "View: Episodes (recommended 50-51-500-501-508)"
+msgstr "Vue: Episodes (recommandé 50-51-500-501-508)"
 msgctxt "#30501"
 msgid "Classic"
 msgstr "Classique"

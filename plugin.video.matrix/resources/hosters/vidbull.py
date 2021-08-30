@@ -6,6 +6,7 @@ from resources.lib.parser import cParser
 from resources.lib.gui.gui import cGui
 from resources.lib.util import cUtil
 from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import VSlog
 
 from resources.lib.packer import cPacker
 import re,xbmc
@@ -67,6 +68,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         
         url_stream = ''
 

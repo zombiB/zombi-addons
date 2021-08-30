@@ -30,6 +30,8 @@ class cPlayer(xbmc.Player):
 
         self.sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
         self.sTitle = oInputParameterHandler.getValue('sFileName')
+        if self.sTitle:
+            self.sTitle = Unquote(self.sTitle)
         self.sCat  = oInputParameterHandler.getValue('sCat')
         self.sSaison = oInputParameterHandler.getValue('sSeason')
         
@@ -256,6 +258,7 @@ class cPlayer(xbmc.Player):
                         meta['title'] = sTitleWatched
                         meta['site'] = self.sSite
                         meta['point'] = self.currentTime
+                        meta['total'] = self.totalTime
                         matchedrow = db.insert_resume(meta)
 
                         

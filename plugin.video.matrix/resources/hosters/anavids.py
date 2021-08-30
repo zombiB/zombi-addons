@@ -5,6 +5,7 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
+from resources.lib.comaddon import VSlog
 import re,xbmcgui
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
@@ -66,6 +67,7 @@ class cHoster(iHoster):
         
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+        VSlog(self.__sUrl)
         
         #fh = open('c:\\test.txt', "w")
         #fh.write(sHtmlContent)

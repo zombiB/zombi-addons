@@ -5,6 +5,7 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
 
+import re
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
@@ -51,17 +52,21 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         
-        sPattern1 = "innerHTML = ([^;]+)"
+        src = re.search(r'''ById\('vi.+?=\s*(["'][^;<]+)''', sHtmlContent)
+        VSlog(self.__sUrl)
         
-        aResult = oParser.parse(sHtmlContent, sPattern1)
-
-        if (aResult[0] == True):
-            url = aResult[1][0]
-            url = url.replace(' ','').replace('"','').replace("'","").replace("+","")
-            VSlog(url)
-            api_call = 'https:' + url + "&stream=1"
+        if src:
+            src_url = ''
+            parts = src.group(1).split('+')
+            for part in parts:
+                p1 = re.findall(r'''['"]([^'"]*)''', part)[0]
+                p2 = int(part.split(".substring(")[-1][:-1]) if 'substring' in part else 0
+                src_url += p1[p2:]
+            src_url += '&stream=1'
+            src_url = 'https:' + src_url if src_url.startswith('//') else src_url
+            api_call = src_url
 
         if (api_call):
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+            return True, src_url + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
 
         return False, False

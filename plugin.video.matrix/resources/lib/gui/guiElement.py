@@ -4,14 +4,14 @@
 import re
 import unicodedata
 
-from resources.lib.comaddon import addon, xbmc, isMatrix, VSlog
+from resources.lib.comaddon import addon, xbmc, isMatrix, VSlog, isNexus
 from resources.lib.db import cDb
 from resources.lib.util import cUtil, QuoteSafe
 # rouge E26543
 # jaune F7D571
 # bleu clair 87CEEC  ou skyblue / hoster
 # vert 37BCB5
-# bleu foncer 08435A / non utiliser
+# bleu foncé 08435A / non utilisé
 
 
 class cGuiElement:
@@ -22,18 +22,15 @@ class cGuiElement:
 
     def __init__(self):
 
-        addons = addon()
+        self.addons = addon()
         
         # self.__sRootArt = cConfig().getRootArt()
         self.__sFunctionName = ''
         self.__sRootArt = 'special://home/addons/plugin.video.matrix/resources/art/'
         self.__sType = 'video'
         self.__sMeta = 0
-		
         self.__sTrailer = ''
-        self.__sMetaAddon = addons.getSetting('meta-view')
-
-		
+        self.__sMetaAddon = self.addons.getSetting('meta-view')
         self.__sMediaUrl = ''
         self.__sSiteUrl = ''
         # contient le titre qui sera coloré
@@ -55,8 +52,10 @@ class cGuiElement:
         self.__Episode = ''
         self.__sIcon = self.DEFAULT_FOLDER_ICON
         self.__sFanart = ''
-        self.__sDecoColor = addons.getSetting('deco_color')
+        self.__sDecoColor = self.addons.getSetting('deco_color')
 
+        self.poster = 'https://image.tmdb.org/t/p/%s' % self.addons.getSetting('poster_tmdb')
+        self.fanart = 'https://image.tmdb.org/t/p/%s' % self.addons.getSetting('backdrop_tmdb')
         # For meta search
         # TmdbId the movie database https://developers.themoviedb.org/
         self.__TmdbId = ''
@@ -189,7 +188,8 @@ class cGuiElement:
         # Format Obligatoire a traiter via le fichier source
         # -------------------------------------------------
         # Episode 7 a 9 > Episode 7-9
-        # Season 1 à ? > Season 1-?
+			
+        # Saison 1 à ? > Saison 1-?
         # Format de date > 11/22/3333 ou 11-22-3333
 
         # convertion unicode ne fonctionne pas avec les accents
@@ -229,7 +229,7 @@ class cGuiElement:
         #~ for cle in index:
             #~ sTitle = sTitle.replace(cle, index[cle]).replace('[%s]' % (cle), index[cle])
 
-        # Recherche season et episode a faire pr serie uniquement
+        # Recherche saison et episode a faire pr serie uniquement
         if True:
             m = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))', sTitle, re.UNICODE)
             if m:
@@ -241,7 +241,8 @@ class cGuiElement:
                 self.__Episode = ep
                 self.addItemValues('Episode', self.__Episode)
 
-                # pour les seasons
+
+                # pour les saisons
                 m = re.search('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))', sTitle, re.UNICODE)
                 if m:
                     sTitle = sTitle.replace(m.group(1), '')
@@ -252,7 +253,7 @@ class cGuiElement:
                     self.addItemValues('Season', self.__Season)
 
             else:
-                # pas d'episode mais y a t il des seasons ?
+                # pas d'episode mais y a t il des saisons ?
                 m = re.search('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))', sTitle, re.UNICODE)
                 if m:
                     sTitle = sTitle.replace(m.group(1), '')
@@ -283,7 +284,6 @@ class cGuiElement:
         if self.__Episode:
             sTitle2 = sTitle2 + 'E' + self.__Episode
 
-        # Titre unique pour pour marquer VU (avec numéro de l'épisode pour les séries)
         arabBuck = {"'":"ء", "|":"آ", "?":"أ", "&":"ؤ", "<":"إ", "}":"ئ", "A":"ا", "b":"ب", "p":"ة", "t":"ت", "v":"ث", "g":"ج", "H":"ح", "x":"خ", "d":"د", "*":"ذ", "r":"ر", "z":"ز", "s":"س", "$":"ش", "S":"ص", "D":"ض", "T":"ط", "Z":"ظ", "E":"ع", "G":"غ", "_":"ـ", "f":"ف", "q":"ق", "k":"ك", "l":"ل", "m":"م", "n":"ن", "h":"ه", "w":"و", "Y":"ى", "y":"ي", "F":"ً", "N":"ٌ", "K":"ٍ", "~":"ّ", "o":"ْ", "u":"ُ", "a":"َ", "i":"ِ"}
         sTitle4 = sTitle
         if not isMatrix():
@@ -298,6 +298,7 @@ class cGuiElement:
                sTitle4 = sTitle.translate(ordbuckArab)
 
 
+        # Titre unique pour pour marquer VU (avec numéro de l'épisode pour les séries)
         self.__sTitleWatched = cUtil().titleWatched(sTitle4).replace(' ', '')
         if sTitle2:
             self.addItemValues('tvshowtitle', cUtil().getSerieTitre(sTitle))
@@ -514,8 +515,10 @@ class cGuiElement:
             sTitle = sTitle.strip()
             if sTitle.endswith(' les'):
                 sTitle = sTitle[:-4]
-            if sTitle.endswith(' la') or sTitle.endswith(' l') :
+            elif sTitle.endswith(' la') :
                 sTitle = sTitle[:-3]
+            elif sTitle.endswith(' l') :
+                sTitle = sTitle[:-2]
             sTitle = sTitle.strip()
 
         # tvshow
@@ -527,28 +530,34 @@ class cGuiElement:
         sType = str(metaType).replace('1', 'movie').replace('2', 'tvshow').replace('3', 'collection').replace('4', 'anime').replace('5', 'season').replace('6', 'episode').replace('7', 'person').replace('8', 'network')
 
         meta = {}
-        if sType:
-            args = (sType, sTitle)
-            kwargs = {}
-            if (self.__ImdbId):
-                kwargs['imdb_id'] = self.__ImdbId
-            if (self.__TmdbId):
-                kwargs['tmdb_id'] = self.__TmdbId
-            if (self.__Year):
-                kwargs['year'] = self.__Year
-            if (self.__Season):
-                kwargs['season'] = self.__Season
-            if (self.__Episode):
-                kwargs['episode'] = self.__Episode
-            try:
-                meta = TMDb.get_meta(*args, **kwargs)
-            except:
-                pass
+        try:
+            if sType:
+                args = (sType, sTitle)
+                kwargs = {}
+                if (self.__ImdbId):
+                    kwargs['imdb_id'] = self.__ImdbId
+                if (self.__TmdbId):
+                    kwargs['tmdb_id'] = self.__TmdbId
+                if (self.__Year):
+                    kwargs['year'] = self.__Year
+                if (self.__Season):
+                    kwargs['season'] = self.__Season
+                if (self.__Episode):
+                    kwargs['episode'] = self.__Episode
 
-        else:
+                meta = TMDb.get_meta(*args, **kwargs)
+                if not meta:
+                    return
+            else:
+                return
+        except:
             return
 
-        meta['title'] = self.getTitle()
+        if str(metaType) != "6":
+            meta['title'] = self.getTitle()
+				
+        else:
+            meta['title'] = meta['tagline']
 
         if 'media_type' in meta:
             meta.pop('media_type')
@@ -568,56 +577,43 @@ class cGuiElement:
 #             self.__TvdbId = meta['tvdb_id']
             meta.pop('tvdb_id')
 
-        # Si fanart trouvé dans les meta alors on l'utilise, sinon on n'en met pas
-        if 'backdrop_url' in meta:
-            url = meta.pop('backdrop_url')
+        if 'backdrop_path' in meta:
+            url = meta.pop('backdrop_path')
             if url:
                 self.addItemProperties('fanart_image', url)
                 self.__sFanart = url
             else:
                 self.addItemProperties('fanart_image', '')
 
-        if 'backdrop_path' in meta:
-            meta.pop('backdrop_path')
-
         if 'poster_path' in meta:
-            meta.pop('poster_path')
-
-        if 'cover_url' in meta:
-            cover = meta.pop('cover_url')
-            if cover:
-                self.__sThumbnail = cover
-                self.__sPoster = cover
-
+            url = meta.pop('poster_path')
+            if url:
+                self.__sThumbnail = url
+                self.__sPoster = url
+				
         if 'trailer' in meta and meta['trailer']:
             self.__sTrailer = meta['trailer']
-				
-        if 's_overview' in meta:
-            meta.pop('s_overview')
-
-        if 's_poster_path' in meta:
-            meta.pop('s_poster_path')
-
-        if 's_premiered' in meta:
-            meta.pop('s_premiered')
-
-        if 's_year' in meta:
-            meta.pop('s_year')
-            
-        if 'still_path' in meta:
-            meta.pop('still_path')
-
-        if 'seasons' in meta:
-            meta.pop('seasons')
         
         if 'guest_stars' in meta:
             meta.pop('guest_stars')
         
         if 'nbseasons' in meta:
-            nbSeasons = meta.pop('nbseasons')
-            if nbSeasons>0:
-                self.addItemProperties('TotalSeasons', nbSeasons)
+            meta['season'] = meta.pop('nbseasons')
 
+        # Retrait des tags intermédiaires
+        if 'vote' in meta:
+            meta.pop('vote')
+        if 'runtime' in meta:
+            meta.pop('runtime')
+        if 'crew' in meta:
+            meta.pop('crew')
+        if 'overview' in meta:
+            meta.pop('overview')
+        if 'vote_average' in meta:
+            meta.pop('vote_average')
+        if 'vote_count' in meta:
+            meta.pop('vote_count')
+				
         for key, value in meta.items():
             self.addItemValues(key, value)
 
@@ -711,8 +707,13 @@ class cGuiElement:
         self.addItemProperties('sFav', self.getFunction())
         self.addItemProperties('sMeta', str(self.getMeta()))
 
-        self.addItemProperties('resumetime', self.getResumeTime())
-        self.addItemProperties('totaltime', self.getTotalTime())
+        if isNexus():
+            self.addItemValues('resumetime', self.getResumeTime())
+            self.addItemValues('totaltime', self.getTotalTime())
+        else:
+            self.addItemProperties('resumetime', self.getResumeTime())
+            self.addItemProperties('totaltime', self.getTotalTime())
+			
         if sCat:
             self.addItemProperties('sCat', sCat)
             mediatypes = {'1': 'movie', '2': 'tvshow', '3': 'tvshow', '4': 'season', '5': 'video', '6': 'video', '7': 'season', '8': 'episode'}
@@ -738,17 +739,3 @@ class cGuiElement:
 
     def getContextItems(self):
         return self.__aContextElements
-    
-    # Des vidéos pour remplacer des bandes annnonces manquantes
-    def getDefaultTrailer(self):
-        import random
-        from resources.lib.tmdb import cTMDb
-        trailers = ['WWkYjM3ZXxU',
-                    'LpvKI7I5rF4',
-                    'svTVRDgI08Y',
-                    'DUpVqwceQaA',
-                    'mnsMnskJ3cQ',
-                    'M0_vxs6FPbQ']
-
-        trailer_id = random.choice(trailers)
-        return cTMDb.URL_TRAILER % trailer_id

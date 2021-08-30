@@ -1,6 +1,8 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
+
 import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -8,27 +10,30 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, isMatrix
-
 	 
 SITE_IDENTIFIER = 'aflamfree'
 SITE_NAME = 'aflamfree'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.aflamfree.top/'
+
 MOVIE_MOVIE = (True, 'showMenuMovies')
+
+MOVIE_PACK = (URL_MAIN + '%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_GENRES = (True, 'showGenres')
 MOVIE_ANNEES = (True, 'showYears')
-MOVIE_PACK = (URL_MAIN + '%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
+
 URL_SEARCH = (URL_MAIN + '?s=', 'showMoviesearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMoviesearch')
 URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
-	 
+
+
 def load():
 	oGui = cGui()
 
 	oOutputParameterHandler = cOutputParameterHandler()
-	oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+	oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
 	oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', 'search.png', oOutputParameterHandler)
 					
 	oGui.setEndOfDirectory()
@@ -107,7 +112,7 @@ def showMoviesearch(sSearch = ''):
     if isMatrix():
        sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  
-    #([^<]+) .+? 
+    # ([^<]+) .+? 
 
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span><span class="imdb"><b><b class="icon-star"></b></b>([^<]+)</span>'
 
@@ -139,6 +144,7 @@ def showMoviesearch(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sYear', sYear)
 
             oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
@@ -255,13 +261,15 @@ def showLive():
             if m:
                   sYear = str(m.group(0))
                   sTitle = sTitle.replace(sYear,'')
-            sInfo = ''
+            sDesc = ''
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)        
 
     #(.+?)([^<]+).+?<li>
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span></div>'
@@ -307,6 +315,8 @@ def showLive2():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sDesc = oInputParameterHandler.getValue('sDesc')
+    sYear = oInputParameterHandler.getValue('sYear')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -340,7 +350,7 @@ def showLive2():
  
             sTitle = aEntry[0] 
             siteUrl = aEntry[1].replace("r.php?url","r2.php?url") 
-            sInfo = ""
+            sInfo = sDesc
     
             oRequestHandler = cRequestHandler(siteUrl)
             sHtmlContent = oRequestHandler.request();

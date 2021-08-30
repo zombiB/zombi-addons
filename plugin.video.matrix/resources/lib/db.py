@@ -108,7 +108,6 @@ class cDb:
         sql_create = "CREATE TABLE IF NOT EXISTS watched ("\
                         "addon_id integer PRIMARY KEY AUTOINCREMENT, "\
                         "title TEXT, "\
-                        "site TEXT, "\
                         "cat TEXT, "\
                         "UNIQUE(title)"\
                         ");"
@@ -354,7 +353,7 @@ class cDb:
             if not matchedrow:
 
                 return False, False
-            return float(matchedrow[0])
+            return float(matchedrow[0]), float(matchedrow[1])
         
         except Exception as e:
             if 'no such column' in str(e) or 'no column named' in str(e) :
@@ -473,6 +472,11 @@ class cDb:
 
     def insert_viewing(self, meta):
 
+        if not 'title' in meta:
+            return
+        if not 'siteurl' in meta:
+            return
+				
         title = self.str_conv(meta['title'])
         titleWatched = self.str_conv(meta['titleWatched'])
         siteurl = QuotePlus(meta['siteurl'])

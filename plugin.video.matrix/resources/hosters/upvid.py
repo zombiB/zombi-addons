@@ -6,6 +6,7 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.aadecode import AADecoder
 from resources.lib.comaddon import isMatrix
+from resources.lib.comaddon import VSlog
 import base64,re
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0'
 sPattern1 = '<iframe id="iframe" src="([^"]+)"'
@@ -85,6 +86,7 @@ class cHoster(iHoster):
         
     
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         api_call = ''
         oParser = cParser()
 

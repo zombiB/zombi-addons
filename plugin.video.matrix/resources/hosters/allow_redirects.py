@@ -2,6 +2,7 @@
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.hosters.hoster import iHoster
 from resources.lib.handler.requestHandler import cRequestHandler
+from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
 
@@ -54,6 +55,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         url = self.__sUrl
+        VSlog(self.__sUrl)
 
         oRequestHandler = cRequestHandler(url)
         sHtmlContent = oRequestHandler.request()

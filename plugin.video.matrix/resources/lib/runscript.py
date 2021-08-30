@@ -236,17 +236,6 @@ class cClear:
                     self.DIALOG.VSerror(self.ADDON.VSlang(30096))
             return
 
-        elif (env == 'sett'):
-            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
-                file = "special://home/userdata/addon_data/plugin.video.matrix/settings.xml"
-                try:
-                    xbmcvfs.rmdir(file, True)
-                    self.DIALOG.VSok(self.ADDON.VSlang(30195))
-                except:
-                    self.DIALOG.VSerror(self.ADDON.VSlang(30196))
-            return
-
-
         elif (env == 'uplog'):
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
                 path = "special://logpath/kodi.log"
@@ -426,7 +415,7 @@ class cClear:
         return
     # def ClearDir(self, dir, clearNested=False):
     #     try:
-    #         dir = dir
+    #         dir = dir.decode("utf8")
     #     except:
     #         pass
     #     for the_file in os.listdir(dir):
@@ -443,7 +432,7 @@ class cClear:
 
     # def ClearDir2(self, dir, clearNested=False):
     #     try:
-    #         dir = dir
+    #         dir = dir.decode("utf8")
     #     except:
     #         pass
     #     try:os.unlink(dir)

@@ -60,8 +60,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         api_call =''
-        
-        #print (self.__sUrl)
+        VSlog(self.__sUrl)
         
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()

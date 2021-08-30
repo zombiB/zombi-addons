@@ -380,9 +380,9 @@ class cTrakt:
 
             for i in sHtmlContent:
                 # Limite les elements du calendrier
-                if not 'X-Pagination-Page-Count' in sHeaders:
-                       progress_.VSupdate(progress_, total)
-
+                if 'X-Pagination-Page-Count' not in sHeaders:
+                    if progress_.getProgress() >= int(MAXRESULT):
+                        break
                 progress_.VSupdate(progress_, total)
                 if progress_.iscanceled():
                     break
@@ -522,7 +522,7 @@ class cTrakt:
                         show = i['show']
                         sTitle = self.getLocalizedTitle(show, 'shows')
                         sTrakt, sImdb, sTmdb, sYear, sFirst_aired = show['ids']['trakt'], show['ids']['imdb'], show['ids']['tmdb'], show['year'], i['first_aired']
-                        sSeason, sEpisode = i['episode']['season'], i['episode']['number']
+                        sSaison, sEpisode = i['episode']['season'], i['episode']['number']
                         cTrakt.CONTENT = '2'
                     else:
                         movie = i['movie']
@@ -539,7 +539,7 @@ class cTrakt:
                         sTitle = self.decode(sTitle)
                         searchtext = ('%s') % (sTitle)
                         sFile = ('%s - (%s)') % (sTitle, sYear)
-                        sTitle = ('%s (S%02dE%02d)') % (self.decode(sTitle,  Unicode=True), sSeason, sEpisode)
+                        sTitle = ('%s (S%02dE%02d)') % (self.decode(sTitle,  Unicode=True), sSaison, sEpisode)
 
                     sFunction = 'showSearch'
                     sId = 'globalSearch'
@@ -867,8 +867,13 @@ class cTrakt:
         sSeason = oInputParameterHandler.getValue('sSeason')
         sEpisode = oInputParameterHandler.getValue('sEpisode')
 
-        sType = sType.replace('1', 'movies').replace('2', 'shows').replace('3', 'shows').replace('4', 'shows').replace('6', 'shows')
 
+        # Film, serie, anime, saison, episode
+        if sType not in ('1', '2', '3', '4', '8'):
+            return
+        
+        sType = sType.replace('1', 'movies').replace('2', 'shows').replace('3', 'shows').replace('4', 'shows').replace('8', 'shows')
+		
         # Mettre en vu automatiquement.
         if Action == "SetWatched":
             sTitle = oInputParameterHandler.getValue('sFileName')
@@ -1033,10 +1038,10 @@ class cTrakt:
         from resources.lib.tmdb import cTMDb
         grab = cTMDb()
 
-        if sType == 'show' or sType == 'shows':
+        if sType == 'shows':
             sType = 'tv'
 
-        if sType == 'movies':
+        elif sType == 'movies':
             sType = 'movie'
 
         meta = 0

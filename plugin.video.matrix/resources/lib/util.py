@@ -232,7 +232,7 @@ class cUtil:
 
     def getSerieTitre(self, sTitle):
         serieTitle = re.sub(r'\[.*\]|\(.*\)', r'', sTitle)
-
+		
         if '|' in serieTitle:
             serieTitle = serieTitle[:serieTitle.index('|')]
 

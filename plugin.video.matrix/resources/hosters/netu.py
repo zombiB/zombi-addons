@@ -4,6 +4,7 @@
 from resources.hosters.hoster import iHoster
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.comaddon import VSlog
 import re
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:72.0) Gecko/20100101 Firefox/72.0'
@@ -61,6 +62,7 @@ class cHoster(iHoster):
         return ''
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         api_call = ''
 

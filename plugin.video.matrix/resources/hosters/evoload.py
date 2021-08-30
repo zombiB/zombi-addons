@@ -49,6 +49,7 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         api_call = ''
+        VSlog(self.__sUrl)
         sUrlSecurePlayer = "https://evoload.io/SecurePlayer"
 
         code = self.__sUrl.split('/')[-1]

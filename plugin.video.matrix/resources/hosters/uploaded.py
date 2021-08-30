@@ -4,6 +4,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
+from resources.lib.comaddon import VSlog
 
 from resources.lib.handler.premiumHandler import cPremiumHandler
 
@@ -70,6 +71,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkByPremiumUser()
 
     def __getMediaLinkByPremiumUser(self):
+        VSlog(self.__sUrl)
         api_call = False
 
         if not self.oPremiumHandler.Authentificate():

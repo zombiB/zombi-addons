@@ -296,6 +296,7 @@ def showSeasons():
             sTitle =  str(sMovieTitle)+"S" + aEntry[0]
             siteUrl = str(aEntry[1])+'/list/'
             sThumbnail = aEntry[2]
+            sInfo = ''
 			
 
 
@@ -303,7 +304,7 @@ def showSeasons():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
 

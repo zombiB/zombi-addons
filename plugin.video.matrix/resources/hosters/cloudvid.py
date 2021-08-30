@@ -7,7 +7,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog,VSlog
 
 
 class cHoster(iHoster):
@@ -67,6 +67,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self, api_call=None):
 
         sUrl = self.__sUrl
+        VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(sUrl)
         sHtmlContent = oRequest.request()

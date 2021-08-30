@@ -115,7 +115,7 @@ def showHosters():
     oParser = cParser()
     
  
-    sPattern = ",src:{hls:'([^<]+)'}" 
+    sPattern = ",src:{hls:'(.+?)'}" 
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if (aResult[0] == True):
         total = len(aResult[1])

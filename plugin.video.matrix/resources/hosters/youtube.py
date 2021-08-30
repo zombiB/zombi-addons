@@ -15,6 +15,7 @@ from resources.lib.config import GestionCookie
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.util import Unquote, Quote
+from resources.lib.comaddon import VSlog
 
 
 class cHoster(iHoster):
@@ -81,6 +82,7 @@ class cHoster(iHoster):
             return escaped.decode('string_escape')
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
         api_call = ''
         UA = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
 
@@ -115,6 +117,7 @@ class cHoster(iHoster):
             return False
 
     def __getMediaLinkForGuest2(self):
+        VSlog(self.__sUrl)
         api_call = ''
 
         oRequest = cRequestHandler('https://ytoffline.net/fr1')

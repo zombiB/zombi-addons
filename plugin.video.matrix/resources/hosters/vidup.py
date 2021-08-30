@@ -17,6 +17,7 @@ import json
 import ssl
 
 from resources.lib.parser import cParser
+from resources.lib.comaddon import VSlog
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
 
@@ -72,6 +73,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         api_call = False
 

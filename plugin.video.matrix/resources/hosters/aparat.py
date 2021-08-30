@@ -6,6 +6,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
+from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
 
@@ -48,6 +49,7 @@ class cHoster(iHoster):
         url = self.__sUrl
         VideoType = 2 # dl mp4 lien existant non utilisé ici
         VideoType = 1 # m3u8
+        VSlog(self.__sUrl)
 
         list_q = []
         list_url = []

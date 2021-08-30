@@ -62,6 +62,7 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         id = self.__getIdFromUrl(self.__sUrl)
         

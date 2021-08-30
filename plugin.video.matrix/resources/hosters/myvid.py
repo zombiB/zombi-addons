@@ -3,6 +3,7 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
+from resources.lib.comaddon import VSlog
 import re
 
 class cHoster(iHoster):
@@ -47,7 +48,6 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        self.__sUrl = str(sUrl).replace("embed-","")
 
     def checkUrl(self, sUrl):
         return True
@@ -60,6 +60,7 @@ class cHoster(iHoster):
 
 
     def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()

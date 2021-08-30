@@ -1,6 +1,7 @@
 ﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import VSlog
 import re,xbmc
 import requests
 
@@ -36,7 +37,7 @@ class cHoster(iHoster):
         return ''
         
     def __getIdFromUrl(self, sUrl):
-        sPattern = "https://youdbox.net/([^<]+)/"
+        sPattern = "https://youdbox.net/(.+?)/"
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
         if (aResult[0] == True):
@@ -47,9 +48,6 @@ class cHoster(iHoster):
         self.__sUrl = str(sUrl)
         if 'embed' in sUrl:
             self.__sUrl = self.__sUrl.replace("embed-","")
-        if 'embed' not in sUrl:
-        	sId = self.__getIdFromUrl(self.__sUrl)
-        	self.__sUrl = 'https://youdbox.net/'+sId+'.html'
 
     def checkUrl(self, sUrl):
         return True
@@ -64,6 +62,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         api_call = ''
+        VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()

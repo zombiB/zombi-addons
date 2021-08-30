@@ -4,6 +4,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
+from resources.lib.comaddon import VSlog
 import re
 import requests
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
@@ -63,6 +64,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
 
         api_call = ''
+        VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
