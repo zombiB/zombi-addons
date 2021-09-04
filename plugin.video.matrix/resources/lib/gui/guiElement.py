@@ -198,7 +198,7 @@ class cGuiElement:
             # traitement du titre pour les caracteres spéciaux déplacé dans parser plus global
             # traitement du titre pour retirer le - quand c'est une Season. Tiret, tiret moyen et cadratin
             sTitle = sTitle.replace(' - Saison', ' Season').replace(' – Season', ' Season').replace(' — Season', ' Season')
-            sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("S ","S").replace("Season ","S").replace("S ","S").replace("E ","E")
+            sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("S ","S").replace("Season ","S").replace("S ","S").replace("E ","E")
 
             if not isMatrix():
                 sTitle = sTitle.decode('utf-8')
@@ -456,27 +456,31 @@ class cGuiElement:
             'tagline': xbmc.getInfoLabel('ListItem.tagline'),
             'plotoutline': xbmc.getInfoLabel('ListItem.plotoutline'),
             'plot': xbmc.getInfoLabel('ListItem.plot'),
-            'album': xbmc.getInfoLabel('ListItem.Art(thumb)'),
-            'backdrop_url': xbmc.getInfoLabel('ListItem.Art(fanart)'),
+            'poster_path': xbmc.getInfoLabel('ListItem.Art(thumb)'),
+            'backdrop_path': xbmc.getInfoLabel('ListItem.Art(fanart)'),
             'imdbnumber': xbmc.getInfoLabel('ListItem.IMDBNumber'),
             'season': xbmc.getInfoLabel('ListItem.season'),
-            'episode': xbmc.getInfoLabel('ListItem.episode')
+            'episode': xbmc.getInfoLabel('ListItem.episode'),
+            'tvshowtitle': xbmc.getInfoLabel('ListItem.tvshowtitle')
             }
 
         if 'title' in meta and meta['title']:
             meta['title'] = self.getTitle()
+        if 'backdrop_path' in meta and meta['backdrop_path']:
+            url = meta.pop('backdrop_path')
+            self.addItemProperties('fanart_image', url)
+            self.__sFanart = url
+			
+        if 'trailer' in meta and meta['trailer']:
+            self.__sTrailer = meta['trailer']
+
+        if 'poster_path' in meta and meta['poster_path']:
+            url = meta.pop('poster_path')
+            self.__sThumbnail = url
+            self.__sPoster = url
 
         for key, value in meta.items():
             self.addItemValues(key, value)
-
-        if 'backdrop_url' in meta and meta['backdrop_url']:
-            self.addItemProperties('fanart_image', meta['backdrop_url'])
-            self.__sFanart = meta['backdrop_url']
-        if 'trailer' in meta and meta['trailer']:
-            self.__sTrailer = meta['trailer']
-        if 'album' in meta and meta['album']:
-            self.__sThumbnail = meta['album']
-            self.__sPoster = meta['album']
 
         return
 
@@ -552,12 +556,6 @@ class cGuiElement:
                 return
         except:
             return
-
-        if str(metaType) != "6":
-            meta['title'] = self.getTitle()
-				
-        else:
-            meta['title'] = meta['tagline']
 
         if 'media_type' in meta:
             meta.pop('media_type')
@@ -685,8 +683,8 @@ class cGuiElement:
             self.addItemValues('genre', self.getGenre())
         # if not self.getItemValue('cover_url') and self.getThumbnail():
             # self.addItemValues('cover_url', self.getThumbnail())
-        # if not self.getItemValue('backdrop_url') and self.getPoster():
-            # self.addItemValues('backdrop_url', self.getPoster())
+        # if not self.getItemValue('backdrop_path') and self.getPoster():
+            # self.addItemValues('backdrop_path', self.getPoster())
         if not self.getItemValue('trailer'):
             if self.getTrailer():
                 self.addItemValues('trailer', self.getTrailer())

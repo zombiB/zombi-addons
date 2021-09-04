@@ -53,8 +53,6 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  #.+?([^<]+)
 
     sPattern = '<h2 class="post-box-title"><a href="([^<]+)">([^<]+)</a></h2>.+?<img width=".+?" height=".+?" src="([^<]+)" class='
@@ -66,6 +64,7 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -77,7 +76,6 @@ def showMovies(sSearch = ''):
             sInfo = str(aEntry[1])
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -105,8 +103,6 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  #.+?([^<]+)
 
     sPattern = '<h2 class="post-box-title"><a href="([^<]+)">([^<]+)</a></h2>.+?<img width=".+?" height=".+?" src="([^<]+)" class='
@@ -118,6 +114,7 @@ def showSeries(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -129,7 +126,6 @@ def showSeries(sSearch = ''):
             sInfo = str(aEntry[1])
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -176,12 +172,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry[0])
             Squality = str(aEntry[1])
@@ -203,12 +194,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry)
             sTitle = '' 
@@ -230,12 +216,7 @@ def showHosters():
         
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                   break
             
                 sHosterUrl = str(aEntry)
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -244,6 +225,5 @@ def showHosters():
                    oHoster.setFileName(sMovieTitle)
                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)         
     
-        progress_.VSclose(progress_)
 
     oGui.setEndOfDirectory()             

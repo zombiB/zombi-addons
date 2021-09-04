@@ -62,6 +62,7 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -73,7 +74,6 @@ def showMovies(sSearch = ''):
             sInfo = aEntry[2]
 			
 			
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -106,12 +106,7 @@ def showLive():
     #print aResult
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[1]
             siteUrl = aEntry[0]
@@ -123,12 +118,7 @@ def showLive():
             sPattern = 'source: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if (aResult[0] == True):
-               total = len(aResult[1])
-               progress_ = progress().VScreate(SITE_NAME)
                for aEntry in aResult[1]:
-                   progress_.VSupdate(progress_, total)
-                   if progress_.iscanceled():
-                       break
             
                    url = aEntry
                    sHosterUrl = url
@@ -144,12 +134,7 @@ def showLive():
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if (aResult[0] == True):
-               total = len(aResult[1])
-               progress_ = progress().VScreate(SITE_NAME)
                for aEntry in aResult[1]:
-                   progress_.VSupdate(progress_, total)
-                   if progress_.iscanceled():
-                       break
             
                    url = aEntry
                    sHosterUrl = url
@@ -162,8 +147,7 @@ def showLive():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)     
            
- 
-        progress_.VSclose(progress_)
+
              
     oGui.setEndOfDirectory() 
 	
@@ -181,12 +165,7 @@ def showHosters():
     sPattern = 'source: "(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
             url = aEntry
             sHosterUrl = url
@@ -199,6 +178,5 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        progress_.VSclose(progress_)
                 
     oGui.setEndOfDirectory()

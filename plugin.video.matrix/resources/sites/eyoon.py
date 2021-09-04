@@ -60,6 +60,7 @@ def showSeries(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -70,8 +71,6 @@ def showSeries(sSearch = ''):
             sThumbnail = ""
             sInfo = ""
 
-
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -99,8 +98,6 @@ def showSeasons():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # .+? (.+?) ([^<]+)
     sPattern = '<a aria-label="([^<]+)" href="([^<]+)" class="post-thumb"><img width=".+?" height=".+?" src="([^<]+)" class='
     
@@ -109,19 +106,14 @@ def showSeasons():
     
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[0].replace("اون لاين + تحميل","").replace("-","").replace(" الاخيرة","").replace("الحلقة رقم "," E").replace("الحلقة "," E")
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[2])
             sInfo = ""
  
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -129,7 +121,6 @@ def showSeasons():
 
             oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
-        progress_.VSclose(progress_)
 		
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
@@ -164,8 +155,6 @@ def showServer():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
 
    
     oParser = cParser()
@@ -198,12 +187,7 @@ def showServer():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = "//ok.ru/videoembed/"+str(aEntry)
             sTitle = " "
@@ -224,12 +208,7 @@ def showServer():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry)
             url = url.replace('https://docs.google.com','https://drive.google.com')
@@ -246,7 +225,6 @@ def showServer():
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-        progress_.VSclose(progress_) 
        
     oGui.setEndOfDirectory()
  
@@ -267,12 +245,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry)
             sTitle = "link : " 
@@ -296,12 +269,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry)
             sTitle = "link : " 
@@ -318,6 +286,5 @@ def showHosters():
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()

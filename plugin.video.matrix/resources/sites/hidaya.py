@@ -60,12 +60,7 @@ def showMovies(sSearch = ''):
         aResult = oParser.parse(sHtmlContent, sPattern)
 	
         if (aResult[0] == True):
-           total = len(aResult[1])
-           progress_ = progress().VScreate(SITE_NAME)
            for aEntry in aResult[1]:
-               progress_.VSupdate(progress_, total)
-               if progress_.iscanceled():
-                  break
         
                url = "https://www.youtube.com/watch?v="+aEntry[1]
                sTitle = str(aEntry[0])+'[COLOR yellow]'+str(aEntry[2])+'[/COLOR]'
@@ -85,7 +80,6 @@ def showMovies(sSearch = ''):
                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
@@ -133,12 +127,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
         
             url = str(aEntry[0])
             sTitle = str(aEntry[1]).replace('"',"")
@@ -155,7 +144,5 @@ def showHosters():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-
-        progress_.VSclose(progress_)
                 
     oGui.setEndOfDirectory()

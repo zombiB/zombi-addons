@@ -25,9 +25,7 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-    
-
-            
+               
     oGui.setEndOfDirectory()
 
 def showMovies(sSearch = ''):
@@ -56,6 +54,7 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -67,10 +66,6 @@ def showMovies(sSearch = ''):
             sInfo = '' 
 			
 			
-
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -104,37 +99,23 @@ def showLive():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-
-
-    #print aResult
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[1]
             sThumbnail = aEntry[0]
             siteUrl = URL_MAIN + aEntry[0]
             sInfo = '' 
  
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
            
- 
-        progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()
-
- 
- 
 
 def showHosters():
     oGui = cGui()
@@ -153,100 +134,21 @@ def showHosters():
 
          # (.+?) ([^<]+)   
     sPattern = '<a href="(.+?)".+?">([^<]+)<'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            sMovieTitle = str(aEntry[1])
-            
-            sThumbnail = str(aEntry[1])
-            url = str(aEntry[0])
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-                
-            
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-        progress_.VSclose(progress_) 
-              
-         # (.+? ([^<]+)   
+    aResult1 = re.findall(sPattern, sHtmlContent)
     sPattern = '<a href="(.+?)" target="_blank">(.+?)<br />'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            
-            sMovieTitle = str(aEntry[1])
-            
-            sHosterUrl = str(aEntry[0])
-            url = str(aEntry[0])
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-                
-
-            if 'goo.gl' in sHosterUrl or 'bit.ly' in sHosterUrl:
-                try:
-                    import requests
-                    url = sHosterUrl
-                    session = requests.Session()  # so connections are recycled
-                    resp = session.head(url, allow_redirects=True)
-                    sHosterUrl = resp.url
-                except:
-                    pass
-            
-            sHosterUrl = sHosterUrl
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-
-        progress_.VSclose(progress_) 
-
-         # (.+? ([^<]+)   
+    aResult2 = re.findall(sPattern, sHtmlContent)
     sPattern = '<a href="(.+?)" target="_blank">(.+?)</a>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult3 = re.findall(sPattern, sHtmlContent)
+    aResult = aResult1 + aResult2+ aResult3
 	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
+    if aResult:
+        for aEntry in aResult:
             
-            sMovieTitle = str(aEntry[1])
-            
+            sMovieTitle = str(aEntry[1]) 
             sHosterUrl = str(aEntry[0])
-            url = str(aEntry[0])
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-                
-
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl
+                           
             if 'goo.gl' in sHosterUrl or 'bit.ly' in sHosterUrl:
                 try:
                     import requests
@@ -257,13 +159,11 @@ def showHosters():
                 except:
                     pass
             
-            sHosterUrl = sHosterUrl
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
 
-        progress_.VSclose(progress_) 
+		
     oGui.setEndOfDirectory()

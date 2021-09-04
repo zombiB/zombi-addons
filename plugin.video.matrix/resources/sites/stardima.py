@@ -55,8 +55,6 @@ def showSeriesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  # ([^<]+) .+? (.+?)
     sPattern = 'data-echo="(.+?)" class="img-responsive">.+?<h3><a href="(.+?)" title.+?class="ellipsis">(.+?)</a></h3>'
 
@@ -109,8 +107,6 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  # ([^<]+) .+? (.+?)
     sPattern = '<div class="pm-li-category"><a href="(.+?)">.+?<img src="(.+?)" alt="(.+?)" width'
 
@@ -169,8 +165,6 @@ def showEpisodes():
     sStart = '<ul class="list-inline">'
     sEnd = '<div class="container-fluid">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # (.+?) ([^<]+) .+?
     sPattern = '<li><a href="(.+?)">(.+?)</a></li>'
 
@@ -221,8 +215,6 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
      # (.+?) ([^<]+) .+?
     sPattern = 'onclick="location.href=(.+?)" title="(.+?)">.+?<img src="(.+?)" alt'
 

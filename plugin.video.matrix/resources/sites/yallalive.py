@@ -1,5 +1,7 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi.(@geekzombi)
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -7,7 +9,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-import re
  
 SITE_IDENTIFIER = 'yallalive'
 SITE_NAME = 'yallalive'
@@ -37,7 +38,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
-# ([^<]+) .+?
+      # (.+?) ([^<]+) .+?
     sPattern = '<a href="([^<]+)" class="matsh_live"><div.+?class="fc_name">([^<]+)</td>.+?class="fc_name">([^<]+)</td>.+?<span class="matsh.+?">([^<]+)</span> </td>'
 
     oParser = cParser()
@@ -47,22 +48,20 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2] +' vs ' + aEntry[1] 
+            sTitle = str(aEntry[2]) +' vs ' + str(aEntry[1]) 
             sThumbnail = ""
-            siteUrl = URL_MAIN + aEntry[0]
-            sInfo = aEntry[3]
-            if isMatrix(): 
-               sInfo = str(sInfo.encode('latin-1'),'utf-8')
+            siteUrl = URL_MAIN + str(aEntry[0])
+            sInfo = str(aEntry[3])
             if 'جارية' in sInfo:
                 sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
 			
-			
-            oOutputParameterHandler = cOutputParameterHandler()
+		
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -103,12 +102,7 @@ def showHosters():
     sPattern = '<font color=.+?>([^<]+)</font>.+?src="(.+?)"' 
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
             url = str(aEntry[1])
             sTitle = str(aEntry[0])
@@ -120,16 +114,12 @@ def showHosters():
             
                 
             sHosterUrl = url
-			
-
             sHosterUrl = sHosterUrl.replace('https://www.yallashahed.com/youtube.php?ytid=','https://www.youtube.com/embed/').replace('?autoplay=0','').replace('?autoplay=1','')
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
-        progress_.VSclose(progress_) 
 
                 
     oGui.setEndOfDirectory()    

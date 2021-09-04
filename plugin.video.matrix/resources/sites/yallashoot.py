@@ -1,5 +1,7 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi.(@geekzombi)
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -7,7 +9,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, isMatrix
-import re
 
 SITE_IDENTIFIER = 'yallashoot'
 SITE_NAME = 'yalla-shoot.com'
@@ -39,9 +40,9 @@ def showGenres():
     liste.append( ["الأشواط ","http://www.yalla-shoot.com/live/video.php?type=4"] )
     liste.append( ["ملخصات","http://www.yalla-shoot.com/live/video.php?type=2"] )
 	            
+    oOutputParameterHandler = cOutputParameterHandler()
     for sTitle,sUrl in liste:
         
-        oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
        
@@ -66,21 +67,23 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+				
             sUrl = str(aEntry[0])
             sTitle = str(aEntry[3])
             sInfo = ""
-            sThumbnail = aEntry[1]
+            sThumbnail = str(aEntry[1])
             if not 'http' in sUrl:
                 sUrl = str(URL_MAIN) + sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
+					
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, 'doc.png', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
             
@@ -94,8 +97,6 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
-    if isMatrix(): 
-       sHtmlContent = sHtmlContent.encode('iso-8859-1').decode('utf8')
     sPattern = "<li><a href='(.+?)'>التالى</a></li>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -114,66 +115,26 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    oParser = cParser()
-    #print sHtmlContent
  
     sPattern = '<iframe.+?src="(.+?)"' 
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-
-            url = str(aEntry)
-            if url.startswith('//'):
-                url = 'http:' + url
-            if 'ok.php' in url:
-                url = url.split('ok.php?id=', 1)[1]
-                url = 'http://ok.ru/videoembed/' + url
-            
-                
-            sHosterUrl = url
-			
-
-            sHosterUrl = sHosterUrl.replace('http://yalla6.xyz/goals/youtube.php?ytid=','https://www.youtube.com/embed/').replace('?autoplay=0','').replace('?autoplay=1','')
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
- 
+    aResult1 = re.findall(sPattern, sHtmlContent)
     sPattern = '<a href="([^<]+)" target="_blank"' 
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-
+    aResult2 = re.findall(sPattern, sHtmlContent)
+    aResult = aResult1 + aResult2
+    if aResult:
+        for aEntry in aResult:
             url = str(aEntry)
             if url.startswith('//'):
                 url = 'http:' + url
             if 'ok.php' in url:
                 url = url.split('ok.php?id=', 1)[1]
-                url = 'http://ok.ru/videoembed/' + url
-            
-                
+                url = 'http://ok.ru/videoembed/' + url                           
             sHosterUrl = url
-			
-
             sHosterUrl = sHosterUrl.replace('http://yalla6.xyz/goals/youtube.php?ytid=','https://www.youtube.com/embed/').replace('?autoplay=0','').replace('?autoplay=1','')
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
-        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()    

@@ -388,8 +388,6 @@ class cHosterGui:
             return self.getHoster('anavids')
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
             return self.getHoster('streamsforu')
-        if ('file-up' in sHostName):
-            return self.getHoster('fileup')
         if ('archive.org/embed/"' in sHostName):
             return self.getHoster('archive')
         if ('govid.me' in sHostName):

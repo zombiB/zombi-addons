@@ -186,10 +186,11 @@ class cRequestHandler:
                 #Necessaire pour Python 3
                 if isMatrix() and not 'youtube' in oResponse.url:
                     try:
-                       sContent = sContent.decode('unicode-escape')
+                       sContent = sContent.decode()
                     except:
+                        #Decodage minimum obligatoire.
                         try:
-                            sContent = sContent.decode()
+                            sContent = sContent.decode('unicode-escape')
                         except:
                             pass
             else:
@@ -198,8 +199,8 @@ class cRequestHandler:
 
         except ConnectionError as e:
             # Retry with DNS only if addon is present
-            import xbmcvfs
-            if self.__enableDNS == False:
+            if 'getaddrinfo failed' in str(e) and self.__enableDNS == False:
+                import xbmcvfs
                 if xbmcvfs.exists('special://home/addons/script.module.dnspython/'):
                     self.__enableDNS = True
                     return self.__callRequest()

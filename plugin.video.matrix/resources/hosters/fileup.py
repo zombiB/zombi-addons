@@ -73,7 +73,7 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
 
         if 'File was deleted' in sHtmlContent:
-            dialog().VSok("File was deleted")
+            VSlog("File was deleted")
 
         oParser = cParser()
         sPattern = "</script><script type='text/javascript'>([^<]+)</script></div>"

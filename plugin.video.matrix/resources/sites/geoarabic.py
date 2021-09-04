@@ -80,6 +80,7 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -92,7 +93,6 @@ def showMovies(sSearch = ''):
             sInfo = aEntry[3] 
 			
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -144,12 +144,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
 
             Id = str(aEntry[0])
             Vid = str(aEntry[1])
@@ -183,6 +178,5 @@ def showHosters():
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()

@@ -50,6 +50,8 @@ class cHoster(iHoster):
         oParser = cParser()
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+        if 'File was deleted' in sHtmlContent:
+            dialog().VSok("File was deleted")
 
         sPattern =  'src: "(.+?)", type: "video/mp4", label:"(.+?)", '
         oParser = cParser()

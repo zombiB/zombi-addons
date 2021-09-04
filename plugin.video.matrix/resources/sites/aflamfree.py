@@ -109,8 +109,6 @@ def showMoviesearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix():
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  
     # ([^<]+) .+? 
 
@@ -124,6 +122,7 @@ def showMoviesearch(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -147,7 +146,7 @@ def showMoviesearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear)
 
             oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
+			
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -170,9 +169,6 @@ def showPack(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix():
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
- 
 #([^<]+) .+? 
 
     sPattern = 'style="font-size: large;"><a href="([^<]+)">([^<]+)</a><br />'
@@ -183,12 +179,8 @@ def showPack(sSearch = ''):
 	
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             sThumbnail = aEntry[1]
@@ -202,8 +194,6 @@ def showPack(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
@@ -235,9 +225,6 @@ def showLive():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix():
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
-		   
     # (.+?) ([^<]+) .+? 
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span><span class="imdb"><b><b class="icon-star"></b></b>([^<]+)</span>'
     
@@ -246,12 +233,8 @@ def showLive():
     
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
@@ -263,7 +246,6 @@ def showLive():
                   sTitle = sTitle.replace(sYear,'')
             sDesc = ''
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -279,26 +261,17 @@ def showLive():
     
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
             sThumbnail = aEntry[1] 
             sInfo = '' 
  
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
-           
- 
-        progress_.VSclose(progress_)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)    
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
@@ -320,8 +293,6 @@ def showLive2():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix():
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
   
     oParser = cParser()
     
@@ -347,42 +318,30 @@ def showLive2():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
+					
             sTitle = aEntry[0] 
             siteUrl = aEntry[1].replace("r.php?url","r2.php?url") 
             sInfo = sDesc
     
             oRequestHandler = cRequestHandler(siteUrl)
-            sHtmlContent = oRequestHandler.request();
-            if isMatrix():
-               sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
-
-    # (.+?)
-               
+            sHtmlContent = oRequestHandler.request()
 
             sPattern = 'source: "([^<]+)", parentId: "#player"'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-
+            aResult1 = re.findall(sPattern, sHtmlContent)
+            sPattern = 'content="0; url=([^<]+)" />'
+            aResult2 = re.findall(sPattern, sHtmlContent)
+            aResult = aResult1 + aResult2
 
 	
-            if (aResult[0] == True):
-               total = len(aResult[1])
-               progress_ = progress().VScreate(SITE_NAME)
-               for aEntry in aResult[1]:
-                   progress_.VSupdate(progress_, total)
-                   if progress_.iscanceled():
-                      break
-        
+            if aResult:
+               for aEntry in aResult:       
                    url = str(aEntry)
                    url = url.replace("scrolling=no","")
                    sTitle = " " 
                    if url.startswith('//'):
                       url = 'http:' + url
 				
-					
-            
+				           
                    sHosterUrl = url 
                    if 'userload' in sHosterUrl:
                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
@@ -397,45 +356,5 @@ def showLive2():
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-
-    #(.+?)
-               
-
-            sPattern = 'content="0; url=([^<]+)" />'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-	
-            if (aResult[0] == True):
-               total = len(aResult[1])
-               progress_ = progress().VScreate(SITE_NAME)
-               for aEntry in aResult[1]:
-                   progress_.VSupdate(progress_, total)
-                   if progress_.iscanceled():
-                      break
-        
-                   url = str(aEntry)
-                   sTitle = " " 
-                   if url.startswith('//'):
-                      url = 'http:' + url
-				
-					
-            
-                   sHosterUrl = url
-                   if 'userload' in sHosterUrl:
-                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'moshahda' in sHosterUrl:
-                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'mystream' in sHosterUrl:
-                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
-                      sDisplayTitle = sMovieTitle+sTitle
-                      oHoster.setDisplayName(sDisplayTitle)
-                      oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				 
-        progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()

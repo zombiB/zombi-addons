@@ -87,13 +87,13 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("كامل","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("كامل","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1])
             sDesc = ''
@@ -104,7 +104,6 @@ def showMovies(sSearch = ''):
                 sTitle = sTitle.replace(sYear,'')
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -135,8 +134,6 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request() 
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
   # ([^<]+) .+?
 
     sPattern = '<li class="col-md-3"><a href="([^<]+)">.+?<div class="number_episode">([^<]+)</div>.+?<img src="([^<]+)" itemprop="image">  <div class="mov-details-overlay">.+?<h4 class="move-title">([^<]+)</h4>'
@@ -148,6 +145,7 @@ def showSerie(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -160,7 +158,6 @@ def showSerie(sSearch = ''):
             sDesc = aEntry[1]
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -190,8 +187,6 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
    # ([^<]+) .+?
     sPattern = '<a href="([^<]+)">([^<]+)</a></td>'
 
@@ -200,12 +195,8 @@ def showEpisodes():
 	
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[1]
             siteUrl = str(aEntry[0])
@@ -214,13 +205,11 @@ def showEpisodes():
 			
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
@@ -240,8 +229,6 @@ def showLink():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
     
     oParser = cParser()
     
@@ -261,20 +248,14 @@ def showLink():
     
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry
             siteUrl = sUrl
             sThumb = sThumb
             sDesc = sNote
  
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -284,8 +265,6 @@ def showLink():
             else:
                 oGui.addLink(SITE_IDENTIFIER, 'showServer2', sTitle, sThumb, sDesc, oOutputParameterHandler)
  
-        progress_.VSclose(progress_)
-       
     oGui.setEndOfDirectory() 
 	 
 def showServer():
@@ -302,8 +281,6 @@ def showServer():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
 
    
     oParser = cParser()
@@ -341,12 +318,7 @@ def showServer():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry)
             sTitle = sMovieTitle
@@ -368,8 +340,6 @@ def showServer():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
-
-            progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()	 
 def showServer2():
@@ -386,8 +356,6 @@ def showServer2():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
 
    
     oParser = cParser()
@@ -420,13 +388,8 @@ def showServer2():
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern2)
         if (aResult[0] == True):
-           total = len(aResult[1])
-           progress_ = progress().VScreate(SITE_NAME)
            for aEntry in aResult[1]:
                nume = aEntry
-               progress_.VSupdate(progress_, total)
-               if progress_.iscanceled():
-                  break
             
                headers = {'Host': 'in.arbcinema.com',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -446,12 +409,7 @@ def showServer2():
                oParser = cParser()
                aResult = oParser.parse(sHtmlContent, sPattern3)
                if (aResult[0] == True):
-                  total = len(aResult[1])
-                  progress_ = progress().VScreate(SITE_NAME)
                   for aEntry in aResult[1]:
-                      progress_.VSupdate(progress_, total)
-                      if progress_.iscanceled():
-                         break
             
                       url = str(aEntry)
                       sTitle = sMovieTitle
@@ -474,7 +432,6 @@ def showServer2():
                          oHoster.setFileName(sMovieTitle)
                          cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
 
-        progress_.VSclose(progress_) 
        
     oGui.setEndOfDirectory()
  
@@ -490,5 +447,3 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
- 
- 

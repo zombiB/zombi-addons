@@ -59,8 +59,6 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  # .+? ([^<]+)
 
     sPattern = '<div class="col-md-3 col-sm-4 col-xs-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?data-src="([^<]+)" style'
@@ -72,6 +70,7 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -84,7 +83,6 @@ def showMovies(sSearch = ''):
             sInfo = ""
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -103,7 +101,6 @@ def showMovies(sSearch = ''):
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-    oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle,'next.png', oOutputParameterHandler)
  
     if not sSearch:
@@ -119,8 +116,6 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
  #.+?([^<]+)
 
     sPattern = ' <div class="col-md-3 col-sm-4 col-xs-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?<div class="img-div scaleZoomImg">.+?<div class="embed-responsive-item image-div lazy-image-handler" data-src="([^<]+)" style'
@@ -132,6 +127,7 @@ def showSeries(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -144,7 +140,6 @@ def showSeries(sSearch = ''):
             sInfo = ""
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -189,8 +184,6 @@ def showEps():
     sLink = sUrl
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    if isMatrix(): 
-       sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
 # ([^<]+) .+?
     sPattern = '<div class="embed-responsive-item image-div  lazy-image-handler  "  data-src="([^<]+)"  style="background-image.+?<div class="content">.+?<a href="([^<]+)" class="title-link">([^<]+)</a>'
 
@@ -200,20 +193,15 @@ def showEps():
     #print aResult
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
+			
             siteUrl = str(aEntry[1])
             sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الحلقة "," E").replace("حلقة "," E").replace(":"," ").replace("-"," ")
             sThumbnail = 'https:'+str(aEntry[0])
             sInfo = "" 
 
  
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)           

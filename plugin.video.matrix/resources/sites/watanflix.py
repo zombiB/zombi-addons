@@ -55,7 +55,6 @@ def showSeriesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.encode('utf8',errors='ignore').decode('utf8',errors='ignore')
  # .+? ([^<]+)
 
     sPattern = ',"title":"(.+?)",.+?,"url":"(.+?)","class'

@@ -89,6 +89,8 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
@@ -206,6 +208,8 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
   #([^<]+) .+?
 
     sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
@@ -288,6 +292,8 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
    #([^<]+) .+?
     sPattern = 'class="videocontainer"> <iframe src="([^<]+)" id="([^<]+)"'
 
@@ -317,6 +323,8 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
   #([^<]+) .+?
 
     sPattern = "<li><a href='([^<]+)'>([^<]+)</a>"
@@ -390,6 +398,8 @@ def showEps():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
                
         
     sPattern = '<iframe.+?src="(.+?)"'
@@ -414,6 +424,8 @@ def showEps():
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+        progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()
 
@@ -432,12 +444,7 @@ def showHosters():
     sPattern =  "PGlmcmFt([^<]+)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             m3url = "PGlmcmFt" + aEntry
             sHtmlContent2 = base64.b64decode(m3url)
     # (.+?)       
@@ -446,12 +453,7 @@ def showHosters():
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
             if (aResult[0] == True):
-               total = len(aResult[1])
-               progress_ = progress().VScreate(SITE_NAME)
                for aEntry in aResult[1]:
-                   progress_.VSupdate(progress_, total)
-                   if progress_.iscanceled():
-                       break
         
                    url = str(aEntry).replace("https://dai.ly/","https://www.dailymotion.com/video/")
                    sTitle = " " 
@@ -467,6 +469,5 @@ def showHosters():
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-        progress_.VSclose(progress_)  
                 
     oGui.setEndOfDirectory()

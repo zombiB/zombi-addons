@@ -69,10 +69,6 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
         VSlog(self.__sUrl)
         
-        #fh = open('c:\\test.txt', "w")
-        #fh.write(sHtmlContent)
-        #fh.close()
-        
         oParser = cParser()
         
             # (.+?) .+?

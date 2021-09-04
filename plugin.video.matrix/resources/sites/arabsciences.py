@@ -72,10 +72,7 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-   
-
-
- 
+    
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -97,6 +94,7 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -109,10 +107,6 @@ def showMovies(sSearch = ''):
             sInfo = aEntry[3]
 			
 			
-
-
-
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -130,10 +124,6 @@ def showMovies(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
-
- 
- 
- 
 def __checkForNextPage(sHtmlContent):
     sPattern = '<a href="([^<]+)"><span class="pagination-icon" aria-hidden="true">'
 	 #.+? ([^<]+)
@@ -141,7 +131,6 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if (aResult[0] == True):
-        #print aResult[1][0]
         return aResult[1][0]
 
     return False
@@ -164,12 +153,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
             url = str(aEntry)
             url = str(aEntry).replace('?rel=0','').replace('"','')
@@ -191,12 +175,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
             url = 'https://www.youtube.com/embed/'+aEntry
 				
@@ -217,12 +196,7 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry)
             url = str(aEntry).replace('?rel=0','').replace('"','')
@@ -237,8 +211,5 @@ def showHosters():
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
 
-        progress_.VSclose(progress_)
-                
     oGui.setEndOfDirectory()

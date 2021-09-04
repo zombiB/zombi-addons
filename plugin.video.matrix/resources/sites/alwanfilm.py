@@ -48,9 +48,6 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-   
-
-
  
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -73,6 +70,7 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -92,8 +90,6 @@ def showMovies(sSearch = ''):
             sDisplayTitle = ('%s [%s]') % (sTitle, sDub)
 
 
-
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
@@ -178,12 +174,7 @@ def showServer():
 
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-               break
             
             url = str(aEntry)
             sTitle = sMovieTitle
@@ -199,7 +190,5 @@ def showServer():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
-
-        progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()

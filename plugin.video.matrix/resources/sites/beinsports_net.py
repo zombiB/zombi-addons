@@ -29,7 +29,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://frenchstream.org/les-plus-vues')
     oGui.addDir(SITE_IDENTIFIER, 'showGenres', 'Sports', 'genres.png', oOutputParameterHandler)    
             
@@ -88,15 +87,17 @@ def showMovies(sSearch = ''):
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+					
             sUrl = str(aEntry[1])
             sInfo = '[COLOR aqua]'+str(aEntry[2])+" //[/COLOR]"+'[COLOR yellow]'+str(aEntry[3])+'[/COLOR]'
             if not 'http' in sUrl:
                 sUrl = str(URL_MAIN) + sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
+					
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[4]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[0]))
@@ -138,12 +139,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
             url = str(aEntry)
             if url.startswith('//'):
@@ -156,6 +152,5 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()
