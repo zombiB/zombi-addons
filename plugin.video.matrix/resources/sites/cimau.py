@@ -312,7 +312,6 @@ def showLinks():
         for aEntry in aResult[1]:
         
             url = aEntry
-            sTitle = " "
 
             if url.startswith('//'):
                url = 'http:' + url
@@ -328,8 +327,7 @@ def showLinks():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-               sDisplayTitle = sMovieTitle+sTitle
-               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     
@@ -430,7 +428,6 @@ def showLinks():
                 for aEntry in aResult[1]:
         
                     url = aEntry
-                    sTitle = " "
                     if url.startswith('//'):
                        url = 'http:' + url
             
@@ -443,8 +440,7 @@ def showLinks():
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                           
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if (oHoster != False):
-                       sDisplayTitle = sMovieTitle+sTitle
-                       oHoster.setDisplayName(sDisplayTitle)
+                       oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
@@ -577,7 +573,7 @@ def showEpisodes():
  
                   sTitle = aEntry[2]
                   sTitle = ' E'+sTitle
-                  sTitle = sTitle+sMovieTitle2
+                  sTitle = sMovieTitle2+' '+sTitle
                   sUrl = aEntry[0]
                   sThumb = sThumb
                   sDesc = ''
