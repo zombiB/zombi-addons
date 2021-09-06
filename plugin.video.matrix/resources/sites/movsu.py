@@ -415,7 +415,7 @@ def showLink():
             aResult = oParser.parse(sData, sPattern)
 	
             if (aResult[0] == True):
-        oOutputParameterHandler = cOutputParameterHandler() 
+               oOutputParameterHandler = cOutputParameterHandler() 
                for aEntry in aResult[1]:
         
                    url = aEntry

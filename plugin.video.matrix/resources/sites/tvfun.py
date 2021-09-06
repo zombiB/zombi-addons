@@ -61,7 +61,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
 
-    sPattern = '<div class="serie-thumb">.+?<a href="([^<]+)" title="([^<]+)">.+?<picture itemprop="categoryAvatar">.+?<img src="([^<]+)" loading="lazy".+?<span class="count">([^<]+)</span>'
+    sPattern = '<div class="serie-thumb"><a href="(.+?)" title="(.+?)">.+?<img src="(.+?)" loading'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -75,12 +75,12 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
+            sTitle = aEntry[1].replace("مشاهدة وتحميل","").replace("اون لاين","")
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = str(aEntry[2])
-            sInfo = aEntry[3]
+            sInfo = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -164,7 +164,7 @@ def showSeriesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","")
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
@@ -264,8 +264,8 @@ def showEpisodes():
 
     if (aResult[0] == True):
         sHtmlContent = aResult[1][0]
-   # ([^<]+) .+?
-    sPattern = '<div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar">.+?<img src="([^<]+)" loading='
+   # ([^<]+) .+? (.+?)
+    sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)">.+?<img src="(.+?)" loading'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -279,7 +279,7 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
             siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl

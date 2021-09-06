@@ -291,7 +291,7 @@ def showEpisodes():
             sEp = aEntry[0].split(':')[0]
             sDes = aEntry[0].split(': ')[-1]
             sEp = sEp.replace("الحلقة "," E")
-            sTitle = sEp+' '+sMovieTitle
+            sTitle = sMovieTitle+sEp
             siteUrl = str(aEntry[1])
             sThumb = aEntry[2]
             sDesc = ''
@@ -472,7 +472,39 @@ def showHosters():
                     oHoster.setDisplayName(sTitle)
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)     
-           
+
+
+
+    # (.+?) .+? ([^<]+)
+    sPattern = '<a href="http([^<]+)/link/(.+?)".+?class="font-size-14 mr-auto">(.+?)</span>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+
+    #print aResult
+   
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle =  ' ['+aEntry[2]+'] '
+            sTitle =  sMovieTitle+sTitle
+            siteUrl = 'http'+aEntry[0]+'/link/' + aEntry[1]
+            sThumbnail = ""
+            sInfo = ""
+
+ 
+            #print sUrl
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addLink(SITE_IDENTIFIER, 'showHosters1', sTitle, sThumbnail, sInfo, oOutputParameterHandler)            
                 
     oGui.setEndOfDirectory()	
 def showHosters1():

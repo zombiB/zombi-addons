@@ -332,6 +332,13 @@ class cGui:
             if cGui.CONTENT != "episodes":
                 data['title'] = data['title'] + " " + itemTitle.split(data['tvshowtitle'])[1]
 
+        try:
+            if data.get('duration'):
+                #Convertion en seconde, utile pour le lien final.
+                data['duration'] = (sum(x * int(t) for x, t in zip([1, 60, 3600], reversed(data.get('duration', '').split(":")))))
+        except:
+            pass
+
         oListItem = listitem(itemTitle)
 
         if data.get('cast'):
@@ -362,13 +369,7 @@ class cGui:
             videoInfoTag.setYear(int(data.get('year',0)))       
             videoInfoTag.setRating(float(data.get('rating',0.0)))
             videoInfoTag.setMpaa(data.get('mpaa'))
-
-            try:
-                videoInfoTag.setDuration(int(data.get('duration',0)))     
-
-            except:
-                #Pour convertir le temps en seconde.
-                videoInfoTag.setDuration(sum(x * int(t) for x, t in zip([1, 60, 3600], reversed(data.get('duration','').split(":")))))
+            videoInfoTag.setDuration(int(data.get('duration', 0)))
             videoInfoTag.setPlaycount(int(data.get('playcount',0)))
             videoInfoTag.setCountries(data.get('country',[""]))
             videoInfoTag.setTrailer(data.get('trailer'))

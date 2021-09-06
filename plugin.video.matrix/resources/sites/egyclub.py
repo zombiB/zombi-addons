@@ -107,12 +107,11 @@ def showMovies(sSearch = ''):
                 sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle) 
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle) 
             oOutputParameterHandler.addParameter('sYear', sYear)                  
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  # ([^<]+) .+?
@@ -200,7 +199,7 @@ def showMovie():
             oOutputParameterHandler.addParameter('sThumbnail', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  # ([^<]+) .+?
     sPattern = '<a href="([^<]+)">'
 
@@ -269,7 +268,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 
@@ -382,6 +381,46 @@ def showSerie():
 
        
     oGui.setEndOfDirectory()  
+
+def showHosters():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = 'href="(.+?)" rel="nofollow"'
+    aResult1 = re.findall(sPattern, sHtmlContent)
+    sPattern = '<iframe src="([^<]+)" scrolling' 
+    aResult2 = re.findall(sPattern, sHtmlContent)
+    aResult = aResult1 + aResult2
+	
+    if aResult:
+        for aEntry in aResult:
+        
+           url = aEntry
+           sTitle = " "
+           if url.startswith('//'):
+              url = 'http:' + url
+            
+           sHosterUrl = url 
+           if 'userload' in sHosterUrl:
+               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+           if 'moshahda' in sHosterUrl:
+               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+           if 'mystream' in sHosterUrl:
+               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                         
+           oHoster = cHosterGui().checkHoster(sHosterUrl)
+           if (oHoster != False):
+              sDisplayTitle = sMovieTitle+sTitle
+              oHoster.setDisplayName(sDisplayTitle)
+              oHoster.setFileName(sMovieTitle)
+              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				               
+    oGui.setEndOfDirectory()
 def showServer():
     oGui = cGui()
     import requests

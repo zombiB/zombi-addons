@@ -152,6 +152,7 @@ def showSeries(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
@@ -194,7 +195,7 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
 				
-            sTitle = str(aEntry[2])           
+            sTitle = str(aEntry[2])       
             siteUrl = str(aEntry[1])
             sThumbnail = str(aEntry[3])
             sInfo = str(aEntry[0])
@@ -252,7 +253,7 @@ def showHosters():
             if progress_.iscanceled():
                 break
             
-            sTitle = sMovieTitle+str(aEntry[2])            
+            sTitle = sMovieTitle+str(aEntry[2]).replace("الحلقة "," E")                
             sThumbnail = str(aEntry[1])
             url = str(aEntry[0])
             if url.startswith('//'):

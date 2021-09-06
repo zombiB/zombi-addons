@@ -154,7 +154,7 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[2]
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = ''
@@ -190,6 +190,8 @@ def showAnimes(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if isMatrix(): 
+       sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  
 
     sPattern = '<div class="postDiv"><a href="([^<]+)">.+?data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
@@ -217,7 +219,7 @@ def showAnimes(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes1', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -240,60 +242,90 @@ def showSeasons():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    
-    import requests
-    postid = ''
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="seasonDiv.+?" data-href="(.+?)">.+?<div class="title">(.+?)</div>'
+    sPattern = '<div class="seasonDiv.+?" data-href="(.+?)">.+?data-src="(.+?)" class="img-fluid lazy" alt="(.+?)" />.+?<div class="title">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
+        oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
             postid = aEntry[0]
-            nume = aEntry[1].replace("موسم "," S")
-
-            postdata = {'seasonID':postid}
+            nume = aEntry[3].replace("موسم "," S")
             link = 'https://www.faselhd.pro/series-ajax/?_action=get_season_list&_post_id='+postid
-            headers = {'Host': 'www.faselhd.pro',
+ 
+            sTitle = aEntry[2]+nume           
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            siteUrl = link
+            sThumbnail = aEntry[1]
+            sInfo = ""
+			
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('postid', postid)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+ 
+       
+    oGui.setEndOfDirectory() 
+  
+def showEpisodes():
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    postid = oInputParameterHandler.getValue('postid')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    
+    import requests
+
+    postdata = {'seasonID':postid}
+    link = 'https://www.faselhd.pro/series-ajax/?_action=get_season_list&_post_id='+postid
+    headers = {'Host': 'www.faselhd.pro',
 							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36',
 							'Referer': sUrl,
 							'origin': 'https://www.faselhd.pro'}
-            s = requests.Session() 	
-            r = s.post(link,data = postdata)
-            sHtmlContent = r.content 
-            if isMatrix(): 
-               sHtmlContent = sHtmlContent.decode('utf8',errors='ignore') 
-            if sHtmlContent:
-               sPattern = '<a href="([^<]+)>([^<]+)</a>' 
+    s = requests.Session() 	
+    r = s.post(link,data = postdata)
+    sHtmlContent = r.content 
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.decode('utf8',errors='ignore') 
+    if sHtmlContent:
+       sPattern = '<a href="([^<]+)>([^<]+)</a>' 
 
-               oParser = cParser()
-               aResult = oParser.parse(sHtmlContent,sPattern)
-               if (aResult[0] == True):
+       oParser = cParser()
+       aResult = oParser.parse(sHtmlContent,sPattern)
+       if (aResult[0] == True):
                   for aEntry in aResult[1]:
                       oOutputParameterHandler = cOutputParameterHandler() 
                       if "العضوية" in aEntry[1]:
                          continue
  
                       sTitle = aEntry[1].replace("الحلقة "," E")
-                      sTitle = sTitle+sMovieTitle+' S'+nume
+                      sTitle = ('%s %s') % (sTitle, sMovieTitle)
                       siteUrl = aEntry[0].replace(' class="active"', "").replace('"', "") 
                       sThumbnail = sThumbnail
                       sInfo = ""
 
 
                       oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-                      oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                      oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
                       oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
           
  
-                      oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                      oGui.addEpisode(SITE_IDENTIFIER, '+', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
        
     oGui.setEndOfDirectory() 
 
-def showEpisodes():
+def showEpisodes1():
     oGui = cGui()
     
     oInputParameterHandler = cInputParameterHandler()
@@ -436,7 +468,6 @@ def showLink():
                continue
             
             url = str(aEntry).replace("'", "")
-            sTitle = sMovieTitle 
 
             if url.startswith('//'):
                url = 'http:' + url
@@ -444,8 +475,7 @@ def showLink():
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-               sDisplayTitle = sTitle
-               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				

@@ -200,6 +200,9 @@ class cGuiElement:
             sTitle = sTitle.replace(' - Saison', ' Season').replace(' – Season', ' Season').replace(' — Season', ' Season')
             sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("S ","S").replace("Season ","S").replace("S ","S").replace("E ","E")
 
+            if "مدبلج" in sTitle:
+                sTitle = sTitle.replace("مدبلجة","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلجه","[COLOR yellow]مدبلجه[/COLOR]").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[COLOR yellow]مدبلج[/COLOR]")
+
             if not isMatrix():
                 sTitle = sTitle.decode('utf-8')
         except:

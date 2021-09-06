@@ -85,7 +85,7 @@ def showMovies(sSearch = ''):
             sTitle = str(aEntry[3]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = str(aEntry[2])
             sThumbnail = str(aEntry[0])
-            sInfo = str(aEntry[1])
+            sInfo = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -272,32 +272,60 @@ def showLinks():
 
    
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
  
             sTitle = aEntry[1]
             
             siteUrl = aEntry[0]
             sInfo = ""
-
- 
-            #print sUrl
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
+			
+            oRequestHandler = cRequestHandler(siteUrl)
+            sData = oRequestHandler.request()
+    # # .+? ([^<]+) (.+?)
+               
+        
+            sPattern = 'src="([^<]+)" frameborder'
+            oParser = cParser()
+            aResult = oParser.parse(sData, sPattern)
+	
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
             
 
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
+            
+                   url = str(aEntry)
+                   if url.startswith('//'):
+                      url = 'http:' + url
+            
+                
+            
+                   sHosterUrl = url
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				
+    # # .+? ([^<]+) (.+?)
+               
+        
+            sPattern = "src: '([^<]+)', type: 'application/x-mpegURL'"
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+	
+            if (aResult[0] == True):
+                for aEntry in aResult[1]:
+                   url = str(aEntry)
+                   if url.startswith('//'):
+                      url = 'http:' + url
+                   sHosterUrl = url
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
        
     oGui.setEndOfDirectory()
 	
@@ -318,12 +346,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
 
             
@@ -348,12 +371,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             
 
             
@@ -371,6 +389,5 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
-        progress_.VSclose(progress_) 
                 
     oGui.setEndOfDirectory()

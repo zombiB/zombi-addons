@@ -178,8 +178,9 @@ class cHosterGui:
 
         #Gestion classique
         if ('yadi.sk' in sHostName):
-
             return self.getHoster('yadisk')
+        if ('sama-share' in sHostName):
+            return self.getHoster('samashare')
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')
         if ('vidsat' in sHostName):

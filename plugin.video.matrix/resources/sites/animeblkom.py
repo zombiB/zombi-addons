@@ -13,11 +13,11 @@ SITE_IDENTIFIER = 'animeblkom'
 SITE_NAME = 'animeblkom'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://blkom.com'
-ANIM_NEWS = ('https://blkom.com/anime-list', 'showSeries')
+URL_MAIN = 'https://animeblkom.net'
+ANIM_NEWS = ('https://animeblkom.net/series-list', 'showSeries')
 
-ANIM_MOVIES = ('https://blkom.com/movie-list', 'showMovies')
-URL_SEARCH_SERIES = ('https://blkom.com/search?query=', 'showSeries')
+ANIM_MOVIES = ('https://animeblkom.net/movie-list', 'showMovies')
+URL_SEARCH_SERIES = ('https://animeblkom.net/search?query=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -160,7 +160,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+?
-    sPattern = '<li class="episode-link.+?href="([^<]+)"> <span>الحلقة</span> <span class="separator">:</span> <span>([^<]+)<'
+    sPattern = '<li class="episode-link.+?href="(.+?)"> <span>الحلقة</span> <span class="separator">:</span> <span>(.+?)</span> </a> </li>'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -169,8 +169,8 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle = " E"+aEntry[1]
-            sTitle = sTitle+sMovieTitle
+            sTitle = " E"+str(aEntry[1])
+            sTitle = sTitle+' '+sMovieTitle
             siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(sThumbnail)
             sInfo = sInfo

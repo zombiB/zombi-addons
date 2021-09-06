@@ -1230,10 +1230,10 @@ msgstr ""
 msgctxt "#31202"
 msgid "View: Episodes (recommended 50-51-500-501-508)"
 msgstr ""
+
 msgctxt "#70013"
 msgid "Pack"
 msgstr ""
-
 
 msgctxt "#40000"
 msgid "Loading: "

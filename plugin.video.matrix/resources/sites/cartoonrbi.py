@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 from resources.lib.parser import cParser
 import re
  
@@ -191,7 +191,7 @@ def showEps():
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, aEntry[2], oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, '', oOutputParameterHandler)
  
  
         sNextPage = __checkForNextPageEp(sHtmlContent)
@@ -202,7 +202,6 @@ def showEps():
 
         oGui.setEndOfDirectory()
        
-  
 def showLink():
     oGui = cGui()
    
@@ -238,42 +237,43 @@ def showLink():
     if (aResult[0] == True):
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-
-
-            
-
             sErver = aEntry[0].replace("(","")
             sPage = aEntry[1]
-            siteUrl = 'https://www.cartoon3rbi.net/plugins/server'+sErver+'/embed.php?url='+sPage+'&id='+sname
-            sTitle = 'server '+':'+sErver
-
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumbnail, "", oOutputParameterHandler)
-                       
-    sPattern = '<iframe.+?src="([^<]+)" frameborder'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+            siteUrl = 'https://www.arteenz.com/plugins/server'+sErver+'/embed.php?url='+sPage+'&id='+sname
+			
+            oRequestHandler = cRequestHandler(siteUrl)
+            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+            oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+            oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+            oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+            sData = oRequestHandler.request()
+   
+            sPattern = 'src="(.+?)"'
+            oParser = cParser()
+            aResult = oParser.parse(sData, sPattern)
 	
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-            
-            url = str(aEntry)
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-                url = 'http:' + url
-
-            sHosterUrl = url
-            url = url.replace('?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com') 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False): 
-                sDisplayTitle = sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				 
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
+        
+                   url = str(aEntry).replace('preview?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com')  
+                   sTitle = " "
+                   sThumb = sThumbnail
+                   if url.startswith('//'):
+                      url = 'http:' + url
+								            
+                   sHosterUrl = url
+                   if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'moshahda' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'mystream' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                      sDisplayTitle = sMovieTitle
+                      oHoster.setDisplayName(sDisplayTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
        
     oGui.setEndOfDirectory()
 
@@ -285,6 +285,14 @@ def showHosters():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     
     oRequestHandler = cRequestHandler(sUrl)
+    cook = oRequestHandler.GetCookies()
+    # ([^<]+) .+?
+
+    oRequestHandler.setRequestType(1)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36')
+    oRequestHandler.addHeaderEntry('Cookie', cook)
+    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('Referer', sUrl)
     sHtmlContent = oRequestHandler.request()
                
         

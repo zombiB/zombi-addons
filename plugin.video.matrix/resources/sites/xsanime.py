@@ -177,7 +177,8 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = sMovieTitle+" E"+aEntry[1]
+            sTitle = " E"+aEntry[1]
+            sTitle = sTitle+sMovieTitle
             siteUrl = aEntry[0]
             sDesc = ''
  
