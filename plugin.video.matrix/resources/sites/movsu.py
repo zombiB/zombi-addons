@@ -48,7 +48,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.movs4u.in/movie/?search='+sSearchText
+        sUrl = 'https://movs4u.vip/movie/?search='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -58,7 +58,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.movs4u.in/tvshows/?search='+sSearchText
+        sUrl = 'https://movs4u.vip/tvshows/?search='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -232,7 +232,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<a class="fulllink" href="([^<]+)"></a>.+?<img src="([^<]+)" alt="([^<]+)">.+?</path></svg>([^<]+)</span>'
+    sPattern = '<div class="col-post-movie">.+?<div class="thumb">.+?<a class="fulllink" href="(.+?)"></a>.+?<img src="(.+?)" alt="(.+?)">.+?<div class="movie-info">.+?</svg>(.+?)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'akwam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://akwam.cc'
+URL_MAIN = 'https://akwam.cz:2053'
 MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_AR = ('https://akwam.co/movies?section=29', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
@@ -438,7 +438,7 @@ def showHosters():
  
       # (.+?) ([^<]+) .+?
     oParser = cParser()       
-    sPattern =  '<!-- APP_DOMAIN_ALTERNATIVE.+?href="(.+?)"' 
+    sPattern =  '<a href="(.+?)" target="_blank"' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]

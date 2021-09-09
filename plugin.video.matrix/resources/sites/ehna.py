@@ -38,6 +38,7 @@ DOC_SERIES = (URL_MAIN + '/series/16/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A'
 
 
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

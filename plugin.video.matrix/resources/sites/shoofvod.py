@@ -36,8 +36,6 @@ REPLAYTV_PLAY = (URL_MAIN + '/Cat-44-1', 'showEps')
 KID_CARTOON = (URL_MAIN + '/Cat-56-1', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/Search/', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/Search/', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/Search/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

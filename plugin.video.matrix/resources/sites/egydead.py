@@ -175,8 +175,8 @@ def showSearchSeries(sSearch = ''):
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle2)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail) 
             oOutputParameterHandler.addParameter('sYear', sYear) 
             if 'كامل'  in sTitle or 'كاملة'  in sTitle:

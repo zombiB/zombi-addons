@@ -22,6 +22,7 @@ SERIE_AR = ('https://aramosalsal.tv/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a
 
 SERIE_TR = ('http://aramosalsal.tv/category/turkish-serie/ts-subtitled/', 'showSerie')
 SERIE_TR_AR = ('https://aramosalsal.net/category/turkish-serie/ts-doubled/', 'showSerie')
+SERIE_ASIA = ('https://aradramtv.com/category/serie/', 'showSerie')
 URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
 URL_SEARCH_MOVIES = ('https://aradramatv.co/?s=', 'showMovies')
 URL_SEARCH_SERIES = ('https://aradramatv.co/?s=', 'showSerie')
@@ -119,9 +120,6 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-
- 
-
     # ([^<]+) .+?
     sPattern ='<article id="post-.+?href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt=.+?<i class="icon-folder-open mi"></i>([^<]+)</a>.+?<i class="icon-calendar mi"></i>([^<]+)</a>'
     oParser = cParser()
@@ -179,7 +177,7 @@ def showSerie(sSearch = ''):
  
 
     # ([^<]+) .+?
-    sPattern ='<a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt'
+    sPattern ='<a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt.+?</i>([^<]+)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -195,11 +193,9 @@ def showSerie(sSearch = ''):
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0].split('مدبلج')[0].split('مسلسل')[0]
-            if isMatrix(): 
-               sDisplayTitle2 = str(sTitle.encode('latin-1'),'utf-8').split('الحلقة')[0].split('الموسم')[0].split('مدبلج')[0].split('مسلسل')[0]
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
-            sDesc = ""
+            sDesc = aEntry[3]
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -262,8 +258,6 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1].replace("الحلقة "," E")
-            if isMatrix(): 
-               sTitle = str(aEntry[1].encode('latin-1'),'utf-8').replace("الحلقة "," E")
             siteUrl = str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = sNote

@@ -6,7 +6,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 import re
  
 SITE_IDENTIFIER = 'arbcinema'
@@ -277,7 +277,6 @@ def showServer():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    #print sHtmlContent 
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -294,22 +293,20 @@ def showServer():
     if (aResult[0]):
         sId = aResult[1][0]
 
-    #print sId
     
   # ([^<]+) .+?
-    headers = {'Host': 'in.arbcinema.com',
+    headers = {'Host': 'ok.arbcinema.com',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
      'X-Requested-With': 'XMLHttpRequest',
-     'Referer': sUrl,
      'Connection': 'keep-alive'}
     data = sId
     data = {'id':data,'key':'0','type':'normal'}
     s = requests.Session()
-    r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server/download.php',data = data)
-    sHtmlContent = r.content
+    r = s.post('https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
+    sHtmlContent = r.content.decode('utf8') 
     
     # (.+?) .+? ([^<]+)        	
     sPattern = '<a href="([^<]+)" rel'
@@ -352,7 +349,6 @@ def showServer2():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    #print sHtmlContent 
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -371,7 +367,7 @@ def showServer2():
 
     #print sId
     
-        headers = {'Host': 'in.arbcinema.com',
+        headers = {'Host': 'ok.arbcinema.com',
 					'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 					'Accept': '*/*',
 					'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -382,7 +378,7 @@ def showServer2():
         data = {'watch':'1'}
         s = requests.Session()
         r = s.post(sUrl,data = data)
-        sHtmlContent = r.content       
+        sHtmlContent = r.content.decode('utf8')  
 
         sPattern2 = '<li data-name="([^<]+)" data-type="free"'
         oParser = cParser()
@@ -390,19 +386,17 @@ def showServer2():
         if (aResult[0] == True):
            for aEntry in aResult[1]:
                nume = aEntry
-            
-               headers = {'Host': 'in.arbcinema.com',
-							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+               headers = {'Host': 'ok.arbcinema.com',
+							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36',
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
 							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
 							'X-Requested-With': 'XMLHttpRequest',
-							'Referer': sUrl,
 							'Connection': 'keep-alive'}
                data = {'id':sId,'name':nume,'type':'free'}
                s = requests.Session()
-               r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server.php',data = data)
-               sHtmlContent = r.content       
+               r = s.post( 'https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
+               sHtmlContent = r.content.decode('utf8')         
 
                sPattern3 = '<IFRAME.+?SRC="([^<]+)".+?FRAMEBORDER='
 

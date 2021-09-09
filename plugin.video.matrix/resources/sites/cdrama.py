@@ -37,7 +37,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = ''+sSearchText
+        sUrl = 'https://cdrama.in/movies-categories/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

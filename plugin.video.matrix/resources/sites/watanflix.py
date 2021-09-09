@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 
 SITE_IDENTIFIER = 'watanflix'
 SITE_NAME = 'watanflix'
@@ -23,7 +24,6 @@ KID_CARTOON = ('http://watanflix.com/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84'
 SERIE_GENRES = (True, 'showGenres')
 
 URL_SEARCH = ('https://watanflix.com/ar/search?q=', 'showSeries')
-URL_SEARCH_SERIES = ('https://watanflix.com/ar/search?q=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -55,6 +55,7 @@ def showSeriesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    sHtmlContent = sHtmlContent.encode("utf8",errors='ignore').decode("unicode_escape").encode("utf8",errors='ignore')
  # .+? ([^<]+)
 
     sPattern = ',"title":"(.+?)",.+?,"url":"(.+?)","class'

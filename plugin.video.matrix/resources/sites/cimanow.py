@@ -81,8 +81,8 @@ def showSearchSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article aria-label="post"><a href="(.+?)">.+?<li aria-label="episode"><em>.+?</em>(.+?)</li><li aria-label="year">(.+?)</li>.+?<li>الموسم(.+?)</li>.+?</em>(.+?)<em>.+?data-src="(.+?)" width'
-		
+    sPattern = '<a href="(.+?)">.+?aria-label="episode"><em>الحلقة</em>(.+?)</li>.+?</li>.+?</em>(.+?)<em>.+?data-src="(.+?)" width'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -96,22 +96,20 @@ def showSearchSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[4])+'S'+str(aEntry[3])+' E'+str(aEntry[1])
-            sTitle = sTitle.replace("S ","S")
+            eps = ' E'+str(aEntry[1])
+            sTitle = str(aEntry[2])+eps
             siteUrl = str(aEntry[0]) + "watching/"
-            sThumb = str(aEntry[5])
+            sThumb = str(aEntry[3])
             sDesc = ""
-            sDisplayTitle2 = str(aEntry[1])
-            sDisplayTitle = sTitle
 
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 

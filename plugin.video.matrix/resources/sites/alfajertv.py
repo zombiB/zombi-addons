@@ -103,6 +103,10 @@ def showMoviesSearch(sSearch = ''):
             sThumb = aEntry[1]
             sYear = aEntry[3]
             sDesc = aEntry[4]
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+               sYear = str(m.group(0))
+               sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -157,6 +161,10 @@ def showSeriesSearch(sSearch = ''):
             sThumb = aEntry[1]	
             sYear = aEntry[3]	
             sDesc = aEntry[4]
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+               sYear = str(m.group(0))
+               sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -211,6 +219,10 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[0]	
             sYear = aEntry[3]
             sDesc = aEntry[4]
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+               sYear = str(m.group(0))
+               sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
