@@ -317,9 +317,9 @@ def showEpisodes():
  
             sTitle = "مشاهدة"
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
-            siteUrl = 'http'+aEntry[0]+'/watch/' + str(aEntry[1])
+            siteUrl = sUrl
             sThumb = sThumb
-            sDesc = ''
+            sDesc = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
