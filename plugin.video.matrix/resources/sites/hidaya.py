@@ -63,7 +63,7 @@ def showMovies(sSearch = ''):
            for aEntry in aResult[1]:
         
                url = "https://www.youtube.com/watch?v="+aEntry[1]
-               sTitle = str(aEntry[0])+'[COLOR yellow]'+str(aEntry[2])+'[/COLOR]'
+               sTitle = str(aEntry[0])+' [COLOR yellow] '+str(aEntry[2])+' [/COLOR]'
                sThumbnail = "http://img.youtube.com/vi/"+aEntry[1]+"/hqdefault.jpg"
 				
 				

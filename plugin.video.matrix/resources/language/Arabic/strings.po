@@ -468,10 +468,6 @@ msgctxt "#30110"
 msgid "Turkish Dubbed"
 msgstr "تركية مدبلجة"
 
-msgctxt "#30111"
-msgid "List"
-msgstr "قائمة"
-
 msgctxt "#30112"
 msgid "Documentary"
 msgstr "وثائقية"

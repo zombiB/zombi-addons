@@ -73,7 +73,7 @@ class cHoster(iHoster):
         if (aResult[0] == True):
 
             media =  aResult[1][0].replace('+', '')
-            media = base64.b64decode(media)
+            media = base64.b64decode(media).decode('utf8',errors='ignore')
 
             #cPacker decode
             from resources.lib.packer import cPacker

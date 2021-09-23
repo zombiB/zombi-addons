@@ -83,7 +83,7 @@
         <setting visible="false" id="plugin_qdoc" type="bool" label="qdoc" default="true"/> 
         <setting visible="false" id="plugin_radioquran" type="bool" label="radioquran" default="true"/>
         <setting visible="false" id="plugin_faselhd" type="bool" label="faselhd" default="true"/> 
-        <setting visible="false" id="plugin_brstej" type="bool" label="brstej" default="true"/>   
+        <setting visible="false" id="plugin_esseq" type="bool" label="esseq" default="true"/>   
         <setting visible="false" id="plugin_shahidu" type="bool" label="shahidu" default="true"/> 
         <setting visible="false" id="plugin_shoofvod" type="bool" label="shoofvod" default="true"/> 
         <setting visible="false" id="plugin_egyclub" type="bool" label="egyclub" default="true"/> 

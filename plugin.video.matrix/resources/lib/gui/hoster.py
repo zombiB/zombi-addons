@@ -185,6 +185,10 @@ class cHosterGui:
             return self.getHoster('fajer')
         if ('vidsat' in sHostName):
             return self.getHoster('vidsat')
+        if ('arabveturk' in sHostName):
+            return self.getHoster('arabveturk')
+        if ('extremenow' in sHostName):
+            return self.getHoster('extremenow')
         if ('mycima' in sHostName):
             return self.getHoster('mycima')
         if ('mp4upload' in sHostName):

@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 from resources.lib.parser import cParser
 import re
  
@@ -257,7 +257,7 @@ def showSeasons():
  
             sTitle = aEntry[2]+nume           
             sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
-            siteUrl = link
+            siteUrl = sUrl
             sThumbnail = aEntry[1]
             sInfo = ""
 			
@@ -282,7 +282,12 @@ def showEpisodes():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
  
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent2 = oRequestHandler.request()
+    oParser = cParser()
+
+    sStart = '<div class="epAll" id="epAll">'
+    sEnd = '<div class="postShare">'
+    sHtmlContent2 = oParser.abParse(sHtmlContent2, sStart, sEnd)
     
     import requests
 
@@ -297,6 +302,7 @@ def showEpisodes():
     sHtmlContent = r.content 
     if isMatrix(): 
        sHtmlContent = sHtmlContent.decode('utf8',errors='ignore') 
+       VSlog(sHtmlContent)
     if sHtmlContent:
        sPattern = '<a href="([^<]+)>([^<]+)</a>' 
 
@@ -320,7 +326,32 @@ def showEpisodes():
                       oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
           
  
-                      oGui.addEpisode(SITE_IDENTIFIER, '+', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                      oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+      # (.+?) ([^<]+) .+?
+    else :
+       sPattern = '<a href="(.+?)">(.+?)</a>' 
+
+       oParser = cParser()
+       aResult = oParser.parse(sHtmlContent2,sPattern)
+       if (aResult[0] == True):
+                  for aEntry in aResult[1]:
+                      oOutputParameterHandler = cOutputParameterHandler() 
+                      if "العضوية" in aEntry[1]:
+                         continue
+ 
+                      sTitle = aEntry[1].replace("الحلقة "," E")
+                      sTitle = ('%s %s') % (sTitle, sMovieTitle)
+                      siteUrl = aEntry[0].replace(' class="active"', "").replace('"', "") 
+                      sThumbnail = sThumbnail
+                      sInfo = ""
+
+
+                      oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+                      oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
+                      oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+          
+ 
+                      oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
        
     oGui.setEndOfDirectory() 

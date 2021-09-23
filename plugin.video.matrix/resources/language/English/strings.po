@@ -467,10 +467,6 @@ msgctxt "#30110"
 msgid "Turkish Dubbed"
 msgstr ""
 
-msgctxt "#30111"
-msgid "List"
-msgstr ""
-
 msgctxt "#30112"
 msgid "Documentary"
 msgstr ""

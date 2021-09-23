@@ -308,6 +308,7 @@ class cGui:
                         self.createContexMenuTMDB(oGuiElement, oOutputParameterHandler)
                 if sCat in (1, 2, 3):
                     self.createContexMenuSimil(oGuiElement, oOutputParameterHandler)
+                    self.createContexMenuParents(oGuiElement, oOutputParameterHandler)
                 if sCat != 6:
                     self.createContexMenuWatch(oGuiElement, oOutputParameterHandler)
         else:

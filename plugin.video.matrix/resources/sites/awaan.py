@@ -61,7 +61,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # .+? ([^<]+)
 
-    sPattern = '<div class="col-md-3 col-sm-4 col-xs-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?data-src="([^<]+)" style'
+    sPattern = '<div class="col-lg-3 col-md-4 col-sm-6 col-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?data-src="([^<]+)" style='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -116,10 +116,10 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- #.+?([^<]+)
+ # .+? ([^<]+)
 
-    sPattern = ' <div class="col-md-3 col-sm-4 col-xs-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?<div class="img-div scaleZoomImg">.+?<div class="embed-responsive-item image-div lazy-image-handler" data-src="([^<]+)" style'
-
+    sPattern = '<div class="col-lg-3 col-md-4 col-sm-6 col-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?<div class="embed-responsive-item image-div lazy-image-handler" data-src="([^<]+)" style='
+ 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

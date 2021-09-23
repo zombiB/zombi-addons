@@ -213,7 +213,7 @@ class cHome:
         oOutputParameterHandler = cOutputParameterHandler()
 
         oOutputParameterHandler.addParameter('siteUrl', 'DOC_NEWS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30112), self.addons.VSlang(30101)), 'film.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30112), self.addons.VSlang(30120)), 'film.png', oOutputParameterHandler)
 		
         oOutputParameterHandler.addParameter('siteUrl', 'DOC_SERIES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30112), self.addons.VSlang(30121)), 'mslsl.png', oOutputParameterHandler)
@@ -386,6 +386,12 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_EN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30108)), 'agnab.png', oOutputParameterHandler)
 
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30109)), 'turk.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR_AR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30110)), 'trmdlj.png', oOutputParameterHandler)
+
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_ASIA')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)
 
@@ -397,12 +403,6 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_HEND_AR')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30136)), 'inmdlj.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30109)), 'turk.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR_AR')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30110)), 'trmdlj.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_LATIN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30137)), 'latin.png', oOutputParameterHandler)
