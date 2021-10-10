@@ -298,40 +298,7 @@ def showLinks():
     
     if (aResult[0]):
         sDesc = aResult[1][0]
-    # (.+?) ([^<]+)
-
-    sPattern = 'href="([^<]+)" target="_blank" class="download_link">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    #print aResult
-
-	
-    if (aResult[0] == True):
-        oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
-        
-            url = aEntry
-
-            if url.startswith('//'):
-               url = 'http:' + url
-				
-					
-            
-            sHosterUrl = url 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     
-    oParser = cParser()
     # .+? ([^<]+)
     sPattern = '<a href="([^<]+)"><div class="WatchingArea Hoverable">'
     
@@ -443,6 +410,36 @@ def showLinks():
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    # (.+?) ([^<]+)
+
+    sPattern = 'href="([^<]+)" target="_blank" class="download_link">'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+        oOutputParameterHandler = cOutputParameterHandler()    
+        for aEntry in aResult[1]:
+        
+            url = aEntry
+
+            if url.startswith('//'):
+               url = 'http:' + url
+				
+					
+            
+            sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
      
     oGui.setEndOfDirectory()  
 

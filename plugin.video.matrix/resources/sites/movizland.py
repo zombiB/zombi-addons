@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'movizland'
 SITE_NAME = 'movizland'
 SITE_DESC = 'arabic anime'
  
-URL_MAIN = 'https://movizland.top'
+URL_MAIN = 'https://movizland.fun'
 
 RAMADAN_SERIES = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
 MOVIE_FAM = (URL_MAIN + '/category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
@@ -859,6 +859,32 @@ def showHosters2():
                 oHoster.setDisplayName(sMovieTitle2)
                 oHoster.setFileName(sMovieTitle2)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+				           
+
+    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+            
+            url = str(aEntry)
+            if url.startswith('//'):
+                url = 'http:' + url
+            
+            sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle2)
+                oHoster.setFileName(sMovieTitle2)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
     # ([^<]+) (.+?)      
 
@@ -912,32 +938,6 @@ def showHosters2():
                oHoster.setDisplayName(sMovieTitle2)
                oHoster.setFileName(sMovieTitle2)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				           
-
-    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-            
-            url = str(aEntry)
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-            sHosterUrl = url 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle2)
-                oHoster.setFileName(sMovieTitle2)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
 
                 

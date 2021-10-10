@@ -47,10 +47,7 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = re.sub('=img.vidbm.com/.+?','',str(sUrl))
-        self.__sUrl = self.__sUrl.replace('embed-', '')
-        self.__sUrl = self.__sUrl.replace('emb.html?', '')
         self.__sUrl = self.__sUrl.replace('.html?auto=1','')
-        self.__sUrl = self.__sUrl.replace('.html','')
   
     def checkUrl(self, sUrl):
         return True

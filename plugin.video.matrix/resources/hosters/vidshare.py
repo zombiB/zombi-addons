@@ -45,8 +45,6 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        if 'embed' in sUrl:
-            self.__sUrl = self.__sUrl.replace("embed-","")
 
     def getIdFromUrl(self, sUrl):
         return ''
@@ -73,30 +71,10 @@ class cHoster(iHoster):
 
         oParser = cParser()
 
-        sPattern = 'sources.+?src.+?"(.+?)"'
+        sPattern = 'file:"(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
-
-        sPattern = 'src: "([^<]+)", type'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
-                
-        if (api_call):
-            return True, api_call
-
-
-        	
-        sPattern = "<script type='text/javascript'>var player = new Clappr.Player(.+?)</script>"
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            sHtmlContent2 = aResult[1][0]
-
-        sPattern = '"(.+?)"],'
-        aResult = oParser.parse(sHtmlContent2, sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0] + '&Referer=' + self.__sUrl
                 
         if (api_call):
             return True, api_call

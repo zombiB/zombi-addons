@@ -31,6 +31,7 @@ MOVIE_POP = (URL_MAIN + '/trending/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/movies/animation', 'showMovies')
 
 SERIE_EN = (URL_MAIN + '/tv/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/tv/turkish', 'showSeries')
 
 DOC_NEWS = (URL_MAIN + '/movies/documentary', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/tv/documentary', 'showSeries')

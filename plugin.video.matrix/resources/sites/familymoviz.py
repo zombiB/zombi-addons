@@ -375,7 +375,7 @@ def showHosters():
         oGui.addText(SITE_IDENTIFIER,'الارشاد العائلي : ' + str(sNote2))
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
 
-    sPattern = 'SRC="(.+?)" FRAMEBORDER'
+    sPattern = 'SRC="(.+?)".+?width'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

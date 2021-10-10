@@ -235,7 +235,7 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  'href="([^<]+)" class="btn btn-awaanbluebtn btn-viewall">شاهد الآن</a' 
+    sPattern =  'href="(.+?)" class="btn btn-awaanbluebtn btn-viewall">شاهد الآن</a' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]
@@ -245,8 +245,9 @@ def showHosters():
         sHtmlContent = oRequest.request()
 
     oParser = cParser()
-            
-    sPattern =  'id="video_embedd" src="([^<]+)" allowfullscreen=' 
+       
+      # (.+?) ([^<]+) .+?     
+    sPattern =  'id="video_embedd" src="(.+?)" allowfullscreen=' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]
@@ -255,7 +256,7 @@ def showHosters():
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
     #recup du lien mp4
-    sPattern = 'src: "([^<]+)",'
+    sPattern = 'src: "(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     

@@ -34,7 +34,6 @@ ANIM_NEWS = (URL_MAIN + '/series/19/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%
 REPLAYTV_NEWS = (URL_MAIN + '/tv', 'showSeries')
 
 DOC_NEWS = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showMovies')
-DOC_SERIES = (URL_MAIN + '/series/16/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showSeries')
 
 
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')

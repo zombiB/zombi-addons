@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
@@ -276,6 +276,17 @@ def showHosters4():
             
             url = aEntry[0]
             if '.php?' in url:
+                oRequestHandler = cRequestHandler(url)
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://1xnews.online/'}
+                data = {'watch':'1'}
+                St=requests.Session()
+                sHtmlContent = St.get(url,headers=hdr)
+                sHtmlContent2 = sHtmlContent.content
+                oParser = cParser()
+                sPattern =  'src="(.+?)"'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if (aResult[0] == True):
+                   url = aResult[1][0]
                 oRequestHandler = cRequestHandler(url)
                 hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://1xnews.online/'}
                 data = {'watch':'1'}

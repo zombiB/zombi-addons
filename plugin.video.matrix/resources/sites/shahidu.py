@@ -383,11 +383,19 @@ def showHosters():
         sLink = aResult[1][0]+'Single/Server.php'
 
     for i in range(0,8):
-            sInfo = ""
 
             s = requests.Session()
             data = {'id':sId,'i':str(i)}
-            r = s.post(sLink, data = data)
+            
+            headers = {'Host': 'shahed4u.land',
+							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Mobile Safari/537.36',
+							'Accept': '*/*',
+							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+							'X-Requested-With': 'XMLHttpRequest',
+							'Referer': 'https://shahed4u.land',
+							'Connection': 'keep-alive'}
+            r = s.post(sLink, headers=headers, data = data)
             sHtmlContent4 = r.content.decode('utf8',errors='ignore')
             sPattern = 'src="(.+?)"'
             oParser = cParser()
@@ -399,9 +407,7 @@ def showHosters():
                     sTitle = sMovieTitle
                     if url.startswith('//'):
                        url = 'http:' + url
-				
-					
-            
+           
                     sHosterUrl = url 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if (oHoster != False):

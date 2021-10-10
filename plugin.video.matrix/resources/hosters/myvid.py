@@ -48,6 +48,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if 'embed' not in self.__sUrl:
+             self.__sUrl = self.__sUrl.replace("https://myviid.com/","https://myviid.com/embed-")
 
     def checkUrl(self, sUrl):
         return True

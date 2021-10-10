@@ -7,7 +7,7 @@ from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.aadecode import AADecoder
 from resources.lib.packer import cPacker
-from resources.lib.comaddon import VSlog, isMatrix
+from resources.lib.comaddon import VSlog
 
 import requests, re 
 
@@ -57,7 +57,6 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        VSlog(self.__sUrl)
 
         api_call = False
         url = self.__sUrl
@@ -69,13 +68,8 @@ class cHoster(iHoster):
 
         urlapi = "https://userload.co/api/assets/userload/js/videojs.js"
 
-        # ne marche plus (sur kodi18.7)
-        # sHtmlContent1 = decodeData(requests.get(urlapi).text)
-
-        oRequestHandler = cRequestHandler(urlapi)
-        sHtmlContent1 = oRequestHandler.request()
-        if isMatrix():
-           sHtmlContent1 = str(sHtmlContent1.encode('latin-1'),'utf-8')
+        #A voir quel encodage il faut pour Kodi 18.
+        sHtmlContent1 = requests.get(urlapi).content.decode('utf-8')
 
         oParser = cParser()
         sPattern = '(ﾟωﾟ.+?\(\'_\'\);)'
@@ -83,6 +77,7 @@ class cHoster(iHoster):
 
         if (aResult[0]== True):
             sdecode = AADecoder(aResult[1][0]).decode()
+
             sPattern =  'morocco=".([^\W]+).+?"&mycountry=".([^\W]+)'
             aResult_2 = oParser.parse(sdecode, sPattern)
 
@@ -106,7 +101,6 @@ class cHoster(iHoster):
                 str2 = str2 + ';'
 
             strs = cPacker().unpack(str2)
-
 
             oParser = cParser()
             sPattern = 'var\s(.+?)="([^"]*)'
@@ -135,9 +129,3 @@ class cHoster(iHoster):
                 return True, api_call.strip()
 
         return False, False
-
-def decodeData(html):
-    html = html.replace('ï¾Ÿ',"ﾟ").replace('Ï‰','ω').replace('ï¾‰','ﾉ').replace('ï½€','｀')
-    html = html.replace('â”»â”â”»','┻━┻').replace('ï½Â´ï¼‰','ｍ´').replace('Â´âˆ‡','´∇').replace('ï½°','ｰ')
-    html = html.replace('Î˜','Θ').replace('Ð”','Д').replace('Îµ','ε')
-    return html

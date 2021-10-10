@@ -442,6 +442,7 @@ def showEps():
  
             sEp = "E"+aEntry[1].replace(" ","")
             sTitle = sMovieTitle2+" "+sEp
+            sTitle = str(sTitle)
             siteUrl = str(aEntry[0])
             sThumb = str(sThumb)
             sDesc = ''

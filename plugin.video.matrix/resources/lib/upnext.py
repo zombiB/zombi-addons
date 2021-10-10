@@ -4,6 +4,7 @@ import xbmc
 import xbmcaddon
 import xbmcvfs
 import sys
+import re
 from base64 import b64encode
 from resources.lib.comaddon import dialog, addon, addonManager, VSlog, isMatrix
 from resources.lib.gui.gui import cGui
@@ -21,15 +22,12 @@ class UpNext:
     
     
     # Prépare le lien du prochain épisode d'une série
-    def nextEpisode(self, guiElement):
-        
+    def nextEpisode(self, guiElement):       
         if not self.use_up_next():
             return
         
         # tester s'il s'agit d'une série 
-        tvShowTitle = guiElement.getItemValue('tvshowtitle')
-        if not tvShowTitle:
-
+        if not guiElement.getItemValue('mediatype') == "episode":
             return      
         oInputParameterHandler = cInputParameterHandler()
         
@@ -49,8 +47,22 @@ class UpNext:
             if not sEpisode:
                 return  # impossible de déterminer l'épisode courant
 
-        sMovieTitle = tvShowTitle #if 'Saison' in tvShowTitle else tvShowTitle + ' S' + sSaison
+        #tvShowTitle n'est pas toujours disponible.
+        tvShowTitle = guiElement.getItemValue('tvshowtitle')
+        if not tvShowTitle:
+            tvShowTitle = re.search('\[\/COLOR\](.+?)\[COLOR',guiElement.getItemValue('title')).group(1)
 
+        sMovieTitle = tvShowTitle 
+
+        #Force l'ajout de la saison dans le titre.
+        #Mais ignorer si aucun saison n'existe.
+        #Par mesure de sécuriter pour eviter les bugs.
+        try:
+            if not 'Saison' in tvShowTitle:
+                tvShowTitle + ' S' + sSaison
+        except:
+            pass
+				
         numEpisode = int(sEpisode)
         nextEpisode = numEpisode+1
         sNextEpisode = '%02d' % nextEpisode
@@ -99,6 +111,7 @@ class UpNext:
             oOutputParameterHandler.addParameter('sSeason', sSaison)
             oOutputParameterHandler.addParameter('sEpisode', sNextEpisode)
             oOutputParameterHandler.addParameter('sLang', sLang)
+            oOutputParameterHandler.addParameter('tvshowtitle', tvShowTitle)
             
             sParams = oOutputParameterHandler.getParameterAsUri()
  

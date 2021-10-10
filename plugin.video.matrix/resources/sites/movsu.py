@@ -227,12 +227,12 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-    sStart = '<div class="colsbox-6">'
+    sStart = 'class="colsbox-6"><div'
     sEnd = '<footer class="footertop mt-5">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="col-post-movie">.+?<div class="thumb">.+?<a class="fulllink" href="(.+?)"></a>.+?<img src="(.+?)" alt="(.+?)">.+?<div class="movie-info">.+?</svg>(.+?)</span>'
+    sPattern = 'class="fulllink" href="(.+?)"></a>.+?src="(.+?)" alt="(.+?)"><div'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -251,7 +251,7 @@ def showSeries(sSearch = ''):
              
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
-            sDesc = ""
+            sDesc = siteUrl
 
 
 
@@ -295,7 +295,7 @@ def showSeriesLinks():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-        # ([^<]+) .+?
+        # ([^<]+) .+? (.+?)
     oParser = cParser()
     
     #Recuperation infos
@@ -305,8 +305,8 @@ def showSeriesLinks():
     
     if (aResult[0]):
         sDesc = aResult[1][0]
-  # ([^<]+) .+?
-    sPattern = '<a class="fulllink" href="([^<]+)"></a>.+?<img src="([^<]+)" alt="([^<]+)">.+?<span class="quality temporada2">'
+  # ([^<]+) .+? (.+?)
+    sPattern = 'class="fulllink" href="([^<]+)"></a>.+?<img.+?src="([^<]+)" alt="(.+?)">.+?class="quality temporada2">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -319,7 +319,7 @@ def showSeriesLinks():
             sTitle =  aEntry[2].replace(":"," ")
             siteUrl = aEntry[0]
             sThumbnail = aEntry[1]
-            sDesc = ""
+            sDesc = sDesc
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -339,7 +339,7 @@ def showEps():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-  # ([^<]+) .+?
+  # ([^<]+) .+? (.+?)
     sPattern = '<a class="fulllink" href="([^<]+)"></a>.+?<img src="([^<]+)" alt=".+?">.+?<span class="imdbRating episodio">([^<]+)</span>'
 
     oParser = cParser()

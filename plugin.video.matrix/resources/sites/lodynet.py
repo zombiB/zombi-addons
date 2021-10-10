@@ -17,7 +17,7 @@ URL_MAIN = 'https://www.lodynet.co/'
 
 MOVIE_TURK = ('https://www.lodynet.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
 MOVIE_HI = ('https://www.lodynet.cam/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
-MOVIE_ASIAN = ('https://www.lodynet.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-a/', 'showMovies')
+MOVIE_ASIAN = ('https://lodynet.cc/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d8%a9/', 'showMovies')
 KID_MOVIES = ('https://www.lodynet.cam/category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showMovies')
 SERIE_TR = ('https://lodynet.cam:2053/turkish-series-e/', 'showSerie')
 SERIE_TR_AR = ('https://lodynet.cam:2053/dubbed-turkish-series-c/', 'showSerie')
@@ -28,8 +28,6 @@ SERIE_LATIN = ('https://www.lodynet.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%
 SERIE_GENRES = (True, 'showGenres')
 
 URL_SEARCH = ('https://lodynet.cc/search/', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/explore/?q=', 'showMoviesSearch')
-URL_SEARCH_SERIES = (URL_MAIN + '/explore/?q=', 'showSearchSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
