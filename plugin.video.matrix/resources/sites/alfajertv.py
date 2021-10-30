@@ -116,14 +116,14 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -440,6 +440,8 @@ def showServer():
                        for aEntry in aResult[1]:
             
                            url = aEntry
+                           if 'hadara.ps' in aEntry :
+                               continue
                            sTitle = sMovieTitle
                            if 'fajer.video' in url:
                               url = url.split('id=')[1]

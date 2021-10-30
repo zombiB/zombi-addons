@@ -82,7 +82,7 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
             
         #type2?   
-        sPattern =  '<script type=\'text/javascript\'>(.+?)</script>'
+        sPattern =  "<script type='text/javascript'>(.+?)</script>"
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             stri = cPacker().unpack(aResult[1][0])

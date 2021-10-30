@@ -128,9 +128,9 @@ def showHosters():
                 url = 'http:' + url
             if 'ok.php' in url:
                 url = url.split('ok.php?id=', 1)[1]
-                url = 'http://ok.ru/videoembed/' + url                           
+                url = 'http://ok.ru/videoembed/' + url                            
             sHosterUrl = url
-            sHosterUrl = sHosterUrl.replace('http://yalla6.xyz/goals/youtube.php?ytid=','https://www.youtube.com/embed/').replace('?autoplay=0','').replace('?autoplay=1','')
+            sHosterUrl = sHosterUrl.replace('http://yalla6.xyz/goals/youtube.php?ytid=','https://www.youtube.com/embed/')
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                 oHoster.setDisplayName(sMovieTitle)

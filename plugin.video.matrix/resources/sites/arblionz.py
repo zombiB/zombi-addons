@@ -23,12 +23,12 @@ MOVIE_HI = (URL_MAIN + '/category/movies/indian-movies/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/movies/asian-movies/', 'showMovies')
 
 KID_MOVIES = (URL_MAIN + '/category/anime-cartoon/cartoon/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/category/series/turkish-series/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/filter/selector/episodes/category/turkish-series-translated/', 'showSeries')
 
-SERIE_TR_AR = (URL_MAIN + '/category/series/turkish-series-dubbed/', 'showSeries')
+SERIE_TR_AR = (URL_MAIN + '/filter/selector/episodes/category/turkish-series-dubbed/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/filter/selector/episodes/category/english-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/series/arabic-series/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/category/series/asian-series/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/filter/selector/episodes/category/arabic-series/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/filter/selector/episodes/category/series/asian-series/', 'showSeries')
 
 ANIM_NEWS = (URL_MAIN + '/category/anime-cartoon/anime/', 'showSeries')
 
@@ -37,9 +37,9 @@ REPLAYTV_NEWS = (URL_MAIN + '/tv', 'showSeries')
 DOC_NEWS = (URL_MAIN + '/film/genre/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 
 
-URL_SEARCH = (URL_MAIN + '/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMoviesSearch')
-URL_SEARCH_SERIES = (URL_MAIN + '/search.php?keywords=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -60,7 +60,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/search/selector/movies/'+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -69,112 +69,12 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN +'/search/selector/series/'+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
 
-
-def showMoviesSearch(sSearch = ''):
-    oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.encode('utf-8').decode('unicode_escape')
-     # (.+?) ([^<]+) .+?
-
-    sPattern = 'data-pid="(.+?)" data-uniq=".+?" data-selector="movies"><a href="(.+?)" title="(.+?)"><Box--Poster class="Box--Poster"><img src="(.+?)">'
-		
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = 'https://arlionz.com/AjaxCenter/Popovers/WatchServers/id/'+str(aEntry[0])
-            sThumb = str(aEntry[3])
-            sDesc = ""
-
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory() 
-
-
-def showSearchSeries(sSearch = ''):
-    oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.encode('utf-8').decode('unicode_escape')
-     # (.+?) ([^<]+) .+?
-
-    sPattern = '<article aria-label="post"><a href="(.+?)">.+?<li aria-label="episode"><em>.+?</em>(.+?)</li><li aria-label="year">(.+?)</li>.+?<li>الموسم(.+?)</li>.+?</em>(.+?)<em>.+?data-src="(.+?)" width'
-		
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = str(aEntry[4])+'S'+str(aEntry[3])+' E'+str(aEntry[1])
-            sTitle = sTitle.replace("S ","S")
-            siteUrl = str(aEntry[0]) + "watching/"
-            sThumb = str(aEntry[5])
-            sDesc = ""
-            sDisplayTitle2 = str(aEntry[1])
-            sDisplayTitle = sTitle
-
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
-            oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
- 
-    if not sSearch:
-        oGui.setEndOfDirectory() 
-
- 
 def showMovies(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -202,7 +102,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = 'https://arlionz.com/AjaxCenter/Popovers/WatchServers/id/'+str(aEntry[0])
             sThumb = str(aEntry[3])
             sDesc = ''
@@ -221,17 +121,24 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+    if not '/page/' in sUrl:
+           sUrl = sUrl+'page/1'
+    page = sUrl.split('page/')[1]
+    page = int(page)+1
+    sTitle = 'More' 
+    sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
+    page = str(page)
+    siteUrl = sUrl.split('page/')[0]
+    siteUrl = siteUrl +'page/'+ page
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle,'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
 
- 
 def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -260,7 +167,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = 'https://arlionz.com/AjaxCenter/Popovers/WatchServers/id/'+str(aEntry[0])
             sThumb = str(aEntry[3])
             sDesc = ''
@@ -276,15 +183,23 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+    if not '/page/' in sUrl:
+           sUrl = sUrl+'page/1'
+    page = sUrl.split('page/')[1]
+    page = int(page)+1
+    sTitle = 'More' 
+    sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
+    page = str(page)
+    siteUrl = sUrl.split('page/')[0]
+    siteUrl = siteUrl +'page/'+ page
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle,'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()  

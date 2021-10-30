@@ -37,7 +37,7 @@ class cHoster(iHoster):
         return ''
         
     def __getIdFromUrl(self, sUrl):
-        sPattern = "https://youdbox.net/(.+?)/"
+        sPattern = "https://youdbox.org/(.+?)/"
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
         if (aResult[0] == True):
@@ -69,14 +69,14 @@ class cHoster(iHoster):
         _id = self.__sUrl.split('/')[-1].replace(".html","")
         Sgn=requests.Session()
         UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
-        hdr = {'Host': 'youdbox.net',
+        hdr = {'Host': 'youdbox.org',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
         'Accept-Encoding': 'gzip, deflate',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': '111',
-        'Origin': 'https://youdbox.net',
+        'Origin': 'https://youdbox.org',
         'Connection': 'keep-alive',
         'Referer': self.__sUrl,
         'Upgrade-Insecure-Requests': '1'}

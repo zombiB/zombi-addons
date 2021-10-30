@@ -319,7 +319,7 @@ def showHosters():
     
     if (aResult[0] == True):
         
-        sUrl = str(aResult[1][0])+ '|&User-Agent='+ UA
+        sUrl = str(aResult[1][0])+ '|User-Agent='+ UA
         if sUrl.startswith('//'):
            sUrl = 'http:' + sUrl 
                  

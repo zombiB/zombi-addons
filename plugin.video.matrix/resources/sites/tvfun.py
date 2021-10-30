@@ -26,7 +26,6 @@ KID_CARTOON = ('https://www.tvfun.live/dessin-animee/', 'showSeries')
 REPLAYTV_NEWS = ('https://www.tvfun.ma/programme-tv/', 'showSeries')
 
 URL_SEARCH = ('https://a.tvfun.me/q/', 'showSeriesSearch')
-URL_SEARCH_SERIES = ('https://a.tvfun.me/q/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():

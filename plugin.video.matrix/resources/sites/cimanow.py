@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'cimanow'
 SITE_NAME = 'cimanow'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://sa.cimanow.cc'
+URL_MAIN = 'https://cimanow.cc'
 
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showMovies')
@@ -33,7 +33,7 @@ DOC_NEWS = (URL_MAIN + '/?s=%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 REPLAYTV_NEWS = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -65,7 +65,7 @@ def showSeriesSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
-        showSearchSeries(sUrl)
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
 
@@ -252,7 +252,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)">.+?<li>الموسم (.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="([^<]+)" width'
+    sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li>الموسم (.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="([^<]+)" width'
 
 
     oParser = cParser()
@@ -271,10 +271,10 @@ def showSeries(sSearch = ''):
             if "فيلم" in aEntry[2]:
                 continue
  
-            sTitle = str(aEntry[2])+' S'+str(aEntry[1])
+            sTitle = str(aEntry[2])
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[3]).replace("(","").replace(")","")
-            sDesc = ""
+            sDesc = ''
             sDisplayTitle2 = str(aEntry[2])
             sDisplayTitle = sTitle
 
@@ -285,7 +285,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle2', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 
@@ -328,7 +328,7 @@ def showSeries(sSearch = ''):
     if not sSearch:
         oGui.setEndOfDirectory()
  
-def showEps():
+def showSeasons():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -368,10 +368,28 @@ def showEps():
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+       
+    oGui.setEndOfDirectory() 
+ 
+def showEps():
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sMovieTitle2 = oInputParameterHandler.getValue('sMovieTitle2')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+    sStart = '<section aria-label="seasons">'
+    sEnd = '<ul class="tabcontent" id="related">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     # (.+?) .+?  ([^<]+)
-    sPattern = '<li><a href="(.+?)"><img src=".+?" alt="logo" />.+?<img src="([^<]+)" alt="([^<]+)" />.+?<i class="fas fa-play"></i><em>(.+?)</em>'
-    
+    sPattern = '<li><a href="(.+?)"><img src="(.+?)" alt="logo" />.+?<em>(.+?)</em>'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -382,7 +400,7 @@ def showEps():
         for aEntry in aResult[1]:
 
  
-            sTitle = sMovieTitle2+' E'+aEntry[3] 
+            sTitle = sMovieTitle2+' E'+aEntry[2] 
             siteUrl = str(aEntry[0]) + 'watching/'
             sThumb = aEntry[1]
             sDesc = ""
@@ -413,7 +431,7 @@ def showServer():
  
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'sa.cimanow.cc','referer' : 'sUrl'}
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'cimanow.cc','referer' : 'sUrl'}
     St=requests.Session()
     sHtmlContent = St.get(sUrl,headers=hdr)
     sHtmlContent = sHtmlContent.content.decode('utf8')  
@@ -466,12 +484,10 @@ def showServer():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
 
-            
-
             sTitle = 'server '
             siteUrl = URL_MAIN + '/wp-content/themes/Cima%20Now%20New/core.php?action=switch&index='+aEntry[0]+'&id='+aEntry[1]
             oRequest = cRequestHandler(siteUrl)
-            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','Accept-Encoding' : 'gzip','referer' : 'https://web.cimavids.live/'}
+            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','host' : 'cimanow.cc','referer' : 'https://cimanow.cc'}
             params = {'action':'switch','index':aEntry[0],'id':aEntry[1]}
             St=requests.Session()
             sHtmlContent = St.get(siteUrl,headers=hdr,params=params)

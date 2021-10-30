@@ -78,6 +78,9 @@ class cHoster(iHoster):
                     r = re.search('file:"(.+?)",', decoded, re.DOTALL)
                     if r:
                         api_call = r.group(1)
+                    r2 = re.search('src="(.+?)"', decoded, re.DOTALL)
+                    if r2:
+                        api_call = r2.group(1)
 
 
         if (api_call):

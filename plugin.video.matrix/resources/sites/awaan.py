@@ -17,8 +17,8 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'http://awaan.ae/'
 URL_SERIE = 'https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
 
-MOVIE_AR = ('https://www.awaan.ae/show/allprograms/208109/%D8%A3%D9%81%D9%84%D8%A7%D9%85?p=1', 'showMovies')
-SERIE_AR = ('https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA?p=1', 'showSeries')
+MOVIE_AR = ('https://www.awaan.ae/movies?page=1', 'showMovies')
+SERIE_AR = ('https://www.awaan.ae/series?page=1', 'showSeries')
 
 RAMADAN_SERIES = ('https://www.awaan.ae/show/allprograms/214766/%D8%B1%D9%85%D8%B6%D8%A7%D9%86?p=1', 'showSeries')
 REPLAYTV_NEWS = ('https://www.awaan.ae/show/allprograms/30350/%D8%AA%D8%B1%D9%81%D9%8A%D9%87?p=1', 'showSeries')
@@ -59,9 +59,9 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # .+? ([^<]+)
+ # .+? ([^<]+) (.+?)
 
-    sPattern = '<div class="col-lg-3 col-md-4 col-sm-6 col-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?data-src="([^<]+)" style='
+    sPattern = '<a href="(.+?)" class="item">.+?<img class="lozad" data-src="(.+?)" alt="img" title="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -76,10 +76,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             
             siteUrl = str(aEntry[0])
-            sThumbnail = 'https:'+str(aEntry[2])
+            sThumbnail = str(aEntry[1])
             sInfo = ""
 
 
@@ -90,13 +90,13 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-    page = sUrl.split('?p=')[1]
+    page = sUrl.split('?page=')[1]
     page = int(page)+1
     sTitle = 'More' 
     sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
     page = str(page)
-    siteUrl = sUrl.split('?p=')[0]
-    siteUrl = siteUrl +'?p='+ page
+    siteUrl = sUrl.split('?page=')[0]
+    siteUrl = siteUrl +'?page='+ page
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -116,9 +116,9 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # .+? ([^<]+)
+ # .+? ([^<]+) (.+?)
 
-    sPattern = '<div class="col-lg-3 col-md-4 col-sm-6 col-6 shows-video-col">.+?<a href="([^<]+)">.+?<p style="display: none">([^<]+)</p>.+?<div class="embed-responsive-item image-div lazy-image-handler" data-src="([^<]+)" style='
+    sPattern = '<div href="(.+?)" class="item info">.+?<img class="lozad" data-src="(.+?)" alt="img" title="(.+?)">'
  
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -133,11 +133,11 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
 
-            sTitle = str(aEntry[1]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             
-            siteUrl = str(aEntry[0])+'?p=1'
-            sThumbnail = 'https:'+str(aEntry[2])
-            sInfo = ""
+            siteUrl = str(aEntry[0])+'?page=1'
+            sThumbnail = str(aEntry[1])
+            sInfo = ''
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -147,17 +147,18 @@ def showSeries(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-    page = sUrl.split('?p=')[1]
+    page = sUrl.split('?page=')[1]
     page = int(page)+1
     sTitle = 'More' 
     sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
     page = str(page)
-    siteUrl = sUrl.split('?p=')[0]
-    siteUrl = siteUrl +'?p='+ page
+    siteUrl = sUrl.split('?page=')[0]
+    siteUrl = siteUrl +'?page='+ page
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'next.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle,'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -184,44 +185,51 @@ def showEps():
     sLink = sUrl
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-# ([^<]+) .+?
-    sPattern = '<div class="embed-responsive-item image-div  lazy-image-handler  "  data-src="([^<]+)"  style="background-image.+?<div class="content">.+?<a href="([^<]+)" class="title-link">([^<]+)</a>'
+ #  ([^<]+) (.+?) .+?
 
+    sPattern = '<a href="(.+?)" class="item">.+?<img class="lozad" data-src="(.+?)">.+?<h3>(.+?)</h3>'
+ 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-    #print aResult
-   
+	
+	
     if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-			
-            siteUrl = str(aEntry[1])
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الحلقة "," E").replace("حلقة "," E").replace(":"," ").replace("-"," ")
-            sThumbnail = 'https:'+str(aEntry[0])
-            sInfo = "" 
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
 
- 
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            
+            siteUrl = str(aEntry[0])
+            sThumbnail = str(aEntry[1])
+            sInfo = ''
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)           
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
- 
-    page = sUrl.split('?p=')[1]
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
+    page = sUrl.split('?page=')[1]
     page = int(page)+1
     sTitle = 'More' 
     sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
     page = str(page)
-    siteUrl = sUrl.split('?p=')[0]
-    siteUrl = siteUrl +'?p='+ page
+    siteUrl = sUrl.split('?page=')[0]
+    siteUrl = siteUrl +'?page='+ page
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-    oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-    oGui.addDir(SITE_IDENTIFIER, 'showEps', sTitle,'next.png', oOutputParameterHandler)
-       
-    oGui.setEndOfDirectory()
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle,'next.png', oOutputParameterHandler)
+ 
+    oGui.setEndOfDirectory() 
 
 def showHosters():
     oGui = cGui()
@@ -235,7 +243,7 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  'href="(.+?)" class="btn btn-awaanbluebtn btn-viewall">شاهد الآن</a' 
+    sPattern =  'href="(.+?)" class="btn play">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]
@@ -247,7 +255,7 @@ def showHosters():
     oParser = cParser()
        
       # (.+?) ([^<]+) .+?     
-    sPattern =  'id="video_embedd" src="(.+?)" allowfullscreen=' 
+    sPattern =  'src="(.+?)"  allow="autoplay"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0]

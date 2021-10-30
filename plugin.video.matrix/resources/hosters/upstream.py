@@ -37,6 +37,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
+        if not 'embed-' in self.__sUrl:
+            self.__sUrl = self.__sUrl.replace('-','')
 
     def checkUrl(self, sUrl):
         return True

@@ -19,15 +19,15 @@ URL_MAIN = 'https://shahed4u.land'
 RAMADAN_SERIES = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSerie')
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/افلام-عربي/', 'showMovies')
 
 DOC_NEWS = (URL_MAIN + '/genre/وثائقي/', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/genre/وثائقي/', 'showSerie')
-SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9', 'showSerie')
+SERIE_HEND = (URL_MAIN + '/category/مسلسلات-عربي/', 'showSerie')
 
-SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d9%87', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showSerie')
-SERIE_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A', 'showSerie')
+SERIE_TR = (URL_MAIN + '/category/مسلسلات-تركي-2/', 'showSerie')
+SERIE_EN = (URL_MAIN + '/category/مسلسلات-اجنبي-1/', 'showSerie')
+SERIE_AR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 ANIM_NEWS = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
 REPLAYTV_NEWS = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showSerie')
@@ -97,9 +97,9 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
+ # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="content-box"><a href="(.+?)" title="([^<]+)" class="fullClick"></a>.+?<img data-src="([^<]+)" alt='
+    sPattern = '<a href="([^<]+)" class="image">.+?data-image="([^<]+)" alt="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -114,13 +114,13 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" not in aEntry[1]:
+            if "فيلم" not in aEntry[2]:
                 continue
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[2]
             
             sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("كامل","")
-            sThumbnail = aEntry[2]
+            sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
             sInfo = ''
             sYear = ''
@@ -161,7 +161,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  #([^<]+).+?
 
-    sPattern = '<div class="content-box"><a href="([^<]+)" class=.+?data-src="([^<]+)" class="image"></a>.+?<h3>([^<]+)</h3></a><p>([^<]+)</p>'
+    sPattern = '<a href="([^<]+)" class="image">.+?data-image="([^<]+)" alt="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -212,10 +212,10 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+       # (.+?) ([^<]+) .+?
+
+    sPattern = '<a href="([^<]+)" class="image">.+?data-image="([^<]+)" alt="(.+?)">'
  
-
-    sPattern = '<div class="content-box"><a href="(.+?)" title="([^<]+)" class="fullClick"></a>.+?<img data-src="([^<]+)" alt='
-
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -229,12 +229,12 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "فيلم" in aEntry[1]:
+            if "فيلم" in aEntry[2]:
                 continue
  
-            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("كامل","")
             siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[2])
+            sThumbnail = str(aEntry[1])
             sInfo = ""
             sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
@@ -307,7 +307,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
-    sPattern = '<a href="([^<]+)" class="image"><img data-src="(.+?)" alt.+?<span class="episode-block"><span>.+?</span><span>(.+?)</span></span>'
+    sPattern = '<div class="box-5x1 col-6 media-block">.+?<a href="(.+?)" title=.+?<span class="episode-block"><span>.+?</span><span>(.+?)</span></span>'
 
 
     oParser = cParser()
@@ -318,10 +318,10 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = " E"+aEntry[2]
+            sTitle = " E"+aEntry[1]
             sTitle = sTitle+sMovieTitle
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumbnail = sThumbnail
             sDesc = ''
 			
 

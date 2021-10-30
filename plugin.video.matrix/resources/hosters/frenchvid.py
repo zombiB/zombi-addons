@@ -5,10 +5,10 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
-from resources.lib.comaddon import VSlog
-import urllib
+from resources.lib.comaddon import dialog, VSlog
+from resources.lib.util import QuotePlus
 import json
+
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'
 
@@ -49,26 +49,29 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        VSlog(self.__sUrl)
-        import requests
 
         if 'yggseries.com' in self.__sUrl:
             baseUrl = 'https://yggseries.com/api/source/'
         elif 'french-vid' in self.__sUrl:
             baseUrl = 'https://www.fembed.com/api/source/'
-        elif 'fembed.' in self.__sUrl:
+        elif 'fembed' in self.__sUrl:
             baseUrl = 'https://www.fembed.com/api/source/'
-        elif 'sendvid' in self.__sUrl:
-            baseUrl = 'https://sendvid.net/api/source/'
+        elif 'feurl' in self.__sUrl:
+            baseUrl = 'https://feurl.com/api/source/'
         elif 'vfsplayer' in self.__sUrl:
             baseUrl = 'https://vfsplayer.xyz/api/source/'
         elif 'fsimg' in self.__sUrl:
             baseUrl = 'https://www.fsimg.info/api/source/'
         elif 'fem.tohds' in self.__sUrl:
             baseUrl = 'https://feurl.com/api/source/'
-
+        elif 'core1player' in self.__sUrl:
+            baseUrl = 'https://www.core1player.com/api/source/'
+        elif 'gotochus' in self.__sUrl:
+            baseUrl = 'https://www.gotochus.com/api/source/'
+            
         if 'fem.tohds' in self.__sUrl:
             oRequestHandler = cRequestHandler(self.__sUrl)
+            oRequestHandler.disableIPV6()
             sHtmlContent = oRequestHandler.request()
 
             sPattern = '<iframe src="([^"]+)"'
@@ -77,22 +80,20 @@ class cHoster(iHoster):
 
             url = baseUrl + aResult[1][0].rsplit('/', 1)[1]
 
+            postdata = 'r=' + QuotePlus(self.__sUrl) + '&d=' + baseUrl.replace('https://', '').replace('/api/source/', '')
+
         else:
             url = baseUrl + self.__sUrl.rsplit('/', 1)[1]
-
-        postdata = 'r=' + (self.__sUrl) + '&d=' + baseUrl.replace('https://','').replace('/api/source/','')
+            postdata = 'r=' + QuotePlus(self.__sUrl) + '&d=' + baseUrl.replace('https://', '').replace('/api/source/', '')
 
         oRequest = cRequestHandler(url)
         oRequest.setRequestType(1)
+        oRequest.disableIPV6()
         oRequest.addHeaderEntry('User-Agent', UA)
-        # oRequest.addHeaderEntry('Accept', '*/*')
-        # oRequest.addHeaderEntry('Accept-Encoding','gzip, deflate, br')
-        # oRequest.addHeaderEntry('Accept-Language','fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-        # oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         oRequest.addHeaderEntry('Referer',self.__sUrl)
         oRequest.addParametersLine(postdata)
         sHtmlContent = oRequest.request()
-        
+
         page = json.loads(sHtmlContent)
         if page:
             url = []
@@ -105,6 +106,12 @@ class cHoster(iHoster):
                 api_call = dialog().VSselectqual(qua, url)
 
         if (api_call):
-            return True, api_call+ '|User-Agent=' + UA + '&Referer=' + self.__sUrl+'&verifypeer=false'
+            oRequest = cRequestHandler(api_call)
+            oRequest.disableIPV6()
+            oRequest.addHeaderEntry('Host','fvs.io')
+            oRequest.addHeaderEntry('User-Agent', UA)
+            sHtmlContent = oRequest.request()
+            api_call = oRequest.getRealUrl()
+            return True, api_call  + '|User-Agent=' + UA
 
         return False, False

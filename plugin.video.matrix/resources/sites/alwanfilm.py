@@ -7,7 +7,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, isMatrix, VSlog
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 import re
@@ -62,7 +62,7 @@ def showMovies(sSearch = ''):
 
   # .+? ([^<]+) (.+?) .+?
 
-    sPattern = 'data-src="(.+?)" alt="(.+?)".+?<a href="(.+?)">'
+    sPattern = 'data-src="([^<]+)" alt="([^<]+)" data.+?<a href="([^<]+)"><div '
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -77,8 +77,6 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[1].replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            if isMatrix(): 
-               sTitle = str(sTitle.encode('latin-1'),'utf-8')
             siteUrl = aEntry[2]
             sInfo = ''
             sThumbnail = str(aEntry[0])
@@ -144,16 +142,11 @@ def showServer():
 
     sPattern = "data-post='(.+?)'"
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
     if (aResult[0]):
         sId = aResult[1][0]
-    sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/1612'+sId+'/movie/2'
+    sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/'+sId+'/movie/2'
     oRequestHandler = cRequestHandler(sUrl)
     sgn = requests.Session()
-    data = sgn.get(sUrl).content
-    sHtmlContent = data
-    
-  # ([^<]+) .+?
     headers = {'Host': Host,
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
@@ -162,10 +155,8 @@ def showServer():
      'X-Requested-With': 'XMLHttpRequest',
      'Referer': sUrl,
      'Connection': 'keep-alive'}
-    data = {'action':'doo_player_ajax','post':sId,'nume':'1','type':'movie'}
-    s = requests.Session()
-    r = s.post('https://alwanfilm.com/wp-admin/admin-ajax.php', headers=headers,data = data)
-    sHtmlContent = r.content.decode('utf8',errors='ignore')
+    data = sgn.get(sUrl, headers=headers).content
+    sHtmlContent = data.decode('utf8',errors='ignore')
     
     # (.+?) .+? ([^<]+)        	
     sPattern = '"embed_url":"(.+?)",'

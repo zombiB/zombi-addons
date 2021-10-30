@@ -188,6 +188,9 @@ def showSeries(sSearch = ''):
  
             if "مسلسل" not  in aEntry[1]:
                 continue
+            if sSearch:
+               if "حلقة" in aEntry[1]:
+                   continue
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","") 
             sThumbnail = aEntry[2]
@@ -365,7 +368,7 @@ def showServers():
 				
    
     # (.+?) ([^<]+) .+?
-    sPattern = 'href="(.+?)" title'
+    sPattern = '<a target="_blank" href="(.+?)" title'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

@@ -1238,3 +1238,8 @@ msgstr "Pack"
 msgctxt "#40000"
 msgid "Loading: "
 msgstr "Chargement: "
+
+
+msgctxt "#31203"
+msgid "IP address for Flaresolverr"
+msgstr "Adresse IP pour Flaresolverr"

@@ -398,7 +398,7 @@ def showServer2():
                r = s.post( 'https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
                sHtmlContent = r.content.decode('utf8')         
 
-               sPattern3 = '<IFRAME.+?SRC="([^<]+)".+?FRAMEBORDER='
+               sPattern3 = '<IFRAME.+?SRC="(.+?)".+?FRAMEBORDER='
 
                oParser = cParser()
                aResult = oParser.parse(sHtmlContent, sPattern3)

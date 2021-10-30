@@ -2,7 +2,6 @@
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
 import re,xbmc
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
@@ -45,7 +44,9 @@ class cHoster(iHoster):
         if 'embed' in sUrl:
             self.__sUrl = self.__sUrl.replace("embed-","")
         if 'mediaplayer' not in sUrl:
-            self.__sUrl = self.__sUrl.replace("https://letsupload.io/","https://letsupload.co/plugins/mediaplayer/site/_embed.php?u=")
+            parts = self.__sUrl.split('/')[3]
+            self.__sUrl = "https://letsupload.co/plugins/mediaplayer/site/_embed.php?u="+parts
+            VSlog(self.__sUrl)
 
     def checkUrl(self, sUrl):
         return True
@@ -65,6 +66,12 @@ class cHoster(iHoster):
         oParser = cParser()
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+
+      # (.+?) ([^<]+) .+?
+        sPattern = "data-video-source.+?'(.+?)',.+?data"
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
 
         sPattern = 'file: "([^<]+)",type: "mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)

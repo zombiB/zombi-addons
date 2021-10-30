@@ -116,10 +116,7 @@ class cFav:
             except:
                 title = data['title']
 
-            try:
-                thumbnail = data['icon'].encode('utf-8')
-            except:
-                thumbnail = data['icon']
+            thumbnail = data['icon']
 
             try:
                 try:
@@ -192,7 +189,7 @@ class cFav:
                 oGuiElement.setFanart(fanart)
                 oGuiElement.addItemProperties('isBookmark', True)
 
-                oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'delBookmark', self.ADDON.VSlang(30412))
+                oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'delBookmark', self.ADDON.VSlang(30412))
 
                 if (function == 'play'):
                     oGui.addHost(oGuiElement, oOutputParameterHandler)
@@ -217,7 +214,9 @@ class cFav:
         oInputParameterHandler = cInputParameterHandler()
 
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
-        iCat = int(sCat)
+        iCat = 0
+        if sCat:
+            iCat = int(sCat)
         if iCat<1 or iCat>8:
             self.DIALOG.VSinfo('Error', self.ADDON.VSlang(30038))
             return

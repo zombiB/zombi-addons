@@ -1234,3 +1234,7 @@ msgstr ""
 msgctxt "#40000"
 msgid "Loading: "
 msgstr ""
+
+msgctxt "#31203"
+msgid "IP address for Flaresolverr"
+msgstr ""

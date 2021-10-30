@@ -171,8 +171,6 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1].replace("الحلقة "," E")
-            if isMatrix(): 
-               sTitle = str(sTitle.encode('latin-1'),'utf-8').replace("الحلقة "," E")
 			
             siteUrl = str(aEntry[0])
             sInfo = ""

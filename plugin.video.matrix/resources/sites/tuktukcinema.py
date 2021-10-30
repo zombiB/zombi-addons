@@ -14,24 +14,24 @@ SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'tuktukcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://tuktukcinema.net/a88'
+URL_MAIN = 'https://tuktukcinema.net'
 
-MOVIE_TOP = (URL_MAIN + '/category/movies/?key=imdb', 'showMovies')
-MOVIE_POP = (URL_MAIN + '/category/movies/?key=views', 'showMovies')
+MOVIE_TOP = (URL_MAIN + '/category/movies-15/افلام-اجنبي-2/?key=imdb', 'showMovies')
+MOVIE_POP = (URL_MAIN + '/category/movies-15/افلام-اجنبي-2/?key=views', 'showMovies')
 MOVIE_FAM = (URL_MAIN + '/genre/عائلي/?taxcat=الأفلام', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/channel/classical-movies/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a1/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/movies-15/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%89-3/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/category/movies-15/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a-2/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a1/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a1/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/movies-15/افلام-تركي-1/', 'showMovies')
 SERIE_EN = (URL_MAIN + '/category/series/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/category/series/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a3%d8%b3%d9%8a%d9%88%d9%8a', 'showSeries')
 SERIE_TR = (URL_MAIN + '/category/series/?sercat=مسلسلات-تركي', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category/series/?sercat=%d9%82%d8%a7%d8%a6%d9%85%d8%a9-%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a', 'showSeries')
 SPORT_WWE = (URL_MAIN + '/category/tvshows/', 'showMovies')
 DOC_NEWS = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=film', 'showMovies')
-DOC_SERIES = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?taxcat=%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+DOC_SERIES = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=series', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
@@ -194,7 +194,7 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oOutputParameterHandler.addParameter('sYear', sYear) 
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?

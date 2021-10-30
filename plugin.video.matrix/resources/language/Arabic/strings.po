@@ -1225,3 +1225,8 @@ msgstr "سلسلة"
 msgctxt "#40000"
 msgid "Loading: "
 msgstr " جار التحميل : "
+
+
+msgctxt "#31203"
+msgid "IP address for Flaresolverr"
+msgstr "IP address for Flaresolverr"

@@ -162,6 +162,12 @@ def showSeriesSearchLinks(sSearch = ''):
                 oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes2', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
             else:
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc,  oOutputParameterHandler)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearchLinks', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 	
@@ -447,11 +453,11 @@ def showEpisodes2():
 
     oGui.setEndOfDirectory()	
 def __checkForNextPage(sHtmlContent):
-    #VSlog(sHtmlContent)
     sPattern = '<li class="">.+?<a href="([^<]+)">'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+    #VSlog(aResult[1][0])
  
     if (aResult[0] == True):
         return 'https://animezid.com'+'/'+aResult[1][0]

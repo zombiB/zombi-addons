@@ -17,10 +17,10 @@ URL_MAIN = 'https://www.lodynet.co/'
 
 MOVIE_TURK = ('https://www.lodynet.cam/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
 MOVIE_HI = ('https://www.lodynet.cam/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
-MOVIE_ASIAN = ('https://lodynet.cc/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d8%a9/', 'showMovies')
+MOVIE_ASIAN = ('https://m.lodynet.art/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-a/', 'showMovies')
 KID_MOVIES = ('https://www.lodynet.cam/category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showMovies')
-SERIE_TR = ('https://lodynet.cam:2053/turkish-series-e/', 'showSerie')
-SERIE_TR_AR = ('https://lodynet.cam:2053/dubbed-turkish-series-c/', 'showSerie')
+SERIE_TR = ('https://m.lodynet.art/turkish-series-1a/', 'showSerie')
+SERIE_TR_AR = ('https://m.lodynet.art/dubbed-turkish-series-c/', 'showSerie')
 SERIE_HEND = ('https://lodynet.cam:2053/dubbed-indian-series-c/', 'showSerie')
 SERIE_HEND_AR = ('https://www.lodynet.cam/dubbed-indian-series-a/', 'showSeries')
 SERIE_ASIA = ('https://lodynet.cam:2053/tag/new-asia/', 'showSerie')
@@ -223,7 +223,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مدبلج للعربية","مدبلج")
+            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة و تحميل","").replace("مشاهدة","").replace("وتحميل","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مدبلج للعربية","مدبلج")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[2])
             sInfo = ""

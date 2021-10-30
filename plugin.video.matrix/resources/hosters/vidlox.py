@@ -76,6 +76,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
 
         if (api_call):
-            return True, api_call
+            return True, api_call 
 
         return False, False

@@ -20,8 +20,8 @@ URL_MAIN = 'http://www.panet.co.il'
 MOVIE_AR = ('http://www.panet.co.il/movies', 'showMovies')
 MOVIE_TURK = ('http://www.panet.co.il/movies/genre/21/1', 'showMovies')
 KID_MOVIES = ('http://www.panet.co.il/series/home/257/1', 'showEps')
-SERIE_AR = ('http://www.panet.co.il/series/v1/category/19/1', 'showSeries')
-SERIE_TR = ('http://www.panet.co.il/series/v1/category/17/1', 'showSeries')
+SERIE_AR = ('http://www.panet.co.il/mosalsalat', 'showSeries')
+SERIE_TR = ('http://www.panet.co.il/mosalsalat/category/17/1', 'showSeries')
 SERIE_ASIA = ('http://www.panet.co.il/series/v1/category/20/1', 'showSeries')
 SERIE_LATIN = ('https://www.panet.co.il/series/category/20/1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
@@ -280,7 +280,7 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     #recup du lien mp4
-    sPattern = 'meta itemprop="contentURL" content="([^<]+)" />'
+    sPattern = '<meta itemprop="contentURL" content="(.+?)" />'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

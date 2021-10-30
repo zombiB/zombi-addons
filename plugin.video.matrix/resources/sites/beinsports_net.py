@@ -144,6 +144,8 @@ def showHosters():
             url = str(aEntry)
             if url.startswith('//'):
                 url = 'http:' + url
+            if 'autoplay' not in url:
+                url = url+'?autoplay=0+'
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)

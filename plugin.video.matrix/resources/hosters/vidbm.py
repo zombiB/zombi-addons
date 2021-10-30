@@ -75,8 +75,15 @@ class cHoster(iHoster):
            sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
         #VSlog(sHtmlContent)
         oParser = cParser()
+
+        sPattern = 'file:"(.+?)",label:".+?"}],'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
+                
+        if (api_call):
+            return True, api_call
         
-        api_call = False
         
         sPattern =  '(?:[>;]\s*)(ﾟωﾟ.+?\(\'_\'\);)'
         aResult = oParser.parse(sHtmlContent, sPattern)

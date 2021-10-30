@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 # from resources.lib.statistic import cStatistic
-from resources.lib.gui.hoster import cHosterGui
 from resources.lib.home import cHome
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.pluginHandler import cPluginHandler
@@ -13,34 +14,32 @@ from resources.lib.util import Quote
 # http://kodi.wiki/view/List_of_boolean_conditions
 
 
+####################
+#
+#  Permet de debuguer avec Eclipse
+#
+# Tuto ici :
+# https://github.com/Kodi-vStream/venom-xbmc-addons/wiki
+#
+####################
 
+# Mettre True pour activer le debug
+DEBUG = False
 
+if DEBUG:
 
+    import sys  # pydevd module need to be copied in Kodi\system\python\Lib\pysrc
+    sys.path.append('H:\Program Files\Kodi\system\Python\Lib\pysrc')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    try:
+        import pysrc.pydevd as pydevd
+        pydevd.settrace('localhost', stdoutToServer=True, stderrToServer=True)
+    except ImportError:
+        try:
+            import pydevd  # with the addon script.module.pydevd, only use `import pydevd`
+            pydevd.settrace('localhost', stdoutToServer=True, stderrToServer=True)
+        except ImportError:
+            sys.stderr.write("Error: " + "You must add org.python.pydev.debug.pysrc to your PYTHONPATH.")
 
 
 class main:
@@ -215,7 +214,7 @@ def setSetting(plugin_id, value):
     return False
 
 
-# Permet la modification des settings depuis un raccourci dans le skin (jusqu'à 50 paramètres).
+# Permet la modification des settings depuis un raccourci dans le skin (jusqu'à 100 paramètres).
 # Supporte les retours à la ligne seulement derrière le paramètre, exemple :
 # RunAddon(plugin.video.matrix,function=setSettings&id1=plugin_cinemay_com&value1=true
 # &id2=plugin_cinemegatoil_org&value2=false
@@ -239,6 +238,7 @@ def setSettings(oInputParameterHandler):
     
 def isHosterGui(sSiteName, sFunction):
     if sSiteName == 'cHosterGui':
+        from resources.lib.gui.hoster import cHosterGui
         oHosterGui = cHosterGui()
         exec("oHosterGui." + sFunction + "()")
         return True
@@ -261,6 +261,7 @@ def isFav(sSiteName, sFunction):
         return True
     return False
 
+
 def isViewing(sSiteName, sFunction):
     if sSiteName == 'cViewing':
         from resources.lib.viewing import cViewing
@@ -268,6 +269,7 @@ def isViewing(sSiteName, sFunction):
         exec("oViewing." + sFunction + "()")
         return True
     return False
+
 
 def isLibrary(sSiteName, sFunction):
     if sSiteName == 'cLibrary':
@@ -321,6 +323,7 @@ def searchGlobal():
 
     total = len(aPlugins)
     progress_ = progress().VScreate(large=True)
+
     # kodi 17 vire la fenetre busy qui se pose au dessus de la barre de Progress
     try:
         xbmc.executebuiltin('Dialog.Close(busydialog)')

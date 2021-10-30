@@ -19,7 +19,6 @@ MOVIE_EN = ('https://www.faselhd.pro/movies', 'showMovies')
 MOVIE_HI = ('https://www.faselhd.pro/hindi', 'showMovies')
 MOVIE_ASIAN = ('https://www.faselhd.pro/asian-movies', 'showMovies')
 KID_MOVIES = ('https://www.faselhd.pro/dubbed-movies', 'showMovies')
-MOVIE_TURK = ('https://www.faselhd.pro/dubbed-movies', 'showMovies')
 SERIE_EN = ('https://www.faselhd.pro/series', 'showSeries')
 REPLAYTV_NEWS = ('https://www.faselhd.pro/tvshows', 'showSeries')
 ANIM_MOVIES = ('https://www.faselhd.pro/anime-movies', 'showMovies')
@@ -95,7 +94,7 @@ def showMovies(sSearch = ''):
  
             sTitle = str(aEntry[2])
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = ''
@@ -154,7 +153,7 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[2]
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
             siteUrl = str(aEntry[0])
             sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
             sInfo = ''
@@ -469,6 +468,9 @@ def showLink():
     if (aResult[0] == True):
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
+ 
+            if "01#" not in aEntry[1]:
+                continue
  
             sTitle = aEntry[1].replace("&#8217;", "'") 
             siteUrl = aEntry[0].replace("'", "") 

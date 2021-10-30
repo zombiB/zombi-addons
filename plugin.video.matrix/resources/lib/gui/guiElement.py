@@ -198,7 +198,7 @@ class cGuiElement:
             # traitement du titre pour les caracteres spéciaux déplacé dans parser plus global
             # traitement du titre pour retirer le - quand c'est une Season. Tiret, tiret moyen et cadratin
             sTitle = sTitle.replace(' - Saison', ' Season').replace(' – Season', ' Season').replace(' — Season', ' Season')
-            sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","").replace("S ","S").replace("Season ","S").replace("S ","S").replace("E ","E")
+            sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("DvDrip","").replace("DvDRip","").replace("DVBRip","").replace("TVRip","").replace("WEB Dl","").replace("WeB Dl","").replace("WEB DL","").replace("WeB DL","").replace("Web DL","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","")
 
             if "مدبلج" in sTitle:
                 sTitle = sTitle.replace("مدبلجة","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلجه","[COLOR yellow]مدبلجه[/COLOR]").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[COLOR yellow]مدبلج[/COLOR]")
@@ -323,8 +323,10 @@ class cGuiElement:
         return sTitle2
 
     def setTitle(self, sTitle):
-        #Convertie les bytes en strs pour le replace.
-        self.__sCleanTitle = sTitle.replace('[]', '').replace('()', '').strip()
+        # Nom en clair sans les langues, qualités, et autres décorations
+        self.__sCleanTitle = re.sub('\[.*\]|\(.*\)','', sTitle)
+        if not self.__sCleanTitle:
+            self.__sCleanTitle = re.sub('\[.+?\]|\(.+?\)','', sTitle)
 
         if isMatrix():
             #Python 3 decode sTitle
@@ -459,28 +461,34 @@ class cGuiElement:
             'tagline': xbmc.getInfoLabel('ListItem.tagline'),
             'plotoutline': xbmc.getInfoLabel('ListItem.plotoutline'),
             'plot': xbmc.getInfoLabel('ListItem.plot'),
-            'album': xbmc.getInfoLabel('ListItem.Art(thumb)'),
-            'backdrop_url': xbmc.getInfoLabel('ListItem.Art(fanart)'),
+            'poster_path': xbmc.getInfoLabel('ListItem.Art(thumb)'),
+            'backdrop_path': xbmc.getInfoLabel('ListItem.Art(fanart)'),
             'imdbnumber': xbmc.getInfoLabel('ListItem.IMDBNumber'),
             'season': xbmc.getInfoLabel('ListItem.season'),
-            'episode': xbmc.getInfoLabel('ListItem.episode')
+            'episode': xbmc.getInfoLabel('ListItem.episode'),
+            'tvshowtitle': xbmc.getInfoLabel('ListItem.tvshowtitle')
             }
 
         if 'title' in meta and meta['title']:
             meta['title'] = self.getTitle()
 
-        for key, value in meta.items():
-            self.addItemValues(key, value)
-
-        if 'backdrop_url' in meta and meta['backdrop_url']:
-            self.addItemProperties('fanart_image', meta['backdrop_url'])
-            self.__sFanart = meta['backdrop_url']
+        if 'backdrop_path' in meta and meta['backdrop_path']:
+            url = meta.pop('backdrop_path')
+            self.addItemProperties('fanart_image', url)
+            self.__sFanart = url
+            
         if 'trailer' in meta and meta['trailer']:
             self.__sTrailer = meta['trailer']
-        if 'album' in meta and meta['album']:
-            self.__sThumbnail = meta['album']
-            self.__sPoster = meta['album']
 
+        if 'poster_path' in meta and meta['poster_path']:
+            url = meta.pop('poster_path')
+            self.__sThumbnail = url
+            self.__sPoster = url
+
+        # Completer au besoin
+        for key, value in meta.items():
+            if value:
+                self.addItemValues(key, value)
         return
 
     def getMetadonne(self):
@@ -556,12 +564,6 @@ class cGuiElement:
         except:
             return
 
-        if str(metaType) != "6":
-            meta['title'] = self.getTitle()
-				
-        else:
-            meta['title'] = meta['tagline']
-
         if 'media_type' in meta:
             meta.pop('media_type')
 
@@ -576,8 +578,6 @@ class cGuiElement:
                 self.__TmdbId = tmdb_id
 
         if 'tvdb_id' in meta:
-#            if meta['tvdb_id']:
-#             self.__TvdbId = meta['tvdb_id']
             meta.pop('tvdb_id')
 
         if 'backdrop_path' in meta:
@@ -616,6 +616,9 @@ class cGuiElement:
             meta.pop('vote_average')
         if 'vote_count' in meta:
             meta.pop('vote_count')
+
+        if 'backdrop_url' in meta:
+            meta.pop('backdrop_url')
 				
         for key, value in meta.items():
             self.addItemValues(key, value)
@@ -688,8 +691,8 @@ class cGuiElement:
             self.addItemValues('genre', self.getGenre())
         # if not self.getItemValue('cover_url') and self.getThumbnail():
             # self.addItemValues('cover_url', self.getThumbnail())
-        # if not self.getItemValue('backdrop_url') and self.getPoster():
-            # self.addItemValues('backdrop_url', self.getPoster())
+        # if not self.getItemValue('backdrop_path') and self.getPoster():
+            # self.addItemValues('backdrop_path', self.getPoster())
         if not self.getItemValue('trailer'):
             if self.getTrailer():
                 self.addItemValues('trailer', self.getTrailer())
@@ -700,9 +703,12 @@ class cGuiElement:
 
         # Used only if there is data in db, overwrite getMetadonne()
         sCat = str(self.getCat())
-        if sCat and int(sCat) in(1, 2, 3, 4, 5, 8):  # Vérifier seulement si de type média
-            if self.getWatched():
-                self.addItemValues('playcount', 1)
+        try:
+            if sCat and int(sCat) in(1, 2, 3, 4, 5, 8):  # Vérifier seulement si de type média
+                if self.getWatched():
+                    self.addItemValues('playcount', 1)
+        except:
+            sCat = False
 					
         self.addItemProperties('siteUrl', self.getSiteUrl())
         self.addItemProperties('sCleanTitle', self.getFileName())

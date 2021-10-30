@@ -5,7 +5,7 @@ import xbmc
 import json
 
 from resources.lib.tmdb import cTMDb
-from resources.lib.comaddon import listitem, addon, dialog, isKrypton, window, VSlog, isNexus
+from resources.lib.comaddon import listitem, addon, dialog, window, isKrypton, isNexus
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -27,7 +27,7 @@ class cGui:
     CONTENT = 'files'
     searchResults = []
     listing = []
-    episodeListing = [] # Pour gérer l'enchainement des episodes
+    episodeListing = []  # Pour gérer l'enchainement des episodes
     ADDON = addon()
 
     if isKrypton():
@@ -48,8 +48,10 @@ class cGui:
 
         if sThumbnail == '':
             oGuiElement.setThumbnail(oGuiElement.getIcon())
-            
-        else:       
+
+
+
+        else:
             oGuiElement.setThumbnail(sThumbnail)
             oGuiElement.setPoster(sThumbnail)
 
@@ -280,7 +282,7 @@ class cGui:
         if _isFolder == False:
             oListItem.setProperty('IsPlayable', 'true')
         else:
-            oListItem.setProperty('IsPlayable', 'false')            
+            oListItem.setProperty('IsPlayable', 'false')
 				
         sCat = oGuiElement.getCat()
         if sCat:
@@ -317,28 +319,43 @@ class cGui:
         self.listing.append((sItemUrl, oListItem, _isFolder))
         
         # Vider les paramètres pour être recyclé
-
-        oOutputParameterHandler.clearParameter()        
+        oOutputParameterHandler.clearParameter()
         return oListItem
 
     def createListItem(self, oGuiElement):
 
 
         # Enleve les elements vides
-        data = {key:val for key, val in oGuiElement.getItemValues().items() if val != ""}
+        data = {key: val for key, val in oGuiElement.getItemValues().items() if val != ""}
 
         itemTitle = oGuiElement.getTitle()
 
-        if int(oGuiElement.getMeta()) == 6: # Nom de l'épisode
-            if cGui.CONTENT != "episodes":
-                data['title'] = data['title'] + " " + itemTitle.split(data['tvshowtitle'])[1]
+        # Formatage nom episode
+        sCat = oGuiElement.getCat()
+        if sCat and int(sCat)== 8:  # Nom de l'épisode
+            try:
+                if 'tagline' in data and data['tagline']:
+                    episodeTitle = data['tagline']
+                else:
+                    episodeTitle = 'Episode ' + str(data['episode'])
+                host = ''
+                if 'tvshowtitle' in data:
+                    host = itemTitle.split(data['tvshowtitle'])[1]
+                itemTitle = str(data['season']) + "x" + str(data['episode']) + ". " + episodeTitle + " " + host
+                data['title'] = itemTitle
+            except:
+                data['title'] = itemTitle
+                pass
+        else:
+            #Permets d'afficher toutes les informations pour les films.
+            data['title'] = itemTitle
 
-        try:
-            if data.get('duration'):
-                #Convertion en seconde, utile pour le lien final.
-                data['duration'] = (sum(x * int(t) for x, t in zip([1, 60, 3600], reversed(data.get('duration', '').split(":")))))
-        except:
-            pass
+
+        if ":" in str(data.get('duration')):
+            # Convertion en seconde, utile pour le lien final.
+            data['duration'] = (sum(x * int(t) for x, t in zip([1, 60, 3600], reversed(data.get('duration', '').split(":")))))
+
+
 
         oListItem = listitem(itemTitle)
 
@@ -347,9 +364,9 @@ class cGui:
             data['cast'] = []
             for i in credits:
                 if isNexus():
-                    data['cast'].append(xbmc.Actor(i['name'], i['character'], i['order'], i.get('thumbnail',"")))
+                    data['cast'].append(xbmc.Actor(i['name'], i['character'], i['order'], i.get('thumbnail', "")))
                 else:
-                    data['cast'].append((i['name'], i['character'], i['order'], i.get('thumbnail',"")))
+                    data['cast'].append((i['name'], i['character'], i['order'], i.get('thumbnail', "")))
         else:
             credits = None
 
@@ -357,35 +374,36 @@ class cGui:
         if not isNexus():
             # voir : https://kodi.wiki/view/InfoLabels
             oListItem.setInfo(oGuiElement.getType(), data)
+
         else:
             videoInfoTag = oListItem.getVideoInfoTag()
 
             # gestion des valeurs par defaut si non renseignées
-            videoInfoTag.setMediaType(data.get('mediatype'))
-            videoInfoTag.setTitle(data.get('title',""))
-            videoInfoTag.setTvShowTitle(data.get('tvshowtitle',''))
-            videoInfoTag.setOriginalTitle(data.get('originaltitle'))
-            videoInfoTag.setPlot(data.get('plot'))
-            videoInfoTag.setPlotOutline(data.get('tagline'))
-            videoInfoTag.setYear(int(data.get('year',0)))       
-            videoInfoTag.setRating(float(data.get('rating',0.0)))
-            videoInfoTag.setMpaa(data.get('mpaa'))
+            videoInfoTag.setMediaType(data.get('mediatype', ""))
+            videoInfoTag.setTitle(data.get('title', ""))
+            videoInfoTag.setTvShowTitle(data.get('tvshowtitle', ''))
+            videoInfoTag.setOriginalTitle(data.get('originaltitle', ""))
+            videoInfoTag.setPlot(data.get('plot', ""))
+            videoInfoTag.setPlotOutline(data.get('tagline', ""))
+            videoInfoTag.setYear(int(data.get('year', 0)))
+            videoInfoTag.setRating(float(data.get('rating', 0.0)))
+            videoInfoTag.setMpaa(data.get('mpaa',""))
             videoInfoTag.setDuration(int(data.get('duration', 0)))
-            videoInfoTag.setPlaycount(int(data.get('playcount',0)))
-            videoInfoTag.setCountries(data.get('country',[""]))
-            videoInfoTag.setTrailer(data.get('trailer'))
-            videoInfoTag.setTagLine(data.get('tagline'))
-            videoInfoTag.setStudios(list(data.get('studio','').split("/")))
-            videoInfoTag.setWriters(list(data.get('writer','').split("/")))
-            videoInfoTag.setDirectors(list(data.get('director','').split("/")))
-            videoInfoTag.setGenres(''.join(data.get('genre',[""])).split('/'))
-            videoInfoTag.setSeason(int(data.get('season',0)))
-            videoInfoTag.setEpisode(int(data.get('episode',0)))
-            videoInfoTag.setResumePoint(float(data.get('resumetime',0.0)), float(data.get('totaltime',0.0)))
+            videoInfoTag.setPlaycount(int(data.get('playcount', 0)))
+            videoInfoTag.setCountries(data.get('country', [""]))
+            videoInfoTag.setTrailer(data.get('trailer', ""))
+            videoInfoTag.setTagLine(data.get('tagline', ""))
+            videoInfoTag.setStudios(list(data.get('studio', '').split("/")))
+            videoInfoTag.setWriters(list(data.get('writer', '').split("/")))
+            videoInfoTag.setDirectors(list(data.get('director', '').split("/")))
+            videoInfoTag.setGenres(''.join(data.get('genre', [""])).split('/'))
+            videoInfoTag.setSeason(int(data.get('season', 0)))
+            videoInfoTag.setEpisode(int(data.get('episode', 0)))
+            videoInfoTag.setResumePoint(float(data.get('resumetime', 0.0)), float(data.get('totaltime', 0.0)))
 
-            videoInfoTag.setCast(data.get('cast',[]))
+            videoInfoTag.setCast(data.get('cast', []))
 
-				
+
         oListItem.setArt({'poster': oGuiElement.getPoster(),
                           'thumb': oGuiElement.getThumbnail(),
                           'icon': oGuiElement.getIcon(),
@@ -396,10 +414,9 @@ class cGui:
             oListItem.setProperty(sPropertyKey, str(sPropertyValue))
 
         return oListItem
-
     # Marquer vu/Non vu
     def createContexMenuWatch(self, oGuiElement, oOutputParameterHandler=''):
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'setWatched', self.ADDON.VSlang(30206))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'setWatched', self.ADDON.VSlang(30206))
 
     def createContexMenuPageSelect(self, oGuiElement, oOutputParameterHandler):
         oContext = cContextElement()
@@ -429,38 +446,38 @@ class cGui:
         oOutputParameterHandler.addParameter('sFav', oGuiElement.getFunction())
         oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
 
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'setBookmark', self.ADDON.VSlang(30210))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'setBookmark', self.ADDON.VSlang(30210))
 
-    def createContexMenuTrakt(self, oGuiElement, oOutputParameterHandler= ''):
+    def createContexMenuTrakt(self, oGuiElement, oOutputParameterHandler=''):
         oOutputParameterHandler.addParameter('sImdbId', oGuiElement.getImdbId())
         oOutputParameterHandler.addParameter('sTmdbId', oGuiElement.getTmdbId())
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
 
         sType = cGui.CONTENT.replace('tvshows', 'shows')
         oOutputParameterHandler.addParameter('sType', sType)
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cTrakt', 'cTrakt', 'getAction', self.ADDON.VSlang(30214))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cTrakt', 'cTrakt', 'getAction', self.ADDON.VSlang(30214))
 
-    def createContexMenuTMDB(self, oGuiElement, oOutputParameterHandler = ''):
+    def createContexMenuTMDB(self, oGuiElement, oOutputParameterHandler=''):
         oOutputParameterHandler.addParameter('sImdbId', oGuiElement.getImdbId())
         oOutputParameterHandler.addParameter('sTmdbId', oGuiElement.getTmdbId())
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
 
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'themoviedb_org', 'themoviedb_org', 'getAction', 'TMDB')
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'themoviedb_org', 'themoviedb_org', 'getAction', 'TMDB')
 
     def createContexMenuDownload(self, oGuiElement, oOutputParameterHandler='', status='0'):
         if status == '0':
-            self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'StartDownloadOneFile', self.ADDON.VSlang(30215))
+            self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'StartDownloadOneFile', self.ADDON.VSlang(30215))
 
         if status == '0' or status == '2':
-            self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'delDownload', self.ADDON.VSlang(30216))
-            self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'DelFile', self.ADDON.VSlang(30217))
+            self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'delDownload', self.ADDON.VSlang(30216))
+            self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'DelFile', self.ADDON.VSlang(30217))
 
         if status == '1':
-            self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'StopDownloadList', self.ADDON.VSlang(30218))
+            self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'StopDownloadList', self.ADDON.VSlang(30218))
 
         if status == '2':
-            self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'ReadDownload', self.ADDON.VSlang(30219))
-            self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'ResetDownload', self.ADDON.VSlang(30220))
+            self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'ReadDownload', self.ADDON.VSlang(30219))
+            self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cDownload', 'cDownload', 'ResetDownload', self.ADDON.VSlang(30220))
 
     # Information
     def createContexMenuinfo(self, oGuiElement, oOutputParameterHandler=''):
@@ -471,7 +488,7 @@ class cGui:
         oOutputParameterHandler.addParameter('sMeta', oGuiElement.getMeta())
         oOutputParameterHandler.addParameter('sYear', oGuiElement.getYear())
 
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewInfo', self.ADDON.VSlang(30208))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewInfo', self.ADDON.VSlang(30208))
 
     # Bande annonce
     def createContexMenuba(self, oGuiElement, oOutputParameterHandler=''):
@@ -482,7 +499,7 @@ class cGui:
         oOutputParameterHandler.addParameter('sTrailerUrl', oGuiElement.getTrailer())
         oOutputParameterHandler.addParameter('sMeta', oGuiElement.getMeta())
 
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewBA', self.ADDON.VSlang(30212))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewBA', self.ADDON.VSlang(30212))
 
     # Recherche similaire
     def createContexMenuSimil(self, oGuiElement, oOutputParameterHandler=''):
@@ -492,7 +509,7 @@ class cGui:
         oOutputParameterHandler.addParameter('sYear', oGuiElement.getYear())
         oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
 
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewSimil', self.ADDON.VSlang(30213))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewSimil', self.ADDON.VSlang(30213))
 
     #MenuParents 
     def createContexMenuParents(self, oGuiElement, oOutputParameterHandler=''):
@@ -505,8 +522,8 @@ class cGui:
         sType = cGui.CONTENT.replace('tvshows', 'tvshow').replace('movies', 'movie')
         oOutputParameterHandler.addParameter('sType', sType)
 
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getTmdbId(), 'viewParents', self.ADDON.VSlang(33213))
-    def CreateSimpleMenu(self, oGuiElement, oOutputParameterHandler, sFile, sName, sFunction, sTitle):
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getTmdbId(), 'viewParents', self.ADDON.VSlang(33213))
+    def createSimpleMenu(self, oGuiElement, oOutputParameterHandler, sFile, sName, sFunction, sTitle):
         oContext = cContextElement()
         oContext.setFile(sFile)
         oContext.setSiteName(sName)
@@ -517,10 +534,10 @@ class cGui:
         oGuiElement.addContextItem(oContext)
 
     def createContexMenuDelFav(self, oGuiElement, oOutputParameterHandler=''):
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'delBookmarksMenu', self.ADDON.VSlang(30209))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'delBookmarksMenu', self.ADDON.VSlang(30209))
 
     def createContexMenuSettings(self, oGuiElement, oOutputParameterHandler=''):
-        self.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'globalParametre', 'globalParametre', 'opensetting', self.ADDON.VSlang(30023))
+        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'globalParametre', 'globalParametre', 'opensetting', self.ADDON.VSlang(30023))
 
     def __createContextMenu(self, oGuiElement, oListItem):
         sPluginPath = cPluginHandler().getPluginPath()
@@ -581,12 +598,12 @@ class cGui:
                 if cGui.CONTENT == 'movies' or  cGui.CONTENT == 'artists':
                     # xbmc.executebuiltin('Container.SetViewMode(507)')
                     xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting('movies-view'))
-                elif cGui.CONTENT in ['tvshows','seasons','episodes']:
-                    xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting(cGui.CONTENT + '-view'))               
+                elif cGui.CONTENT in ['tvshows', 'seasons', 'episodes']:
+                    xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting(cGui.CONTENT + '-view'))
                 elif cGui.CONTENT == 'files':
                     xbmc.executebuiltin('Container.SetViewMode(%s)' % self.ADDON.getSetting('default-view'))
 
-        del self.episodeListing[:] # Pour l'enchainement des episodes
+        del self.episodeListing[:]  # Pour l'enchainement des episodes
         self.episodeListing.extend(self.listing)
 		
         del self.listing[:]

@@ -431,7 +431,11 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()       
+    oParser = cParser()    
+
+    sStart = '<div class="EpisodesList" id="LoadEpisodes">'
+    sEnd = '<script type="text/javascript">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)   
  
 
       # (.+?) ([^<]+) .+?
@@ -470,13 +474,40 @@ def showEpisodes():
             if '/series/' in siteUrl:
                 oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle2, '', sThumbnail, sInfo, oOutputParameterHandler)
             else:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo,  oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, '', sThumbnail, sInfo,  oOutputParameterHandler)   
+ 
+
+      # (.+?) ([^<]+) .+?
+
+    sPattern = '<div class="EpisodeItem"><a href="(.+?)">.+?<em>(.+?)</em>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:
+ 
+
+            siteUrl = aEntry[0]
+            sTitle = 'E'+aEntry[1]
+            sTitle = sMovieTitle2+sTitle
+            sThumbnail = sThumbnail
+            sInfo = ""
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle2', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters2', sTitle, '', sThumbnail, sInfo,  oOutputParameterHandler)
         
        
     oGui.setEndOfDirectory()
 		
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a href="([^<]+)" >الصفحة التالية &laquo;</a></li>'
+    sPattern = '<link rel="next" href="([^<]+)" />'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
