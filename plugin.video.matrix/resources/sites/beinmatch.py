@@ -51,7 +51,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">'
+    sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">(.+?)</button>'
 
 
 
@@ -73,7 +73,7 @@ def showMovies(sSearch = ''):
             siteUrl = "https://beinmatch.tv/home/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
-            sInfo = ""
+            sInfo = aEntry[2]
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

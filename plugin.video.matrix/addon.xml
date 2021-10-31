@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.matrix" name="matrix" version="4.4.6" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="4.4.7" provider-name="zombi">
     <requires>
 
         <trycatch>
@@ -16,6 +16,8 @@
         <import addon="script.module.resolveurl" version="5.1.00"/>
         <import addon="script.module.requests" version="2.9.1"/>
         <import addon="script.module.dnspython" optional="true"/>
+        <import addon="script.module.pyqrcode" optional="true"/>
+        <import addon="script.module.selenium" optional="true"/>
         <import addon="repository.zombi" version="0.0.6"/>
         <!-- Pour le DEBUG        <import addon="script.module.pydevd" version="4.4.0"/> -->
     </requires>
@@ -49,7 +51,7 @@
 
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
-        <news>plugin.video.matrix-4.4.6</news>
+        <news>plugin.video.matrix-4.4.7</news>
         <summary lang="en">https://zombib.github.io/</summary>
         <summary lang="fr">https://zombib.github.io/</summary>
         <description lang="en">https://zombib.github.io/</description>

@@ -22,7 +22,6 @@ SERIE_HEND = ('https://www.tvfun.ma/mosalsalat-hindia/', 'showSeries')
 SERIE_AR = ('https://www.tvfun.ma/mosalsalat-3arabia/', 'showSeries')
 SERIE_ASIA = ('https://ww.tvfun.ma/mosalsalat-korea/', 'showSeries')
 SERIE_LATIN = ('https://ww.tvfun.ma/mosalsalat-latinia/', 'showSeries')
-KID_CARTOON = ('https://www.tvfun.live/dessin-animee/', 'showSeries')
 REPLAYTV_NEWS = ('https://www.tvfun.ma/programme-tv/', 'showSeries')
 
 URL_SEARCH = ('https://a.tvfun.me/q/', 'showSeriesSearch')

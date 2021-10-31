@@ -201,7 +201,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[4]))
             oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', aEntry[4], '', aEntry[2], aEntry[3], oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', aEntry[4], '', aEntry[2], '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

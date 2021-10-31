@@ -7,6 +7,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, isMatrix
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil, Quote
 import re
  
 SITE_IDENTIFIER = 'arabseed'
@@ -201,9 +202,8 @@ def showMovies(sSearch = ''):
        import requests
        s = requests.Session()            
        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': sUrl}
+							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
-       VSlog(psearch)
        data = {'search':psearch,'type':'movies'}
        r = s.post('https://arabseed.onl:2053/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
@@ -371,12 +371,11 @@ def showSeries(sSearch = ''):
        import requests
        s = requests.Session()            
        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': sUrl}
+							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
-       VSlog(psearch)
        data = {'search':psearch,'type':'series'}
        r = s.post('https://arabseed.onl:2053/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
-       sHtmlContent = r.content.decode('utf8') 
+       sHtmlContent = r.content.decode('utf8',errors='ignore')
        sPattern = '<div class="MovieBlock">.+?<a href="(.+?)">.+?data-image="(.+?)" alt="(.+?)">'
     else:
      # (.+?) ([^<]+) .+?

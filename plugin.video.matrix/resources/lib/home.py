@@ -196,7 +196,7 @@ class cHome:
         oOutputParameterHandler.addParameter('searchtext', searchtext)
         oGuiElement.setTitle(self.addons.VSlang(30080))
         oGuiElement.setFileName(self.addons.VSlang(30080))
-        oGuiElement.setCat(5)
+        oGuiElement.setCat(3)
         oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
         # oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
@@ -519,7 +519,7 @@ class cHome:
             oGuiElement.setFileName(sTitle)
             oGuiElement.setCat(sCat)
             oGuiElement.setIcon('search.png')
-            oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, 'cHome', 'delSearch', self.addons.VSlang(30412))
+            oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, SITE_IDENTIFIER, 'cHome', 'delSearch', self.addons.VSlang(30412))
             oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
         if row:
