@@ -112,11 +112,8 @@ class cGui:
     #    Divers          5             0        videos
     #    IPTV (Officiel) 6             0        files
     #    Saga            7             3        movies
-
     #    Episodes        8             6        episodes
     #    Person          /             7        artists
-
-
     #    Nerwork         /             8        files
     def addMovie(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         movieUrl = oOutputParameterHandler.getValue('siteUrl')

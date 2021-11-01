@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'arblionz'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://arlionz.com'
+URL_MAIN = 'https://arlionz.net'
 RAMADAN_SERIES = (URL_MAIN + '/category/ramada-series/ramadan-2021/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/movies/arabic-movies/', 'showMovies')
@@ -121,7 +121,7 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-    if not '/page/' in sUrl:
+    if not 'page/' in sUrl:
            sUrl = sUrl+'page/1'
     page = sUrl.split('page/')[1]
     page = int(page)+1
@@ -324,6 +324,7 @@ def showHosters():
     oRequestHandler.addHeaderEntry('Referer', 'https://arlionz.com/watch/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%81%d9%8a%d9%84%d9%85-cry-macho-2021-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/')
     sHtmlContent = oRequestHandler.request()
     sHtmlContent = str(sHtmlContent.encode('utf-8'))
+    
     # (.+?) .+?         
 
     sPattern = '<li(.+?)class'
@@ -340,6 +341,43 @@ def showHosters():
             sTitle = sMovieTitle
             
             sHosterUrl = url.strip()
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+
+    import requests
+    from resources.lib.util import Quote
+    s = requests.Session()     
+    sid = sUrl.replace("https://arlionz.com/AjaxCenter/Popovers/WatchServers/id/","")          
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+    r = s.get('https://arlionz.net/AjaxCenter/Popovers/DownloadServers/id/'+sid, headers=headers)
+    sHtmlContent = r.content.decode('utf8',errors='ignore')
+    sHtmlContent = sHtmlContent.replace("\\r","").replace("\\","").replace("/\\","").replace('" rel="nofollow','')
+    
+    # (.+?) .+?         
+
+    sPattern = 'href="(.+?)" target'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            sTitle = sMovieTitle
+            
+            sHosterUrl = url
+            if '?download_' in sHosterUrl:
+                sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'moshahda' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:

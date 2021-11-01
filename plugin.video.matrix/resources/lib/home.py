@@ -196,7 +196,7 @@ class cHome:
         oOutputParameterHandler.addParameter('searchtext', searchtext)
         oGuiElement.setTitle(self.addons.VSlang(30080))
         oGuiElement.setFileName(self.addons.VSlang(30080))
-        oGuiElement.setCat(3)
+        oGuiElement.setCat(5)
         oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
         # oOutputParameterHandler.addParameter('siteUrl', 'http://venom')

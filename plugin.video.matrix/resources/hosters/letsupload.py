@@ -46,7 +46,6 @@ class cHoster(iHoster):
         if 'mediaplayer' not in sUrl:
             parts = self.__sUrl.split('/')[3]
             self.__sUrl = "https://letsupload.co/plugins/mediaplayer/site/_embed.php?u="+parts
-            VSlog(self.__sUrl)
 
     def checkUrl(self, sUrl):
         return True
@@ -60,32 +59,21 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         VSlog(self.__sUrl)
- 
-        api_call = ''
-        
-        oParser = cParser()
+        api_call = False
+
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+        VSlog(sHtmlContent)
 
-      # (.+?) ([^<]+) .+?
-        sPattern = "data-video-source.+?'(.+?)',.+?data"
+        oParser = cParser()
+        
+        sPattern = "data-video-source.+?source:'(.+?)', label"
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0]
-
-        sPattern = 'file: "([^<]+)",type: "mp4"'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
-            api_call = aResult[1][0]
-
-        sPattern = 'value="(.+?)"/>'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
+        if (aResult[0]):
             api_call = aResult[1][0]
 
 
         if (api_call):
-            return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
-        
+            return True, api_call + '|User-Agent=' + UA
 
-        return False, False 
+        return False, False

@@ -19,7 +19,7 @@ from resources.lib.util import Quote
 #  Permet de debuguer avec Eclipse
 #
 # Tuto ici :
-# https://github.com/Kodi-vStream/venom-xbmc-addons/wiki
+# https://github.com/Kodi-matrix/venom-xbmc-addons/wiki
 #
 ####################
 

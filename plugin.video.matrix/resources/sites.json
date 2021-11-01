@@ -1,0 +1,244 @@
+{
+    "site": {
+        "plugin_aflamfree": {
+            "label": "aflamfree",
+            "active": "true"
+        },
+        "plugin_ahdaf": {
+            "label": "ahdaf",
+            "active": "true"
+        },
+        "plugin_akoam": {
+            "label": "akoam",
+            "active": "true"
+        },
+        "plugin_akwam": {
+            "label": "akwam",
+            "active": "true"
+        },
+        "plugin_alarab": {
+            "label": "alarab",
+            "active": "true"
+        },
+        "plugin_alarabiya": {
+            "label": "alarabiya",
+            "active": "true"
+        },
+        "plugin_alfajertv": {
+            "label": "alfajertv",
+            "active": "true"
+        },
+        "plugin_alwanfilm": {
+            "label": "alwanfilm",
+            "active": "true"
+        },
+        "plugin_animeblkom": {
+            "label": "animeblkom",
+            "active": "true"
+        },
+        "plugin_animeslayer": {
+            "label": "animeslayer",
+            "active": "true"
+        },
+        "plugin_animezid": {
+            "label": "animezid",
+            "active": "true"
+        },
+        "plugin_arabsciences": {
+            "label": "arabsciences",
+            "active": "true"
+        },
+        "plugin_arabseed": {
+            "label": "arabseed",
+            "active": "true"
+        },
+        "plugin_aracinema_co": {
+            "label": "aracinema_co",
+            "active": "true"
+        },
+        "plugin_arbcinema": {
+            "label": "arbcinema",
+            "active": "true"
+        },
+        "plugin_arblionz": {
+            "label": "arblionz",
+            "active": "true"
+        },
+        "plugin_asgoal": {
+            "label": "asgoal",
+            "active": "true"
+        },
+        "plugin_awaan": {
+            "label": "awaan",
+            "active": "true"
+        },
+        "plugin_beinmatch": {
+            "label": "beinmatch",
+            "active": "true"
+        },
+        "plugin_beinsports_net": {
+            "label": "beinsports_net",
+            "active": "true"
+        },
+        "plugin_btolat": {
+            "label": "btolat",
+            "active": "true"
+        },
+        "plugin_cartoonrbi": {
+            "label": "cartoonrbi",
+            "active": "true"
+        },
+        "plugin_cdrama": {
+            "label": "cdrama",
+            "active": "true"
+        },
+        "plugin_cimaclub": {
+            "label": "cimaclub",
+            "active": "true"
+        },
+        "plugin_cimanow": {
+            "label": "cimanow",
+            "active": "true"
+        },
+        "plugin_cimau": {
+            "label": "cimau",
+            "active": "true"
+        },
+        "plugin_docarabic": {
+            "label": "docarabic",
+            "active": "true"
+        },
+        "plugin_egybest": {
+            "label": "egybest",
+            "active": "true"
+        },
+        "plugin_egyclub": {
+            "label": "egyclub",
+            "active": "true"
+        },
+        "plugin_egydead": {
+            "label": "egydead",
+            "active": "true"
+        },
+        "plugin_ehna": {
+            "label": "ehna",
+            "active": "true"
+        },
+        "plugin_esseq": {
+            "label": "esseq",
+            "active": "true"
+        },
+        "plugin_eyoon": {
+            "label": "eyoon",
+            "active": "true"
+        },
+        "plugin_familymoviz": {
+            "label": "familymoviz",
+            "active": "true"
+        },
+        "plugin_fansubs": {
+            "label": "fansubs",
+            "active": "true"
+        },
+        "plugin_faselhd": {
+            "label": "faselhd",
+            "active": "true"
+        },
+        "plugin_fnteam": {
+            "label": "fnteam",
+            "active": "true"
+        },
+        "plugin_geoarabic": {
+            "label": "geoarabic",
+            "active": "true"
+        },
+        "plugin_halacima": {
+            "label": "halacima",
+            "active": "true"
+        },
+        "plugin_hidaya": {
+            "label": "hidaya",
+            "active": "true"
+        },
+        "plugin_katkoute": {
+            "label": "katkoute",
+            "active": "true"
+        },
+        "plugin_kingfoot": {
+            "label": "kingfoot",
+            "active": "true"
+        },
+        "plugin_lodynet": {
+            "label": "lodynet",
+            "active": "true"
+        },
+        "plugin_movizland": {
+            "label": "movizland",
+            "active": "true"
+        },
+        "plugin_mycima": {
+            "label": "mycima",
+            "active": "true"
+        },
+        "plugin_panet": {
+            "label": "panet",
+            "active": "true"
+        },
+        "plugin_replay": {
+            "label": "replay",
+            "active": "true"
+        },
+        "plugin_shahidu": {
+            "label": "shahidu",
+            "active": "true"
+        },
+        "plugin_shoofvod": {
+            "label": "shoofvod",
+            "active": "true"
+        },
+        "plugin_spacepowerfan": {
+            "label": "spacepowerfan",
+            "active": "true"
+        },
+        "plugin_stardima": {
+            "label": "stardima",
+            "active": "true"
+        },
+        "plugin_tuktukcinema": {
+            "label": "tuktukcinema",
+            "active": "true"
+        },
+        "plugin_tvfun": {
+            "label": "tvfun",
+            "active": "true"
+        },
+        "plugin_tvnine": {
+            "label": "tvnine",
+            "active": "true"
+        },
+        "plugin_watanflix": {
+            "label": "watanflix",
+            "active": "true"
+        },
+        "plugin_xsanime": {
+            "label": "xsanime",
+            "active": "true"
+        },
+        "plugin_yallalive": {
+            "label": "yallalive",
+            "active": "true"
+        },
+        "plugin_yallashoot": {
+            "label": "yallashoot",
+            "active": "true"
+        },
+        "plugin_themoviedb_org": {
+            "label": "themoviedb_org",
+            "active": "true"
+        },
+        "plugin_topimdb": {
+            "label": "topimdb",
+            "active": "true"
+        }
+    }
+}

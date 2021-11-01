@@ -52,11 +52,13 @@ class cLibrary:
             return
         else:
             sCat = '2'
-				
+
         sMediaUrl = QuotePlus(sMediaUrl)
         sFileName = QuotePlus(sFileName)
 
-        sLink = 'plugin://plugin.video.matrix/?function=play&site=cHosterGui&sFileName=' + sFileName + '&sMediaUrl=' + sMediaUrl + '&sHosterIdentifier=' + sHosterIdentifier
+        sLink = 'plugin://plugin.video.matrix/?function=play&site=cHosterGui&sFileName='
+        sLink += sFileName + '&sMediaUrl=' + sMediaUrl + '&sHosterIdentifier=' + sHosterIdentifier
+
         sTitle = sFileName
 
         if sCat == '1':  # film
@@ -78,17 +80,17 @@ class cLibrary:
             sFTitle = self.showKeyBoard(sTitle, 'Recommandé Nomdeserie/Saison00')
 
             try:
+
                 sPath = '/'.join([self.__sTVFolder, sFTitle])
+
                 if not xbmcvfs.exists(sPath):
                     xbmcvfs.mkdir(sPath)
 
                 sTitle = self.showKeyBoard(sTitle, 'Recommandé NomdeserieS00E00')
 
                 self.MakeFile(sPath, sTitle, sLink)
-
             except:
                 dialog().VSinfo('Rajout impossible')
-
 
     def MakeFile(self, folder, name, content):
         stream = '/'.join([folder, str(name)]) + '.strm'
@@ -152,7 +154,6 @@ class cLibrary:
     def Delfile(self):
         oInputParameterHandler = cInputParameterHandler()
         sFile = oInputParameterHandler.getValue('sFile')
-
 
         xbmcvfs.delete(sFile)
 

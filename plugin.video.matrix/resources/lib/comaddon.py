@@ -3,7 +3,6 @@
 
 import xbmcaddon, xbmcgui, xbmc, xbmcplugin, xbmcvfs 
 import time
-
 """System d'importation
 
 from resources.lib.comaddon import addon, dialog, VSlog, xbmcgui, xbmc
@@ -63,7 +62,7 @@ class addon():
      
     def VSlang(self, lang):
         return VSPath(xbmcaddon.Addon(self.addonId).getLocalizedString(lang)) if self.addonId else VSPath(ADDONVS.getLocalizedString(lang))
-        #Bug avec accent xbmc.translatePath(xbmcaddon.Addon('plugin.video.matrix').getLocalizedString(lang)).decode('utf-8')
+
 
 """
 from resources.lib.comaddon import dialog
@@ -74,25 +73,28 @@ dialogs.VSinfo('test')
 https://codedocs.xyz/xbmc/xbmc/group__python___dialog.html
 """
 
-DIALOG = xbmcgui.Dialog() # Singleton
+
 
 class dialog():
-# class dialog(xbmcgui.Dialog):
+
+    def __init__(self):
+        self.DIALOG = xbmcgui.Dialog()
 
     def VSok(self, desc, title = 'matrix'):
-        return DIALOG.ok(title, desc)
+        return self.DIALOG.ok(title, desc)
 
     def VSyesno(self, desc, title = 'matrix'):
-        return DIALOG.yesno(title, desc)
+        return self.DIALOG.yesno(title, desc)
 
     def VSselect(self, desc, title = 'matrix'):
-        return DIALOG.select(title, desc)
+        return self.DIALOG.select(title, desc)
 
     def numeric(self, dialogType, heading, defaultt):
-        return DIALOG.numeric(dialogType, heading, defaultt)
+        return self.DIALOG.numeric(dialogType, heading, defaultt)
 
     def VSbrowse(self, type, heading, shares):
-        return DIALOG.browse(type, heading, shares)
+        return self.DIALOG.browse(type, heading, shares)
+
     def VSselectqual(self, list_qual, list_url):
 
         if len(list_url) == 0:
@@ -100,7 +102,7 @@ class dialog():
         if len(list_url) == 1:
             return list_url[0]
 
-        ret = DIALOG.select(addon().VSlang(30448), list_qual)
+        ret = self.DIALOG.select(addon().VSlang(30448), list_qual)
         if ret > -1:
             return list_url[ret]
         return ''
@@ -114,13 +116,13 @@ class dialog():
         if (addon().getSetting('Block_Noti_sound') == 'true'):
             sound = True
 
-        return DIALOG.notification(str(title), str(desc), xbmcgui.NOTIFICATION_INFO, iseconds, sound)
+        return self.DIALOG.notification(str(title), str(desc), xbmcgui.NOTIFICATION_INFO, iseconds, sound)
 
     def VSerror(self, e):
-        return DIALOG.notification('matrix', 'Error: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Error: ' + str(e))
+        return self.DIALOG.notification('matrix', 'Erreur: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Erreur: ' + str(e))
 
     def VStextView(self, desc, title = "matrix"):
-        return DIALOG.textviewer(title, desc)
+        return self.DIALOG.textviewer(title, desc)
     
 """
 from resources.lib.comaddon import progress
@@ -138,8 +140,6 @@ progress = progress() non recommandé
 https://codedocs.xyz/xbmc/xbmc/group__python___dialog_progress.html
 """
 
-COUNT = 0
-PROGRESS = None # Singleton
 
 class empty():
 
@@ -173,10 +173,7 @@ class CountdownDialog(object):
             if not isMatrix():
                 pd.create(self.heading, line1, line2, line3)
             else:
-                pd.create(self.heading,
-                          line1 + '\n'
-                          + line2 + '\n'
-                          + line3)
+                pd.create(self.heading, line1 + '\n' + line2 + '\n' + line3)
             pd.update(100)
             self.pd = pd
         else:
@@ -236,19 +233,20 @@ class CountdownDialog(object):
             if not isMatrix():
                 self.pd.update(percent, line1, line2, line3)
             else:
-                self.pd.update(percent,
-                               line1 + '\n'
-                               + line2 + '\n'
-                               + line3)
+                self.pd.update(percent, line1 + '\n' + line2 + '\n' + line3)
+
 class progress():
+
+    def __init__(self):
+        self.PROGRESS = None
+        self.COUNT = 0
 
     def VScreate(self, title = 'matrix', desc = '', large=False):
         # l'option "large" permet de forcer un sablier large, seul le sablier large peut être annulé.
 
-        # Ne pas afficher le sablier si nous ne sommes pas dans un menu vStream
+        # Ne pas afficher le sablier si nous ne sommes pas dans un menu matrix
         currentWindow = xbmcgui.getCurrentWindowId()
         if currentWindow != 10025 and currentWindow != 10028 : # 10025 = videonav, 10000 = home
-
             return empty()
 
         # Ne pas afficher le sablier si une dialog est ouverte, inclut le menu contextuel
@@ -257,64 +255,45 @@ class progress():
         if dlgId != 9999 and dlgId != 10138: # 9999 = None
             return empty()
 
-#         # Ne pas afficher le sablier si le mode d'affichage est une liste
-#         # Ne fonctionne pas car l'info correspond à la fenêtre precedente
-#         viewMode = xbmc.getInfoLabel('Container.ViewMode')
-#         VSlog('viewMode = '+ viewMode)
-#         if 'list' in viewMode or 'List' in viewMode:
-#             return empty()
-        global PROGRESS
-        if PROGRESS == None:
+        if self.PROGRESS == None:
             if large:
-                PROGRESS = xbmcgui.DialogProgress()
+                self.PROGRESS = xbmcgui.DialogProgress()
             elif ADDONVS.getSetting('spinner_small') == 'true':
-                PROGRESS = xbmcgui.DialogProgressBG()
+                self.PROGRESS = xbmcgui.DialogProgressBG()
             else:
-                PROGRESS = xbmcgui.DialogProgress()
-            PROGRESS.create(title, desc)
-
-
+                self.PROGRESS = xbmcgui.DialogProgress()
+            self.PROGRESS.create(title, desc)
 
         return self
 
     def VSupdate(self, dialog, total, text = '', search = False):
-
-        global PROGRESS
-        if not PROGRESS:    # Déjà refermé
+        if not self.PROGRESS:    # Déjà refermé
             return
         
         if not search and window(10101).getProperty('search') == 'true':
             return
         
-        global COUNT
-        COUNT += 1
-        iPercent = int(float(COUNT * 100) / total)
-        PROGRESS.update(iPercent, 'Chargement ' + str(COUNT) + '/' + str(total) + " " + text)
+        self.COUNT += 1
+        iPercent = int(float(self.COUNT * 100) / total)
+        self.PROGRESS.update(iPercent, 'Chargement ' + str(self.COUNT) + '/' + str(total) + " " + text)
 
     def iscanceled(self):
-        global PROGRESS
-        if isinstance(PROGRESS, xbmcgui.DialogProgress):
-            return PROGRESS.iscanceled()
+        if isinstance(self.PROGRESS, xbmcgui.DialogProgress):
+            return self.PROGRESS.iscanceled()
         return False
-		
+
     def VSclose(self, dialog = ''):
-        global PROGRESS
-        if not PROGRESS:
-
-
-
+        if not self.PROGRESS:
             return      # Déjà fermée
+
         if window(10101).getProperty('search') == 'true':
             return
         
-        
-        if PROGRESS:            # test si pas fermé entre-temps
-            dialog = PROGRESS   # Sémaphore pour synchroniser la fermeture
-            PROGRESS = None
-            dialog.close()
+        if self.PROGRESS:            # test si pas fermé entre-temps
+            self.PROGRESS.close()
 
     def getProgress(self):
-        return COUNT
+        return self.COUNT
     
 """
 from resources.lib.comaddon import window
@@ -337,11 +316,8 @@ https://codedocs.xyz/xbmc/xbmc/group__python__xbmcgui__listitem.html#ga0b7116686
 
 class listitem(xbmcgui.ListItem):
 
-    #ListItem([label, label2, iconImage, thumbnailImage, path])
-
     def __init__(self, label = '', label2 = '', iconImage = '', thumbnailImage = '', path = ''):
         pass
-
 
     # Permet l'ajout d'un menu après la création d'un item
     def addMenu(self, sFile, sFunction, sTitle, oOutputParameterHandler = False):
@@ -360,6 +336,7 @@ class listitem(xbmcgui.ListItem):
         self.setProperty(property, 'RunPlugin(%s)' % sUrl);
         
         self.setProperty('nbcontextmenu', str(nbContextMenu+1))
+
 """
 from resources.lib.comaddon import VSlog
 VSlog('testtttttttttttt')
@@ -419,6 +396,7 @@ def isNexus():
             return False
     except:
         return False
+
 #Transforme les "special" en chemin normal.
 def VSPath(pathSpecial):
     if isMatrix():
@@ -426,7 +404,6 @@ def VSPath(pathSpecial):
     else:
         path = xbmc.translatePath(pathSpecial)
     return path
-	
 
 
 class addonManager:
@@ -442,9 +419,6 @@ class addonManager:
     # Active/desactive un addon
     def enableAddon(self, addon_id, enable = 'True'):
         import json
-        # if enable=='True' and xbmc.getCondVisibility('System.HasAddon(%s)' % addon_id) == 0:
-            # VSlog('%s déjà activé'  %addon_id)
-            # return True
     
         request = {
             "jsonrpc": "2.0",
@@ -466,3 +440,4 @@ class addonManager:
         except KeyError:
             VSlog('enable_addon received an unexpected response - ' + addon_id, xbmc.LOGERROR)
             return False
+    

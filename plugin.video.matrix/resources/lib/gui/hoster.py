@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
 # Venom.
 from resources.lib.gui.gui import cGui
@@ -7,9 +6,10 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.comaddon import dialog, addon, VSlog, xbmc, isMatrix
+from resources.lib.comaddon import dialog, addon, VSlog, xbmc
 
-import re
+
+
 
 class cHosterGui:
 
@@ -43,8 +43,8 @@ class cHosterGui:
         # Catégorie de lecture
         if oInputParameterHandler.exist('sCat'):
             sCat = oInputParameterHandler.getValue('sCat')
-            if sCat == '4': # Si on vient de passer par un menu "Saison" ...
-               sCat = '8'   #     ...  On est maintenant au niveau "Episode"
+            if sCat == '4':  # Si on vient de passer par un menu "Saison" ...
+                sCat = '8'   # ...  On est maintenant au niveau "Episode"
         else:
             sCat = '5'     # Divers
         oGuiElement.setCat(sCat)
@@ -132,7 +132,7 @@ class cHosterGui:
 
         oGui.addFolder(oGuiElement, oOutputParameterHandler, False)
 
-    def checkHoster(self, sHosterUrl, debrid = True):
+    def checkHoster(self, sHosterUrl, debrid=True):
         # securite
         if not sHosterUrl:
             return False
@@ -181,10 +181,12 @@ class cHosterGui:
 
         val = next((x for x in supported_player if x in sHostName), None)
         if val:
-            return self.getHoster(val.replace('.',''))
-        #Gestion classique
+            return self.getHoster(val.replace('.', ''))
+        # Gestion classique
         if ('sama-share' in sHostName):
             return self.getHoster('samashare')
+        if ('filerio' in sHostName):
+            return self.getHoster('filerio')
         if ('uppom' in sHostName):
             return self.getHoster('uppom')
         if ('uppboom' in sHostName):
@@ -385,7 +387,7 @@ class cHosterGui:
             return self.getHoster('lien_direct')
 
         # vidtodo et clone
-        val = next((x for x in ['vidtodo','vixtodo','viddoto','vidstodo'] if x in sHostName), None)
+        val = next((x for x in ['vidtodo', 'vixtodo', 'viddoto', 'vidstodo'] if x in sHostName), None)
         if val:
             return self.getHoster("vidtodo")
 
@@ -426,7 +428,8 @@ class cHosterGui:
             return self.getHoster('allow_redirects')
 
         # frenchvid et clone
-        val = next((x for x in ['french-vid','yggseries','fembed','fem.tohds',"feurl","fsimg","core1player","vfsplayer","gotochus"] if x in sHostName), None)
+        val = next((x for x in ['french-vid', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
+                                'vfsplayer', 'gotochus'] if x in sHostName), None)
         if val:
             return self.getHoster("frenchvid")
 
@@ -452,7 +455,7 @@ class cHosterGui:
             return False
 
             
-        if any(x in sHosterUrl for x in ['mp4','flv','m3u8','webm','mkv','mpd']):
+        if any(x in sHosterUrl for x in ['mp4', 'avi', 'flv', 'm3u8', 'webm', 'mkv', 'mpd']):
             return self.getHoster('lien_direct')
         return False
 		
@@ -499,8 +502,8 @@ class cHosterGui:
             oHoster.setUrl(sMediaUrl)
             aLink = oHoster.getMediaLink()
 
-            if aLink[0] or aLink[1] : # Le hoster ne sait pas résoudre mais a retourné une autre url
-                if not aLink[0] :   # Voir exemple avec allDebrid qui : return False, URL
+            if aLink[0] or aLink[1]:  # Le hoster ne sait pas résoudre mais a retourné une autre url
+                if not aLink[0]:  # Voir exemple avec allDebrid qui : return False, URL
                     oHoster = self.checkHoster(aLink[1], debrid=False)
                     if oHoster:
                         oHoster.setFileName(sFileName)
@@ -509,7 +512,7 @@ class cHosterGui:
                         oHoster.setUrl(sMediaUrl)
                         aLink = oHoster.getMediaLink()
 
-                if aLink[0] :
+                if aLink[0]:
                     oGuiElement = cGuiElement()
                     oGuiElement.setSiteName(self.SITE_NAME)
                     oGuiElement.setSiteUrl(siteUrl)

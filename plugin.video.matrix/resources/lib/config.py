@@ -7,7 +7,6 @@ from datetime import date, datetime
 import unicodedata
 import xbmcvfs
 import time
-
 import json
 
 # -----------------------
@@ -232,7 +231,7 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
             self.setFocusId(9000)
 
 #            self.getControl(50).reset()
-            
+
             if 'cast'in meta:
                 listitems = []
                 data = json.loads(meta['cast'])
@@ -249,7 +248,8 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
                     listitem_.setArt({'icon':sicon})
                     listitems.append(listitem_)
                 self.getControl(50).addItems(listitems)
-				
+
+            
             if 'crew'in meta:
                 listitems2 = []
                 data = json.loads(meta['crew'])
@@ -303,6 +303,8 @@ def WindowsBoxes(sTitle, sFileName, metaType, year=''):
             # self.getControl(49).setVisible(True)
             # self.getControl(2).setImage(meta['cover_url'])
             # self.getControl(3).setLabel(meta['rating'])
+
+
             for prop in meta:
                 #Py3 unicode == str.
                 try:

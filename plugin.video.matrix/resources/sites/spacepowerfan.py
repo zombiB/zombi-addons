@@ -68,7 +68,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مدبلج بالعربية","مدبلج").replace("مدبلج للعربية","مدبلج").replace("مدبلج بالعربي","مدبلج").replace("مدبلج","[مدبلج]")
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مدبلج بالعربية","مدبلج").replace("مدبلج للعربية","مدبلج").replace("مدبلج بالعربي","مدبلج")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[1]).replace('"',"").replace("&quot;","").replace("amp;","")
             sDesc = str(aEntry[4])

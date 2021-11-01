@@ -51,7 +51,7 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
         if not "embed" in sUrl:
-               self.__sUrl = sUrl.replace("moshahda.online/","moshahda.online/embed-")
+               self.__sUrl = sUrl.replace("https://moshahda.net/","https://moshahda.net/embed-")
 
     def checkUrl(self, sUrl):
         return True

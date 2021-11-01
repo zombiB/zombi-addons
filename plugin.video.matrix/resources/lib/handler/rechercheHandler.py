@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-from resources.lib.comaddon import addon, VSlog
+from resources.lib.comaddon import addon, VSlog, VSPath
 from resources.lib.db import cDb
 
 import sys
 import xbmcvfs
-
+import json
 
 class cRechercheHandler:
     Count = 0
@@ -14,6 +14,7 @@ class cRechercheHandler:
         self.__sText = ""
         self.__sDisp = ""
         self.__sCat = ""
+        self.__siteAdded = False
 
     def getPluginHandle(self):
         try:
@@ -56,7 +57,7 @@ class cRechercheHandler:
 
     def __getFileNamesFromFolder(self, sFolder):
         aNameList = []
-        folder, items = xbmcvfs.listdir(sFolder)
+        items = xbmcvfs.listdir(sFolder)[1][:-1]
         items.sort()
 
         for sItemName in items:
@@ -77,6 +78,10 @@ class cRechercheHandler:
         elif sCat == '2':
             sSearch = 'URL_SEARCH_SERIES'
         elif sCat == '3':
+            sSearch = 'URL_SEARCH_ANIMS'
+        elif sCat == '4':
+            sSearch = 'URL_SEARCH_DRAMAS'
+        elif sCat == '5':
             sSearch = 'URL_SEARCH_MISC'
         else :
             sSearch = 'URL_SEARCH'
@@ -88,12 +93,11 @@ class cRechercheHandler:
             pluginData['search'] = getattr(plugin, sSearch)
             return pluginData
 
-
         except:
             return False
 
     def getAvailablePlugins(self):
-
+        path = VSPath('special://home/addons/plugin.video.matrix/resources/sites.json')
         addons = addon()
         sText = self.getText()
         if not sText:
@@ -118,15 +122,27 @@ class cRechercheHandler:
         VSlog("Sites Folder: " + sFolder)
 
         aFileNames = self.__getFileNamesFromFolder(sFolder)
+        with open(path) as f:
+            data = json.load(f)
 
         aPlugins = []
         for sFileName in aFileNames:
-            sPluginSettingsName = 'plugin_' + sFileName
-            bPlugin = addons.getSetting(sPluginSettingsName)
+            pluginData = data["site"].get('plugin_' + sFileName)
+            if pluginData is None:
+                data['site'].update({'plugin_' + sFileName: {"label":sFileName,"active":"true"}})
+                if self.__siteAdded == False:
+                    self.__siteAdded = True
+                              
+            bPlugin = data['site']['plugin_' + sFileName]['active']
             if (bPlugin == 'true'):
                 aPlugin = self.importPlugin(sFileName, sCat)
                 if aPlugin:
                     aPlugins.append(aPlugin)
+
+        if self.__siteAdded == True:
+            with open(path, 'w') as f:
+                f.write(json.dumps(data, indent=4))
+
         return aPlugins
 
     def __createAvailablePluginsItem(self, sPluginName, sPluginIdentifier, sPluginDesc):
