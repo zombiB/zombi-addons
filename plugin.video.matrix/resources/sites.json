@@ -239,6 +239,10 @@
         "plugin_topimdb": {
             "label": "topimdb",
             "active": "true"
+        },
+        "plugin_aljazeera": {
+            "label": "aljazeera",
+            "active": "true"
         }
     }
 }

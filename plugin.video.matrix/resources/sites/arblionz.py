@@ -30,7 +30,7 @@ SERIE_EN = (URL_MAIN + '/filter/selector/episodes/category/english-series/', 'sh
 SERIE_AR = (URL_MAIN + '/filter/selector/episodes/category/arabic-series/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/filter/selector/episodes/category/series/asian-series/', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + '/category/anime-cartoon/anime/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/filter/selector/episodes/category/anime/', 'showSeries')
 
 REPLAYTV_NEWS = (URL_MAIN + '/tv', 'showSeries')
 

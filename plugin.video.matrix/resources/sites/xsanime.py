@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'xsanime'
 SITE_NAME = 'xsanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://ww.xsanime.com'
+URL_MAIN = 'https://m.xsanime.com'
 ANIM_NEWS = (URL_MAIN+'/episodes' , 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/movies_list/', 'showMovies')
 
@@ -67,7 +67,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1])
+            sTitle = str(aEntry[1]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = str(aEntry[0])
             sThumb = str(aEntry[2]).replace("(","").replace(")","")
             sDesc = ''
@@ -79,7 +79,7 @@ def showMovies(sSearch = ''):
             if '/anime/'  in siteUrl:			
                 oGui.addMovie(SITE_IDENTIFIER, 'ShowEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
             else: 		
-                oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  

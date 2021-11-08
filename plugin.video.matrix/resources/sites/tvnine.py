@@ -131,6 +131,22 @@ def showLive():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)  
     # (.+?) # ([^<]+) .+? 
+            sPattern = "hls: '(.+?)'"
+            aResult = oParser.parse(data, sPattern)
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   sHosterUrl = url
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
+    # (.+?) # ([^<]+) .+? 
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if (aResult[0] == True):
@@ -145,7 +161,24 @@ def showLive():
                    if (oHoster != False):
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)     
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)   
+    # (.+?) # ([^<]+) .+? 
+            sPattern = '<iframe src=".+?stream_url=(.+?)" height'
+            aResult = oParser.parse(data, sPattern)
+            UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Mobile Safari/537.36'
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   sHosterUrl = url+ '|User-Agent=' + UA + '&Referer=https://yastatic.net/' 
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)    
            
 
              

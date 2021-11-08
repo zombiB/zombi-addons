@@ -68,6 +68,7 @@ class cHoster(iHoster):
 
         api_call = ''
         url = self.__sUrl
+        VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(url)  
         oRequest.addHeaderEntry('User-Agent', UA)    

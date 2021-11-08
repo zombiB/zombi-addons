@@ -33,7 +33,7 @@ SERIE_AR = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
 SPORT_WWE = (URL_MAIN + '/category/series/wwe/', 'showMovies')
 
 SERIE_TR = (URL_MAIN + '/category/series/turkish-series/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + '/category/series/anime-series/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + '/category/series/anime-series/', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/search/', 'showMoviesearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
@@ -861,6 +861,8 @@ def showHosters2():
     s = requests.Session()
     r = s.post(sUrl,data = data)
     sHtmlContent = r.content
+    if isMatrix(): 
+       sHtmlContent = sHtmlContent.decode('utf8',errors='ignore')
     # ([^<]+) (.+?)      
 
     sPattern = '</td><td>([^<]+)</td><td><a href="(.+?)" target'
