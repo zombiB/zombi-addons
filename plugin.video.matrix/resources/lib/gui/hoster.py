@@ -172,7 +172,7 @@ class cHosterGui:
                     tmp.setRealHost(RH[:3].upper())
                     return tmp
         supported_player = ['streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'mixloads', 'vidoza', 'rutube', 'vk.com', 'vkontakte', 'vkcom',
-                    'megawatch', 'playvidto', 'vidzi', 'vcstream', 'filetrip', 'uptostream', 'livestream', 'flashx', 'filez','speedvid', 'netu',  'mail.ru', 
+                    'megawatch', 'playvidto', 'vidzi', 'filetrip', 'uptostream', 'livestream', 'flashx', 'filez','speedvid', 'netu',  'mail.ru', 
                     'onevideo', 'playreplay', 'vimeo', 'prostream', 'vidfast', 'uqload', 'letwatch', 'letsupload', 'filepup', 'vimple.ru', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'vidbm', 'tune', 'vidup', 'vidbull', 'vidlox', 'videobin', 'stagevu', 'movshare',
                     'gorillavid','daclips', 'estream', 'hdvid', 'vshare', 'giga', 'vidbom', 'upvideo', 'upvid', 'cloudvid', 'megadrive', 'downace', 'clickopen',
                     'iframe-secured', 'iframe-secure', 'jawcloud', 'kvid', 'soundcloud', 'mixcloud', 'ddlfr', 'pdj', 'vidzstore', 'hd-stream', 'rapidstream','jetload','dustreaming', 'vupload', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'sendvid', 'cimanow',  
