@@ -243,6 +243,10 @@
         "plugin_aljazeera": {
             "label": "aljazeera",
             "active": "true"
+        },
+        "plugin_shooflive": {
+            "label": "shooflive",
+            "active": "true"
         }
     }
 }
