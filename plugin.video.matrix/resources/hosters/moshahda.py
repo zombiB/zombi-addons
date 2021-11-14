@@ -7,6 +7,7 @@ from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
 import re,xbmcgui
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
 
@@ -50,8 +51,8 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self.__sUrl = str(sUrl)
-        if not "embed" in sUrl:
-               self.__sUrl = sUrl.replace("https://moshahda.net/","https://moshahda.net/embed-")
+        if not "embed" in self.__sUrl:
+               self.__sUrl = self.__sUrl.replace("https://moshahda.net/","https://moshahda.net/embed-")
 
     def checkUrl(self, sUrl):
         return True
@@ -63,17 +64,15 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-        VSlog(self.__sUrl)
         sReferer = ""
         url = self.__sUrl.split('|Referer=')[0]
         sReferer = self.__sUrl.split('|Referer=')[1]
-		
-        UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Mobile Safari/537.36'
         
         oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
+        VSlog(self.__sUrl)
         
         oParser = cParser()
         

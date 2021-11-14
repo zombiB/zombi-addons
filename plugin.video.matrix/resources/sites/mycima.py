@@ -14,8 +14,10 @@ SITE_IDENTIFIER = 'mycima'
 SITE_NAME = 'mycima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://mycima.actor:2083'
+URL_MAIN = 'https://mycima.ws/'
 
+MOVIE_TOP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/best/', 'showMovies')
+MOVIE_POP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/top/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/category/افلام/arabic-movies-افلام-عربي/list/old/', 'showMovies')
 MOVIE_FAM = (URL_MAIN + '/mpaa/pg/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/4-movies-english-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
@@ -83,7 +85,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-    sPattern = '<div class="Thumb--GridItem"><a href="(.+?)" title="(.+?)"><span class="BG--GridItem" style="--image:url(.+?);"><div.+?class="year">(.+?)</span>'
+    sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)" title="(.+?)">.+?image:url(.+?);"><div.+?class="year">(.+?)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -149,7 +151,7 @@ def showSeries(sSearch = ''):
     sEnd = '</footer><'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="Thumb--GridItem"><a href="(.+?)" title="(.+?)"><span class="BG--GridItem" style="--image:url(.+?);">'
+    sPattern = '<div class="Thumb--GridItem"><a href="(.+?)" title="(.+?)">.+?image:url(.+?);">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

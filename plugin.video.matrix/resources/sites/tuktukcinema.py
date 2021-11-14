@@ -16,8 +16,8 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://tuktukcinema.net'
 
-MOVIE_TOP = (URL_MAIN + '/category/movies-15/افلام-اجنبي-2/?key=imdb', 'showMovies')
-MOVIE_POP = (URL_MAIN + '/category/movies-15/افلام-اجنبي-2/?key=views', 'showMovies')
+MOVIE_TOP = (URL_MAIN + '/category/movies-19/?key=imdb', 'showMovies')
+MOVIE_POP = (URL_MAIN + '/category/movies-19/?key=views', 'showMovies')
 MOVIE_FAM = (URL_MAIN + '/genre/عائلي/?taxcat=الأفلام', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/movies/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/channel/classical-movies/', 'showMovies')
@@ -421,7 +421,6 @@ def showEpisodes():
 	except requests.exceptions.RequestException as e:
 	   return ''
 	data = response.text
-	VSlog(data)
     # .+? ([^<]+) (.+?)
 	sPattern = '<a href="(.+?)" style.+?<div class="image"><img.+?src="(.+?)" class=.+?<div class="ep-info">.+?<h2>.+?</h2>.+?<div class="epnum"><span>.+?</span>(.+?)</div>'
 
