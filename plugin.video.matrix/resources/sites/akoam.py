@@ -314,19 +314,14 @@ def showLink():
     if aResult:
         sNote = aResult[1]
      # (.+?) ([^<]+) .+?
-    sPattern = "class='sub_file_title'>([^<]+)<i>([^<]+)</i>.+?target='_blank' href='([^<]+)'>([^<]+)</a>"
+    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn' target='_blank' href=(.+?)>"
 		
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
     if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
 
                 sTitle = aEntry[0].split('akoam', 1)[0]
                 sTitle = sTitle.replace("."," ").replace("Ep","E").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720P","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080P","").replace("1080p","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("WEB","")
@@ -335,19 +330,18 @@ def showLink():
                 if m:
                    sYear = str(m.group(0))
                    sTitle = sTitle.replace(sYear,'')
-                siteUrl = aEntry[2]
+                siteUrl = str(aEntry[2]).replace('"','')
                 sThumbnail = sThumbnail
                 sInfo = sNote
-
-                sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
+                sInfo = '[COLOR yellow]'+str(sInfo)+'[/COLOR]'
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
                 oOutputParameterHandler.addParameter('sYear', sYear)
                 if 'akwam'  in siteUrl:
-                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle, sThumbnail, sInfo, oOutputParameterHandler)
+                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle+'[COLOR yellow] '+aEntry[1]+' [/COLOR]', sThumbnail, sInfo, oOutputParameterHandler)
                 if '/video/'  in siteUrl:
-                    oGui.addLink(SITE_IDENTIFIER, 'showHosters2', sDisplayTitle, sThumbnail, sInfo, oOutputParameterHandler)
+                    oGui.addLink(SITE_IDENTIFIER, 'showHosters2', sTitle+'[COLOR yellow] '+aEntry[1]+' [/COLOR]', sThumbnail, sInfo, oOutputParameterHandler)
     # (.+?) .+?
     sPattern = '<a href="https://akwam.net/movie/(.+?)" target="_blank"><span style='
 
@@ -369,6 +363,8 @@ def showLink():
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             
             oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+    if 'هذه المادة لا تحتوي علي رابط تحميل مباشر' in sHtmlContent:
+        oGui.addText(SITE_IDENTIFIER,'هذه المادة لا تحتوي علي رابط تحميل مباشر، بسبب انتهاء مدة الملف او انتقاله للتصميم الجديد للموقع')
  
     oGui.setEndOfDirectory()
 	
@@ -388,7 +384,7 @@ def showLinks():
 
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36')
-    oRequestHandler.addHeaderEntry('origin', 'old.two.re')
+    oRequestHandler.addHeaderEntry('origin', 'https://old.akwam.cc')
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', sUrl)
@@ -538,7 +534,7 @@ def showSeasons():
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
      # (.+?) ([^<]+)
-    sPattern = "class='sub_file_title'>([^<]+)<i>([^<]+)</i>.+?target='_blank' href='([^<]+)'>([^<]+)</a></div>"
+    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn' target='_blank' href=(.+?)>"
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -554,7 +550,7 @@ def showSeasons():
                 if m:
                     sYear = str(m.group(0))
                     sTitle = sTitle.replace(sYear,'')
-                siteUrl = aEntry[2]
+                siteUrl = aEntry[2].replace('"','')
                 sInfo = sNote
 
                 sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'

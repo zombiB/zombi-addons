@@ -74,11 +74,6 @@ class cHoster(iHoster):
 
         api_call = self.__sUrl.replace("ddsdd","upbbom")
         api_call = self.__sUrl.replace("rrsrr","cimanow")
-        #full moviz lien direct final nowvideo
-            
-
-        if 'pixsil' in api_call:
-            api_call = api_call.split('|')[0] + '|Referer=http://www.mangacity.org/jwplayer/player.swf'
  	   
         if 'ffsff' in api_call:
             api_call = self.__sUrl.replace("ffsff","moshahda")
