@@ -199,7 +199,7 @@ def showSeriesSearch(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = '<li><a class="page-numbers" href="([^<]+)">([^<]+)</a></li>'
+    sPattern = '<li><a class="page-numbers" href="(.+?)">(.+?)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

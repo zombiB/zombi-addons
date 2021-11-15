@@ -35,9 +35,9 @@ SPORT_WWE = (URL_MAIN + '/category/series/wwe/', 'showMovies')
 SERIE_TR = (URL_MAIN + '/category/series/turkish-series/', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category/series/anime-series/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/search/', 'showMoviesearch')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMoviesearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -58,7 +58,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -68,7 +68,7 @@ def showSearch():
 
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -88,7 +88,7 @@ def showMoviesearch(sSearch = ''):
 
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?<div class="BlockImageItem"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-defaultb size-defaultb wp-post-image" alt="([^<]+)" />'
+    sPattern = '<div class="BlockItem">.+?<a href="([^<]+)">.+?<div class="BlockImageItem"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-defaultb size-defaultb wp-post-image" alt="([^<]+)" />'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -148,7 +148,7 @@ def showSearchSeries(sSearch = ''):
 
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?src="([^<]+)" class.+?<div class="BlockTitle">([^<]+)</div>'
+    sPattern = '<div class="BlockItem">.+?<a href="([^<]+)">.+?src="([^<]+)" class.+?<div class="BlockTitle">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

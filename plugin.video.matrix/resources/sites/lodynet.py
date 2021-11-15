@@ -27,7 +27,8 @@ SERIE_ASIA = ('https://lodynet.cam:2053/tag/new-asia/', 'showSerie')
 SERIE_LATIN = ('https://www.lodynet.cam/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9-a/', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 
-URL_SEARCH = ('https://lodynet.cc/search/', 'showMovies')
+URL_SEARCH = ('https://m.lodynet.art/search/', 'showMovies')
+URL_SEARCH_SERIES = ('https://m.lodynet.art/search/', 'showSearchSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -45,7 +46,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://lodynet.cc/search/'+sSearchText
+        sUrl = 'https://m.lodynet.art/search/'+sSearchText
         showSearchSerie(sUrl)
         oGui.setEndOfDirectory()
         return

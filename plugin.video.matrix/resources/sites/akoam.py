@@ -198,7 +198,7 @@ def showSeriesSearch(sSearch = ''):
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oOutputParameterHandler.addParameter('sYear', sYear)
 
@@ -324,8 +324,20 @@ def showLink():
         for aEntry in aResult[1]:
 
                 sTitle = aEntry[0].split('akoam', 1)[0]
-                sTitle = sTitle.replace("."," ").replace("Ep","E").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720P","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080P","").replace("1080p","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("WEB","")
+                sTitle = sTitle.replace("."," ").replace("Ep","E").replace("Se","S").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720P","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080P","").replace("1080p","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("WEB","")
                 sYear = ''
+                sEpisode = re.search('Ep(.+?).',  str(aEntry[0]))
+                if sEpisode:
+                   sEpisode= str(sEpisode.group(0))
+                   sEpisode= sEpisode.replace("Ep","E").replace("ep","E")
+                   sTitle= sEpisode+sMovieTitle
+                
+                else: 
+                     sEpisode = re.search('ep(.+?).',  str(aEntry[0]))
+                     if sEpisode:
+                        sEpisode= str(sEpisode.group(0))
+                        sEpisode= sEpisode.replace("ep","E")
+                        sTitle= sEpisode+sMovieTitle
                 m = re.search('([0-9]{4})', sTitle)
                 if m:
                    sYear = str(m.group(0))
@@ -339,9 +351,9 @@ def showLink():
                 oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
                 oOutputParameterHandler.addParameter('sYear', sYear)
                 if 'akwam'  in siteUrl:
-                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle+'[COLOR yellow] '+aEntry[1]+' [/COLOR]', sThumbnail, sInfo, oOutputParameterHandler)
+                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle+'('+aEntry[1]+')', sThumbnail, sInfo, oOutputParameterHandler)
                 if '/video/'  in siteUrl:
-                    oGui.addLink(SITE_IDENTIFIER, 'showHosters2', sTitle+'[COLOR yellow] '+aEntry[1]+' [/COLOR]', sThumbnail, sInfo, oOutputParameterHandler)
+                    oGui.addLink(SITE_IDENTIFIER, 'showHosters2', sTitle+'('+aEntry[1]+')', sThumbnail, sInfo, oOutputParameterHandler)
     # (.+?) .+?
     sPattern = '<a href="https://akwam.net/movie/(.+?)" target="_blank"><span style='
 

@@ -275,7 +275,7 @@ def showSeasons():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult:
  
-            sTitle = aEntry[1].replace("موسم","")
+            sTitle = aEntry[1].replace("موسم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
             sTitle =  " S" + sTitle
             sTitle = sTitle.replace("S ","S")
             sTitle = sTitle+' '+sMovieTitle

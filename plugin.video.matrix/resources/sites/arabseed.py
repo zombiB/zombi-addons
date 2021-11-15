@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'arabseed'
 SITE_NAME = 'arabseed'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://arabseed.onl'
+URL_MAIN = 'https://arabseed.ws'
 
 MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/foreign-movies3/', 'showMovies')
@@ -205,7 +205,7 @@ def showMovies(sSearch = ''):
 							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
        data = {'search':psearch,'type':'movies'}
-       r = s.post('https://arabseed.onl:2053/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       r = s.post('https://arabseed.ws/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
      # (.+?) ([^<]+) .+?
     sPattern = '</div><a href="([^<]+)">.+?<img src="([^<]+)" alt="([^<]+)">'
@@ -374,7 +374,7 @@ def showSeries(sSearch = ''):
 							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
        data = {'search':psearch,'type':'series'}
-       r = s.post('https://arabseed.onl:2053/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       r = s.post('https://arabseed.ws/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8',errors='ignore')
        sPattern = '<div class="MovieBlock">.+?<a href="(.+?)">.+?data-image="(.+?)" alt="(.+?)">'
     else:
