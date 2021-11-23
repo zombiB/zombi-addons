@@ -5,7 +5,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 from resources.lib.player import cPlayer
 import re
@@ -144,8 +144,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2])
-            siteUrl = URL_MAIN+str(aEntry[0])
+            sTitle = aEntry[2]
+            siteUrl = URL_MAIN+aEntry[0]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -192,7 +192,7 @@ def showSeries(sSearch = ''):
                 break
  
             sTitle = aEntry[4]
-            siteUrl = URL_MAIN+str(aEntry[1])
+            siteUrl = URL_MAIN+aEntry[1]
 			
 
 
@@ -250,8 +250,8 @@ def showEps():
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            siteUrl = URL_MAIN+'/mosalsalat/home/'+str(aEntry[0])
-            sTitle = sMovieTitle+str(aEntry[2]).replace("الحلقة "," E").replace("حلقة "," E")
+            siteUrl = URL_MAIN+'/mosalsalat/home/'+aEntry[0]
+            sTitle = sMovieTitle+aEntry[2].replace("الحلقة "," E").replace("حلقة "," E")
 
  
             #print sUrl
@@ -287,7 +287,7 @@ def showHosters():
     
     if (aResult[0] == True):
         
-        sUrl = str(aResult[1][0])
+        sUrl = aResult[1][0]
                  
         #on lance video directement
         oGuiElement = cGuiElement()

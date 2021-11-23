@@ -6,9 +6,8 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, isMatrix
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
-from resources.lib.player import cPlayer
 import re
  
 SITE_IDENTIFIER = 'aljazeera'
@@ -43,7 +42,6 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-
 
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -169,7 +167,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
        for aEntry in aResult[1]:
-            url = str(aEntry)
+            url = aEntry
             if url.startswith('//'):
                 url = 'http:' + url
             sHosterUrl = url

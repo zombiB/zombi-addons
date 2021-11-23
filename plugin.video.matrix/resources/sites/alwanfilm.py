@@ -7,7 +7,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix, VSlog
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 import re
@@ -78,7 +78,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[2]
             sInfo = ''
-            sThumbnail = str(aEntry[0])
+            sThumbnail = aEntry[0]
             sDub = ''
             m = re.search('باﻷلوان', sTitle)
             if m:
@@ -120,7 +120,6 @@ def __checkForNextPage(sHtmlContent):
 	 
 def showServer():
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -145,6 +144,7 @@ def showServer():
         sId = aResult[1][0]
     sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/'+sId+'/movie/2'
     oRequestHandler = cRequestHandler(sUrl)
+    import requests
     sgn = requests.Session()
     headers = {'Host': Host,
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -166,7 +166,7 @@ def showServer():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = sMovieTitle
             if url.startswith('//'):
                url = 'http:' + url

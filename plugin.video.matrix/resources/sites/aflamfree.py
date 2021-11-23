@@ -181,7 +181,6 @@ def showPack(sSearch = ''):
     if (aResult[0] == True):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
- 
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             sThumbnail = aEntry[1]
             siteUrl = aEntry[0]
@@ -335,7 +334,7 @@ def showLive2():
 	
             if aResult:
                for aEntry in aResult:       
-                   url = str(aEntry)
+                   url = aEntry
                    url = url.replace("scrolling=no","")
                    sTitle = " " 
                    if url.startswith('//'):

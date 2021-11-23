@@ -94,8 +94,8 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("كامل","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -153,8 +153,8 @@ def showSerie(sSearch = ''):
  
             sTitle = aEntry[3]
             sTitle = sTitle.replace("مشاهدة","").replace("برنامج","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0])+'?watch=1'
-            sThumb = str(aEntry[2])
+            siteUrl = aEntry[0]+'?watch=1'
+            sThumb = aEntry[2]
             sDesc = aEntry[1]
 
 
@@ -199,8 +199,8 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-            sThumb = str(sThumb)
+            siteUrl = aEntry[0]
+            sThumb = sThumb
             sDesc = ''
 			
 
@@ -269,7 +269,6 @@ def showLink():
 	 
 def showServer():
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -304,6 +303,7 @@ def showServer():
      'Connection': 'keep-alive'}
     data = sId
     data = {'id':data,'key':'0','type':'normal'}
+    import requests
     s = requests.Session()
     r = s.post('https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
     sHtmlContent = r.content.decode('utf8') 
@@ -317,7 +317,7 @@ def showServer():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = sMovieTitle
             if url.startswith('//'):
                url = 'http:' + url
@@ -341,7 +341,6 @@ def showServer():
     oGui.setEndOfDirectory()	 
 def showServer2():
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -376,6 +375,7 @@ def showServer2():
 					'Referer': sUrl,
 					'Connection': 'keep-alive'}
         data = {'watch':'1'}
+        import requests
         s = requests.Session()
         r = s.post(sUrl,data = data)
         sHtmlContent = r.content.decode('utf8')  
@@ -405,7 +405,7 @@ def showServer2():
                if (aResult[0] == True):
                   for aEntry in aResult[1]:
             
-                      url = str(aEntry)
+                      url = aEntry
                       sTitle = sMovieTitle
                       if url.startswith('//'):
                          url = 'http:' + url

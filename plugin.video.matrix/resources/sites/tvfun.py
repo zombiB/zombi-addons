@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 import base64
  
@@ -74,10 +74,10 @@ def showSeries(sSearch = ''):
                 break
  
             sTitle = aEntry[1].replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = str(aEntry[2])
+            sThumbnail = aEntry[2]
             sInfo = ''
 
 
@@ -109,7 +109,7 @@ def showSeries(sSearch = ''):
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = ""
@@ -163,7 +163,7 @@ def showSeriesSearch(sSearch = ''):
                 break
  
             sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = aEntry[2]
@@ -193,7 +193,7 @@ def showSeriesSearch(sSearch = ''):
                 break
  
             sTitle = "playlist"
-            siteUrl = 'https:'+str(aEntry[0])
+            siteUrl = 'https:'+aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = sThumbnail
@@ -228,7 +228,7 @@ def showSeriesSearch(sSearch = ''):
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
             sThumbnail = ""
             sInfo = ""
 
@@ -278,7 +278,7 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = sThumbnail
@@ -308,7 +308,7 @@ def showEpisodes():
                 break
  
             sTitle = "playlist"
-            siteUrl = 'https:'+str(aEntry[0])
+            siteUrl = 'https:'+aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = sThumbnail
@@ -343,7 +343,7 @@ def showEpisodes():
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
             sThumbnail = ""
             sInfo = ""
 
@@ -385,7 +385,7 @@ def showEps():
                 break
  
             sTitle = "playlist"
-            siteUrl = 'https:'+str(aEntry[0])
+            siteUrl = 'https:'+aEntry[0]
             sThumbnail = sThumbnail
             sInfo = ""
 			
@@ -412,7 +412,7 @@ def showEps():
             if progress_.iscanceled():
                 break
             
-            url = str(aEntry)
+            url = aEntry
             if url.startswith('//'):
                 url = 'http:' + url
             
@@ -453,7 +453,7 @@ def showHosters():
             if (aResult[0] == True):
                for aEntry in aResult[1]:
         
-                   url = str(aEntry).replace("https://dai.ly/","https://www.dailymotion.com/video/")
+                   url = aEntry.replace("https://dai.ly/","https://www.dailymotion.com/video/")
                    sTitle = " " 
                    if url.startswith('//'):
                        url = 'http:' + url

@@ -247,6 +247,10 @@
         "plugin_shooflive": {
             "label": "shooflive",
             "active": "true"
+        },
+        "plugin_aicpmadih": {
+            "label": "aicpmadih",
+            "active": "true"
         }
     }
 }

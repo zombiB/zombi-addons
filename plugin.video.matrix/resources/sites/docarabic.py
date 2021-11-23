@@ -126,8 +126,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
-            url = str(aEntry).replace('?rel=0','')
+            url = aEntry
+            url = aEntry.replace('?rel=0','')
             if url.startswith('//'):
                url = 'http:' + url
            

@@ -68,10 +68,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مدبلج بالعربية","مدبلج").replace("مدبلج للعربية","مدبلج").replace("مدبلج بالعربي","مدبلج")
-            siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1]).replace('"',"").replace("&quot;","").replace("amp;","")
-            sDesc = str(aEntry[4])
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مدبلج بالعربية","مدبلج").replace("مدبلج للعربية","مدبلج").replace("مدبلج بالعربي","مدبلج")
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1].replace('"',"").replace("&quot;","").replace("amp;","")
+            sDesc = aEntry[4]
             sYear = aEntry[3]
             sDub = ''
             sDisplayTitle = ('%s [%s]') % (sTitle, sDub)
@@ -93,7 +93,6 @@ def showMovies(sSearch = ''):
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
-    import requests
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
@@ -112,11 +111,10 @@ def showSeries(sSearch = ''):
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()   
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -126,14 +124,17 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
+            sYear = ''
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear) 
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
+        
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -178,7 +179,7 @@ def showEpisodes():
  
             sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E")
             sTitle = sTitle+sMovieTitle
-            siteUrl = str(aEntry[1])
+            siteUrl = aEntry[1]
             sThumb = aEntry[0]
             sDesc = ""
 			
@@ -200,8 +201,9 @@ def showEpisodes():
     oGui.setEndOfDirectory()
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<a class='blog-pager-older-link' href='([^<]+)' id"
+    sPattern = '<a class="next page-numbers" href="([^<]+)">'
 	
+    # (.+?) .+? ([^<]+)
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  

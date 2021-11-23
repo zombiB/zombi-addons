@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 import re
  
@@ -71,7 +71,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle            
             sInfo = '' 
             siteUrl = aEntry[0]
-            sThumbnail = str(aEntry[1])
+            sThumbnail = aEntry[1]
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -124,8 +124,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry[0])
-            sTitle =  '[COLOR gold] '+str(aEntry[1])+'[/COLOR]'
+            url = aEntry[0]
+            sTitle =  '[COLOR gold] '+aEntry[1]+'[/COLOR]'
             if url.startswith('//'):
                url = 'http:' + url
             
@@ -146,8 +146,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry[0])
-            sTitle = '[COLOR gold] '+str(aEntry[1])+' [/COLOR]' 
+            url = aEntry[0]
+            sTitle = '[COLOR gold] '+aEntry[1]+' [/COLOR]' 
             if url.startswith('//'):
                url = 'http:' + url
             

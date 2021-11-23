@@ -63,11 +63,10 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-        VSlog(sHtmlContent)
 
         oParser = cParser()
         
-        sPattern = "data-video-source.+?source:'(.+?)', label"
+        sPattern = "source:'([^<]+)',"
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0]):
             api_call = aResult[1][0]

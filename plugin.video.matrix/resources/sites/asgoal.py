@@ -10,7 +10,7 @@ from resources.lib.parser import cParser
 import re
  
 SITE_IDENTIFIER = 'asgoal'
-SITE_NAME = 'as-goal'
+SITE_NAME = 'asgoal'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.as-goal.com/'
@@ -195,7 +195,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry[0]).replace("('",'').replace("')","").replace("update_frame","")
+            url = aEntry[0].replace("('",'').replace("')","").replace("update_frame","")
             url = url.split('?link=', 1)[1]
             if url.startswith('//'):
                 url = 'http:' + url

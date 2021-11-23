@@ -92,11 +92,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2])
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[1].replace("(","").replace(")","")
             sInfo = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -151,11 +150,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2]
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[1].replace("(","").replace(")","")
             sInfo = ''
             sDisplayTitle2 = sTitle.split('ال')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
@@ -208,9 +206,9 @@ def showAnimes(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("انمي","").replace("انمى","").replace("برنامج","")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[1]).replace("(","").replace(")","")
+            sTitle = aEntry[2].replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("انمي","").replace("انمى","").replace("برنامج","")
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[1].replace("(","").replace(")","")
             sInfo = ""
 
 
@@ -321,7 +319,7 @@ def showEpisodes():
 
 
                       oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-                      oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
+                      oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                       oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
           
  
@@ -346,7 +344,7 @@ def showEpisodes():
 
 
                       oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-                      oOutputParameterHandler.addParameter('sMovieTitle', str(sTitle))
+                      oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                       oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
           
  
@@ -382,7 +380,7 @@ def showEpisodes1():
         sHtmlContent1 = aResult[1][0]
 	
      # (.+?) ([^<]+) .+?
-    sPattern = '<a href="([^<]+)" class="active">([^<]+)</a>'
+    sPattern = '<a href="([^<]+)">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent1, sPattern)
@@ -392,31 +390,9 @@ def showEpisodes1():
         oOutputParameterHandler = cOutputParameterHandler()                     
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-            sThumbnail = sThumbnail
-            sInfo = sNote
-			
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-	
-     # (.+?) ([^<]+) .+?
-    sPattern = '<a href="([^<]+)" >([^<]+)</a>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent1, sPattern)
-	
-	
-    if (aResult[0] == True):
-        oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
- 
-            sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
+            sTitle = aEntry[1].replace("الحلقة "," E")
+            sTitle = sMovieTitle+sTitle
+            siteUrl = aEntry[0].replace('" class="active',"")
             sThumbnail = sThumbnail
             sInfo = sNote
 			
@@ -500,7 +476,7 @@ def showLink():
             if "embed.php?url=" in aEntry:
                continue
             
-            url = str(aEntry).replace("'", "")
+            url = aEntry.replace("'", "")
 
             if url.startswith('//'):
                url = 'http:' + url
@@ -547,7 +523,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = " " 
             if url.startswith('//'):
                url = 'http:' + url
@@ -570,7 +546,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = " " 
             if url.startswith('//'):
                url = 'http:' + url
@@ -593,7 +569,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = " "
             if url.startswith('//'):
                url = 'http:' + url
@@ -614,7 +590,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = " " 
             if url.startswith('//'):
                url = 'http:' + url

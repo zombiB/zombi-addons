@@ -7,7 +7,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'yallalive'
@@ -29,11 +29,8 @@ def load():
 
 def showMovies(sSearch = ''):
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
 		
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -54,10 +51,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]) +' vs ' + str(aEntry[1]) 
+            sTitle = aEntry[2] +' vs ' + aEntry[1] 
             sThumbnail = ""
-            siteUrl = URL_MAIN + str(aEntry[0])
-            sInfo = str(aEntry[3])
+            siteUrl = URL_MAIN + aEntry[0]
+            sInfo = aEntry[3]
             if 'جارية' in sInfo:
                 sTitle = '[COLOR yellow]'+sTitle+' [/COLOR]'
 			
@@ -76,8 +73,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
 # ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
     sPattern = '<td><a href="([^<]+)"><img src="https://www.yalla-shoot.com/img/yesterday.png"></a></td>'
@@ -104,8 +100,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry[1])
-            sTitle = str(aEntry[0])
+            url = aEntry[1]
+            sTitle = aEntry[0]
             if url.startswith('//'):
                 url = 'https:' + url
             if 'ok.php' in url:
@@ -114,7 +110,7 @@ def showHosters():
             
                 
             sHosterUrl = url
-            sHosterUrl = sHosterUrl.replace('https://www.yallashahed.com/youtube.php?ytid=','https://www.youtube.com/embed/').replace('?autoplay=0','').replace('?autoplay=1','')
+            sHosterUrl = sHosterUrl.replace('https://www.yallashahed.com/youtube.php?ytid=','https://www.youtube.com/embed/')
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
                 oHoster.setDisplayName(sTitle)

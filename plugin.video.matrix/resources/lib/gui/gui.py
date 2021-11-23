@@ -5,7 +5,7 @@ import xbmc
 import json
 
 from resources.lib.tmdb import cTMDb
-from resources.lib.comaddon import listitem, addon, dialog, window, isKrypton, isNexus
+from resources.lib.comaddon import listitem, addon, dialog, window, isKrypton, isNexus, VSlog
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -514,6 +514,7 @@ class cGui:
         oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
         oOutputParameterHandler.addParameter('sTitle', oGuiElement.getTitle())
         oOutputParameterHandler.addParameter('sTmdbId', oGuiElement.getTmdbId())
+        oOutputParameterHandler.addParameter('sImdbId', oGuiElement.getImdbId())
         oOutputParameterHandler.addParameter('sYear', oGuiElement.getYear())
         oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
         sType = cGui.CONTENT.replace('tvshows', 'tvshow').replace('movies', 'movie')
@@ -639,6 +640,7 @@ class cGui:
 
             oInputParameterHandler = cInputParameterHandler()
             sCleanTitle = oInputParameterHandler.getValue('sFileName') if oInputParameterHandler.exist('sFileName') else xbmc.getInfoLabel('ListItem.Property(sCleanTitle)')
+            sCleanTitle = sCleanTitle.split('مدبلج')[0]
             sMeta = oInputParameterHandler.getValue('sMeta') if oInputParameterHandler.exist('sMeta') else xbmc.getInfoLabel('ListItem.Property(sMeta)')
             sYear = oInputParameterHandler.getValue('sYear') if oInputParameterHandler.exist('sYear') else xbmc.getInfoLabel('ListItem.Year')
 
@@ -650,12 +652,19 @@ class cGui:
     def viewParents(self):
         oInputParameterHandler = cInputParameterHandler()
         sFileName = oInputParameterHandler.getValue('sFileName')
+        sFileName = sFileName.split('مدبلج')[0]
         sType = oInputParameterHandler.getValue('sType')
+        sImdbId = oInputParameterHandler.getValue('sImdbId')
+        sTmdbId = oInputParameterHandler.getValue('sTmdbId')
         sIMDb = 'tt9536846'
-        meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
-        sIMDb = meta['imdb_id']
-
-        sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
+        if 'movie'in sType:
+            meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
+            sIMDb = meta['imdb_id']
+            sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
+        else:
+            meta = cTMDb().search_tvshow_id(sTmdbId)
+            sIMDb = meta['external_ids']['imdb_id']
+            sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
         oRequest = urllib2.Request(sUrl)
         oResponse = urllib2.urlopen(oRequest)
         DIALOG = dialog()

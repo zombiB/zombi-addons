@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 import re
  
@@ -146,8 +146,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
 
-            Id = str(aEntry[0])
-            Vid = str(aEntry[1])
+            Id = aEntry[0]
+            Vid = aEntry[1]
             url = ""
             if 'no_video' in Vid:
                Id = ""

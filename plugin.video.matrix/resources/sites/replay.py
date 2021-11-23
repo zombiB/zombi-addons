@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 import re
  
@@ -63,13 +63,11 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
- 
-            sTitle = str(aEntry[3])
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
-            siteUrl = str(aEntry[2])
-            sThumb = str(aEntry[0])
-            sDesc = str(aEntry[1])
+            sTitle = aEntry[3].replace("مشاهدة","").replace("مترجم","").replace("فيلم","")
+            siteUrl = aEntry[2]
+            sThumb = aEntry[0]
+            sDesc = aEntry[1]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -115,7 +113,7 @@ def showEpisodes():
                 break
  
             sTitle = aEntry[2]
-            siteUrl = str(aEntry[0])
+            siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ""
 			

@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 import re
  
@@ -66,8 +66,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1])           
-            siteUrl = str(aEntry[0])
+            sTitle = aEntry[1]          
+            siteUrl = aEntry[0]
             sThumbnail = ""
             sInfo = ""
 
@@ -110,8 +110,8 @@ def showSeasons():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[0].replace("اون لاين + تحميل","").replace("-","").replace(" الاخيرة","").replace("الحلقة رقم "," E").replace("الحلقة "," E")
-            siteUrl = str(aEntry[1])
-            sThumbnail = str(aEntry[2])
+            siteUrl = aEntry[1]
+            sThumbnail = aEntry[2]
             sInfo = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -189,7 +189,7 @@ def showServer():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = "//ok.ru/videoembed/"+str(aEntry)
+            url = "//ok.ru/videoembed/"+aEntry
             sTitle = " "
             if url.startswith('//'):
                url = 'http:' + url
@@ -210,7 +210,7 @@ def showServer():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             url = url.replace('https://docs.google.com','https://drive.google.com')
             sTitle = "link : " 
             if url.startswith('//'):
@@ -247,7 +247,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = "link : " 
             if url.startswith('//'):
                url = 'http:' + url
@@ -271,7 +271,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = "link : " 
             if url.startswith('//'):
                url = 'http:' + url

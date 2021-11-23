@@ -30,11 +30,8 @@ def load():
 
 def showMovies(sSearch = ''):
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -60,7 +57,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1])
+            sTitle = aEntry[1]
             sThumbnail = aEntry[0]
             siteUrl = URL_MAIN + aEntry[0]
             sInfo = '' 
@@ -75,8 +72,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
  
 def showLive():
     oGui = cGui()
@@ -144,8 +140,8 @@ def showHosters():
     if aResult:
         for aEntry in aResult:
             
-            sMovieTitle = str(aEntry[1]) 
-            sHosterUrl = str(aEntry[0])
+            sMovieTitle = aEntry[1]
+            sHosterUrl = aEntry[0]
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
                            

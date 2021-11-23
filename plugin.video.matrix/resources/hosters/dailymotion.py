@@ -66,7 +66,7 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
         api_call = False
         VSlog(self.__sUrl)
-        UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+        UA = 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36'
         url=[]
         qua=[]
         
@@ -89,7 +89,7 @@ class cHoster(iHoster):
             oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
             sHtmlContent = oRequest.request()
 
-            sPattern = 'NAME="([^"]+)",PROGRESSIVE-URI="([^"]+)"'
+            sPattern = 'NAME="([^"]+)",PROGRESSIVE-URI="[^"]+"([^"]+)#cell=core'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if (aResult[0] == True):
                 for aEntry in reversed(aResult[1]):
@@ -101,6 +101,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
 
         if (api_call):
-            return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + self.__sUrl
+            return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=https://www.dailymotion.com/' 
         
         return False, False

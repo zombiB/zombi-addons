@@ -8,10 +8,10 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 
 SITE_IDENTIFIER = 'yallashoot'
-SITE_NAME = 'yalla-shoot.com'
+SITE_NAME = 'yallashoot'
 SITE_DESC = 'sport vod'
 
 URL_MAIN = 'http://www.yalla-shoot.com/live/'
@@ -50,20 +50,18 @@ def showGenres():
 	
 def showMovies(sSearch = ''):
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    sHtmlContent = sHtmlContent.replace('&quot;', '"')
+    sHtmlContent = oRequestHandler.request()
 	 # .+? ([^<]+) 
     sPattern = '<div class="col-md-3 col-sm-6 goals-item"><a href="([^<]+)"><div class="panel panel-default"><div class="panel-body"><div class="goals-img"><i class="fa fa-play-circle-o"></i><img src="([^<]+)" /></div></div><div class="panel-footer"><h4 data-toggle="tooltip" data-placement="top" title="([^<]+)">([^<]+)</h4>'
    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
     if (aResult[0] == True):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -73,10 +71,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
 				
-            sUrl = str(aEntry[0])
-            sTitle = str(aEntry[3])
+            sUrl = aEntry[0]
+            sTitle = aEntry[3]
             sInfo = ""
-            sThumbnail = str(aEntry[1])
+            sThumbnail = aEntry[1]
             if not 'http' in sUrl:
                 sUrl = str(URL_MAIN) + sUrl
 					
@@ -93,8 +91,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
 
 def __checkForNextPage(sHtmlContent):
     sPattern = "<li><a href='(.+?)'>التالى</a></li>"
@@ -123,7 +120,7 @@ def showHosters():
     aResult = aResult1 + aResult2
     if aResult:
         for aEntry in aResult:
-            url = str(aEntry)
+            url = aEntry
             if url.startswith('//'):
                 url = 'http:' + url
             if 'ok.php' in url:

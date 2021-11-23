@@ -37,8 +37,7 @@ def showSearch():
             showMovies(sUrl)
             oGui.setEndOfDirectory()
             return  
-
- 
+			
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -49,7 +48,6 @@ def showMovies(sSearch = ''):
    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.replace('&quot;', '"')
 	 # .+? ([^<]+) 
     sPattern = '<h1 class="title">([^<]+)</h1>.+?<a href="([^<]+)">.+?data-original="([^<]+)" alt='
    
@@ -63,9 +61,9 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            sUrl = str(aEntry[1])
+            sUrl = aEntry[1]
             sUrl = URL_MAIN+sUrl
-            sTitle = str(aEntry[0])
+            sTitle = aEntry[0]
             sInfo = ""
             sThumbnail = aEntry[2]
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
@@ -103,7 +101,7 @@ def showHosters():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
     sPattern =  "'true' src='(.+?)'"
@@ -112,7 +110,6 @@ def showHosters():
         m3url = aResult[1][0] 
         oRequest = cRequestHandler(m3url)
         sHtmlContent2 = oRequest.request()
-    oParser = cParser()
     
  
     sPattern = ",src:{hls:'(.+?)'}" 
@@ -120,7 +117,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
 
-            url = str(aEntry)
+            url = aEntry
             if url.startswith('//'):
                 url = 'http:' + url
             sHosterUrl = url

@@ -273,13 +273,6 @@ class cTMDb:
     def get_idbyname(self, name, year='', mediaType='movie', page=1):
 
 		
-		
-		
-		
-		
-		
-		
-		
         #On enleve le contenu entre paranthese.
         try:
             name = name.split('(')[0]

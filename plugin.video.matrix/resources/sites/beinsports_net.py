@@ -10,7 +10,7 @@ from resources.lib.comaddon import progress
 import re
 
 SITE_IDENTIFIER = 'beinsports_net'
-SITE_NAME = 'beinsports.com'
+SITE_NAME = 'beinsports'
 SITE_DESC = 'sport vod'
 
 URL_MAIN = 'http://www.beinsports.com'
@@ -78,8 +78,7 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    sHtmlContent = sHtmlContent.replace('&quot;', '"')
+    sHtmlContent = oRequestHandler.request()
     sPattern = ' <img data-sizes="auto" data-src="([^<]+)" data-srcset=".+?class="lazyload".+?</a>.+?<a class="link-picto" href="([^<]+)" onclick=".+?">.+?<span class="picto-1">.+?class="icon-play-1"></i>.+?</span>.+?</a>.+?</div>.+?<span class="time">([^<]+)</span>.+?<div class="category">([^<]+)</div>.+?<figcaption>.+?<a href=".+?">([^<]+)</a>'
    
     oParser = cParser()
@@ -93,8 +92,8 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
 					
-            sUrl = str(aEntry[1])
-            sInfo = '[COLOR aqua]'+str(aEntry[2])+" //[/COLOR]"+'[COLOR yellow]'+str(aEntry[3])+'[/COLOR]'
+            sUrl = aEntry[1]
+            sInfo = '[COLOR aqua]'+aEntry[2]+" //[/COLOR]"+'[COLOR yellow]'+aEntry[3]+'[/COLOR]'
             if not 'http' in sUrl:
                 sUrl = str(URL_MAIN) + sUrl
 					
@@ -141,7 +140,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             if url.startswith('//'):
                 url = 'http:' + url
             if 'autoplay' not in url:

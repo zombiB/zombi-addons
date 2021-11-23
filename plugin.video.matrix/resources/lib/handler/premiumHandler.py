@@ -19,13 +19,17 @@ class cPremiumHandler:
         self.__LoginTry = False
         self.__ssl = False
 
+        #hack pour garder la compatiblité avec ceux qui ont deja relgé les settings
+        if self.__sHosterIdentifier == '1fichier':
+            self.__sHosterIdentifier = 'onefichier'
+
         self.__Ispremium = False
         bIsPremium = self.ADDON.getSetting('hoster_' + str(self.__sHosterIdentifier) + '_premium')
         if (bIsPremium == 'true'):
             VSlog("Utilise compte premium pour hoster " + str(self.__sHosterIdentifier))
             self.__Ispremium = True
         else:
-            VSlog("Utilise compte gratuit pour hoster: " + str(self.__sHosterIdentifier))
+            VSlog("Utilise compte gratuit pour hoster " + str(self.__sHosterIdentifier))
 
     def isPremiumModeAvailable(self):
         return self.__Ispremium

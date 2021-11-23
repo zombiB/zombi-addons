@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 import re
  
@@ -67,11 +67,11 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             
             sTitle = sTitle.replace("poster","")
-            siteUrl = URL_MAIN+str(aEntry[1])
-            sThumbnail = URL_MAIN+str(aEntry[0])
+            siteUrl = URL_MAIN+aEntry[1]
+            sThumbnail = URL_MAIN+aEntry[0]
             sInfo = aEntry[3]
             sInfo = '[COLOR yellow]'+aEntry[3]+'[/COLOR]'
             sYear = aEntry[4]
@@ -121,9 +121,9 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = URL_MAIN+str(aEntry[1])
-            sThumbnail = URL_MAIN+str(aEntry[0])
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            siteUrl = URL_MAIN+aEntry[1]
+            sThumbnail = URL_MAIN+aEntry[0]
             sInfo = aEntry[3]
             sYear = aEntry[4]
 
@@ -169,9 +169,9 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle = " E"+str(aEntry[1])
+            sTitle = " E"+aEntry[1]
             sTitle = sTitle+' '+sMovieTitle
-            siteUrl = URL_MAIN+str(aEntry[0])
+            siteUrl = URL_MAIN+aEntry[0]
             sThumbnail = str(sThumbnail)
             sInfo = sInfo
  
@@ -231,7 +231,7 @@ def showHosters():
                    
         
                 if aEntry[1]:
-                    url = str(aEntry[1])
+                    url = aEntry[1]
                     sTitle = ''
                     if url.startswith('//'):
                        url = 'https:' + url
@@ -274,7 +274,7 @@ def showHosters():
                    
         
                 if aEntry[1]:
-                    url = str(aEntry[1])
+                    url = aEntry[1]
                     sTitle = ''
                     if url.startswith('//'):
                        url = 'https:' + url

@@ -115,7 +115,7 @@ class cHosterGui:
         # Upload menu uptobox
         if cInputParameterHandler().getValue('site') != 'siteuptobox' and self.ADDON.getSetting('hoster_uptobox_premium') == 'true':
             host = oHoster.getPluginIdentifier()
-            accept = ['uptobox', 'uptostream', 'onefichier', 'uploaded', 'uplea']
+            accept = ['uptobox', 'uptostream', '1fichier', 'uploaded', 'uplea']
             for i in accept:
                 if host == i:
                     oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteuptobox', 'siteuptobox', 'UptomyAccount', self.ADDON.VSlang(30325))
@@ -123,7 +123,7 @@ class cHosterGui:
         # onefichier
         if cInputParameterHandler().getValue('site') != 'siteonefichier' and self.ADDON.getSetting('hoster_onefichier_premium') == 'true':
             host = oHoster.getPluginIdentifier()
-            accept = 'onefichier'  # les autres ne fonctionnent pas
+            accept = '1fichier'  # les autres ne fonctionnent pas
             if host == accept:
                 oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteonefichier', 'siteonefichier', 'UptomyAccount', '1fichier')
 
@@ -175,7 +175,7 @@ class cHosterGui:
                     'megawatch', 'playvidto', 'vidzi', 'filetrip', 'uptostream', 'livestream', 'flashx', 'filez','speedvid', 'netu',  'mail.ru', 
                     'onevideo', 'playreplay', 'vimeo', 'prostream', 'vidfast', 'uqload', 'letwatch', 'letsupload', 'filepup', 'vimple.ru', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'vidbm', 'tune', 'vidup', 'vidbull', 'vidlox', 'videobin', 'stagevu', 'movshare',
                     'gorillavid','daclips', 'estream', 'hdvid', 'vshare', 'giga', 'vidbom', 'upvideo', 'upvid', 'cloudvid', 'megadrive', 'downace', 'clickopen',
-                    'iframe-secured', 'iframe-secure', 'jawcloud', 'kvid', 'soundcloud', 'mixcloud', 'ddlfr', 'pdj', 'vidzstore', 'hd-stream', 'rapidstream','jetload','dustreaming', 'vupload', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'sendvid', 'cimanow',  
+                    'iframe-secured', 'iframe-secure', 'jawcloud', 'kvid', 'soundcloud', 'mixcloud', 'ddlfr', 'pdj', 'vidzstore', 'hd-stream', 'rapidstream','jetload','dustreaming', 'vupload', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'cimanow',  
                     'supervideo', 'voe', 'dood', 'vidia', 'streamtape', 'femax', 'vidbem', 'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 
                     'plynow', 'myvi.tv', 'playtube', 'dwfull', 'uptobox', 'uplea', 'vidload','cloudhost', 'ninjastream', 'vidhid', 'moshahda', 'vidspeeds', 'yourupload', 'yadi.sk', 'extremenow', 'youdbox', 'arabveturk', 'holavid', 'megaup','mycima']
 
@@ -329,7 +329,7 @@ class cHosterGui:
             return self.getHoster('resolver')
         #Lien telechargeable a convertir en stream
         if ('1fichier' in sHostName):
-            return self.getHoster('onefichier')
+            return self.getHoster('1fichier')
 
         if ('kaydo.ws' in sHostName):
             return self.getHoster('lien_direct')
@@ -433,7 +433,7 @@ class cHosterGui:
 
         # frenchvid et clone
         val = next((x for x in ['french-vid', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
-                                'vfsplayer', 'gotochus'] if x in sHostName), None)
+                                'vfsplayer', 'gotochus', 'sendvid', "femax"] if x in sHostName), None)
         if val:
             return self.getHoster("frenchvid")
 
@@ -447,6 +447,9 @@ class cHosterGui:
             return self.getHoster('uploaded')
 
         if ('.m3u8' in sHosterUrl):
+            return self.getHoster('lien_direct')
+
+        if ('.mp3' in sHosterUrl):
             return self.getHoster('lien_direct')
 
         if ('.mp4' in sHostName):

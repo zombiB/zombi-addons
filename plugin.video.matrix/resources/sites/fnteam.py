@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
 import re
  
@@ -70,10 +70,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("فيلم","")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
-            sInfo = str(aEntry[1])
+            sTitle = aEntry[1].replace("&#8217;","'").replace("فيلم","")
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[2].replace("(","").replace(")","")
+            sInfo = aEntry[1]
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -120,10 +120,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("مسلسل","").replace("الفيلم","").replace("فيلم","")
-            siteUrl = str(aEntry[0])
-            sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
-            sInfo = str(aEntry[1])
+            sTitle = aEntry[1].replace("&#8217;","'").replace("مسلسل","").replace("الفيلم","").replace("فيلم","")
+            siteUrl = aEntry[0]
+            sThumbnail = aEntry[2].replace("(","").replace(")","")
+            sInfo = aEntry[1]
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -174,8 +174,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry[0])
-            Squality = str(aEntry[1])
+            url = aEntry[0]
+            Squality = aEntry[1]
             sTitle = ' ['+Squality+'] ' 
             if url.startswith('//'):
                url = 'http:' + url
@@ -196,7 +196,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = '' 
             if url.startswith('//'):
                url = 'http:' + url
@@ -211,14 +211,13 @@ def showHosters():
 				   
     else:
         
-        #sPattern = '<li style.+?>(.+?)</li>|<li title=""><a href="([^<]+)">([^<]+)</a></li>'
         sPattern = '<iframe.+?src="(.+?)" frameborder'
         
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             for aEntry in aResult[1]:
             
-                sHosterUrl = str(aEntry)
+                sHosterUrl = aEntry
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if (oHoster != False):
                    oHoster.setDisplayName(sMovieTitle)
