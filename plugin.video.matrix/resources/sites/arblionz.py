@@ -14,7 +14,7 @@ from resources.lib.parser import cParser
 SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'arblionz'
 SITE_DESC = 'arabic vod'
- 
+
 URL_MAIN = 'https://arlionz.net:2096'
 RAMADAN_SERIES = (URL_MAIN + '/category/ramada-series/ramadan-2021/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')

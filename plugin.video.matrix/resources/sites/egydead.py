@@ -14,7 +14,7 @@ SITE_NAME = 'egydead'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://w.egydead.live'
-MOVIE_AR = ('https://w.egydead.live/category/arabic-movies/', 'showMovies')
+MOVIE_AR = ('https://w.egydead.live/category/arabc-movies/', 'showMovies')
 MOVIE_EN = ('https://w.egydead.live/category/english-movies/', 'showMovies')
 MOVIE_PACK = ('https://w.egydead.live/assembly/', 'showPack')
 MOVIE_DUBBED = ('https://w.egydead.live/category/dubbed-movies/', 'showMovies')
