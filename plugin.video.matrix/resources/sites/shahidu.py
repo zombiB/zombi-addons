@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'shahidu'
 SITE_NAME = 'shahid4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shahed4u.ws'
+URL_MAIN = 'https://shahed4u.dev'
 
 RAMADAN_SERIES = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSerie')
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي/', 'showMovies')
@@ -388,13 +388,13 @@ def showHosters():
             s = requests.Session()
             data = {'id':sId,'i':str(i)}
             
-            headers = {'Host': 'shahed4u.ws',
+            headers = {'Host': 'shahed4u.dev',
 							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Mobile Safari/537.36',
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
 							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
 							'X-Requested-With': 'XMLHttpRequest',
-							'Referer': 'https://shahed4u.ws',
+							'Referer': URL_MAIN,
 							'Connection': 'keep-alive'}
             r = s.post(sLink, headers=headers, data = data)
             sHtmlContent4 = r.content.decode('utf8',errors='ignore')

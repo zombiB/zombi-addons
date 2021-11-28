@@ -263,10 +263,12 @@ def showSeasons():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
+	
+    if '<div class="seasons">' in sHtmlContent :
 
-    sStart = '<div class="seasons">'
-    sEnd = 'class="allepcont">'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+        sStart = '<div class="seasons">'
+        sEnd = 'class="allepcont">'
+        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
  
       # (.+?) ([^<]+) .+?
     sPattern = 'data-slug="(.+?)">(.+?)</'
@@ -292,6 +294,33 @@ def showSeasons():
 
  
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+			
+    if 'class="seasons">' not in sHtmlContent :
+       sStart = 'class="episodesAside">'
+       sEnd = 'class="detail-section" style'
+       sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+    # (.+?) .+? ([^<]+)   
+       sPattern = 'style="order:([^<]+)" class.+?href="(.+?)">'
+       aResult = oParser.parse(sHtmlContent1, sPattern)
+    
+   
+       if (aResult[0] == True):
+          oOutputParameterHandler = cOutputParameterHandler()
+          for aEntry in aResult[1]:
+ 
+            sTitle = ' E'+aEntry[0]
+            sTitle = sTitle+sMovieTitle
+            siteUrl = str(aEntry[1])
+            sThumbnail = sThumbnail
+            sInfo = ""
+ 
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            
+
+ 
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
     oGui.setEndOfDirectory() 
   
@@ -310,7 +339,6 @@ def showEps():
     sStart = 'class="episodesAside">'
     sEnd = 'class="detail-section" style'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    VSlog(sHtmlContent)
     # (.+?) .+? ([^<]+)   
     sPattern = 'style="order:([^<]+)" class.+?href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)

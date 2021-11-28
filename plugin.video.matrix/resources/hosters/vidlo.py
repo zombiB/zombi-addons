@@ -1,18 +1,13 @@
-from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
-from resources.lib.gui.gui import cGui
-from resources.lib.comaddon import dialog, xbmcgui
-from resources.hosters.hoster import iHoster
-from resources.lib.packer import cPacker
-from resources.lib.comaddon import VSlog
-import re,xbmcgui,xbmc
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
+#-*- coding: utf-8 -*-
+#https://www.vidlo.us/embed-xxx
 
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
+from resources.lib.handler.requestHandler import cRequestHandler
+from resources.hosters.hoster import iHoster
+from resources.lib.parser import cParser
+from resources.lib.packer import cPacker
+from resources.lib.comaddon import dialog
+from resources.lib.comaddon import VSlog
+
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
@@ -26,7 +21,7 @@ class cHoster(iHoster):
         return  self.__sDisplayName
 
     def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR] [COLOR khaki]'+self.__sHD+'[/COLOR]'
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
 
     def setFileName(self, sFileName):
         self.__sFileName = sFileName

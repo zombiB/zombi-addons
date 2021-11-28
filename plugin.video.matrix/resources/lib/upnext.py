@@ -47,10 +47,7 @@ class UpNext:
 
         #tvShowTitle n'est pas toujours disponible.
         tvShowTitle = guiElement.getItemValue('tvshowtitle')
-        if not tvShowTitle:
-            tvShowTitle = re.search('\[\/COLOR\](.+?)\[COLOR',guiElement.getItemValue('title')).group(1)
 
-        sMovieTitle = tvShowTitle
 
         numEpisode = int(sEpisode)
         nextEpisode = numEpisode+1
@@ -59,7 +56,7 @@ class UpNext:
         saisonUrl = oInputParameterHandler.getValue('saisonUrl')
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', saisonUrl)
-        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+        oOutputParameterHandler.addParameter('sMovieTitle', tvShowTitle)
         sParams = oOutputParameterHandler.getParameterAsUri()
 
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
