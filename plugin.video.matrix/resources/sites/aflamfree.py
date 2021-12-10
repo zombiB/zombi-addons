@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 	 
 SITE_IDENTIFIER = 'aflamfree'
 SITE_NAME = 'aflamfree'
@@ -183,7 +183,7 @@ def showPack(sSearch = ''):
         for aEntry in aResult[1]:
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             sThumbnail = aEntry[1]
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0]+'/page/1'
             sInfo = ''
 			
 
@@ -205,7 +205,7 @@ def showPack(sSearch = ''):
  
       # (.+?) ([^<]+) .+?
 def __checkForNextPage(sHtmlContent):
-    sPattern = "href='([^<]+)'>Next &rsaquo;</a>"
+    sPattern = "href='([^<]+)'>.+?Next"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
@@ -252,7 +252,7 @@ def showLive():
             oOutputParameterHandler.addParameter('sYear', sYear)
             oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)        
 
-    #(.+?)([^<]+).+?<li>
+    # (.+?) ([^<]+) .+? 
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span></div>'
     
     oParser = cParser()
@@ -265,18 +265,24 @@ def showLive():
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
             sThumbnail = aEntry[1] 
-            sInfo = '' 
+            sInfo = "" 
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)    
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showLive', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+    page = sUrl.split('/page/')[1]
+    page = int(page)+1
+    sTitle = 'More' 
+    sTitle = '[COLOR red]'+sTitle+'[/COLOR]'
+    page = str(page)
+    siteUrl = sUrl.split('/page/')[0]
+    siteUrl = siteUrl +'/page/'+ page
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+    oGui.addDir(SITE_IDENTIFIER, 'showLive', sTitle,'next.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory() 
   

@@ -64,12 +64,20 @@ class cHoster(iHoster):
         sUrl = self.__sUrl
  
         oRequest = cRequestHandler(sUrl)
-        oRequest.addHeaderEntry('User-Agent', UA)
-        oRequest.addHeaderEntry('Referer',self.__sUrl)
         sHtmlContent = oRequest.request()
 
 
         oParser = cParser()
+       
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+            VSlog(sHtmlContent)
+            sPattern = 'file:"(.+?)",label:".+?"}'
+            aResult = oParser.parse(sHtmlContent,sPattern)
+            if (aResult[0] == True):
+                api_call = aResult[1][0] 
 
         sPattern = 'file:"(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -78,27 +86,8 @@ class cHoster(iHoster):
                 
         if (api_call):
             return True, api_call
-
-
-        
-        sPattern = "<script type='text/javascript'>(.+?)</script>"
-        aResult = oParser.parse(sHtmlContent,sPattern)
- 
-
-        if (aResult[0] == True):
-            sHtmlContent3 = cPacker().unpack(aResult[1][0])
-
-
-            sPattern2 = '"(.+?)"],poster'
-            aResult = oParser.parse(sHtmlContent3,sPattern2)
-
-            if (aResult[0] == True):
-                api_call = aResult[1][0] + '&Referer=' + self.__sUrl
+					
         if (api_call):
             return True, api_call
-
-        	
- 
-        
 
         return False, False

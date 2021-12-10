@@ -251,6 +251,18 @@
         "plugin_aicpmadih": {
             "label": "aicpmadih",
             "active": "true"
+        },
+        "plugin_detectiveconanar": {
+            "label": "detectiveconanar",
+            "active": "true"
+        },
+        "plugin_nightosphere": {
+            "label": "nightosphere",
+            "active": "true"
+        },
+        "plugin_rotana": {
+            "label": "rotana",
+            "active": "true"
         }
     }
 }

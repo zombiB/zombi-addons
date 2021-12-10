@@ -209,7 +209,11 @@ class cHosterGui:
             return self.getHoster('anonfile')
         if ('vidto.me' in sHostName):
             return self.getHoster('vidto')
+        if ('hibridvod' in sHostName):
+            return self.getHoster('hibridvod')
         if ('vedbom' in sHostName):
+            return self.getHoster('vidbm')
+        if ('vadbom' in sHostName):
             return self.getHoster('vidbm')
         if ('vedpom' in sHostName):
             return self.getHoster('vidbem')
@@ -223,6 +227,8 @@ class cHosterGui:
             return self.getHoster('vidshare')
         if ('vidshare' in sHostName):
             return self.getHoster('vidshare')
+        if ('detectiveconanar' in sHostName):
+            return self.getHoster('detectiveconanar')
         if ('streamwire' in sHostName):
             return self.getHoster('streamwire')
         if ('vup' in sHostName):

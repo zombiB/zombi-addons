@@ -61,43 +61,18 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
         VSlog(self.__sUrl)
 
-        url = self.__sUrl
-
-        oRequest = cRequestHandler(url)
-        oRequest.addHeaderEntry('User-Agent', UA)
-        oRequest.addHeaderEntry('Referer',self.__sUrl)
-        oRequest.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-
-
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-        if isMatrix():
-           sHtmlContent = str(sHtmlContent.encode('latin-1'),'utf-8')
-        #VSlog(sHtmlContent)
         oParser = cParser()
-
-        sPattern = 'file:"(.+?)",label:".+?"}],'
-        aResult = oParser.parse(sHtmlContent, sPattern)
+       
+        sPattern = "(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>"
+        aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
-            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
-                
-        if (api_call):
-            return True, api_call
-        
-        
-        sPattern =  '(?:[>;]\s*)(ﾟωﾟ.+?\(\'_\'\);)'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-         
-        
-        if aResult[0]:
-            for i in aResult[1]:
-                decoded = AADecoder(i).decode()
-                #VSlog(decoded)
-
-                r = re.search('file:"(.+?)",', decoded, re.DOTALL | re.UNICODE)
-                if r:
-                    api_call = r.group(1)
-                    break
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+            sPattern = 'file:"(.+?)",label:".+?"}'
+            aResult = oParser.parse(sHtmlContent,sPattern)
+            if (aResult[0] == True):
+                api_call = aResult[1][0] 
         
         #VSlog(api_call)
 
