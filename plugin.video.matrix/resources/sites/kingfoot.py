@@ -288,7 +288,7 @@ def showHosters4():
                 if (aResult[0] == True):
                    url = aResult[1][0]
                 oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://1xnews.online/'}
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://dalbouh.club/'}
                 data = {'watch':'1'}
                 St=requests.Session()
                 sHtmlContent = St.get(url,headers=hdr)

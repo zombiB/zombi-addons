@@ -13,18 +13,19 @@ SITE_IDENTIFIER = 'tvfun'
 SITE_NAME = 'tvfun'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.tvfun.ma/'
+URL_MAIN = 'https://a.tvfun.me'
 
-RAMADAN_SERIES = ('https://a.tvfun.me/ts,mosalsalat-ramadan-2021/', 'showSeries')
-SERIE_TR = ('https://www.tvfun.ma/mosalsalat-torkia/', 'showSeries')
-SERIE_DUBBED = ('https://www.tvfun.live/ts,mosalsalat--modablaja/', 'showSeries')
-SERIE_HEND = ('https://www.tvfun.ma/mosalsalat-hindia/', 'showSeries')
-SERIE_AR = ('https://www.tvfun.ma/mosalsalat-3arabia/', 'showSeries')
-SERIE_ASIA = ('https://ww.tvfun.ma/mosalsalat-korea/', 'showSeries')
-SERIE_LATIN = ('https://ww.tvfun.ma/mosalsalat-latinia/', 'showSeries')
-REPLAYTV_NEWS = ('https://www.tvfun.ma/programme-tv/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/ts,mosalsalat-ramadan-2021/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/mosalsalat-hindia/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/mosalsalat-3arabia/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + '/mosalsalat-latinia/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + '/programme-tv/', 'showSeries')
+SERIE_GENRES = (True, 'showGenres')
 
-URL_SEARCH = ('https://a.tvfun.me/q/', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
@@ -42,10 +43,33 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://www.tvfun.ma/q/'+sSearchText
+        sUrl = URL_MAIN + '/q/'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
+
+def showGenres():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    liste = []
+    liste.append( ["مسلسلات تاريخية",URL_MAIN + '/ts,mosalsalat-tarkiya/'] )
+    liste.append( ["برامج ترفيهية",URL_MAIN + '/ts,baramij-tarfihiya/'] )
+    liste.append( ["الكاميرا الخفية",URL_MAIN + '/ts,hidden-camera/'] )
+    liste.append( ["مسلسلات اسيوية",URL_MAIN + '/ts,asian-series/'] )
+    liste.append( ["مسلسلات مكسيكية",URL_MAIN + '/ts,mosalsalat-mexicia/'] )
+    liste.append( ["مسلسلات مغربية",URL_MAIN + '/mosalsalat-maghribia/'] )
+    liste.append( ["انمي",URL_MAIN + '/dessin-animee/'] )
+
+    	            
+    for sTitle,sUrl in liste:
+        
+        oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', sUrl)
+        oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
+       
+    oGui.setEndOfDirectory()  
   
 def showSeries(sSearch = ''):
     oGui = cGui()
