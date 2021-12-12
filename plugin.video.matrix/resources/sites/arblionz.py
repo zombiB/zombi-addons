@@ -87,8 +87,8 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<div class="Posts--Single--Box"><a href="([^<]+)" title="([^<]+)">.+?<img class="imgInit" data-image="([^<]+)" alt='
-
+    sPattern = '<div class="Posts--Single--Box"> <a href="([^<]+)" title="([^<]+)">.+?data-image="([^<]+)" alt='
+ 
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -181,7 +181,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<div class="Posts--Single--Box"><a href="([^<]+)" title="([^<]+)">.+?<img class="imgInit" data-image="([^<]+)" alt='
+    sPattern = '<div class="Posts--Single--Box"> <a href="([^<]+)" title="([^<]+)">.+?data-image="([^<]+)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -280,7 +280,7 @@ def showSeasons():
     oGui.setEndOfDirectory() 
    
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a href="([^<]+)">[^<]+</a></li>'
+    sPattern = '<li><a href="([^<]+)">.+?</a></li>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -386,9 +386,9 @@ def showHosters():
             oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
             sHtmlContent = oRequestHandler.request()
     
-    # (.+?) .+?         
+    # (.+?) .+? ([^<]+)        
 
-            sPattern = ' <iframe src="(.+?)" frameborder='
+            sPattern = '<iframe src="([^<]+)" frameborder'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
 
