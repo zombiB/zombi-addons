@@ -408,7 +408,7 @@ def showHosters():
     siteUrl = 'https://arlionz.net:2096/PostServersWatch/'+sId
 
 
-    from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.resources2.lib.util import Quote
+    from resources.lib.util import Quote
 
     oRequestHandler = cRequestHandler(siteUrl)
     cook = oRequestHandler.GetCookies()
