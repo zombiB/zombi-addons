@@ -19,6 +19,7 @@ URL_MAIN_link = 'http://www.yalla-shoot.com/live/video.php'
 SPORT_FOOT = ('https://www.yalla-shoot.com/live/video.php', 'showMovies')
 SPORT_SPORTS = ('http://', 'load')
 SPORT_GENRES = ('http://', 'showGenres')
+SPORT_GENRES = (True, 'showGenres')
 
 def load():
     oGui = cGui()
@@ -26,7 +27,18 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)  
-            
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_SPORTS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'رياضة', 'sport.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'رياضة', 'sport.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, SPORT_GENRES[1], 'أقسام أخرى', 'genres.png', oOutputParameterHandler)
+    
     oGui.setEndOfDirectory()
    
 def showGenres():

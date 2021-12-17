@@ -19,17 +19,17 @@ URL_MAIN = 'http://www.panet.co.il'
 
 MOVIE_AR = ('http://www.panet.co.il/movies', 'showMovies')
 MOVIE_TURK = ('http://www.panet.co.il/movies/genre/21/1', 'showMovies')
-KID_MOVIES = ('http://www.panet.co.il/series/home/257/1', 'showEps')
+KID_MOVIES = ('https://www.panet.co.il/mosalsalat/home/257/1', 'showEps')
 SERIE_AR = ('http://www.panet.co.il/mosalsalat', 'showSeries')
 SERIE_TR = ('http://www.panet.co.il/mosalsalat/category/17/1', 'showSeries')
-SERIE_ASIA = ('http://www.panet.co.il/series/v1/category/20/1', 'showSeries')
-SERIE_LATIN = ('https://www.panet.co.il/series/category/20/1', 'showSeries')
+SERIE_ASIA = ('https://www.panet.co.il/mosalsalat/category/20/1', 'showSeries')
+SERIE_LATIN = ('https://www.panet.co.il/mosalsalat/category/20/1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
 
 RAMADAN_SERIES = ('http://www.panet.co.il/mosalsalat/category/81/1', 'showSeries')
-REPLAYTV_NEWS = ('http://www.panet.co.il/series/category/27/1', 'showSeries')
-NETS_NEWS = ('http://www.panet.co.il/series/category/2/1', 'showEps')
-KID_CARTOON = ('http://www.panet.co.il/mosalsalat/category/15/1', 'showSeries')
+REPLAYTV_NEWS = ('https://www.panet.co.il/mosalsalat/category/27/1', 'showSeries')
+NETS_NEWS = ('https://www.panet.co.il/mosalsalat/category/2/1', 'showEps')
+KID_CARTOON = ('https://www.panet.co.il/mosalsalat/category/15/1', 'showSeries')
 URL_SEARCH = ('http://www.panet.co.il/search/result/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -42,52 +42,58 @@ def load():
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام عربي', 'news.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام عربي', 'film.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'film.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showEps', 'افلام كارتون', 'news.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showEps', 'افلام كارتون', 'crtoon.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان 2016', 'series.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://www.panet.co.il/series/v1/category/19/1')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries' ,'مسلسلات مصرية', 'series.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', 'https://www.panet.co.il/mosalsalat/category/19/1')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries' ,'مسلسلات مصرية', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://www.panet.co.il/series/v1/category/18/1')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries' ,'مسلسلات سورية - لبنانية', 'series.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', 'https://www.panet.co.il/mosalsalat/category/18/1')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries' ,'مسلسلات سورية - لبنانية', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://www.panet.co.il/series/v1/category/21/1')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries' ,'مسلسلات خليجية', 'series.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', 'https://www.panet.co.il/mosalsalat/category/21/1')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries' ,'مسلسلات خليجية', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكية وعالمية', 'series.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكية وعالمية', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'series.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
     
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', NETS_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showEps', 'كليبات مضحكة', 'animesvostfr.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showEps', 'كليبات مضحكة', 'brmg.png', oOutputParameterHandler)
     
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رسوم متحركة , برامج اطفال', 'animesvostfr.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رسوم متحركة , برامج اطفال', 'crtoon.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج ومنوعات', 'animesvostfr.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج ومنوعات', 'brmg.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://www.panet.co.il/movies/genre/4/1')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
 
-            
     oGui.setEndOfDirectory()
  
 def showSearch():

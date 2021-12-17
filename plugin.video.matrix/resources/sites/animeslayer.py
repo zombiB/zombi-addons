@@ -19,6 +19,8 @@ ANIM_NEWS = ('https://app.anime-slayer.com/episode', 'showSeries')
 ANIM_MOVIES = ('https://app.anime-slayer.com/anime-type/movie', 'showMovies')
 KID_CARTOON = ('https://app.anime-slayer.com/anime-category/%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a-%d8%a7%d9%84%d9%85%d8%af%d8%a8%d9%84%d8%ac', 'showMovie')
 
+MOVIE_GENRES = (True, 'showGenres')
+
 URL_SEARCH = ('https://app.anime-slayer.com/?search_param=animes&s=', 'showMovies')
 URL_SEARCH_SERIES = ('https://app.anime-slayer.com/?search_param=animes&s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
@@ -30,9 +32,23 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'قائمة الأنمي', 'genres.png', oOutputParameterHandler)
+  
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+            
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي', 'anime.png', oOutputParameterHandler)    
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
             
     oGui.setEndOfDirectory()
- 
+             
 def showSearch():
     oGui = cGui()
  
@@ -42,7 +58,28 @@ def showSearch():
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
-  
+
+def showGenres():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    liste = []
+    liste.append( ["قائمة الأنمي","https://app.anime-slayer.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%85%d9%8a"] )
+    liste.append( ["أفلام","https://app.anime-slayer.com/anime-type/movie"] )    
+    liste.append( ["أنميات الموسم","https://app.anime-slayer.com/anime-season/صيف-2021"] )
+    liste.append( ["مواعيد الحلقات","https://app.anime-slayer.com/anime-schedule"] ) 
+    liste.append( ["انمي مكتمل","https://app.anime-slayer.com/category/انميات-مكتملة"] )
+    liste.append( ["المزيد من الحلقات","https://app.anime-slayer.com/episode"] )  
+
+    for sTitle,sUrl in liste:
+        
+        oOutputParameterHandler = cOutputParameterHandler()
+        oOutputParameterHandler.addParameter('siteUrl', sUrl)
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)       
+
+    oGui.setEndOfDirectory()   
+ 
 def showMovie(sSearch = ''):
     oGui = cGui()
     if sSearch:

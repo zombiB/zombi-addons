@@ -11,6 +11,7 @@ from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 
+
 SITE_IDENTIFIER = 'rotana'
 SITE_NAME = 'rotana'
 SITE_DESC = 'arabic vod'
@@ -18,7 +19,6 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://rotana.net'
 
 MOVIE_AR = ('https://rotana.net/vod-movies', 'showMovies')
-
 URL_SEARCH = ('https://rotana.net/?s=', 'showSeries')
 URL_SEARCH_MOVIES = ('https://rotana.net/?s=', 'showMoviesSearch')
 FUNCTION_SEARCH = 'showSeries'
@@ -29,7 +29,39 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-           
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', "https://rotana.net/movies-genres/%d8%a3%d9%83%d8%b4%d9%86/")
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أكشن', 'film.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', "https://rotana.net/movies-genres/%d8%af%d8%b1%d8%a7%d9%85%d8%a7/")
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'دراما', 'film.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', "https://rotana.net/movies-genres/%d8%b1%d9%88%d9%85%d8%a7%d9%86%d8%b3%d9%8a/")
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'رومانسي', 'film.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', "https://rotana.net/movies-genres/%d9%83%d9%88%d9%85%d9%8a%d8%af%d9%8a%d8%a7/")
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'كوميديا', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', "https://rotana.net/vod-short-movies")
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام قصيرة', 'film.png', oOutputParameterHandler)
+   
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', "https://rotana.net/vod-series-2")
+    oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', "https://rotana.net/theatrical-plays")
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
+ 
     oGui.setEndOfDirectory()
  
 def showSearch():

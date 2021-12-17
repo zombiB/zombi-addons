@@ -47,6 +47,45 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
     
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
+   
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
+   
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'film.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'mslsl.png', oOutputParameterHandler)
 
             
     oGui.setEndOfDirectory()
@@ -263,12 +302,10 @@ def showSeasons():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-	
-    if '<div class="seasons">' in sHtmlContent :
 
-        sStart = '<div class="seasons">'
-        sEnd = 'class="allepcont">'
-        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    sStart = '<div class="seasons">'
+    sEnd = 'class="allepcont">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
  
       # (.+?) ([^<]+) .+?
     sPattern = 'data-slug="(.+?)">(.+?)</'
@@ -294,33 +331,6 @@ def showSeasons():
 
  
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-			
-    if 'class="seasons">' not in sHtmlContent :
-       sStart = 'class="episodesAside">'
-       sEnd = 'class="detail-section" style'
-       sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
-    # (.+?) .+? ([^<]+)   
-       sPattern = 'style="order:([^<]+)" class.+?href="(.+?)">'
-       aResult = oParser.parse(sHtmlContent1, sPattern)
-    
-   
-       if (aResult[0] == True):
-          oOutputParameterHandler = cOutputParameterHandler()
-          for aEntry in aResult[1]:
- 
-            sTitle = ' E'+aEntry[0]
-            sTitle = sTitle+sMovieTitle
-            siteUrl = str(aEntry[1])
-            sThumbnail = sThumbnail
-            sInfo = ""
- 
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            
-
- 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
  
     oGui.setEndOfDirectory() 
   
@@ -339,6 +349,7 @@ def showEps():
     sStart = 'class="episodesAside">'
     sEnd = 'class="detail-section" style'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    VSlog(sHtmlContent)
     # (.+?) .+? ([^<]+)   
     sPattern = 'style="order:([^<]+)" class.+?href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
