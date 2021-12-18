@@ -64,7 +64,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 # ([^<]+) .+? (.+?)
-    sPattern = 'loading="lazy" src="(.+?)" srcSet=.+?<a href="(.+?)"><span>(.+?)</span></a></h3><div class="program-card__description">(.+?)</div></div></article>'
+    sPattern = 'loading="lazy" src="(.+?)" srcSet.+?<h3 class="program-card__title"><a href="(.+?)"><span>(.+?)</span></a></h3><p class="program-card__description">(.+?)<'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

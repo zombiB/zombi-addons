@@ -46,8 +46,7 @@ class cHoster(iHoster):
         return False
 
     def setUrl(self, sUrl):
-        self.__sUrl = re.sub('=img.vidbm.com/.+?','',str(sUrl))
-        self.__sUrl = self.__sUrl.replace('.html?auto=1','')
+        self.__sUrl = str(sUrl)
   
     def checkUrl(self, sUrl):
         return True
@@ -64,6 +63,12 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         oParser = cParser()
+        
+
+        sPattern = 'file:"([^<]+)",label'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
        
         sPattern = "(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>"
         aResult = oParser.parse(sHtmlContent,sPattern)
@@ -73,7 +78,6 @@ class cHoster(iHoster):
             aResult = oParser.parse(sHtmlContent,sPattern)
             if (aResult[0] == True):
                 api_call = aResult[1][0] 
-        
         #VSlog(api_call)
 
         if (api_call):

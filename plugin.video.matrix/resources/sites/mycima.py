@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'mycima'
 SITE_NAME = 'mycima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://mycima.ink/'
+URL_MAIN = 'https://mycima.ink'
 
 MOVIE_TOP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/top/', 'showMovies')
@@ -556,9 +556,8 @@ def showHosters():
 	
     if (aResult[0] == True):
         for aEntry in aResult[1]:
-            
             sHosterUrl = aEntry[0]
-            sHosterUrl = sHosterUrl.replace("upbbom","ddsdd").replace("uppbom","ddsdd")
+            sHosterUrl = sHosterUrl.replace("upbem","ddsdd").replace("upbem","ddsdd")
             sTitle = sMovieTitle+' ['+aEntry[2]+aEntry[1]+'] '
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl

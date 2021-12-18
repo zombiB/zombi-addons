@@ -63,8 +63,6 @@ class cHoster(iHoster):
 
         api_call =''
         
-        #print (self.__sUrl)
-        
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         

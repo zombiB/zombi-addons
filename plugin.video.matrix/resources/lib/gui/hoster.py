@@ -217,6 +217,8 @@ class cHosterGui:
             return self.getHoster('vidbm')
         if ('vedpom' in sHostName):
             return self.getHoster('vidbem')
+        if ('vadshar' in sHostName):
+            return self.getHoster('vidshare')
         if ('vidshar' in sHostName):
             return self.getHoster('vidshare')
         if ('vedshaar' in sHostName):
@@ -239,6 +241,8 @@ class cHosterGui:
             return self.getHoster('govid')
         if ('gvid.rest' in sHostName):
             return self.getHoster('govid')
+        if ('goved.net' in sHostName):
+            return self.getHoster('govidme')
         if ('govid.co' in sHostName):
             return self.getHoster('govid')
         if ('cloudy' in sHostName):

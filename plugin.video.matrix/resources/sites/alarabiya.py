@@ -56,7 +56,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+? (.+?)
-    sPattern = '<a class="list-item-link" href="(.+?)" title="(.+?)">.+?data-src-desktop="(.+?)" width='
+    sPattern = '<a class="list-item-link" href="(.+?)" title="(.+?)">.+?<img src="(.+?)" width='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
