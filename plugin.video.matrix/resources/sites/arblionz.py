@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'arblionz'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'https://arlionz.net:2096'
+URL_MAIN = 'https://arlionz.cam/'
 RAMADAN_SERIES = (URL_MAIN + '/category/ramada-series/ramadan-2021/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/movies/arabic-movies/', 'showMovies')
@@ -405,7 +405,7 @@ def showHosters():
     
     if (aResult[0]):
         sId = aResult[1][0]
-    siteUrl = 'https://arlionz.net:2096/PostServersWatch/'+sId
+    siteUrl = URL_MAIN + '/PostServersWatch/'+sId
 
 
     from resources.lib.util import Quote
@@ -414,7 +414,6 @@ def showHosters():
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('origin', 'arlionz.net:2096')
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
@@ -460,13 +459,12 @@ def showHosters():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 					   
-    siteUrl = 'https://arlionz.net:2096/PostServersDownload/'+sId
+    siteUrl = URL_MAIN + '/PostServersDownload/'+sId
 
     oRequestHandler = cRequestHandler(siteUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('origin', 'arlionz.net:2096')
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))

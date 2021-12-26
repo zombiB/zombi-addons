@@ -26,8 +26,8 @@ DOC_NEWS = ('https://www.egy-club.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d
 
 
 URL_SEARCH = ('https://www.egy-club.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://www.egy-club.com/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = ('https://www.egy-club.com/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH_MOVIES = ('https://www.egy-club.com/?s=', 'showMovies')
+URL_SEARCH_SERIES = ('https://www.egy-club.com/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

@@ -19,11 +19,11 @@ SITE_IDENTIFIER = 'kingfoot'
 SITE_NAME = 'kingfoot'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://king-shoot.com/'
+URL_MAIN = 'https://king-shoot.tv/'
 
 
 
-SPORT_LIVE = ('https://king-shoot.tv/today-matches/', 'showMovies')
+SPORT_LIVE = ('https://king-shoot.tv:2096/today-matches/', 'showMovies')
 
 
 

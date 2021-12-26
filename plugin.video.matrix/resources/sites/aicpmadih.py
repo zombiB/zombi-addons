@@ -26,6 +26,10 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', ISLAM_NASHEED[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'ISLAM_NASHEED', 'anime.png', oOutputParameterHandler)
+
             
     oGui.setEndOfDirectory()
   
@@ -41,7 +45,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = 'data-src="(.+?)" class.+?<a href="(.+?)" class=.+?class="qt-ellipsis qt-t">(.+?)</a>.+?<span class="qt-item-metas qt-small">(.+?)</span>'
+    sPattern = 'src="(.+?)" class=.+?<a href="(.+?)" class=.+?class="qt-ellipsis qt-t">(.+?)</a>.+?<span class="qt-item-metas qt-small">(.+?)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

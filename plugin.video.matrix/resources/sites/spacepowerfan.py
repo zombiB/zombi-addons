@@ -185,10 +185,13 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E")
-            sTitle = sTitle+sMovieTitle
+            sTitle = sTitle+' '+sMovieTitle
             siteUrl = aEntry[1]
             sThumb = aEntry[0]
             sDesc = ""
+            if ':' in aEntry[2]:
+               sDesc = aEntry[2].split(':')[1]
+               sTitle = sTitle.split(':')[0]
 			
 
 

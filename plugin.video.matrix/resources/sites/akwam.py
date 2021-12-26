@@ -360,11 +360,15 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+
+    sStart = 'id="series-episodes">'
+    sEnd = '<div class="widget-4 widget widget-style-1 more mb-4">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
   
      # (.+?) ([^<]+) .+?
     sPattern = 'class="text-white">(.+?)</a>.+?<a href="(.+?)">.+?<img src="(.+?)" class="img-fluid" alt='
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if (aResult[0] == True):

@@ -436,8 +436,8 @@ msgid "Asian"
 msgstr "asiatique"
 
 msgctxt "#30111"
-msgid "Asian Dubbed"
-msgstr "asiatique doublee"
+msgid "Pakistani"
+msgstr "Pakistani"
 
 msgctxt "#30105"
 msgid "Genre"

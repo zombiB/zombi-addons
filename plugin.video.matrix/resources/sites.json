@@ -263,6 +263,18 @@
         "plugin_rotana": {
             "label": "rotana",
             "active": "true"
+        },
+        "plugin_pakistani": {
+            "label": "pakistani",
+            "active": "true"
+        },
+        "plugin_animeup": {
+            "label": "animeup",
+            "active": "true"
+        },
+        "plugin_gateanime": {
+            "label": "gateanime",
+            "active": "true"
         }
     }
 }
