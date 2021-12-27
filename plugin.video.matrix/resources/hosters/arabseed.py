@@ -82,14 +82,14 @@ class cHoster(iHoster):
 
     
   # ([^<]+) .+?
-        headers = {'Host': 'm.arabseed.me',
+        headers = {'Host': 'm.seeeed.xyz',
                 	'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
                 	'Accept': '*/*',
                 	'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
                 	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 	'X-Requested-With': 'XMLHttpRequest',
                 	'Referer': sUrl,
-                	'origin': 'https://m.arabseed.me',
+                	'origin': 'https://m.seeeed.xyz',
                 	'Connection': 'keep-alive'}
         data = {'op':'download2','id':sId,'rand':'','referer':'','method_free':'','method_premium':''}
         s = requests.Session()
@@ -100,7 +100,7 @@ class cHoster(iHoster):
         if (aResult[0] == True):
         	api_call = aResult[1][0].replace("[","%5B").replace("]","%5D").replace("+","%20")
         if (api_call):
-        	return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://m.arabseed.me'
+        	return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://m.seeeed.xyz'
 
         return False, False
         

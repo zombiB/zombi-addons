@@ -43,7 +43,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://blkom.com/search?query='+sSearchText
+        sUrl = 'https://animeblkom.net/search?query='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return

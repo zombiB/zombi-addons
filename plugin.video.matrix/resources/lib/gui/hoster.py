@@ -247,7 +247,7 @@ class cHosterGui:
             return self.getHoster('govid')
         if ('cloudy' in sHostName):
             return self.getHoster('cloudy')
-        if ('arabseed' in sHostName):
+        if ('seeeed' in sHostName):
             return self.getHoster('arabseed')
         if ('vidhd' in sHostName):
             return self.getHoster('vidhd')

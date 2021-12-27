@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'fnteam'
 SITE_NAME = 'fn-team'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://www.fn-team.com/'
+URL_MAIN = 'http://www.fn-team.com'
 
 MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
 SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')
@@ -21,14 +21,20 @@ KID_CARTOON = ('http://www.fn-team.com/?cat=6', 'showSeries')
 REPLAYTV_PLAY = ('http://www.fn-team.com/?cat=3', 'showSeries')
 
 URL_SEARCH = ('http://www.fn-team.com/?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
     oGui = cGui()
 
+
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH MOVIES', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
@@ -54,6 +60,16 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'http://www.fn-team.com/?s='+sSearchText
+        showMovies(sUrl)
+        oGui.setEndOfDirectory()
+        return
+ 
+def showSeriesSearch():
+    oGui = cGui()
+ 
+    sSearchText = oGui.showKeyBoard()
+    if (sSearchText != False):
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return

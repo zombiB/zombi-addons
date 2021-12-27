@@ -38,7 +38,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = ''+sSearchText
+        sUrl = 'https://docarabic.wordpress.com/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
