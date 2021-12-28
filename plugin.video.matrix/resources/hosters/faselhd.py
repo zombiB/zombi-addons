@@ -87,7 +87,7 @@ class cHoster(iHoster):
             #Replissage des tableaux
                 for i in aResult[1]:
                     url.append(url2)
-                    qua.append(str(i[0]))
+                    qua.append(str(i[0]).split('x')[1]+"p")
 
                 api_call = dialog().VSselectqual(qua, url)
 

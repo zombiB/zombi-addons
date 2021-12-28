@@ -65,7 +65,8 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<div>.+?<a href="(.+?)">.+?class="team-logo  img-responsive" alt="([^<]+)">.+?class="team-logo" alt="([^<]+)">'
+    sPattern = '<a href="([^<]+)"><div class="row match-live ">.+?alt="([^<]+)">.+?class="team-logo" alt="([^<]+)">'
+
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -262,7 +263,9 @@ def showHosters4():
     
     oRequestHandler = cRequestHandler(sUrl)
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : '1xnews.online','referer' : sUrl}
-    murl = sUrl.split('matche/', 1)[1]
+    VSlog(sUrl)
+    murl = sUrl.split('live/', 1)[1]
+    VSlog(murl)
     murl = murl.split('/', 1)[0]
     rurl = 'https://1xnews.online/home/matche/'+murl 
     St=requests.Session()              

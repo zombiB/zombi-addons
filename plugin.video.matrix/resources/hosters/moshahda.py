@@ -82,23 +82,24 @@ class cHoster(iHoster):
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
             # (.+?) .+?
-        sPattern = ',{file:"(.+?)",label:"(.+?)"'
+        sPattern = 'file: "(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
         
         api_call = False
 
         if (aResult[0] == True):
-            
-            #initialisation des tableaux
-            url=[]
-            qua=[]
-            
-            #Replissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
-
-            api_call = dialog().VSselectqual(qua, url)
+            oRequest = cRequestHandler(aResult[1][0])
+            data = oRequest.request()
+        	
+            sPattern =  ',RESOLUTION=(.+?),CODECS=".+?"(.+?).15'
+            aResult = oParser.parse(data, sPattern)
+            if (aResult[0] == True):
+               url=[]
+               qua=[]
+               for i in aResult[1]:
+                  url.append(str(i[1])+".15")
+                  qua.append(str(i[0]).split('x')[1]+"p")
+               api_call = dialog().VSselectqual(qua, url)
  
             if (api_call):
                 return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
