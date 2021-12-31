@@ -21,7 +21,7 @@ try:
     url = URL_MAIN
     session = requests.Session()  # so connections are recycled
     resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url
+    URL_MAIN = resp.url.replace("/home/","")
 except:
     pass
 
@@ -286,7 +286,8 @@ def showMovies(sSearch = ''):
        r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
      # (.+?) ([^<]+) .+?
-    sPattern = '</div><a href="([^<]+)">.+?<img src="([^<]+)" alt="([^<]+)">'
+    sPattern = '</div><a href="([^<]+)">.+?<img src="([^<]+)" alt="(.+?)">'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.matrix" name="matrix" version="4.6.4" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="4.6.5" provider-name="zombi">
     <requires>
 
         <trycatch>
@@ -47,7 +47,7 @@
 
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
-        <news>plugin.video.matrix-4.6.4</news>
+        <news>plugin.video.matrix-4.6.5</news>
         <summary lang="en">https://zombib.github.io/</summary>
         <summary lang="fr">https://zombib.github.io/</summary>
         <description lang="en">https://zombib.github.io/</description>

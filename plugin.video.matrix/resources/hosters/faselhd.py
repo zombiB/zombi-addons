@@ -74,8 +74,10 @@ class cHoster(iHoster):
             url2 = aResult[1][0]
             oRequestHandler = cRequestHandler(url2)
             sHtmlContent2 = oRequestHandler.request()
+            core = url2.replace('\\','').replace("['",'').replace("']",'')
+            
 
-            sPattern = 'RESOLUTION=(.+?),.+?index(.+?)#EXT'
+            sPattern = ',RESOLUTION=(.+?),.+?index(.+?)token='
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
             if (aResult[0] == True):
@@ -86,7 +88,8 @@ class cHoster(iHoster):
             
             #Replissage des tableaux
                 for i in aResult[1]:
-                    url.append(url2)
+                    base= 'index' + str(i[1])
+                    url.append(core.replace('master.m3u8?',base))
                     qua.append(str(i[0]).split('x')[1]+"p")
 
                 api_call = dialog().VSselectqual(qua, url)
