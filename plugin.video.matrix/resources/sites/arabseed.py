@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'arabseed'
 SITE_NAME = 'arabseed'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://eg.arabseed.ink'
+URL_MAIN = 'https://eg1.arabseed.ink'
                           
 try:
     import requests
@@ -26,30 +26,30 @@ try:
 except:
     pass
 
-MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/foreign-movies3/', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/category/arabic-movies-5/', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/indian-movies/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/category/turkish-series-1/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d9%87/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/foreign-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showSeries')
+MOVIE_CLASSIC = ('https://eg1.arabseed.ink/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
+MOVIE_EN = ('https://eg1.arabseed.ink/category/foreign-movies3/', 'showMovies')
+MOVIE_AR = ('https://eg1.arabseed.ink/category/arabic-movies-5/', 'showMovies')
+MOVIE_DUBBED = ('https://eg1.arabseed.ink/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
+MOVIE_HI = ('https://eg1.arabseed.ink/category/indian-movies/', 'showMovies')
+MOVIE_ASIAN = ('https://eg1.arabseed.ink/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+MOVIE_TURK = ('https://eg1.arabseed.ink/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
+KID_MOVIES = ('https://eg1.arabseed.ink/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86/', 'showMovies')
+SERIE_TR = ('https://eg1.arabseed.ink/category/turkish-series-1/', 'showSeries')
+SERIE_DUBBED = ('https://eg1.arabseed.ink/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
+SERIE_ASIA = ('https://eg1.arabseed.ink/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d9%87/', 'showSeries')
+SERIE_HEND = ('https://eg1.arabseed.ink/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_EN = ('https://eg1.arabseed.ink/category/foreign-series/', 'showSeries')
+SERIE_AR = ('https://eg1.arabseed.ink/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showSeries')
 
-RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-رمضان-2021/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
+RAMADAN_SERIES = ('https://eg1.arabseed.ink/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2021/', 'showSeries')
+ANIM_NEWS = ('https://eg1.arabseed.ink/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
 
-REPLAYTV_PLAY = (URL_MAIN + '/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showMovies')
-REPLAYTV_NEWS = ('https://arabseed.net/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
-URL_SEARCH = (URL_MAIN + '/find/?find=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/find/?find=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/find/?find=', 'showSeries')
-URL_SEARCH_MISC = (URL_MAIN + '/find/?find=', 'showAllSearch')
+REPLAYTV_PLAY = ('https://eg1.arabseed.ink/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showMovies')
+REPLAYTV_NEWS = ('https://eg1.arabseed.ink/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
+URL_SEARCH = ('https://eg1.arabseed.ink/find', 'showMovies')
+URL_SEARCH_MOVIES = ('https://eg1.arabseed.ink/find', 'showMovies')
+URL_SEARCH_SERIES = ('https://eg1.arabseed.ink/find', 'showSeries')
+URL_SEARCH_MISC = ('https://eg1.arabseed.ink/find', 'showAllSearch')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -130,15 +130,15 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://arabseed.ws/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d9%87/')
+    oOutputParameterHandler.addParameter('siteUrl', 'https://eg1.arabseed.ink/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d9%87/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مصارعة', 'wwe.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://arabseed.ws/category/netfilx/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-netfilz/')
+    oOutputParameterHandler.addParameter('siteUrl', 'https://eg1.arabseed.ink/category/netfilx/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-netfilz/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://arabseed.ws/category/netfilx/%d8%a7%d9%81%d9%84%d8%a7%d9%85-netfilx/')
+    oOutputParameterHandler.addParameter('siteUrl', 'https://eg1.arabseed.ink/category/netfilx/%d8%a7%d9%81%d9%84%d8%a7%d9%85-netfilx/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام Netfilx', 'film.png', oOutputParameterHandler)
              
     oGui.setEndOfDirectory()
