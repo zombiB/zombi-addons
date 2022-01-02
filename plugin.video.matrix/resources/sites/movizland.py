@@ -7,7 +7,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'movizland'
@@ -900,54 +900,7 @@ def showHosters2():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-   
-    oParser = cParser()
-
-  # ([^<]+) .+?
-    headers = {'Host': 'movizland.top',
-     'User-Agent': 'Mozilla/5.0',
-     'Accept': '*/*',
-     'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-     'X-Requested-With': 'XMLHttpRequest',
-     'Referer': sUrl,
-     'Connection': 'keep-alive'}
-
-    data = {'watch':'1'}
-    s = requests.Session()
-    r = s.post(sUrl,data = data)
-    sHtmlContent = r.content
-    if isMatrix(): 
-       sHtmlContent = sHtmlContent.decode('utf8',errors='ignore')
-    # ([^<]+) (.+?)      
-
-    sPattern = '</td><td>([^<]+)</td><td><a href="(.+?)" target'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-            
-            url = aEntry[1]
-            sTitle =  aEntry[0]
-            if '?download' in url:
-                url = url.replace("moshahda","ddcdd")
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-            sHosterUrl = url
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+    # ([^<]+) (.+?)  .+?    
 				           
 
     sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
@@ -974,10 +927,8 @@ def showHosters2():
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-				
-    # ([^<]+) (.+?)      
 
-    sPattern = 'rel="nofollow" href="(.+?)">'
+    sPattern = '</td><td>(.+?)</td><td><a href="(.+?)" target="_blank">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -986,22 +937,25 @@ def showHosters2():
         for aEntry in aResult[1]:
             
             url = aEntry[1]
-            sTitle =  aEntry[0]
+            sTitle =  sMovieTitle+'('+aEntry[0]+')'
             if url.startswith('//'):
-               url = 'http:' + url
+                url = 'http:' + url
             
-            sHosterUrl = url 
+            sHosterUrl = url
+            if '?download_' in sHosterUrl:
+                sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if (oHoster != False):
-               oHoster.setDisplayName(sTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                oHoster.setDisplayName(sTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				           
 
     sPattern = 'rel="nofollow" href="(.+?)">'

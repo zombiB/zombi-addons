@@ -23,7 +23,7 @@ URL_MAIN = 'https://king-shoot.tv/'
 
 
 
-SPORT_LIVE = ('https://king-shoot.tv:2096/today-matches/', 'showMovies')
+SPORT_LIVE = ('https://king-shoot.tv/today-matches/', 'showMovies')
 
 
 
@@ -62,10 +62,21 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- 
-# ([^<]+) .+? (.+?)
+    oParser = cParser()
+            
+    sPattern =  '<link rel="canonical" href="https://.+?/today-matches/(.+?)" />' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        m3url = aResult[1][0] 
 
-    sPattern = '<a href="([^<]+)"><div class="row match-live ">.+?alt="([^<]+)">.+?class="team-logo" alt="([^<]+)">'
+# ([^<]+) .+? (.+?)
+    import requests
+    s = requests.Session()            
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+    r = s.get('https://web-api.golato.net/webapi/matches/'+m3url, headers=headers)
+    sHtmlContent = r.content.decode('utf8')
+    sPattern = '"id":"(.+?)","sitemap":1,"api_matche_id":"(.+?)",.+?,"home_en":"(.+?)",.+?,"away_en":"(.+?)",'
 
 
     oParser = cParser()
@@ -81,178 +92,26 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1] +' - '+ aEntry[2]
+            sTitle =  aEntry[2] +' - '+ aEntry[3]
             sThumbnail = ""
-            siteUrl = aEntry[0]
+            siteUrl =  "https://king-shoot.tv/gen-matche/"+aEntry[0]+'/'+aEntry[1]
             sInfo = ''
 			
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('murl', aEntry[0])
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
-# ([^<]+) .+? 
-
-    sPattern = ' <li><a href="([^<]+)"><i class="fas fa-desktop  pl-5"></i><span class="text-right sidebar-menu">القنوات</span></a></li>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle =  "channels"
-            sThumbnail = ""
-            siteUrl = aEntry
-            sInfo = ""
-			
-			
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-
-            oGui.addMisc(SITE_IDENTIFIER, 'showchannels', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
-def __checkForNextPage(sHtmlContent):
-    sPattern = ''
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        aResult = URL_MAIN+aResult[1][0]
-        return aResult
 
-    return False 
-  
-def showchannels():
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) .+?
-    sPattern = '<div class="col-6 col-lg-3 pb-10 centrage brs-post brs-post_mini-vertical brk-library-rendered slick-slide slick-current slick-active"  >.+?<a href="([^<]+)" class=" centrage brs-post__img-container sam-web-tumb" title="(.+?)">.+?<img src="(.+?)" data-src'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle =  aEntry[1] 
-            sThumbnail = aEntry[2]
-            siteUrl = aEntry[0]
-            sInfo = ""
- 
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
-           
- 
-        progress_.VSclose(progress_)
-       
-    oGui.setEndOfDirectory()   
-def showLive():
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    # (.+?) # ([^<]+) .+? 
-    sPattern = 'allow="autoplay".+?src="([^<]+)" scrolling="no">'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = sMovieTitle 
-            siteUrl = aEntry
-            sInfo = ""
- 
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addLink(SITE_IDENTIFIER, 'showHosters2', sTitle, sThumbnail, sInfo, oOutputParameterHandler) 
-        
-        progress_.VSclose(progress_)       
-           
- 
-    # (.+?) # ([^<]+) .+? 
-    sPattern = ' <a class=" rtl btn btn-prime btn-block border-radius-10  font__weight-bold   brk-library-rendered.+?" href="([^<]+)" >'
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-
-   
-    if (aResult[0] == True):
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = sMovieTitle 
-            siteUrl = aEntry
-            sInfo = siteUrl
-			
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addLink(SITE_IDENTIFIER, 'showHosters2', sTitle, sThumbnail, sInfo, oOutputParameterHandler)        
-           
-       
-       
-    oGui.setEndOfDirectory()  
 def showHosters4():
     import requests,re,json
     oGui = cGui()
@@ -260,13 +119,11 @@ def showHosters4():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    murl = oInputParameterHandler.getValue('murl')
     
     oRequestHandler = cRequestHandler(sUrl)
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : '1xnews.online','referer' : sUrl}
     VSlog(sUrl)
-    murl = sUrl.split('live/', 1)[1]
-    VSlog(murl)
-    murl = murl.split('/', 1)[0]
     rurl = 'https://1xnews.online/home/matche/'+murl 
     St=requests.Session()              
     oRequestHandler = cRequestHandler(rurl)
