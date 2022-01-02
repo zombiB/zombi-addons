@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
 import re 
  
@@ -411,11 +411,11 @@ def showServers():
             data = {'server':sId,'postID':sId2,'Ajax':'1'}
             s = requests.Session()			
             r = s.post('https://m.halacima.net/ajax/getPlayer',data = data)
-            sdata = r.content.decode('utf8',errors='ignore')        
+            sdata = r.content.decode('utf8',errors='ignore')     
 
 
 
-            sPattern = "<iframe.+?src='([^<]+)' frameborder"
+            sPattern = "SRC='(.+?)' FRAMEBORDER"
             oParser = cParser()
             aResult = oParser.parse(sdata, sPattern)
             if (aResult[0] == True):
@@ -435,7 +435,7 @@ def showServers():
 				
    
     # (.+?) ([^<]+) .+?
-    sPattern = '<a target="_blank" href="(.+?)" title'
+    sPattern = '<a target="_blank" href="(.+?)" title='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

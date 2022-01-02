@@ -21,7 +21,8 @@ try:
     url = URL_MAIN
     session = requests.Session()  # so connections are recycled
     resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.replace("/home/","")
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
 except:
     pass
 
