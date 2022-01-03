@@ -378,7 +378,6 @@ def showEps():
     sStart = 'class="episodesAside">'
     sEnd = 'class="detail-section" style'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    VSlog(sHtmlContent)
     # (.+?) .+? ([^<]+)   
     sPattern = 'style="order:([^<]+)" class.+?href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -445,8 +444,7 @@ def showHosters():
 
     # ([^<]+) .+? (.+?)
                
-
-    sPattern = '<iframe src="(.+?)".+?frameborder'
+    sPattern = '<iframe src="(.+?)" id="srcFrame" frameborder='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

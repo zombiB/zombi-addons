@@ -185,7 +185,7 @@ class cHosterGui:
         # Gestion classique
         if ('sama-share' in sHostName):
             return self.getHoster('samashare')
-        if ('anafasts' in sHostName):
+        if ('anafast' in sHostName):
             return self.getHoster('anafasts')
         if ('filerio' in sHostName):
             return self.getHoster('filerio')
@@ -323,6 +323,8 @@ class cHosterGui:
             return self.getHoster('arabramadan')
         if ('faselhd' in sHostName):
             return self.getHoster('faselhd')
+        if ('stardima' in sHostName):
+            return self.getHoster('stardima')
         if ('streamable' in sHostName):
             return self.getHoster('streamable')
 
@@ -348,8 +350,6 @@ class cHosterGui:
         if ('king-shoot.xyz' in sHostName):
             return self.getHoster('lien_direct')
         if ('fansubs' in sHostName):
-            return self.getHoster('lien_direct')
-        if ('stardima' in sHostName):
             return self.getHoster('lien_direct')
         if ('us.archive.' in sHostName):
             return self.getHoster('lien_direct')

@@ -90,11 +90,9 @@ class cHoster(iHoster):
         if (aResult[0] == True):
             oRequest = cRequestHandler(aResult[1][0])
             data = oRequest.request()
-            VSlog(data)
         	
             sPattern =  ',RESOLUTION=(.+?),.+?https(.+?).15'
             aResult = oParser.parse(data, sPattern)
-            VSlog(aResult)
             if (aResult[0] == True):
                url=[]
                qua=[]

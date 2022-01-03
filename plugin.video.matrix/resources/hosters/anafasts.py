@@ -81,7 +81,7 @@ class cHoster(iHoster):
             sPattern = 'PROGRAM-ID.+?RESOLUTION=(\w+).+?(https.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
             for aEntry in aResult[1]:
-                list_q.append(aEntry[0]) 
+                list_q.append(aEntry[0].split('x')[1]+"p") 
                 list_url.append(aEntry[1]) 
 
             if list_url:
