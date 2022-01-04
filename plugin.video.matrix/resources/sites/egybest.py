@@ -614,7 +614,7 @@ def x(main_tab,step2,a):
     return(a0d(main_tab,step2,a))
 
 def decal(tab,step,step2,decal_fnc):
-    decal_fnc = decal_fnc.replace('var ','global c; ') 
+    decal_fnc = decal_fnc.replace('var ','global d; ')  
     decal_fnc = decal_fnc.replace('x(','x(tab,step2,') 
     exec(decal_fnc)
     aa=0
@@ -625,10 +625,10 @@ def decal(tab,step,step2,decal_fnc):
         #print([i for i in tab[0:10]])
         exec(decal_fnc) 
         #print(str(aa)+':'+str(c))
-        if ((c == step) or (aa>10000)): break
+        if ((d == step) or (aa>10000)): break
       
 def VidStream(script):
-    tmp = re.findall('var(.*?)=', script, re.S)
+    tmp = re.findall('var.*?=(.{2,4})\(\)', script, re.S)
     if not tmp: return 'ERR:Varconst Not Found'
     varconst = tmp[0].strip()
     print('Varconst     = %s' % varconst)
@@ -636,7 +636,7 @@ def VidStream(script):
     if not tmp: return 'ERR:Step1 Not Found'
     step = eval(tmp[0])
     print('Step1        = 0x%s' % '{:02X}'.format(step).lower())
-    tmp = re.findall('a=a-(0x[0-9a-f]{1,10});', script)
+    tmp = re.findall('d=d-(0x[0-9a-f]{1,10});', script)
     if not tmp: return 'ERR:Step2 Not Found'
     step2 = eval(tmp[0])
     print('Step2        = 0x%s' % '{:02X}'.format(step2).lower())    
@@ -648,18 +648,22 @@ def VidStream(script):
     if not tmp: return 'ERR:PostKey Not Found'
     PostKey = tmp[0]
     print('PostKey      = %s' % PostKey)
-    tmp = re.findall("(var "+varconst+"=\[.*?\];)", script)
+    tmp = re.findall("function "+varconst+".*?var.*?=(\[.*?])", script)
     if not tmp: return 'ERR:TabList Not Found'	
     TabList = tmp[0]
-    TabList = TabList.replace('var ','')
+    TabList = varconst + "=" + TabList
     exec(TabList) in globals(), locals()
     main_tab = locals()[varconst]
     print(varconst+'          = %.90s...'%str(main_tab))
     decal(main_tab,step,step2,decal_fnc)
     print(varconst+'          = %.90s...'%str(main_tab))
-    tmp = re.findall(";"+varconst[0:2]+".\(\);(var .*?)\$\('\*'\)", script, re.S)
-    if not tmp: return 'ERR:List_Var Not Found'		
+    tmp = re.findall("\(\);(var .*?)\$\('\*'\)", script, re.S)
+    if not tmp:
+        tmp = re.findall("a0a\(\);(.*?)\$\('\*'\)", script, re.S)
+        if not tmp:
+            return 'ERR:List_Var Not Found'		
     List_Var = tmp[0]
+    List_Var = re.sub("(function .*?}.*?})", "", List_Var)
     print('List_Var     = %.90s...' % List_Var)
     tmp = re.findall("(_[a-zA-z0-9]{4,8})=\[\]" , List_Var)
     if not tmp: return 'ERR:3Vars Not Found'
