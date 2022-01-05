@@ -185,6 +185,8 @@ class cHosterGui:
         # Gestion classique
         if ('sama-share' in sHostName):
             return self.getHoster('samashare')
+        if ('yodbox' in sHostName):
+            return self.getHoster('youdbox')
         if ('anafast' in sHostName):
             return self.getHoster('anafasts')
         if ('filerio' in sHostName):

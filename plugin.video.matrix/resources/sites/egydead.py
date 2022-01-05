@@ -761,9 +761,9 @@ def showHosters():
                oHoster.setFileName(sDisplayTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 				
-    # ([^<]+) (.+?)         
+    # ([^<]+) (.+?)   .+?      
 
-    sPattern = 'class="ser-link" href="(.+?)">'
+    sPattern = '<div class="server-info"><em>(.+?)</em>.+?class="ser-link" href="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -771,14 +771,17 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = aEntry
-            sTitle =  sMovieTitle
+            url = aEntry[1]
+            sTitle =  sMovieTitle+'('+aEntry[0]+')'
             if url.startswith('//'):
                url = 'http:' + url
 				
 					
             
             sHosterUrl = url
+            if '?download_' in sHosterUrl:
+                sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'userload' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
