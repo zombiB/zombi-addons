@@ -64,7 +64,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
             
-    sPattern =  '<link rel="canonical" href="https://.+?/today-matches/(.+?)" />' 
+    sPattern =  'href="https://.+?/today-matches/(.+?)" />' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if (aResult[0] == True):
         m3url = aResult[1][0] 

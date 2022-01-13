@@ -112,6 +112,26 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   sHosterUrl = url
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
+    # (.+?) # ([^<]+) .+? 
+            sPattern = 'src="(.+?)"'
+            aResult = oParser.parse(data, sPattern)
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
                    sHosterUrl = url
                    sMovieTitle = sTitle
             
@@ -128,6 +148,8 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
                    sHosterUrl = url
                    sMovieTitle = sTitle
             
@@ -144,6 +166,8 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
                    sHosterUrl = url
                    sMovieTitle = sTitle
             
@@ -161,6 +185,8 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
                    sHosterUrl = url+ '|User-Agent=' + UA + '&Referer=https://yastatic.net/' 
                    sMovieTitle = sTitle
             

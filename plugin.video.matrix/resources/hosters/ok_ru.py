@@ -95,7 +95,12 @@ class cHoster(iHoster):
 
         page = json.loads(sHtmlContent)
         page = json.loads(page['flashvars']['metadata'])
+		
         if page:
+            sPattern = "'hlsMasterPlaylistUrl': '(.+?)',"
+            aResult = oParser.parse(page, sPattern)
+            if (aResult[0] == True):
+                api_call = aResult[1][0]
             url = []
             qua = []
             for x in page['videos']:
