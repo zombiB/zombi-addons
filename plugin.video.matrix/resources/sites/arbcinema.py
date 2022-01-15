@@ -44,6 +44,46 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
+
+   oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%a7%d9%83%d8%b4%d9%86/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'اكشن', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%b1%d8%b9%d8%a8/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'رعب', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d9%83%d9%88%d9%85%d9%8a%d8%af%d9%8a/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'كوميدي', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%af%d8%b1%d8%a7%d9%85%d8%a7/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'دراما', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d9%81%d8%a7%d9%86%d8%aa%d8%a7%d8%b2%d9%8a%d8%a7/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'فانتازيا', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%a7%d8%ab%d8%a7%d8%b1%d8%a9/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'اثارة', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%ac%d8%b1%d9%8a%d9%85%d8%a9/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'جريمة', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%ae%d9%8a%d8%a7%d9%84-%d8%b9%d9%84%d9%85%d9%8a/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'خيال علمي', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%b1%d9%88%d9%85%d8%a7%d9%86%d8%b3%d9%8a/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'رومانسي', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%b3%d9%8a%d8%b1%d8%a9-%d8%b0%d8%a7%d8%aa%d9%8a%d8%a9/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'سيرة ذاتية', 'film.png', oOutputParameterHandler)
             
     oGui.setEndOfDirectory()
  
