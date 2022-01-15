@@ -24,6 +24,7 @@ URL_MAIN = 'https://king-shoot.tv/'
 
 
 SPORT_LIVE = ('https://king-shoot.tv/today-matches/', 'showMovies')
+SPORT_FOOT = ('https://king-shoot.tv:2053/videos/', 'showSeries')
 
 
 
@@ -64,17 +65,15 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
             
-    sPattern =  'href="https://.+?/today-matches/(.+?)" />' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
-        m3url = aResult[1][0] 
+    from datetime import date
+    today = str(date.today())
 
 # ([^<]+) .+? (.+?)
     import requests
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Referer': Quote(sUrl)}
-    r = s.get('https://web-api.golato.net/webapi/matches/'+m3url, headers=headers)
+    r = s.get('https://web-api.golato.net/webapi/matches/'+today, headers=headers)
     sHtmlContent = r.content.decode('utf8')
     sPattern = '"id":"(.+?)","sitemap":1,"api_matche_id":"(.+?)",.+?,"home_en":"(.+?)",.+?,"away_en":"(.+?)",'
 
@@ -111,7 +110,56 @@ def showMovies(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
+ 
+def showSeries(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
 
+      # (.+?) ([^<]+) .+?
+
+
+    sPattern = '<div class="card-body"><a href="(.+?)">.+?<h6>(.+?)</h6>.+?<h5 class="fw-bold">(.+?)</h5>.+?<h6>(.+?)</h6>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+
+            siteUrl = aEntry[0]
+            sTitle = aEntry[3]+' '+aEntry[2]+aEntry[1]           
+            sThumbnail = ''
+            sInfo = ''
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
+ 
+    if not sSearch:
+        oGui.setEndOfDirectory()
+			
 def showHosters4():
     import requests,re,json
     oGui = cGui()
@@ -260,43 +308,34 @@ def showHosters4():
 
 
     oGui.setEndOfDirectory()
-	
-def showHosters2():
+  	
+def showHosters():
     oGui = cGui()
-    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-    sUrl2 = sUrl.split('mubasher=')[1]
-    sUrl2 = sUrl2.split('&key')[0]
-    UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    #recup du lien mp4
-    sPattern =  'source: "(.+?)",' 
-    oParser = cParser()
+    oParser = cParser() # (.+?) .+? ([^<]+)
+    sPattern = 'frameborder="0" allowfullscreen="" allow="autoplay" src="https.+?link=(.+?)" scrolling="no">' 
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
     if (aResult[0] == True):
-        
-        sUrl = aResult[1][0].replace('"+live+"',sUrl2) + '|User-Agent=' + UA + '&Referer=' + sUrl
-                 
-        #on lance video directement
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(SITE_IDENTIFIER)
-        oGuiElement.setTitle(sMovieTitle)
-        oGuiElement.setMediaUrl(sUrl)
-        oGuiElement.setThumbnail(sThumbnail)
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            sTitle = sMovieTitle
+            if url.startswith('//'):
+                url = 'https:' + url
+            
+                
+            sHosterUrl = url
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+                oHoster.setDisplayName(sTitle)
+                oHoster.setFileName(sTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        oPlayer = cPlayer()
-        oPlayer.clearPlayList()
-        oPlayer.addItemToPlaylist(oGuiElement)
-        oPlayer.startPlayer()
-        return
-    
-    else:
-        return
-
-    oGui.setEndOfDirectory()
+                
+    oGui.setEndOfDirectory()    

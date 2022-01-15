@@ -80,7 +80,7 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
-            sInfo = aEntry[1]
+            sInfo = aEntry[1]+' GMT+2'
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -148,7 +148,7 @@ def showHosters():
         for aEntry in aResult[1]:
             
             url = aEntry
-            sHosterUrl = url
+            sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
             sMovieTitle = sMovieTitle
             
 
@@ -165,7 +165,7 @@ def showHosters():
         for aEntry in aResult[1]:
             
             url = aEntry
-            sHosterUrl = url
+            sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
             sMovieTitle = sMovieTitle
             
 
@@ -181,7 +181,7 @@ def showHosters():
         for aEntry in aResult[1]:
             
             url = aEntry
-            sHosterUrl = url
+            sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
             sMovieTitle = sMovieTitle
             
 
@@ -211,7 +211,7 @@ def showHosters():
                 if (aResult[0] == True):
                    url = aResult[1][0]
  
-            sHosterUrl = url
+            sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
             sMovieTitle = str(aEntry[1])
             
 
@@ -244,7 +244,7 @@ def showHosters():
                 if (aResult[0] == True):
                    url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
  
-            sHosterUrl = url
+            sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","") 
             sMovieTitle = sMovieTitle
             
 

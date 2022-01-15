@@ -520,13 +520,11 @@ def showHosters():
     # (.+?) ([^<]+) .+?
                
     sPattern = 'data-server="([^<]+)">'
-    aResult1 = re.findall(sPattern, sHtmlContent)
-    sPattern = '<a target="_blank" href="([^<]+)" class="btn download_btn col-md-1">'
-    aResult2 = re.findall(sPattern, sHtmlContent)
-    aResult = aResult1 + aResult2
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if aResult:
-        for aEntry in aResult:
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
             
                 url = aEntry
                 sTitle = " " 
@@ -534,6 +532,67 @@ def showHosters():
                     url = 'http:' + url
 								
                 sHosterUrl = url 
+                if '?download_' in sHosterUrl:
+                   sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                if 'userload' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'moshahda' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                if 'mystream' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+    # (.+?) ([^<]+) .+?
+               
+    sPattern = '<a href="([^<]+)" target="_blank"><i class="fa fa-star"></i><span>([^<]+)</span>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+            
+                url = aEntry[0]
+                sTitle = sMovieTitle+'('+aEntry[1]+')' 
+                if url.startswith('//'):
+                    url = 'http:' + url
+								
+                sHosterUrl = url 
+                if '?download_' in sHosterUrl:
+                   sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                if 'userload' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                if 'moshahda' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                if 'mystream' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if (oHoster != False):
+                    oHoster.setDisplayName(sTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+    # (.+?) ([^<]+) .+?
+               
+    sPattern = '<a target="_blank" href="([^<]+)" class="btn download'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+    if (aResult[0] == True):
+        for aEntry in aResult[1]:
+            
+                url = aEntry
+                sTitle = " " 
+                if url.startswith('//'):
+                    url = 'http:' + url
+								
+                sHosterUrl = url 
+                if '?download_' in sHosterUrl:
+                   sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                 if 'userload' in sHosterUrl:
                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                 if 'moshahda' in sHosterUrl:

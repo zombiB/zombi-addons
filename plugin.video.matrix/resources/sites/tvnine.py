@@ -62,7 +62,7 @@ def showMovies(sSearch = ''):
             sTitle =  aEntry[1]+' vs '+aEntry[3]
             sThumbnail = ""
             siteUrl = aEntry[0]
-            sInfo = aEntry[2]
+            sInfo = aEntry[2]+' GMT+1'
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -113,8 +113,9 @@ def showLive():
             
                    url = aEntry
                    if url.startswith('//'):
-                      url = 'https:' + url
-                   sHosterUrl = url
+                      url = 'https:' + url 
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'
                    sMovieTitle = sTitle
             
 
@@ -132,7 +133,8 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
-                   sHosterUrl = url
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
                    sMovieTitle = sTitle
             
 
@@ -150,7 +152,8 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
-                   sHosterUrl = url
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
                    sMovieTitle = sTitle
             
 
@@ -168,7 +171,8 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
-                   sHosterUrl = url
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
                    sMovieTitle = sTitle
             
 
@@ -187,7 +191,8 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
-                   sHosterUrl = url+ '|User-Agent=' + UA + '&Referer=https://yastatic.net/' 
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=' + UA + '&Referer=https://yastatic.net/' 
                    sMovieTitle = sTitle
             
 
@@ -201,32 +206,3 @@ def showLive():
              
     oGui.setEndOfDirectory() 
 	
-def showHosters():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-    # (.+?) # ([^<]+) .+? 
-    sPattern = 'source: "(.+?)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sHosterUrl = url
-            sMovieTitle = sMovieTitle
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
-                
-    oGui.setEndOfDirectory()

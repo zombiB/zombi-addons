@@ -91,13 +91,13 @@ class cHoster(iHoster):
             oRequest = cRequestHandler(aResult[1][0])
             data = oRequest.request()
         	
-            sPattern =  ',RESOLUTION=(.+?),.+?https(.+?).15'
+            sPattern =  ',RESOLUTION=(.+?),.+?https(.+?&i=[0-9][0-9][0-9].[0-9][0-9])'
             aResult = oParser.parse(data, sPattern)
             if (aResult[0] == True):
                url=[]
                qua=[]
                for i in aResult[1]:
-                  url.append("https"+str(i[1])+".15")
+                  url.append('https'+str(i[1]))
                   qua.append(str(i[0]).split('x')[1]+"p")
                api_call = dialog().VSselectqual(qua, url)
  
