@@ -181,7 +181,7 @@ def showHosters4():
     oRequestHandler = cRequestHandler(rurl)
     sHtmlContent = St.get(rurl).content.decode('utf-8')
 
-    sPattern = '"link":"(.+?)","server_name":"(.+?)"'
+    sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
