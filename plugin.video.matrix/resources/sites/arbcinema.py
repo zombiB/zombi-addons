@@ -45,7 +45,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
 
-   oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%a7%d9%83%d8%b4%d9%86/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'اكشن', 'film.png', oOutputParameterHandler)
     
