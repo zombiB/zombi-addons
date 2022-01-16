@@ -14,24 +14,28 @@ SITE_NAME = 'egydead'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://w.egydead.live'
-MOVIE_AR = ('https://w.egydead.live/category/arabc-movies/', 'showMovies')
-MOVIE_EN = ('https://w.egydead.live/category/english-movies/', 'showMovies')
+MOVIE_AR = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showMovies')
+MOVIE_EN = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_PACK = ('https://w.egydead.live/assembly/', 'showPack')
-MOVIE_DUBBED = ('https://w.egydead.live/category/dubbed-movies/', 'showMovies')
-MOVIE_TURK = ('https://w.egydead.live/category/turkish-movies/', 'showMovies')
-MOVIE_ASIAN = ('https://w.egydead.live/category/asian-movies/', 'showMovies')
-KID_MOVIES = ('https://w.egydead.live/category/cartoon-movies/', 'showMovies')
-KID_CARTOON = ('https://w.egydead.live/series-category/cartoon-series/', 'showSeries')
-SERIE_LATIN = ('https://w.egydead.live/series-category/latin-series/', 'showSeries')
-SERIE_EN = ('https://w.egydead.live/series-category/english-series/', 'showSeries')
-SERIE_AR = ( 'https://w.egydead.live/series-category/arabc-series/', 'showSeries')
-SERIE_TR = ( 'https://w.egydead.live/series-category/turkish-series/', 'showSeries')
-SERIE_ASIA = ('https://w.egydead.live/series-category/asian-series/', 'showSeries')
-DOC_SERIES = ('https://w.egydead.live/series-category/documentary-series/', 'showSeries')
-SERIE_DUBBED = ('https://w.egydead.live/series-category/dubbed-series/', 'showSeries')
-DOC_NEWS = ('https://w.egydead.live/category/documentary-movies/', 'showMovies')
-ANIM_MOVIES = ('https://w.egydead.live/series-category/anime-movies/', 'showMovies')
-ANIM_NEWS = ('https://w.egydead.live/series-category/anime-series/', 'showSeries')
+MOVIE_DUBBED = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
+MOVIE_TURK = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a/', 'showMovies')
+MOVIE_ASIAN = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a/', 'showMovies')
+KID_MOVIES = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
+KID_CARTOON = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
+SERIE_LATIN = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%84%d8%a7%d8%aa%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_EN = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showSeries')
+SERIE_AR = ( 'https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showSeries')
+SERIE_TR = ( 'https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
+SERIE_ASIA = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSeries')
+SERIE_HEND = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries') 
+DOC_SERIES = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showSeries')
+SERIE_DUBBED = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
+DOC_NEWS = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showMovies')
+ANIM_MOVIES = ('https://w.egydead.live/series-category/anime-movies/"', 'showMovies')
+ANIM_NEWS = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
+REPLAYTV_PLAY = ('https://w.egydead.live/category/%d9%85%d8%b3%d8%b1%d8%ad%d9%8a%d8%a7%d8%aa/', 'showMovies')
+REPLAYTV_NEWS = ('https://w.egydead.live/series-category/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
+SPORT_WWE = ('https://w.egydead.live/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d8%a9/', 'showMovies')
 
 URL_SEARCH = ('https://ww.egydead.com/?s=', 'showMovies')
 URL_SEARCH_MOVIES = ('https://ww.egydead.com/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
@@ -47,15 +51,16 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
-	
+    oOutputParameterHandler = cOutputParameterHandler()
+
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أمريكية', 'film.png', oOutputParameterHandler)
-
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام اجنبي', 'film.png', oOutputParameterHandler)
+   
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
-	
+  
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
@@ -68,6 +73,10 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي', 'anime.png', oOutputParameterHandler)
     
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%85%d9%8a/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي2', 'anime.png', oOutputParameterHandler)
+
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
@@ -97,6 +106,10 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'mslsl.png', oOutputParameterHandler) 
+
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات لاتنية', 'mslsl.png', oOutputParameterHandler)
 
@@ -115,6 +128,26 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_DUBBED[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مدبلجة', 'series.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://w.egydead.live/channel/netflix/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
+	
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', 'wwe.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://w.egydead.live/category/%d8%b9%d8%b1%d9%88%d8%b6-%d9%88%d8%ad%d9%81%d9%84%d8%a7%d8%aa/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries' ,'ستاند اب وحفلات', 'brmg.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
