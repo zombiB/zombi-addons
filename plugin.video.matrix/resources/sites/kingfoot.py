@@ -174,26 +174,34 @@ def showHosters4():
     murl = oInputParameterHandler.getValue('murl')
     
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : '1xnews.online','referer' : sUrl}
-    VSlog(sUrl)
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : '1xnews.online'}
     rurl = 'https://1xnews.online/home/matche/'+murl 
     St=requests.Session()              
-    oRequestHandler = cRequestHandler(rurl)
-    sHtmlContent = St.get(rurl).content.decode('utf-8')
+    sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
+    VSlog(rurl)
+    oParser = cParser()
+            
+    sPattern =  "&k=(.+?)'" 
+    mk =  '' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if (aResult[0] == True):
+        mk = aResult[1][0] 
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = aEntry[0]
+            if mk:
+               url = aEntry[0]+"&k="+mk
             if '.php?' in url:
+                VSlog(url)
                 oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://1xnews.online/'}
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://king-shoot.tv:2053/'}
                 data = {'watch':'1'}
                 St=requests.Session()
                 sHtmlContent = St.get(url,headers=hdr)
+                VSlog(sHtmlContent)
                 sHtmlContent2 = sHtmlContent.content
                 oParser = cParser()
                 sPattern =  'src="(.+?)"'

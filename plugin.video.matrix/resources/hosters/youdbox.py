@@ -66,6 +66,14 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+        oParser = cParser() 
+        
+
+        sPattern = '<source src="([^<]+)" type="video/mp4"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0] 
+				
         _id = self.__sUrl.split('/')[-1].replace(".html","")
         Sgn=requests.Session()
         UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'

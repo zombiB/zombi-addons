@@ -60,39 +60,30 @@ class cHoster(iHoster):
     def getMediaLink(self):
         return self.__getMediaLinkForGuest()
 
-
     def __getMediaLinkForGuest(self):
         VSlog(self.__sUrl)
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-        
-        api_call = ''
-        #type1
         oParser = cParser()
-        sPattern = 'file: "(.+?)",'
+        
+
+        sPattern = 'file:"([^<]+)",label'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            api_call = aResult[1][0]
-            
-        #type2?   
-        sPattern =  "<script type='text/javascript'>(.+?)</script>"
-        aResult = oParser.parse(sHtmlContent, sPattern)
+            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
+       
+        sPattern = "(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>"
+        aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
-            stri = cPacker().unpack(aResult[1][0])
-            sPattern =  'file:"(.+?)",label:"(.+?)"'
-            aResult = oParser.parse(stri, sPattern)
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+            sPattern = 'file:"(.+?)",label:".+?"}'
+            aResult = oParser.parse(sHtmlContent,sPattern)
             if (aResult[0] == True):
-                url=[]
-                qua=[]
-                
-                for aEntry in aResult[1]:
-                    url.append(aEntry[0])
-                    qua.append(aEntry[1][:3] + '*' + aEntry[1][3:])
+                api_call = aResult[1][0] 
+        #VSlog(api_call)
 
-            api_call = dialog().VSselectqual(qua, url)
-
-            if (api_call):
-                return True, api_call
+        if (api_call):
+            return True, api_call
 
         return False, False

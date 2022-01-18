@@ -582,7 +582,6 @@ def showHosters():
     sPattern = 'fa-play"></i> <span>(.+?)</span>.+?<iframe.+?src="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent2, sPattern)
-    VSlog(aResult)
 
 
 	

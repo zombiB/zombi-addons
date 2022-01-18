@@ -113,8 +113,7 @@ class cHoster(iHoster):
                 api_call = dialog().VSselectqual(qua, url)
 
 
-        if (api_call):
-            api_call = api_call + '|Referer=' + self.__sUrl
-            return True, api_call
+            if (api_call):
+                return True, api_call+ '|Referer=' + self.__sUrl
 
         return False, False

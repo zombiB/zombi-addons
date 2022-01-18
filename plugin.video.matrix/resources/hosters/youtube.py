@@ -117,6 +117,6 @@ class cHoster(iHoster):
             api_call = oRequestHandler.request(jsonDecode=True)['dlink']
 
         if api_call:
-            return True, api_call
+            return True, api_call+ '|AUTH=TLS&verifypeer=false' 
         else:
             return False
