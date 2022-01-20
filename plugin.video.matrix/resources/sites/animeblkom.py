@@ -167,9 +167,15 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    #
+    sHtmlContent = sHtmlContent.replace('<span class="badge pull-left">الأخيرة</span> ', '')
+	
+    sDesc = ''
+    if '<a>لم يتم رفع أي حلقات حتى الآن</a>' in sHtmlContent:
+        oOutputParameterHandler = cOutputParameterHandler() 
+        oGui.addLink(SITE_IDENTIFIER, 'showHosters','لم يتم رفع أي حلقات حتى الآن', sThumbnail, sDesc, oOutputParameterHandler)
     # (.+?) .+?
     sPattern = '<li class="episode-link.+?href="(.+?)"> <span>الحلقة</span> <span class="separator">:</span> <span>(.+?)</span> </a> </li>'
-    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

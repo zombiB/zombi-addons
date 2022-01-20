@@ -277,7 +277,7 @@ def showHosters():
         for aEntry in aResult:
             
             url = aEntry[0]
-            sTitle = sMovieTitle
+            sTitle = sMovieTitle+'('+aEntry[1]+')'
             
             sHosterUrl = url
             if '?download_' in sHosterUrl:

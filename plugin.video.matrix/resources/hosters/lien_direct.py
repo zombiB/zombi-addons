@@ -181,5 +181,6 @@ class cHoster(iHoster):
 
         if (api_call):
             return True, api_call 
+        VSlog(api_call)
             
         return False, False

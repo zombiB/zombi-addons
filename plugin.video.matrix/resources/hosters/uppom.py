@@ -45,12 +45,15 @@ class cHoster(iHoster):
         return ''
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
+        self.__sUrl = sUrl
+        d = re.findall('https://(.*?)/(.*?)',self.__sUrl)
+        for aEntry1 in d:
+            sId= aEntry1[0]
         #lien embed obligatoire
         if not 'embed-' in self.__sUrl:
-            self.__sUrl = self.__sUrl.rsplit('/', 1)[0]
-            self.__sUrl = self.__sUrl.rsplit('/', 1)[1]
-            self.__sUrl = 'https://uppom.net/embed-'+self.__sUrl+'-750x455.html'
+            sfd= self.__sUrl.rsplit('/', 1)[1]
+            self.__sUrl = 'https://'+sId+'/embed-'+sfd+'-750x455.html'
+            VSlog(self.__sUrl)
 
     def checkUrl(self, sUrl):
         return True

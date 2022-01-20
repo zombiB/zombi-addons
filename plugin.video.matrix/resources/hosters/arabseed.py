@@ -64,16 +64,13 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
-
-        api_call = ''
         VSlog(self.__sUrl)
+        sUrl = self.__sUrl
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         oParser = cParser()
-        sUrl = self.__sUrl
     
-    #Recuperation infos
         sId = ''
 
         sPattern = 'name="id" value="(.+?)">'
@@ -100,9 +97,10 @@ class cHoster(iHoster):
         sPattern = '<span id="direct_link" style.+?<a href="([^<]+)">'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-        	api_call = aResult[1][0].replace("[","%5B").replace("]","%5D").replace("+","%20")
+        	api_call = aResult[1][0] + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=https://m.seeeed.xyz' 
+
         if (api_call):
-        	return True, api_call + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://m.seeeed.xyz'
+            return True, api_call
 
         return False, False
         

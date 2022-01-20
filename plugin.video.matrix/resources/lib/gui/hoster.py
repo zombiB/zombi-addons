@@ -193,6 +193,8 @@ class cHosterGui:
             return self.getHoster('filerio')
         if ('brightcove' in sHostName):
             return self.getHoster('brightcove')
+        if ('upbam' in sHostName):
+            return self.getHoster('uppom')
         if ('uppom' in sHostName):
             return self.getHoster('uppom')
         if ('uppboom' in sHostName):

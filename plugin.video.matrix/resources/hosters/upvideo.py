@@ -51,6 +51,7 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         api_call = False
+        VSlog(self.__sUrl)
         oParser = cParser()
         sPattern = 'return decodeURIComponent\(escape\(r\)\)}\("([^,]+)",([^,]+),"([^,]+)",([^,]+),([^,]+),([^,\))]+)\)'
 

@@ -569,8 +569,8 @@ def showSeasons():
 
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
-     # (.+?) ([^<]+)
-    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn' target='_blank' href=(.+?)>"
+     # (.+?) ([^<]+) .+?
+    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn'.+?href=(.+?)>"
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)

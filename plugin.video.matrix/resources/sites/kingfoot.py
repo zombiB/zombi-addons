@@ -189,31 +189,26 @@ def showHosters4():
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
     if (aResult[0] == True):
         for aEntry in aResult[1]:
+            sMovieTitle = aEntry[1]
             
             if mk:
                url = aEntry[0]+"&k="+mk
             if '.php?' in url:
                 VSlog(url)
                 oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://king-shoot.tv:2053/'}
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://golato.tv/'}
                 data = {'watch':'1'}
                 St=requests.Session()
                 sHtmlContent = St.get(url,headers=hdr)
-                VSlog(sHtmlContent)
                 sHtmlContent2 = sHtmlContent.content
                 oParser = cParser()
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if (aResult[0] == True):
                    url = aResult[1][0]
-                oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://dalbouh.club/'}
-                data = {'watch':'1'}
-                St=requests.Session()
-                sHtmlContent = St.get(url,headers=hdr)
-                sHtmlContent2 = sHtmlContent.content
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -252,7 +247,6 @@ def showHosters4():
                    b = var[0][1]
                    url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
             sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + 'https://king-shoot.com/'
-            sMovieTitle = aEntry[1]
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)

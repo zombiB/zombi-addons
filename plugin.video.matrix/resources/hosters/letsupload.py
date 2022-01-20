@@ -59,20 +59,23 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         VSlog(self.__sUrl)
-        api_call = False
 
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-
         oParser = cParser()
+        
+
+        sPattern = 'mp4HD: "(.+?)",'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self.__sUrl
         
         sPattern = "source:'([^<]+)',"
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0]):
             api_call = aResult[1][0]
 
-
         if (api_call):
-            return True, api_call + '|User-Agent=' + UA
+            return True, api_call
 
         return False, False

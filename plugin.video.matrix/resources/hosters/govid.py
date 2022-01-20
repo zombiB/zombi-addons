@@ -64,26 +64,19 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
         VSlog(self.__sUrl)
 
-	
-        oRequestHandler = cRequestHandler(self.__sUrl)
-        sHtmlContent = oRequestHandler.request()
-        #VSlog(sHtmlContent)
-        
-        api_call = ''
+        oRequest = cRequestHandler(self.__sUrl)
+        sHtmlContent = oRequest.request()
         oParser = cParser()
 
        # (.+?) .+? ([^<]+)
         sPattern =  '<small>([^<]+)</small> <a target="_blank" download=.+?href="([^<]+)">' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
-            #initialisation des tableaux
             url=[]
             qua=[]
-            #Replissage des tableaux
             for i in aResult[1]:
                 url.append(str(i[1]))
                 qua.append(str(i[0]))
-
             api_call = dialog().VSselectqual(qua, url)
 
             if (api_call):

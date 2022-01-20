@@ -85,8 +85,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
             stoken = ""
             stoken = api_call.split('token=')[1]
-            VSlog("estoken")
-            VSlog(stoken)
 
             if (api_call):
                 return True,api_call+'|token='+stoken+ '&User-Agent=' + UA + '&Referer=https://blkom.com'  

@@ -61,8 +61,8 @@ class cHoster(iHoster):
         oParser = cParser()
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-
-        sPattern = 'file:"(.+?)",label:'
+		
+        sPattern = 'file:"(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             api_call = aResult[1][0]

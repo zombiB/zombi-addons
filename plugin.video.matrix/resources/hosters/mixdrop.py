@@ -49,8 +49,6 @@ class cHoster(iHoster):
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
- 
-        api_call = ''
         VSlog(self.__sUrl)
         
         oParser = cParser()
@@ -58,36 +56,21 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self.__sUrl)
         oRequest.addHeaderEntry('Cookie', 'hds2=1')
         sHtmlContent = oRequest.request()
-        if '<p>Video will be converted and ready to play soon</p>' in sHtmlContent:
-            dialog().VSok("Video will be ready to play soon")
 
         sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>'
         aResult = oParser.parse(sHtmlContent,sPattern)
-
         if (aResult[0] == True):
             sHtmlContent = cPacker().unpack(aResult[1][0])
+        sPattern = 'wurl="(.+?)"'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
 
-            sPattern = 'wurl="([^"]+)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if (aResult[0] == True):
-                api_call = aResult[1][0]
+        if api_call.startswith('//'):
+            api_call = 'https:' + aResult[1][0]
+        #VSlog(api_call)
 
-            #else:
-                #sPattern = 'vsrc\d+="([^"]+)"'
-                #aResult = oParser.parse(sHtmlContent, sPattern)
-                #if (aResult[0] == True):
-                #    api_call = aResult[1][0]
-
-                #else:
-                #    sPattern = 'furl="([^"]+)"'
-                #    aResult = oParser.parse(sHtmlContent, sPattern)
-                #    if (aResult[0] == True):
-                #        api_call = aResult[1][0]
-
-            if api_call.startswith('//'):
-                api_call = 'https:' + aResult[1][0]
-                
-            if (api_call):
-                return True, api_call+ '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+        if (api_call):
+            return True, api_call+ '|User-Agent=' + UA + '&Referer=' + self.__sUrl
 
         return False, False
