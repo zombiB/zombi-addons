@@ -60,7 +60,6 @@ class cHoster(iHoster):
     def __getMediaLinkForGuest(self):
         api_call = ''
         VSlog(self.__sUrl)
-        oParser = cParser()
         oRequest = cRequestHandler(self.__sUrl)
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('referer','https://www.faselhd.pro/')
@@ -91,13 +90,10 @@ class cHoster(iHoster):
                     base= 'index' + str(i[1])
                     url.append(core.replace('master.m3u8?',base))
                     qua.append(str(i[0]).split('x')[1]+"p")
-
                 api_call = dialog().VSselectqual(qua, url)
-
-
-
-                if (api_call):
-                    return True, api_call+'|User-Agent=' + UA + '&Referer=' + self.__sUrl 
+ 
+            if (api_call):
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl 
 #############################################################
 #
 # big thx to Rgysoft for this code
@@ -136,11 +132,9 @@ class cHoster(iHoster):
                         	base= 'index' + str(i[1])
                         	url.append(core.replace('master.m3u8?',base))
                         	qua.append(str(i[0]))
-                        	
         	            api_call = dialog().VSselectqual(qua, url)
-
-
+ 
         	    if (api_call):
-                	return True, api_call+'|User-Agent=' + UA 
+                	return True, api_call + '|User-Agent=' + UA
                 	
         	    return False, False

@@ -62,10 +62,9 @@ class cHoster(iHoster):
 
     def __getMediaLinkForGuest(self):
         VSlog(self.__sUrl)
-        
+
         oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
-        
         oParser = cParser()
         
         #lien indirect
@@ -96,10 +95,9 @@ class cHoster(iHoster):
             for i in aResult[1]:
                 url.append(str(i[0]))
                 qua.append(str(i[1]))
-
             api_call = dialog().VSselectqual(qua, url)
-
+ 
             if (api_call):
-                return True, api_call
+                return True, api_call 
 
         return False, False
