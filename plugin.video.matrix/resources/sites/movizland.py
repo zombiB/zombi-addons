@@ -604,9 +604,9 @@ def showHosters():
     s = requests.Session()
     r = s.post(sUrl,data = data)
     sHtmlContent += r.content
-    # ([^<]+) (.+?)      
+    # ([^<]+) (.+?)  .+?    
 
-    sPattern = '</td><td>([^<]+)</td><td><a href="(.+?)" target'
+    sPattern = '>(.+?)</td>.+?href="(.+?)" target'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
