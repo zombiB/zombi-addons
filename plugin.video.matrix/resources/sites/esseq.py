@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'esseq'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://esseq.net'
+URL_MAIN = 'https://eessq.net'
 
 
 SERIE_TR = (URL_MAIN + '/series/', 'showSeries')
@@ -136,7 +136,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article class.+?<a href="(.+?)" title=.+?style="background-image:url(.+?);"></div></div> <div class="title">(.+?)</div>'
+    sPattern = '<article class.+?<a href="(.+?)" title=.+?style="background-image:url(.+?);">.+?class="title">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -200,7 +200,7 @@ def showEps():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+?  ([^<]+)
-    sPattern = '<article class="postEp">.+?<a href="(.+?)" title=.+?<div class="poster"><div class="imgSer" style="background-image:url(.+?);"></div></div> <div class="title">(.+?)</div>'
+    sPattern = '<article class="postEp">.+?<a href="(.+?)" title=.+?<div class="poster"><div class="imgSer" style="background-image:url(.+?);">.+?class="title">(.+?)</div>'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
