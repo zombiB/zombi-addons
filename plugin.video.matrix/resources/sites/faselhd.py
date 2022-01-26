@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'faselhd'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.faselhd.io'
+URL_MAIN = 'https://www.faselhd.top'
 
 MOVIE_EN = (URL_MAIN + '/movies', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/hindi', 'showMovies')
@@ -82,7 +82,7 @@ def load():
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showAnimes', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
  
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
@@ -122,7 +122,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+? (.+?)
-    sPattern = '<div class="postDiv "><a href="(.+?)">.+?data-src="(.+?)" class="img-fluid lazy" alt="(.+?)" />'
+    sPattern = '<div class="postDiv ">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -179,7 +179,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
  # ([^<]+) .+?
-    sPattern = '<div class="postDiv"><a href="([^<]+)">.+?data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
+    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
 
 
     oParser = cParser()
@@ -235,9 +235,8 @@ def showAnimes(sSearch = ''):
     if isMatrix(): 
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  
-
-    sPattern = '<div class="postDiv"><a href="([^<]+)">.+?data-src="([^<]+)" class="img-fluid lazy" alt="([^<]+)" />'
-
+      # (.+?) ([^<]+) .+?
+    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -285,7 +284,7 @@ def showSeasons():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="seasonDiv.+?" data-href="(.+?)">.+?data-src="(.+?)" class="img-fluid lazy" alt="(.+?)" />.+?<div class="title">(.+?)</div>'
+    sPattern = '<div class="seasonDiv.+?" data-href="(.+?)">.+?data-src="(.+?)".+?alt="(.+?)"/>.+?<div class="title">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

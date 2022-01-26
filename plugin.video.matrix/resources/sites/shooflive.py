@@ -16,6 +16,16 @@ SITE_NAME = 'shooflive'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://v.shooflive.tube'
+                          
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+except:
+    pass
 
 MOVIE_EN = (URL_MAIN + '/category/movies/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/movies/افلام-عربية/', 'showMovies')
@@ -31,9 +41,9 @@ SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/1
 SERIE_ASIA = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/list/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
 DOC_NEWS = (URL_MAIN + '/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=film', 'showMovies')
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -94,7 +104,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -104,7 +114,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -120,7 +130,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-    sPattern = 'href="([^<]+)" alt="(.+?)">.+?<img src="(.+?)"><.+?<a href="https://v.shooflive.tube/release-year/(.+?)/">'
+    sPattern = 'href="([^<]+)" alt="(.+?)">.+?<img src="(.+?)"><.+?/release-year/(.+?)/">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -213,7 +223,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
     # (.+?) .+? ([^<]+)   
-    sPattern = 'href="([^<]+)" alt="(.+?)">.+?<img src="(.+?)"><.+?<a href="https://v.shooflive.tube/release-year/(.+?)/">'
+    sPattern = 'href="([^<]+)" alt="(.+?)">.+?<img src="(.+?)"><.+?/release-year/(.+?)/">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -425,7 +435,7 @@ def showHosters():
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Referer': Quote(sUrl)}
     data = {'id':mId,'action':'getpostServers'}
-    r = s.post('https://v.shooflive.tube/wp-admin/admin-ajax.php', headers=headers,data = data)
+    r = s.post(URL_MAIN +'/wp-admin/admin-ajax.php', headers=headers,data = data)
     sHtmlContent = r.content.decode('utf8')
             
     sPattern =  '<a class="watchNow" href="([^<]+)" target=' 
@@ -437,7 +447,7 @@ def showHosters():
     import requests
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': 'https://v.shooflive.tube/'}
+							'Referer': URL_MAIN }
     r = s.get(m3url, headers=headers)
     sHtmlContent = r.content.decode('utf8')
 
