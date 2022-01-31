@@ -7,7 +7,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'spacepowerfan'
@@ -175,37 +175,44 @@ def showEpisodes():
 
     oParser = cParser()
      # (.+?) ([^<]+) .+?
-    sPattern = '<noscript><img src="([^<]+)" alt=".+?"></noscript>.+?</td> <td class="MvTbTtl"><a href="([^<]+)">([^<]+)</a>'
+    sPattern = 'data-tab="(.+?)">(.+?)</table>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if (aResult[0] == True):
-        oOutputParameterHandler = cOutputParameterHandler()   
         for aEntry in aResult[1]:
+            sSeason = "S"+aEntry[0]
+            if sSeason:
+               sHtmlContent1 = aEntry[1]
+               sPattern = '<img src="(http[^<]+)" alt.+?href="(.+?)">(.+?)</a>'
+               oParser = cParser()
+               aResult = oParser.parse(sHtmlContent1, sPattern)
+	
+               if (aResult[0] == True):
+                   oOutputParameterHandler = cOutputParameterHandler()   
+                   for aEntry in aResult[1]:
  
-            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E")
-            sTitle = sTitle+' '+sMovieTitle
-            siteUrl = aEntry[1]
-            sThumb = aEntry[0]
-            sDesc = ""
-            if ':' in aEntry[2]:
-               sDesc = aEntry[2].split(':')[1]
-               sTitle = sTitle.split(':')[0]
+                       sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E")
+                       sTitle = sSeason+sTitle.replace("والأخيرة","").replace("والاخيرة","").replace("الأخيرة","").replace("الاخيرة","")
+                       sTitle = sMovieTitle+sTitle
+                       siteUrl = aEntry[1]
+                       sThumb = aEntry[0]
+                       VSlog(sThumb)
+                       sDesc = ""
+                       if ':' in aEntry[2]:
+                           sDesc = aEntry[2].split(':')[1]
+                           sTitle = sTitle.split(':')[0]
+                           sTitle = sMovieTitle+sTitle
 			
 
 
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                       oOutputParameterHandler = cOutputParameterHandler()
+                       oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                       oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                       oOutputParameterHandler.addParameter('sThumb', sThumb)
+                       oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
- 
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
        
     oGui.setEndOfDirectory()
 	
