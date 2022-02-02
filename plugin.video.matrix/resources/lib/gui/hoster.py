@@ -177,7 +177,7 @@ class cHosterGui:
                     'gorillavid','daclips', 'estream', 'hdvid', 'vshare', 'giga', 'vidbom', 'upvideo', 'upvid', 'cloudvid', 'megadrive', 'downace', 'clickopen',
                     'iframe-secured', 'iframe-secure', 'jawcloud', 'kvid', 'soundcloud', 'mixcloud', 'ddlfr', 'pdj', 'vidzstore', 'hd-stream', 'rapidstream','jetload','dustreaming', 'vupload', 'viki', 'flix555', 'onlystream', 'upstream', 'pstream', 'vudeo', 'cimanow',  
                     'supervideo', 'voe', 'dood', 'vidia', 'streamtape', 'femax', 'vidbem', 'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 
-                    'plynow', 'myvi.tv', 'playtube', 'dwfull', 'uptobox', 'uplea', 'vidload','cloudhost', 'ninjastream', 'vidhid', 'moshahda', 'vidspeeds', 'yourupload', 'yadi.sk', 'extremenow', 'youdbox', 'arabveturk', 'holavid', 'megaup','mycima']
+                    'plynow', 'myvi.tv', 'playtube', 'dwfull', 'uptobox', 'uplea', 'vidload','cloudhost', 'ninjastream', 'vidhid', 'moshahda', 'vidspeeds', 'yourupload', 'yadi.sk', 'extremenow', 'youdbox', 'arabveturk', 'holavid','mycima']
 
         val = next((x for x in supported_player if x in sHostName), None)
         if val:
@@ -343,6 +343,8 @@ class cHosterGui:
             return self.getHoster('resolver')
         if ('yandex' in sHostName):
             return self.getHoster('yadisk')
+        if ('megaup.' in sHostName):
+            return self.getHoster('megaup')
         if ('streamcherry' in sHostName):
             return self.getHoster('resolver')
         #Lien telechargeable a convertir en stream
@@ -350,6 +352,8 @@ class cHosterGui:
             return self.getHoster('1fichier')
 
         if ('kaydo.ws' in sHostName):
+            return self.getHoster('lien_direct')
+        if ('megaupload.' in sHostName):
             return self.getHoster('lien_direct')
         if ('king-shoot.xyz' in sHostName):
             return self.getHoster('lien_direct')

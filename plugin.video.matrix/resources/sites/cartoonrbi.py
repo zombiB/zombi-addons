@@ -261,10 +261,12 @@ def showLink():
 	
             if (aResult[0] == True):
                for aEntry in aResult[1]:
-        
                    url = str(aEntry).replace('preview?pli=1#t=1','').replace('https://docs.google.com','https://drive.google.com')  
                    sTitle = " "
                    sThumb = sThumbnail
+                   if '.m3u8' in url:
+                      url2 = url.split('=') 
+                      url = url2[1].replace("&token","")
                    if url.startswith('//'):
                       url = 'http:' + url
 								            
@@ -273,6 +275,8 @@ def showLink():
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'moshahda' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if '.m3u8' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                    oHoster = cHosterGui().checkHoster(sHosterUrl)

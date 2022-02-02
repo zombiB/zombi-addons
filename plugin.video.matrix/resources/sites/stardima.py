@@ -103,6 +103,36 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+  # ([^<]+) .+?
+
+    sPattern = '<a href=([^<]+) class="inactive">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1]
+            
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = aEntry[0].replace("'","")
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addDir(SITE_IDENTIFIER, 'showMoviesSearch', sTitle, '', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
@@ -152,6 +182,36 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+  # ([^<]+) .+?
+
+    sPattern = '<a href=([^<]+) class="inactive">([^<]+)</a>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            sTitle = aEntry[1]
+            
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = aEntry[0].replace("'","")
+            sThumbnail = ""
+            sInfo = ""
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+			
+            oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', sTitle, '', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if (sNextPage != False):
