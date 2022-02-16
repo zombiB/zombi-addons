@@ -189,7 +189,6 @@ def showHosters4():
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             sMovieTitle = aEntry[1]
@@ -197,7 +196,6 @@ def showHosters4():
             if mk:
                url = aEntry[0]+"&k="+mk
             if '.php?' in url:
-                VSlog(url)
                 oRequestHandler = cRequestHandler(url)
                 hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://golato.tv/'}
                 data = {'watch':'1'}
@@ -206,6 +204,10 @@ def showHosters4():
                 sHtmlContent2 = sHtmlContent.content
                 oParser = cParser()
                 sPattern =  'src="(.+?)"'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if (aResult[0] == True):
+                   url = aResult[1][0]
+                sPattern =  '(http[^<]+m3u8)'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if (aResult[0] == True):
                    url = aResult[1][0]

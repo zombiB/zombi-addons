@@ -15,7 +15,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.as-goal.com/'
 
-SPORT_LIVE = ('https://www.as-goal.com/m/', 'showMovies')
+SPORT_LIVE = ('https://www.as-goal.com/mm/', 'showMovies')
 
 FUNCTION_SEARCH = 'showMovies'
  
