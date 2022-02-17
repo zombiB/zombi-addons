@@ -54,7 +54,6 @@ class cHoster(iHoster):
         return self.__sUrl
 
     def getMediaLink(self):
-        VSlog("getMediaLink")
         return self.__getMediaLinkForGuest()
 
     def __getMediaLinkForGuest(self):
@@ -62,7 +61,7 @@ class cHoster(iHoster):
         VSlog(self.__sUrl)
         oRequest = cRequestHandler(self.__sUrl)
         oRequest.addHeaderEntry('user-agent',UA)
-        oRequest.addHeaderEntry('referer','https://www.faselhd.pro/')
+        oRequest.addHeaderEntry('referer','https://www.faselhd.top/')
         data = oRequest.request()
 
         oParser = cParser()
@@ -76,7 +75,7 @@ class cHoster(iHoster):
             core = url2.replace('\\','').replace("['",'').replace("']",'')
             
 
-            sPattern = ',RESOLUTION=(.+?),.+?index(.+?)token='
+            sPattern = ',RESOLUTION=(.+?),.+?(http.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
             if (aResult[0] == True):
@@ -87,8 +86,7 @@ class cHoster(iHoster):
             
             #Replissage des tableaux
                 for i in aResult[1]:
-                    base= 'index' + str(i[1])
-                    url.append(core.replace('master.m3u8?',base))
+                    url.append(str(i[1]))
                     qua.append(str(i[0]).split('x')[1]+"p")
                 api_call = dialog().VSselectqual(qua, url)
  

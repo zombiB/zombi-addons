@@ -58,7 +58,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<a class="w-grid-item-anchor" href="([^<]+)" aria-label="([^<]+)"></a>.+?src="(.+?)" class='
+    sPattern = '<a class="w-grid-item-anchor" href="(.+?)".+?aria-label="(.+?)"></a>.+?src="(.+?)" class='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
