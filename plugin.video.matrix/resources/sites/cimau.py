@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'cimau'
 SITE_NAME = 'cima4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://ww.cima4u.ws'
+URL_MAIN = 'https://cima4u.film'
 
 
 RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
@@ -462,7 +462,7 @@ def showLinks():
         for aEntry in aResult[1]:
             sPage = aEntry[0]
             sTitle = 'server '+':'+ aEntry[1]
-            siteUrl = 'https://live.cima4u.ws:2053/structure/server.php?id='+sPage
+            siteUrl = 'https://tv.cima4u.film/structure/server.php?id='+sPage
             sDesc = sDesc
     
             oRequestHandler = cRequestHandler(siteUrl)
@@ -667,7 +667,7 @@ def showEpisodes():
             oRequest = cRequestHandler(m3url)
             sHtmlContent = oRequest.request()
  # ([^<]+) .+?
-    sPattern = '<a href="" data-link="([^<]+)" class="sever_link"><img src="http://live.cima4u.io/template/logo_server/1593281223_333.jpg" width="40" height="40" alt="" />([^<]+)</a>'
+    sPattern = '<a href="" data-link="([^<]+)" class="sever_link"><img src="http://.+?/template/logo_server/1593281223_333.jpg" width="40" height="40" alt="" />([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

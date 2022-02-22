@@ -14,16 +14,16 @@ SITE_NAME = 'egydead'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://w.egydead.live'
-MOVIE_AR = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showMovies')
-MOVIE_EN = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
-MOVIE_PACK = ('https://w.egydead.live/assembly/', 'showPack')
-MOVIE_DUBBED = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
+
+MOVIE_EN = ('https://w1.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
+MOVIE_PACK = ('https://w1.egydead.live/assembly/', 'showPack')
+MOVIE_DUBBED = ('https://w1.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
 MOVIE_TURK = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a/', 'showMovies')
 MOVIE_ASIAN = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a/', 'showMovies')
-KID_MOVIES = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
-KID_CARTOON = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
+KID_MOVIES = ('https://w1.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
+KID_CARTOON = ('https://w1.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
 SERIE_LATIN = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%84%d8%a7%d8%aa%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
-SERIE_EN = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showSeries')
+SERIE_EN = ('https://w1.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showSeries')
 SERIE_AR = ( 'https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showSeries')
 SERIE_TR = ( 'https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
 SERIE_ASIA = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showSeries')
@@ -31,10 +31,10 @@ SERIE_HEND = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d
 DOC_SERIES = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showSeries')
 SERIE_DUBBED = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showSeries')
 DOC_NEWS = ('https://w.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a%d8%a9/', 'showMovies')
-ANIM_MOVIES = ('https://w.egydead.live/series-category/anime-movies/"', 'showMovies')
-ANIM_NEWS = ('https://w.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
+ANIM_MOVIES = ('https://w1.egydead.live/series-category/anime-movies/', 'showMovies')
+ANIM_NEWS = ('https://w1.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
 REPLAYTV_PLAY = ('https://w.egydead.live/category/%d9%85%d8%b3%d8%b1%d8%ad%d9%8a%d8%a7%d8%aa/', 'showMovies')
-REPLAYTV_NEWS = ('https://w.egydead.live/series-category/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showMovies')
+REPLAYTV_NEWS = ('https://w1.egydead.live/category/%d8%b9%d8%b1%d9%88%d8%b6-%d9%88%d8%ad%d9%81%d9%84%d8%a7%d8%aa/', 'showMovies')
 SPORT_WWE = ('https://w.egydead.live/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d8%a9/', 'showMovies')
 
 URL_SEARCH = ('https://ww.egydead.com/?s=', 'showMovies')
