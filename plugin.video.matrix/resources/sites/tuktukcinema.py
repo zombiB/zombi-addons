@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'tuktukcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://tuktukcinema.net'
+URL_MAIN = 'https://tuktukcinema.co'
 
 MOVIE_TOP = (URL_MAIN + '/category/movies-19/?key=imdb', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/movies-19/?key=views', 'showMovies')
@@ -30,8 +30,8 @@ SERIE_ASIA = (URL_MAIN + '/category/series/?sercat=%d9%85%d8%b3%d9%84%d8%b3%d9%8
 SERIE_TR = (URL_MAIN + '/category/series/?sercat=مسلسلات-تركي', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category/series/?sercat=%d9%82%d8%a7%d8%a6%d9%85%d8%a9-%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a', 'showSeries')
 SPORT_WWE = (URL_MAIN + '/category/tvshows/', 'showMovies')
-DOC_NEWS = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=film', 'showMovies')
-DOC_SERIES = ('https://tuktukcinema.net/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=series', 'showSeries')
+DOC_NEWS = ('https://tuktukcinema.co/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=film', 'showMovies')
+DOC_SERIES = ('https://tuktukcinema.co/genre/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/?filter=series', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
@@ -389,7 +389,7 @@ def showSeasons():
 	session = requests.Session()
     
   # ([^<]+) .+?
-	headers = {'Host': 'tuktukcinema.net',
+	headers = {'Host': 'tuktukcinema.co',
 		       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 		       'Referer': sUrl}
 	data = {'action':'getTabsInsSeries','id':sId2,'slug':sId1,'parent':'0'}
@@ -452,7 +452,7 @@ def showEpisodes():
 	session = requests.Session()
     
   # ([^<]+) .+?
-	headers = {'Host': 'tuktukcinema.net',
+	headers = {'Host': 'tuktukcinema.co',
 		       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 		       'Referer': sUrl}
 	data = {'action':'getTabsInsSeries','id':sId2,'slug':sId1,'parent':'0'}
