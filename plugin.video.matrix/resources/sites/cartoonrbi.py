@@ -13,10 +13,10 @@ SITE_IDENTIFIER = 'cartoonrbi'
 SITE_NAME = 'cartoon3rbi'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://www.cartoon3rbi.net/'
+URL_MAIN = 'https://www.arteenz.com/'
 
-KID_MOVIES = ('http://www.cartoon3rbi.net/films.html', 'showMovies')
-KID_CARTOON = ('https://www.cartoon3rbi.net/cartoon2549.html', 'showSeries')
+KID_MOVIES = (URL_MAIN + '/films.html', 'showMovies')
+KID_CARTOON = (URL_MAIN + '/cartoon2549.html', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
  
@@ -42,7 +42,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'http://www.cartoon3rbi.net/search.html'+sSearchText
+        sUrl = URL_MAIN + '/search.html'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -246,7 +246,7 @@ def showLink():
         for aEntry in aResult[1]:
             sErver = aEntry[0].replace("(","")
             sPage = aEntry[1]
-            siteUrl = 'https://www.arteenz.com/plugins/server'+sErver+'/embed.php?url='+sPage+'&id='+sname
+            siteUrl = URL_MAIN + '/plugins/server'+sErver+'/embed.php?url='+sPage+'&id='+sname
 			
             oRequestHandler = cRequestHandler(siteUrl)
             oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
