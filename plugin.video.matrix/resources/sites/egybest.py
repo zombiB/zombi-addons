@@ -61,6 +61,14 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/World-War-Movies/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عن الحرب العالمية', 'film.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/End-Of-The-World-Movies/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عن نهاية العالم', 'film.png', oOutputParameterHandler)
  
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
@@ -160,7 +168,6 @@ def showMoviesSearch(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            VSlog(siteUrl)
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
                 sThumb = "https:"+aEntry[1]
@@ -324,7 +331,6 @@ def showMovies(sSearch = ''):
           
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            VSlog(siteUrl)
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
                 sThumb = "https:"+aEntry[1]
@@ -736,7 +742,6 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    VSlog(sUrl)
     url = sUrl
     MLisTe = []
     host = url.split('//')[1].split('/')[0]
