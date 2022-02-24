@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
 import base64
 import requests,re
@@ -16,8 +16,8 @@ SITE_IDENTIFIER = 'egybest'
 SITE_NAME = 'egybest'
 SITE_DESC = 'arabic vod'
   
-URL_MAIN = 'https://giga.egybest.ink'
-host = 'back.egybest.co'
+URL_MAIN = 'https://egy.best'
+host = 'egy.best'
 
 
 MOVIE_FAM = (URL_MAIN + '/movies/family-subbed', 'showMovies')
@@ -160,6 +160,7 @@ def showMoviesSearch(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
+            VSlog(siteUrl)
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
                 sThumb = "https:"+aEntry[1]
@@ -306,7 +307,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)" class="movie">.+?src="([^<]+)" alt=.+?class="title">([^<]+)<'
+    sPattern = '<a href="([^<]+)" class="movie">.+?src="(.+?)" alt=.+?class="title">([^<]+)<'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -323,6 +324,7 @@ def showMovies(sSearch = ''):
           
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
+            VSlog(siteUrl)
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
                 sThumb = "https:"+aEntry[1]
@@ -734,6 +736,7 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    VSlog(sUrl)
     url = sUrl
     MLisTe = []
     host = url.split('//')[1].split('/')[0]
