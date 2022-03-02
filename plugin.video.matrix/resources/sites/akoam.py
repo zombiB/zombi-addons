@@ -7,13 +7,21 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil, Unquote
 import re
 
+try:  # Python 2
+    import urllib2
+    from urllib2 import URLError as UrlError
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+    from urllib.error import URLError as UrlError
 SITE_IDENTIFIER = 'akoam'
 SITE_NAME = 'akoam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://old.akwam.cc'
+URL_MAIN = 'https://old.akwam.io'
 MOVIE_MOVIE = (True, 'showMenuMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/cat/165/%D8%A7%D8%B1%D8%B4%D9%8A%D9%81-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
 MOVIE_PACK = (URL_MAIN + '/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
@@ -369,7 +377,7 @@ def showLink():
                 if m:
                    sYear = str(m.group(0))
                    sTitle = sTitle.replace(sYear,'')
-                siteUrl = aEntry[2].replace('"','')
+                siteUrl = aEntry[2]
                 sThumbnail = sThumbnail
                 sInfo = '[COLOR yellow]'+str(sNote)+'[/COLOR]'
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -408,25 +416,88 @@ def showLink():
 	
 def showLinks():
     oGui = cGui()
-    import requests
-    sgn=requests.Session()
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
  
-    oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
+
+    UA = 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666'
+
+    headers = {"User-Agent": UA}
+
+    req = urllib2.Request(sUrl, None, headers)
+
+    try:
+            response = urllib2.urlopen(req)
+    except UrlError as e:
+            print(e.read())
+            print(e.reason)
+
+    data = response.read()
+    head = response.headers
+    response.close()
+
+    # get cookie
+    cookies = ''
+    if 'Set-Cookie' in head:
+            oParser = cParser()
+            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
+            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
+            # print(aResult)
+            if (aResult[0] == True):
+                for cook in aResult[1]:
+                    cookies = cook[1] 
+                    cookies = Unquote(cookies)
+                    cookies = cookies.replace("akwam.cc","akwam.io")
+                    VSlog(cookies)
+
+    sPattern = ',"route":"([^"]+)",'
+    oParser = cParser()
+    aResult = oParser.parse(cookies, sPattern)
+
+    sUrl = aResult[1][0]
+ 
+
+    UA = 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666'
+
+    headers = {"User-Agent": UA}
+
+    req = urllib2.Request(sUrl, None, headers)
+
+    try:
+            response = urllib2.urlopen(req)
+    except UrlError as e:
+            print(e.read())
+            print(e.reason)
+
+    data = response.read()
+    head = response.headers
+    response.close()
+
+    # get cookie
+    cookies = ''
+    if 'Set-Cookie' in head:
+            oParser = cParser()
+            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
+            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
+            # print(aResult)
+            if (aResult[0] == True):
+                for cook in aResult[1]:
+                    cook = cookies + cook[0] + '=' + cook[1] + ';' 
+                    VSlog(cook)
     # ([^<]+) .+?
 
+    oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36')
-    oRequestHandler.addHeaderEntry('origin', 'https://old.akwam.cc')
-    oRequestHandler.addHeaderEntry('Cookie', cook)
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Referer', sUrl)
+    oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666')
+    oRequestHandler.addHeaderEntry('host', 'old.akwam.io')
+    oRequestHandler.addHeaderEntry('origin', 'https://old.akwam.io')
+    oRequestHandler.addHeaderEntry('referer', sUrl)
     sHtmlContent = oRequestHandler.request()
+    VSlog(sHtmlContent)
+    VSlog(sUrl)
 
     sPattern = '"direct_link":"(.+?)",'
     oParser = cParser()
@@ -570,8 +641,7 @@ def showSeasons():
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
      # (.+?) ([^<]+) .+?
-    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn'.+?href=(.+?)>"
-
+    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn' href='(.+?)'>"
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -586,7 +656,7 @@ def showSeasons():
                 if m:
                     sYear = str(m.group(0))
                     sTitle = sTitle.replace(sYear,'')
-                siteUrl = aEntry[2].replace('"','')
+                siteUrl = aEntry[2]
                 sInfo = sNote
 
                 sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'

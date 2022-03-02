@@ -16,8 +16,8 @@ SITE_IDENTIFIER = 'egybest'
 SITE_NAME = 'egybest'
 SITE_DESC = 'arabic vod'
   
-URL_MAIN = 'https://egy.best'
-host = 'egy.best'
+URL_MAIN = 'https://ww.egy.best'
+host = 'ww.egy.best'
 
 
 MOVIE_FAM = (URL_MAIN + '/movies/family-subbed', 'showMovies')

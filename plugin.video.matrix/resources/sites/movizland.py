@@ -15,7 +15,16 @@ SITE_NAME = 'movizland'
 SITE_DESC = 'arabic anime'
  
 URL_MAIN = 'https://movizland.fun'
-
+                          
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+except:
+    pass
 RAMADAN_SERIES = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
 MOVIE_FAM = (URL_MAIN + '/category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/newmovies/arab/', 'showMovies')
