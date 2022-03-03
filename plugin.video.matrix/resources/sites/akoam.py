@@ -17,11 +17,21 @@ try:  # Python 2
 except ImportError:  # Python 3
     import urllib.request as urllib2
     from urllib.error import URLError as UrlError
+
 SITE_IDENTIFIER = 'akoam'
 SITE_NAME = 'akoam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://old.akwam.io'
+URL_MAIN = 'https://old.akwam.io'                          
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+except:
+    pass
 MOVIE_MOVIE = (True, 'showMenuMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/cat/165/%D8%A7%D8%B1%D8%B4%D9%8A%D9%81-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
 MOVIE_PACK = (URL_MAIN + '/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
@@ -256,7 +266,7 @@ def showGenres():
     sUrl = oInputParameterHandler.getValue('siteUrl')
  
     liste = []
-    liste.append( ["مسلسلات مدبلجة","https://old.akwam.co/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9"] )
+    liste.append( ["مسلسلات مدبلجة","https://old.akwam.io/cat/190/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9"] )
 
     
 	            
@@ -377,7 +387,7 @@ def showLink():
                 if m:
                    sYear = str(m.group(0))
                    sTitle = sTitle.replace(sYear,'')
-                siteUrl = aEntry[2]
+                siteUrl = aEntry[2].replace('"','').replace("'",'')
                 sThumbnail = sThumbnail
                 sInfo = '[COLOR yellow]'+str(sNote)+'[/COLOR]'
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -389,7 +399,7 @@ def showLink():
                 if '/video/'  in siteUrl:
                     oGui.addLink(SITE_IDENTIFIER, 'showHosters2', sTitle+'('+aEntry[1]+')', sThumbnail, sInfo, oOutputParameterHandler)
     # (.+?) .+?
-    sPattern = '<a href="https://akwam.net/movie/(.+?)" target="_blank"><span style='
+    sPattern = '<a href="https://akwam.+?/movie/(.+?)" target="_blank"><span style='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -416,6 +426,8 @@ def showLink():
 	
 def showLinks():
     oGui = cGui()
+    import requests
+    sgn=requests.Session()
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -450,58 +462,22 @@ def showLinks():
                 for cook in aResult[1]:
                     cookies = cook[1] 
                     cookies = Unquote(cookies)
-                    cookies = cookies.replace("akwam.cc","akwam.io")
-                    VSlog(cookies)
+                if 'route' in cookies:       
+                    sPattern = ',"route":"(.+?)","'
+                    aResult = oParser.parse(cookies, sPattern)
+                    link_from_cookie = aResult[1][0].replace('download','watching')
+    import requests
+    s =requests.Session()
+    headers = {'origin': 'old.akwam.io',
+     'User-Agent': 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666',
+     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
+    r = s.get(link_from_cookie, headers=headers)
+    sHtmlContent = r.content.decode('utf8')
 
-    sPattern = ',"route":"([^"]+)",'
-    oParser = cParser()
-    aResult = oParser.parse(cookies, sPattern)
-
-    sUrl = aResult[1][0]
- 
-
-    UA = 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666'
-
-    headers = {"User-Agent": UA}
-
-    req = urllib2.Request(sUrl, None, headers)
-
-    try:
-            response = urllib2.urlopen(req)
-    except UrlError as e:
-            print(e.read())
-            print(e.reason)
-
-    data = response.read()
-    head = response.headers
-    response.close()
-
-    # get cookie
-    cookies = ''
-    if 'Set-Cookie' in head:
-            oParser = cParser()
-            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
-            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
-            # print(aResult)
-            if (aResult[0] == True):
-                for cook in aResult[1]:
-                    cook = cookies + cook[0] + '=' + cook[1] + ';' 
-                    VSlog(cook)
-    # ([^<]+) .+?
-
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666')
-    oRequestHandler.addHeaderEntry('host', 'old.akwam.io')
-    oRequestHandler.addHeaderEntry('origin', 'https://old.akwam.io')
-    oRequestHandler.addHeaderEntry('referer', sUrl)
-    sHtmlContent = oRequestHandler.request()
-    VSlog(sHtmlContent)
-    VSlog(sUrl)
-
-    sPattern = '"direct_link":"(.+?)",'
+    sPattern = 'file: "(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+
 
 	
     if (aResult[0] == True):
@@ -641,7 +617,8 @@ def showSeasons():
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
      # (.+?) ([^<]+) .+?
-    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn' href='(.+?)'>"
+    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn'.+?href='(.+?)'>"
+
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -656,7 +633,7 @@ def showSeasons():
                 if m:
                     sYear = str(m.group(0))
                     sTitle = sTitle.replace(sYear,'')
-                siteUrl = aEntry[2]
+                siteUrl = aEntry[2].replace('"','')
                 sInfo = sNote
 
                 sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
