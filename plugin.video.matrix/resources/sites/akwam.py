@@ -14,10 +14,10 @@ SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'akwam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://akwam.cz'
+URL_MAIN = 'https://akwam.im'
 MOVIE_MOVIE = (True, 'showMenuMovies')
 MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
-MOVIE_AR = ('https://akwam.co/movies?section=29', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/movies?section=29', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/movies?section=30', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/movies?section=31', 'showMovies')
@@ -519,12 +519,13 @@ def showHosters():
  
       # (.+?) ([^<]+) .+?
     oParser = cParser()       
-    sPattern =  '<a href="(.+?)" target="_blank"' 
+    sPattern =  '<a href="([^<]+)" class="download-link"' 
     aResult = oParser.parse(sHtmlContent1,sPattern)
     if (aResult[0] == True):
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent1 = oRequest.request()
+        VSlog(m3url)
 
 
     # (.+?) .+? ([^<]+)

@@ -64,7 +64,6 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self.__sUrl)
         oRequest.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Mobile Safari/537.36')
-        oRequest.addHeaderEntry('referer', 'https://www.cimaclub.onl/')
         sHtmlContent = oRequest.request()
         
         api_call = ''

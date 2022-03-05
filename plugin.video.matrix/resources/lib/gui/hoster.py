@@ -247,7 +247,7 @@ class cHosterGui:
             return self.getHoster('govid')
         if ('gvid.rest' in sHostName):
             return self.getHoster('govid')
-        if ('goved.net' in sHostName):
+        if ('goved' in sHostName):
             return self.getHoster('govidme')
         if ('govid.co' in sHostName):
             return self.getHoster('govid')
