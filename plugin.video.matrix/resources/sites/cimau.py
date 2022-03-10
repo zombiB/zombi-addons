@@ -16,34 +16,34 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://cima4u.film'
 
 
-RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
-MOVIE_FAM = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/780/archive/category%7C2/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies-english/', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a-arabic-movies/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/افلام-هندي-indian/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A-movies-english/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9-full-pack/', 'showPacks')
-MOVIE_ASIAN = (URL_MAIN + '/category/افلام-اجنبي-movies-english/افلام-asian-movies/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/turkish-movies/', 'showMovies')
+RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
 
-KID_MOVIES = (URL_MAIN + '/category/افلام-كرتون-movies-anime/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-series-turkish/', 'showSeries')
+MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/افلام-عربي-arabic2-movies/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/افلام-هندي-indian2/', 'showMovies')
+MOVIE_PACK = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/سلاسل-الافلام-الكاملة-full2-pack/', 'showPacks')
+MOVIE_ASIAN = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/افلام-asian2-movies/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/turkish2-movies/', 'showMovies')
 
-SERIE_ASIA = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-اسيوية-series-asian/', 'showSeries')
+KID_MOVIES = (URL_MAIN + '/category/افلام-كرتون-movies2-anime/', 'showMovies')
+SERIE_TR = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-تركية-series1-turkish/', 'showSeries')
 
-SERIE_EN = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-اجنبي-english/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9-arabic-series/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9-series-indian/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-اسيوية-series1-asian/', 'showSeries')
+
+SERIE_EN = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-اجنبي-english1/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-عربية-arabic-series/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-هندية-series-indian/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + '/category/مسلسلات-3series/latino-mexico/', 'showSeries')
+
+ANIM_NEWS = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-كرتون-anime-series/', 'showSeries')
+
+KID_CARTOON = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-كرتون-anime-series/', 'showSeries')
+DOC_NEWS = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/1174/archive/category%7C2/', 'showMovies')
+DOC_SERIES = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/1174/archive/category%7C9/', 'showSeries')
 
 
-ANIM_NEWS = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-كرتون-anime-series/', 'showSeries')
-
-KID_CARTOON = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-series/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%83%D8%B1%D8%AA%D9%88%D9%86-anime-series/full-anime-series/', 'showSeries')
-DOC_NEWS = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
-DOC_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showSeries')
-
-
-REPLAYTV_NEWS = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-series/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%8a%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9-tv-shows/', 'showSeries')
-SPORT_WWE = (URL_MAIN + '/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d8%a9-%d8%ad%d8%b1%d8%a9-wwe/', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN + '/category/مسلسلات-3series/برامج-تليفزيونية-tv1-shows/', 'showSeries')
+SPORT_WWE = (URL_MAIN + '/category/اخرى-1other/مصارعة-حرة-wwe2/', 'showMovies')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')

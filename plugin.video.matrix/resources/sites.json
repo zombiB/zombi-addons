@@ -275,6 +275,10 @@
         "plugin_gateanime": {
             "label": "gateanime",
             "active": "true"
+        },
+        "plugin_alarabclub": {
+            "label": "alarabclub",
+            "active": "true"
         }
     }
 }
