@@ -345,6 +345,8 @@ class cHosterGui:
             return self.getHoster('yadisk')
         if ('megaup.' in sHostName):
             return self.getHoster('megaup')
+        if ('hdup' in sHostName):
+            return self.getHoster('hdup')
         if ('streamcherry' in sHostName):
             return self.getHoster('resolver')
         #Lien telechargeable a convertir en stream

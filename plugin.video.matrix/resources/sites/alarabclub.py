@@ -254,7 +254,6 @@ def showEpisodes():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 	
 	
     if (aResult[0] == True):
