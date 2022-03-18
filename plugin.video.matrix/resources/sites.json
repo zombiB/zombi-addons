@@ -2,275 +2,352 @@
     "sites": {
         "aflamfree": {
             "label": "aflamfree",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.aflamfree.top/"
         },
         "ahdaf": {
             "label": "ahdaf",
-            "active": "True"
+            "active": "True",
+            "url": "http://www.ahdaf-kooora.com/"
         },
         "akoam": {
             "label": "akoam",
-            "active": "True"
+            "active": "True",
+            "url": "https://old.akwam.to"
         },
         "akwam": {
             "label": "akwam",
+            "active": "True",
+            "url": "https://akwam.im"
+        },
+        "alldebrid": {
+            "label": "AllDebrid",
             "active": "True"
         },
         "alarab": {
             "label": "alarab",
-            "active": "True"
+            "active": "True",
+            "url": "https://watch.alarab.com"
         },
         "alarabclub": {
             "label": "alarabclub",
-            "active": "True"
+            "active": "True",
+            "url": "https://alarabclub.live"
         },
         "alarabiya": {
             "label": "alarabiya",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.alarabiya.net"
         },
         "alfajertv": {
             "label": "alfajertv",
-            "active": "True"
+            "active": "True",
+            "url": "https://show.alfajertv.com"
         },
         "aljazeera": {
             "label": "aljazeera",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.aljazeera.net"
         },
         "alwanfilm": {
             "label": "alwanfilm",
-            "active": "True"
+            "active": "True",
+            "url": "https://alwanfilm.com"
         },
         "animeblkom": {
             "label": "animeblkom",
-            "active": "True"
+            "active": "True",
+            "url": "https://animeblkom.net"
         },
         "animeup": {
             "label": "animeup",
-            "active": "True"
+            "active": "True",
+            "url": "https://w1.anime4up.com"
         },
         "animezid": {
             "label": "animezid",
-            "active": "True"
+            "active": "True",
+            "url": "https://animezid.com"
         },
         "arabsciences": {
             "label": "arabsciences",
-            "active": "True"
+            "active": "True",
+            "url": "https://arabsciences.com"
         },
         "arabseed": {
             "label": "arabseed",
-            "active": "True"
+            "active": "True",
+            "url": "https://eg.arabseed.ink"
         },
         "aracinema_co": {
-            "label": "aracinema_co",
-            "active": "True"
+            "label": "aramosalsal",
+            "active": "True",
+            "url": "http://aramosalsal.tv"
         },
         "arbcinema": {
             "label": "arbcinema",
-            "active": "True"
+            "active": "True",
+            "url": "https://in.arbcinema.com"
         },
         "arblionz": {
             "label": "arblionz",
-            "active": "True"
+            "active": "True",
+            "url": "https://arlionz.cam"
         },
         "asgoal": {
             "label": "asgoal",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.as-goal.com/"
         },
         "awaan": {
             "label": "awaan",
-            "active": "True"
+            "active": "True",
+            "url": "http://awaan.ae/"
         },
         "beinmatch": {
             "label": "beinmatch",
-            "active": "True"
+            "active": "True",
+            "url": "https://beinmatch.best"
         },
         "beinsports_net": {
             "label": "beinsports_net",
-            "active": "True"
+            "active": "True",
+            "url": "http://www.beinsports.com"
         },
         "btolat": {
             "label": "btolat",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.btolat.com"
         },
         "cartoonrbi": {
-            "label": "cartoonrbi",
-            "active": "True"
+            "label": "arteenz",
+            "active": "True",
+            "url": "https://www.arteenz.com/"
         },
         "cdrama": {
             "label": "cdrama",
-            "active": "True"
+            "active": "True",
+            "url": "https://cdrama.in/"
         },
         "cimaclub": {
             "label": "cimaclub",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.cimaclub.best"
         },
         "cimanow": {
             "label": "cimanow",
-            "active": "True"
+            "active": "True",
+            "url": "https://cimanow.cc"
         },
         "cimau": {
             "label": "cimau",
-            "active": "True"
+            "active": "True",
+            "url": "https://cima4u.film"
         },
         "detectiveconanar": {
             "label": "detectiveconanar",
-            "active": "True"
+            "active": "True",
+            "url": "https://detectiveconanar.com"
         },
         "docarabic": {
             "label": "docarabic",
-            "active": "True"
+            "active": "True",
+            "url": "https://docarabic.wordpress.com/"
         },
         "egybest": {
             "label": "egybest",
-            "active": "True"
+            "active": "True",
+            "url": "https://ww.egy.best"
         },
         "egyclub": {
             "label": "egyclub",
-            "active": "True"
-        },
-        "egydead": {
-            "label": "egydead",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.egy-club.com"
         },
         "ehna": {
             "label": "ehna",
-            "active": "True"
+            "active": "True",
+            "url": "https://e7naaa.online/"
         },
         "esseq": {
             "label": "esseq",
-            "active": "True"
+            "active": "True",
+            "url": "https://eessq.net"
         },
         "eyoon": {
             "label": "eyoon",
-            "active": "True"
+            "active": "True",
+            "url": "https://eyoon.co"
         },
         "familymoviz": {
             "label": "familymoviz",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.familymoviz.net"
         },
         "fansubs": {
             "label": "fansubs",
-            "active": "True"
+            "active": "True",
+            "url": "http://fansubs.tv"
         },
         "faselhd": {
             "label": "faselhd",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.faselhd.top"
         },
         "fnteam": {
             "label": "fnteam",
-            "active": "True"
+            "active": "True",
+            "url": "http://www.fn-team.com"
         },
         "gateanime": {
             "label": "gateanime",
-            "active": "True"
+            "active": "True",
+            "url": "https://s.gateanime.com"
         },
         "geoarabic": {
             "label": "geoarabic",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.geoarabic.com/"
         },
         "halacima": {
             "label": "halacima",
-            "active": "True"
+            "active": "True",
+            "url": "https://m.halacima.net/"
         },
         "hidaya": {
             "label": "hidaya",
-            "active": "True"
+            "active": "True",
+            "url": "https://hidaya.tn"
         },
         "katkoute": {
             "label": "katkoute",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.katkoute.com"
         },
         "kingfoot": {
             "label": "kingfoot",
-            "active": "True"
+            "active": "True",
+            "url": "https://king-shoot.tv/"
         },
         "lodynet": {
             "label": "lodynet",
-            "active": "True"
+            "active": "True",
+            "url": "https://m.lodynet.art"
         },
         "movizland": {
             "label": "movizland",
-            "active": "True"
+            "active": "True",
+            "url": "https://movizland.fun"
         },
         "mycima": {
             "label": "mycima",
-            "active": "True"
+            "active": "True",
+            "url": "https://mycima.ink"
         },
         "nightosphere": {
             "label": "nightosphere",
-            "active": "True"
+            "active": "True",
+            "url": "https://nightosphere.net"
         },
         "pakistani": {
             "label": "pakistani",
-            "active": "True"
+            "active": "True",
+            "url": "https://pakistani-live.net"
         },
         "panet": {
             "label": "panet",
-            "active": "True"
+            "active": "True",
+            "url": "http://www.panet.co.il"
         },
         "prstej": {
             "label": "prstej",
-            "active": "True"
+            "active": "True",
+            "url": "https://r.3rb.tv"
         },
         "rotana": {
             "label": "rotana",
-            "active": "True"
+            "active": "True",
+            "url": "https://rotana.net"
         },
         "shahidu": {
             "label": "shahidu",
-            "active": "True"
+            "active": "True",
+            "url": "https://shahed4u.dev"
         },
         "shooflive": {
-            "label": "shoofvod",
-            "active": "True"
+            "label": "shooflive",
+            "active": "True",
+            "url": "https://w.shooflive.video"
         },
         "shoofvod": {
             "label": "shoofvod",
-            "active": "True"
+            "active": "True",
+            "url": "http://shoofvod.com/"
         },
         "spacepowerfan": {
             "label": "spacepowerfan",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.spacepowerfan.com/"
         },
         "stardima": {
             "label": "stardima",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.stardima.com"
+        },
+        "siteonefichier": {
+            "label": "Mon Compte 1Fichier",
+            "active": "True",
+            "url": "https://1fichier.com/"
+        },
+        "siteuptobox": {
+            "label": "Mon Compte Uptobox",
+            "active": "True",
+            "url": "https://uptobox.com/"
         },
         "themoviedb_org": {
-            "label": "themoviedb_org",
-            "active": "True"
+            "label": "The Movie Database",
+            "active": "True",
+            "url": "https://www.themoviedb.org/"
         },
         "topimdb": {
-            "label": "topimdb",
-            "active": "True"
+            "label": "Top IMDB",
+            "active": "True",
+            "url": "https://www.imdb.com/"
         },
         "tuktukcinema": {
             "label": "tuktukcinema",
-            "active": "True"
+            "active": "True",
+            "url": "https://tuktukcinema.co"
         },
         "tvfun": {
             "label": "tvfun",
-            "active": "True"
+            "active": "True",
+            "url": "https://a.tvfun.me"
         },
         "tvnine": {
             "label": "tvnine",
-            "active": "True"
+            "active": "True",
+            "url": "https://www.tv96.tv"
         },
         "watanflix": {
             "label": "watanflix",
-            "active": "True"
+            "active": "True",
+            "url": "http://watanflix.com"
         },
         "xsanime": {
             "label": "xsanime",
-            "active": "True"
+            "active": "True",
+            "url": "https://m.xsanime.com"
         },
         "yallalive": {
             "label": "yallalive",
-            "active": "True"
+            "active": "True",
+            "url": "http://www.yalla-shoot.com/mobile/"
         },
         "yallashoot": {
             "label": "yallashoot",
-            "active": "True"
+            "active": "True",
+            "url": "http://www.yalla-shoot.com/live/"
         }
     }
 }
