@@ -1,6 +1,6 @@
-#-*- coding: utf-8 -*-
-#https://github.com/Kodi-vStream/venom-xbmc-addons
-#
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
@@ -16,60 +16,20 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/5
 
 class cHoster(iHoster):
     def __init__(self):
-        self.__sDisplayName = 'Soundcloud'
-        self.__sFileName = self.__sDisplayName
+        iHoster.__init__(self, 'soundcloud', 'Soundcloud')
 
-    def getDisplayName(self):
-        return self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'soundcloud'
-
-    def isDownloadable(self):
-        return True
-
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return ''
-
-    def __getIdFromUrl(self):
-        return ''
-
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
         url2 = ''
-        VSlog(self.__sUrl)
+        VSlog(self._url)
 
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
 
         # Magic number
-        sPattern =  'soundcloud:\/\/sounds:([0-9]+)">'
+        sPattern = 'soundcloud:\/\/sounds:([0-9]+)">'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             n = aResult[1][0]
@@ -134,7 +94,7 @@ class cHoster(iHoster):
         json_string = json.loads(sHtmlContent)
         api_call = json_string['url']
 
-        if (api_call):
+        if api_call:
             return True, api_call + '|User-Agent=' + UA
 
         return False, False

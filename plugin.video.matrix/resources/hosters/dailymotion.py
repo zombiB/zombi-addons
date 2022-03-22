@@ -1,4 +1,4 @@
-﻿#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
@@ -6,76 +6,37 @@ from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
 
 class cHoster(iHoster):
-
     def __init__(self):
-        self.__sDisplayName = 'DailyMotion'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR] [COLOR khaki]' + self.__sHD + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def setHD(self, sHD):
-        if 'hd' in sHD:
-            self.__sHD = 'HD'
-        else:
-            self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
-
-    def getPluginIdentifier(self):
-        return 'dailymotion'
+        iHoster.__init__(self, 'dailymotion', 'dailymotion')
 
     def isDownloadable(self):
         return True
 
-    def getPattern(self):
-        return ''
-
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-        if not "metadata" in self.__sUrl:
-            if 'embed/video' in self.__sUrl:
-                self.__sUrl = "https://www.dailymotion.com/player/metadata/video/" + self.__sUrl.split('/')[5]
-            elif '/swf/video' in self.__sUrl:
-                self.__sUrl = "https://www.dailymotion.com/player/metadata/video/" + self.__sUrl.split('/')[5]
+        self._url = str(sUrl)
+        if not "metadata" in self._url:
+            if 'embed/video' in self._url:
+                self._url = "https://www.dailymotion.com/player/metadata/video/" + self._url.split('/')[5]
+            elif '/swf/video' in self._url:
+                self._url = "https://www.dailymotion.com/player/metadata/video/" + self._url.split('/')[5]
             else:
-                self.__sUrl = "https://www.dailymotion.com/player/metadata/video/" + self.__sUrl.split('/')[4]                
+                self._url = "https://www.dailymotion.com/player/metadata/video/" + self._url.split('/')[4]                
 
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
         api_call = False
         url=[]
         qua=[]
 
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        VSlog(self.__sUrl)
+        VSlog(self._url)
 
         oParser = cParser()
 
         sPattern =  '{"type":"application.+?mpegURL","url":"([^"]+)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if (aResult[0] == True):
+        if aResult[0] is True:
             oRequest = cRequestHandler(aResult[1][0])
             oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:70.0) Gecko/20100101 Firefox/70.0')
             oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
@@ -84,7 +45,7 @@ class cHoster(iHoster):
 
             sPattern = 'NAME="([^"]+)"(,PROGRESSIVE-URI="([^"]+)"|http(.+?)\#)'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                 for aEntry in reversed(aResult[1]):
                     quality = aEntry[0].replace('@60', '')
                     if quality not in qua:
@@ -94,7 +55,7 @@ class cHoster(iHoster):
 
             api_call = dialog().VSselectqual(qua, url)
 
-        if (api_call):
-            return True, api_call+ '|Referer=' +self.__sUrl+'&cookie='+cookies
+        if api_call:
+            return True, api_call+ '|Referer=' +self._url+'&cookie='+cookies
 
         return False, False

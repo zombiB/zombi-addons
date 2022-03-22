@@ -7,6 +7,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
+from resources.lib.comaddon import VSlog
 import base64
  
 SITE_IDENTIFIER = 'tvfun'

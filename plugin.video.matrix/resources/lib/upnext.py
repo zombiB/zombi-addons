@@ -50,8 +50,7 @@ class UpNext:
         if not tvShowTitle:
             tvShowTitle = re.search('\[\/COLOR\](.+?)\[COLOR',guiElement.getItemValue('title')).group(1)
 
-        sMovieTitle = tvShowTitle 
-
+        sMovieTitle = tvShowTitle
 
         numEpisode = int(sEpisode)
         nextEpisode = numEpisode+1

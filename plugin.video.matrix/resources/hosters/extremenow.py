@@ -14,59 +14,16 @@ import xbmcgui
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'extremenow'
-        self.__sFileName = self.__sDisplayName
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'extremenow'
-
+        iHoster.__init__(self, 'extremenow', 'extremenow')
+			
     def isDownloadable(self):
         return True
 
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return ''
+    def _getMediaLinkForGuest(self):
         
-    def __getIdFromUrl(self):
-        return ''
-        
-    def __modifyUrl(self, sUrl):
-        return sUrl;
-        
-    def __getKey(self):
-        return ''
-
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-        
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        VSlog(self.__sUrl)
+        VSlog(self._url)
         
         oParser = cParser()
         
@@ -76,7 +33,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if (aResult[0] == True):
+        if aResult[0] is True:
             
             #initialisation des tableaux
             url=[]
@@ -89,8 +46,8 @@ class cHoster(iHoster):
 
             api_call = dialog().VSselectqual(qua, url)
 
-            if (api_call):
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl +'&verifypeer=false'
+            if api_call:
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url +'&verifypeer=false'
 
         return False, False
         

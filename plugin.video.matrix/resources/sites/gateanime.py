@@ -14,8 +14,8 @@ SITE_IDENTIFIER = 'gateanime'
 SITE_NAME = 'gateanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://m.gateanime.com'
-ANIM_NEWS = (URL_MAIN + '/tag/أنميات-موسم-خريف-2021/', 'showSeries')
+URL_MAIN = 'https://s.gateanime.com'
+ANIM_NEWS = (URL_MAIN + '/tag/أنميات-موسم-شتاء-2022/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/الأفلام/', 'showMovies')
 
 KID_MOVIES = (URL_MAIN + '/category/مدبلج/?tr_post_type=1', 'showMovies')
@@ -85,7 +85,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<article.+?href="([^<]+)">.+?src="([^<]+)" class=.+?<h3 class="Title">([^<]+)</h3> <span class="Year">([^<]+)</span>'
+    sPattern = '<article.+?href="([^<]+)">.+?src="([^<]+)" class=.+?class="Title">([^<]+)</h3>.+?class="Year">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -136,7 +136,8 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<article.+?href="([^<]+)">.+?src="([^<]+)" class=.+?<h3 class="Title">([^<]+)</h3> <span class="Year">([^<]+)</span>'
+    sPattern = '<article.+?href="([^<]+)">.+?src="([^<]+)" class=.+?class="Title">([^<]+)</h3>.+?class="Year">([^<]+)</span>'
+		 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -253,34 +254,29 @@ def showHosters():
 
 	
     if (aResult[0] == True):
-            oOutputParameterHandler = cOutputParameterHandler() 
-            for aEntry in aResult[1]:
-        
-                url = aEntry
-                oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = oRequestHandler.request()
-                oParser = cParser()
-                sPattern =  'src="(.+?)"'
-                aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
-                   url = aResult[1][0]
-                if url.startswith('//'):
-                    url = 'https:' + url
-				
-					
-            
-                sHosterUrl = url 
-                if 'userload' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'moshahda' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'mystream' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if (oHoster != False):
-                    sDisplayTitle = sMovieTitle
-                    oHoster.setDisplayName(sDisplayTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:        
+            url = aEntry
+            oRequestHandler = cRequestHandler(url)
+            sHtmlContent2 = oRequestHandler.request()
+            oParser = cParser()
+            sPattern =  'src="(.+?)"'
+            aResult = oParser.parse(sHtmlContent2,sPattern)
+            if (aResult[0] == True):
+                for aEntry in aResult[1]:
+                    sHosterUrl = aEntry
+                    if sHosterUrl.startswith('//'):
+                       sHosterUrl = 'https:' + sHosterUrl
+                    if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'moshahda' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'mystream' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if (oHoster != False):
+                        oHoster.setDisplayName(sMovieTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     oGui.setEndOfDirectory()	

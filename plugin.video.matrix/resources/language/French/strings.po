@@ -17,28 +17,20 @@ msgid "Auto-activate subtitles"
 msgstr "Activation auto des sous-titres"
 
 msgctxt "#30003"
-msgid "Downloading Completed"
-msgstr "Telechargements Termine"
+msgid "Downloads Completed"
+msgstr "Téléchargements Terminé"
 
 msgctxt "#30004"
-msgid "Downloading Stopped"
-msgstr "Telechargements Arrete"
+msgid "Downloads Stopped"
+msgstr "Téléchargements Arrêté"
 
 msgctxt "#30005"
-msgid "matrix will be faster with your own API key."
-msgstr "matrix sera plus rapide avec votre propre clef API."
+msgid "Media informations"
+msgstr "Informations détaillées des médias"
 
 msgctxt "#30006"
-msgid "Search Metadata (may slow the Addon)"
-msgstr "Recherche les Metadonnees (ralenti l'Addon)"
-
-msgctxt "#30195"
-msgid "file deleted,[CR](Important relaunch Kodi)"
-msgstr "file deleted,[CR](Important relaunch Kodi)"
-
-msgctxt "#30196"
-msgid "file not deleted ,Error"
-msgstr "file not deleted ,Error"
+msgid "Search Metadata (slowed matrix)"
+msgstr "Rechercher les métadonnées (ralenti matrix)"
 
 msgctxt "#30007"
 msgid "Posters Size"
@@ -49,8 +41,8 @@ msgid "Fanarts Size"
 msgstr "Taille des Fanarts"
 
 msgctxt "#30009"
-msgid "Use extendedinfo"
-msgstr "Utiliser extendedinfo"
+msgid "Use extendedinfo for the information windows"
+msgstr "Utiliser la fenetre d'information ExtendedInfo"
 
 msgctxt "#30010"
 msgid "Color Text note"
@@ -61,32 +53,44 @@ msgid "Initialization error"
 msgstr "Erreur initialisation"
 
 msgctxt "#30012"
-msgid "Downloading already started"
-msgstr "Telechargements deja demarres"
+msgid "Downloads already started"
+msgstr "Téléchargements déjà démarrés"
 
 msgctxt "#30013"
-msgid "Matrix update"
-msgstr "mise a jour Matrix "
+msgid "matrix update"
+msgstr "Mise à jour matrix"
 
 msgctxt "#30014"
 msgid "Update complete"
-msgstr "Mise a jour terminee"
+msgstr "Mise à jour terminée"
 
 msgctxt "#30015"
 msgid "Update"
-msgstr "Mise a jour"
+msgstr "Mise à jour"
 
 msgctxt "#30016"
-msgid "Enable search history"
-msgstr "Activer l'historique de recherche"
+msgid "Activate search history"
+msgstr "Activer l'historique des recherches"
+
+msgctxt "#30017"
+msgid "[COLOR azure]Select page[/COLOR]"
+msgstr "[COLOR azure]Sélectionner page[/COLOR]"
+
+msgctxt "#30018"
+msgid "[COLOR azure]Back to site[/COLOR]"
+msgstr "[COLOR azure]Retour Site[/COLOR]"
+
+msgctxt "#30019"
+msgid "Enter the page"
+msgstr "Entrer la page"
 
 msgctxt "#30020"
-msgid "File Not Found or removed"
+msgid "File not found"
 msgstr "Fichier introuvable"
 
 msgctxt "#30021"
 msgid "General"
-msgstr "General"
+msgstr "Général"
 
 msgctxt "#30022"
 msgid "Unsupported format"
@@ -94,31 +98,31 @@ msgstr "Format non supporté"
 
 msgctxt "#30023"
 msgid "Plugins settings"
-msgstr "Plugins Preferences"
+msgstr "Plugins Préférences"
 
 msgctxt "#30024"
-msgid "Failed to download"
+msgid "Unable to download"
 msgstr "Téléchargement impossible"
 
 msgctxt "#30025"
-msgid "Stop Downloading"
+msgid "Stop Downloads"
 msgstr "Arrêter les Téléchargements"
 
 msgctxt "#30026"
-msgid "IPTV and TV Guide"
+msgid "IPTV and TV Guid"
 msgstr "IPTV et Guide TV"
 
 msgctxt "#30027"
 msgid "Waiting time for player (ms)"
-msgstr "Delai d'attente du lecteur (ms)"
+msgstr "Délai d'attente du lecteur (ms)"
 
 msgctxt "#30028"
 msgid "PVR addon setting"
-msgstr "Parametre a modifier dans l'addon PVR"
+msgstr "Paramètre à modifier dans l'addon PVR"
 
 msgctxt "#30029"
 msgid "Play default"
-msgstr "Lecture par defaut"
+msgstr "Lecteur par défaut"
 
 msgctxt "#30030"
 msgid "Play"
@@ -126,11 +130,11 @@ msgstr "Lecture"
 
 msgctxt "#30031"
 msgid "Metadata"
-msgstr "Metadonnees"
+msgstr "Métadonnées"
 
 msgctxt "#30032"
-msgid "View"
-msgstr "Affichage"
+msgid "View mode"
+msgstr "Modes d'affichage"
 
 msgctxt "#30033"
 msgid "Tools"
@@ -154,7 +158,7 @@ msgstr "Pas possible pour ce site"
 
 msgctxt "#30038"
 msgid "Bookmarking not possible for this link"
-msgstr "Mise en Marque-page pas possible pour ce lien"
+msgstr "Mise en Marque-page impossible pour ce lien"
 
 msgctxt "#30039"
 msgid "Download List"
@@ -166,19 +170,19 @@ msgstr "Nettoyer la liste (Fichiers finis)"
 
 msgctxt "#30041"
 msgid "History deleted"
-msgstr "Historique supprime"
+msgstr "Historique supprimé"
 
 msgctxt "#30042"
 msgid "Successfully registered"
-msgstr "Enregistre avec succes"
+msgstr "Enregistré avec succès"
 
 msgctxt "#30043"
 msgid "Bookmark already present"
-msgstr "Marque-page deja present"
+msgstr "Marque-page déjà présent"
 
 msgctxt "#30044"
 msgid "Bookmark deleted"
-msgstr "Marque-page supprime"
+msgstr "Marque-page supprimé"
 
 msgctxt "#30045"
 msgid "Type the link you want to play"
@@ -190,11 +194,11 @@ msgstr "Voici votre lien: "
 
 msgctxt "#30047"
 msgid "Last auto update on:"
-msgstr "Derniere mise a jour auto le:"
+msgstr "Dernière mise à jour auto le:"
 
 msgctxt "#30048"
-msgid "Next update on: "
-msgstr "Prochaine verification de mise a jour le: "
+msgid "Next update check on:"
+msgstr "Prochaine vérification de mise à jour le:"
 
 msgctxt "#30049"
 msgid "Path ffmpeg"
@@ -205,16 +209,16 @@ msgid "Recording path"
 msgstr "Chemin d'enregistrement"
 
 msgctxt "#30051"
-msgid "enable recording"
+msgid "Activate recording"
 msgstr "Activer l'enregistrement"
 
 msgctxt "#30052"
-msgid "Minute automatically add to your chosen duration (in minutes)"
-msgstr "Minute ajouter automatiquement a votre durer choisie (en minute)"
+msgid "Minute automatically added to the chosen duration (in minutes)"
+msgstr "Minute ajoutée automatiquement à la durée choisie (en minute)"
 
 msgctxt "#30053"
 msgid "Time interval between each time check (in seconds)"
-msgstr "Intervalle de temps entre chaque verification de l'heure (en seconde)"
+msgstr "Intervalle de temps entre chaque vérification de l'heure (en seconde)"
 
 msgctxt "#30054"
 msgid "Url of your log:"
@@ -232,17 +236,9 @@ msgctxt "#30057"
 msgid "Delete a database"
 msgstr "Supprimer une BDD"
 
-msgctxt "#31157"
-msgid "Delete settings file"
-msgstr "Supprimer le fichier settings"
-
-msgctxt "#31158"
-msgid "Deletes the settings file"
-msgstr "Supprime le fichier settings"
-
 msgctxt "#30058"
 msgid "Removes the BDD from the cache for metadata"
-msgstr "Supprime la BDD du cache pour les metadonnees"
+msgstr "Supprime la BDD du cache pour les métadonnées"
 
 msgctxt "#30059"
 msgid "Delete temporary Kodi files"
@@ -270,10 +266,10 @@ msgstr "Rafraîchir le Skin"
 
 msgctxt "#30065"
 msgid "Using ResolverUrl will allow you to use premium link generators"
-msgstr "Utiliser ResolverUrl vous permettra d'utiliser les debrideurs"
+msgstr "Utiliser ResolverUrl vous permettra d'utiliser les débrideurs"
 
 msgctxt "#30066"
-msgid "Use ResolverUrl"
+msgid "Go through ResolverUrl"
 msgstr "Passer par ResolverUrl"
 
 msgctxt "#30067"
@@ -281,16 +277,16 @@ msgid "Configure ResolverUrl"
 msgstr "Configurer ResolverUrl"
 
 msgctxt "#30068"
-msgid "WARNING: Matrix does not manage this part, [CR] remember to deactivate it if the videos no longer work."
-msgstr "ATTENTION: Matrix ne gere pas cette partie, [CR] pensez a le desactiver si les videos ne marchent plus."
+msgid "WARNING: Matrix does not manage this part,[CR] remember to deactivate it if the videos no longer work."
+msgstr "ATTENTION: Matrix ne gère pas cette partie,[CR] pensez à le désactiver si les vidéos ne marchent plus."
 
 msgctxt "#30069"
-msgid "Unless you have a premium link generator, [CR] checking this box will bring you more problems than advantages."
-msgstr "A moins d'avoir un debrideur, [CR] cocher cette case vous apportera plus de problemes que d'avantages."
+msgid "Unless you have a premium link generator,[CR] checking this box will bring you more problems than advantages."
+msgstr "A moins d'avoir un débrideur,[CR] cocher cette case vous apportera plus de problèmes que d'avantages."
 
 msgctxt "#30070"
-msgid "Choose your sources click OK [CR] - To validate the modifications click again on OK"
-msgstr "Choisissez vos sources cliquez OK [CR]- Pour valider les modifications cliquez encore sur OK"
+msgid "Choose your sources click OK[CR]- To validate the modifications click again on OK"
+msgstr "Choisissez vos sources et valider avec OK[CR]Confirmer les modifications en validant ici sur OK"
 
 msgctxt "#30071"
 msgid "Updated list"
@@ -318,23 +314,23 @@ msgstr "Recherche"
 
 msgctxt "#30077"
 msgid "[COLOR gold]Select your search for: %s[/COLOR]"
-msgstr "[COLOR gold]Selectionnez votre recherche pour: %s[/COLOR]"
+msgstr "[COLOR gold]Sélectionnez votre recherche pour : %s[/COLOR]"
 
 msgctxt "#30078"
-msgid "Search (Movies)"
+msgid "Search (Movie)"
 msgstr "Recherche (Films)"
 
 msgctxt "#30079"
-msgid "Search (Tvshows/Animes)"
-msgstr "Recherche (Series/Animes)"
+msgid "Search (Tvshow)"
+msgstr "Recherche (Séries)"
 
 msgctxt "#30080"
 msgid "Search (Other category)"
-msgstr "Recherche (Autre categories)"
+msgstr "Recherche (Autre catégories)"
 
 msgctxt "#30081"
 msgid "[COLOR gold]Results for: %s[/COLOR]"
-msgstr "[COLOR gold]Resultats pour: %s[/COLOR]"
+msgstr "[COLOR gold]Résultats pour : %s[/COLOR]"
 
 msgctxt "#30082"
 msgid "Name already used"
@@ -359,40 +355,41 @@ msgstr "Téléchargement Démarré"
 msgctxt "#30087"
 msgid "Clear Cache matrix, Error"
 msgstr "Nettoyage du cache matrix, Erreur"
+
 msgctxt "#30088"
 msgid "Visual search"
 msgstr "Recherche visuelle"
 
 msgctxt "#30089"
-msgid "matrix Cache successfully cleared"
+msgid "Clear matrix Cache, Successful"
 msgstr "Nettoyage du cache matrix, Réussi"
 
 msgctxt "#30090"
-msgid "Suppression Database, Successful"
-msgstr "Suppression BDD, Réussi"
+msgid "deleting Database, Successful"
+msgstr "Réinitialisation des données : Réussi"
 
 msgctxt "#30091"
-msgid "Error while deleting Database"
+msgid "deleting Database, Error"
 msgstr "Suppression BDD, Erreur"
 
 msgctxt "#30092"
-msgid "Kodi Cache successfully cleared [CR](Important restart Kodi)"
+msgid "Clear Kodi Cache, Successful[CR](Important restart Kodi)"
 msgstr "Nettoyage du cache Kodi, Réussi[CR](Important relancer Kodi)"
 
 msgctxt "#30093"
-msgid "Error while deleting Kodi Cache"
+msgid "Clear Kodi Cache, Error"
 msgstr "Nettoyage du cache Kodi, Erreur"
 
 msgctxt "#30094"
 msgid "Select your Sources"
-msgstr "Selectionner vos Sources"
+msgstr "Sélectionner vos Sources"
 
 msgctxt "#30095"
-msgid "Archive Cache successfully cleared [CR](Important restart Kodi)"
+msgid "Clear Archive_cache Cache, Successful[CR](Important restart Kodi)"
 msgstr "Nettoyage du Cache Archive_cache, Réussi[CR](Important relancer Kodi)"
 
 msgctxt "#30096"
-msgid "Error while deleting Cache"
+msgid "Clear Archive_cache Cache, Error"
 msgstr "Nettoyage du Cache Archive_cache, Erreur"
 
 msgctxt "#30097"
@@ -441,11 +438,11 @@ msgstr "Pakistani"
 
 msgctxt "#30105"
 msgid "Genre"
-msgstr "Genres"
+msgstr "Genre"
 
 msgctxt "#30106"
 msgid "Years"
-msgstr "Annees"
+msgstr "Années"
 
 msgctxt "#33107"
 msgid "Family"
@@ -464,32 +461,44 @@ msgid "Turkish"
 msgstr "Turques"
 
 msgctxt "#30110"
-msgid "Turkish Dubbed"
-msgstr "Turques doublee"
+msgid "Database to delete"
+msgstr "Base de données à supprimer"
+
+msgctxt "#30111"
+msgid "List"
+msgstr "Liste"
 
 msgctxt "#30112"
 msgid "Documentary"
 msgstr "Documentaires"
 
 msgctxt "#30113"
-msgid "Sport"
+msgid "Sports"
 msgstr "Sports"
 
 msgctxt "#30114"
 msgid "Web video"
-msgstr "Videos du net"
+msgstr "Vidéos du net"
 
 msgctxt "#30115"
-msgid "Television / Radio"
-msgstr "Television / Radio"
+msgid "Television/Music"
+msgstr "Télévision/Musique"
 
 msgctxt "#30116"
 msgid "All the sources"
-msgstr "Toutes les sources"
+msgstr "Sources dans les menus et les recherches"
 
 msgctxt "#30117"
-msgid "TV Programs"
+msgid "Programs"
 msgstr "TV replay"
+
+msgctxt "#30118"
+msgid "Search (Anim)"
+msgstr "Recherche (Animés)"
+
+msgctxt "#30119"
+msgid "Live"
+msgstr "En direct"
 
 msgctxt "#30120"
 msgid "Movies"
@@ -497,31 +506,34 @@ msgstr "Films"
 
 msgctxt "#30121"
 msgid "Series"
-msgstr "Series"
+msgstr "Séries"
 
 msgctxt "#30122"
 msgid "Anime"
-msgstr "Animes"
+msgstr "Animés"
 
+msgctxt "#30123"
+msgid "Search (Dramas)"
+msgstr "Recherche (Dramas)"
 
-msgctxt "#30126"
-msgid "Beta Tester (not recommended)"
-msgstr "Beta testeur (Non recommande)"
+msgctxt "#30124"
+msgid "Dramas"
+msgstr "Dramas"
 
 msgctxt "#30125"
 msgid "Continue watching"
-msgstr "En cours de visionnage" 
+msgstr "En cours de visionnage"
 
 msgctxt "#30127"
 msgid "Tools"
 msgstr "Outils"
 
 msgctxt "#30128"
-msgid "Clear the addon cache"
-msgstr "Vider le Cache de l'addon"
+msgid "Clear Cache matrix"
+msgstr "Vider le Cache de matrix"
 
 msgctxt "#30129"
-msgid "Clear Kodi Cache"
+msgid "Clear Cache Kodi"
 msgstr "Vider le Cache de Kodi"
 
 msgctxt "#30130"
@@ -542,15 +554,11 @@ msgstr "Sources"
 
 msgctxt "#30145"
 msgid "Download folder"
-msgstr "Dossier de Telechargement"
-
-msgctxt "#30146"
-msgid "Show / Hide search settings"
-msgstr "Afficher/Masquer les parametres de recherche"
+msgstr "Dossier de Téléchargement"
 
 msgctxt "#30160"
 msgid "Quality HD"
-msgstr "Qualite HD"
+msgstr "Qualité HD"
 
 msgctxt "#30201"
 msgid "Playlist"
@@ -558,14 +566,14 @@ msgstr "Playlist"
 
 msgctxt "#30202"
 msgid "Download"
-msgstr "Telecharger"
+msgstr "Télécharger"
 
 msgctxt "#30203"
-msgid "Webradio"
-msgstr "Radio du web"
+msgid "Radio"
+msgstr "Radio"
 
 msgctxt "#30204"
-msgid "[COLOR red]No informations[/COLOR]"
+msgid "[COLOR red]No information[/COLOR]"
 msgstr "[COLOR red]Aucune information[/COLOR]"
 
 msgctxt "#30205"
@@ -578,11 +586,11 @@ msgstr "Marquer vu/Non vu"
 
 msgctxt "#30207"
 msgid "Bookmarks"
-msgstr "Marque-Pages"
+msgstr "Marque-pages"
 
 msgctxt "#30208"
-msgid "Informations"
-msgstr "Informations"
+msgid "Information"
+msgstr "Information"
 
 msgctxt "#30209"
 msgid "[COLOR red]Delete Bookmark[/COLOR]"
@@ -594,15 +602,15 @@ msgstr "Marque-page"
 
 msgctxt "#30211"
 msgid "[COLOR red]Clear this category[/COLOR]"
-msgstr "[COLOR red]Vider cette categorie[/COLOR]"
+msgstr "[COLOR red]Vider cette catégorie[/COLOR]"
 
 msgctxt "#30212"
 msgid "Trailer"
 msgstr "Bande annonce"
 
 msgctxt "#30213"
-msgid "Search Similar"
-msgstr "Recherche Similaire"
+msgid "Search"
+msgstr "Rechercher"
 
 msgctxt "#33213"
 msgid "Parents Guide"
@@ -613,20 +621,20 @@ msgid "Trakt"
 msgstr "Trakt"
 
 msgctxt "#30215"
-msgid "Start downloading"
-msgstr "Demarrer le telechargement"
+msgid "Start download"
+msgstr "Démarrer le téléchargement"
 
 msgctxt "#30216"
 msgid "Remove from list"
 msgstr "Supprimer de la liste"
 
 msgctxt "#30217"
-msgid "[COLOR red]Delete permanently[/COLOR]"
-msgstr "[COLOR red]Supprimer definitivement[/COLOR]"
+msgid "[COLOR red]Delete definitely[/COLOR]"
+msgstr "[COLOR red]Supprimer définitivement[/COLOR]"
 
 msgctxt "#30218"
-msgid "Stop downloading"
-msgstr "Arreter le telechargement"
+msgid "Stop download"
+msgstr "Arrêter le téléchargement"
 
 msgctxt "#30219"
 msgid "Read"
@@ -634,7 +642,7 @@ msgstr "Lire"
 
 msgctxt "#30220"
 msgid "Reset"
-msgstr "reinitialiser"
+msgstr "Réinitialiser"
 
 msgctxt "#30221"
 msgid "Add:"
@@ -654,15 +662,11 @@ msgstr "Librairie"
 
 msgctxt "#30301"
 msgid "To configure in kodi if you want them to be imported"
-msgstr "A configurer dans kodi si vous voulez qu'ils soient importes"
+msgstr "A configurer dans kodi si vous voulez qu'ils soient importés"
 
 msgctxt "#30302"
 msgid "Auto update"
-msgstr "Mise a jour a chaque ajout"
-
-msgctxt "#30303"
-msgid "Enable/Disable"
-msgstr "Activer/Desactiver"
+msgstr "Mise à jour à chaque ajout"
 
 msgctxt "#30304"
 msgid "Go to [COLOR teal]%s[/COLOR] Enter the code [COLOR teal]%s[/COLOR]"
@@ -676,17 +680,13 @@ msgctxt "#30306"
 msgid "[COLOR khaki]Hello, %s[/COLOR]"
 msgstr "[COLOR khaki][COLOR khaki]Bonjour, %s[/COLOR]"
 
-msgctxt "#30307"
-msgid "Movies (%s/%s) seen / Shows seen (%s) / episode (%s/%s) seen"
-msgstr "Films (%s/%s) regardes / Series regardees (%s) / Episodes (%s/%s) regardes"
-
 msgctxt "#30308"
-msgid "History"
-msgstr "Historique"
+msgid "Search history"
+msgstr "Historique de recherche"
 
 msgctxt "#30309"
 msgid "logout"
-msgstr "Deconnexion"
+msgstr "Déconnexion"
 
 msgctxt "#30310"
 msgid "Collection"
@@ -698,11 +698,11 @@ msgstr "A surveiller"
 
 msgctxt "#30312"
 msgid "Seen"
-msgstr "Regarde"
+msgstr "Regardé"
 
 msgctxt "#30313"
 msgid "Recommended"
-msgstr "Recommande"
+msgstr "Recommandé"
 
 msgctxt "#30314"
 msgid "BoxOffice"
@@ -726,35 +726,23 @@ msgstr "A surveiller (saisons)"
 
 msgctxt "#30319"
 msgid "Watchlist (episodes)"
-msgstr "A surveiller (episodes)"
+msgstr "A surveiller (épisodes)"
 
 msgctxt "#30320"
 msgid "You have successfully logged out"
-msgstr "Vous avez ete deconnecte avec succes"
-
-msgctxt "#30321"
-msgid "Add collection"
-msgstr "Ajouter a la collection"
-
-msgctxt "#30322"
-msgid "Add watch history"
-msgstr "Marquer comme regarde"
-
-msgctxt "#30323"
-msgid "Add watchlist"
-msgstr "Marquer a surveiller"
+msgstr "Vous avez été déconnecté avec succès"
 
 msgctxt "#30324"
 msgid "Library"
 msgstr "Librairie"
 
 msgctxt "#30325"
-msgid "Uptobox"
-msgstr "Uptobox"
+msgid "UpToBox"
+msgstr "UpToBox"
 
 msgctxt "#30326"
 msgid "Download and Play"
-msgstr "Telecharger et Lire"
+msgstr "Télécharger et Lire"
 
 msgctxt "#30327"
 msgid "1Fichier"
@@ -777,12 +765,20 @@ msgid "Calendar"
 msgstr "Calendrier des sorties VO"
 
 msgctxt "#30332"
-msgid "WebTv"
-msgstr "Tv du web"
+msgid "TV (Official)"
+msgstr "TV (Officiel)"
+
+msgctxt "#30333"
+msgid "Activate Premium"
+msgstr "Activer Premium"
+
+msgctxt "#30334"
+msgid "Free or Premium Token"
+msgstr "Token Premium ou gratuit"
 
 msgctxt "#30340"
 msgid "Trakt integration"
-msgstr "Integration Trakt"
+msgstr "Intégration Trakt"
 
 msgctxt "#30341"
 msgid "Show personnal lists"
@@ -802,7 +798,7 @@ msgstr "Afficher les films vus"
 
 msgctxt "#30345"
 msgid "Show recommended movies"
-msgstr "Afficher les films recommandes"
+msgstr "Afficher les films recommandés"
 
 msgctxt "#30346"
 msgid "Show BoxOffice"
@@ -820,9 +816,13 @@ msgctxt "#30349"
 msgid "Show most monthly viewed"
 msgstr "Afficher les films les plus vus du mois"
 
+msgctxt "#30350"
+msgid "Replays"
+msgstr "Rédiffusions"
+
 msgctxt "#30351"
 msgid "TV Shows"
-msgstr "Series"
+msgstr "Séries"
 
 msgctxt "#30352"
 msgid "Show watchlist"
@@ -830,31 +830,31 @@ msgstr "Afficher la liste 'A Surveiller'"
 
 msgctxt "#30353"
 msgid "Show seasons watchlist"
-msgstr "Afficher la liste des saisons a surveiller"
+msgstr "Afficher la liste des saisons à surveiller"
 
 msgctxt "#30354"
 msgid "Show episodes watchlist"
-msgstr "Afficher la liste des episodes a surveiller"
+msgstr "Afficher la liste des épisodes à surveiller"
 
 msgctxt "#30355"
 msgid "Show watched list"
-msgstr "Afficher les series vues"
+msgstr "Afficher les séries vues"
 
 msgctxt "#30356"
 msgid "Show recommended TV Shows"
-msgstr "Afficher les series recommandees"
+msgstr "Afficher les séries recommandées"
 
 msgctxt "#30357"
 msgid "Show popular"
-msgstr "Afficher les series populaires"
+msgstr "Afficher les séries populaires"
 
 msgctxt "#30358"
 msgid "Show most weekly viewed"
-msgstr "Afficher les series les plus vues de la semaine"
+msgstr "Afficher les séries les plus vues de la semaine"
 
 msgctxt "#30359"
 msgid "Show most monthly viewed"
-msgstr "Afficher les series les plus vues du mois"
+msgstr "Afficher les séries les plus vues du mois"
 
 msgctxt "#30360"
 msgid "My personnal Trakt lists"
@@ -873,35 +873,35 @@ msgid "Password"
 msgstr "Mot de passe"
 
 msgctxt "#30403"
-msgid "Enable"
+msgid "Activate"
 msgstr "Activer"
 
 msgctxt "#30404"
-msgid "View : Movies (recommended 50-51-500-501-508) "
-msgstr "Vue : Films (recommande 50-51-500-501-508) "
+msgid "View : Movies (recommended 50-51-500-501-508)"
+msgstr "Vue : Films (recommandé 50-51-500-501-508)"
 
 msgctxt "#30405"
-msgid "View: Tvshow (recommended 50-51-500-501-508) "
-msgstr "Vue: Series (recommande 50-51-500-501-508) "
+msgid "View: Tvshow (recommended 50-51-500-501-508)"
+msgstr "Vue: Séries (recommandé 50-51-500-501-508)"
 
 msgctxt "#30406"
-msgid "View: Default (recommended 50-51-500) "
-msgstr "Vue: Defaut (recommande 50-51-500) "
+msgid "View: Default (recommended 50-51-500)"
+msgstr "Vue: Défaut (recommandé 50-51-500)"
 
 msgctxt "#30407"
-msgid "Vue: Home (recommended 50-51-500) "
-msgstr "Vue: Accueil (recommande 50-51-500) "
+msgid "View: Home (recommended 50-51-500)"
+msgstr "Vue: Accueil (recommandé 50-51-500)"
 
 msgctxt "#30408"
 msgid "Enable customized view"
-msgstr "Activer vue personnalisee"
+msgstr "Activer vue personnalisée"
 
 msgctxt "#30409"
 msgid "Close"
 msgstr "Fermer"
 
 msgctxt "#30410"
-msgid "Divers"
+msgid "Misc"
 msgstr "Divers"
 
 msgctxt "#30411"
@@ -910,7 +910,7 @@ msgstr "Activer le son des notifications"
 
 msgctxt "#30412"
 msgid "[COLOR red]Delete entry[/COLOR]"
-msgstr "[COLOR red]Supprimer l'entree[/COLOR]"
+msgstr "[COLOR red]Supprimer l'entrée[/COLOR]"
 
 msgctxt "#30413"
 msgid "[COLOR red]Delete history[/COLOR]"
@@ -918,15 +918,15 @@ msgstr "[COLOR red]Supprimer l'historique[/COLOR]"
 
 msgctxt "#30414"
 msgid "[COLOR gold]Full series search[/COLOR]"
-msgstr "[COLOR gold]Recherche serie complete[/COLOR]"
+msgstr "[COLOR gold]Recherche série complète[/COLOR]"
 
 msgctxt "#30415"
 msgid "[COLOR gold]Full season search[/COLOR]"
-msgstr "[COLOR gold]Recherche saison complete[/COLOR]"
+msgstr "[COLOR gold]Recherche saison complète[/COLOR]"
 
 msgctxt "#30416"
 msgid "[COLOR gold]Search history[/COLOR]"
-msgstr "[COLOR gold]Historique de recherche[/COLOR]"
+msgstr "[COLOR gold]Sélectionner pour lancer une recherche[/COLOR]"
 
 msgctxt "#30417"
 msgid "[COLOR orange]Search on Alluc_ee[/COLOR]"
@@ -934,19 +934,19 @@ msgstr "[COLOR orange]Recherche sur Alluc_ee[/COLOR]"
 
 msgctxt "#30418"
 msgid "[COLOR green]Update available[/COLOR]"
-msgstr "[COLOR green]Mise a jour disponible[/COLOR]"
+msgstr "[COLOR green]Mise à jour disponible[/COLOR]"
 
 msgctxt "#30419"
 msgid "View: Visual search (recommended 500)"
-msgstr "Vue: Recherche Visuelle (recommande 500)"
+msgstr "Vue: Recherche Visuelle (recommandé 500)"
 
 msgctxt "#30420"
 msgid "Enable/Disable sources"
-msgstr "Activer/Desactiver les sources"
+msgstr "Activer/Désactiver des sources"
 
 msgctxt "#30421"
 msgid "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid Matrix, only then click YES"
-msgstr "Rendez vous sur [COLOR teal]%s[CR]%s[/COLOR][CR], Valider Matrix, seulement ensuite cliquer OUI"
+msgstr "Rendez vous sur [COLOR teal]%s[CR]%s[/COLOR][CR] Approuver Matrix, puis seulement ensuite cliquez OUI"
 
 msgctxt "#30422"
 msgid "Enable log records"
@@ -958,40 +958,39 @@ msgstr "Rechercher un Film"
 
 msgctxt "#30424"
 msgid "Search a Serie"
-msgstr "Rechercher une Serie"
+msgstr "Rechercher une Série"
 
 msgctxt "#30425"
 msgid "Movies (Popular)"
 msgstr "Films (Populaires)"
 
 msgctxt "#30426"
-msgid "Movies (Theater)"
-msgstr "Films (en Salle)"
+msgid "Movies (News)"
+msgstr "Films (Récents)"
 
 msgctxt "#30427"
 msgid "Movies (Top Rated)"
-msgstr "Films (Les mieux notes)"
+msgstr "Films (Les mieux notés)"
 
 msgctxt "#30428"
-msgid "Movies (Genres)"
+msgid "Movies (Genre)"
 msgstr "Films (Genres)"
 
 msgctxt "#30429"
 msgid "TV Shows (Popular)"
-msgstr "Series (Populaires)"
+msgstr "Séries (Populaires)"
 
 msgctxt "#30430"
-msgid "TV Shows (on TV)"
-msgstr "Series (a la TV)"
+msgid "TV Shows (On air)"
+msgstr "Séries (En cours)"
 
 msgctxt "#30431"
 msgid "TV Shows (Top Rated)"
-
-msgstr "Series (Les mieux notees)"
+msgstr "Séries (Les mieux notées)"
 
 msgctxt "#30432"
-msgid "TV Shows (Genres)"
-msgstr "Series (Genres)"
+msgid "TV Shows (Genre)"
+msgstr "Séries (Genres)"
 
 msgctxt "#30433"
 msgid "Actors (Popular)"
@@ -1003,27 +1002,27 @@ msgstr "Films (Favoris)"
 
 msgctxt "#30435"
 msgid "Movies (Rated)"
-msgstr "Films (Notes)"
+msgstr "Films (Notés)"
 
 msgctxt "#30436"
 msgid "Movies (Watched)"
-msgstr "Films (Regardes)"
+msgstr "Films (Regardés)"
 
 msgctxt "#30437"
 msgid "TV Shows (Favorites)"
-msgstr "Series (Favories)"
+msgstr "Séries (Favories)"
 
 msgctxt "#30438"
 msgid "TV Shows (Rated)"
-msgstr "Series (Notees)"
+msgstr "Séries (Notées)"
 
 msgctxt "#30439"
 msgid "Episodes (Rated)"
-msgstr "Episodes (Notes)"
+msgstr "Episodes (Notés)"
 
 msgctxt "#30440"
 msgid "TV Shows (Watched)"
-msgstr "Series (Regardees)"
+msgstr "Séries (Regardées)"
 
 msgctxt "#30441"
 msgid "My Lists"
@@ -1031,7 +1030,7 @@ msgstr "Mes Listes"
 
 msgctxt "#30442"
 msgid "You must be logged in"
-msgstr "Vous devez etre connecte"
+msgstr "Vous devez être connecté"
 
 msgctxt "#30443"
 msgid "Add: rated"
@@ -1039,7 +1038,7 @@ msgstr "Ajouter: Vote"
 
 msgctxt "#30444"
 msgid "Add: Watched"
-msgstr "Ajouter: Regarde"
+msgstr "Ajouter: Regardé"
 
 msgctxt "#30445"
 msgid "Add: Favorites"
@@ -1047,7 +1046,7 @@ msgstr "Ajouter: Favoris"
 
 msgctxt "#30446"
 msgid "[COLOR red]Delete: Watched[/COLOR]"
-msgstr "[COLOR red]Supprimer: Regarde[/COLOR]"
+msgstr "[COLOR red]Supprimer: Regardé[/COLOR]"
 
 msgctxt "#30447"
 msgid "[COLOR red]Delete: Favorites[/COLOR]"
@@ -1055,11 +1054,11 @@ msgstr "[COLOR red]Supprimer: Favoris[/COLOR]"
 
 msgctxt "#30448"
 msgid "Select a quality"
-msgstr "Selectionner une qualite"
+msgstr "Sélectionner une qualité"
 
 msgctxt "#30449"
-msgid "About/Sources"
-msgstr "A propos/Sources"
+msgid "Sources"
+msgstr "Sources"
 
 msgctxt "#30450"
 msgid "Search (Actor, Actress)"
@@ -1071,11 +1070,11 @@ msgstr "Mode par defaut"
 
 msgctxt "#30452"
 msgid "Always ask me"
-msgstr "Toujours me demander"
+msgstr "Proposer les deux modes"
 
 msgctxt "#30453"
-msgid "Continue streaming via Uptostream"
-msgstr "Passer en Streaming via Uptostream"
+msgid "Continue streaming via UpToStream"
+msgstr "Passer en Streaming via UpToStream"
 
 msgctxt "#30454"
 msgid "Continue direct via UpToBox"
@@ -1087,7 +1086,7 @@ msgstr "Mes comptes"
 
 msgctxt "#30456"
 msgid "Are you sure?"
-msgstr "etes-vous sûr ?"
+msgstr "Êtes-vous sûr ?"
 
 msgctxt "#30457"
 msgid "Trailer"
@@ -1095,7 +1094,7 @@ msgstr "Bande-Annonce"
 
 msgctxt "#30458"
 msgid "Recommended"
-msgstr "Recommande"
+msgstr "Recommandé"
 
 msgctxt "#30459"
 msgid "Similar"
@@ -1107,11 +1106,11 @@ msgstr "Distribution"
 
 msgctxt "#30461"
 msgid "Synopsis"
-msgstr "Resume"
+msgstr "Résumé"
 
 msgctxt "#30462"
 msgid "Director"
-msgstr "Realisateur"
+msgstr "Réalisateur"
 
 msgctxt "#30463"
 msgid "Release date"
@@ -1119,27 +1118,93 @@ msgstr "Date de sortie"
 
 msgctxt "#30464"
 msgid "Duration"
-msgstr "Duree"
+msgstr "Durée"
 
 msgctxt "#30465"
 msgid "Minute"
 msgstr "Minute"
 
-msgctxt "#30466"
-msgid "Actor/Role"
-msgstr "Acteur/Rôle"
-
-msgctxt "#30467"
-msgid "Birth"
-msgstr "Naissance"
-
-msgctxt "#30468"
-msgid "Place"
-msgstr "Lieu"
-
 msgctxt "#30469"
 msgid "Hoster Direct"
 msgstr "Hoster Direct"
+
+msgctxt "#30470"
+msgid "Addon dnspython missing"
+msgstr "Addon dnspython manquant"
+
+msgctxt "#30480"
+msgid "Small loading spinner"
+msgstr "Sablier de chargement réduit"
+
+msgctxt "#30481"
+msgid "Interface"
+msgstr "Interface"
+
+# upnext
+msgctxt "#30505"
+msgid "Would you like to automatically play the next episode?"
+msgstr "Voulez-vous activer l'enchainement des épisodes ?"
+
+msgctxt "#30506"
+msgid "Automatically play the next episode"
+msgstr "Activer l'enchainement des épisodes"
+
+# Alldebrid
+msgctxt "#31000"
+msgid "Multimedia folder URL (Optional)"
+msgstr "URL du dossier multimedia (Optionnel)"
+
+msgctxt "#31101"
+msgid "Url"
+msgstr "Url"
+
+msgctxt "#31102"
+msgid "Use the skin display for the information windows"
+msgstr "Utiliser la fenetre d'information du skin"
+
+msgctxt "#31103"
+msgid "Allow adult content"
+msgstr "Autoriser le contenu pour adultes"
+
+msgctxt "#31104"
+msgid "Enable all sources"
+msgstr "Activer toutes les sources"
+
+msgctxt "#31105"
+msgid "Disable all sources"
+msgstr "Désactiver toutes les sources"
+
+msgctxt "#31200"
+msgid "Choose the number of items to display"
+msgstr "Choisir le nombre d'elements a afficher"
+
+msgctxt "#31201"
+msgid "View: Seasons (recommended 50-51-500-501-508)"
+msgstr "Vue: Saisons (recommandé 50-51-500-501-508)"
+
+msgctxt "#31202"
+msgid "View: Episodes (recommended 50-51-500-501-508)"
+msgstr "Vue: Episodes (recommandé 50-51-500-501-508)"
+
+msgctxt "#31203"
+msgid "IP address for Flaresolverr"
+msgstr "Adresse IP pour Flaresolverr"
+
+msgctxt "#31204"
+msgid "Display season and episode in title"
+msgstr "Afficher la saison et l'épisode dans le titre"
+
+msgctxt "#31205"
+msgid "Display"
+msgstr "Affichage"
+
+msgctxt "#31208"
+msgid "Remaining sites: %s"
+msgstr "Sites restants : %s"
+
+msgctxt "#31209"
+msgid "Results: %s"
+msgstr "Résultats : [COLOR deepskyblue]%s[/COLOR]"
 
 msgctxt "#70001"
 msgid "TOP"
@@ -1189,43 +1254,6 @@ msgctxt "#70012"
 msgid "Kids"
 msgstr "Enfants"
 
-msgctxt "#31101"
-msgid "Url"
-msgstr "Url"
-
-msgctxt "#31102"
-msgid "Use the skin display for the information windows"
-msgstr "Utiliser la fenetre d'information du skin"
-
-# Alldebrid
-msgctxt "#31000"
-msgid "Multimedia folder URL (Optional)"
-msgstr "URL du dossier multimedia (Optionnel)"
-
-# upnext
-msgctxt "#30505"
-msgid "Would you like to automatically play the next episode?"
-msgstr "Voulez-vous activer l'enchainement des épisodes ?"
-
-msgctxt "#30506"
-msgid "Automatically play the next episode"
-msgstr "Activer l'enchainement des épisodes"
-
-msgctxt "#34110"
-msgid "Database to delete"
-msgstr "Base de données à supprimer"
-
-msgctxt "#31200"
-msgid "Choose the number of items to display"
-msgstr "Choisir le nombre d'elements a afficher"
-
-msgctxt "#31201"
-msgid "View: Seasons (recommended 50-51-500-501-508)"
-msgstr "Vue: Saisons (recommandé 50-51-500-501-508)"
-
-msgctxt "#31202"
-msgid "View: Episodes (recommended 50-51-500-501-508)"
-msgstr "Vue: Episodes (recommandé 50-51-500-501-508)"
 msgctxt "#30501"
 msgid "Classic"
 msgstr "Classique"
@@ -1233,13 +1261,3 @@ msgstr "Classique"
 msgctxt "#70013"
 msgid "Pack"
 msgstr "Pack"
-
-
-msgctxt "#40000"
-msgid "Loading: "
-msgstr "Chargement: "
-
-
-msgctxt "#31203"
-msgid "IP address for Flaresolverr"
-msgstr "Adresse IP pour Flaresolverr"

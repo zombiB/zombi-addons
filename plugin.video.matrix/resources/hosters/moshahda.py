@@ -12,73 +12,30 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'moshahda'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR] [COLOR khaki]'+self.__sHD+'[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'moshahda'
-
-    def setHD(self, sHD):
-        self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
-
-    def isDownloadable(self):
-        return True
-
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return '';
-        
-    def __getIdFromUrl(self, sUrl):
-        return ''
+        iHoster.__init__(self, 'moshahda', 'moshahda')
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-        if not "embed" in self.__sUrl:
-               self.__sUrl = self.__sUrl.replace("https://moshahda.net/","https://moshahda.net/embed-")
+        self._url = str(sUrl)
+        if not "embed" in self._url:
+               self._url = self._url.replace("https://moshahda.net/","https://moshahda.net/embed-")
 
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
         sReferer = ""
-        url = self.__sUrl.split('|Referer=')[0]
-        sReferer = self.__sUrl.split('|Referer=')[1]
+        url = self._url.split('|Referer=')[0]
+        sReferer = self._url.split('|Referer=')[1]
         
         oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
-        VSlog(self.__sUrl)
+        VSlog(self._url)
         
         oParser = cParser()
         
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
+        if aResult[0] is True:
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
             # (.+?) .+?
@@ -87,14 +44,14 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if (aResult[0] == True):
+        if aResult[0] is True:
             oRequest = cRequestHandler(aResult[1][0])
             data = oRequest.request()
             VSlog(data)
         	
             sPattern =  ',RESOLUTION=(.+?),.+?https(.+?&i=([0-9]+).([0-9]+))'
             aResult = oParser.parse(data, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                url=[]
                qua=[]
                for i in aResult[1]:
@@ -102,7 +59,7 @@ class cHoster(iHoster):
                   qua.append(str(i[0]).split('x')[1]+"p")
                api_call = dialog().VSselectqual(qua, url)
  
-            if (api_call):
+            if api_call:
                 return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
             
         return False, False

@@ -6,65 +6,27 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-import re
+
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'filerio'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'filerio'
-
-    def setHD(self, sHD):
-        self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
-
-    def isDownloadable(self):
-        return True
-        
-    def getPattern(self):
-        return ''
+        iHoster.__init__(self, 'filerio', 'filerio')
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
+        self._url = str(sUrl)
         #lien embed obligatoire
-        if not 'embed-' in self.__sUrl:
-            self.__sUrl = self.__sUrl.rsplit('/', 1)[1]
-            self.__sUrl = 'https://filerio.in/embed-'+self.__sUrl+'-600x320.html'
+        if not 'embed-' in self._url:
+            self._url = self._url.rsplit('/', 1)[1]
+            self._url = 'https://filerio.in/embed-'+self._url+'-600x320.html'
 
-    def checkUrl(self, sUrl):
-        return True
-
-    def __getUrl(self, media_id):
-        return
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-        VSlog(self.__sUrl)
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
         api_call = False
 
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
@@ -75,7 +37,7 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
 
 
-        if (api_call):
+        if api_call:
             return True, api_call + '|User-Agent=' + UA
 
         return False, False

@@ -2,72 +2,30 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
+from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
-import re
-import requests
+
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'arabseed'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR] [COLOR khaki]'+self.__sHD+'[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'arabseed'
-
-    def setHD(self, sHD):
-        self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
+        iHoster.__init__(self, 'arabseed', 'arabseed')
 
     def isDownloadable(self):
         return True
 
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return '';
-        
-    def __getIdFromUrl(self, sUrl):
-        return ''
-
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
+        self._url = str(sUrl)
         if 'embed' in sUrl:
-            self.__sUrl = self.__sUrl.replace("embed-","")
+            self._url = self._url.replace("embed-","")
 
-    def checkUrl(self, sUrl):
-        return True
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
+        sUrl = self._url
 
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-        VSlog(self.__sUrl)
-        sUrl = self.__sUrl
-
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         oParser = cParser()
     
@@ -78,6 +36,7 @@ class cHoster(iHoster):
     
         if (aResult[0]):
         	sId = aResult[1][0]
+        import requests
 
     
   # ([^<]+) .+?
@@ -96,10 +55,10 @@ class cHoster(iHoster):
         sHtmlContent = r.content
         sPattern = '<span id="direct_link" style.+?<a href="([^<]+)">'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
+        if aResult[0] is True:
         	api_call = aResult[1][0] + '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=https://m.seeeed.xyz' 
 
-        if (api_call):
+        if api_call:
             return True, api_call
 
         return False, False

@@ -12,61 +12,14 @@ UA = 'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKi
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'hibridvod'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
+        iHoster.__init__(self, 'hibridvod', 'hibridvod')
 
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR] [COLOR khaki]'+self.__sHD+'[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'hibridvod'
-
-    def setHD(self, sHD):
-        self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
-
-    def isDownloadable(self):
-        return True
-
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return '';
-        
-    def __getIdFromUrl(self, sUrl):
-        return ''
-
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
 
         api_call = ''
-        VSlog(self.__sUrl)
+        VSlog(self._url)
 
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
     
   # ([^<]+) .+?
@@ -77,7 +30,7 @@ class cHoster(iHoster):
                 	'x-correlation-id': 'undefined',
                 	'x-embed-version': 'VOD Embed v1.0'}
         s = requests.Session()
-        r = s.get(self.__sUrl, headers = headers)
+        r = s.get(self._url, headers = headers)
         sHtmlContent = r.content.decode('utf8')
         VSlog(sHtmlContent)
         oParser = cParser()
@@ -86,7 +39,7 @@ class cHoster(iHoster):
         list_url = []
         sPattern = ',"embed_url":"(.+?)",'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
+        if aResult[0] is True:
         	url2 = aResult[1][0]
         	r = s.get(url2, headers = headers)
         	sHtmlContent2 = r.content.decode('utf8')
@@ -99,7 +52,7 @@ class cHoster(iHoster):
 
         	if list_url:
         	   api_call = dialog().VSselectqual(list_q,list_url)
-        if (api_call):
+        if api_call:
         	return True, api_call 
 
         return False, False

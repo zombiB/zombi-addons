@@ -1,96 +1,49 @@
-#coding: utf-8
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+import json
+
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
-import xbmcgui,re
-import base64
+from resources.lib.comaddon import VSlog
+
+UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'
+# meme code frenchvid etc.. fvsio
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'Clickopen'
-        self.__sFileName = self.__sDisplayName
+        iHoster.__init__(self, 'clickopen', 'ClickOpen')
 
-    def getDisplayName(self):
-        return  self.__sDisplayName
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
+        url = 'https://clickopen.win/api/source/' + self._url.rsplit('/', 1)[1]
 
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
+        postdata = 'r=&d=clickopen.win'
 
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'clickopen'
-
-    def isDownloadable(self):
-        return True
-
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return ''
-
-    def __getIdFromUrl(self):
-        return ''
-
-    def __modifyUrl(self, sUrl):
-        return '';
-
-    def setUrl(self, sUrl):
-        self.__sUrl = sUrl
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-
-        api_call = ''
-
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(url)
+        oRequest.setRequestType(1)
+        oRequest.addHeaderEntry('User-Agent', UA)
+        # oRequest.addHeaderEntry('Accept', '*/*')
+        # oRequest.addHeaderEntry('Accept-Encoding','gzip, deflate, br')
+        # oRequest.addHeaderEntry('Accept-Language','fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+        # oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+        oRequest.addHeaderEntry('Referer', self._url)
+        oRequest.addParametersLine(postdata)
         sHtmlContent = oRequest.request()
 
-        oParser = cParser()
-        sPattern = 'JuicyCodes\.Run\("(.+?)"\);'
-        aResult = oParser.parse(sHtmlContent, sPattern)
+        page = json.loads(sHtmlContent)
+        if page:
+            url = []
+            qua = []
+            for x in page['data']:
+                url.append(x['file'])
+                qua.append(x['label'])
 
-        if (aResult[0] == True):
+            if (url):
+                api_call = dialog().VSselectqual(qua, url)
 
-            media =  aResult[1][0].replace('+', '')
-            media = base64.b64decode(media)
-
-            #cPacker decode
-            from resources.lib.packer import cPacker
-            media = cPacker().unpack(media)
-
-            if (media):
-
-                sPattern = '{"file":"(.+?)","label":"(.+?)"'
-                aResult = oParser.parse(media, sPattern)
-
-                if (aResult[0] == True):
-                #initialisation des tableaux
-                    url=[]
-                    qua=[]
-                #Remplissage des tableaux
-                    for i in aResult[1]:
-                        url.append(str(i[0]))
-                        qua.append(str(i[1]))
-
-            api_call = dialog().VSselectqual(qua, url)
-
-            if (api_call):
-                return True, api_call
+        if api_call:
+            return True, api_call
 
         return False, False

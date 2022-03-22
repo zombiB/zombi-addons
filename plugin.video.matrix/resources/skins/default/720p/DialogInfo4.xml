@@ -1368,7 +1368,6 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
-					
 					<label>تفاصيل العمل</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
@@ -1388,7 +1387,6 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
-					
 					<label>ملخص القصة</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
@@ -1408,7 +1406,6 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
-					
 					<label>$ADDON[plugin.video.matrix 30460]</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>
@@ -1427,7 +1424,6 @@
 					<font>font12</font>
 					<height>40</height>
 					<width>auto</width>
-					
 					<label>أعمال مشابهة</label>
 					<textcolor>FFFFFFFF</textcolor>
 					<focusedcolor>FFFFFFFF</focusedcolor>

@@ -1,52 +1,23 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
+
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'ClipWatching'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
+        iHoster.__init__(self, 'clipwatching', 'ClipWatching')
 
     def isDownloadable(self):
         return False
 
-    def getPluginIdentifier(self):
-        return 'clipwatching'
-
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def __getUrl(self, media_id):
-        return
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-        api_call = ''
-
+    def _getMediaLinkForGuest(self, api_call=None):
+        VSlog(self._url)
         oParser = cParser()
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
         # accelère le traitement
@@ -56,7 +27,7 @@ class cHoster(iHoster):
         sPattern = '"(http[^"]+(?:.m3u8|.mp4))"'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if (aResult[0] == True):
+        if aResult[0]:
             # initialisation des tableaux
             url = []
             qua = []
@@ -71,7 +42,7 @@ class cHoster(iHoster):
             # dialogue Lien si plus d'une url
             api_call = dialog().VSselectqual(qua, url)
 
-        if (api_call):
+        if api_call:
             return True, api_call
 
         return False, False

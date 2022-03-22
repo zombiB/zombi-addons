@@ -1,68 +1,31 @@
-﻿#coding: utf-8
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'Archive'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
+        iHoster.__init__(self, 'archive', 'Archive')
 
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'archive'
-
-    def setHD(self, sHD):
-        self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
-
-    def isDownloadable(self):
-        return True
-
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
- 
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
         api_call = ''
-        VSlog(self.__sUrl)
-        
+
         oParser = cParser()
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        
+
         sPattern = '<source src="([^"]+.mp4)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
+        if aResult[0] is True:
             api_call = aResult[1][0]
             if api_call.startswith('/'):
                 api_call = 'https://archive.org' + aResult[1][0]
-                
-        if (api_call):
+
+        if api_call:
             return True, api_call
 
         return False, False

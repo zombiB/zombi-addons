@@ -13,12 +13,12 @@ SITE_IDENTIFIER = 'cdrama'
 SITE_NAME = 'c-drama'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://c-drama.com/'
+URL_MAIN = 'https://cdrama.in/'
 
 
-MOVIE_ASIAN = ('https://c-drama.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+MOVIE_ASIAN = ('https://cdrama.in/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 
-SERIE_ASIA = ('https://c-drama.com/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%85%d9%83%d8%aa%d9%85%d9%84%d8%a9/', 'showSeries')
+SERIE_ASIA = ('https://cdrama.in/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%85%d9%83%d8%aa%d9%85%d9%84%d8%a9/', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
  

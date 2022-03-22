@@ -1,68 +1,33 @@
-#-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-#https://xdrive.cc/embed/xxxxxx/blabla.mp4 >fstreamvk
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+# https://xdrive.cc/embed/xxxxxx/blabla.mp4 >fstreamvk
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
+from resources.lib.comaddon import VSlog
+
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'Xdrive'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'xdrive'
-
-    def setHD(self, sHD):
-        self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
+        iHoster.__init__(self, 'xdrive', 'Xdrive')
 
     def isDownloadable(self):
         return False
 
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def __getUrl(self, media_id):
-        return
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-
-        sUrl = self.__sUrl
-
-        oRequest = cRequestHandler(sUrl)
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
         sPattern = '<source src="([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0] == True):
+        if aResult[0] is True:
             api_call = aResult[1][0]
 
-        if (api_call):
+        if api_call:
             return True, api_call
 
         return False, False

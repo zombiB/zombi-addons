@@ -1,87 +1,57 @@
-﻿#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+# https://playtube.ws/embed-xxxxx.html
+import re
 
-from resources.lib.handler.requestHandler import cRequestHandler 
-from resources.lib.comaddon import dialog
+from resources.lib.handler.requestHandler import cRequestHandler
+from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.parser import cParser 
+from resources.lib.comaddon import dialog
 from resources.lib.packer import cPacker
-import re,xbmcgui
-UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+from resources.lib.comaddon import VSlog
+
+UA = 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'playtube'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
+        iHoster.__init__(self, 'playtube', 'Playtube')
 
-    def getDisplayName(self):
-        return  self.__sDisplayName
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
+        oRequestHandler = cRequestHandler(self._url)
+        sHtmlContent = oRequestHandler.request()
 
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
+        sPattern2 = '(\s*eval\s*\(\s*function(?:.|\s)+?\)\)\))'
+        aResult = re.findall(sPattern2, sHtmlContent)
+        list_url = []
+        list_qua = []
+        if aResult:
+            str2 = aResult[0]
+            if not str2.endswith(';'):
+                str2 = str2 + ';'
 
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-        
-    def getFileName(self):
-        return self.__sFileName
+            strs = cPacker().unpack(str2)
+            oParser = cParser()
+            sPattern = '(https.+?.m3u8)'
+            aResult = re.findall(sPattern, strs)
+            if aResult:
+                urlhost = aResult[0]
+                oRequestHandler = cRequestHandler(urlhost)
+                oRequestHandler.addHeaderEntry('User-Agent', UA)
+                oRequestHandler.addHeaderEntry('Referer', self._url)
+                sHtmlContent2 = oRequestHandler.request()
+                oParser = cParser()
+                sPattern = 'PROGRAM.*?BANDWIDTH.*?RESOLUTION=(\d+x\d+).*?(https.*?m3u8)'
+                aResult = oParser.parse(sHtmlContent2, sPattern)
+                if aResult[0] is True:
+                    for aEntry in aResult[1]:
+                        list_url.append(aEntry[1])
+                        list_qua.append(aEntry[0])
 
-    def getPluginIdentifier(self):
-        return 'playtube'
-        
-    def setHD(self, sHD):
-        self.__sHD = ''
-        
-    def getHD(self):
-        return self.__sHD
+                    api_call = dialog().VSselectqual(list_qua, list_url)
 
-    def isDownloadable(self):
-        return False
+        if api_call:
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
 
-    def isJDownloaderable(self):
-        return False
-
-    def getPattern(self):
-        return ''
-    
-    def __getIdFromUrl(self, sUrl):
-        return ''
-
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def __getUrl(self, media_id):
-        return
-    
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-    
-        sUrl = self.__sUrl
-        
-        oRequest = cRequestHandler(sUrl)
-        sHtmlContent = oRequest.request()
-
-        oParser = cParser()
-        sPattern = "<script type='text/javascript'>(.+?)</script>"
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
-            sHtmlContent1 = cPacker().unpack(aResult[1][0])
-          # ([^<]+) .+? (.+?)
-        sPattern = 'file:"(.+?)"'
-        aResult = oParser.parse(sHtmlContent1, sPattern)
-        if (aResult[0]):
-            api_call = aResult[1][0]
-        
-        #xbmc.log(str(api_call))
-        
-        if (api_call):
-            return True, api_call+ '|User-Agent=' + UA+ '&Referer=' + self.__sUrl
-            
         return False, False

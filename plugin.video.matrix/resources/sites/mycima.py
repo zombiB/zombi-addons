@@ -533,6 +533,7 @@ def showHosters():
             
             sHosterUrl = aEntry
             sHosterUrl = sHosterUrl.replace("upbbom","ddsdd")
+            sHosterUrl = sHosterUrl.replace("upbam","ddsdd")
             sTitle =  ""
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
@@ -557,7 +558,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             sHosterUrl = aEntry[0]
-            sHosterUrl = sHosterUrl.replace("upbem","ddsdd").replace("upbem","ddsdd")
+            sHosterUrl = sHosterUrl.replace("upbam","ddsdd").replace("upbem","ddsdd")
             sTitle = sMovieTitle+' ['+aEntry[2]+aEntry[1]+'] '
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl

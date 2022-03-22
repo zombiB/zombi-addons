@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-from resources.lib.comaddon import addon, VSlog, VSPath
+from resources.lib.comaddon import addon, VSlog, siteManager
 from resources.lib.db import cDb
 
 import sys
 import xbmcvfs
-import json
+
 
 class cRechercheHandler:
     Count = 0
@@ -57,7 +57,8 @@ class cRechercheHandler:
 
     def __getFileNamesFromFolder(self, sFolder):
         aNameList = []
-        items = xbmcvfs.listdir(sFolder)[1][:-1]
+        items = xbmcvfs.listdir(sFolder)[1]
+        items.remove("__init__.py")
         items.sort()
 
         for sItemName in items:
@@ -83,7 +84,7 @@ class cRechercheHandler:
             sSearch = 'URL_SEARCH_DRAMAS'
         elif sCat == '5':
             sSearch = 'URL_SEARCH_MISC'
-        else :
+        else:
             sSearch = 'URL_SEARCH'
 
         try:
@@ -92,13 +93,10 @@ class cRechercheHandler:
             pluginData['name'] = plugin.SITE_NAME
             pluginData['search'] = getattr(plugin, sSearch)
             return pluginData
-
         except:
             return False
 
     def getAvailablePlugins(self):
-        path = VSPath('special://home/addons/plugin.video.matrix/resources/sites.json')
-        addons = addon()
         sText = self.getText()
         if not sText:
             return False
@@ -107,47 +105,31 @@ class cRechercheHandler:
             return False
 
         # historique
+        addons = addon()
         try:
             if (addons.getSetting("history-view") == 'true'):
-                meta = {}
-                meta['title'] = sText
-                meta['disp'] = sCat
-                cDb().insert_history(meta)
+                meta = {'title': sText, 'disp': sCat}
+                with cDb() as db:
+                    db.insert_history(meta)
         except:
             pass
 
         sFolder = "special://home/addons/plugin.video.matrix/resources/sites"
-
         sFolder = sFolder.replace('\\', '/')
         VSlog("Sites Folder: " + sFolder)
 
-        aFileNames = self.__getFileNamesFromFolder(sFolder)
-        with open(path) as f:
-            data = json.load(f)
+        sitesManager = siteManager()
 
         aPlugins = []
+        aFileNames = self.__getFileNamesFromFolder(sFolder)
         for sFileName in aFileNames:
-            pluginData = data["site"].get('plugin_' + sFileName)
-            if pluginData is None:
-                data['site'].update({'plugin_' + sFileName: {"label":sFileName,"active":"true"}})
-                if self.__siteAdded == False:
-                    self.__siteAdded = True
-                              
-            bPlugin = data['site']['plugin_' + sFileName]['active']
-            if (bPlugin == 'true'):
+            if sitesManager.isActive(sFileName):
                 aPlugin = self.importPlugin(sFileName, sCat)
                 if aPlugin:
                     aPlugins.append(aPlugin)
 
-        if self.__siteAdded == True:
-            with open(path, 'w') as f:
-                f.write(json.dumps(data, indent=4))
-
         return aPlugins
 
     def __createAvailablePluginsItem(self, sPluginName, sPluginIdentifier, sPluginDesc):
-        aPluginEntry = []
-        aPluginEntry.append(sPluginName)
-        aPluginEntry.append(sPluginIdentifier)
-        aPluginEntry.append(sPluginDesc)
+        aPluginEntry = [sPluginName, sPluginIdentifier, sPluginDesc]
         return aPluginEntry

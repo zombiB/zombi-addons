@@ -1,19 +1,29 @@
 # -*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
+# https://github.com/zombiB/zombi-addons
 
-#Import enregistrement
+# Import enregistrement
 import subprocess
 import xbmcvfs
+import xbmc
+
 from datetime import datetime
-from resources.lib.comaddon import addon, xbmc, VSlog, VSPath, isMatrix
+from resources.lib.comaddon import addon, VSlog, VSPath, isMatrix, siteManager
+from resources.lib.update import cUpdate
+
 
 if isMatrix():
-    #Import Serveur
+    # Import Serveur
     import threading
     from socketserver import ThreadingMixIn
     from http.server import HTTPServer, ThreadingHTTPServer
 
+
 def service():
+    
+    # mise à jour des setting si nécessaire
+    cUpdate().getUpdateSetting()
+    
+    # gestion des enregistrements en cours
     ADDON = addon()
     recordIsActivate = ADDON.getSetting('enregistrement_activer')
     if recordIsActivate == 'false':
@@ -31,8 +41,8 @@ def service():
     monitor = xbmc.Monitor()
 
     del ADDON
-    
-    while not monitor.abortRequested() and not recordInProgress == True:
+
+    while not monitor.abortRequested() and recordInProgress is not True:
         if monitor.waitForAbort(int(interval)):
             break
 
@@ -46,14 +56,15 @@ def service():
             proc = subprocess.Popen(command, stdout=subprocess.PIPE)
             p_status = proc.wait()
 
-
     server_thread.join()
+
 
 if __name__ == '__main__':
     service()
 
     if isMatrix():
-        if addon().getSetting('plugin_toonanime') == "true" or addon().getSetting('plugin_kaydo_ws') == "true":
+        sitesManager = siteManager()
+        if sitesManager.isActive('toonanime') or sitesManager.isActive('kaydo_ws'):
             class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
                 """Handle requests in a separate thread."""
 

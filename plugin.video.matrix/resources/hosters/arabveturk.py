@@ -11,45 +11,18 @@ from resources.lib.comaddon import VSlog
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'arabveturk'
-        self.__sFileName = self.__sDisplayName
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'arabveturk'
+        iHoster.__init__(self, 'arabveturk', 'arabveturk')
 
     def isDownloadable(self):
         return True
 
-    def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
 
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-
-        url = self.__sUrl
+        url = self._url
         VideoType = 2 # dl mp4 lien existant non utilisé ici
         VideoType = 1 # m3u8
-        VSlog(self.__sUrl)
+        VSlog(self._url)
 
         list_q = []
         list_url = []
@@ -62,7 +35,7 @@ class cHoster(iHoster):
             sPattern = 'file:"(http.+?m3u8)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-            if (aResult[0] == True):
+            if aResult[0] is True:
                 url2 = aResult[1][0]
                 oRequestHandler = cRequestHandler(url2)
                 sHtmlContent2 = oRequestHandler.request()
@@ -81,7 +54,7 @@ class cHoster(iHoster):
                 api_call = dialog().VSselectqual(list_q,list_url)
 
 
-            if (api_call):
+            if api_call:
                 return True, api_call
 
         return False,False

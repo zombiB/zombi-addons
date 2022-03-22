@@ -15,17 +15,7 @@ SITE_IDENTIFIER = 'shooflive'
 SITE_NAME = 'shooflive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://v.shooflive.tube'
-                          
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-except:
-    pass
+URL_MAIN = 'https://w.shooflive.video'
 
 MOVIE_EN = (URL_MAIN + '/category/movies/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/movies/افلام-عربية/', 'showMovies')
@@ -443,7 +433,7 @@ def showHosters():
     if (aResult[0] == True):
         m3url = aResult[1][0] 
         if m3url.startswith('//'):
-           m3url = 'http:' + m3url
+           m3url = 'https:' + m3url
     import requests
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',

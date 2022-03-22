@@ -133,7 +133,8 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # .+? ([^<]+)
 
-    sPattern = '<a href=([^<]+)>.+?title="([^<]+)" data-lazy-src="([^<]+)"><noscript>'
+    sPattern = '<a href=([^<]+)>.+?class="main_eps_img" src="([^<]+)" alt="([^<]+)" title='
+
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -148,9 +149,9 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
+            sTitle = aEntry[2]
             siteUrl = aEntry[0].replace("'","")
-            sThumbnail = aEntry[2]
+            sThumbnail = aEntry[1]
             sInfo = ""
             sYear = ""
 

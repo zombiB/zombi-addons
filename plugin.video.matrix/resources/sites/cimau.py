@@ -16,33 +16,33 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://cima4u.film'
 
 
-RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
 
-MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/category/افلام-عربي-arabic2-movies/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/افلام-هندي-indian2/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/سلاسل-الافلام-الكاملة-full2-pack/', 'showPacks')
-MOVIE_ASIAN = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/افلام-asian2-movies/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/افلام-اجنبي-movies3-english/turkish2-movies/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies4-english/', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/افلام-عربي-arabic4-movies/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/افلام-هندي-indian4/', 'showMovies')
+MOVIE_PACK = (URL_MAIN + '/category/افلام-اجنبي-movies4-english/سلاسل-الافلام-الكاملة-full2-pack/', 'showPacks')
+MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies4-english/%d8%a7%d9%81%d9%84%d8%a7%d9%85-asian-movies/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies4-english/turkish-movies/', 'showMovies')
 
-KID_MOVIES = (URL_MAIN + '/category/افلام-كرتون-movies2-anime/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-تركية-series1-turkish/', 'showSeries')
+KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86-movies4-anime/', 'showMovies')
+SERIE_TR = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-تركية-series1-turkish/', 'showSeries')
 
-SERIE_ASIA = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-اسيوية-series1-asian/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-اسيوية-series1-asian/', 'showSeries')
 
-SERIE_EN = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-اجنبي-english1/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-عربية-arabic-series/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-هندية-series-indian/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + '/category/مسلسلات-3series/latino-mexico/', 'showSeries')
+SERIE_EN = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-اجنبي-english1/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-عربية-arabic-series/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-هندية-series-indian/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + '/category/مسلسلات-4series/latino-mexico/', 'showSeries')
 
-ANIM_NEWS = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-كرتون-anime-series/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-كرتون-anime-series/', 'showSeries')
 
-KID_CARTOON = (URL_MAIN + '/category/مسلسلات-3series/مسلسلات-كرتون-anime-series/', 'showSeries')
+KID_CARTOON = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-كرتون-anime-series/', 'showSeries')
 DOC_NEWS = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/1174/archive/category%7C2/', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/ajaxcenter/action/HomepageLoader/types/1174/archive/category%7C9/', 'showSeries')
 
 
-REPLAYTV_NEWS = (URL_MAIN + '/category/مسلسلات-3series/برامج-تليفزيونية-tv1-shows/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + '/category/مسلسلات-4series/برامج-تليفزيونية-tv1-shows/', 'showSeries')
 SPORT_WWE = (URL_MAIN + '/category/اخرى-1other/مصارعة-حرة-wwe2/', 'showMovies')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
@@ -83,12 +83,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_FAM[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عائلية', 'film.png', oOutputParameterHandler)
  
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies-english/netflix-movies/')
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/افلام-اجنبي-movies4-english/netflix-movie/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'أفلام نتفليكس', 'film.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()

@@ -9,8 +9,8 @@ class cParser:
     def sorted_nicely(self, l, key):
         """ Sort the given iterable in the way that humans expect."""
         convert = lambda text: int(text) if text.isdigit() else text
-        alphanum_key = lambda item: [ convert(c) for c in re.split('([0-9]+)', key(item)) ]
-        return sorted(l, key = alphanum_key)
+        alphanum_key = lambda item: [convert(c) for c in re.split('([0-9]+)', key(item))]
+        return sorted(l, key=alphanum_key)
 
     def parseSingleResult(self, sHtmlContent, sPattern):
         aMatches = re.compile(sPattern).findall(sHtmlContent)
@@ -74,11 +74,11 @@ class cParser:
         # la recherche de fin n'est pas obligatoire
         # usage2 oParser.abParse(sHtmlContent, 'start', 'end', 6)
         # ex youtube.py
-        
+
         startIdx = sHtmlContent.find(start)
         if startIdx == -1:  # rien trouvé, retourner le texte complet
             return sHtmlContent
-        
+
         if end:
             endIdx = sHtmlContent[startoffset + startIdx:].find(end)
             if endIdx > 0:

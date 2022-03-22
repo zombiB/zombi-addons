@@ -8,6 +8,7 @@ from resources.lib.parser import cParser
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0'
 
+
 class cPremiumHandler:
     ADDON = addon()
     DIALOG = dialog()
@@ -19,7 +20,7 @@ class cPremiumHandler:
         self.__LoginTry = False
         self.__ssl = False
 
-        #hack pour garder la compatiblitÈ avec ceux qui ont deja relgÈ les settings
+        # hack pour garder la compatiblit√© avec ceux qui ont d√©j√† regl√© les settings
         if self.__sHosterIdentifier == '1fichier':
             self.__sHosterIdentifier = 'onefichier'
 
@@ -103,9 +104,9 @@ class cPremiumHandler:
         if 'uptobox' in self.__sHosterIdentifier:
             oRequestHandler.disableRedirect()
 
-            oRequestHandler.addHeaderEntry('User-Agent',UA)
-            oRequestHandler.addHeaderEntry('Content-Type',"application/x-www-form-urlencoded")
-            oRequestHandler.addHeaderEntry('Content-Length',str(len(post_data)))
+            oRequestHandler.addHeaderEntry('User-Agent', UA)
+            oRequestHandler.addHeaderEntry('Content-Type', "application/x-www-form-urlencoded")
+            oRequestHandler.addHeaderEntry('Content-Length', str(len(post_data)))
 
         for data in post_data:
             oRequestHandler.addParameters(data, post_data[data])
@@ -157,7 +158,7 @@ class cPremiumHandler:
 
     def GetHtmlwithcookies(self, url, data, cookies):
         oRequestHandler = cRequestHandler(url)
-        oRequestHandler.addHeaderEntry('User-Agent',UA)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
         if not (data == None):
             oRequestHandler.addParametersLine(data)
             oRequestHandler.addHeaderEntry('Referer', url)
@@ -169,7 +170,6 @@ class cPremiumHandler:
 
     def GetHtml(self, url, data=None):
         cookies = GestionCookie().Readcookie(self.__sHosterIdentifier)
-
         # aucun ne marche sans cookies
         if (cookies == '') and not self.__LoginTry and self.__Ispremium:
             self.Authentificate()
@@ -205,14 +205,14 @@ class cPremiumHandler:
         if sToken:
             return sToken
 
-        # token alldebrid Ètait connu avec un aute setting
+        # token alldebrid √©tait connu avec un aute setting
         if 'alldebrid' in self.__sHosterIdentifier:
-            sToken = self.ADDON.getSetting('token_alldebrid')  # ancien nom, ‡ supprimer aprËs quelques temps
+            sToken = self.ADDON.getSetting('token_alldebrid')  # ancien nom, √† supprimer apr√®s quelques temps
             if sToken:
                 self.ADDON.setSetting('hoster_' + str(self.__sHosterIdentifier) + '_token', sToken)
             return sToken
 
-        # Si pas de token pour uptobox, on le rÈcupËre depuis le compte
+        # Si pas de token pour uptobox, on le r√©cup√®re depuis le compte
         if 'uptobox' in self.__sHosterIdentifier:
 
             if not self.isLogin:

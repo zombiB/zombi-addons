@@ -1,4 +1,4 @@
-﻿# !/usr/bin/python
+# !/usr/bin/python
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
