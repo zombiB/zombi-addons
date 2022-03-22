@@ -333,16 +333,6 @@
             "label": "xsanime",
             "active": "True",
             "url": "https://m.xsanime.com"
-        },
-        "yallalive": {
-            "label": "yallalive",
-            "active": "True",
-            "url": "http://www.yalla-shoot.com/mobile/"
-        },
-        "yallashoot": {
-            "label": "yallashoot",
-            "active": "True",
-            "url": "http://www.yalla-shoot.com/live/"
         }
     }
 }
