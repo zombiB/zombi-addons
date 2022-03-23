@@ -25,13 +25,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر و أهداف و ملخصات', 'sport.png', oOutputParameterHandler)
-  
+               
     oGui.setEndOfDirectory()
-
+		
 def showSearch():
     oGui = cGui()
  
@@ -55,7 +51,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">(.+?)</button>'
+    sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">'
 
 
 
@@ -77,7 +73,7 @@ def showMovies(sSearch = ''):
             siteUrl = "https://beinmatch.tv/home/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
-            sInfo = aEntry[2]
+            sInfo = ""
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

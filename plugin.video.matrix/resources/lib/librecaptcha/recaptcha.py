@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2017, 2019 nickolas360 <contact@nickolas360.com>
 #
 # This file is part of librecaptcha.
@@ -37,10 +36,10 @@ import xbmcvfs
 
 BASE_URL = "https://www.google.com/recaptcha/api2/"
 API_JS_URL = "https://www.google.com/recaptcha/api.js"
-JS_URL_TEMPLATE = "https://www.gstatic.com/recaptcha/releases/{}/recaptcha__fr.js"
+JS_URL_TEMPLATE = "https://www.gstatic.com/recaptcha/releases/{}/recaptcha__ar.js"
 
 STRINGS_VERSION = "0.1.0"
-STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.vstream'
+STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.matrix'
 
 DYNAMIC_SELECT_DELAY = 4.5  # seconds
 FIND_GOAL_SEARCH_DISTANCE = 10
@@ -396,7 +395,7 @@ class ReCaptcha(object):
         if api:
             params["k"] = self.api_key
             params["v"] = self.rc_version
-            params["hl"] = "fr"
+            params["hl"] = "ar"
         headers = self.get_headers(headers)
 
         r = requests.get(
@@ -414,7 +413,7 @@ class ReCaptcha(object):
         if api:
             params["k"] = self.api_key
             data["v"] = self.rc_version
-            params["hl"] = "fr"
+            params["hl"] = "ar"
         headers = self.get_headers(headers)
 
         r = requests.post(
@@ -490,8 +489,6 @@ class ReCaptcha(object):
         solver_class = {
             "dynamic": DynamicSolver,
             "multicaptcha": MultiCaptchaSolver,
-            "tileselect" : MultiCaptchaSolver,
-            "imageselect" : MultiCaptchaSolver
         }.get(challenge_type)
 
         handler = {
@@ -499,8 +496,6 @@ class ReCaptcha(object):
             "multicaptcha": self.on_challenge_multicaptcha,
             "default": self.on_challenge_blocked,
             "doscaptcha": self.on_challenge_blocked,
-            "tileselect" : self.on_challenge_multicaptcha,
-            "imageselect" : self.on_challenge_multicaptcha
         }.get(challenge_type)
 
         self.on_challenge(challenge_type)

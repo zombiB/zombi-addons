@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 import re
  
@@ -27,11 +27,7 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
-              
+               
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -75,7 +71,7 @@ def showMovies(sSearch = ''):
             sTitle = sTitle            
             sInfo = '' 
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumbnail = str(aEntry[1])
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -123,14 +119,13 @@ def showHosters():
     sPattern = '<source src="([^<]+)" data-quality="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = aEntry[0]
-            sTitle =  '[COLOR gold] '+aEntry[1]+'[/COLOR]'
+            url = str(aEntry[0])
+            sTitle =  '[COLOR gold] '+str(aEntry[1])+'[/COLOR]'
             if url.startswith('//'):
                url = 'http:' + url
             
@@ -146,14 +141,13 @@ def showHosters():
     sPattern = '<source src="([^<]+)" type="video/mp4" data-quality="([^<]+)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = aEntry[0]
-            sTitle = '[COLOR gold] '+aEntry[1]+' [/COLOR]' 
+            url = str(aEntry[0])
+            sTitle = '[COLOR gold] '+str(aEntry[1])+' [/COLOR]' 
             if url.startswith('//'):
                url = 'http:' + url
             

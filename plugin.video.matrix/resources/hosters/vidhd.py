@@ -1,40 +1,84 @@
-﻿#coding: utf-8
-#
-from resources.lib.handler.requestHandler import cRequestHandler
+﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, VSlog
+from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-
+from resources.lib.comaddon import VSlog
+import re,xbmcgui
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'vidhd', 'vidhd')
+        self.__sDisplayName = 'vidhd'
+        self.__sFileName = self.__sDisplayName
+        self.__sHD = ''
+
+    def getDisplayName(self):
+        return  self.__sDisplayName
+
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def getPluginIdentifier(self):
+        return 'vidhd'
+
+    def setHD(self, sHD):
+        self.__sHD = ''
+
+    def getHD(self):
+        return self.__sHD
+
+    def isDownloadable(self):
+        return True
+
+    def isJDownloaderable(self):
+        return True
+
+    def getPattern(self):
+        return '';
+        
+    def __getIdFromUrl(self, sUrl):
+        return ''
 
     def setUrl(self, sUrl):
-        self._url = str(sUrl)
+        self.__sUrl = str(sUrl)
         if 'embed' in sUrl:
-            self._url = self._url.replace("embed-","")
+            self.__sUrl = self.__sUrl.replace("embed-","")
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
+    def checkUrl(self, sUrl):
+        return True
 
-        oRequest = cRequestHandler(self._url)
+    def getUrl(self):
+        return self.__sUrl
+
+    def getMediaLink(self):
+        return self.__getMediaLinkForGuest()
+
+    def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
+        
+        oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
+        
         oParser = cParser()
         
         #lien indirect
         sPattern = '<iframe.+?src="([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if (aResult[0] == True):
             oRequest = cRequestHandler(aResult[1][0])
             sHtmlContent = oRequest.request()
         
         #test pour voir si code
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if (aResult[0] == True):
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
         sPattern = 'file:"([^"]+\.mp4)"(?:,label:"([^"]+)")*'
@@ -42,7 +86,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if (aResult[0] == True):
             
             #initialisation des tableaux
             url=[]
@@ -52,9 +96,10 @@ class cHoster(iHoster):
             for i in aResult[1]:
                 url.append(str(i[0]))
                 qua.append(str(i[1]))
+
             api_call = dialog().VSselectqual(qua, url)
- 
-            if api_call:
-                return True, api_call 
+
+            if (api_call):
+                return True, api_call
 
         return False, False

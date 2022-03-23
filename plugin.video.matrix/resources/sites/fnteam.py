@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 import re
  
@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'fnteam'
 SITE_NAME = 'fn-team'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://www.fn-team.com'
+URL_MAIN = 'http://www.fn-team.com/'
 
 MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
 SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')
@@ -21,37 +21,16 @@ KID_CARTOON = ('http://www.fn-team.com/?cat=6', 'showSeries')
 REPLAYTV_PLAY = ('http://www.fn-team.com/?cat=3', 'showSeries')
 
 URL_SEARCH = ('http://www.fn-team.com/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
     oGui = cGui()
 
-
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH MOVIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler)    
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
-    
+            
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -60,16 +39,6 @@ def showSearch():
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
         sUrl = 'http://www.fn-team.com/?s='+sSearchText
-        showMovies(sUrl)
-        oGui.setEndOfDirectory()
-        return
- 
-def showSeriesSearch():
-    oGui = cGui()
- 
-    sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
-        sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -101,10 +70,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;","'").replace("فيلم","")
-            siteUrl = aEntry[0]
-            sThumbnail = aEntry[2].replace("(","").replace(")","")
-            sInfo = aEntry[1]
+            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("فيلم","")
+            siteUrl = str(aEntry[0])
+            sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
+            sInfo = str(aEntry[1])
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -151,10 +120,10 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;","'").replace("مسلسل","").replace("الفيلم","").replace("فيلم","")
-            siteUrl = aEntry[0]
-            sThumbnail = aEntry[2].replace("(","").replace(")","")
-            sInfo = aEntry[1]
+            sTitle = str(aEntry[1]).replace("&#8217;","'").replace("الفيلم","").replace("فيلم","")
+            siteUrl = str(aEntry[0])
+            sThumbnail = str(aEntry[2]).replace("(","").replace(")","")
+            sInfo = str(aEntry[1])
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -205,8 +174,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = aEntry[0]
-            Squality = aEntry[1]
+            url = str(aEntry[0])
+            Squality = str(aEntry[1])
             sTitle = ' ['+Squality+'] ' 
             if url.startswith('//'):
                url = 'http:' + url
@@ -227,7 +196,7 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = aEntry
+            url = str(aEntry)
             sTitle = '' 
             if url.startswith('//'):
                url = 'http:' + url
@@ -242,13 +211,14 @@ def showHosters():
 				   
     else:
         
+        #sPattern = '<li style.+?>(.+?)</li>|<li title=""><a href="([^<]+)">([^<]+)</a></li>'
         sPattern = '<iframe.+?src="(.+?)" frameborder'
         
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             for aEntry in aResult[1]:
             
-                sHosterUrl = aEntry
+                sHosterUrl = str(aEntry)
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if (oHoster != False):
                    oHoster.setDisplayName(sMovieTitle)

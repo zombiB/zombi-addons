@@ -1,6 +1,5 @@
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 
-
 class cContextElement:
 
     def __init__(self):

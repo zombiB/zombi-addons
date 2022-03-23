@@ -2,8 +2,7 @@ import xbmcaddon
 import xbmcvfs
 import xbmcgui
 
-from resources.lib.comaddon import VSlog
-
+from resources.lib.comaddon import VSlog         
 
 class cInputWindow(xbmcgui.WindowDialog):
 
@@ -11,16 +10,16 @@ class cInputWindow(xbmcgui.WindowDialog):
 
     def __init__(self, *args, **kwargs):
         self.cptloc = kwargs.get('captcha')
-
+        
         DimTab = kwargs.get('dimtab')
         self.DimTabTotal = DimTab[0] * DimTab[1]
-
-        bg_image = 'special://home/addons/plugin.video.vstream/resources/art/background.png'
-        check_image = 'special://home/addons/plugin.video.vstream/resources/art/trans_checked.png'
+        
+        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
+        check_image = 'special://home/addons/plugin.video.matrix/resources/art/trans_checked.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
-        self.addControl(self.ctrlBackground)
+        self.addControl (self.ctrlBackground)
 
         self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, 'Le theme est : ' + kwargs.get('msg'), 'font40', '0xFFFF00FF')
         self.addControl(self.strActionInfo)
@@ -31,14 +30,14 @@ class cInputWindow(xbmcgui.WindowDialog):
         self.chk = [0] * self.DimTabTotal
         self.chkbutton = [0] * self.DimTabTotal
         self.chkstate = [False] * self.DimTabTotal
-
+        
         c = 0
-        cx = int((780) / DimTab[0])  # 260
-        cy = int((499) / DimTab[1])  # 166
-
-        ox = 250  # 250
-        oy = 110  # 110
-
+        cx = int( (780) / DimTab[0]) #260
+        cy = int( (499) / DimTab[1]) #166
+        
+        ox = 250  #250
+        oy = 110 # 110
+        
         for y in range(DimTab[1]):
             for x in range(DimTab[0]):
 
@@ -56,12 +55,12 @@ class cInputWindow(xbmcgui.WindowDialog):
         self.okbutton = xbmcgui.ControlButton(250 + 520 - 50, 620, 100, 50, 'OK', alignment=2)
         self.addControl(self.okbutton)
         self.addControl(self.cancelbutton)
-
+        
         for c in range(self.DimTabTotal):
-            self.chkbutton[c].controlDown(self.getbutton(c, "down", DimTab[0], DimTab[1]))
-            self.chkbutton[c].controlUp(self.getbutton(c, "up", DimTab[0], DimTab[1]))
-            self.chkbutton[c].controlLeft(self.getbutton(c, "left", DimTab[0], DimTab[1]))
-            self.chkbutton[c].controlRight(self.getbutton(c, "right", DimTab[0], DimTab[1]))
+            self.chkbutton[c].controlDown(self.getbutton(c,"down",DimTab[0] , DimTab[1]))
+            self.chkbutton[c].controlUp(self.getbutton(c,"up",DimTab[0] , DimTab[1]))
+            self.chkbutton[c].controlLeft(self.getbutton(c,"left",DimTab[0] , DimTab[1]))
+            self.chkbutton[c].controlRight(self.getbutton(c,"right",DimTab[0] , DimTab[1]))
 
         self.cancelled = False
         self.setFocus(self.okbutton)
@@ -72,28 +71,28 @@ class cInputWindow(xbmcgui.WindowDialog):
         self.okbutton.controlDown(self.chkbutton[2])
         self.okbutton.controlUp(self.chkbutton[8])
         self.cancelbutton.controlDown(self.chkbutton[0])
-        self.cancelbutton.controlUp(self.chkbutton[6])
-
-    def getbutton(self, actuel, sens, dx, dy):
-
+        self.cancelbutton.controlUp(self.chkbutton[6]);
+        
+    def getbutton(self, actuel,sens,dx,dy):
+    
         if sens == "up":
             if actuel < dx:
                 return self.okbutton
             else:
                 return self.chkbutton[actuel - dx]
-
+                
         if sens == "down":
             if actuel >= dx * (dy - 1):
                 return self.okbutton
             else:
                 return self.chkbutton[actuel + dx]
-
+                
         if sens == "right":
             if actuel >= dx * dy - 1:
                 return self.okbutton
             else:
                 return self.chkbutton[actuel + 1]
-
+                
         if sens == "left":
             if actuel == 0:
                 return self.okbutton
@@ -141,30 +140,29 @@ class cInputWindow(xbmcgui.WindowDialog):
             self.cancelled = True
             self.close()
 
-
 class cInputWindowYesNo(xbmcgui.WindowDialog):
     def __init__(self, *args, **kwargs):
         self.cptloc = kwargs.get('captcha')
 
-        bg_image = 'special://home/addons/plugin.video.vstream/resources/art/background.png'
+        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
-        self.addControl(self.ctrlBackground)
+        self.addControl (self.ctrlBackground)
 
         self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, kwargs.get('msg'), 'font40', '0xFFFF00FF')
         self.addControl(self.strActionInfo)
 
-        self.img = xbmcgui.ControlImage(500, 250, 280, 280, str(self.cptloc))
+        self.img = xbmcgui.ControlImage(250, 110, 500, 300, str(self.cptloc))
         self.addControl(self.img)
 
         self.Yesbutton = xbmcgui.ControlButton(250 + 520 - 50, 620, 100, 50, 'Yes', alignment=2)
         self.Nobutton = xbmcgui.ControlButton(250 + 260 - 70, 620, 140, 50, 'No', alignment=2)
         self.addControl(self.Yesbutton)
         self.addControl(self.Nobutton)
+
         self.setFocus(self.Yesbutton)
-        self.Yesbutton.controlLeft(self.Nobutton)
-        self.Nobutton.controlRight(self.Yesbutton)
+        self.Yesbutton.controlLeft(self.Nobutton);      self.Nobutton.controlRight(self.Yesbutton);
 
     def get(self):
         self.doModal()

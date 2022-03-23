@@ -10,7 +10,6 @@ except ImportError:  # Python 3
     from urllib.error import URLError as UrlError
 
 import re
-import requests
 import xbmcgui
 
 from resources.hosters.hoster import iHoster
@@ -21,34 +20,70 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:62.0) Gecko/20100101 Firefox/62.0'
 
 class cHoster(iHoster):
     def __init__(self):
-        iHoster.__init__(self, 'googlevideo', 'GoogleVideo')
+        self.__sDisplayName = 'GoogleVideo'
+        self.__sFileName = self.__sDisplayName
 
+    def getDisplayName(self):
+        return self.__sDisplayName
+
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def setUrl(self, sUrl):
+        self.__sUrl = sUrl
 
     def get_host_and_id(self, url):
-        sPattern = 'http[s]*:\/\/(.*?(?:\.googlevideo|picasaweb\.google)\.com)' + \
-            '\/(.*?(?:videoplayback\?|\?authkey|#|\/).+)'
+        sPattern = 'http[s]*:\/\/(.*?(?:\.googlevideo|picasaweb\.google)\.com)\/(.*?(?:videoplayback\?|\?authkey|#|\/).+)'
         r = re.search(sPattern, url)
         if r:
             return r.groups()
         else:
             return False
 
-    def getFormatedUrl(self, host, media_id):
+    def __modifyUrl(self, sUrl):
+        return
+
+    def getPluginIdentifier(self):
+        return 'googlevideo'
+
+    def isDownloadable(self):
+        return True
+
+    def isJDownloaderable(self):
+        return True
+
+    def getPattern(self):
+        return ''
+
+    def checkUrl(self, sUrl):
+        return True
+
+    def getUrl(self, host, media_id):
         return 'https://%s/%s' % (host, media_id)
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
-        r = self.get_host_and_id(self._url)
+    def getMediaLink(self):
+        return self.__getMediaLinkForGuest()
+
+    def __getMediaLinkForGuest(self):
+
+        r = self.get_host_and_id(self.__sUrl)
 
         # si lien deja decode
-        if r is False:
-            if '//lh3.googleusercontent.com' in self._url:
+        if (r == False):
+            if '//lh3.googleusercontent.com' in self.__sUrl:
                 # Nouveaute, avec cookie now
 
-                VSlog(self._url)
+                VSlog(self.__sUrl)
 
+                import requests
                 h = {'User-Agent': UA}
-                r = requests.get(self._url, headers=h, allow_redirects=False)
+                r = requests.get(self.__sUrl, headers=h, allow_redirects=False)
                 url = r.headers['Location']
                 # VSlog(url)
 
@@ -64,17 +99,17 @@ class cHoster(iHoster):
                     # def redirect_request(self, req, fp, code, msg, hdrs, newurl):
                         # return newurl
                 # opener = urllib2.build_opener(NoRedirect)
-                # HttpReponse = opener.open(self._url)
+                # HttpReponse = opener.open(self.__sUrl)
                 # htmlcontent = HttpReponse.read()
                 # head = HttpReponse.headers
 
                 return True, url
             # Peut etre un peu brutal, peut provoquer des bugs
-            if 'lh3.googleusercontent.com' in self._url:
+            if 'lh3.googleusercontent.com' in self.__sUrl:
                 VSlog('Attention: lien sans cookies')
-                return True, self._url
+                return True, self.__sUrl
 
-        web_url = self.getFormatedUrl(r[0], r[1])
+        web_url = self.getUrl(r[0], r[1])
 
         headers = {'Referer': web_url}
 
@@ -103,8 +138,7 @@ class cHoster(iHoster):
 
                 if vid_id:
                     vid_id = vid_id.group(1)
-                    html = re.search('\["shared_group_' + re.escape(vid_id) + '"\](.+?),"ccOverride":"false"}',
-                        resp, re.DOTALL)
+                    html = re.search('\["shared_group_' + re.escape(vid_id) + '"\](.+?),"ccOverride":"false"}', resp, re.DOTALL)
                 else:
                     # Methode brute en test
                     html = re.search('(?:,|\[)"shared_group_[0-9]+"\](.+?),"ccOverride":"false"}', resp, re.DOTALL)
@@ -115,11 +149,9 @@ class cHoster(iHoster):
                     best = 0
                     quality = 0
 
-                    videos = re.compile(',{"url":"(https:\/\/redirector\.googlevideo\.com\/[^<>"]+?)",' + \
-                        '"height":([0-9]+?),"width":([0-9]+?),"type":"video\/.+?"}').findall(html.group(1))
+                    videos = re.compile(',{"url":"(https:\/\/redirector\.googlevideo\.com\/[^<>"]+?)","height":([0-9]+?),"width":([0-9]+?),"type":"video\/.+?"}').findall(html.group(1))
                     if not videos:
-                        videos = re.compile(',{"url":"(https:\/\/lh3\.googleusercontent\.com\/[^<>"]+?)",' + \
-                            '"height":([0-9]+?),"width":([0-9]+?),"type":"video\/.+?"}').findall(html.group(1))
+                        videos = re.compile(',{"url":"(https:\/\/lh3\.googleusercontent\.com\/[^<>"]+?)","height":([0-9]+?),"width":([0-9]+?),"type":"video\/.+?"}').findall(html.group(1))
 
                     if videos:
                         if len(videos) > 1:
@@ -136,7 +168,7 @@ class cHoster(iHoster):
                             if result != -1:
                                 vid_sel = url_list[result]
                             else:
-                                return False, False
+                                return self.unresolvable(0, 'No link selected')
 
             if vid_sel:
                 if 'googleusercontent' in vid_sel:

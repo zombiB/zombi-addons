@@ -3,26 +3,58 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, isKrypton
 from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'vidlox', 'Vidlox')
-        if not isKrypton():
-            self._defaultDisplayName = '(Windows\Android Nécessite Kodi17)' + ' Vidlox'
+        if not (isKrypton() == True):
+            self.__sDisplayName = '(Windows\Android Nécessite Kodi17)' + ' Vidlox'
+        else:
+            self.__sDisplayName = 'Vidlox'
+        self.__sFileName = self.__sDisplayName
+        self.__sHD = ''
 
-    def setUrl(self, url):
-        url = url.replace('embed-dlox.me/','embed-')
-        self._url = str(url)
+    def getDisplayName(self):
+        return  self.__sDisplayName
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
-        oParser = cParser()
-        oRequest = cRequestHandler(self._url)
-        oRequest.addHeaderEntry('Referer', "https://vidlox.me/8m8p7kane4r1.html")
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def getPluginIdentifier(self):
+        return 'vidlox'
+
+    def setHD(self, sHD):
+        self.__sHD = ''
+
+    def getHD(self):
+        return self.__sHD
+
+    def isDownloadable(self):
+        return True
+
+    def setUrl(self, sUrl):
+        sUrl = sUrl.replace('embed-dlox.me/','embed-')
+        self.__sUrl = str(sUrl)
+
+    def getMediaLink(self):
+        return self.__getMediaLinkForGuest()
+
+    def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
+
+        oRequest = cRequestHandler(self.__sUrl)
+        oRequest.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36')
+        oRequest.addHeaderEntry('origin', "vidlox.me")
         sHtmlContent = oRequest.request()
+        oParser = cParser()
 
         #accelère le traitement
         sHtmlContent = oParser.abParse(sHtmlContent, 'var player', 'vvplay')
@@ -30,7 +62,7 @@ class cHoster(iHoster):
         sPattern =  '([^"]+\.mp4)'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if (aResult[0] == True):
             #initialisation des tableaux
             url=[]
             qua=["HD", "SD"] #sd en 2eme pos generalement quand sd
@@ -43,7 +75,7 @@ class cHoster(iHoster):
             #dialogue qualité
             api_call = dialog().VSselectqual(qua, url)
 
-        if api_call:
+        if (api_call):
             return True, api_call
 
         return False, False

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2017, 2019 nickolas360 <contact@nickolas360.com>
 #
 # This file is part of librecaptcha.
@@ -15,15 +14,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with librecaptcha.  If not, see <http://www.gnu.org/licenses/>.
-from __future__ import absolute_import
 from __future__ import with_statement
-
+from __future__ import absolute_import
 from resources.lib.comaddon import dialog, VSlog
-from threading import Thread, RLock
 
 from .errors import UserError
 from .frontend import Frontend
 from .gui import cInputWindow, cInputWindowYesNo
+from threading import Thread, RLock
 
 try:
     from Queue import Queue
@@ -36,8 +34,7 @@ import xbmcvfs, re
 
 Objectif = ""
 DimTab = []
-STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.vstream'
-
+STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.matrix'
 
 class CliSolver(object):
     def __init__(self, solver):
@@ -54,7 +51,6 @@ class CliSolver(object):
 
     def run(self):
         self.solver.run()
-
 
 class CliDynamicSolver(CliSolver):
     def __init__(self, solver):
@@ -78,7 +74,7 @@ class CliDynamicSolver(CliSolver):
         solver.finish()
 
     def show_imageNewTile(self, image):
-        oSolver = cInputWindowYesNo(captcha=image, msg="Est-ce que cette image est en lien avec le thème ?", roundnum=1)
+        oSolver = cInputWindowYesNo(captcha=image, msg="Est-ce que cette image est en lien avec le theme ?", roundnum=1)
         retArg = oSolver.get()
         return retArg
 
@@ -112,7 +108,7 @@ class CliDynamicSolver(CliSolver):
             delay and time.sleep(delay)
             with self.lock:
                 self.select_tile_sync(index)
-
+                
         myThread = Thread(target=target)
         myThread.daemon = True
         myThread.start()
@@ -129,7 +125,6 @@ class CliMultiCaptchaSolver(CliSolver):
         if indices == False:
             return False
         solver.select_indices(indices)
-
 
 BLOCKED_MSG = """\
 ERROR: Received challenge type "{}".
@@ -163,20 +158,20 @@ class Cli(Frontend):
         global Objectif, DimTab
 
         ID = json.dumps(meta).split(',')[0].replace('[','')
-        
+
         f = xbmcvfs.File(STRINGS_PATH + "/data.txt")
         content = f.read()
         f.close()
 
         Objectif = re.findall('case '+ID+'.+?<strong>([^<]+)</strong>', content)
 
-        # Recupere le theme de maniere plus precis.
+        #Recupere le theme de maniere plus precis.
         if (int(json.dumps(meta).split(',')[3]) * int(json.dumps(meta).split(',')[4]) > 9):
-            Objectif = Objectif[1].encode('utf-8').decode('unicode-escape')
-        else:
             Objectif = Objectif[0].encode('utf-8').decode('unicode-escape')
-
-        DimTab = [int(json.dumps(meta).split(',')[3]), int(json.dumps(meta).split(u',')[4])]
+        else:
+            Objectif = Objectif[1].encode('utf-8').decode('unicode-escape') 
+                      
+        DimTab = [int(json.dumps(meta).split(',')[3]),int(json.dumps(meta).split(u',')[4])]
 
     def handle_challenge(self, ctype, **kwargs):
         if not self._first:

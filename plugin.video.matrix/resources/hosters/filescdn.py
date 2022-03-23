@@ -13,21 +13,64 @@ import xbmcgui
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'filescdn', 'filescdn')
+        self.__sDisplayName = 'filescdn'
+        self.__sFileName = self.__sDisplayName
+
+    def getDisplayName(self):
+        return  self.__sDisplayName
+
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def getPluginIdentifier(self):
+        return 'filescdn'
+
+    def isDownloadable(self):
+        return True
+
+    def isJDownloaderable(self):
+        return True
+
+    def getPattern(self):
+        return ''
         
     def __getIdFromUrl(self):
         sPattern = "v=([^<]+)"
         oParser = cParser()
-        aResult = oParser.parse(self._url, sPattern)
+        aResult = oParser.parse(self.__sUrl, sPattern)
         if (aResult[0] == True):
             return aResult[1][0]
 
         return ''
+        
+    def __modifyUrl(self, sUrl):
+        return sUrl;
+        
+    def __getKey(self):
+        return ''
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
+    def setUrl(self, sUrl):
+        self.__sUrl = str(sUrl)
 
-        oRequest = cRequestHandler(self._url)
+    def checkUrl(self, sUrl):
+        return True
+
+    def getUrl(self):
+        return self.__sUrl
+
+    def getMediaLink(self):
+        return self.__getMediaLinkForGuest()
+
+    def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
+
+        oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
         
         api_call = ''
@@ -39,7 +82,7 @@ class cHoster(iHoster):
             api_call = aResult[1][0]
             
         #type2?   
-        sPattern =  "<script type='text/javascript'>(.+?)</script>"
+        sPattern =  '<script type=\'text/javascript\'>(.+?)</script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             stri = cPacker().unpack(aResult[1][0])

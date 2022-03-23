@@ -18,6 +18,7 @@ try:
 except ImportError:
     from cookielib import CookieJar
     
+
 import os
 import random
 import re
@@ -167,9 +168,11 @@ class cInputWindow(xbmcgui.WindowDialog):
 
     def onControl(self, control):
         if str(control.getLabel()) == "OK":
+
             if self.anythingChecked():
                 self.close()
         elif str(control.getLabel()) == "Cancel":
+
             self.cancelled = True
             self.close()
         try:

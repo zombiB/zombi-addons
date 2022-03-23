@@ -3,10 +3,8 @@
 
 import sys
 import xbmcvfs
-import json
 
-from resources.lib.comaddon import addon, VSlog, VSPath, siteManager
-
+from resources.lib.comaddon import addon, VSlog
 
 class cPluginHandler:
 
@@ -24,11 +22,10 @@ class cPluginHandler:
 
     def __getFileNamesFromFolder(self, sFolder):
         aNameList = []
-        items = xbmcvfs.listdir(sFolder)[1]
-        items.remove("__init__.py")
+        folder, items = xbmcvfs.listdir(sFolder)
         items.sort()
-        
         for sItemName in items:
+
             if not sItemName.endswith(".py"):
                 continue
 
@@ -37,65 +34,32 @@ class cPluginHandler:
             # xbox hack
             sFilePath = sFilePath.replace('\\', '/')
 
+            VSlog("Load Plugin %s" % sItemName)
+
             if (xbmcvfs.exists(sFilePath) == True):
                 if (sFilePath.lower().endswith('py')):
                     sItemName = sItemName.replace('.py', '')
                     aNameList.append(sItemName)
         return aNameList
 
-    def __importPlugin(self, sName, sLabel=""):
+    def __importPlugin(self, sName):
         try:
             exec("from resources.sites import " + sName, globals())
             exec("sSiteName = " + sName + ".SITE_NAME", globals())
-            if sLabel:
-                exec("sSearch = " + sName + "." + sLabel, globals())
-                return sSearch[0], sSearch[1], sSiteName
-            else:
-                exec("sSiteDesc = " + sName + ".SITE_DESC", globals())
-                return sSiteName, sSiteDesc
+            exec("sSiteDesc = " + sName + ".SITE_DESC", globals())
+            sPluginSettingsName = 'plugin_' + sName
+            return sSiteName, sPluginSettingsName, sSiteDesc
         except Exception as e:
             VSlog("Cannot import plugin " + str(sName))
             VSlog("Detail de l\'erreur " + str(e))
             return False, False
 
-    def getAvailablePlugins(self, sLabel="", force=False):
-        
+    def getAvailablePlugins(self, force=False):
         addons = addon()
-        sitesManager = siteManager()
 
         sFolder = "special://home/addons/plugin.video.matrix/resources/sites"
         sFolder = sFolder.replace('\\', '/')
-
-        aFileNames = self.__getFileNamesFromFolder(sFolder)
-
-        aPlugins = []
-        for sFileName in aFileNames:
-            # existieren zu diesem plugin die an/aus settings
-            if force or sitesManager.isActive(sFileName):
-                # wir versuchen das plugin zu importieren
-                if sLabel:
-                    aPlugin = self.__importPlugin(sFileName, sLabel)
-                else:
-                    aPlugin = self.__importPlugin(sFileName)
-
-                if (aPlugin[0] != False):
-                    sSiteDesc = aPlugin[1]
-                    if sLabel:
-                        sSiteUrl = aPlugin[0]
-                        sSiteName = aPlugin[2]
-                        item = self.__createAvailablePluginsItem(sSiteUrl, sSiteName, sFileName, sSiteDesc)
-                    else:
-                        sSiteName = aPlugin[0]
-                        item = self.__createAvailablePluginsItem("", sSiteName, sFileName, sSiteDesc)
-
-
-                    aPlugins.append(item)
-
-        return aPlugins
-
-    def getAllPlugins(self):
-        sFolder = "special://home/addons/plugin.video.matrix/resources/sites"
-        sFolder = sFolder.replace('\\', '/')
+        VSlog("Sites Folder " + sFolder)
 
         aFileNames = self.__getFileNamesFromFolder(sFolder)
 
@@ -105,17 +69,44 @@ class cPluginHandler:
             aPlugin = self.__importPlugin(sFileName)
             if (aPlugin[0] != False):
                 sSiteName = aPlugin[0]
-                sSiteDesc = aPlugin[1]
+                sPluginSettingsName = aPlugin[1]
+                sSiteDesc = aPlugin[2]
 
-                # settings nicht gefunden, also schalten wir es trotzdem sichtbar
-                aPlugins.append(self.__createAvailablePluginsItem("", sSiteName, sFileName, sSiteDesc))
+                # existieren zu diesem plugin die an/aus settings
+                bPlugin = addons.getSetting(sPluginSettingsName)
+                if (bPlugin != ''):
+                    # settings gefunden
+                    if (bPlugin == 'true') or (force == True):
+                        aPlugins.append(self.__createAvailablePluginsItem(sSiteName, sFileName, sSiteDesc))
+                else:
+                    # settings nicht gefunden, also schalten wir es trotzdem sichtbar
+                    aPlugins.append(self.__createAvailablePluginsItem(sSiteName, sFileName, sSiteDesc))
 
         return aPlugins
 
-    def __createAvailablePluginsItem(self, sSiteUrl, sPluginName, sPluginIdentifier, sPluginDesc):
+    def getAllPlugins(self):
+        sFolder = "special://home/addons/plugin.video.matrix/resources/sites"
+        sFolder = sFolder.replace('\\', '/')
+        VSlog("Sites Folder " + sFolder)
+
+        aFileNames = self.__getFileNamesFromFolder(sFolder)
+
+        aPlugins = []
+        for sFileName in aFileNames:
+            # wir versuchen das plugin zu importieren
+            aPlugin = self.__importPlugin(sFileName)
+            if (aPlugin[0] != False):
+                sSiteName = aPlugin[0]
+                sPluginSettingsName = aPlugin[1]
+                sSiteDesc = aPlugin[2]
+
+                # settings nicht gefunden, also schalten wir es trotzdem sichtbar
+                aPlugins.append(self.__createAvailablePluginsItem(sSiteName, sFileName, sSiteDesc))
+
+        return aPlugins
+
+    def __createAvailablePluginsItem(self, sPluginName, sPluginIdentifier, sPluginDesc):
         aPluginEntry = []
-        if sSiteUrl:
-            aPluginEntry.append(sSiteUrl)
         aPluginEntry.append(sPluginName)
         aPluginEntry.append(sPluginIdentifier)
         aPluginEntry.append(sPluginDesc)

@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
-# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# https://gounlimited.to/embed-xxx.html
-# top_replay robin des droits
+﻿#-*- coding: utf-8 -*-
+# https://github.com/Kodi-vStream/venom-xbmc-addons
+#https://gounlimited.to/embed-xxx.html
+#top_replay robin des droits
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
@@ -10,40 +10,73 @@ from resources.lib.comaddon import VSlog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'
 
-
 class cHoster(iHoster):
+
     def __init__(self):
-        iHoster.__init__(self, 'gounlimited', 'Gounlimited')
+        self.__sDisplayName = 'Gounlimited'
+        self.__sFileName = self.__sDisplayName
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
+    def getDisplayName(self):
+        return self.__sDisplayName
+
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def getPluginIdentifier(self):
+        return 'gounlimited'
+
+    def isDownloadable(self):
+        return True
+
+    def setUrl(self, sUrl):
+        self.__sUrl = str(sUrl)
+
+    def checkUrl(self, sUrl):
+        return True
+
+    def getUrl(self):
+        return self.__sUrl
+
+    def getMediaLink(self):
+        return self.__getMediaLinkForGuest()
+
+    def __getMediaLinkForGuest(self):
         api_call = False
+        VSlog(self.__sUrl)
 
-        if not self._url.endswith('.mp4'):
+        if not self.__sUrl.endswith('.mp4'):
             oParser = cParser()
-            oRequest = cRequestHandler(self._url)
+            oRequest = cRequestHandler(self.__sUrl)
             sHtmlContent = oRequest.request()
 
             sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if (aResult[0] == True):
                 sHtmlContent = cPacker().unpack(aResult[1][0])
 
-                sPattern = '{src:"([^"]+)"'
+                sPattern =  'src:"([^"]+)"'
                 aResult = oParser.parse(sHtmlContent, sPattern)
 
                 # fh = open('c:\\test.txt', 'w')
                 # fh.write(sHtmlContent)
                 # fh.close()
 
-                if aResult[0] is True:
+                if (aResult[0] == True):
                     api_call = aResult[1][0]
+                    if api_call.startswith('//'):
+                        api_call = 'http:' + api_call
         else:
-            api_call = self._url
+            api_call = self.__sUrl
 
-        if api_call.endswith('.mp4'):
-            return True, api_call
+        if (api_call).endswith('.mp4'):
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl +'&AUTH=TLS&verifypeer=false'
         else:
-            return True, api_call + '|User-Agent=' + UA
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl +'&AUTH=TLS&verifypeer=false'
 
         return False, False

@@ -1,47 +1,84 @@
-#-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-#https://letsupload.co/plugins/mediaplayer/site/_embed.php?u=1r0c1&w=770&h=320
-from resources.lib.handler.requestHandler import cRequestHandler
-from resources.hosters.hoster import iHoster
+﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.comaddon import VSlog, xbmcgui
+from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
+import re,xbmc
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'letsupload', 'Letsupload')
+        self.__sDisplayName = 'letsupload'
+        self.__sFileName = self.__sDisplayName
+
+    def getDisplayName(self):
+        return  self.__sDisplayName
+
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def getPluginIdentifier(self):
+        return 'letsupload'
 
     def isDownloadable(self):
-        return False
+        return True
+
+    def isJDownloaderable(self):
+        return True
+
+    def getPattern(self):
+        return ''
+        
+    def __getIdFromUrl(self, sUrl):
+        return ''
 
     def setUrl(self, sUrl):
-        self._url = str(sUrl)
+        self.__sUrl = str(sUrl)
         if 'embed' in sUrl:
-            self._url = self._url.replace("embed-","")
+            self.__sUrl = self.__sUrl.replace("embed-","")
         if 'mediaplayer' not in sUrl:
-            parts = self._url.split('/')[3]
-            self._url = "https://letsupload.co/plugins/mediaplayer/site/_embed.php?u="+parts
+            self.__sUrl = self.__sUrl.replace("https://letsupload.io/","https://letsupload.co/plugins/mediaplayer/site/_embed.php?u=")
 
+    def checkUrl(self, sUrl):
+        return True
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
+    def getUrl(self):
+        return self.__sUrl
 
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
-        oParser = cParser()
+    def getMediaLink(self):
         
+        return self.__getMediaLinkForGuest()
 
-        sPattern = 'mp4HD: "(.+?)",'
+    def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
+ 
+        api_call = ''
+        
+        oParser = cParser()
+        oRequest = cRequestHandler(self.__sUrl)
+        sHtmlContent = oRequest.request()
+
+        sPattern = 'file: "([^<]+)",type: "mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
-            api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self._url
-        
-        sPattern = "source:'([^<]+)',"
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if (aResult[0]):
             api_call = aResult[1][0]
 
-        if (api_call):
-            return True, api_call
+        sPattern = 'value="(.+?)"/>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if (aResult[0] == True):
+            api_call = aResult[1][0]
 
-        return False, False
+
+        if (api_call):
+            return True, api_call +'|User-Agent=' + UA  + '&Referer=' + self.__sUrl
+        
+
+        return False, False 

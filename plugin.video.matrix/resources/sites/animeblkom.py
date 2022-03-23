@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 import re
  
@@ -13,11 +13,11 @@ SITE_IDENTIFIER = 'animeblkom'
 SITE_NAME = 'animeblkom'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://animeblkom.net'
-ANIM_NEWS = ('https://animeblkom.net/series-list', 'showSeries')
+URL_MAIN = 'https://blkom.com'
+ANIM_NEWS = ('https://blkom.com/anime-list', 'showSeries')
 
-ANIM_MOVIES = ('https://animeblkom.net/movie-list', 'showMovies')
-URL_SEARCH_SERIES = ('https://animeblkom.net/search?query=', 'showSeries')
+ANIM_MOVIES = ('https://blkom.com/movie-list', 'showMovies')
+URL_SEARCH_SERIES = ('https://blkom.com/search?query=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -27,14 +27,6 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي', 'anime.png', oOutputParameterHandler)
-
             
     oGui.setEndOfDirectory()
  
@@ -43,7 +35,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = 'https://animeblkom.net/search?query='+sSearchText
+        sUrl = 'https://blkom.com/search?query='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -75,11 +67,11 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             
             sTitle = sTitle.replace("poster","")
-            siteUrl = URL_MAIN+aEntry[1]
-            sThumbnail = URL_MAIN+aEntry[0]
+            siteUrl = URL_MAIN+str(aEntry[1])
+            sThumbnail = URL_MAIN+str(aEntry[0])
             sInfo = aEntry[3]
             sInfo = '[COLOR yellow]'+aEntry[3]+'[/COLOR]'
             sYear = aEntry[4]
@@ -129,9 +121,9 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
-            siteUrl = URL_MAIN+aEntry[1]
-            sThumbnail = URL_MAIN+aEntry[0]
+            sTitle = str(aEntry[2]).replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[مدبلج]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            siteUrl = URL_MAIN+str(aEntry[1])
+            sThumbnail = URL_MAIN+str(aEntry[0])
             sInfo = aEntry[3]
             sYear = aEntry[4]
 
@@ -167,15 +159,9 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    #
-    sHtmlContent = sHtmlContent.replace('<span class="badge pull-left">الأخيرة</span> ', '')
-	
-    sDesc = ''
-    if '<a>لم يتم رفع أي حلقات حتى الآن</a>' in sHtmlContent:
-        oOutputParameterHandler = cOutputParameterHandler() 
-        oGui.addLink(SITE_IDENTIFIER, 'showHosters','لم يتم رفع أي حلقات حتى الآن', sThumbnail, sDesc, oOutputParameterHandler)
     # (.+?) .+?
-    sPattern = '<li class="episode-link.+?href="(.+?)"> <span>الحلقة</span> <span class="separator">:</span> <span>(.+?)</span> </a> </li>'
+    sPattern = '<li class="episode-link.+?href="([^<]+)"> <span>الحلقة</span> <span class="separator">:</span> <span>([^<]+)<'
+    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -184,8 +170,8 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = " E"+aEntry[1]
-            sTitle = sTitle+' '+sMovieTitle
-            siteUrl = URL_MAIN+aEntry[0]
+            sTitle = sTitle+sMovieTitle
+            siteUrl = URL_MAIN+str(aEntry[0])
             sThumbnail = str(sThumbnail)
             sInfo = sInfo
  
@@ -245,7 +231,7 @@ def showHosters():
                    
         
                 if aEntry[1]:
-                    url = aEntry[1]
+                    url = str(aEntry[1])
                     sTitle = ''
                     if url.startswith('//'):
                        url = 'https:' + url
@@ -288,7 +274,7 @@ def showHosters():
                    
         
                 if aEntry[1]:
-                    url = aEntry[1]
+                    url = str(aEntry[1])
                     sTitle = ''
                     if url.startswith('//'):
                        url = 'https:' + url

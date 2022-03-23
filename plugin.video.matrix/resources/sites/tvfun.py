@@ -5,27 +5,28 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog
 import base64
  
 SITE_IDENTIFIER = 'tvfun'
 SITE_NAME = 'tvfun'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://a.tvfun.me'
+URL_MAIN = 'https://www.tvfun.ma/'
 
-RAMADAN_SERIES = (URL_MAIN + '/ts,mosalsalat-ramadan-2021/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/mosalsalat-hindia/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/mosalsalat-3arabia/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/mosalsalat-korea/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + '/mosalsalat-latinia/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + '/programme-tv/', 'showSeries')
+RAMADAN_SERIES = ('https://a.tvfun.me/ts,mosalsalat-ramadan-2021/', 'showSeries')
+SERIE_TR = ('https://www.tvfun.ma/mosalsalat-torkia/', 'showSeries')
+SERIE_DUBBED = ('https://www.tvfun.live/ts,mosalsalat--modablaja/', 'showSeries')
+SERIE_HEND = ('https://www.tvfun.ma/mosalsalat-hindia/', 'showSeries')
+SERIE_AR = ('https://www.tvfun.ma/mosalsalat-3arabia/', 'showSeries')
+SERIE_ASIA = ('https://ww.tvfun.ma/mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = ('https://ww.tvfun.ma/mosalsalat-latinia/', 'showSeries')
+KID_CARTOON = ('https://www.tvfun.live/dessin-animee/', 'showSeries')
+REPLAYTV_NEWS = ('https://www.tvfun.ma/programme-tv/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
+URL_SEARCH = ('https://a.tvfun.me/q/', 'showSeriesSearch')
+URL_SEARCH_SERIES = ('https://a.tvfun.me/q/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
@@ -35,62 +36,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Series', 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'mslsl.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'mslsl.png', oOutputParameterHandler)  
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN [0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات لاتنية', 'mslsl.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_DUBBED [0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مدبلجة', 'mslsl.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'mslsl.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/mosalsalat-maghribia/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مغربية', 'mslsl.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/ts,mosalsalat-tarkiya/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تاريخية', 'mslsl.png', oOutputParameterHandler)
-        
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/ts,mosalsalat-mexicia/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكية', 'mslsl.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/dessin-animee/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'انمي', 'anime.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/ts,baramij-tarfihiya/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج ترفيهية', 'brmg.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/ts,hidden-camera/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الكاميرا الخفية', 'brmg.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية', 'brmg.png', oOutputParameterHandler)
-    
+            
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -98,7 +44,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = URL_MAIN + '/q/'+sSearchText
+        sUrl = 'https://www.tvfun.ma/q/'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -115,7 +61,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+?
 
-    sPattern = '<div class="serie-thumb"><a href="(.+?)" title="(.+?)">.+?<img src="(.+?)" loading'
+    sPattern = '<div class="serie-thumb">.+?<a href="([^<]+)" title="([^<]+)">.+?<picture itemprop="categoryAvatar">.+?<img src="([^<]+)" loading="lazy".+?<span class="count">([^<]+)</span>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -129,12 +75,12 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = aEntry[0]
+            sTitle = aEntry[1].replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
+            siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = aEntry[2]
-            sInfo = ''
+            sThumbnail = str(aEntry[2])
+            sInfo = aEntry[3]
 
 
             oOutputParameterHandler = cOutputParameterHandler()
@@ -165,7 +111,7 @@ def showSeries(sSearch = ''):
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
+            siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = ""
@@ -218,8 +164,8 @@ def showSeriesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = aEntry[0]
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
+            siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = aEntry[2]
@@ -249,7 +195,7 @@ def showSeriesSearch(sSearch = ''):
                 break
  
             sTitle = "playlist"
-            siteUrl = 'https:'+aEntry[0]
+            siteUrl = 'https:'+str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = sThumbnail
@@ -284,7 +230,7 @@ def showSeriesSearch(sSearch = ''):
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
+            siteUrl = str(aEntry[0])
             sThumbnail = ""
             sInfo = ""
 
@@ -318,8 +264,8 @@ def showEpisodes():
 
     if (aResult[0] == True):
         sHtmlContent = aResult[1][0]
-   # ([^<]+) .+? (.+?)
-    sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)">.+?<img src="(.+?)" loading'
+   # ([^<]+) .+?
+    sPattern = '<div class="video-thumb"><a href="([^<]+)" title="([^<]+)"><picture itemprop="categoryAvatar">.+?<img src="([^<]+)" loading='
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -333,8 +279,8 @@ def showEpisodes():
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            siteUrl = aEntry[0]
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج","[مدبلج]")
+            siteUrl = str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = sThumbnail
@@ -364,7 +310,7 @@ def showEpisodes():
                 break
  
             sTitle = "playlist"
-            siteUrl = 'https:'+aEntry[0]
+            siteUrl = 'https:'+str(aEntry[0])
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumbnail = sThumbnail
@@ -399,7 +345,7 @@ def showEpisodes():
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
+            siteUrl = str(aEntry[0])
             sThumbnail = ""
             sInfo = ""
 
@@ -441,7 +387,7 @@ def showEps():
                 break
  
             sTitle = "playlist"
-            siteUrl = 'https:'+aEntry[0]
+            siteUrl = 'https:'+str(aEntry[0])
             sThumbnail = sThumbnail
             sInfo = ""
 			
@@ -468,7 +414,7 @@ def showEps():
             if progress_.iscanceled():
                 break
             
-            url = aEntry
+            url = str(aEntry)
             if url.startswith('//'):
                 url = 'http:' + url
             
@@ -509,7 +455,7 @@ def showHosters():
             if (aResult[0] == True):
                for aEntry in aResult[1]:
         
-                   url = aEntry.replace("https://dai.ly/","https://www.dailymotion.com/video/")
+                   url = str(aEntry).replace("https://dai.ly/","https://www.dailymotion.com/video/")
                    sTitle = " " 
                    if url.startswith('//'):
                        url = 'http:' + url

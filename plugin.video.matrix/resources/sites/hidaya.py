@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
 import re
  
@@ -63,7 +63,7 @@ def showMovies(sSearch = ''):
            for aEntry in aResult[1]:
         
                url = "https://www.youtube.com/watch?v="+aEntry[1]
-               sTitle = aEntry[0]+' [COLOR yellow] '+aEntry[2]+' [/COLOR]'
+               sTitle = str(aEntry[0])+'[COLOR yellow]'+str(aEntry[2])+'[/COLOR]'
                sThumbnail = "http://img.youtube.com/vi/"+aEntry[1]+"/hqdefault.jpg"
 				
 				
@@ -129,8 +129,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
         
-            url = aEntry[0]
-            sTitle = aEntry[1].replace('"',"")
+            url = str(aEntry[0])
+            sTitle = str(aEntry[1]).replace('"',"")
 				
             sTitle = '[COLOR yellow]'+sTitle+'p[/COLOR]'
             if url.startswith('//'):

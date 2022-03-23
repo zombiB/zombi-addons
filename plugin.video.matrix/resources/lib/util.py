@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.comaddon import xbmc, isMatrix
-
 try:
     import htmlentitydefs
     import urllib
+    import urllib2
+
 except ImportError:
     import html.entities as htmlentitydefs
     import urllib.parse as urllib
+    import urllib.request as urllib2
 
 import unicodedata
 import re
 import string
-
-
 # function util n'utilise pas xbmc, xbmcgui, xbmcaddon ect...
+
 class cUtil:
     # reste a transformer la class en fonction distante.
+
     def CheckOrd(self, label):
         count = 0
         try:
@@ -31,27 +33,27 @@ class cUtil:
 
         return count
 
-    # str1 : les mots à rechercher
-    # str2 : Liste des mots à comparer
-    # percent : pourcentage de concordance, 75% = il faut au moins 3 mots sur 4
-    # retourne True si pourcentage atteint
-    def CheckOccurence(self, str1, str2, percent=75):
+    def CheckOccurence(self, str1, str2):
+        ignoreListe = ['3d', 'la', 'le', 'les', 'un', 'une', 'de', 'des', 'du', 'en', 'a', 'au', 'aux', 'is', 'the', 'in', 'of', 'and', 'mais', 'ou', 'no', 'dr', 'contre', 'dans', 'qui',
+                       'et', 'donc', 'or', 'ni', 'ne', 'pas', 'car', 'je', 'tu', 'il', 'elle', 'on', 'nous', 'vous', 'ils', 'elles', 'i', 'you', 'he', 'she', 'it', 'we', 'they',
+                       'my', 'your', 'his', 'its', 'our']
 
-
-        str2 = self.CleanName(str2)
-
-        nbOccurence = nbWord = 0
-        list2 = str2.split(' ')      # Comparaison mot à mot
-        for part in str1.split(' '):
-            if len(part) == 1:       # Ignorer une seule lettre
-                continue
-            nbWord += 1                         # nombre de mots au total
-            if part in list2:
-                nbOccurence += 1                # Nombre de mots correspondants
+        str1 = str1.replace('+', ' ').replace('%20', ' ').replace(':', ' ').replace('-', ' ')
+        str2 = str2.replace(':', ' ').replace('-', ' ')
         
-        if nbWord == 0:
-            return False 
-        return 100*nbOccurence/nbWord >= percent
+        str1 = self.CleanName(str1.replace('.', ' '))
+        str2 = self.CleanName(str2.replace('.', ' '))
+
+        i = 0
+        list2 = str2.split(' ')     # Comparaison mot � mot
+        for part in str1.split(' '):
+            if part in ignoreListe: # Mots � ignorer
+                continue
+            if len(part) == 1:      # Ignorer une seule lettre
+                continue
+            if part in list2:
+                i += 1              # Nombre de mots correspondants
+        return i
 
     def removeHtmlTags(self, sValue, sReplace=''):
         p = re.compile(r'<.*?>')
@@ -59,6 +61,7 @@ class cUtil:
 
     def formatTime(self, iSeconds):
         iSeconds = int(iSeconds)
+
         iMinutes = int(iSeconds / 60)
         iSeconds = iSeconds - (iMinutes * 60)
         if (iSeconds < 10):
@@ -68,6 +71,24 @@ class cUtil:
             iMinutes = '0' + str(iMinutes)
 
         return str(iMinutes) + ':' + str(iSeconds)
+
+    # def DecoTitle2(self, string):
+    #
+        # # on vire ancienne deco en cas de bug
+        # string = re.sub('\[\/*COLOR.*?\]', '', str(string))
+        #
+        # # pr les tag Crochet
+        # string = re.sub('([\[].+?[\]])',' [COLOR coral]\\1[/COLOR] ', string)
+        # # pr les tag parentheses
+        # string = re.sub('([\(](?![0-9]{4}).{1,7}[\)])', ' [COLOR coral]\\1[/COLOR] ', string)
+        # # pr les series
+        # string = self.FormatSerie(string)
+        # string = re.sub('(?i)(.*) ((?:[S|E][0-9\.\-\_]+){1,2})', '\\1 [COLOR coral]\\2[/COLOR] ', string)
+        #
+        # # vire doubles espaces
+        # string = re.sub(' +', ' ', string)
+        #
+        # return string
 
     def unescape(self, text):
         def fixup(m):
@@ -97,7 +118,7 @@ class cUtil:
 
             return text  # leave as is
         return re.sub('&#?\w+;', fixup, text)
-
+		
     def titleWatched(self, title):
         if not isMatrix():
             if isinstance(title, str):
@@ -117,42 +138,42 @@ class cUtil:
         title = title.replace('VF', '').replace('VOSTFR', '').replace('FR', '')
         # title = re.sub(r'[0-9]+?', r'', str(title))
         title = title.replace('-', ' ')  # on garde un espace pour que Orient-express ne devienne pas Orientexpress pour la recherche tmdb
-        title = title.replace('Season', '').replace('season', '').replace('Season', '').replace('Episode', '').replace('episode', '')
+        title = title.replace('Saison', '').replace('season', '').replace('Season', '').replace('Episode', '').replace('episode', '')
         title = re.sub('[^%s]' % (string.ascii_lowercase + string.digits), ' ', title.lower())
         # title = QuotePlus(title)
         # title = title.decode('string-escape')
         return title
 
+
     def CleanName(self, name):
+        if not isMatrix():
+            # vire accent et '\'
+            try:
+                name = unicode(name, 'utf-8')  # converti en unicode pour aider aux convertions
+            except:
+                pass
 
-        name = name.replace('%20', ' ')
+            try:
+                name = unicodedata.normalize('NFD', name).encode('ascii', 'ignore').decode('unicode_escape')
+                name = name.encode('utf-8') #on repasse en utf-8
+            except TypeError:
+                #name = unicodedata.normalize('NFKD', name.decode("utf-8")).encode('ASCII', 'ignore')
+                pass
 
-        # on cherche l'annee
+        #on cherche l'annee
         annee = ''
         m = re.search('(\([0-9]{4}\))', name)
         if m:
             annee = str(m.group(0))
             name = name.replace(annee, '')
 
-        # Suppression des ponctuations
-        name = re.sub("[\’\'\-\–\:\+\.]", ' ', name)
-        name = re.sub("[\,\&\?\!]", '', name)
-
         # vire tag
         name = re.sub('[\(\[].+?[\)\]]', '', name)
-
-        # enlève les accents, si nécessaire
-        n2 = re.sub('[^a-zA-Z0-9 ]', '', name)
-        if n2 != name:
-            try:
-                if not isMatrix():
-                    name = name.decode('utf8', 'ignore')    # converti en unicode pour aider aux convertions
-                name = unicodedata.normalize('NFD', name).encode('ascii', 'ignore')
-                if isMatrix():
-                    name = name.decode('utf8', 'ignore')
-            except Exception as e:
-                pass
-
+        # les apostrophes remplacer par des espaces
+        name = name.replace("'", " ")
+        # vire caractere special
+        # name = re.sub('[^a-zA-Z0-9 ]', '', name)
+        name = re.sub('[^a-zA-Z0-9 : -]', '', name)
         # tout en minuscule
         name = name.lower()
         # vire espace debut et fin
@@ -167,6 +188,7 @@ class cUtil:
         return name
 
     def FormatSerie(self, string):
+
         # vire doubles espaces
         string = re.sub(' +', ' ', string)
 
@@ -189,7 +211,7 @@ class cUtil:
                 SXEX = '0' + SXEX
             SXEX = 'E' + SXEX
 
-            # pr les saisons
+            # pr les seasons
             m = re.search('(?i)(s(?:eason )*([0-9]+))', string)
             if m:
                 string = string.replace(m.group(1), '')
@@ -197,7 +219,7 @@ class cUtil:
             string = string + ' ' + SXEX
 
         else:
-            # pas d'episode mais y a t il des saisons ?
+            # pas d'episode mais y a t il des seasons ?
             m = re.search('(?i)(s(?:eason )*([0-9]+))(?:$| )', string)
             if m:
                 string = string.replace(m.group(1), '')
@@ -210,8 +232,7 @@ class cUtil:
 
     def getSerieTitre(self, sTitle):
         serieTitle = re.sub(r'\[.*\]|\(.*\)', r'', sTitle)
-        serieTitle = re.sub('[- –]+$', '', serieTitle)
-
+		
         if '|' in serieTitle:
             serieTitle = serieTitle[:serieTitle.index('|')]
 
@@ -221,6 +242,7 @@ class cUtil:
         return serieTitle
 
     def getEpisodeTitre(self, sTitle):
+
         string = re.search('(?i)(e(?:[a-z]+sode\s?)*([0-9]+))', sTitle)
         if string:
             sTitle = sTitle.replace(string.group(1), '')
@@ -251,7 +273,7 @@ class cUtil:
 # ***********************
 # Pour les avoirs
 # from resources.lib import util
-# puis util.Unquote('test')
+# puis util.VSlog('test')
 """
 
 
@@ -278,6 +300,38 @@ def QuoteSafe(sUrl):
 def urlEncode(sUrl):
     return urllib.urlencode(sUrl)
 
-# retroune le hostname d'une Url
-def urlHostName(sUrl):
-    return urllib.urlparse(sUrl).hostname
+
+def Noredirection():
+    class NoRedirection(urllib2.HTTPErrorProcessor):
+        def http_response(self, request, response):
+            return response
+
+        https_response = http_response
+
+    opener = urllib2.build_opener(NoRedirection)
+    return opener
+
+# deprecier utiliser comaddon dialog()
+# def updateDialogSearch(dialog, total, site):
+#     global COUNT
+#     COUNT += 1
+#     iPercent = int(float(COUNT * 100) / total)
+#     dialog.update(iPercent, 'Chargement: ' + str(site))
+
+
+# def VStranslatePath(location):
+#     # ex util.VStranslatePath('special://logpath/') > http://kodi.wiki/view/Special_protocol
+#     # d'apres Kodi ne doit pas etre utiliser sur les special://
+#     return xbmc.translatePath(location).decode('utf-8')
+
+
+def GetGooglUrl(url):
+    if 'http://goo.gl' in url:
+        try:
+            headers = {'User-Agent': 'Mozilla 5.10', 'Host': 'goo.gl', 'Connection': 'keep-alive'}
+            request = urllib2.Request(url, None, headers)
+            reponse = urllib2.urlopen(request)
+            url = reponse.geturl()
+        except:
+            pass
+    return url

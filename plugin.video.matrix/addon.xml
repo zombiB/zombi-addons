@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.matrix" name="matrix" version="4.9.9" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="5.0.0" provider-name="zombi">
     <requires>
 
         <trycatch>
@@ -13,14 +13,12 @@
         </trycatch>
         <import addon="repository.zombi"/>
         <import addon="script.module.pyqrcode"/>
-        <import addon="script.kodi.loguploader"/>
         <import addon="script.module.requests"/>
         <import addon="script.module.dnspython" optional="true"/>
         <import addon="script.module.resolveurl" optional="true"/>
         <import addon="script.module.selenium" optional="true"/>
         <!-- Pour le DEBUG        <import addon="script.module.pydevd" version="4.4.0"/> -->
     </requires>
-
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
@@ -41,8 +39,7 @@
             </item>
             <item library="resources/lib/gui/menuDelBookmark.py">
 		        <label>$ADDON[plugin.video.matrix 30412]</label>
-				<visible>Window.IsVisible(home) + ListItem.Property(isBookmark)</visible>
-            </item>
+				<visible>Window.IsVisible(home) + ListItem.Property(isBookmark)</visible>            </item>
             <item library="resources/lib/gui/menuDelViewing.py">
 		        <label>$ADDON[plugin.video.matrix 30412]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(isViewing)</visible>
@@ -52,25 +49,14 @@
 
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
-        <summary lang="fr_FR">Matrix is an arabic addon</summary>
-        <description lang="fr_FR">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="fr_FR">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
-        <summary lang="fr_CA">Matrix is an arabic addon</summary>
-        <description lang="fr_CA">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="fr_CA">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
-        <summary lang="en_GB">Matrix is an arabic addon</summary>
-        <description lang="en_GB">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="en_GB">Matrix is an arabic addon</disclaimer>
-        <summary lang="en_NZ">Matrix lets u access arabic video websites in a beautiful and easy way</summary>
-        <description lang="en_NZ">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="en_NZ">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
-        <summary lang="en_US">Matrix is an arabic addon</summary>
-        <description lang="en_US">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="en_US">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
+        <news>plugin.video.matrix-5.0.0</news>
+        <summary lang="en">https://zombib.github.io/</summary>
+        <summary lang="fr">https://zombib.github.io/</summary>
+        <description lang="en">https://zombib.github.io/</description>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE</license>
         <forum>https://github.com/zombiB/zombi-addons/issues</forum>
-        <source>https://github.com/zombiB/zombi-addons/issues</source>
+		<source>https://github.com/zombiB/zombi-addons/</source>
         <assets>
             <icon>icon.png</icon>
             <fanart>fanart.jpg</fanart>

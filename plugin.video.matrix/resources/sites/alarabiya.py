@@ -6,8 +6,9 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
+from resources.lib.player import cPlayer
 import re
  
 SITE_IDENTIFIER = 'alarabiya'
@@ -27,11 +28,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-  
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
     
+
+            
     oGui.setEndOfDirectory()
 	
 def showSearch():
@@ -56,7 +55,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+? (.+?)
-    sPattern = '<a class="list-item-link" href="(.+?)" title="(.+?)">.+?<img src="(.+?)" width='
+    sPattern = '<a class="list-item-link" href="(.+?)" title="(.+?)">.+?data-src-desktop="(.+?)" width='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -72,6 +71,7 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[1]
+            
             sThumbnail = aEntry[2]
             siteUrl = URL_MAIN+aEntry[0]
             sInfo = ''
@@ -115,7 +115,7 @@ def showHosters():
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent = oRequestHandler.request();
     oParser = cParser()
     
  
@@ -123,7 +123,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):
         for aEntry in aResult[1]:
-            url = aEntry
+            url = str(aEntry)
             if url.startswith('//'):
                 url = 'http:' + url
             sHosterUrl = url
@@ -134,5 +134,42 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
+
                 
-    oGui.setEndOfDirectory() 
+    oGui.setEndOfDirectory()   
+def showHosters2():
+    oGui = cGui()
+    
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+  
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request(); 
+    oParser = cParser()
+		    # (.+?) .+? ([^<]+)
+    sPattern =  ',"contentUrl": "(.+?)"' 
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0] == True):
+        
+        sUrl = aResult[1][0]
+                 
+        #on lance video directement
+        oGuiElement = cGuiElement()
+        oGuiElement.setSiteName(SITE_IDENTIFIER)
+        oGuiElement.setTitle(sMovieTitle)
+        oGuiElement.setMediaUrl(sUrl)
+        oGuiElement.setThumbnail(sThumbnail)
+
+        oPlayer = cPlayer()
+        oPlayer.clearPlayList()
+        oPlayer.addItemToPlaylist(oGuiElement)
+        oPlayer.startPlayer()
+        return
+    
+    else:
+        return
+    oGui.setEndOfDirectory()

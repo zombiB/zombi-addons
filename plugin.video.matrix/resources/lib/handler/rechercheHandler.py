@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-from resources.lib.comaddon import addon, VSlog, siteManager
+from resources.lib.comaddon import addon, VSlog
 from resources.lib.db import cDb
 
 import sys
@@ -14,7 +14,6 @@ class cRechercheHandler:
         self.__sText = ""
         self.__sDisp = ""
         self.__sCat = ""
-        self.__siteAdded = False
 
     def getPluginHandle(self):
         try:
@@ -57,8 +56,7 @@ class cRechercheHandler:
 
     def __getFileNamesFromFolder(self, sFolder):
         aNameList = []
-        items = xbmcvfs.listdir(sFolder)[1]
-        items.remove("__init__.py")
+        folder, items = xbmcvfs.listdir(sFolder)
         items.sort()
 
         for sItemName in items:
@@ -79,12 +77,8 @@ class cRechercheHandler:
         elif sCat == '2':
             sSearch = 'URL_SEARCH_SERIES'
         elif sCat == '3':
-            sSearch = 'URL_SEARCH_ANIMS'
-        elif sCat == '4':
-            sSearch = 'URL_SEARCH_DRAMAS'
-        elif sCat == '5':
             sSearch = 'URL_SEARCH_MISC'
-        else:
+        else :
             sSearch = 'URL_SEARCH'
 
         try:
@@ -93,10 +87,13 @@ class cRechercheHandler:
             pluginData['name'] = plugin.SITE_NAME
             pluginData['search'] = getattr(plugin, sSearch)
             return pluginData
-        except:
+
+        except Exception:
             return False
 
     def getAvailablePlugins(self):
+
+        addons = addon()
         sText = self.getText()
         if not sText:
             return False
@@ -105,31 +102,35 @@ class cRechercheHandler:
             return False
 
         # historique
-        addons = addon()
         try:
             if (addons.getSetting("history-view") == 'true'):
-                meta = {'title': sText, 'disp': sCat}
-                with cDb() as db:
-                    db.insert_history(meta)
+                meta = {}
+                meta['title'] = sText
+                meta['disp'] = sCat
+                cDb().insert_history(meta)
         except:
             pass
 
         sFolder = "special://home/addons/plugin.video.matrix/resources/sites"
+
         sFolder = sFolder.replace('\\', '/')
         VSlog("Sites Folder: " + sFolder)
 
-        sitesManager = siteManager()
+        aFileNames = self.__getFileNamesFromFolder(sFolder)
 
         aPlugins = []
-        aFileNames = self.__getFileNamesFromFolder(sFolder)
         for sFileName in aFileNames:
-            if sitesManager.isActive(sFileName):
+            sPluginSettingsName = 'plugin_' + sFileName
+            bPlugin = addons.getSetting(sPluginSettingsName)
+            if (bPlugin == 'true'):
                 aPlugin = self.importPlugin(sFileName, sCat)
                 if aPlugin:
                     aPlugins.append(aPlugin)
-
         return aPlugins
 
     def __createAvailablePluginsItem(self, sPluginName, sPluginIdentifier, sPluginDesc):
-        aPluginEntry = [sPluginName, sPluginIdentifier, sPluginDesc]
+        aPluginEntry = []
+        aPluginEntry.append(sPluginName)
+        aPluginEntry.append(sPluginIdentifier)
+        aPluginEntry.append(sPluginDesc)
         return aPluginEntry

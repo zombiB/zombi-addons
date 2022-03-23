@@ -467,7 +467,7 @@
 					</focusedlayout>
 					<content>
 						<item>
- 							<label>[UPPERCASE]$ADDON[plugin.video.matrix 30464][/UPPERCASE] [COLOR=white]$INFO[Window(Home).Property(ListItem.durationH)]h$INFO[Window(Home).Property(ListItem.durationM)]m[/COLOR]</label>
+							<label>[UPPERCASE]$ADDON[plugin.video.matrix 30464][/UPPERCASE] [COLOR=white]$INFO[Window(Home).Property(ListItem.duration)] $ADDON[plugin.video.matrix 30465][/COLOR]</label>
 							<onclick>noop</onclick>
 						</item>
 					</content>

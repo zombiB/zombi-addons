@@ -22,24 +22,62 @@ import xbmc
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'samaup', 'samaup')
+        self.__sDisplayName = 'samaup'
+        self.__sFileName = self.__sDisplayName
+
+    def getDisplayName(self):
+        return  self.__sDisplayName
+
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def getPluginIdentifier(self):
+        return 'samaup'
+
+    def isDownloadable(self):
+        return True
+
+    def isJDownloaderable(self):
+        return True
+
+    def getPattern(self):
+        return ''
+        
+    def __getIdFromUrl(self, sUrl):
+        return ''
 
     def setUrl(self, sUrl):
-        self._url = str(sUrl)
+        self.__sUrl = str(sUrl)
         if '.cc' in sUrl:
-            self._url = self._url.replace(".cc",".org")
+            self.__sUrl = self.__sUrl.replace(".cc",".org")
         if 'embed' in sUrl:
-            self._url = self._url.replace("embed-","")
-        self._url = self._url.split('-')[0]
+            self.__sUrl = self.__sUrl.replace("embed-","")
+        self.__sUrl = self.__sUrl.split('-')[0]
 
-    def _getMediaLinkForGuest(self):
-        	VSlog(self._url)
+    def checkUrl(self, sUrl):
+        return True
+
+    def getUrl(self):
+        return self.__sUrl
+
+    def getMediaLink(self):
+        
+        return self.__getMediaLinkForGuest()
+
+    def __getMediaLinkForGuest(self):
+        	VSlog(self.__sUrl)
 
         	api_call = ''
 
-        	oRequest = cRequestHandler(self._url)
+        	oRequest = cRequestHandler(self.__sUrl)
         	sHtmlContent = oRequest.request()
-        	_id = self._url.split('/')[-1].replace(".html","")
+        	_id = self.__sUrl.split('/')[-1].replace(".html","")
         	Sgn=requests.Session()
         	UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
         	hdr = {'Host': 'sama-share.com',
@@ -51,7 +89,7 @@ class cHoster(iHoster):
         	'Content-Length': '161',
         	'Origin': 'https://sama-share.com/',
         	'Connection': 'keep-alive',
-        	'Referer': self._url,
+        	'Referer': self.__sUrl,
         	'Upgrade-Insecure-Requests': '1'}
         	prm={
                 "op": "download1",
@@ -59,10 +97,10 @@ class cHoster(iHoster):
                 "rand": "",
                 "referer": "",
                 "method_free": "téléchargement libre"}
-        	_r = Sgn.post(self._url,headers=hdr,data=prm,allow_redirects=False).headers
+        	_r = Sgn.post(self.__sUrl,headers=hdr,data=prm,allow_redirects=False).headers
         	api_call = _r['Location'].replace(" ","").replace("[","%5B").replace("]","%5D").replace("+","%20")
                 	
-        	if api_call:
+        	if (api_call):
         	   return True, api_call+ '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://sama-share.com/'
 
         	return False, False

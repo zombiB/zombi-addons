@@ -1,46 +1,85 @@
-# -*- coding: utf-8 -*-
-# Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-# Wholecloud-Movshare
-import re
-
+#coding: utf-8
+#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+#Wholecloud-Movshare
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.comaddon import VSlog, xbmcgui
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
-
+import re
 
 class cHoster(iHoster):
-    def __init__(self):
-        iHoster.__init__(self, 'wholecloud', 'Wholecloud')
 
-    def __getIdFromUrl(self):
+    def __init__(self):
+        self.__sDisplayName = 'Wholecloud'
+        self.__sFileName = self.__sDisplayName
+
+    def getDisplayName(self):
+        return  self.__sDisplayName
+
+    def setDisplayName(self, sDisplayName):
+        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
+
+    def setFileName(self, sFileName):
+        self.__sFileName = sFileName
+
+    def getFileName(self):
+        return self.__sFileName
+
+    def getPluginIdentifier(self):
+        return 'wholecloud'
+
+    def isDownloadable(self):
+        return True
+
+    def isJDownloaderable(self):
+        return True
+
+    def getPattern(self):
+        return ''
+        
+    def __getIdFromUrl(self,sUrl):
         sPattern = 'v=([^<]+)'
         oParser = cParser()
-        aResult = oParser.parse(self._url, sPattern)
-        if aResult[0] is True:
+        aResult = oParser.parse(self.__sUrl, sPattern)
+        if (aResult[0] == True):
             return aResult[1][0]
 
         return ''
+        
+    def __getKey(self):
+        return ''
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
-        api_call = False
+    def setUrl(self, sUrl):
+        self.__sUrl = str(sUrl)
 
-        sId = self.__getIdFromUrl()
+    def checkUrl(self, sUrl):
+        return True
 
-        oRequest = cRequestHandler(self._url)
+    def getUrl(self):
+        return self.__sUrl
+
+    def getMediaLink(self):
+        return self.__getMediaLinkForGuest()
+
+    def __getMediaLinkForGuest(self):
+        VSlog(self.__sUrl)
+
+        id = self.__getIdFromUrl(self.__sUrl)
+        
+        oRequest = cRequestHandler(self.__sUrl)
         sHtmlContent = oRequest.request()
 
         r = re.search('var fkzd="([^"]+)"', sHtmlContent)
-        if r:
-            url = 'http://www.wholecloud.net/api/player.api.php?key=' + r.group(1) + '&file=' + sId
+        if (r):
+            url = 'http://www.wholecloud.net/api/player.api.php?key=' + r.group(1) +'&file=' + id
             oRequest = cRequestHandler(url)
             sHtmlContent = oRequest.request()
             r2 = re.search('^url=([^&]+)&', sHtmlContent)
-            if r2:
+            if (r2):
                 api_call = r2.group(1)
-
-        if api_call:
+                
+        if (api_call):
             return True, api_call
 
-        return False, False
+        return False , False
+        

@@ -26,7 +26,6 @@ API_VERS = '2'
 
 MAXRESULT = addon().getSetting('trakt_number_element')
 
-
 class cTrakt:
     CONTENT = '0'
     ADDON = addon()
@@ -38,6 +37,7 @@ class cTrakt:
         self.__sType = ''
 
     def getToken(self):
+
         oRequestHandler = cRequestHandler(URL_API + 'oauth/device/code')
         oRequestHandler.setRequestType(1)
         oRequestHandler.addHeaderEntry('Content-Type', 'application/json')
@@ -54,6 +54,7 @@ class cTrakt:
                 return False
 
             if (oDialog == 1):
+
                 try:
                     oRequestHandler = cRequestHandler(URL_API + 'oauth/device/token')
                     oRequestHandler.setRequestType(1)
@@ -67,6 +68,7 @@ class cTrakt:
                         self.ADDON.setSetting('bstoken', str(sHtmlContent['access_token']))
                         self.DIALOG.VSinfo(self.ADDON.VSlang(30000))
                         return
+
                 except:
                     pass
 
@@ -96,7 +98,7 @@ class cTrakt:
             VSlog('bstoken invalid')
             oOutputParameterHandler.addParameter('siteUrl', 'https://')
             oOutputParameterHandler.addParameter('type', 'movie')
-            oGui.addDir(SITE_IDENTIFIER, 'getToken', self.ADDON.VSlang(30305), 'trakt.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getToken()', self.ADDON.VSlang(30305), 'trakt.png', oOutputParameterHandler)
         else:
             # nom de l'user
             try:
@@ -281,6 +283,7 @@ class cTrakt:
                 liste.append([self.decode((List['list']['name'] + ' (' + str(List['list']['item_count']) + ')')), url])
 
         for sTitle, sUrl in liste:
+
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oGui.addDir(SITE_IDENTIFIER, 'getTrakt', sTitle, 'genres.png', oOutputParameterHandler)
@@ -299,7 +302,7 @@ class cTrakt:
         oRequestHandler.addJSONEntry('client_id', API_KEY)
         oRequestHandler.addJSONEntry('client_secret', API_SECRET)
         oRequestHandler.addJSONEntry('token', self.ADDON.getSetting('bstoken'))
-        sHtmlContent = oRequestHandler.request()
+        sHtmlContent = oRequestHandler.request(jsonDecode=True)
 
         total = len(sHtmlContent)
 
@@ -346,7 +349,7 @@ class cTrakt:
         sHeaders = oRequestHandler.getResponseHeader()
 
         # Fonctionnement specifique au calendrier.
-        if 'X-Pagination-Page-Count' not in sHeaders:
+        if not 'X-Pagination-Page-Count' in sHeaders:
             if sCurrentLimit == False:
                 sCurrentLimit = 0
             else:
@@ -377,10 +380,9 @@ class cTrakt:
 
             for i in sHtmlContent:
                 # Limite les elements du calendrier
-                if not 'X-Pagination-Page-Count' in sHeaders:
+                if 'X-Pagination-Page-Count' not in sHeaders:
                     if progress_.getProgress() >= int(MAXRESULT):
                         break
-
                 progress_.VSupdate(progress_, total)
                 if progress_.iscanceled():
                     break
@@ -639,7 +641,7 @@ class cTrakt:
             progress_.VSclose(progress_)
 
             try:
-                if (sPage != sMaxPage):
+                if (sPage < sMaxPage):
                     sNextPage = sUrl.replace('page=' + str(sPage), 'page=' + str(int(sPage) + 1))
                     oOutputParameterHandler = cOutputParameterHandler()
                     oOutputParameterHandler.addParameter('siteUrl', sNextPage)
@@ -715,7 +717,7 @@ class cTrakt:
                 oRequestHandler.addHeaderEntry('Authorization', 'Bearer %s' % self.ADDON.getSetting('bstoken'))
                 sHtmlContent = oRequestHandler.request(jsonDecode=True)
 
-            title = next((title for title in sHtmlContent if title['language'].lower() == 'en'), item)['title']
+            title = next((title for title in sHtmlContent if title['language'].lower() == 'ar'), item)['title']
 
             if title is None:
                 return item['title']
@@ -865,21 +867,22 @@ class cTrakt:
         sSeason = oInputParameterHandler.getValue('sSeason')
         sEpisode = oInputParameterHandler.getValue('sEpisode')
 
+
         # Film, serie, anime, saison, episode
         if sType not in ('1', '2', '3', '4', '8'):
             return
         
         sType = sType.replace('1', 'movies').replace('2', 'shows').replace('3', 'shows').replace('4', 'shows').replace('8', 'shows')
-
+		
         # Mettre en vu automatiquement.
         if Action == "SetWatched":
             sTitle = oInputParameterHandler.getValue('sFileName')
 
             if sType == "shows":
                 if not sSeason:
-                    sSeason = re.search('(?i)( s(?:aison +)*([0-9]+(?:\-[0-9\?]+)*))', sTitle).group(2)
+                    sSeason = re.search('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))',sTitle).group(2)
                 if not sEpisode:
-                    sEpisode = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))', sTitle).group(2)
+                    sEpisode = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))',sTitle).group(2)
             else:
                 sSeason = False
                 sEpisode = False
@@ -965,7 +968,7 @@ class cTrakt:
             oOutputParameterHandler.addParameter('sReload', True)
             # oOutputParameterHandler.addParameter('sImdb', oGuiElement.getImdbId())
             oOutputParameterHandler.addParameter('sTmdbId', oGuiElement.getTmdbId())
-            oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cTrakt', 'cTrakt', 'getAction', sTitle)
+            oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cTrakt', 'cTrakt', 'getAction', sTitle)
         return
 
     def showHosters(self):
@@ -1005,7 +1008,7 @@ class cTrakt:
 
         oRequestHandler = cRequestHandler('https://api.themoviedb.org/3/movie/' + str(sTmdb))
         oRequestHandler.addParameters('api_key', '92ab39516970ab9d86396866456ec9b6')
-        oRequestHandler.addParameters('language', 'ar')
+        oRequestHandler.addParameters('language', 'en')
 
         sHtmlContent = oRequestHandler.request(jsonDecode=True)
 
@@ -1037,6 +1040,7 @@ class cTrakt:
 
         if sType == 'shows':
             sType = 'tv'
+
         elif sType == 'movies':
             sType = 'movie'
 

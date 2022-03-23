@@ -82,9 +82,8 @@ class cJDownloaderHandler:
             oRequestHandler = cRequestHandler(sLinkForJd)
             sHtmlContent = oRequestHandler.request()
             return True
-        except Exception as e:
+        except Exception:
             return False
         return False
-
 
 
