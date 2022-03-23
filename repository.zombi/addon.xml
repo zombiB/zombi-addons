@@ -1,29 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <addon id="repository.zombi" 
-			name="Zombi Repository" 
-			version="0.0.6" 
-			provider-name="zombi">
-        <extension point="xbmc.addon.repository" name="Zombi Repository">
-            <dir>
-			<info compressed="false">https://raw.githubusercontent.com/zombiB/zombi-addons/master/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/zombiB/zombi-addons/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://github.com/zombiB/zombi-addons/raw/master/repo</datadir>
-            <hashes>false</hashes>
-			</dir>
-            <dir>
-                <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
-                <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
-                <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
-            </dir>
-            <dir>
-                <info compressed="false">https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml</info>
-                <checksum>https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml.md5</checksum>
-                <datadir zip="true">https://raw.githubusercontent.com/jsergio123/zips/master/</datadir>
-            </dir>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <summary>arabic vod addon</summary>
-            <description>support: "Matrix : arabic vod addon" group on facebook</description>
-            <platform>all</platform>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.zombi"
+       name="Zombi Repository"
+        version="0.0.7"
+        provider-name="zombi">
+    <extension point="xbmc.addon.repository" name="Zombi Repository">
+    <dir>
+        <info compressed="false">https://raw.githubusercontent.com/zombiB/zombi-addons/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/zombiB/zombi-addons/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://github.com/zombiB/zombi-addons/raw/master/repo</datadir>
+    </dir>
+    <dir>
+        <info compressed="false">https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master</datadir>
+    </dir>
+    <dir>
+        <info compressed="false">https://raw.githubusercontent.com/Arias800/Fichier-divers/master/addon.xml</info>
+        <checksum>https://raw.githubusercontent.com/Arias800/Fichier-divers/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/Arias800/script.module.dnspython/master</datadir>
+    </dir>
+   </extension>
+
+    <extension point="xbmc.addon.metadata">
+        <summary lang="fr">Matrix Repository</summary>
+        <description lang="fr">arabic vod addon</description>
+        <summary lang="en">Matrix Repository</summary>
+        <description lang="en">arabic vod addon</description>
+        <platform>all</platform>
     </extension>
 </addon>

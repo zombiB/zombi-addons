@@ -64,7 +64,7 @@
 
     <addon id="repository.zombi" 
 			name="Zombi Repository" 
-			version="0.0.6" 
+			version="0.0.7" 
 			provider-name="zombi">
         <extension point="xbmc.addon.repository" name="Zombi Repository">
             <dir>
@@ -74,19 +74,19 @@
             <hashes>false</hashes>
 			</dir>
             <dir>
-                <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
-                <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
-                <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
+                <info compressed="false">https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml</info>
+                <checksum>https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml.md5</checksum>
+                <datadir zip="true">https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master</datadir>
             </dir>
             <dir>
-                <info compressed="false">https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml</info>
-                <checksum>https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml.md5</checksum>
-                <datadir zip="true">https://raw.githubusercontent.com/jsergio123/zips/master/</datadir>
+                <info compressed="false">https://raw.githubusercontent.com/Arias800/Fichier-divers/master/addon.xml</info>
+                <checksum>https://raw.githubusercontent.com/Arias800/Fichier-divers/master/addons.xml.md5</checksum>
+                <datadir zip="true">https://raw.githubusercontent.com/Arias800/script.module.dnspython/master</datadir>
             </dir>
         </extension>
         <extension point="xbmc.addon.metadata">
-            <summary>arabic vod addon</summary>
-            <description>support: "Matrix : arabic vod addon" group on facebook</description>
+            <summary>Matrix Repository</summary>
+            <description>arabic vod addon</description>
             <platform>all</platform>
     </extension>
 </addon>
