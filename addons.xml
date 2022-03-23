@@ -5,20 +5,20 @@
 
         <trycatch>
             <try>
-                <import addon="xbmc.python" version="3.6.0"/>
+                <import addon="xbmc.python" version="3.0.0"/>
             </try>
 
             <catch>
                 <import addon="xbmc.python" version="2.24.0"/>
             </catch>
         </trycatch>
-        <import addon="script.kodi.loguploader" version="0.6.0"/>
-        <import addon="script.module.simplejson" version="3.3.0"/>
-        <import addon="script.module.resolveurl" version="5.1.1"/>
-        <import addon="script.module.requests" version="2.9.1"/>
+        <import addon="repository.zombi"/>
+        <import addon="script.module.pyqrcode"/>
+        <import addon="script.module.requests"/>
         <import addon="script.module.dnspython" optional="true"/>
-        <import addon="repository.zombi" version="0.0.6"/>
-	    <import addon="script.video.F4mProxy" optional="true"/>
+        <import addon="script.module.resolveurl" optional="true"/>
+        <import addon="script.module.selenium" optional="true"/>
+        <!-- Pour le DEBUG        <import addon="script.module.pydevd" version="4.4.0"/> -->
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -41,6 +41,10 @@
             <item library="resources/lib/gui/menuDelBookmark.py">
 		        <label>$ADDON[plugin.video.matrix 30412]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(isBookmark)</visible>
+            </item>
+            <item library="resources/lib/gui/menuDelViewing.py">
+		        <label>$ADDON[plugin.video.vstream 30412]</label>
+				<visible>Window.IsVisible(home) + ListItem.Property(isViewing)</visible>
             </item>
 		</menu>
     </extension>
