@@ -1,101 +1,44 @@
-﻿#coding: utf-8
-from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
+#-*- coding: utf-8 -*-
+#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+#
+from resources.lib.handler.requestHandler import cRequestHandler #requete url
+from resources.lib.parser import cParser #recherche de code
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog
-from resources.lib.comaddon import progress, VSlog
-import re
-import base64
-UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+from resources.lib.packer import cPacker
+from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'supervideo'
-        self.__sFileName = self.__sDisplayName
+        iHoster.__init__(self, 'supervideo', 'SuperVideo')
 
-    def getDisplayName(self):
-        return  self.__sDisplayName
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
+        api_call = False
 
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'supervideo'
-
-    def isDownloadable(self):
-        return True
-
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return ''
-
-    def __getIdFromUrl(self):
-        return ''
-
-    def __modifyUrl(self, sUrl):
-        return ''
-
-    def setUrl(self, sUrl):
-        self.__sUrl = sUrl
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        VSlog("getMediaLink")
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-        VSlog(self.__sUrl)
-        api_call = ''
-
-        oRequest = cRequestHandler(self.__sUrl)
-        oRequest.addHeaderEntry('Referer',self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        #VSlog(sHtmlContent)
+        sPattern = "(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>"
         oParser = cParser()
-        sPattern = "<script type='text/javascript'>(.+?)</script>"
         aResult = oParser.parse(sHtmlContent, sPattern)
-        #VSlog(aResult)
-        if (aResult[0] == True):
 
-            media =  aResult[1][0]
+        if aResult[0] is True:
+            sHtmlContent = cPacker().unpack(aResult[1][0])
+            sPattern = 'file:"([^<>"]+?\.mp4).+?label:"([^"]+)"'
+            aResult = oParser.parse(sHtmlContent, sPattern)
 
-            #cPacker decode
-            from resources.lib.packer import cPacker
-            media = cPacker().unpack(media)
-            #print media 
-            #VSlog(media)
-            if (media):
+        if aResult[0] is True:
+            url=[]
+            qua=[]
+            for i in aResult[1]:
+                url.append(str(i[0]))
+                qua.append(str(i[1]))
 
-                sPattern = ',{file:"(.+?)",label:"(.+?)"'
-                aResult = oParser.parse(media, sPattern)
-                #VSlog(aResult)
-                if (aResult[0] == True):
-                #initialisation des tableaux
-                    url=[]
-                    qua=[]
-                #Remplissage des tableaux
-                    for i in aResult[1]:
-                        url.append(str(i[0]))
-                        qua.append(str(i[1]))
-                #Si une seule url
-                    api_call = dialog().VSselectqual(qua, url)
+            #Affichage du tableau
+            api_call = dialog().VSselectqual(qua, url)
 
-        if (api_call):
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
-        print(api_call) 
+        if api_call:
+            return True, api_call
 
         return False, False

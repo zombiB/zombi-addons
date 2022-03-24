@@ -25,16 +25,17 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-               
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أهداف و ملخصات', 'sport.png', oOutputParameterHandler)
+    
     oGui.setEndOfDirectory()
 
 def showMovies(sSearch = ''):
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -60,7 +61,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[1])
+            sTitle = aEntry[1]
             sThumbnail = aEntry[0]
             siteUrl = URL_MAIN + aEntry[0]
             sInfo = '' 
@@ -75,8 +76,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
  
 def showLive():
     oGui = cGui()
@@ -101,8 +101,13 @@ def showLive():
     
    
     if (aResult[0] == True):
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
  
             sTitle = aEntry[1]
             sThumbnail = aEntry[0]
@@ -112,7 +117,9 @@ def showLive():
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)        
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)  
+        
+        progress_.VSclose(progress_)      
            
        
     oGui.setEndOfDirectory()
@@ -144,8 +151,8 @@ def showHosters():
     if aResult:
         for aEntry in aResult:
             
-            sMovieTitle = str(aEntry[1]) 
-            sHosterUrl = str(aEntry[0])
+            sMovieTitle = aEntry[1]
+            sHosterUrl = aEntry[0]
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
                            

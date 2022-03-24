@@ -27,17 +27,18 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
     
-
-            
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', 'doc.png', oOutputParameterHandler)
+    
     oGui.setEndOfDirectory()
 
-		
 def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
     if (sSearchText != False):
-        sUrl = ''+sSearchText
+        sUrl = 'https://docarabic.wordpress.com/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -126,8 +127,8 @@ def showHosters():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
-            url = str(aEntry).replace('?rel=0','')
+            url = aEntry
+            url = aEntry.replace('?rel=0','')
             if url.startswith('//'):
                url = 'http:' + url
            

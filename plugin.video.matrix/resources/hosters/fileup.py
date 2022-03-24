@@ -13,61 +13,20 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'fileup'
-        self.__sFileName = self.__sDisplayName
-        self.__sHD = ''
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'fileup'
-
-    def setHD(self, sHD):
-        self.__sHD = ''
-
-    def getHD(self):
-        return self.__sHD
+        iHoster.__init__(self, 'fileup', 'fileup')
 
     def isDownloadable(self):
         return False
 
-    def isJDownloaderable(self):
-        return False
-
-    def getPattern(self):
-        return ''
-
-    def __getIdFromUrl(self, sUrl):
-        return ''
-
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
-        if not self.__sUrl.endswith('.html'):
-            self.__sUrl = self.__sUrl + '.html'
-            
-    def checkUrl(self, sUrl):
-        return True
+        self._url = str(sUrl)
+        if not self._url.endswith('.html'):
+            self._url = self._url + '.html'
 
-    def __getUrl(self, media_id):
-        return
+    def _getMediaLinkForGuest(self):
+        VSlog(self._url)
 
-    def getMediaLink(self):
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
-        VSlog(self.__sUrl)
-
-        sUrl = self.__sUrl
+        sUrl = self._url
 
         oRequest = cRequestHandler(sUrl)
         sHtmlContent = oRequest.request()
@@ -79,15 +38,15 @@ class cHoster(iHoster):
         sPattern = "</script><script type='text/javascript'>([^<]+)</script></div>"
         aResult = oParser.parse(sHtmlContent,sPattern)
 
-        if (aResult[0] == True):
+        if aResult[0] is True:
             sHtmlContent = cPacker().unpack(aResult[1][0])
 
             sPattern = 'file:"([^"]+)",flashplayer:'
             aResult = oParser.parse(sHtmlContent,sPattern)
-            if (aResult[0] == True):
-                api_call = aResult[1][0] + '|User-Agent=' + UA + '&Referer=' + self.__sUrl
+            if aResult[0] is True:
+                api_call = aResult[1][0] + '|User-Agent=' + UA + '&Referer=' + self._url
                 
-        if (api_call):
+        if api_call:
             return True, api_call
 
         return False, False

@@ -23,20 +23,11 @@ def load():
     oGui = cGui()
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-               
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', 'sport.png', oOutputParameterHandler)
+    
     oGui.setEndOfDirectory()
-		
-def showSearch():
-    oGui = cGui()
- 
-    sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
-        sUrl = ''+sSearchText
-        showMovies(sUrl)
-        oGui.setEndOfDirectory()
-        return
+
    
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -71,7 +62,7 @@ def showMovies(sSearch = ''):
             sTitle =  aEntry[1]+' vs '+aEntry[3]
             sThumbnail = ""
             siteUrl = aEntry[0]
-            sInfo = aEntry[2]
+            sInfo = aEntry[2]+' GMT+1'
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -121,7 +112,29 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
-                   sHosterUrl = url
+                   if url.startswith('//'):
+                      url = 'https:' + url 
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
+    # (.+?) # ([^<]+) .+? 
+            sPattern = 'src="(.+?)"'
+            aResult = oParser.parse(data, sPattern)
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
                    sMovieTitle = sTitle
             
 
@@ -131,13 +144,16 @@ def showLive():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)  
     # (.+?) # ([^<]+) .+? 
-            sPattern = 'file: "(.+?)",'
+            sPattern = "hls: '(.+?)'"
             aResult = oParser.parse(data, sPattern)
             if (aResult[0] == True):
                for aEntry in aResult[1]:
             
                    url = aEntry
-                   sHosterUrl = url
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
                    sMovieTitle = sTitle
             
 
@@ -145,38 +161,48 @@ def showLive():
                    if (oHoster != False):
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)     
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
+    # (.+?) # ([^<]+) .+? 
+            sPattern = 'file: "(.+?)",'
+            aResult = oParser.parse(data, sPattern)
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)   
+    # (.+?) # ([^<]+) .+? 
+            sPattern = '<iframe src=".+?stream_url=(.+?)" height'
+            aResult = oParser.parse(data, sPattern)
+            UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Mobile Safari/537.36'
+            if (aResult[0] == True):
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=' + UA + '&Referer=https://yastatic.net/' 
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if (oHoster != False):
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)    
            
 
              
     oGui.setEndOfDirectory() 
 	
-def showHosters():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-    # (.+?) # ([^<]+) .+? 
-    sPattern = 'source: "(.+?)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sHosterUrl = url
-            sMovieTitle = sMovieTitle
-            
-
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
-
-                
-    oGui.setEndOfDirectory()

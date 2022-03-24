@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
-# Venom.
+import xbmc
+
 from resources.lib.db import cDb
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.comaddon import dialog, addon, xbmc, isMatrix
+from resources.lib.comaddon import dialog, addon, isMatrix
 from resources.lib.util import UnquotePlus
 
 SITE_IDENTIFIER = 'cFav'
@@ -30,8 +31,8 @@ class cFav:
         siteUrl = oInputParameterHandler.getValue('siteUrl')
         sTitle = oInputParameterHandler.getValue('sCleanTitle')
         # sTitle = cUtil().CleanName(sTitle)
-
-        cDb().del_bookmark(siteUrl, sTitle, sCat, sAll)
+        with cDb() as db:
+            db.del_bookmark(siteUrl, sTitle, sCat, sAll)
         return True
 
     # Suppression d'un bookmark depuis un Widget
@@ -41,8 +42,8 @@ class cFav:
 
         sTitle = xbmc.getInfoLabel('ListItem.Property(sCleanTitle)')
         siteUrl = xbmc.getInfoLabel('ListItem.Property(siteUrl)')
-
-        cDb().del_bookmark(siteUrl, sTitle)
+        with cDb() as db:
+            db.del_bookmark(siteUrl, sTitle)
 
         return True
 
@@ -50,7 +51,8 @@ class cFav:
         oGui = cGui()
 
         # Comptages des marque-pages
-        row = cDb().get_bookmark()
+        with cDb() as db:
+            row = db.get_bookmark()
 
         compt = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         for i in row:
@@ -86,7 +88,9 @@ class cFav:
         oGui = cGui()
         oInputParameterHandler = cInputParameterHandler()
 
-        row = cDb().get_bookmark()
+        # Comptages des marque-pages
+        with cDb() as db:
+            row = db.get_bookmark()
 
         if (oInputParameterHandler.exist('sCat')):
             sCat = oInputParameterHandler.getValue('sCat')
@@ -116,10 +120,7 @@ class cFav:
             except:
                 title = data['title']
 
-            try:
-                thumbnail = data['icon'].encode('utf-8')
-            except:
-                thumbnail = data['icon']
+            thumbnail = data['icon']
 
             try:
                 try:
@@ -164,7 +165,7 @@ class cFav:
                 if (cat  == '1'):           # Films
                     oGuiElement.setMeta(1)
                     oGuiElement.setCat(1)
-                elif (cat == '2'):          # Séries 
+                elif (cat == '2'):          # Séries
                     oGuiElement.setMeta(2)
                     oGuiElement.setCat(2)
                 elif (cat == '3'):          # Anime
@@ -192,10 +193,10 @@ class cFav:
                 oGuiElement.setFanart(fanart)
                 oGuiElement.addItemProperties('isBookmark', True)
 
-                oGui.CreateSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'delBookmark', self.ADDON.VSlang(30412))
+                oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cFav', 'cFav', 'delBookmark', self.ADDON.VSlang(30412))
 
                 if (function == 'play'):
-                    oGui.addHost(oGuiElement, oOutputParameterHandler)
+                    oGui.addHost(oGuiElement, oOutputParameterHandler)  # addHost n'existe plus
                 else:
                     oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
@@ -217,8 +218,10 @@ class cFav:
         oInputParameterHandler = cInputParameterHandler()
 
         sCat = oInputParameterHandler.getValue('sCat') if oInputParameterHandler.exist('sCat') else xbmc.getInfoLabel('ListItem.Property(sCat)')
-        iCat = int(sCat)
-        if iCat<1 or iCat>8:
+        iCat = 0
+        if sCat:
+            iCat = int(sCat)
+        if iCat < 1 or iCat > 8:
             self.DIALOG.VSinfo('Error', self.ADDON.VSlang(30038))
             return
 
@@ -230,7 +233,7 @@ class cFav:
         sFav = oInputParameterHandler.getValue('sFav') if oInputParameterHandler.exist('sFav') else xbmc.getInfoLabel('ListItem.Property(sFav)')
 
         if sTitle == '':
-            self.DIALOG.VSinfo('Error', 'Probleme sur titre')
+            self.DIALOG.VSinfo('Error', 'Probleme sur le titre')
             return
 
         meta['siteurl'] = sSiteUrl
@@ -242,6 +245,8 @@ class cFav:
         meta['icon'] = xbmc.getInfoLabel('ListItem.Art(thumb)')
         meta['fanart'] = xbmc.getInfoLabel('ListItem.Art(fanart)')
         try:
-            cDb().insert_bookmark(meta)
+            # Comptages des marque-pages
+            with cDb() as db:
+                db.insert_bookmark(meta)
         except:
             pass

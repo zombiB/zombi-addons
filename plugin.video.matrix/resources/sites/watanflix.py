@@ -9,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, isMatrix
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
 
 SITE_IDENTIFIER = 'watanflix'
 SITE_NAME = 'watanflix'
@@ -23,7 +24,7 @@ KID_CARTOON = ('http://watanflix.com/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84'
 SERIE_GENRES = (True, 'showGenres')
 
 URL_SEARCH = ('https://watanflix.com/ar/search?q=', 'showSeries')
-URL_SEARCH_SERIES = ('https://watanflix.com/ar/search?q=', 'showSeries')
+URL_SEARCH_SERIES = ('https://watanflix.com/ar/search?q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -32,7 +33,15 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-           
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler) 
+    
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -55,6 +64,7 @@ def showSeriesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    sHtmlContent = sHtmlContent.encode("utf8",errors='ignore').decode("unicode_escape")
  # .+? ([^<]+)
 
     sPattern = ',"title":"(.+?)",.+?,"url":"(.+?)","class'
@@ -71,8 +81,8 @@ def showSeriesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[0])
-            siteUrl = str(aEntry[1])
+            sTitle = aEntry[0]
+            siteUrl = aEntry[1]
             sThumbnail = ""
             sInfo = ""
 
@@ -143,15 +153,16 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = str(aEntry[3])
-            siteUrl = str(aEntry[2])
-            sThumbnail = str(aEntry[4])
-            sInfo = str(aEntry[1])
+            sTitle = aEntry[3]
+            siteUrl = aEntry[2]
+            sThumbnail = aEntry[4]
+            sInfo = aEntry[1]
             sYear = aEntry[0]
             sDisplayTitle = ('%s (%s)') % (sTitle, sYear)
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
@@ -194,10 +205,10 @@ def showSerie(sSearch = ''):
             if progress_.iscanceled():
                 break
 				
-            sTitle = str(aEntry[2])           
-            siteUrl = str(aEntry[1])
-            sThumbnail = str(aEntry[3])
-            sInfo = str(aEntry[0])
+            sTitle = aEntry[2]      
+            siteUrl = aEntry[1]
+            sThumbnail = aEntry[3]
+            sInfo = aEntry[0]
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -252,8 +263,8 @@ def showHosters():
             if progress_.iscanceled():
                 break
             
-            sTitle = sMovieTitle+str(aEntry[2])            
-            sThumbnail = str(aEntry[1])
+            sTitle = sMovieTitle+aEntry[2].replace("الحلقة "," E")                
+            sThumbnail = aEntry[1]
             url = str(aEntry[0])
             if url.startswith('//'):
                 url = 'http:' + url

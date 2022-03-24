@@ -11,74 +11,34 @@ UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'faselhd'
-        self.__sFileName = self.__sDisplayName
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]' + self.__sDisplayName + '[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'faselhd'
+        iHoster.__init__(self, 'faselhd', 'faselhd')
 
     def isDownloadable(self):
         return True
 
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return ''
-
-    def __getIdFromUrl(self):
-        return ''
-
-    def __modifyUrl(self, sUrl):
-        return ''
-
-    def setUrl(self, sUrl):
-        self.__sUrl = sUrl
-
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        VSlog("getMediaLink")
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
         api_call = ''
-        VSlog(self.__sUrl)
-        oParser = cParser()
-        oRequest = cRequestHandler(self.__sUrl)
+        VSlog(self._url)
+        oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('user-agent',UA)
-        oRequest.addHeaderEntry('referer','https://www.faselhd.pro/')
+        oRequest.addHeaderEntry('referer','https://www.faselhd.top/')
         data = oRequest.request()
 
         oParser = cParser()
         sPattern = '"file":"(.+?)","'
         aResult = oParser.parse(data, sPattern)
       # (.+?) ([^<]+) .+?
-        if (aResult[0] == True):
+        if aResult[0] is True:
             url2 = aResult[1][0]
             oRequestHandler = cRequestHandler(url2)
             sHtmlContent2 = oRequestHandler.request()
+            core = url2.replace('\\','').replace("['",'').replace("']",'')
+            
 
-            sPattern = 'RESOLUTION=(.+?),.+?index(.+?)#EXT'
+            sPattern = ',RESOLUTION=(.+?),.+?(http.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
-            if (aResult[0] == True):
+            if aResult[0] is True:
             
             #initialisation des tableaux
                 url=[]
@@ -86,15 +46,12 @@ class cHoster(iHoster):
             
             #Replissage des tableaux
                 for i in aResult[1]:
-                    url.append(url2)
-                    qua.append(str(i[0]))
-
+                    url.append(str(i[1]))
+                    qua.append(str(i[0]).split('x')[1]+"p")
                 api_call = dialog().VSselectqual(qua, url)
-
-
-
-                if (api_call):
-                    return True, api_call+'|User-Agent=' + UA + '&Referer=' + self.__sUrl 
+ 
+            if api_call:
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url 
 #############################################################
 #
 # big thx to Rgysoft for this code
@@ -125,7 +82,7 @@ class cHoster(iHoster):
                 	sPattern =  ',RESOLUTION=(.+?),.+?index(.+?)token='
                 	oParser = cParser()
                 	aResult = oParser.parse(sHtmlContent, sPattern)
-                	if (aResult[0] == True):
+                	if aResult[0] is True:
         	            url=[]
         	            qua=[]
         	            base= ''
@@ -133,11 +90,9 @@ class cHoster(iHoster):
                         	base= 'index' + str(i[1])
                         	url.append(core.replace('master.m3u8?',base))
                         	qua.append(str(i[0]))
-                        	
         	            api_call = dialog().VSselectqual(qua, url)
-
-
-        	    if (api_call):
-                	return True, api_call+'|User-Agent=' + UA 
+ 
+        	    if api_call:
+                	return True, api_call + '|User-Agent=' + UA
                 	
         	    return False, False

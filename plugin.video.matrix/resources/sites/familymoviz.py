@@ -38,8 +38,26 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
     
-
-            
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
+   
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_FAM[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عائلية', 'film.png', oOutputParameterHandler)
+ 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'mslsl.png', oOutputParameterHandler)   
+    
     oGui.setEndOfDirectory()
  
 def showSearch():
@@ -74,7 +92,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="(.+?)".+?<p class="exp-news">([^<]+)<'
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><noscript><img.+?src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<a'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -132,8 +150,8 @@ def showSearchSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><img width=".+?" height=".+?" src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="(.+?)".+?<p class="exp-news">([^<]+)<'
-
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><noscript><img.+?src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<a'
+ 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -160,7 +178,7 @@ def showSearchSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -185,7 +203,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="watch_aflam2"><a href="([^<]+)">([^<]+)</a></div><a class="imaf"><img width=".+?" height=".+?" src="(.+?)" class.+?<p class="description"><a style=".+?" href=".+?">([^<]+)</a>'
+    sPattern = '<div class="watch_aflam2"><a href="([^<]+)">([^<]+)</a></div>.+?src="([^<]+)" class=.+?<p class="description"><a style="color:#fff;" href=".+?">([^<]+)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -200,8 +218,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1]
-            sTitle = sTitle.replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut","")
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("Cut","")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[0]
             sInfo = aEntry[3]
@@ -243,8 +260,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="watch_aflam2"><a>([^<]+)</a></div><a class="imaf" href="([^<]+)"><img src="([^<]+)"></a>'
-
+    sPattern = '<div class="watch_aflam2"><a>([^<]+)</a></div><a class="imaf" href="([^<]+)"><noscript><img src="([^<]+)"></noscript>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -258,9 +274,8 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[0]
             
-            sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut","").replace("(","").replace(")","").replace("الموسم","S")
+            sTitle = aEntry[0].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("Season","S").replace("season","S").replace("S ","S").replace("Cut","").replace("(","").replace(")","").replace("الموسم","S")
             sThumbnail = aEntry[2]
             siteUrl = aEntry[1]
             sInfo = ""
@@ -284,9 +299,21 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
-   
+     
 def __checkForNextPage(sHtmlContent):
     sPattern = "<a href='([^<]+)'>&rsaquo;</a>"
+	
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+ 
+    if (aResult[0] == True):
+        #print aResult[1][0]
+        return aResult[1][0]
+
+    return False
+     
+def __checkForNextPageEpisodes(sHtmlContent):
+    sPattern = '<link rel="next" href="([^<]+)" />'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -309,8 +336,7 @@ def showEpisodes():
     sHtmlContent = oRequestHandler.request()
 	
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="watch_aflam2"><a href="([^<]+)">([^<]+)</a></div><a class="imaf"><img width=".+?" height=".+?" src="([^<]+)" class=.+?<p class="description"><a style=".+?" href=".+?">([^<]+)</a>'
-
+    sPattern = '<div class="watch_aflam2"><a href="([^<]+)">([^<]+)</a></div>.+?<p class="description"><a style=".+?" href=".+?">([^<]+)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -320,7 +346,7 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1].replace("Cut","").replace("مترجمة","").replace("مترجم","") 
-            sThumbnail = aEntry[2]
+            sThumbnail = sThumbnail
             siteUrl = aEntry[0]
             sInfo = ""
 
@@ -334,6 +360,12 @@ def showEpisodes():
 
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+ 
+        sNextPage = __checkForNextPageEpisodes(sHtmlContent)
+        if (sNextPage != False):
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
 
     oGui.setEndOfDirectory()
@@ -375,7 +407,7 @@ def showHosters():
         oGui.addText(SITE_IDENTIFIER,'الارشاد العائلي : ' + str(sNote2))
     oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
 
-    sPattern = 'SRC="(.+?)" FRAMEBORDER'
+    sPattern = 'SRC="(.+?)".+?width'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if (aResult[0] == True):

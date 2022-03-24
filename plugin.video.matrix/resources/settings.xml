@@ -3,34 +3,36 @@
 
     <!-- Menu general -->
     <category label="30021">
+<!--
+c'est le changelog de la beta !        <setting label="30036" type="action" action="RunScript(plugin.video.matrix, changelog, ?site=globalRun&amp;function=changelog)"/>
+ -->
         <setting label="30030" type="lsep"/>
         <setting type="sep"/>
         <setting id="playerPlay" type="enum" values="XbmcPlayer|XbmcPlugin (recommandé)" label="30029" default="1"/>
         <setting id="playerType" type="enum" values="Auto|MPlayer|DVDPlayer" label="30001" default="2" enable="eq(-1,0)"/>
         <setting id="upnext" type="bool" label="30506" default="true"/>
         <setting id="srt-view" type="bool" label="30002" default="false"/>
-        <setting id="deco_color" type="select" label="30010" values="aliceblue|lemonchiffon|lightblue|lightcoral|lightcyan|lightgrey|lightgreen|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lavender|moccasin|pink|plum|powderblue|seashell|coral" default="lightcoral"/>
-        <!-- <setting id="param_timeout" label="30027" type="number" default="1000"/-->
 
-        <setting label="30031" type="lsep"/>
+        <setting label="30481" type="lsep"/>
         <setting type="sep"/>
-        <setting id="meta-view" type="bool" label="30006" default="false"/>
+        <setting id="deco_color" type="select" label="30010" values="aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|none|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|transparent|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen" default="lightcoral"/>
+        <setting id="Block_Noti_sound" type="bool" label="30411" default="false"/>
+        <setting id="spinner_small" type="bool" label="30480" default="true"/>
+    </category>
+
+    <!-- Affichage -->
+    <category label="31205">
+
         <setting label="30005" type="lsep"/>
-        <setting type="sep"/>
-        <setting id="api_tmdb" type="text" label="API"  default="b7cf9324cbeb6f4fb811144aa9397093"/>
+        <setting id="meta-view" type="bool" label="30006" default="false"/>
+        <setting id="api_tmdb" type="text" label="API TMDB"  default="b7cf9324cbeb6f4fb811144aa9397093"/>
         <setting id="poster_tmdb" type="select" label="30007" values="w92|w154|w185|w342|w500|w780|original" default="w342"/>
         <setting id="backdrop_tmdb" type="select" label="30008" values="w300|w780|w1280|original" default="w1280"/>
         <setting id="extendedinfo-view" type="bool" label="30009" default="false"/>
         <setting id="information-view" type="bool" label="31102" default="false"/>
+        <setting id="display_season_title" type="bool" label="31204" default="true"/>        
 
-        <setting label="30076" type="lsep"/>
-        <setting type="sep"/>
-        <setting id="history-view" type="bool" label="30016" default="true"/>
 
-        <setting label="30410" type="lsep"/>
-        <setting type="sep"/>
-        <setting id="Block_Noti_sound" type="bool" label="30411" default="false"/>
-        <setting id="spinner_small" type="bool" label="30480" default="true"/>
         <setting label="30032" type="lsep"/>
         <setting type="sep"/>
         <setting id="visuel-view" type="number" label="30419" default="500"/>
@@ -41,110 +43,38 @@
         <setting id="tvshows-view" type="number" label="30405" default="500" enable="eq(-4,true)"/>
         <setting id="seasons-view" type="number" label="31201" default="500" enable="eq(-5,true)"/>
         <setting id="episodes-view" type="number" label="31202" default="500" enable="eq(-6,true)"/>
-    </category>
 
-    <!-- A propos/sources -->
-    <category label="30449">
-        <setting label="30034" type="lsep"/>
-        <setting type="sep"/>
-        <setting id="service_time" type="text" label="30047" default="" enable="false"/>
-        <setting id="service_version" type="text" label="Version:" default="" enable="false"/>
 
-        <!-- setting invisible utilise -->
-        <setting id="service_futur" type="text" label="" default="" visible="false"/>
-        <setting id="bstoken" type="text" label="" default="" visible="false"/>
         <setting id="tmdb_session" type="text" label="" default="" visible="false"/>
         <setting id="tmdb_account" type="text" label="" default="" visible="false"/>
-
-        <!--parametre invisible qui enregistre l'url actuel de zt et Tirexo -->
-        <setting id="ZT" type="text" label="" default="" visible="false"/>
-        <setting id="Tirexo" type="text" label="" default="" visible="false"/>
-
-        <!--parametre invisible qui enregistre le token alldebrid pour extreme download -->
-        <!--setting id="token_alldebrid" type="text" label="Token Alldebrid" default="" visible="false"/>-->
-
-        <!--<setting label="30036" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, changelog)"/>-->
-        <setting label="30036" type="action" action="RunScript(plugin.video.matrix, changelog, ?site=globalRun&amp;function=changelog)"/>
-
-        <!--<setting label="30035" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, soutient)"/>-->
-        <!--setting label="30035" type="action" action="RunScript(plugin.video.matrix, soutient, ?site=globalRun&amp;function=soutient)"/>-->
-        <setting label="30116" type="lsep"/>
-        <setting type="sep"/>
-
-
-        <!--<setting label="30420" type="action"  action="XBMC.RunScript(special://home/addons/plugin.video.vstream/resources/lib/runscript.py, search)"/>-->
-        <setting label="30420" type="action"  action="RunScript(plugin.video.matrix, search, ?site=globalRun&amp;function=search)"/>
-        <setting subsetting="true" label="30070" type="lsep"/>
-        <setting type="sep"/>
-
-        <!--activation invisible des sources pour la recherche globale, il n'est pas utile de déclarer celles sans sSearch-->
-        <setting visible="false" id="plugin_panet" type="bool" label="panet" default="true"/> 
-        <setting visible="false" id="plugin_egybest" type="bool" label="egybest" default="true"/> 
-        <setting visible="false" id="plugin_qdoc" type="bool" label="qdoc" default="true"/> 
-        <setting visible="false" id="plugin_radioquran" type="bool" label="radioquran" default="true"/>
-        <setting visible="false" id="plugin_faselhd" type="bool" label="faselhd" default="true"/> 
-        <setting visible="false" id="plugin_brstej" type="bool" label="brstej" default="true"/>   
-        <setting visible="false" id="plugin_shahidu" type="bool" label="shahidu" default="true"/> 
-        <setting visible="false" id="plugin_shoofvod" type="bool" label="shoofvod" default="true"/> 
-        <setting visible="false" id="plugin_egyclub" type="bool" label="egyclub" default="true"/> 
-        <setting visible="false" id="plugin_showtv" type="bool" label="showtv" default="true"/>
-        <setting visible="false" id="plugin_animeslayer" type="bool" label="animeslayer" default="true"/>  
-        <setting visible="false" id="plugin_tuktukcinema" type="bool" label="tuktukcinema" default="true"/> 
-        <setting visible="false" id="plugin_tvfun" type="bool" label="tvfun" default="true"/> 
-        <setting visible="false" id="plugin_watanflix" type="bool" label="watanflix" default="true"/> 
-        <setting visible="false" id="plugin_yallalive" type="bool" label="yallalive" default="true"/> 
-        <setting visible="false" id="plugin_yallashoot" type="bool" label="yallashoot" default="true"/> 
-        <setting visible="false" id="plugin_aflamfree" type="bool" label="aflamfree" default="true"/> 
-        <setting visible="false" id="plugin_ahdaf" type="bool" label="ahdaf" default="true"/> 
-        <setting visible="false" id="plugin_akoam" type="bool" label="akoam" default="true"/> 
-        <setting visible="false" id="plugin_akwam" type="bool" label="akwam" default="true"/> 
-        <setting visible="false" id="plugin_xsanime" type="bool" label="xsanime" default="true"/>
-        <setting visible="false" id="plugin_alarab" type="bool" label="alarab" default="true"/> 
-        <setting visible="false" id="plugin_alfajertv" type="bool" label="alfajertv" default="true"/> 
-        <setting visible="false" id="plugin_animeblkom" type="bool" label="animeblkom" default="true"/> 
-        <setting visible="false" id="plugin_arabsciences" type="bool" label="arabsciences" default="true"/> 
-        <setting visible="false" id="plugin_arabseed" type="bool" label="arabseed" default="true"/> 
-        <setting visible="false" id="plugin_aracinema_co" type="bool" label="aracinema_co" default="true"/> 
-        <setting visible="false" id="plugin_arbcinema" type="bool" label="arbcinema" default="true"/> 
-        <setting visible="false" id="plugin_awaan" type="bool" label="awaan" default="true"/> 
-        <setting visible="false" id="plugin_beinsports_net" type="bool" label="beinsports_net" default="true"/>
-        <setting visible="false" id="plugin_btolat" type="bool" label="btolat" default="true"/>
-        <setting visible="false" id="plugin_cartoonrbi" type="bool" label="cartoonrbi" default="true"/>
-        <setting visible="false" id="plugin_cdrama" type="bool" label="cdrama" default="true"/>
-        <setting visible="false" id="plugin_cimaclub" type="bool" label="cimaclub" default="true"/>
-        <setting visible="false" id="plugin_cimanow" type="bool" label="cimanow" default="true"/>
-        <setting visible="false" id="plugin_cimau" type="bool" label="cimau" default="true"/>
-        <setting visible="false" id="plugin_docarabic" type="bool" label="docarabic" default="true"/>
-        <setting visible="false" id="plugin_egydead" type="bool" label="egydead" default="true"/>
-        <setting visible="false" id="plugin_eyoon" type="bool" label="eyoon" default="true"/>
-        <setting visible="false" id="plugin_familymoviz" type="bool" label="familymoviz" default="true"/>
-        <setting visible="false" id="plugin_fansubs" type="bool" label="fansubs" default="true"/>
-        <setting visible="false" id="plugin_felarda" type="bool" label="felarda" default="true"/>
-        <setting visible="false" id="plugin_fnteam" type="bool" label="fnteam" default="true"/>
-        <setting visible="false" id="plugin_geoarabic" type="bool" label="geoarabic" default="true"/>
-        <setting visible="false" id="plugin_helal" type="bool" label="helal" default="true"/>
-        <setting visible="false" id="plugin_hidaya" type="bool" label="hidaya" default="true"/>
-        <setting visible="false" id="plugin_kingfoot" type="bool" label="kingfoot" default="true"/>
-        <setting visible="false" id="plugin_lodynet" type="bool" label="lodynet" default="true"/>
-        <setting visible="false" id="plugin_movizland" type="bool" label="movizland" default="true"/>
-        <setting visible="false" id="plugin_movsu" type="bool" label="movsu" default="true"/>
-        <setting visible="false" id="plugin_mycima" type="bool" label="mycima" default="true"/> 
-        <setting visible="false" id="plugin_arblionz" type="bool" label="arblionz" default="true"/> 
-        <setting visible="false" id="plugin_alwanfilm" type="bool" label="alwanfilm" default="true"/>
-        <setting visible="false" id="plugin_asgoal" type="bool" label="asgoal" default="true"/> 
-        <setting visible="false" id="plugin_halacima" type="bool" label="halacima" default="true"/> 
-        <setting visible="false" id="plugin_koraonline" type="bool" label="koraonline" default="true"/> 
-        <setting visible="false" id="plugin_replay" type="bool" label="replay" default="true"/> 
-        <setting visible="false" id="plugin_shayef" type="bool" label="shayef" default="true"/>  
-        <setting visible="false" id="plugin_topimdb" type="bool" label="topimdb" default="true"/>  
-        <setting visible="false" id="plugin_themoviedb_org" type="bool" label="themoviedb_org" default="true"/>  
-        <setting visible="false" id="plugin_spacepowerfan" type="bool" label="spacepowerfan" default="true"/>  
-        <setting visible="false" id="plugin_tunitv" type="bool" label="tunitv" default="true"/>   
     </category>
 
-	
+    <!-- Sources -->
+    <category label="30449">
+
+
+        <setting label="30116" type="lsep"/>
+<!--        <setting type="sep"/>
+ n'est plus utile		<setting subsetting="true" label="30070" type="lsep"/> -->
+        <setting label="30420" type="action"  action="RunScript(plugin.video.matrix, search, ?site=globalRun&amp;function=search)"/>
+        <setting label="31104" type="action"  action="RunScript(plugin.video.matrix, enableSources, ?site=globalRun&amp;function=enableSources)"/>
+        <setting label="31105" type="action"  action="RunScript(plugin.video.matrix, disableSources, ?site=globalRun&amp;function=disableSources)"/>
+        <setting id="contenu_adulte" type="bool" label="31103" default="false"/>
+        <setting id="history-view" type="bool" label="30016" default="true"/>
+        <setting type="sep"/>
+        <setting label="31203" type="ipaddress" id="ipaddress" default="127.0.0.1"/>
+
+        <!--parametres invisibles -->
+        <setting id="ZT" type="text" label="" default="" visible="false"/>
+        <setting id="Tirexo" type="text" label="" default="" visible="false"/>
+        <setting id="PlutoTV_deviceID" type="text" label="" default="" visible="false"/>
+        <setting id="PlutoTV_clientID" type="text" label="" default="" visible="false"/>
+        <setting id="PlutoTV_sid" type="text" label="" default="" visible="false"/>
+    </category>
+
     <!-- Enregistrement -->
     <category label="Enregistrement">
+        <setting label="Enregistrement" type="lsep"/>
         <setting id="path_ffmpeg" label="30049" type="file" default=""/>
         <setting id="path_enregistrement" type="folder" label="30050" default=""/>
         <setting id="path_enregistrement_programmation" type="text" label="" default="" visible="false"/>
@@ -159,38 +89,25 @@
 
         <setting type="sep"/>
         <setting id="debug" type="bool" label="30422" default="true"/>
-        <!--<setting label="Upload kodi.log" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, uplog)"/>-->
         <setting label="Upload kodi.log" type="action" action="RunScript(plugin.video.matrix, uplog, ?site=globalRun&amp;function=uplog)"/>
         <setting id="service_log" type="text" label="30054" default="" enable="false"/>
 
-        <setting type="sep"/>
         <setting subsetting="true" label="30055" type="lsep"/>
-        <!--<setting label="Import/Export" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, addon)"/>-->
         <setting label="Import/Export" type="action" action="RunScript(plugin.video.matrix, sauv, ?site=globalRun&amp;function=sauv)"/>
 
-        <setting type="sep"/>
         <setting subsetting="true" label="30056" type="lsep"/>
-        <!--<setting label="Supprimer une BDD" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, clean)"/>-->
         <setting label="30057" type="action" action="RunScript(plugin.video.matrix, clean, ?site=globalRun&amp;function=clear)"/>
 
-        <setting type="sep"/>
         <setting subsetting="true" label="30058" type="lsep"/>
-        <!--<setting label="Clear Cache matrix" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, addon)"/>-->
         <setting label="30128" type="action" action="RunScript(plugin.video.matrix, addon, ?site=globalRun&amp;function=addon)"/>
 
-        <setting type="sep"/>
         <setting subsetting="true" label="30059" type="lsep"/>
-        <!--<setting label="Clear Cache Kodi" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, xbmc)"/>-->
         <setting label="30129" type="action" action="RunScript(plugin.video.matrix, xbmc, ?site=globalRun&amp;function=xbmc)"/>
 
-        <setting type="sep"/>
         <setting subsetting="true" label="30060" type="lsep"/>
-        <!--<setting label="Clear .fi Files" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, fi)"/>-->
         <setting label="30061" type="action" action="RunScript(plugin.video.matrix, fi, ?site=globalRun&amp;function=fi)"/>
 
-        <setting type="sep"/>
         <setting subsetting="true" label="30062" type="lsep"/>
-        <!--<setting label="Clear Thumbnails" type="action" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, thumb)"/>-->
         <setting label="30063" type="action" action="RunScript(plugin.video.matrix, thumb, ?site=globalRun&amp;function=thumb)"/>
 
         <setting type="sep"/>
@@ -213,6 +130,7 @@
 
     <!-- Integration trakt -->
     <category label="30340">
+        <setting id="bstoken" type="text" label="" default="" visible="false"/>
         <setting id="trakt_number_element" type="number" label="31200" default="10"/>
         <setting id="trakt_show_lists" type="bool" label="30341" default="true"/>
 
@@ -249,6 +167,7 @@
         <setting id="hoster_debridlink_ID" type="text" label="Client ID" default=""/>
         <setting id="hoster_debridlink_token" type="text" label="30328" option="hidden" visible="true" default=""/>
         <setting id="hoster_debridlink_tokenrefresh" type="text" label="Refresh Token" option="hidden" visible="true" default=""/>
+
         <setting label="Alldebrid" type="lsep"/>
         <setting type="sep"/>
         <setting id="hoster_alldebrid_premium" type="bool" label="30333" default="false"/>
@@ -285,28 +204,9 @@
         <setting type="text" label="30068" default=""/>
         <setting type="text" label="30065" default=""/>
         <setting type="text" label="30069" default=""/>
-        <!-- <setting subsetting="true" label="30068" type="lsep"/> -->
-        <!-- <setting subsetting="true" label="30065" type="lsep"/> -->
-        <!-- <setting subsetting="true" label="30069" type="lsep"/> -->
 
         <setting type="sep"/>
         <setting id="UserResolveurl" type="bool" label="30066" default="false"/>
-        <!--<setting label="Configurer resolveurl" type="action" option="close" action="XBMC.RunScript(special://home/addons/plugin.video.matrix/resources/lib/runscript.py, resolveurl)"/>-->
-        <setting label="30067" type="action" option="close" action="RunScript(plugin.video.matrix, resolveurl, ?site=globalRun&amp;function=resolveurl)"/>
+        <setting label="30067" type="action" option="close" action="RunScript(plugin.video.matrix, urlresolver, ?site=globalRun&amp;function=urlresolver)"/>
     </category>
-
-    <!--<category label="30026">
-        <setting label="30026" type="lsep"/>
-        <setting label="(1) Activer TV Direct" type="action" action="ActivateWindow(settings)" enable ="true" />
-        <setting label="(2) Activer l'addon  PVR IPTV simple client" type="action" action="ActivateWindow(addonbrowser)" enable ="true" />
-        <setting label="(3) Modifier Paramètres PVR" type="action" action="Addon.OpenSettings(pvr.iptvsimple)" enable ="true" />
-        <setting label="30028" type="lsep"/>
-        <setting id="m3u" type="text" label="URL de la playlist M3U"  default="https://raw.githubusercontent.com/LordVenom/venom-xbmc-addons/master/repo/resources/webtv2.m3u"/>
-        <setting id="xmltv" type="text" label="URL du fichier XMLTV" default="http://kazer.org/tvguide.xml?u=rgyamjgsph9gx"/>
-        <setting id="icon" type="text" label="Dossier icône" default="special://userdata/addon_data/plugin.video.matrix/resources/art/tv"/>
-        <setting type="sep" visible="true"/>
-        <setting id="pvr-view" type="bool" label="Active le racourcis Tv direct" default="false"/>
-    </category>
-    -->
-
 </settings>

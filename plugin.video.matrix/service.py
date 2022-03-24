@@ -1,25 +1,29 @@
 # -*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
+# https://github.com/zombiB/zombi-addons
+
+# Import enregistrement
 import subprocess
 import xbmcvfs
-from datetime import datetime
-from resources.lib.comaddon import addon, xbmc, VSlog, VSPath, isMatrix
-from resources.lib.util import Unquote, Quote, urlEncode
+import xbmc
 
-import requests
-import sys
+from datetime import datetime
+from resources.lib.comaddon import addon, VSlog, VSPath, isMatrix, siteManager
+from resources.lib.update import cUpdate
+
 
 if isMatrix():
-    from http.server import BaseHTTPRequestHandler
-    from socketserver import TCPServer
-    from urllib.parse import parse_qs, urlparse, parse_qsl
-else:
-    from BaseHTTPServer import BaseHTTPRequestHandler
-    from SocketServer import TCPServer
-    from urlparse import urlparse, parse_qs,parse_qsl
+    # Import Serveur
+    import threading
+    from socketserver import ThreadingMixIn
+    from http.server import HTTPServer, ThreadingHTTPServer
 
-	
+
 def service():
+    
+    # mise à jour des setting si nécessaire
+    cUpdate().getUpdateSetting()
+    
+    # gestion des enregistrements en cours
     ADDON = addon()
     recordIsActivate = ADDON.getSetting('enregistrement_activer')
     if recordIsActivate == 'false':
@@ -37,8 +41,8 @@ def service():
     monitor = xbmc.Monitor()
 
     del ADDON
-    
-    while not monitor.abortRequested() and not recordInProgress == True:
+
+    while not monitor.abortRequested() and recordInProgress is not True:
         if monitor.waitForAbort(int(interval)):
             break
 
@@ -52,35 +56,32 @@ def service():
             proc = subprocess.Popen(command, stdout=subprocess.PIPE)
             p_status = proc.wait()
 
-class ProxyHTTPRequestHandler(BaseHTTPRequestHandler):
-    protocol_version = 'HTTP/1.0'
+    server_thread.join()
 
-    def do_GET(self):
-        p = urlparse(self.path)
-        q = dict(parse_qsl(p.query))
-        url = q['u']
-        
-        if '?msKey=' in url: # Remove the PNG header
-            res = requests.get(url).content[8:]
-        else: # Redirect play list to proxy
-            res = requests.get(url).content
-            if isMatrix(): res = res.decode()
-            res = res.replace('http','http://127.0.0.1:2424?u=http')
-            if isMatrix(): res = res.encode()
-        ret = res
-        self.send_response_only(200)
-        self.send_header('Content-Length', len(ret))
-        self.send_header('Content-Type', 'application/vnd.apple.mpegurl')
-        self.end_headers()
-        self.wfile.write(ret)
 
 if __name__ == '__main__':
     service()
 
-    #Code by sviet2k
-    if addon().getSetting('plugin_kepliz_com') == "true" or addon().getSetting('plugin_kaydo_ws') == "true":
-        VSlog("Server Start")
-        address = '127.0.0.1'  # Localhost
-        port = 2424
-        server_inst = TCPServer((address, port), ProxyHTTPRequestHandler)
-        server_inst.serve_forever()
+    if isMatrix():
+        sitesManager = siteManager()
+        if sitesManager.isActive('toonanime') or sitesManager.isActive('kaydo_ws'):
+            class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+                """Handle requests in a separate thread."""
+
+            def runServer():
+                from resources.lib.proxy.ProxyHTTPRequestHandler import ProxyHTTPRequestHandler
+
+                server_address = ('127.0.0.1', 2424)
+                httpd = ThreadingHTTPServer(server_address, ProxyHTTPRequestHandler)
+
+                server_thread = threading.Thread(target=httpd.serve_forever)
+                server_thread.start()
+                VSlog("Server Start")
+
+                monitor = xbmc.Monitor()
+
+                while not monitor.abortRequested():
+                    if monitor.waitForAbort(1):
+                        break
+
+                httpd.shutdown()

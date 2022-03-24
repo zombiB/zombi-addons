@@ -6,7 +6,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix
 import re
  
 SITE_IDENTIFIER = 'arbcinema'
@@ -33,6 +33,57 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
 
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%a7%d9%83%d8%b4%d9%86/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'اكشن', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%b1%d8%b9%d8%a8/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'رعب', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d9%83%d9%88%d9%85%d9%8a%d8%af%d9%8a/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'كوميدي', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%af%d8%b1%d8%a7%d9%85%d8%a7/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'دراما', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d9%81%d8%a7%d9%86%d8%aa%d8%a7%d8%b2%d9%8a%d8%a7/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'فانتازيا', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%a7%d8%ab%d8%a7%d8%b1%d8%a9/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'اثارة', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%ac%d8%b1%d9%8a%d9%85%d8%a9/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'جريمة', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%ae%d9%8a%d8%a7%d9%84-%d8%b9%d9%84%d9%85%d9%8a/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'خيال علمي', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%b1%d9%88%d9%85%d8%a7%d9%86%d8%b3%d9%8a/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'رومانسي', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', 'https://ok.arbcinema.com/type/%d8%b3%d9%8a%d8%b1%d8%a9-%d8%b0%d8%a7%d8%aa%d9%8a%d8%a9/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies' ,'سيرة ذاتية', 'film.png', oOutputParameterHandler)
             
     oGui.setEndOfDirectory()
  
@@ -94,8 +145,8 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("كامل","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0])
-            sThumb = str(aEntry[1])
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -153,8 +204,8 @@ def showSerie(sSearch = ''):
  
             sTitle = aEntry[3]
             sTitle = sTitle.replace("مشاهدة","").replace("برنامج","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
-            siteUrl = str(aEntry[0])+'?watch=1'
-            sThumb = str(aEntry[2])
+            siteUrl = aEntry[0]+'?watch=1'
+            sThumb = aEntry[2]
             sDesc = aEntry[1]
 
 
@@ -199,8 +250,8 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1]
-            siteUrl = str(aEntry[0])
-            sThumb = str(sThumb)
+            siteUrl = aEntry[0]
+            sThumb = sThumb
             sDesc = ''
 			
 
@@ -269,7 +320,6 @@ def showLink():
 	 
 def showServer():
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -277,7 +327,6 @@ def showServer():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    #print sHtmlContent 
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -294,22 +343,21 @@ def showServer():
     if (aResult[0]):
         sId = aResult[1][0]
 
-    #print sId
     
   # ([^<]+) .+?
-    headers = {'Host': 'in.arbcinema.com',
+    headers = {'Host': 'ok.arbcinema.com',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
      'Accept': '*/*',
      'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
      'X-Requested-With': 'XMLHttpRequest',
-     'Referer': sUrl,
      'Connection': 'keep-alive'}
     data = sId
     data = {'id':data,'key':'0','type':'normal'}
+    import requests
     s = requests.Session()
-    r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server/download.php',data = data)
-    sHtmlContent = r.content
+    r = s.post('https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
+    sHtmlContent = r.content.decode('utf8') 
     
     # (.+?) .+? ([^<]+)        	
     sPattern = '<a href="([^<]+)" rel'
@@ -320,7 +368,7 @@ def showServer():
     if (aResult[0] == True):
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
+            url = aEntry
             sTitle = sMovieTitle
             if url.startswith('//'):
                url = 'http:' + url
@@ -344,7 +392,6 @@ def showServer():
     oGui.setEndOfDirectory()	 
 def showServer2():
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -352,7 +399,6 @@ def showServer2():
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = oInputParameterHandler.getValue('sDesc')
 
-    #print sHtmlContent 
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -371,7 +417,7 @@ def showServer2():
 
     #print sId
     
-        headers = {'Host': 'in.arbcinema.com',
+        headers = {'Host': 'ok.arbcinema.com',
 					'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 					'Accept': '*/*',
 					'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -380,9 +426,10 @@ def showServer2():
 					'Referer': sUrl,
 					'Connection': 'keep-alive'}
         data = {'watch':'1'}
+        import requests
         s = requests.Session()
         r = s.post(sUrl,data = data)
-        sHtmlContent = r.content       
+        sHtmlContent = r.content.decode('utf8')  
 
         sPattern2 = '<li data-name="([^<]+)" data-type="free"'
         oParser = cParser()
@@ -390,28 +437,26 @@ def showServer2():
         if (aResult[0] == True):
            for aEntry in aResult[1]:
                nume = aEntry
-            
-               headers = {'Host': 'in.arbcinema.com',
-							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+               headers = {'Host': 'ok.arbcinema.com',
+							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Mobile Safari/537.36',
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
 							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
 							'X-Requested-With': 'XMLHttpRequest',
-							'Referer': sUrl,
 							'Connection': 'keep-alive'}
                data = {'id':sId,'name':nume,'type':'free'}
                s = requests.Session()
-               r = s.post(URL_MAIN + '/wp-content/themes/takweed/functions/inc/single/server.php',data = data)
-               sHtmlContent = r.content       
+               r = s.post( 'https://ok.arbcinema.com/wp-content/themes/takweed/functions/inc/single/server.php', headers=headers, data = data)
+               sHtmlContent = r.content.decode('utf8')         
 
-               sPattern3 = '<IFRAME.+?SRC="([^<]+)".+?FRAMEBORDER='
+               sPattern3 = '<IFRAME.+?SRC="(.+?)".+?FRAMEBORDER='
 
                oParser = cParser()
                aResult = oParser.parse(sHtmlContent, sPattern3)
                if (aResult[0] == True):
                   for aEntry in aResult[1]:
             
-                      url = str(aEntry)
+                      url = aEntry
                       sTitle = sMovieTitle
                       if url.startswith('//'):
                          url = 'http:' + url

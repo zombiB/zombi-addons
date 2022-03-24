@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-
+from operator import itemgetter
 import re
 
 
 class cParser:
+
+    def sorted_nicely(self, l, key):
+        """ Sort the given iterable in the way that humans expect."""
+        convert = lambda text: int(text) if text.isdigit() else text
+        alphanum_key = lambda item: [convert(c) for c in re.split('([0-9]+)', key(item))]
+        return sorted(l, key=alphanum_key)
 
     def parseSingleResult(self, sHtmlContent, sPattern):
         aMatches = re.compile(sPattern).findall(sHtmlContent)
@@ -24,15 +30,16 @@ class cParser:
                       .replace('&rsquo;', "'").replace('&lsquo;', '\'').replace('&nbsp;', '').replace('&#8217;', "'")\
                       .replace('&#8230;', '...').replace('&#8242;', "'").replace('&#884;', '\'').replace('&#39;', '\'')\
                       .replace('&#038;', '&').replace('&iuml;', 'ï').replace('&#8220;', '"').replace('&#8221;', '"')\
-                      .replace('–', '-').replace('—', '-')
+                      .replace('–', '-').replace('—', '-').replace('&#58;', ':')
 
     def parse(self, sHtmlContent, sPattern, iMinFoundValue=1):
         sHtmlContent = self.__replaceSpecialCharacters(str(sHtmlContent))
         aMatches = re.compile(sPattern, re.IGNORECASE).findall(sHtmlContent)
-		
-        if "episode" in str(aMatches):
-            natsort = lambda s: [int(t) if t.isdigit() else t.lower() for t in re.split('(\d+)', s[1])]
-            aMatches = sorted(aMatches, key=natsort)
+
+        # extrait la page html après retraitement vStream
+        # fh = open('c:\\test.txt', "w")
+        # fh.write(sHtmlContent)
+        # fh.close()
 
         if (len(aMatches) >= iMinFoundValue):
             return True, aMatches
@@ -45,9 +52,6 @@ class cParser:
         return re.escape(sValue)
 
     def getNumberFromString(self, sValue):
-
-
-
         sPattern = '\d+'
         aMatches = re.findall(sPattern, sValue)
         if (len(aMatches) > 0):
@@ -70,11 +74,11 @@ class cParser:
         # la recherche de fin n'est pas obligatoire
         # usage2 oParser.abParse(sHtmlContent, 'start', 'end', 6)
         # ex youtube.py
-        
+
         startIdx = sHtmlContent.find(start)
         if startIdx == -1:  # rien trouvé, retourner le texte complet
             return sHtmlContent
-        
+
         if end:
             endIdx = sHtmlContent[startoffset + startIdx:].find(end)
             if endIdx > 0:

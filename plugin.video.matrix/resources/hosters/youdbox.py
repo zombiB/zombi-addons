@@ -1,100 +1,74 @@
-﻿from resources.lib.handler.requestHandler import cRequestHandler
+﻿#-*- coding: utf-8 -*-
+#
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
-import re,xbmc
 import requests
 
 
 class cHoster(iHoster):
 
     def __init__(self):
-        self.__sDisplayName = 'youdbox'
-        self.__sFileName = self.__sDisplayName
-
-    def getDisplayName(self):
-        return  self.__sDisplayName
-
-    def setDisplayName(self, sDisplayName):
-        self.__sDisplayName = sDisplayName + ' [COLOR skyblue]'+self.__sDisplayName+'[/COLOR]'
-
-    def setFileName(self, sFileName):
-        self.__sFileName = sFileName
-
-    def getFileName(self):
-        return self.__sFileName
-
-    def getPluginIdentifier(self):
-        return 'youdbox'
-
-    def isDownloadable(self):
-        return True
-
-    def isJDownloaderable(self):
-        return True
-
-    def getPattern(self):
-        return ''
+        iHoster.__init__(self, 'youdbox', 'youdbox')
         
     def __getIdFromUrl(self, sUrl):
-        sPattern = "https://youdbox.net/(.+?)/"
+        sPattern = "https://youdbox.org/(.+?)/"
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
-        if (aResult[0] == True):
+        if aResult[0] is True:
             return aResult[1][0]
         return ''
 
     def setUrl(self, sUrl):
-        self.__sUrl = str(sUrl)
+        self._url = str(sUrl)
         if 'embed' in sUrl:
-            self.__sUrl = self.__sUrl.replace("embed-","")
+            self._url = self._url.replace("embed-","")
 
-    def checkUrl(self, sUrl):
-        return True
-
-    def getUrl(self):
-        return self.__sUrl
-
-    def getMediaLink(self):
-        
-        return self.__getMediaLinkForGuest()
-
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
 
         api_call = ''
-        VSlog(self.__sUrl)
+        VSlog(self._url)
 
-        oRequest = cRequestHandler(self.__sUrl)
+        oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        _id = self.__sUrl.split('/')[-1].replace(".html","")
+        oParser = cParser() 
+        
+
+        sPattern = '<source src="([^<]+)" type="video/mp4"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0] is True:
+            api_call = aResult[1][0] 
+				
+        _id = self._url.split('/')[-1].replace(".html","")
         Sgn=requests.Session()
         UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
-        hdr = {'Host': 'youdbox.net',
+        hdr = {'Host': 'yodbox.com',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
         'Accept-Encoding': 'gzip, deflate',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': '111',
-        'Origin': 'https://youdbox.net',
+        'Origin': 'https://yodbox.com',
         'Connection': 'keep-alive',
-        'Referer': self.__sUrl,
+        'Referer': self._url,
         'Upgrade-Insecure-Requests': '1'}
         prm={
         	"op": "download2",
         	"id": _id,
         	"rand": "",
-        	"referer": self.__sUrl,
+        	"referer": self._url,
         	"method_free": "",
         	"method_premium": "",
         	"adblock_detected": "1"}
-        _r = Sgn.post(self.__sUrl,headers=hdr,data=prm)
-        sHtmlContent = _r.content
+        _r = Sgn.post(self._url,headers=hdr,data=prm)
+        sHtmlContent = _r.content.decode('utf8',errors='ignore')
         oParser = cParser() 
         sPattern = '<a href="([^<]+)"><button class="lastbtn"><span>Free Download</span></button>'
         aResult = oParser.parse(sHtmlContent,sPattern)
-        if (aResult[0] == True):
+        if aResult[0] is True:
         	api_call = aResult[1][0] 
-        if (api_call):
+        if api_call:
         	return True, api_call 
         return False, False
