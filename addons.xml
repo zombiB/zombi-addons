@@ -64,7 +64,7 @@
 
     <addon id="repository.zombi" 
 			name="Zombi Repository" 
-			version="0.0.7" 
+			version="0.0.8" 
 			provider-name="zombi">
         <extension point="xbmc.addon.repository" name="Zombi Repository">
             <dir>
@@ -73,6 +73,11 @@
             <datadir zip="true">https://github.com/zombiB/zombi-addons/raw/master/repo</datadir>
             <hashes>false</hashes>
 			</dir>
+            <dir>
+            <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
+            </dir>
             <dir>
                 <info compressed="false">https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml</info>
                 <checksum>https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml.md5</checksum>
