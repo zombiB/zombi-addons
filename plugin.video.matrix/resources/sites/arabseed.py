@@ -14,17 +14,8 @@ SITE_IDENTIFIER = 'arabseed'
 SITE_NAME = 'arabseed'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://eg.arabseed.ink'
+URL_MAIN = 'https://s.arabseed.ink'
                           
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-except:
-    pass
 
 MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/foreign-movies3/', 'showMovies')
@@ -45,7 +36,7 @@ RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-رمضان-2021/', 'showS
 ANIM_NEWS = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showSeries')
 
 REPLAYTV_PLAY = (URL_MAIN + '/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showMovies')
-REPLAYTV_NEWS = ('https://arabseed.net/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
+REPLAYTV_NEWS = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
 URL_SEARCH = (URL_MAIN + '/find/?find=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/find/?find=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/find/?find=', 'showSeries')

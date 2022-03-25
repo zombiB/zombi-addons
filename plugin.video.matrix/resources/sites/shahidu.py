@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'shahidu'
 SITE_NAME = 'shahid4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shahed4u.dev'
+URL_MAIN = 'https://shahed4u.red/'
                           
 try:
     import requests

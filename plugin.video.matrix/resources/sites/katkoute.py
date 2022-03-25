@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'katkoute'
 SITE_NAME = 'katkoute'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.katkoute.com'
+URL_MAIN = 'https://www.katkoute.com/'
 
 
 KID_CARTOON = ('https://www.katkoute.com/watch/browse.html', 'showSeries')

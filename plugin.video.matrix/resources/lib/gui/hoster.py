@@ -275,7 +275,7 @@ class cHosterGui:
         if ('goved' in sHostName) or ('govid.me' in sHostName):
             return self.getHoster('govidme')
             
-        if ('govid' in sHostName) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName):
+        if ('govid' in sHostName) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName):
             return self.getHoster('govid')
             
         if ('jwplatform' in sHostName):
@@ -404,6 +404,12 @@ class cHosterGui:
 
         if ('myfiles.alldebrid.com' in sHostName):
             return self.getHoster('lien_direct')
+
+        if ('.m3u8' in sHosterUrl):
+            return self.getHoster('lien_direct')
+
+        if ('nitro.download' in sHosterUrl or 'Facebook'  or 'facebook' or 'infinityload' or 'turbobit' or 'fastdrive' in sHosterUrl or 'openload' in sHosterUrl or 'multiup' in sHosterUrl):
+            return False
 
         if any(x in sHosterUrl for x in ['mp4', 'avi', 'flv', 'm3u8', 'webm', 'mkv', 'mpd']):
             return self.getHoster('lien_direct')

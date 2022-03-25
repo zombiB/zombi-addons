@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'arbcinema'
 SITE_NAME = 'arbcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://in.arbcinema.com'
+URL_MAIN = 'https://ok.arbcinema.com'
 
 
 MOVIE_EN = (URL_MAIN + '/cat_film/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')

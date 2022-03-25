@@ -169,6 +169,7 @@ class cGuiElement:
         else:
             self.__sFileName = cUtil().titleWatched(sFileName)
 
+
     def getFileName(self):
         return self.__sFileName
 
@@ -210,31 +211,47 @@ class cGuiElement:
             self.__Date = str(string.group(0))
             sTitle = '%s (%s) ' % (sTitle, self.__Date)
 
-        # Recherche saisons et episodes
-        sa = ep = ''
-        m = re.search('(|S|season)(\s?|\.)(\d+)(\s?|\.)(E|Ep|x|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
-        if m:
-            sTitle = sTitle.replace(m.group(0), '')
-            sa = m.group(3)
-            ep = m.group(7)
-        else:  # Juste l'épisode
-            m = re.search('(^|\s|\.)(E|Ep|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
+
+        # Recherche saison et episode a faire pr serie uniquement
+        if True:
+            m = re.search('(?i)(?:^|[^a-z])((?:E|(?:\wpisode\s?))([0-9]+(?:[\-\.][0-9\?]+)*))', sTitle, re.UNICODE)
             if m:
-                sTitle = sTitle.replace(m.group(0), '')
-                ep = m.group(4)
-            else:  # juste la saison
-                m = re.search('( S|season)(\s?|\.)(\d+)', sTitle, re.UNICODE)
+                # ok y a des episodes
+                sTitle = sTitle.replace(m.group(1), '')
+                ep = m.group(2)
+
+                if len(ep) == 1:
+                    ep = '0' + ep
+                self.__Episode = ep
+                self.addItemValues('Episode', self.__Episode)
+
+
+                # pour les saisons
+                m = re.search('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))', sTitle, re.UNICODE)
                 if m:
-                    sTitle = sTitle.replace(m.group(0), '')
-                    sa = m.group(3)
+                    sTitle = sTitle.replace(m.group(1), '')
 
-        if sa:
-            self.__Season = sa
-            self.addItemValues('Season', self.__Season)
-        if ep:
-            self.__Episode = ep
-            self.addItemValues('Episode', self.__Episode)
+                    sa = m.group(2)
+                    if len(sa) == 1:
+                        sa = '0' + sa
+                    self.__Season = sa
+                    self.addItemValues('Season', self.__Season)
 
+
+
+
+
+
+            else:
+                # pas d'episode mais y a t il des saisons ?
+                m = re.search('(?i)( s(?:eason +)*([0-9]+(?:\-[0-9\?]+)*))', sTitle, re.UNICODE)
+                if m:
+                    sTitle = sTitle.replace(m.group(1), '')
+                    sa = m.group(2)
+                    if len(sa) == 1:
+                        sa = '0' + sa
+                    self.__Season = sa
+                    self.addItemValues('Season', self.__Season)
         # vire doubles espaces et double points
         sTitle = re.sub(' +', ' ', sTitle)
         sTitle = re.sub('\.+', '.', sTitle)

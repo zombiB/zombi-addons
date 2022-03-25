@@ -16,7 +16,7 @@ SITE_IDENTIFIER = 'rotana'
 SITE_NAME = 'rotana'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://rotana.net'
+URL_MAIN = 'https://rotana.net/'
 
 MOVIE_AR = ('https://rotana.net/vod-movies', 'showMovies')
 URL_SEARCH = ('https://rotana.net/?s=', 'showSeries')

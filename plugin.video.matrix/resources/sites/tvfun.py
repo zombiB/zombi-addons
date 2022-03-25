@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'tvfun'
 SITE_NAME = 'tvfun'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://a.tvfun.me'
+URL_MAIN = 'https://a.tvfun.me/'
 
 RAMADAN_SERIES = (URL_MAIN + '/ts,mosalsalat-ramadan-2021/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')

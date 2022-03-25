@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'tuktukcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://tuktukcinema.co'
+URL_MAIN = 'https://tuktukcinema.co/'
 
 MOVIE_TOP = (URL_MAIN + '/category/movies-19/?key=imdb', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/movies-19/?key=views', 'showMovies')

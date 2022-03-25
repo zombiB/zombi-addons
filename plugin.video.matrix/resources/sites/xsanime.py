@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'xsanime'
 SITE_NAME = 'xsanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://m.xsanime.com'
+URL_MAIN = 'https://a.xsanime.com'
 ANIM_NEWS = (URL_MAIN+'/episodes' , 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/movies_list/', 'showMovies')
 

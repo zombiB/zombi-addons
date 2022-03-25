@@ -18,7 +18,7 @@ URL_MAIN = 'https://cdrama.in/'
 
 MOVIE_ASIAN = ('https://cdrama.in/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 
-SERIE_ASIA = ('https://cdrama.in/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%85%d9%83%d8%aa%d9%85%d9%84%d8%a9/', 'showSeries')
+SERIE_ASIA = ('https://cdrama.in/category/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%83%d9%88%d8%b1%d9%8a%d8%a9-kdrama/', 'showSeries')
 
 FUNCTION_SEARCH = 'showSeries'
  

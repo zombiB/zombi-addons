@@ -9,15 +9,13 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, isMatrix
+from resources.lib.comaddon import progress, VSlog
 	 
 SITE_IDENTIFIER = 'aflamfree'
-SITE_NAME = 'aflamfree'
+SITE_NAME = 'Aflamfree'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://www.aflamfree.top/'
-
-MOVIE_MOVIE = (True, 'showMenuMovies')
 
 MOVIE_PACK = (URL_MAIN + '%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_GENRES = (True, 'showGenres')

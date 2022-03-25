@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'prstej'
 SITE_NAME = 'prstej'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://r.3rb.tv'
+URL_MAIN = 'https://r.3rb.tv/'
 
 MOVIE_EN = (URL_MAIN + '/category.php?cat=movieenglish', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramadan2021', 'showSeries')

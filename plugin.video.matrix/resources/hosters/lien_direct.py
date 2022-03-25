@@ -60,6 +60,7 @@ class cHoster(iHoster):
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
             api_call = api_call + '|User-Agent=' + UA  + '&Referer=' + self._url
         if 'egybest' in api_call:
+            from resources.lib.parser import cParser
             import requests
             oParser = cParser()
             sHtmlContent=requests.get(api_call).content

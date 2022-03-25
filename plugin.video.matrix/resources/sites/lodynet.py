@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'lodynet'
 SITE_NAME = 'lodynet'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://m.lodynet.art'
+URL_MAIN = 'https://ww.lodynet.ink/'
 
 MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')

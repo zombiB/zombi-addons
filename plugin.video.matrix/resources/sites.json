@@ -10,6 +10,16 @@
             "active": "True",
             "url": "http://www.ahdaf-kooora.com/"
         },
+        "akwam": {
+            "label": "akwam",
+            "active": "True",
+            "url": "https://one.akwam.cc"
+        },
+        "alarabclub": {
+            "label": "alarabclub",
+            "active": "True",
+            "url": "https://old.akwam.to"
+        },
         "alarab": {
             "label": "alarab",
             "active": "True",
@@ -110,7 +120,7 @@
             "url": "https://www.btolat.com"
         },
         "cartoonrbi": {
-            "label": "cartoonrbi",
+            "label": "cartoon3rbi",
             "active": "True",
             "url": "https://www.arteenz.com/"
         },
@@ -122,7 +132,7 @@
         "cimaclub": {
             "label": "cimaclub",
             "active": "True",
-            "url": "https://www.cimaclub.best"
+            "url": "https://cima-club.io"
         },
         "cimanow": {
             "label": "cimanow",

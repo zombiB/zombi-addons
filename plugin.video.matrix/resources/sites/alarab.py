@@ -1,12 +1,12 @@
 ﻿ #-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
+from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
-from resources.lib.player import cPlayer
 from resources.lib.gui.guiElement import cGuiElement
 import re
  
@@ -331,8 +331,7 @@ def showSeries(sSearch = ''):
  
     if not sSearch:
         oGui.setEndOfDirectory()
- 
- 
+  
 def __checkForNextPage(sHtmlContent):
     sPattern = '<a class="mob_button " href="(.+?)" title'
 	
@@ -351,7 +350,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumbnail')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -372,25 +371,15 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0] == True):
-        
-        sUrl = aResult[1][0]
-        if sUrl.startswith('//'):
-                sUrl = 'http:' + sUrl 
-                 
-        #on lance video directement
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(SITE_IDENTIFIER)
-        oGuiElement.setTitle(sMovieTitle)
-        oGuiElement.setMediaUrl(sUrl)
-        oGuiElement.setThumbnail(sThumbnail)
-
-        oPlayer = cPlayer()
-        oPlayer.clearPlayList()
-        oPlayer.addItemToPlaylist(oGuiElement)
-        oPlayer.startPlayer()
-        return
-    
-    else:
-        return
+        for aEntry in aResult[1]:       
+            url = aEntry
+            if url.startswith('//'):
+               url = 'http:' + url
+            sHosterUrl = url  
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if (oHoster != False):
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()	

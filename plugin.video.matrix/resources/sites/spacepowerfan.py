@@ -14,12 +14,12 @@ SITE_IDENTIFIER = 'spacepowerfan'
 SITE_NAME = 'spacepowerfan'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.spacepowerfan.com/'
+URL_MAIN = 'https://spacepowerfan.com/'
 
-ANIM_MOVIES = ('https://spacepowerfan.com/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
-ANIM_NEWS = ('https://spacepowerfan.com/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
+ANIM_MOVIES = (URL_MAIN + '/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + '/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
 
-URL_SEARCH = ('https://spacepowerfan.com/?s=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

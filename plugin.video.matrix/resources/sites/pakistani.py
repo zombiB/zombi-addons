@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'pakistani'
 SITE_NAME = 'pakistani-live'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://pakistani-live.net'
+URL_MAIN = 'https://pakistani-live.net/'
 MOVIE_ASIAN = (URL_MAIN + '/category/أفلام-باكستانية/', 'showMovies')
 SERIE_PAK = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%D9%8A%D8%A9-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/category/مسلسلات-مدبلجة/', 'showSeries')

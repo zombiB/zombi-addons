@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'shooflive'
 SITE_NAME = 'shooflive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://w.shooflive.video'
+URL_MAIN = 'https://w.shooflive.video/'
 
 MOVIE_EN = (URL_MAIN + '/category/movies/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/movies/افلام-عربية/', 'showMovies')

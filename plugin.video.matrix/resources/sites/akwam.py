@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'akwam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://akwam.im'
+URL_MAIN = 'https://one.akwam.cc'
 MOVIE_MOVIE = (True, 'showMenuMovies')
 MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/movies?section=29', 'showMovies')
@@ -72,6 +72,10 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchAll', 'Search All', 'search.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', 'film.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
@@ -377,7 +381,7 @@ def showEpisodes():
  
             sEp = aEntry[0].split(':')[0]
             sEp = sEp.replace("الحلقة "," E")
-            sTitle = sMovieTitle+sEp
+            sTitle = sMovieTitle+''+sEp
             siteUrl = aEntry[1]
             sThumb = aEntry[2]
             sDesc = ''
@@ -428,74 +432,6 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
 
     return False
-
-UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:82.0) Gecko/20100101 Firefox/82.0'
-
-####################################################################
-def RecapchaBypass():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-
-    oParser = cParser()       
-    sPattern =  '<a href="http([^<]+)/watch/(.+?)"'
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
-        for aEntry in aResult[1]:
-            m3url =  'http'+aEntry[0]+'/watch/' + aEntry[1]
-        oRequest = cRequestHandler(m3url)
-        sHtmlContent1 = oRequest.request()
-
-    oParser = cParser()       
-    sPattern =  '<a href="(.+?)" target="_blank".+?class="download-link"' 
-    aResult = oParser.parse(sHtmlContent1,sPattern)
-    if (aResult[0] == True):
-        m3url =  aResult[1][0]
-        oRequest = cRequestHandler(m3url)
-        sHtmlContent1 = oRequest.request()
-
-    from resolveurl.plugins.lib.captcha_lib import do_captcha
-    test = do_captcha(sHtmlContent1)
-    sPattern =  "readonly>(.+?)'}"
-    aResult = oParser.parse(test,sPattern)
-    if (aResult[0] == True):
-        testurl =  aResult[1][0]
-
-    data = 'subform=unlock&g-recaptcha-response=' + testurl
-    oRequestHandler = cRequestHandler(m3url)
-    cook = oRequestHandler.GetCookies()
-    cookies = cook + '; ' + 'XSRF-TOKEN=' + testurl + '; akwam_session=' + testurl + ';'
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    oRequestHandler.addHeaderEntry('Accept-Encoding', 'gzip')
-    oRequestHandler.addHeaderEntry('Referer', m3url)
-    oRequestHandler.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded')
-    oRequestHandler.addHeaderEntry('cookies', cookies)
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern = '<source.+?src="(.+?)"'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if (aResult[0] == True):
-
-        for aEntry in aResult[1]:
-            sHosterUrl = aEntry
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    oGui.setEndOfDirectory()
-###############################################################
 
 def showHosters():
     oGui = cGui()

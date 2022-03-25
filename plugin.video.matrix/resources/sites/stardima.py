@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'stardima'
 SITE_NAME = 'stardima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.stardima.com'
+URL_MAIN = 'https://www.stardima.com/'
 
 KID_MOVIES = (URL_MAIN + '/movies/#gsc.tab=0', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/tvshows/#gsc.tab=0', 'showSeries')

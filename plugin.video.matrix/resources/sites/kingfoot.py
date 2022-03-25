@@ -19,7 +19,7 @@ SITE_IDENTIFIER = 'kingfoot'
 SITE_NAME = 'kingfoot'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://king-shoot.tv/'
+URL_MAIN = 'https://pro.king-shoot.tv/'
 
 
 

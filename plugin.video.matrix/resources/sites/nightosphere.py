@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'nightosphere'
 SITE_NAME = 'nightosphere'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://nightosphere.net'
+URL_MAIN = 'https://nightosphere.net/'
 
 
 KID_CARTOON = ('https://nightosphere.net/all-shows/', 'showSeries')

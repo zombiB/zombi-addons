@@ -1,16 +1,12 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
-try:  # Python 2
-    import urllib2
 
-except ImportError:  # Python 3
-    import urllib.request as urllib2
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
 import re
 
@@ -20,7 +16,7 @@ SITE_IDENTIFIER = 'cimaclub'
 SITE_NAME = 'cimaclub'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.cimaclub.best'
+URL_MAIN = 'https://cima-club.io'
 
 RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-رمضان-2021', 'showSerie')
 

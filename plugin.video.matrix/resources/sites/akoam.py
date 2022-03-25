@@ -1,22 +1,20 @@
 #-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
-
-import re
-	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog
+from resources.lib.parser import cParser
+import re
+
 
 SITE_IDENTIFIER = 'akoam'
-SITE_NAME = 'Akoam'
+SITE_NAME = 'akoam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://old.akwam.to/' 
-
+URL_MAIN = 'https://old.akwam.to'                          
 try:
     import requests
     url = URL_MAIN
@@ -26,7 +24,7 @@ try:
     URL_MAIN = 'https://' + URL_MAIN
 except:
     pass
-		
+MOVIE_MOVIE = (True, 'showMenuMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/cat/165/%D8%A7%D8%B1%D8%B4%D9%8A%D9%81-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
 MOVIE_PACK = (URL_MAIN + '/cat/186/%D8%B3%D9%84%D8%A7%D8%B3%D9%84-%D8%A7%D9%84%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/cat/156/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D9%84%D8%A7%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
@@ -47,6 +45,15 @@ URL_SEARCH_MOVIES = (URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+', 'showMovies
 URL_SEARCH_SERIES = (URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
 URL_SEARCH_MISC = (URL_MAIN + '/search/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSearch'
+
+def showMenuMovies():
+    oGui = cGui()
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH_MOVIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()
 
 
 def load():

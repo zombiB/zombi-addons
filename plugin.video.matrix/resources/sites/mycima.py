@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'mycima'
 SITE_NAME = 'mycima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://mycima.ink'
+URL_MAIN = 'https://mycima.bid:2096/'
 
 MOVIE_TOP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/top/', 'showMovies')
