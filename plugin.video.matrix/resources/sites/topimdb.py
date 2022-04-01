@@ -179,7 +179,7 @@ def showMovies(sSearch=''):
     sPattern = 'img alt="([^"]+).+?loadlate="([^"]+).+?primary">([^<]+).+?unbold">([^<]+).+?(?:|rated this(.+?)\s.+?)muted">([^<]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -207,7 +207,7 @@ def showMovies(sSearch=''):
         progress_.VSclose(progress_)
 
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addNext(SITE_IDENTIFIER, 'showMovies', 'Suivant', oOutputParameterHandler)
@@ -221,13 +221,13 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<a class="flat-button lister-page-next next-page" href="([^<]+)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         sUrl = ('%s/%s') % (URL_MAIN, aResult[1][0])
         return sUrl
     sPattern = 'href="([^"]+?)"class="lister-page-next'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         sUrl = ('%s/%s') % (URL_MAIN, aResult[1][0])
         return sUrl
 

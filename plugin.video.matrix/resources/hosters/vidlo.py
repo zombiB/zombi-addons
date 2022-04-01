@@ -8,7 +8,7 @@ from resources.lib.packer import cPacker
 from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1'
 
 class cHoster(iHoster):
 
@@ -46,6 +46,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
 
             if api_call:
-                return True, api_call + '|User-Agent=' + UA + '&Referer=https://www.vidlo.us' 
+                return True, api_call + '|User-Agent=' + UA + '&Referer=https://www.vidlo.us/' 
 
         return False, False

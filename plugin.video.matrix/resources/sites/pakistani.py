@@ -48,7 +48,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -73,7 +73,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -103,7 +103,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -129,7 +129,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -153,7 +153,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -180,7 +180,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -198,7 +198,7 @@ def showEpisodes():
         
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -212,7 +212,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         #print aResult[1][0]
         return aResult[1][0]
 
@@ -248,7 +248,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
 
             sId = URL_MAIN + '/wp-content/themes/vo2020/temp/ajax/iframe.php?id='+spost
@@ -264,7 +264,7 @@ def showHosters():
             oParser = cParser()
             aResult = oParser.parse(sData, sPattern)
 	
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
         
                    url = str(aEntry)
@@ -281,7 +281,7 @@ def showHosters():
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                       sDisplayTitle = sMovieTitle
                       oHoster.setDisplayName(sDisplayTitle)
                       oHoster.setFileName(sMovieTitle)
@@ -294,7 +294,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = str(aEntry)
@@ -312,7 +312,7 @@ def showHosters():
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                sDisplayTitle = sMovieTitle+sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)

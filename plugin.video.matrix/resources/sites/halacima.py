@@ -1,5 +1,6 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
+
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -13,28 +14,28 @@ SITE_IDENTIFIER = 'halacima'
 SITE_NAME = 'halacima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://m.halacima.net/'
-SERIE_TR_AR = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
-MOVIE_EN = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
-MOVIE_FAM = ('https://m.halacima.net/genre/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%A7%D8%A6%D9%84%D9%8A.html', 'showMovies')
-MOVIE_HI = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
-KID_MOVIES = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D9%86%D9%85%D9%8A', 'showMovies')
-MOVIE_ASIAN = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showMovies')
-MOVIE_AR = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
-MOVIE_DUBBED = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
-MOVIE_TURK = ('https://m.halacima.net/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9', 'showMovies')
-SERIE_HEND = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9.html', 'showSerie')
-SERIE_ASIA = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A3%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showSeries')
-SERIE_TR = ('https://m.halacima.net/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9.html', 'showSeries')
-SERIE_EN = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9.html', 'showSeries')
+URL_MAIN = 'https://m.halacima.net'
+SERIE_TR_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
+MOVIE_EN = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_FAM = (URL_MAIN + '/genre/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%A7%D8%A6%D9%84%D9%8A.html', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D9%86%D9%85%D9%8A', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9', 'showMovies')
+MOVIE_DUBBED = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9', 'showMovies')
+SERIE_HEND = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%87%D9%86%D8%AF%D9%8A%D8%A9.html', 'showSerie')
+SERIE_ASIA = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A3%D8%B3%D9%8A%D9%88%D9%8A%D8%A9', 'showSeries')
+SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9.html', 'showSeries')
+SERIE_EN = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9.html', 'showSeries')
 
-ANIM_NEWS = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
-SERIE_DUBBED = ('https://m.halacima.net/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A7%D9%86%D9%85%D9%8A', 'showSerie')
+SERIE_DUBBED = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9', 'showSeries')
 
 
-URL_SEARCH = ('https://m.halacima.net/search/page.html', 'showMovies')
-URL_SEARCH_MOVIES = ('https://m.halacima.net/search/', 'showMovies')
-URL_SEARCH_SERIES = ('https://m.halacima.net/search/', 'showSeries')
+URL_SEARCH = (URL_MAIN + '/search/page.html', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -93,8 +94,8 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
-        sUrl = 'https://m.halacima.net/search/'+sSearchText
+    if sSearchText != False:
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -103,8 +104,8 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
-        sUrl = 'https://m.halacima.net/search/'+sSearchText
+    if sSearchText != False:
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -129,7 +130,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -173,7 +174,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -219,7 +220,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -257,7 +258,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -305,7 +306,7 @@ def showSerie(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -336,7 +337,7 @@ def showSerie(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -418,7 +419,7 @@ def showServers():
             sPattern = "SRC='(.+?)' FRAMEBORDER"
             oParser = cParser()
             aResult = oParser.parse(sdata, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                 for aEntry in aResult[1]:
             
                     url = aEntry
@@ -428,7 +429,7 @@ def showServers():
             
                        sHosterUrl = url 
                        oHoster = cHosterGui().checkHoster(sHosterUrl)
-                       if (oHoster != False):
+                       if oHoster != False:
                            oHoster.setDisplayName(sTitle)
                            oHoster.setFileName(sTitle)
                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -438,7 +439,7 @@ def showServers():
     sPattern = '<a target="_blank" href="(.+?)" title='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -448,7 +449,7 @@ def showServers():
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -461,7 +462,7 @@ def showServers():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -503,7 +504,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -515,7 +516,7 @@ def showHosters():
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)

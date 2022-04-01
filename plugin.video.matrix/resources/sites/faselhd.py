@@ -94,7 +94,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -104,7 +104,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -128,7 +128,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -159,7 +159,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -186,7 +186,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -214,7 +214,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -241,7 +241,7 @@ def showAnimes(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -265,7 +265,7 @@ def showAnimes(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showAnimes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -349,14 +349,14 @@ def showEpisodes():
 
        oParser = cParser()
        aResult = oParser.parse(sHtmlContent,sPattern)
-       if (aResult[0] == True):
+       if aResult[0] is True:
                   for aEntry in aResult[1]:
                       oOutputParameterHandler = cOutputParameterHandler() 
                       if "العضوية" in aEntry[1]:
                          continue
  
                       sTitle = aEntry[1].replace("الحلقة "," E")
-                      sTitle = ('%s %s') % (sTitle, sMovieTitle)
+                      sTitle = ('%s %s') % (sMovieTitle, sTitle)
                       siteUrl = aEntry[0].replace(' class="active"', "").replace('"', "") 
                       sThumbnail = sThumbnail
                       sInfo = ""
@@ -374,7 +374,7 @@ def showEpisodes():
 
        oParser = cParser()
        aResult = oParser.parse(sHtmlContent2,sPattern)
-       if (aResult[0] == True):
+       if aResult[0] is True:
                   for aEntry in aResult[1]:
                       oOutputParameterHandler = cOutputParameterHandler() 
                       if "العضوية" in aEntry[1]:
@@ -430,7 +430,7 @@ def showEpisodes1():
     aResult = oParser.parse(sHtmlContent1, sPattern)
 	
 	
-    if (aResult[0] == True):  
+    if aResult[0] is True:  
         oOutputParameterHandler = cOutputParameterHandler()                     
         for aEntry in aResult[1]:
  
@@ -449,7 +449,7 @@ def showEpisodes1():
         
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -485,7 +485,7 @@ def showLink():
     aResult = oParser.parse(sHtmlContent, sPattern)
  
    
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
  
@@ -514,7 +514,7 @@ def showLink():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
  
             if "embed.php?url=" in aEntry:
@@ -527,7 +527,7 @@ def showLink():
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -542,7 +542,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         return aResult[1][0]
 
     return False
@@ -564,7 +564,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -574,7 +574,7 @@ def showHosters():
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                sDisplayTitle = sMovieTitle+sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
@@ -587,7 +587,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -597,7 +597,7 @@ def showHosters():
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                sDisplayTitle = sMovieTitle+sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
@@ -610,7 +610,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -620,7 +620,7 @@ def showHosters():
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 sDisplayTitle = sMovieTitle+sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
@@ -631,7 +631,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -641,7 +641,7 @@ def showHosters():
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                sDisplayTitle = sMovieTitle+sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)

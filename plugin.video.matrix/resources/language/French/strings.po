@@ -1206,6 +1206,14 @@ msgctxt "#31209"
 msgid "Results: %s"
 msgstr "Résultats : [COLOR deepskyblue]%s[/COLOR]"
 
+msgctxt "#30140"
+msgid "Loading"
+msgstr "Chargement "
+
+msgctxt "#30141"
+msgid "Loading infos"
+msgstr "Chargement des informations"
+
 msgctxt "#70001"
 msgid "TOP"
 msgstr "TOP"

@@ -168,13 +168,13 @@ class cHosterGui:
                 else:
                     return self.getHoster("lien_direct")
 
-        supported_player = ['hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'mycima', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'cimanow', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'mixloads', 'vidoza',
+        supported_player = ['hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'mycima', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'mixloads', 'vidoza',
                             'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'netu', 'letsupload',
                             'onevideo', 'playreplay', 'vimeo', 'prostream', 'vidfast', 'uqload', 'letwatch', 'mail.ru',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
                             'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'streamlare', 'vidload',
-                            'giga', 'upvid', 'megadrive', 'downace', 'clickopen', 'supervideo',
+                            'giga', 'megadrive', 'downace', 'clickopen', 'supervideo',
                             'jawcloud', 'kvid', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
                             'upstream', 'pstream', 'vudeo', 'dood', 'vidia', 'streamtape', 'uptobox', 'uplea',
@@ -198,6 +198,9 @@ class cHosterGui:
             return self.getHoster('lien_direct')
 
         if ('ak-download' in sHostName):
+            return self.getHoster('lien_direct')
+
+        if ('nextcdn' in sHostName):
             return self.getHoster('lien_direct')
 
         if ('akwam' in sHostName):
@@ -372,6 +375,9 @@ class cHosterGui:
         if ('movshare' in sHostName) or ('wholecloud' in sHostName):
             return self.getHoster('wholecloud')
 
+        if ('upvid.' in sHostName):
+            return self.getHoster('upvid')
+
         if ('upvideo' in sHostName) or ('streamon' in sHostName):
             return self.getHoster('upvideo')
 
@@ -385,7 +391,7 @@ class cHosterGui:
             return self.getHoster('allow_redirects')
 
         # frenchvid et clone
-        val = next((x for x in ['french-vid', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
+        val = next((x for x in ['french-vid', 'diasfem', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
                                 'vfsplayer', 'gotochus', 'sendvid', "femax"] if x in sHostName), None)
         if val:
             return self.getHoster("frenchvid")

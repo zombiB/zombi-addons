@@ -36,7 +36,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = ''+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -66,7 +66,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -112,7 +112,7 @@ def showLive():
 
     #print aResult
    
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
@@ -130,25 +130,25 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = "source: '(.+?)',"
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
                    sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                    sMovieTitle = sMovieTitle
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
             sPattern = 'source:"(.+?)",'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
                    sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                    sMovieTitle = sMovieTitle
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -156,26 +156,26 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = 'src="(.+?)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
                    sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                    sMovieTitle = sMovieTitle
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
     # (.+?) # ([^<]+) .+? 
             sPattern = 'file:"(.+?)",'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
                    sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                    sMovieTitle = sMovieTitle
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -185,7 +185,7 @@ def showLive():
             sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry[0].replace("('",'').replace("')","").replace("update_frame","")
                    url = url.split('?link=', 1)[1]
@@ -196,12 +196,12 @@ def showLive():
                       oParser = cParser()
                       sPattern =  'src="(.+?)" scrolling="no">'
                       aResult = oParser.parse(url,sPattern)
-                      if (aResult[0] == True):
+                      if aResult[0] is True:
                           url = aResult[1][0]
                           sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                           sMovieTitle = str(aEntry[1])
                           oHoster = cHosterGui().checkHoster(sHosterUrl)
-                          if (oHoster != False):
+                          if oHoster != False:
                               oHoster.setDisplayName(sMovieTitle)
                               oHoster.setFileName(sMovieTitle)
                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -211,7 +211,7 @@ def showLive():
             sPattern = 'src="(.+?)" width="(.+?)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry[0]
                    if url.startswith('//'):
@@ -225,7 +225,7 @@ def showLive():
                        oParser = cParser()
                        sPattern =  '(http[^<]+m3u8)'
                        aResult = oParser.parse(sHtmlContent2,sPattern)
-                       if (aResult[0] == True):
+                       if aResult[0] is True:
                            url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
  
                            sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","") 
@@ -233,7 +233,7 @@ def showLive():
             
 
                            oHoster = cHosterGui().checkHoster(sHosterUrl)
-                           if (oHoster != False):
+                           if oHoster != False:
                                oHoster.setDisplayName(sMovieTitle)
                                oHoster.setFileName(sMovieTitle)
                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

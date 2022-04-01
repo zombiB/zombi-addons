@@ -1,10 +1,6 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
-try:  # Python 2
-    import urllib2
 
-except ImportError:  # Python 3
-    import urllib.request as urllib2
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -22,7 +18,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://alarabclub.live'
 
-RAMADAN_SERIES = (URL_MAIN + '/series-1?filter=1415', 'showSerie')
+RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022?type=series', 'showSerie')
 
 MOVIE_AR = (URL_MAIN + '/category/films/film-arabic-2', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/category/films/film-dubbed', 'showMovies')
@@ -68,7 +64,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -78,7 +74,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s='+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
@@ -102,7 +98,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -139,7 +135,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -182,7 +178,7 @@ def showSerie(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -213,7 +209,7 @@ def showSerie(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -256,7 +252,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             import requests
@@ -274,7 +270,7 @@ def showEpisodes():
             aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-            if (aResult[0] == True):
+            if aResult[0] is True:
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
  
@@ -300,7 +296,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         #print aResult[1][0]
         return aResult[1][0]
 
@@ -325,7 +321,7 @@ def showServers():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = str(aEntry)
@@ -336,6 +332,9 @@ def showServers():
 					
             
             sHosterUrl = url 
+            if '?download_' in sHosterUrl:
+                sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -343,7 +342,7 @@ def showServers():
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
@@ -354,7 +353,7 @@ def showServers():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             import requests
             s = requests.Session()            
@@ -367,7 +366,7 @@ def showServers():
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
 	
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
         
                    url = str(aEntry)
@@ -379,6 +378,9 @@ def showServers():
                       url = 'http:' + url
 								            
                    sHosterUrl = url
+                   if '?download_' in sHosterUrl:
+                       sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    if 'userload' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'moshahda' in sHosterUrl:
@@ -386,7 +388,7 @@ def showServers():
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                       sDisplayTitle = sMovieTitle
                       oHoster.setDisplayName(sDisplayTitle)
                       oHoster.setFileName(sMovieTitle)

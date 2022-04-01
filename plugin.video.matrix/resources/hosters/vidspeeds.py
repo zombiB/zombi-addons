@@ -13,15 +13,11 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'vidspeeds', 'vidspeeds')
 
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
         VSlog(self._url)
         
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        
-        #fh = open('c:\\test.txt', "w")
-        #fh.write(sHtmlContent)
-        #fh.close()
         
         oParser = cParser()
         

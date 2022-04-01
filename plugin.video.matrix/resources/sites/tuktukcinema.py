@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'tuktukcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://tuktukcinema.co/'
+URL_MAIN = 'https://tuktukcinema.co'
 
 MOVIE_TOP = (URL_MAIN + '/category/movies-19/?key=imdb', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/movies-19/?key=views', 'showMovies')
@@ -101,7 +101,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -111,7 +111,7 @@ def showSearchSeries():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -133,7 +133,7 @@ def showMovies(sSearch = ''):
     # (.+?) .+? ([^<]+)   
     sPattern = '<a title="(.+?)" href="(.+?)" alt.+?<img data-src="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -166,7 +166,7 @@ def showMovies(sSearch = ''):
     sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -213,7 +213,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -250,7 +250,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -276,7 +276,7 @@ def showSeriesSearch(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -301,7 +301,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -338,7 +338,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
@@ -381,7 +381,7 @@ def showSeasons():
 	sPattern = '<div class="loadTabsInSeries" data-slug="(.+?)" data-parent=".+?" data-id="(.+?)"></div><section'
 	aResult = oParser.parse(sHtmlContent, sPattern)
 		
-	if (aResult[0] == True):
+	if aResult[0] is True:
 		for aEntry in aResult[1]:
 			sId1 = aEntry[0]
 			sId2 = aEntry[1]
@@ -389,7 +389,7 @@ def showSeasons():
 	session = requests.Session()
     
   # ([^<]+) .+?
-	headers = {'Host': 'tuktukcinema.co',
+	headers = {
 		       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 		       'Referer': sUrl}
 	data = {'action':'getTabsInsSeries','id':sId2,'slug':sId1,'parent':'0'}
@@ -405,7 +405,7 @@ def showSeasons():
 	oParser = cParser()
 	aResult = oParser.parse(data, sPattern)
 		
-	if (aResult[0] == True):
+	if aResult[0] is True:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
@@ -444,7 +444,7 @@ def showEpisodes():
 	sPattern = '<div class="loadTabsInSeries" data-slug="(.+?)" data-parent=".+?" data-id="(.+?)"></div><section'
 	aResult = oParser.parse(sHtmlContent, sPattern)
 		
-	if (aResult[0] == True):
+	if aResult[0] is True:
 		for aEntry in aResult[1]:
 			sId1 = aEntry[0]
 			sId2 = aEntry[1]
@@ -452,7 +452,7 @@ def showEpisodes():
 	session = requests.Session()
     
   # ([^<]+) .+?
-	headers = {'Host': 'tuktukcinema.co',
+	headers = {
 		       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 		       'Referer': sUrl}
 	data = {'action':'getTabsInsSeries','id':sId2,'slug':sId1,'parent':'0'}
@@ -469,7 +469,7 @@ def showEpisodes():
 	aResult = oParser.parse(data, sPattern)
 	
 	
-	if (aResult[0] == True):
+	if aResult[0] is True:
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
@@ -493,14 +493,14 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         return aResult[1][0]
     sPattern = 'href="(.+?)">&laquo;</a>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         return aResult[1][0]
     return False
 
@@ -520,7 +520,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:           
             url = aEntry
             sTitle = " " 
@@ -538,7 +538,7 @@ def showHosters():
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -548,7 +548,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:           
             url = aEntry[0]
             sTitle = sMovieTitle+'('+aEntry[1]+')' 
@@ -566,7 +566,7 @@ def showHosters():
             if 'mystream' in sHosterUrl:
                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -576,7 +576,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:           
             url = aEntry
             sTitle = " " 
@@ -594,7 +594,7 @@ def showHosters():
             if 'mystream' in sHosterUrl:
               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

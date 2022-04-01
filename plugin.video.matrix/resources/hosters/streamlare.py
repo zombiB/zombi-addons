@@ -23,6 +23,7 @@ class cHoster(iHoster):
         oRequestHandler.addHeaderEntry('Origin', 'https://{0}'.format(self._url.split('/')[2]))
         oRequestHandler.addJSONEntry('id', self._url.split('/')[4])
         sHtmlContent = oRequestHandler.request(jsonDecode=True)
+        VSlog(sHtmlContent)
 
         api_call = sHtmlContent['result']['Original']['src']
 

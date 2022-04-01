@@ -37,7 +37,7 @@ def load():
 def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
             sUrl = 'http://www.beinsports.com/ar/search?q='+sSearchText+'&ft=%22%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88%22'  
             showMovies(sUrl)
             oGui.setEndOfDirectory()
@@ -84,7 +84,7 @@ def showMovies(sSearch = ''):
    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -106,7 +106,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
             
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -119,7 +119,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<link rel="next" href="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         aResult = aResult[1][0]
         return aResult
 
@@ -138,7 +138,7 @@ def showHosters():
     sPattern = '<meta itemprop="embedURL" content="([^<]+)" />'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -149,7 +149,7 @@ def showHosters():
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

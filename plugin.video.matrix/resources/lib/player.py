@@ -331,7 +331,7 @@ class cPlayer(xbmc.Player):
                         ms = resumePoint-h*3600
                         m = ms//60
                         s = ms-m*60
-                        ret = dialog().VSselect(['Reprendre depuis %02d:%02d:%02d' %(h, m, s), 'Lire depuis le début'], 'Reprendre la lecture')
+                        ret = dialog().VSselect(['Resume from %02d:%02d:%02d' %(h, m, s), 'Play from the beginning'], 'Resume')
                         if ret == 0:
                             self.seekTime(resumePoint)
                         elif ret == 1:

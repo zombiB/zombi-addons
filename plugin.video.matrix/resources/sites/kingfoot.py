@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.gui.guiElement import cGuiElement
@@ -19,12 +19,12 @@ SITE_IDENTIFIER = 'kingfoot'
 SITE_NAME = 'kingfoot'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://pro.king-shoot.tv/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 
 
-SPORT_LIVE = ('https://king-shoot.tv/today-matches/', 'showMovies')
-SPORT_FOOT = ('https://king-shoot.tv:2053/videos/', 'showSeries')
+SPORT_LIVE = (URL_MAIN + '/today-matches/', 'showMovies')
+SPORT_FOOT = (URL_MAIN + '/videos/', 'showSeries')
 
 
 
@@ -51,7 +51,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = ''+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -86,7 +86,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -136,7 +136,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -184,12 +184,12 @@ def showHosters4():
     sPattern =  "&k=(.+?)'" 
     mk =  '' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         mk = aResult[1][0] 
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             sMovieTitle = aEntry[1]
             
@@ -205,16 +205,16 @@ def showHosters4():
                 oParser = cParser()
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                    url = aResult[1][0]
                 sPattern =  '(http[^<]+m3u8)'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                    url = aResult[1][0]
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                    url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
@@ -222,7 +222,7 @@ def showHosters4():
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                    url = aResult[1][0]
             if 'multi.html' in url:
                 url2 = url.split('=') 
@@ -233,7 +233,7 @@ def showHosters4():
                 oParser = cParser()
                 sPattern =  "var src = (.+?),"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                     url2 = aResult[1][0].split('hls:')
                     url2 = url2[1].split('+')
                     url2 = url2[0].replace("'","")
@@ -252,7 +252,7 @@ def showHosters4():
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -260,7 +260,7 @@ def showHosters4():
     sPattern = "'link': u'(.+?)',"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -270,7 +270,7 @@ def showHosters4():
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                    url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
@@ -278,7 +278,7 @@ def showHosters4():
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                    url = aResult[1][0]
             if 'multi.html' in url:
                 url2 = url.split('=') 
@@ -289,7 +289,7 @@ def showHosters4():
                 oParser = cParser()
                 sPattern =  "var src = (.+?),"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if (aResult[0] == True):
+                if aResult[0] is True:
                     url2 = aResult[1][0].split('hls:')
                     url2 = url2[1].split('+')
                     url2 = url2[0].replace("'","")
@@ -309,7 +309,7 @@ def showHosters4():
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -329,7 +329,7 @@ def showHosters():
     oParser = cParser() # (.+?) .+? ([^<]+)
     sPattern = 'frameborder="0" allowfullscreen="" allow="autoplay" src="https.+?link=(.+?)" scrolling="no">' 
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -340,7 +340,7 @@ def showHosters():
                 
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

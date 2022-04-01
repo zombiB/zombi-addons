@@ -16,6 +16,7 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
+        api_call = ''
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
@@ -28,14 +29,13 @@ class cHoster(iHoster):
             api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self._url
        
         sPattern = "(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>"
-        aResult = oParser.parse(sHtmlContent,sPattern)
+        aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0] is True:
-            sHtmlContent = cPacker().unpack(aResult[1][0])
+            sdata = cPacker().unpack(aResult[1][0])
             sPattern = 'file:"(.+?)",label:".+?"}'
-            aResult = oParser.parse(sHtmlContent,sPattern)
+            aResult = oParser.parse(sdata,sPattern)
             if aResult[0] is True:
                 api_call = aResult[1][0] 
-        #VSlog(api_call)
 
         if api_call:
             return True, api_call

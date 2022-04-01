@@ -461,12 +461,11 @@ msgid "Turkish"
 msgstr ""
 
 msgctxt "#30110"
-
-
-
-
+msgid "Turkish dubbed"
+msgstr ""
 
 msgid "Database to delete"
+msgstr ""
 msgstr ""
 
 msgctxt "#30111"
@@ -1210,6 +1209,14 @@ msgctxt "#31209"
 msgid "Results: %s"
 msgstr "Results: [COLOR deepskyblue]%s[/COLOR]"
 
+msgctxt "#30140"
+msgid "Loading"
+msgstr ""
+
+msgctxt "#30141"
+msgid "Loading infos"
+msgstr ""
+
 msgctxt "#70001"
 msgid "TOP"
 msgstr ""
@@ -1258,6 +1265,10 @@ msgctxt "#70012"
 msgid "Kids"
 msgstr ""
 
-msgstr ""msgctxt "#70013"
+msgctxt "#30501"
+msgid "Classic"
+msgstr ""
+
+#70013"
 msgid "Pack"
 msgstr ""

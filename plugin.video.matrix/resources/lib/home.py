@@ -151,22 +151,6 @@ class cHome:
         oGuiElement.setCat(2)
         oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
-        # Recherche globale Animés
-        oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-        oOutputParameterHandler.addParameter('searchtext', searchtext)
-        oGuiElement.setTitle(self.addons.VSlang(30118))
-        oGuiElement.setFileName(self.addons.VSlang(30118))
-        oGuiElement.setCat(3)
-        oGui.addFolder(oGuiElement, oOutputParameterHandler)
-
-        # Recherche globale Dramas
-        oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-        oOutputParameterHandler.addParameter('searchtext', searchtext)
-        oGuiElement.setTitle(self.addons.VSlang(30123))
-        oGuiElement.setFileName(self.addons.VSlang(30123))
-        oGuiElement.setCat(4)
-        oGui.addFolder(oGuiElement, oOutputParameterHandler)
-
         # Recherche globale divers
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oOutputParameterHandler.addParameter('searchtext', searchtext)

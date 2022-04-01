@@ -58,7 +58,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = 'https://www.awaan.ae/search'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -82,7 +82,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -139,7 +139,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -184,7 +184,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
 
         return '?p='+aResult[1][0]
     return False
@@ -208,7 +208,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -262,7 +262,7 @@ def showHosters():
             
     sPattern =  '<iframe class="iframe-tv" id="iframe-tv" scrolling = "no" src="(.+?)"  allow="autoplay"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         m3url = aResult[1][0]
         if m3url.startswith('//'):
            m3url = 'http:' + m3url 	
@@ -277,7 +277,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    if (aResult[0] == True):
+    if aResult[0] is True:
         
         sUrl = aResult[1][0]
         if sUrl.startswith('//'):

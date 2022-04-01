@@ -66,7 +66,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -90,7 +90,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
             
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -101,7 +101,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = "<li><a href='(.+?)'>التالى</a></li>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         aResult = URL_MAIN_link+aResult[1][0]
         return aResult
 
@@ -133,7 +133,7 @@ def showHosters():
             sHosterUrl = url
             sHosterUrl = sHosterUrl.replace('http://yalla6.xyz/goals/youtube.php?ytid=','https://www.youtube.com/embed/')
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

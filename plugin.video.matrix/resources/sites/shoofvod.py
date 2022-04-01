@@ -18,7 +18,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'http://shoofvod.com/'
 
-RAMADAN_SERIES = (URL_MAIN + '/Cat-98-1', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/Cat-141-1', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/al_751319_1', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/Cat-100-1', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/Cat-132-1', 'showMovies')
@@ -107,7 +107,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/Search/'+sSearchText
 
         showMovies(sUrl)
@@ -150,7 +150,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -191,7 +191,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -212,7 +212,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -237,7 +237,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -263,7 +263,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -278,7 +278,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         aResult = URL_MAIN+aResult[1][0]
         #print aResult[1][0]
         return aResult
@@ -302,7 +302,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -348,7 +348,7 @@ def showHosters():
             
     sPattern =  'var url = "([^<]+)" +' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         m3url = aResult[1][0]
         m3url = URL_MAIN + '' + m3url 
 
@@ -360,7 +360,7 @@ def showHosters():
          # (.+?) ([^<]+) .+?       
     sPattern =  '<iframe src="(.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         m3url = aResult[1][0]
         m3url = 'http:' + m3url 
 			
@@ -371,7 +371,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    if (aResult[0] == True):
+    if aResult[0] is True:
         
         sUrl = aResult[1][0]+ '|User-Agent='+ UA
         if sUrl.startswith('//'):

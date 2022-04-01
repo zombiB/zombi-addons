@@ -50,7 +50,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -96,7 +96,7 @@ def showLive():
 
     #print aResult
    
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1]
@@ -108,7 +108,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = 'source: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -120,14 +120,14 @@ def showLive():
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
     # (.+?) # ([^<]+) .+? 
             sPattern = 'src="(.+?)"'
             aResult = oParser.parse(data, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -139,14 +139,14 @@ def showLive():
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)  
     # (.+?) # ([^<]+) .+? 
             sPattern = "hls: '(.+?)'"
             aResult = oParser.parse(data, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -158,14 +158,14 @@ def showLive():
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
     # (.+?) # ([^<]+) .+? 
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -177,7 +177,7 @@ def showLive():
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)   
@@ -185,7 +185,7 @@ def showLive():
             sPattern = '<iframe src=".+?stream_url=(.+?)" height'
             aResult = oParser.parse(data, sPattern)
             UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Mobile Safari/537.36'
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -197,7 +197,7 @@ def showLive():
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)    

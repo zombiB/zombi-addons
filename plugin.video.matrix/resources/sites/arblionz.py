@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = 'https://arlionz.one'                          
 
-RAMADAN_SERIES = (URL_MAIN + '/category/ramada-series/ramadan-2021/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/series/arabic-series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/movies/arabic-movies/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/movies/indian-movies/', 'showMovies')
@@ -26,7 +26,7 @@ SERIE_TR = (URL_MAIN + '/category/turkish-series-translated/', 'showSeries')
 
 SERIE_TR_AR = (URL_MAIN + '/category/turkish-series-dubbed/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/series/english-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/arabic-series/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category/series/arabic-series/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/category/series/asian-series/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
 SERIE_LATIN = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a/', 'showSeries')
@@ -126,7 +126,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -136,7 +136,7 @@ def showSearchSeries():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -162,7 +162,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -202,7 +202,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -228,7 +228,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -255,7 +255,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -292,7 +292,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -351,7 +351,7 @@ def showSeasons():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
@@ -380,7 +380,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         return aResult[1][0]
 
     return False
@@ -408,7 +408,7 @@ def showEps():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
@@ -467,7 +467,7 @@ def showHosters():
 
     sPattern = '<li data-i="([^<]+)" data-id="([^<]+)" class'
     aResult = oParser.parse(sHtmlContent, sPattern)	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             link = URL_MAIN + '/Embedder/'+aEntry[1]+'/'+aEntry[0]
 
@@ -488,7 +488,7 @@ def showHosters():
             aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -500,7 +500,7 @@ def showHosters():
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -539,7 +539,7 @@ def showHosters():
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -554,7 +554,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         return URL_MAIN+aResult[1][0]
 
     return False

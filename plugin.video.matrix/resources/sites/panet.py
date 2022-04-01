@@ -1,5 +1,6 @@
 ﻿ #-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
+from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -7,7 +8,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress
 from resources.lib.parser import cParser
-from resources.lib.player import cPlayer
 import re
  
 SITE_IDENTIFIER = 'panet'
@@ -29,7 +29,7 @@ SERIE_GENRES = (True, 'showGenres')
 RAMADAN_SERIES = ('http://www.panet.co.il/mosalsalat/category/81/1', 'showSeries')
 REPLAYTV_NEWS = ('https://www.panet.co.il/mosalsalat/category/27/1', 'showSeries')
 NETS_NEWS = ('https://www.panet.co.il/mosalsalat/category/2/1', 'showEps')
-KID_CARTOON = ('https://www.panet.co.il/mosalsalat/category/15/1', 'showSeries')
+KID_CARTOON = ('http://www.panet.co.il/mosalsalat/category/15/1', 'showSeries')
 URL_SEARCH = ('http://www.panet.co.il/search/result/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -100,7 +100,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = 'http://www.panet.co.il/search/result/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -142,7 +142,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -164,7 +164,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -182,14 +182,14 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- 
-    sPattern = '<a class="panet-thumbnail" title="([^<]+)" href="([^<]+)""><img src="([^<]+)" alt="([^<]+)"><div class="panet-title"><h2>                                ([^<]+)                            </h2></div>'
+ # ([^<]+) (.+?) .+?
+    sPattern = '<a class="panet-thumbnail" href="([^<]+)"><img src="([^<]+)" alt="([^<]+)">.+?<div class="panet-info">([^<]+)</div></a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -197,22 +197,23 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[4]
-            siteUrl = URL_MAIN+aEntry[1]
+            sTitle = aEntry[3]
+            siteUrl = URL_MAIN+aEntry[0]
+            sThumbnail = aEntry[1]
 			
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[4]))
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[2]))
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', aEntry[4], '', aEntry[2], '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -226,7 +227,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         aResult = URL_MAIN+aResult[1][0]
         #print aResult[1][0]
         return aResult
@@ -249,7 +250,7 @@ def showEps():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
    
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -286,29 +287,22 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
     #recup du lien mp4
-    sPattern = '<meta itemprop="contentURL" content="(.+?)" />'
+    sPattern = 'temprop="contentURL" content="(.+?)" />'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    if (aResult[0] == True):
-        
-        sUrl = aResult[1][0]
-                 
-        #on lance video directement
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(SITE_IDENTIFIER)
-        oGuiElement.setTitle(sMovieTitle)
-        oGuiElement.setMediaUrl(sUrl)
-        oGuiElement.setThumbnail(sThumbnail)
-
-        oPlayer = cPlayer()
-        oPlayer.clearPlayList()
-        oPlayer.addItemToPlaylist(oGuiElement)
-        oPlayer.startPlayer()
-        return
-    
-    else:
-        return
-
+    if aResult[0] is True:
+        for aEntry in aResult[1]:            
+            url = aEntry
+            if url.startswith('//'):
+                url = 'http:' + url 
+            sHosterUrl = url
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster != False: 
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+			
+               
     oGui.setEndOfDirectory()

@@ -5,9 +5,8 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog
 import base64
  
 SITE_IDENTIFIER = 'tvfun'
@@ -16,7 +15,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://a.tvfun.me/'
 
-RAMADAN_SERIES = (URL_MAIN + '/ts,mosalsalat-ramadan-2021/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2022/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/mosalsalat-hindia/', 'showSeries')
@@ -97,7 +96,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/q/'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -121,7 +120,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -153,7 +152,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -201,7 +200,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern) 
      
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+?
     sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)">.+?<img src="(.+?)" loading='
@@ -210,7 +209,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -240,7 +239,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -272,7 +271,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -316,7 +315,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern) 
      
 
-    if (aResult[0] == True):
+    if aResult[0] is True:
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+? (.+?)
     sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)">.+?<img src="(.+?)" loading'
@@ -325,7 +324,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -355,7 +354,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -387,7 +386,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -432,7 +431,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -460,7 +459,7 @@ def showEps():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -474,7 +473,7 @@ def showEps():
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if (oHoster != False):
+            if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
@@ -497,7 +496,7 @@ def showHosters():
 
     sPattern =  "PGlmcmFt([^<]+)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         for aEntry in aResult[1]:
             m3url = "PGlmcmFt" + aEntry
             sHtmlContent2 = base64.b64decode(m3url)
@@ -506,7 +505,7 @@ def showHosters():
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
-            if (aResult[0] == True):
+            if aResult[0] is True:
                for aEntry in aResult[1]:
         
                    url = aEntry.replace("https://dai.ly/","https://www.dailymotion.com/video/")
@@ -516,7 +515,7 @@ def showHosters():
             
                    sHosterUrl = url 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if (oHoster != False):
+                   if oHoster != False:
                        sDisplayTitle = sMovieTitle+sTitle
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sDisplayTitle)

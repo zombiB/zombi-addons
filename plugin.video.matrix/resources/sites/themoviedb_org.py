@@ -339,7 +339,7 @@ def showSearchMovie():
     oGui = cGui()
 
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         showMovies(sSearchText.replace(' ', '+'))
         # oGui.setEndOfDirectory()
         return
@@ -349,7 +349,7 @@ def showSearchSerie():
     oGui = cGui()
 
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         showSeries(sSearchText.replace(' ', '+'))
         # oGui.setEndOfDirectory()
         return
@@ -359,7 +359,7 @@ def showSearchActor():
     oGui = cGui()
 
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         showActors(sSearchText.replace(' ', '+'))
         # oGui.setEndOfDirectory()
         return
@@ -1097,7 +1097,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = "<span class='page-numbers current'>.+?</span><a class='page-numbers' href='([^<]+)'>.+?</a>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         return aResult[1][0]
 
     return False

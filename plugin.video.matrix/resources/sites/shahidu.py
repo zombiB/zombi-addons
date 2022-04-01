@@ -7,24 +7,15 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'shahidu'
 SITE_NAME = 'shahid4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shahed4u.red/'
-                          
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-except:
-    pass
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 RAMADAN_SERIES = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
@@ -108,7 +99,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -118,7 +109,7 @@ def showSearchSeries():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -159,7 +150,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -196,7 +187,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -222,7 +213,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -253,7 +244,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -279,12 +270,12 @@ def showSeasons():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
             sTitle =  " S" + aEntry[0]
-            sTitle =  sTitle+sMovieTitle
+            sTitle =  sMovieTitle+sTitle
             siteUrl = aEntry[1]+'/list/'
             sThumbnail = aEntry[2]
             sInfo = ''
@@ -316,12 +307,12 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
             sTitle = " E"+aEntry[1]
-            sTitle = sTitle+sMovieTitle
+            sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0]
             sThumbnail = sThumbnail
             sDesc = ''
@@ -333,7 +324,7 @@ def showEpisodes():
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -344,7 +335,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<li><a href="(.+?)">.+?</a></li>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         aResult = aResult[1][0]
         return aResult
 
@@ -385,7 +376,6 @@ def showHosters():
         sLink = aResult[1][0]+'Single/Server.php'
 
     for i in range(0,8):
-
             s = requests.Session()
             data = {'id':sId,'i':str(i)}
             
@@ -402,7 +392,7 @@ def showHosters():
             sPattern = 'src="(.+?)"'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent4, sPattern)
-            if (aResult[0] == True):
+            if aResult[0] is True:
                 for aEntry in aResult[1]:
             
                     url = aEntry
@@ -412,7 +402,7 @@ def showHosters():
            
                     sHosterUrl = url 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if (oHoster != False):
+                    if oHoster != False:
                        oHoster.setDisplayName(sTitle)
                        oHoster.setFileName(sTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)

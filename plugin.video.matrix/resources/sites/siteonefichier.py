@@ -70,7 +70,7 @@ def showFile(sFileTree=''):
     oParser = cParser()
     sPattern = '((?:|directory")) *rel="([^"]+)"><div class="dF"><a href="#" onclick="return false">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
 
@@ -109,12 +109,12 @@ def showHosters():
 
     sPattern = '<a href="([^"]+)">(.+?)</a></td>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0] == True):
+    if aResult[0] is True:
         sHosterUrl = aResult[1][0][0]
         sTitle = aResult[1][0][1]
 
         oHoster = cHosterGui().checkHoster(sHosterUrl)
-        if (oHoster != False):
+        if oHoster != False:
             oHoster.setDisplayName(sTitle)
             oHoster.setFileName(sTitle)
             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, '')

@@ -1131,7 +1131,7 @@ msgstr "Addon dnspython manquant"
 
 msgctxt "#30480"
 msgid "Small loading spinner"
-msgstr "Sablier de chargement réduit"
+msgstr "Small loading spinner"
 
 msgctxt "#30481"
 msgid "Interface"
@@ -1202,6 +1202,14 @@ msgstr "Sites restants : %s"
 msgctxt "#31209"
 msgid "Results: %s"
 msgstr "Résultats : [COLOR deepskyblue]%s[/COLOR]"
+
+msgctxt "#30140"
+msgid "Loading"
+msgstr "جاري التحميل"
+
+msgctxt "#30141"
+msgid "Loading infos"
+msgstr "جاري التحميل"
 
 msgctxt "#70001"
 msgid "TOP"

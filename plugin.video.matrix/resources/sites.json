@@ -10,6 +10,11 @@
             "active": "True",
             "url": "http://www.ahdaf-kooora.com/"
         },
+        "akoam": {
+            "label": "akoam",
+            "active": "True",
+            "url": "https://old.akwam.to"
+        },
         "akwam": {
             "label": "akwam",
             "active": "True",
@@ -18,17 +23,12 @@
         "alarabclub": {
             "label": "alarabclub",
             "active": "True",
-            "url": "https://old.akwam.to"
+            "url": "https://alarabclub.live"
         },
         "alarab": {
             "label": "alarab",
             "active": "True",
             "url": "https://watch.alarab.com"
-        },
-        "alarabclub": {
-            "label": "alarabclub",
-            "active": "True",
-            "url": "https://alarabclub.live"
         },
         "alarabiya": {
             "label": "alarabiya",
@@ -62,7 +62,7 @@
         "animeup": {
             "label": "animeup",
             "active": "True",
-            "url": "https://w1.anime4up.com"
+            "url": "https://anime4up.vip"
         },
         "animezid": {
             "label": "animezid",
@@ -157,7 +157,7 @@
         "egybest": {
             "label": "egybest",
             "active": "True",
-            "url": "https://ww.egy.best"
+            "url": "https://yes.egybest.works"
         },
         "egyclub": {
             "label": "egyclub",
@@ -207,7 +207,7 @@
         "gateanime": {
             "label": "gateanime",
             "active": "True",
-            "url": "https://s.gateanime.com"
+            "url": "https://m.gateanime.cam"
         },
         "geoarabic": {
             "label": "geoarabic",
@@ -232,7 +232,7 @@
         "kingfoot": {
             "label": "kingfoot",
             "active": "True",
-            "url": "https://king-shoot.tv/"
+            "url": "https://pro.king-shoot.tv/"
         },
         "lodynet": {
             "label": "lodynet",
@@ -277,7 +277,7 @@
         "shahidu": {
             "label": "shahidu",
             "active": "True",
-            "url": "https://shahed4u.dev"
+            "url": "https://shahed4u.fun"
         },
         "shooflive": {
             "label": "shooflive",

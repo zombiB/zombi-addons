@@ -49,7 +49,7 @@ def showSearchAll():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search.php?keywords='+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -59,7 +59,7 @@ def showSearchSeries():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search.php?keywords='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -69,7 +69,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if (sSearchText != False):
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search.php?keywords='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -97,7 +97,7 @@ def showMoviesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -148,7 +148,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -204,7 +204,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -251,7 +251,7 @@ def showMoviesLinks(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -281,7 +281,7 @@ def showMoviesLinks(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if (sNextPage != False):
+        if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMoviesLinks', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -310,7 +310,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -361,7 +361,7 @@ def showSeriesLinks():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -403,7 +403,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -447,7 +447,7 @@ def showEpisodes2():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -471,7 +471,7 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
     #VSlog(aResult[1][0])
  
-    if (aResult[0] == True):
+    if aResult[0] is True:
         return 'https://animezid.com'+'/'+aResult[1][0]
 
     return False
@@ -496,7 +496,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
             for aEntry in aResult[1]:
         
                 url = aEntry
@@ -508,7 +508,7 @@ def showHosters():
             
                 sHosterUrl = url 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if (oHoster != False):
+                if oHoster != False:
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -519,7 +519,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if (aResult[0] == True):
+    if aResult[0] is True:
             for aEntry in aResult[1]:
         
                 url = aEntry[0]
@@ -531,7 +531,7 @@ def showHosters():
             
                 sHosterUrl = url 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
-                if (oHoster != False):
+                if oHoster != False:
                     oHoster.setDisplayName(sTitle)
                     oHoster.setFileName(sTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
