@@ -15,6 +15,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://w1.egydead.live'
 
+RAMADAN_SERIES = (URL_MAIN + '/tag/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = ('https://w1.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showMovies')
 MOVIE_PACK = ('https://w1.egydead.live/assembly/', 'showPack')
 MOVIE_DUBBED = ('https://w1.egydead.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')

@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = 'https://cima4u.film'
 
 
-RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-4series/مسلسلات-عربية-arabic-series/رمضان-2021/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-7series/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies4-english/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/افلام-عربي-arabic4-movies/', 'showMovies')

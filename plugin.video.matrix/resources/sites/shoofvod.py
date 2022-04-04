@@ -1,13 +1,13 @@
 ﻿ #-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
 
-
+from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
 from resources.lib.player import cPlayer
 import re,xbmc
@@ -366,32 +366,21 @@ def showHosters():
 			
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
-    #recup du lien mp4
-    sPattern = '<source src="(.+?)" type='
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+        sPattern = '<source src="(.+?)" type='
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
     
-    if aResult[0] is True:
-        
-        sUrl = aResult[1][0]+ '|User-Agent='+ UA
-        if sUrl.startswith('//'):
-           sUrl = 'http:' + sUrl 
-                 
-        #on lance video directement
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(SITE_IDENTIFIER)
-        oGuiElement.setTitle(sMovieTitle)
-        oGuiElement.setMediaUrl(sUrl)
-        oGuiElement.setThumbnail(sThumbnail)
-
-        oPlayer = cPlayer()
-        oPlayer.clearPlayList()
-        oPlayer.addItemToPlaylist(oGuiElement)
-        #xbmc.executebuiltin('xbmc.playercontrol(RepeatAll)')
-        oPlayer.startPlayer()
-        return
-    
-    else:
-        return
+        if aResult[0] is True:
+            for aEntry in aResult[1]:       
+                url = aEntry
+                if url.startswith('//'):
+                   url = 'http:' + url
+                sHosterUrl = url  
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                if oHoster != False:
+                   oHoster.setDisplayName(sMovieTitle)
+                   oHoster.setFileName(sMovieTitle)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
     oGui.setEndOfDirectory()

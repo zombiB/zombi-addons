@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'mycima'
 SITE_NAME = 'mycima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://mycima.bid:2096/'
+URL_MAIN = 'https://mycima.wiki'
 
 MOVIE_TOP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/top/', 'showMovies')
@@ -244,6 +244,8 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
         
   # ([^<]+) .+?
 
@@ -353,7 +355,7 @@ def showSeasons():
             for aEntry in aResult[1]:
  
                 sTitle = aEntry[1].replace("الحلقة","E").replace(" ","")
-                sTitle = sMovieTitle+sTitle
+                sTitle = sMovieTitle+" "+sTitle
                 siteUrl = aEntry[0]
                 sThumbnail = sThumbnail
                 sInfo = ""

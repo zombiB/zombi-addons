@@ -18,7 +18,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = 'https://alarabclub.live'
 
-RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022?type=series', 'showSerie')
+RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022', 'showSerie')
 
 MOVIE_AR = (URL_MAIN + '/category/films/film-arabic-2', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/category/films/film-dubbed', 'showMovies')

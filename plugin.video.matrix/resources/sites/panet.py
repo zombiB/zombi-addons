@@ -26,7 +26,7 @@ SERIE_ASIA = ('https://www.panet.co.il/mosalsalat/category/20/1', 'showSeries')
 SERIE_LATIN = ('https://www.panet.co.il/mosalsalat/category/20/1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
 
-RAMADAN_SERIES = ('http://www.panet.co.il/mosalsalat/category/81/1', 'showSeries')
+RAMADAN_SERIES = ('http://www.panet.co.il/mosalsalat/category/85/1', 'showSeries')
 REPLAYTV_NEWS = ('https://www.panet.co.il/mosalsalat/category/27/1', 'showSeries')
 NETS_NEWS = ('https://www.panet.co.il/mosalsalat/category/2/1', 'showEps')
 KID_CARTOON = ('http://www.panet.co.il/mosalsalat/category/15/1', 'showSeries')

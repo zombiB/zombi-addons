@@ -20,6 +20,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 host = 'ww.egy.best'
 
 
+RAMADAN_SERIES = (URL_MAIN + '/tv/arabic', 'showSeries')
 MOVIE_FAM = (URL_MAIN + '/movies/family-subbed', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/movies/subbed', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/movies/arab', 'showMovies')

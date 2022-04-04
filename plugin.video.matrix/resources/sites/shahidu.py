@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2021', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/افلام-عربي/', 'showMovies')
@@ -286,6 +286,30 @@ def showSeasons():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
             oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+    else: 
+  # ([^<]+) .+? (.+?)
+        sPattern = '<div class="episode-block"><a href="(.+?)" title.+?data-image="(.+?)"></div>.+?<div class="number"><span>الحلقة</span> <em>(.+?)</em></div>'
+
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+        if aResult[0] is True:
+            oOutputParameterHandler = cOutputParameterHandler()
+            for aEntry in aResult[1]:
+ 
+                sTitle = " E"+aEntry[2]
+                sTitle = sMovieTitle+sTitle
+                siteUrl = aEntry[0]
+                sThumbnail = sThumbnail
+                sDesc = ''
+			
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
 

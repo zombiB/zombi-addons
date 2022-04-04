@@ -458,25 +458,25 @@ def showHosters():
                 sHtmlContent = r.content.decode('utf8')
     # (.+?) .+? ([^<]+)
 
-                sPattern = '<source src="([^<]+)" type="video/mp4" size="([^<]+)" />'
-                oParser = cParser()
-                aResult = oParser.parse(sHtmlContent, sPattern)
+    sPattern = '<source src="([^<]+)" type="video/mp4" size="([^<]+)" />'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-                if aResult[0] is True:
-                   for aEntry in aResult[1]:        
-                       url = aEntry[0]
-                       sHost = aEntry[1].replace('"',"")				
-                       sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)
-                       if url.startswith('//'):
-                          url = 'https:' + url
+    if aResult[0] is True:
+       for aEntry in aResult[1]:        
+           url = aEntry[0]
+           sHost = aEntry[1].replace('"',"")				
+           sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)
+           if url.startswith('//'):
+              url = 'https:' + url
 				            
-                       sHosterUrl = url 
-                       oHoster = cHosterGui().checkHoster(sHosterUrl)
-                       if oHoster != False:
-                           oHoster.setDisplayName(sTitle)
-                           oHoster.setFileName(sMovieTitle)
-                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)     
+           sHosterUrl = url 
+           oHoster = cHosterGui().checkHoster(sHosterUrl)
+           if oHoster != False:
+               oHoster.setDisplayName(sTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)     
 
     # (.+?) .+? ([^<]+)
     sPattern = '<a href="http([^<]+)/link/(.+?)".+?class="font-size-14 mr-auto">(.+?)</span>'

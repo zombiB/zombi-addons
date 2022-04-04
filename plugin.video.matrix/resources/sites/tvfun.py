@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'tvfun'
 SITE_NAME = 'tvfun'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://a.tvfun.me/'
+URL_MAIN = 'https://a.tvfun.me'
 
 RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2022/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')
@@ -500,8 +500,8 @@ def showHosters():
         for aEntry in aResult[1]:
             m3url = "PGlmcmFt" + aEntry
             sHtmlContent2 = base64.b64decode(m3url)
-    # (.+?)       
-            sPattern = 'src="(.+?)" allowfullscreen'
+    # (.+?)    .+?    
+            sPattern = 'src="(.+?)".+?allowfullscreen'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent2, sPattern)
 

@@ -121,6 +121,8 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear) 
 
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
         
   # ([^<]+) .+? (.+?)
 
@@ -206,6 +208,8 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
 
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
         
   # ([^<]+) .+? (.+?)
 
@@ -252,7 +256,7 @@ def showEpisodes():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
+    sThumb = oInputParameterHandler.getValue('sThumbnail')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()

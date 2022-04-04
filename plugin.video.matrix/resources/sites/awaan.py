@@ -20,7 +20,7 @@ URL_SERIE = 'https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B
 MOVIE_AR = ('https://www.awaan.ae/movies?page=1', 'showMovies')
 SERIE_AR = ('https://www.awaan.ae/series?page=1', 'showSeries')
 
-RAMADAN_SERIES = ('https://www.awaan.ae/show/allprograms/214766/%D8%B1%D9%85%D8%B6%D8%A7%D9%86?page=1', 'showSeries')
+RAMADAN_SERIES = ('https://www.awaan.ae/ramadan?page=1', 'showSeries')
 REPLAYTV_NEWS = ('https://www.awaan.ae/show/allprograms/30350/%D8%AA%D8%B1%D9%81%D9%8A%D9%87?page=1', 'showSeries')
 REPLAYTV_PLAY = ('http://awaan.ae/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86?page=1', 'showEps')
 ISLAM_SHOWS = ('https://www.awaan.ae/programs/30349/%D8%A5%D8%B3%D9%84%D8%A7%D9%85%D9%8A%D8%A7%D8%AA?page=1', 'showSeries')
@@ -133,7 +133,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # .+? ([^<]+) (.+?)
 
-    sPattern = '<div href="(.+?)" class="item info">.+?<img class="lozad" data-src="(.+?)" alt="img" title="(.+?)">'
+    sPattern = '<li>[^<]+<a href="(.+?)">.+?<img src="(.+?)" alt="(.+?)">'
  
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
