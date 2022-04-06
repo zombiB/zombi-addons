@@ -19,6 +19,7 @@
 """Unpacker for Dean Edward's p.a.c.k.e.r"""
 
 import re
+import sys
 
 from resources.lib.util import Unquote
 
@@ -51,7 +52,11 @@ class cPacker():
             word = match.group(0)
             return symtab[unbase(word)] or word
 
-        source = re.sub(r'\b\w+\b', lookup, payload)
+        payload = payload.replace("\\\\", "\\").replace("\\'", "'")
+        if sys.version_info.major == 2:
+            source = re.sub(r'\b\w+\b', lookup, payload)    
+        else:
+            source = re.sub(r'\b\w+\b', lookup, payload, flags=re.ASCII)
         return self._replacestrings(source)
 
     def _cleanstr(self, str):

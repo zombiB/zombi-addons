@@ -13,9 +13,9 @@ UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'vid4up', 'vid4up')
+        iHoster.__init__(self, 'vidforup', 'vid4up')
 
-    def __getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self):
         VSlog(self._url)
     
         sUrl = self._url

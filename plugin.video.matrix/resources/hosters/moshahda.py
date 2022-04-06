@@ -39,7 +39,7 @@ class cHoster(iHoster):
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
             # (.+?) .+?
-        sPattern = 'file: "(.+?)"}'
+        sPattern = 'file: "(.+?)"}],'
         aResult = oParser.parse(sHtmlContent, sPattern)
         
         api_call = False
@@ -47,7 +47,6 @@ class cHoster(iHoster):
         if aResult[0] is True:
             oRequest = cRequestHandler(aResult[1][0])
             data = oRequest.request()
-            VSlog(data)
         	
             sPattern =  ',RESOLUTION=(.+?),.+?https(.+?&i=([0-9]+).([0-9]+))'
             aResult = oParser.parse(data, sPattern)

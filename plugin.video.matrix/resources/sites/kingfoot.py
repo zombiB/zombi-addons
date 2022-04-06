@@ -178,7 +178,6 @@ def showHosters4():
     rurl = 'https://1xnews.online/home/matche/'+murl 
     St=requests.Session()              
     sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
-    VSlog(rurl)
     oParser = cParser()
             
     sPattern =  "&k=(.+?)'" 

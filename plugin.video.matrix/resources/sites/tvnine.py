@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
 import re
  
@@ -125,6 +125,25 @@ def showLive():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
     # (.+?) # ([^<]+) .+? 
+            sPattern = "source: '(.+?)',"
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0] is True:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url 
+                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster != False:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+    # (.+?) # ([^<]+) .+? 
             sPattern = 'src="(.+?)"'
             aResult = oParser.parse(data, sPattern)
             if aResult[0] is True:
@@ -133,6 +152,27 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
+                   if ".php" in url:
+                       oRequestHandler = cRequestHandler(url)
+                       data = oRequestHandler.request() 
+                       sPattern = "source: '(.+?)',"
+                       aResult = oParser.parse(data, sPattern)
+                       if aResult[0] is True:
+                          for aEntry in aResult[1]:
+            
+                              url = aEntry
+                              if url.startswith('//'):
+                                 url = 'https:' + url 
+                              sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                              sHosterUrl = sHosterUrl+ '|User-Agent=Android'
+                              sMovieTitle = sTitle
+            
+
+                              oHoster = cHosterGui().checkHoster(sHosterUrl)
+                              if oHoster != False:
+                                  oHoster.setDisplayName(sMovieTitle)
+                                  oHoster.setFileName(sMovieTitle)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
                    sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
                    sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
                    sMovieTitle = sTitle
@@ -200,7 +240,7 @@ def showLive():
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)    
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail) 
            
 
              

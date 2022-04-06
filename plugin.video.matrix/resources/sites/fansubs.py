@@ -123,7 +123,6 @@ def showHosters():
     sPattern = '<source src="([^<]+)" data-quality="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if aResult[0] is True:
@@ -146,8 +145,6 @@ def showHosters():
     sPattern = '<source src="([^<]+)" type="video/mp4" data-quality="([^<]+)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
-
 	
     if aResult[0] is True:
         for aEntry in aResult[1]:

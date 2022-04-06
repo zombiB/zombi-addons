@@ -276,27 +276,18 @@ def showHosters():
     sPattern = 'src: "(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
+	
     if aResult[0] is True:
-        
-        sUrl = aResult[1][0]
-        if sUrl.startswith('//'):
-           sUrl = 'http:' + sUrl 
-                 
-        #on lance video directement
-        oGuiElement = cGuiElement()
-        oGuiElement.setSiteName(SITE_IDENTIFIER)
-        oGuiElement.setTitle(sMovieTitle)
-        oGuiElement.setMediaUrl(sUrl)
-        oGuiElement.setThumbnail(sThumbnail)
+        for aEntry in aResult[1]:       
+            url = aEntry
+            if url.startswith('//'):
+               url = 'http:' + url
+            sHosterUrl = url  
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster != False:
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
 
-        oPlayer = cPlayer()
-        oPlayer.clearPlayList()
-        oPlayer.addItemToPlaylist(oGuiElement)
-        oPlayer.startPlayer()
-        return
-    
-    else:
-        return
 
     oGui.setEndOfDirectory()	

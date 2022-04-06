@@ -126,7 +126,6 @@ def showLive():
             sHtmlContent = St.get(siteUrl,headers=hdr)
             sHtmlContent = sHtmlContent.content
             oParser = cParser()
-            VSlog(sHtmlContent)
     # (.+?) # ([^<]+) .+? 
             sPattern = "source: '(.+?)',"
             aResult = oParser.parse(sHtmlContent, sPattern)

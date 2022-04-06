@@ -17,9 +17,9 @@ class cHoster(iHoster):
         return True
 
     def setUrl(self, url):
-        self.url = str(url)
-        if 'embed' not in self._url:
-             self._url = self._url.replace("https://anavids.com/","https://anavids.com/embed-")
+        self._url = str(url)
+        if not 'embed-' in self._url:
+             self._url = self._url.replace(".com/",".com/embed-")
 
     def _getMediaLinkForGuest(self):
         

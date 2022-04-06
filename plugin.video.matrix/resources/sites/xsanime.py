@@ -60,8 +60,8 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+?
-    sPattern = '<div class="itemtype_anime"><a href="([^<]+)" title="([^<]+)"><div class="itemtype_anime_poster"><img src="([^<]+)" alt='
+ # ([^<]+) .+? (.+?)
+    sPattern = '<div class="itemtype_anime"><a href="([^<]+)" title="(.+?)"><div class="itemtype_anime_poster">.+?src="(.+?)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -209,7 +209,7 @@ def showHosters():
     sHtmlContent = oRequestHandler.request() 
     
     # (.+?) .+? ([^<]+)        	
-    sPattern = 'href="(.+?)" class="download--item">'
+    sPattern = 'href="([^<]+)" class="download--item">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

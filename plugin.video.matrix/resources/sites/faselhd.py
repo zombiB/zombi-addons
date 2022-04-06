@@ -343,7 +343,6 @@ def showEpisodes():
     sHtmlContent = r.content 
     if isMatrix(): 
        sHtmlContent = sHtmlContent.decode('utf8',errors='ignore') 
-       VSlog(sHtmlContent)
     if sHtmlContent:
        sPattern = '<a href="([^<]+)>([^<]+)</a>' 
 

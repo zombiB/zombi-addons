@@ -5,6 +5,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0'
 
 class cHoster(iHoster):
 
@@ -20,11 +21,12 @@ class cHoster(iHoster):
             self._url = self._url.replace("embed-","")
         if 'mediaplayer' not in sUrl:
             parts = self._url.split('/')[3]
-            self._url = "https://letsupload.co/plugins/mediaplayer/site/_embed.php?u="+parts
+            self._url = "https://letsupload.io/plugins/mediaplayer/site/_embed.php?u="+parts
 
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
+        api_call = False
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()

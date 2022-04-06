@@ -117,7 +117,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = 'https://mycima.actor:2083/search/'+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -127,7 +127,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = 'https://mycima.actor:2083/search/'+sSearchText
+        sUrl = URL_MAIN + '/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -207,7 +207,7 @@ def showSeries(sSearch = ''):
     sEnd = '</footer><'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="Thumb--GridItem"><a href="(.+?)" title="(.+?)">.+?image:url(.+?);">'
+    sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)" title="(.+?)">.+?image:url(.+?);">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

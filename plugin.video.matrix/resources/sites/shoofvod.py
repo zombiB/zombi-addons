@@ -9,7 +9,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog
 from resources.lib.parser import cParser
-from resources.lib.player import cPlayer
 import re,xbmc
 
 SITE_IDENTIFIER = 'shoofvod'
@@ -183,6 +182,8 @@ def showMovies(sSearch = ''):
             else:
 
                 oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+        
+        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern ='class="page" href="([^<]+)">([^<]+)</a>'
@@ -303,13 +304,8 @@ def showEps():
 
    
     if aResult[0] is True:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","").replace("مدبلج","").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
@@ -327,8 +323,6 @@ def showEps():
 
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters',  sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
- 
-        progress_.VSclose(progress_)
        
     oGui.setEndOfDirectory()
     
@@ -369,7 +363,6 @@ def showHosters():
         sPattern = '<source src="(.+?)" type='
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
     
         if aResult[0] is True:
             for aEntry in aResult[1]:       
