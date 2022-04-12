@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'detectiveconanar'
 SITE_NAME = 'detectiveconanar'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'https://detectiveconanar.com'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 ANIM_NEWS = ('https://detectiveconanar.com/episodes/', 'showSeries')
 ANIM_MOVIES = ('https://detectiveconanar.com/movies/', 'showMovies')

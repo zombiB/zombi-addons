@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'eyoon'
 SITE_NAME = 'eyoon'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://eyoon.co'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 KID_CARTOON = ('https://eyoon.co/?page_id=42764', 'showSeries')
 

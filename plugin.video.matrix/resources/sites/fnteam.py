@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'fnteam'
 SITE_NAME = 'fn-team'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://www.fn-team.com'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
 SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')

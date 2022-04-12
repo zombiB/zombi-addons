@@ -6,7 +6,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -14,8 +14,8 @@ SITE_IDENTIFIER = 'alarabiya'
 SITE_NAME = 'alarabiya documentaries'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.alarabiya.net'
-
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+ 
 DOC_NEWS = ('https://www.alarabiya.net/programs/documentaries', 'showMovies')
 
 URL_SEARCH = ('', 'showMovies')

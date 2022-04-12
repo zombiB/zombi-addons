@@ -7,15 +7,24 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, isMatrix
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'movizland'
 SITE_NAME = 'movizland'
 SITE_DESC = 'arabic anime'
  
-URL_MAIN = 'https://movizland.cyou/'
-                          
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass                            
 
 RAMADAN_SERIES = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
 MOVIE_FAM = (URL_MAIN + '/category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')

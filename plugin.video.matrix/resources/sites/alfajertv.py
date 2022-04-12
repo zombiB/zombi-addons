@@ -1,18 +1,20 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-import re
+
 SITE_IDENTIFIER = 'alfajertv'
 SITE_NAME = 'alfajertv'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://show.alfajertv.com'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + '/genre/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/genre/arabic-movies/', 'showMovies')
@@ -121,7 +123,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="movies">.+?class="year">(.+?)</span>.+?<p>([^<]+)</p>'
+    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="movies">.+?class="year">(.+?)</span>.+?<p>(.+?)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -179,7 +181,7 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="tvshows">.+?class="year">(.+?)</span>.+?<p>([^<]+)</p>'
+    sPattern = '<a href="([^<]+)"><img src="([^<]+)" alt="([^<]+)" /><span class="tvshows">.+?class="year">(.+?)</span>.+?<p>(.+?)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -237,7 +239,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<img src="([^<]+)" alt="([^<]+)">.+?</div><a href="([^<]+)"><div class="see">.+?<span>([^<]+)</span> <span>.+?class="texto">([^<]+)</div>'
+    sPattern = '<img src="([^<]+)" alt="([^<]+)">.+?</div><a href="([^<]+)"><div class="see">.+?<span>([^<]+)</span> <span>.+?class="texto">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -344,7 +346,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article id=".+?" class="item tvshows "><div class="poster"><img src="([^<]+)" alt="([^<]+)"><div class="rating"><span class="icon-star2"></span>([^<]+)</div><div class="mepo"> </div><a href="([^<]+)"><div class="see">'
+    sPattern = '<article id=".+?" class="item tvshows "><div class="poster"><img src="([^<]+)" alt="([^<]+)"><div class="rating"><span class="icon-star2"></span>([^<]+)</div><div class="mepo"> </div><a href="(.+?)"><div class="see">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -406,7 +408,7 @@ def showEpisodes():
     if (aResult[0]):
         sNote = aResult[1][0]
 # ([^<]+) .+? 
-    sPattern = "<div class='imagen'><a href='([^<]+)'><img src='([^<]+)'></a></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='.+?'>([^<]+)</a> <span class='date'>"
+    sPattern = "<div class='imagen'><a href='([^<]+)'><img src='([^<]+)'></a></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='.+?'>(.+?)</a> <span class='date'>"
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -433,7 +435,6 @@ def showEpisodes():
 			
 def showServer():
     oGui = cGui()
-    import requests
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -451,7 +452,7 @@ def showServer():
     sId = ''
     Host = URL_MAIN.split('//')[1]
      # (.+?) ([^<]+) .+?
-    sPattern = 'data-post="([^<]+)" data-nume="([^<]+)">'
+    sPattern = 'data-post="([^<]+)" data-nume="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
@@ -467,11 +468,12 @@ def showServer():
 							'Connection': 'keep-alive'}
                    post = aEntry[0]
                    nume = aEntry[1]
+                   import requests
                    data = {'action':'doo_player_ajax','post':post,'nume':nume,'type':'movie'}
                    s = requests.Session()
                    r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
                    sHtmlContent = r.content.decode('utf8')  
-                   sPattern = "<iframe.+?src='([^<]+)' frameborder"
+                   sPattern = "<iframe.+?src='(.+?)' frameborder"
                    oParser = cParser()
                    aResult = oParser.parse(sHtmlContent, sPattern)
                    if aResult[0] is True:
@@ -501,7 +503,7 @@ def showServer():
                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				     
     # (.+?) ([^<]+) .+?
-                   sPattern = 'src="([^<]+)" frameborder='
+                   sPattern = 'src="(.+?)" frameborder='
                    oParser = cParser()
                    aResult = oParser.parse(sHtmlContent, sPattern)
                    if aResult[0] is True:
@@ -529,7 +531,6 @@ def showServer():
                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
     oGui.setEndOfDirectory()
- 
  
 def __checkForNextPage(sHtmlContent):
     sPattern = '<link rel="next" href="(.+?)" /><meta'

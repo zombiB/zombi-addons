@@ -6,7 +6,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, isMatrix
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
 import re
@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'stardima'
 SITE_NAME = 'stardima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.stardima.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 KID_MOVIES = (URL_MAIN + '/movies/#gsc.tab=0', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/tvshows/#gsc.tab=0', 'showSeries')

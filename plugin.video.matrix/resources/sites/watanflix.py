@@ -7,23 +7,23 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
 
 SITE_IDENTIFIER = 'watanflix'
 SITE_NAME = 'watanflix'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://watanflix.com'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = ('http://watanflix.com/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
-SERIE_AR = ('http://watanflix.com/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
-KID_CARTOON = ('http://watanflix.com/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
+RAMADAN_SERIES = (URL_MAIN + 'ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+SERIE_AR = (URL_MAIN + 'ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
+KID_CARTOON = (URL_MAIN + 'ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
 
 SERIE_GENRES = (True, 'showGenres')
 
-URL_SEARCH = ('https://watanflix.com/ar/search?q=', 'showSeries')
-URL_SEARCH_SERIES = ('https://watanflix.com/ar/search?q=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + 'ar/search?q=', 'showSeries')
+URL_SEARCH_SERIES = (URL_MAIN + 'ar/search?q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -48,7 +48,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = 'https://watanflix.com/ar/search?q='+sSearchText
+        sUrl = URL_MAIN + 'ar/search?q='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return

@@ -7,7 +7,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 
@@ -16,7 +16,7 @@ SITE_IDENTIFIER = 'rotana'
 SITE_NAME = 'rotana'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://rotana.net/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_AR = ('https://rotana.net/vod-movies', 'showMovies')
 URL_SEARCH = ('https://rotana.net/?s=', 'showSeries')

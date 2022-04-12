@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 import base64
  
@@ -13,18 +13,26 @@ SITE_IDENTIFIER = 'tvfun'
 SITE_NAME = 'tvfun'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://a.tvfun.me'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+except:
+    pass
+RAMADAN_SERIES = (URL_MAIN + 'ts/mosalsalat-ramadan-2022/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'cat/mosalsalat-torkia-FJ/', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + 'ts,mosalsalat--modablaja/', 'showSeries')
+SERIE_HEND = (URL_MAIN + 'cat/mosalsalat-hindia-DI/', 'showSeries')
+SERIE_AR = (URL_MAIN + 'cat/mosalsalat-3arabia-YJ/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'cat/mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + 'cat/mosalsalat-latinia/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + 'cat/programme-tv/', 'showSeries')
 
-RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2022/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/mosalsalat-hindia/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/mosalsalat-3arabia/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + '/mosalsalat-korea/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + '/mosalsalat-latinia/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + '/programme-tv/', 'showSeries')
-
-URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + 'q/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
@@ -97,7 +105,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + '/q/'+sSearchText
+        sUrl = URL_MAIN + 'q/'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return

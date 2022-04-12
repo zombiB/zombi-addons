@@ -1,19 +1,20 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi.(@geekzombi)
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-import re
  
 SITE_IDENTIFIER = 'arabsciences'
 SITE_NAME = 'arabsciences'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://arabsciences.com'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 DOC_NEWS = ('https://arabsciences.com/category/tv-channels/', 'showMovies')
 DOC_GENRES = (True, 'showGenres')

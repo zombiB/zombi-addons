@@ -6,7 +6,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, isMatrix
+from resources.lib.comaddon import progress, isMatrix, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'familymoviz'
 SITE_NAME = 'familymoviz'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.familymoviz.net'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_FAM = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')

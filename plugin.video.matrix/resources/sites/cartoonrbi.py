@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'cartoonrbi'
 SITE_NAME = 'cartoon3rbi'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.arteenz.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 KID_MOVIES = (URL_MAIN + '/films.html', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/cartoon2549.html', 'showSeries')

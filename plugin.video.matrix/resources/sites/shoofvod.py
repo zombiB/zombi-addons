@@ -7,7 +7,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 import re,xbmc
 
@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'shoofvod'
 SITE_NAME = 'shoofvod'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://shoofvod.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + '/Cat-141-1', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/al_751319_1', 'showMovies')

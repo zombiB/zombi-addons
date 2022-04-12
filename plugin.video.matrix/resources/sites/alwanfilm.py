@@ -7,7 +7,7 @@ from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 import re
@@ -17,8 +17,7 @@ SITE_IDENTIFIER = 'alwanfilm'
 SITE_NAME = 'alwanfilm'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'https://alwanfilm.com'
-
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_CLASSIC = ('https://alwanfilm.com/genre/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%85%d9%84%d9%88%d9%86%d8%a9/', 'showMovies')
 

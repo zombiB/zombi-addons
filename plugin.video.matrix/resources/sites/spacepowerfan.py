@@ -7,14 +7,14 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, isMatrix
+from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'spacepowerfan'
 SITE_NAME = 'spacepowerfan'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://spacepowerfan.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 ANIM_MOVIES = (URL_MAIN + '/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
 ANIM_NEWS = (URL_MAIN + '/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
@@ -44,7 +44,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = 'https://spacepowerfan.com/?s='+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -110,7 +110,7 @@ def showSeries(sSearch = ''):
     sStart = '<div class="Top">'
     sEnd = '<div class="WebDescription">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    sPattern = 'class="TPost C"> <a href="(.+?)">.+?data-lazy-src="(.+?)".+?class="Title">(.+?)</'
+    sPattern = 'class="TPost C"> <a href="([^<]+)">.+?data-lazy-src="(.+?)".+?class="Title">(.+?)</'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -177,7 +177,7 @@ def showEpisodes():
             sSeason = "S"+aEntry[0]
             if sSeason:
                sHtmlContent1 = aEntry[1]
-               sPattern = '<img src="(http[^<]+)" alt.+?href="(.+?)">(.+?)</a>'
+               sPattern = '<img src="(http[^<]+)" alt.+?href="([^<]+)">(.+?)</a>'
                oParser = cParser()
                aResult = oParser.parse(sHtmlContent1, sPattern)
 	
@@ -243,7 +243,7 @@ def showServers():
             sgn = requests.Session()
             data = sgn.get(sId).content
             sHtmlContent2 = data    
-            sPattern = 'src="(.+?)" frameborder'
+            sPattern = 'src="([^<]+)" frameborder'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0] is True:

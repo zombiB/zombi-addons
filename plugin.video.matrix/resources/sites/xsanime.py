@@ -7,19 +7,28 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 
 SITE_IDENTIFIER = 'xsanime'
 SITE_NAME = 'xsanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://a.xsanime.com'
-ANIM_NEWS = (URL_MAIN+'/episodes' , 'showSeries')
-ANIM_MOVIES = (URL_MAIN + '/movies_list/', 'showMovies')
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+except:
+    pass
+ANIM_NEWS = (URL_MAIN+'episodes' , 'showSeries')
+ANIM_MOVIES = (URL_MAIN + 'movies_list/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -45,7 +54,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress ,VSlog
+from resources.lib.comaddon import progress ,VSlog, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'asgoal'
 SITE_NAME = 'asgoal'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.as-goal.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = ('https://www.as-goal.com/mm/', 'showMovies')
 

@@ -18,17 +18,17 @@
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://akwam.im"
-        },
-        "alarabclub": {
-            "label": "alarabclub",
-            "active": "True",
-            "url": "https://alarabclub.live"
+            "url": "https://akwam.in"
         },
         "alarab": {
             "label": "alarab",
             "active": "True",
             "url": "https://watch.alarab.com"
+        },
+        "alarabclub": {
+            "label": "alarabclub",
+            "active": "True",
+            "url": "https://alarabclub.live"
         },
         "alarabiya": {
             "label": "alarabiya",
@@ -62,7 +62,7 @@
         "animeup": {
             "label": "animeup",
             "active": "True",
-            "url": "https://anime4up.vip"
+            "url": "https://anime4up.art"
         },
         "animezid": {
             "label": "animezid",
@@ -77,32 +77,32 @@
         "arabseed": {
             "label": "arabseed",
             "active": "True",
-            "url": "https://eg.arabseed.ink"
+            "url": "https://m.arabseed.ink"
         },
         "aracinema_co": {
             "label": "aramosalsal",
             "active": "True",
-            "url": "http://aramosalsal.tv"
+            "url": "https://aramosalsal.net"
         },
         "arbcinema": {
             "label": "arbcinema",
             "active": "True",
-            "url": "https://in.arbcinema.com"
+            "url": "https://ok.arbcinema.com"
         },
         "arblionz": {
             "label": "arblionz",
             "active": "True",
-            "url": "https://arlionz.cam"
+            "url": "https://tv.arlionz.one"
         },
         "asgoal": {
             "label": "asgoal",
             "active": "True",
-            "url": "https://www.as-goal.com/"
+            "url": "https://www.as-goal.com"
         },
         "awaan": {
             "label": "awaan",
             "active": "True",
-            "url": "http://awaan.ae/"
+            "url": "http://awaan.ae"
         },
         "beinmatch": {
             "label": "beinmatch",
@@ -122,12 +122,12 @@
         "cartoonrbi": {
             "label": "cartoon3rbi",
             "active": "True",
-            "url": "https://www.arteenz.com/"
+            "url": "https://www.arteenz.com"
         },
         "cdrama": {
             "label": "cdrama",
             "active": "True",
-            "url": "https://cdrama.in/"
+            "url": "https://cdrama.in"
         },
         "cimaclub": {
             "label": "cimaclub",
@@ -142,7 +142,7 @@
         "cimau": {
             "label": "cimau",
             "active": "True",
-            "url": "https://cima4u.film"
+            "url": "https://cima4u.ink"
         },
         "detectiveconanar": {
             "label": "detectiveconanar",
@@ -167,7 +167,7 @@
         "egydead": {
             "label": "egydead",
             "active": "True",
-            "url": "https://w.egydead.live"
+            "url": "https://w1.egydead.live"
         },
         "ehna": {
             "label": "ehna",
@@ -232,7 +232,7 @@
         "kingfoot": {
             "label": "kingfoot",
             "active": "True",
-            "url": "https://pro.king-shoot.tv/"
+            "url": "https://hd.king-shoot.tv/"
         },
         "lodynet": {
             "label": "lodynet",
@@ -242,12 +242,12 @@
         "movizland": {
             "label": "movizland",
             "active": "True",
-            "url": "https://movizland.fun"
+            "url": "https://movizland.cyou"
         },
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycima.ink"
+            "url": "https://mycima.social"
         },
         "nightosphere": {
             "label": "nightosphere",
@@ -277,12 +277,12 @@
         "shahidu": {
             "label": "shahidu",
             "active": "True",
-            "url": "https://shahed4u.fun"
+            "url": "https://shahed4u.work"
         },
         "shooflive": {
             "label": "shooflive",
             "active": "True",
-            "url": "https://w.shooflive.video"
+            "url": "https://z.shooflive.site"
         },
         "shoofvod": {
             "label": "shoofvod",
@@ -342,7 +342,7 @@
         "xsanime": {
             "label": "xsanime",
             "active": "True",
-            "url": "https://m.xsanime.com"
+            "url": "https://a.xsanime.com"
         }
     }
 }

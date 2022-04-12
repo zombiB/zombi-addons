@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'pakistani'
 SITE_NAME = 'pakistani-live'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://pakistani-live.net/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_ASIAN = (URL_MAIN + '/category/أفلام-باكستانية/', 'showMovies')
 SERIE_PAK = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%D9%8A%D8%A9-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/category/مسلسلات-مدبلجة/', 'showSeries')

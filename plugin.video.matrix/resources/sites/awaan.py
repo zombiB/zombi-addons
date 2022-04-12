@@ -4,7 +4,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 from resources.lib.player import cPlayer
 from resources.lib.gui.guiElement import cGuiElement
@@ -14,7 +14,8 @@ SITE_IDENTIFIER = 'awaan'
 SITE_NAME = 'awaan'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://awaan.ae/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 URL_SERIE = 'https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
 
 MOVIE_AR = ('https://www.awaan.ae/movies?page=1', 'showMovies')
