@@ -3,12 +3,12 @@
         "aflamfree": {
             "label": "aflamfree",
             "active": "True",
-            "url": "https://www.aflamfree.top/"
+            "url": "https://www.aflamfree.top"
         },
         "ahdaf": {
             "label": "ahdaf",
             "active": "True",
-            "url": "http://www.ahdaf-kooora.com/"
+            "url": "http://www.ahdaf-kooora.com"
         },
         "akoam": {
             "label": "akoam",
@@ -44,10 +44,6 @@
             "label": "aljazeera",
             "active": "True",
             "url": "https://www.aljazeera.net"
-        },
-        "alldebrid": {
-            "label": "AllDebrid",
-            "active": "True"
         },
         "alwanfilm": {
             "label": "alwanfilm",
@@ -152,7 +148,7 @@
         "docarabic": {
             "label": "docarabic",
             "active": "True",
-            "url": "https://docarabic.wordpress.com/"
+            "url": "https://docarabic.wordpress.com"
         },
         "egybest": {
             "label": "egybest",
@@ -167,12 +163,12 @@
         "egydead": {
             "label": "egydead",
             "active": "True",
-            "url": "https://w1.egydead.live"
+            "url": "https://w2.egydead.live"
         },
         "ehna": {
             "label": "ehna",
             "active": "True",
-            "url": "https://e7naaa.online/"
+            "url": "https://e7naaa.online"
         },
         "esseq": {
             "label": "esseq",
@@ -212,12 +208,12 @@
         "geoarabic": {
             "label": "geoarabic",
             "active": "True",
-            "url": "https://www.geoarabic.com/"
+            "url": "https://www.geoarabic.com"
         },
         "halacima": {
             "label": "halacima",
             "active": "True",
-            "url": "https://m.halacima.net/"
+            "url": "https://m.halacima.net"
         },
         "hidaya": {
             "label": "hidaya",
@@ -232,7 +228,7 @@
         "kingfoot": {
             "label": "kingfoot",
             "active": "True",
-            "url": "https://hd.king-shoot.tv/"
+            "url": "https://hd.king-shoot.tv"
         },
         "lodynet": {
             "label": "lodynet",
@@ -247,7 +243,7 @@
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycima.social"
+            "url": "https://mycima.social:2096"
         },
         "nightosphere": {
             "label": "nightosphere",
@@ -277,7 +273,7 @@
         "shahidu": {
             "label": "shahidu",
             "active": "True",
-            "url": "https://shahed4u.work"
+            "url": "https://shahed4u.pw"
         },
         "shooflive": {
             "label": "shooflive",
@@ -287,7 +283,7 @@
         "shoofvod": {
             "label": "shoofvod",
             "active": "True",
-            "url": "http://shoofvod.com/"
+            "url": "http://shoofvod.com"
         },
         "siteonefichier": {
             "label": "Mon Compte 1Fichier",
@@ -302,7 +298,7 @@
         "spacepowerfan": {
             "label": "spacepowerfan",
             "active": "True",
-            "url": "https://www.spacepowerfan.com/"
+            "url": "https://www.spacepowerfan.com"
         },
         "stardima": {
             "label": "stardima",

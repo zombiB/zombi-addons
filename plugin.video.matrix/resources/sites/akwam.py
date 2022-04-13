@@ -17,49 +17,40 @@ SITE_NAME = 'akwam'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN+"/"
-    VSlog(URL_MAIN)
-except:
-    pass
-MOVIE_FAM = (URL_MAIN + 'movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'movies?section=29', 'showMovies')
-MOVIE_DUBBED = (URL_MAIN + 'movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'movies?section=30', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'movies?section=31', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'movies?section=33', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'movies?category=30', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'movies?section=32', 'showMovies')
-MOVIE_TOP = (URL_MAIN + 'movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
-RAMADAN_SERIES = (URL_MAIN + 'series?section=0&category=87&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
-SERIE_EN = (URL_MAIN + 'series?section=30', 'showSeries')
-SERIE_AR = (URL_MAIN + 'series?section=29', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'series?section=31', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'series?section=33', 'showSeries')
-SERIE_TR = (URL_MAIN + 'series?section=32', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + 'series?section=30&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 
-SERIE_TR_AR = (URL_MAIN + 'series?section=32&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
-SERIE_HEND_AR = (URL_MAIN + 'series?section=31&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
-ANIM_NEWS = (URL_MAIN + 'series?category=30', 'showSeries')
+MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/movies?section=29', 'showMovies')
+MOVIE_DUBBED = (URL_MAIN + '/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/movies?section=30', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/movies?section=31', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/movies?section=33', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/movies?category=30', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/movies?section=32', 'showMovies')
+MOVIE_TOP = (URL_MAIN + '/movies?section=30&category=0&rating=8&year=0&language=0&formats=0&quality=0', 'showMovies')
+RAMADAN_SERIES = (URL_MAIN + '/series?section=0&category=87&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+SERIE_EN = (URL_MAIN + '/series?section=30', 'showSeries')
+SERIE_AR = (URL_MAIN + '/series?section=29', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/series?section=31', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/series?section=33', 'showSeries')
+SERIE_TR = (URL_MAIN + '/series?section=32', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/series?section=30&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
 
-DOC_NEWS = (URL_MAIN + 'movies?category=28', 'showMovies')
-DOC_SERIES = (URL_MAIN + 'shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
+SERIE_TR_AR = (URL_MAIN + '/series?section=32&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+SERIE_HEND_AR = (URL_MAIN + '/series?section=31&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/series?category=30', 'showSeries')
 
-REPLAYTV_NEWS = (URL_MAIN + 'shows?section=42', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + 'shows?section=45', 'showMovies')
+DOC_NEWS = (URL_MAIN + '/movies?category=28', 'showMovies')
+DOC_SERIES = (URL_MAIN + '/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
+
+REPLAYTV_NEWS = (URL_MAIN + '/shows?section=42', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + '/shows?section=45', 'showMovies')
 
 MOVIE_ANNEES = (True, 'showYears')
 
-URL_SEARCH = (URL_MAIN + 'search?q=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search?section=movie&year=0&rating=0&formats=0&quality=0&q=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search?section=series&year=0&rating=0&formats=0&quality=0&q=', 'showSeriesSearch')
-URL_SEARCH_MISC = (URL_MAIN + 'search?q=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '/search?q=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/search?section=movie&year=0&rating=0&formats=0&quality=0&q=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?section=series&year=0&rating=0&formats=0&quality=0&q=', 'showSeriesSearch')
+URL_SEARCH_MISC = (URL_MAIN + '/search?q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
 	
 def load():
@@ -162,7 +153,7 @@ def showYears():
     oOutputParameterHandler = cOutputParameterHandler()
     for i in reversed(range(1925, 2022)):
         sYear = str(i)
-        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'movies?section=0&category=0&rating=0&language=0&formats=0&quality=0&year=' + sYear)  # / inutile
+        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/movies?section=0&category=0&rating=0&language=0&formats=0&quality=0&year=' + sYear)  # / inutile
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', sYear, 'annees.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
  
@@ -171,7 +162,7 @@ def showSearchAll():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + 'search?q='+sSearchText
+        sUrl = URL_MAIN + '/search?q='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -181,7 +172,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + 'search?section=movie&year=0&rating=0&formats=0&quality=0&q='+sSearchText
+        sUrl = URL_MAIN + '/search?section=movie&year=0&rating=0&formats=0&quality=0&q='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -191,7 +182,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + 'search?section=series&year=0&rating=0&formats=0&quality=0&q='+sSearchText
+        sUrl = URL_MAIN + '/search?section=series&year=0&rating=0&formats=0&quality=0&q='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -482,14 +473,14 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()           
-    sPattern =  '<!-- APP_DOMAIN_ALTERNATIVE.+?href="(.+?)"' 
+    sPattern =  '<a href="([^<]+)" class="download-link"' 
 	
     aResult = oParser.parse(sHtmlContent,sPattern)
+    VSlog(aResult)
 
     if aResult[0] is True:
-       for aEntry in aResult[1]:
 
-           oRequestHandler = cRequestHandler(aEntry)
+           oRequestHandler = cRequestHandler(aResult[1][0])
            sHtmlContent = oRequestHandler.request()
            sPattern = '<source src="([^<]+)" type="video/mp4" size="([^<]+)" />'
            aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -519,7 +510,7 @@ def showHosters2():
 
     oParser = cParser()
             
-    sPattern =  '<!-- APP_DOMAIN_ALTERNATIVE.+?href="(.+?)"' 
+    sPattern =  '<a href="([^<]+)" class="download-link"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         murl =  aResult[1][0]

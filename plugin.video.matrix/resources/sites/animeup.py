@@ -20,17 +20,17 @@ try:
     session = requests.Session()  # so connections are recycled
     resp = session.head(url, allow_redirects=True)
     URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN+"/"
+    URL_MAIN = 'https://' + URL_MAIN
     VSlog(URL_MAIN)
 except:
     pass
-ANIM_NEWS = (URL_MAIN + 'anime-season/%d8%ae%d8%b1%d9%8a%d9%81-%d8%b9%d8%a7%d9%85-2021/', 'showSeries')
-ANIM_MOVIES = (URL_MAIN + 'anime-type/movie-3/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + '/anime-season/%d8%ae%d8%b1%d9%8a%d9%81-%d8%b9%d8%a7%d9%85-2021/', 'showSeries')
+ANIM_MOVIES = (URL_MAIN + '/anime-type/movie-3/', 'showMovies')
 
 
-URL_SEARCH = (URL_MAIN + '?search_param=animes&s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '?search_param=animes&s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?search_param=animes&s=', 'showSeries')
+URL_SEARCH = (URL_MAIN + '/?search_param=animes&s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?search_param=animes&s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?search_param=animes&s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -58,7 +58,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + '?search_param=animes&s='+sSearchText
+        sUrl = URL_MAIN + '/?search_param=animes&s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -68,7 +68,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + '?search_param=animes&s='+sSearchText
+        sUrl = URL_MAIN + '/?search_param=animes&s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return

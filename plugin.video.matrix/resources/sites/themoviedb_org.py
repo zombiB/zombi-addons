@@ -4,7 +4,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.comaddon import progress, addon, dialog, VSupdate, xbmc, isMatrix, VSlog
+from resources.lib.comaddon import progress, siteManager, addon, dialog, VSupdate, xbmc, isMatrix, VSlog
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.tmdb import cTMDb
@@ -17,7 +17,7 @@ SITE_DESC = 'Base de données video.'
 
 # doc de l'api http://docs.themoviedb.apiary.io/
 
-URL_MAIN = 'https://www.themoviedb.org/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 API_KEY = '92ab39516970ab9d86396866456ec9b6'
 API_VERS = '3'

@@ -15,15 +15,7 @@ SITE_NAME = 'xsanime'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-except:
-    pass
+
 ANIM_NEWS = (URL_MAIN+'episodes' , 'showSeries')
 ANIM_MOVIES = (URL_MAIN + 'movies_list/', 'showMovies')
 

@@ -14,15 +14,7 @@ SITE_NAME = 'tvfun'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-except:
-    pass
+
 RAMADAN_SERIES = (URL_MAIN + 'ts/mosalsalat-ramadan-2022/', 'showSeries')
 SERIE_TR = (URL_MAIN + 'cat/mosalsalat-torkia-FJ/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + 'ts,mosalsalat--modablaja/', 'showSeries')
@@ -105,7 +97,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText != False:
-        sUrl = URL_MAIN + 'q/'+sSearchText
+        sUrl = URL_MAIN + '/q/'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
