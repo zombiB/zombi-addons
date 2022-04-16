@@ -148,7 +148,7 @@ def showMoviesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("فيلم","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج")
             siteUrl = aEntry[0]
             sInfo = ""
-            sThumbnail = aEntry[1].replace("'background-image: url(","").replace(");'","")
+            sThumb = aEntry[1].replace("'background-image: url(","").replace(");'","")
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -158,10 +158,10 @@ def showMoviesSearch(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -205,7 +205,7 @@ def showSeriesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("السلسلة الوثائقية","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("المسلسل الإذاعي","(المسلسل الإذاعي)").replace("مدبلج للعربية","مدبلج").replace("الجزء","الموسم")
             siteUrl = aEntry[0]
             sInfo = ''
-            sThumbnail = aEntry[1].replace("'background-image: url(","").replace(");'","")
+            sThumb = aEntry[1].replace("'background-image: url(","").replace(");'","")
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -219,10 +219,10 @@ def showSeriesSearch(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showLink', sDisplayTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -293,7 +293,7 @@ def showMovies(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumb)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 
@@ -317,7 +317,7 @@ def showLink():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -363,13 +363,13 @@ def showLink():
                    sYear = str(m.group(0))
                    sTitle = sTitle.replace(sYear,'')
                 siteUrl = aEntry[2].replace('"','').replace("'",'')
-                sThumbnail = sThumbnail
+                sThumb = sThumb
                 sInfo = '[COLOR yellow]'+str(sNote)+'[/COLOR]'
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oOutputParameterHandler.addParameter('sYear', sYear)
-                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle+'('+aEntry[1]+')', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle+'('+aEntry[1]+')', sThumb, sInfo, oOutputParameterHandler)
     # (.+?) .+?
     sPattern = '<a href="https://akwam.+?/movie/(.+?)" target="_blank"><span style='
 
@@ -383,14 +383,14 @@ def showLink():
  
             sTitle = " يرجي الانتقال إلي التصميم الجديد من هنا"
             siteUrl = "https://akwam.net/movie/"+aEntry
-            sThumbnail = sThumbnail
+            sThumb = sThumb
             sInfo = ""
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             
-            oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons2', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
     if 'هذه المادة لا تحتوي علي رابط تحميل مباشر' in sHtmlContent:
         oGui.addText(SITE_IDENTIFIER,'هذه المادة لا تحتوي علي رابط تحميل مباشر، بسبب انتهاء مدة الملف او انتقاله للتصميم الجديد للموقع')
  
@@ -402,7 +402,7 @@ def showLinks():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     import requests
     s =requests.Session()
     headers = {'origin': 'old.akwam.to',
@@ -430,7 +430,7 @@ def showLinks():
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
          
     oGui.setEndOfDirectory()
 	
@@ -469,17 +469,17 @@ def showSeries(sSearch = ''):
             if m:
                sYear = str(m.group(0))
                sTitle = sTitle.replace(sYear,'')
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sDisplayTitle = sTitle.replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم العاشر","S10").split('الموسم')[0]
 			
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -513,7 +513,7 @@ def showSeasons():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -542,16 +542,16 @@ def showSeasons():
             sTitle = aEntry[1]
             sTitle = '[COLOR cyan]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumbnail = sThumbnail
+            sThumb = sThumb
             sInfo = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
      # (.+?) ([^<]+) .+?
     sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn'.+?href='(.+?)'>"
 
@@ -575,9 +575,9 @@ def showSeasons():
                 sInfo = '[COLOR yellow]'+sInfo+'[/COLOR]'
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
                 oOutputParameterHandler.addParameter('sYear', sYear)
-                oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
   
@@ -587,7 +587,7 @@ def showSeasons2():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -615,7 +615,7 @@ def showSeasons2():
     
             sTitle = '[COLOR yellow]link[/COLOR]'
             siteUrl = aEntry
-            sThumbnail = sThumbnail
+            sThumb = sThumb
     
             oRequestHandler = cRequestHandler(siteUrl)
             sHtmlContent = oRequestHandler.request()
@@ -637,7 +637,7 @@ def showSeasons2():
                         if oHoster != False:
                            oHoster.setDisplayName(sMovieTitle)
                            oHoster.setFileName(sMovieTitle)
-                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
  
        
     oGui.setEndOfDirectory()
@@ -647,7 +647,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -670,6 +670,6 @@ def showHosters():
                 if oHoster != False:
                    oHoster.setDisplayName(sMovieTitle)
                    oHoster.setFileName(sMovieTitle)
-                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				                
     oGui.setEndOfDirectory()

@@ -26,7 +26,6 @@ class cHoster(iHoster):
         if aResult:
            for i in aResult:
                 sdata = cPacker().unpack(i)
-                VSlog(sdata)
                 sPattern = 'file:"(.+?)",label:".+?"}'
                 aResult = oParser.parse(sdata,sPattern)
                 if aResult[0] is True:

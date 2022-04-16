@@ -113,13 +113,13 @@ def showMoviesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","")
             siteUrl = aEntry[0].replace('watch.php?','play.php?')
             sInfo = ''
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
 
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
 
         
         progress_.VSclose(progress_)
@@ -164,18 +164,18 @@ def showSeriesSearch(sSearch = ''):
             sTitle = aEntry[2].replace("مدبلجة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("والأخيرة","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("الحلقة "," E")
             siteUrl = aEntry[0].replace('watch.php?','play.php?')
             sDesc = ''
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
 
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'category.php' in siteUrl:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes2', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
             else:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc,  oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc,  oOutputParameterHandler)
 
         
         progress_.VSclose(progress_)
@@ -217,13 +217,13 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
             sInfo = ''
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
 
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addMisc(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
 
         
         progress_.VSclose(progress_)
@@ -238,7 +238,7 @@ def showMoviesLinks(sSearch = ''):
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -323,14 +323,14 @@ def showSeries(sSearch = ''):
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
             sInfo = ''
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
 
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addMisc(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
 
         
         progress_.VSclose(progress_)
@@ -345,7 +345,7 @@ def showSeriesLinks():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -367,15 +367,15 @@ def showSeriesLinks():
  
             sTitle =  aEntry[2].replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","")
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sDesc = ''
 			
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -387,7 +387,7 @@ def showEpisodes():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -409,18 +409,18 @@ def showEpisodes():
  
             sTitle =  aEntry[2].replace("مدبلجة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("والأخيرة","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("الحلقة "," E")
             siteUrl = aEntry[0].replace('watch.php?','play.php?')
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sDesc = ''
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'category.php' in siteUrl:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes2', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showEpisodes2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
             else:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc,  oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc,  oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -432,7 +432,7 @@ def showEpisodes2():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -453,15 +453,15 @@ def showEpisodes2():
  
             sTitle =  aEntry[1].replace("مدبلجة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("والأخيرة","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("الحلقة "," E")
             siteUrl = aEntry[0].replace('watch.php?','play.php?')
-            sThumbnail = aEntry[2]
+            sThumb = aEntry[2]
             sDesc = ""
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc,  oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc,  oOutputParameterHandler)
 
     oGui.setEndOfDirectory()	
 def __checkForNextPage(sHtmlContent):

@@ -292,16 +292,16 @@ def showPacks(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("مدبلجة","مدبلج").replace("كامل","").replace("سلسلة أفلام","").replace("سلسلة افلام","").replace("سلسلة اجزاء","")
             
-            sThumbnail = aEntry[1].replace("(","").replace(")","")
+            sThumb = aEntry[1].replace("(","").replace(")","")
             sInfo = ''
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
 
-            oGui.addMoviePack(SITE_IDENTIFIER, 'showPack', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMoviePack(SITE_IDENTIFIER, 'showPack', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -320,7 +320,7 @@ def showPack():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -348,7 +348,7 @@ def showPack():
 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sDesc = ""
             sYear = ''
             sDub = ''
@@ -361,10 +361,10 @@ def showPack():
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
        
     oGui.setEndOfDirectory()

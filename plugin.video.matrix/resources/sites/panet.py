@@ -157,7 +157,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[1]))
+            oOutputParameterHandler.addParameter('sThumb', str(aEntry[1]))
 
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', aEntry[2], '', aEntry[1], aEntry[3], oOutputParameterHandler)
         
@@ -199,16 +199,16 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[3]
             siteUrl = URL_MAIN+aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
 			
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -240,7 +240,7 @@ def showEps():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -265,7 +265,7 @@ def showEps():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', str(aEntry[1]))
+            oOutputParameterHandler.addParameter('sThumb', str(aEntry[1]))
 
             
 
@@ -282,7 +282,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -303,7 +303,7 @@ def showHosters():
             if oHoster != False: 
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 			
                
     oGui.setEndOfDirectory()

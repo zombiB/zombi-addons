@@ -145,7 +145,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("كامله","").replace("بجودة عالية","").replace("كاملة","").replace("برنامج","").replace("جودة عالية","").replace("كامل","").replace("اونلاين","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("بدون تحميل","").replace("انتاج ","").replace("على العرب","").replace("مدبلج للعربية","مدبلج").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -156,14 +156,14 @@ def showMovies(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             if 'الحلقة' in aEntry[2]:
-                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
             else:
-                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -182,7 +182,7 @@ def showEps():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -214,13 +214,13 @@ def showEps():
             if m:
                 sYear = str(m.group(0))
                 sTitle = sTitle.replace(sYear,'')
-            sThumbnail = sThumbnail
+            sThumb = sThumb
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
         
   # ([^<]+) .+?
 
@@ -238,13 +238,13 @@ def showEps():
             
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl =  URL_MAIN + aEntry[0]
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ''
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addDir(SITE_IDENTIFIER, 'showEps', sTitle, '', oOutputParameterHandler)
 
@@ -278,7 +278,7 @@ def showSerie(sSearch = ''):
             
             sTitle = aEntry[2].replace("مشاهدة","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
@@ -289,9 +289,9 @@ def showSerie(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -333,7 +333,7 @@ def showSeries(sSearch = ''):
             
             sTitle = aEntry[2].replace("مشاهدة","").replace("HD رمضان 2022","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sInfo = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -344,9 +344,9 @@ def showSeries(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -377,7 +377,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();

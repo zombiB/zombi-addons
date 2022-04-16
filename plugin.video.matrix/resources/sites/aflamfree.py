@@ -86,7 +86,7 @@ def showMoviesearch(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1] 
+            sThumb = aEntry[1] 
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -98,10 +98,10 @@ def showMoviesearch(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
 			
         progress_.VSclose(progress_)
  
@@ -137,7 +137,7 @@ def showPack(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             siteUrl = aEntry[0]+'/page/1'
             sInfo = ''
 			
@@ -145,9 +145,9 @@ def showPack(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage != False:
@@ -175,7 +175,7 @@ def showLive():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -191,7 +191,7 @@ def showLive():
         for aEntry in aResult[1]: 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sYear = ''
             m = re.search('([1-2][0-9]{3})', sTitle)
             if m:
@@ -201,10 +201,10 @@ def showLive():
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sYear', sYear)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sDesc, oOutputParameterHandler)        
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)        
 
     # (.+?) ([^<]+) .+? 
     sPattern = '<a href="([^<]+)"><div class="image"><img src="([^<]+)" alt="([^<]+)" /><span class="player"></span></div>'
@@ -218,13 +218,13 @@ def showLive():
         for aEntry in aResult[1]:
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
-            sThumbnail = aEntry[1] 
+            sThumb = aEntry[1] 
             sInfo = "" 
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addMovie(SITE_IDENTIFIER, 'showLive2', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
     page = '1'      
     if 'page' in sUrl:   
         page = sUrl.split('/page/')[1]
@@ -248,7 +248,7 @@ def showLive2():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -295,7 +295,7 @@ def showLive2():
                    if oHoster != False:
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
        
     oGui.setEndOfDirectory()

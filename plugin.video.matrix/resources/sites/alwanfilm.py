@@ -93,7 +93,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[2]
             sInfo = ''
-            sThumbnail = aEntry[0]
+            sThumb = aEntry[0]
             sDub = ''
             m = re.search('باﻷلوان', sTitle)
             if m:
@@ -104,9 +104,9 @@ def showMovies(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  

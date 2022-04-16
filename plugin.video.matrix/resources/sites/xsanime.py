@@ -193,7 +193,7 @@ def ShowEps():
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumb)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
        
     oGui.setEndOfDirectory()

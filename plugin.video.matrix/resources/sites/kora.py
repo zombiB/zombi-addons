@@ -75,7 +75,7 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle =  aEntry[0] 
-            sThumbnail = ""
+            sThumb = ""
             siteUrl = aEntry[1]
             if siteUrl.startswith('//'):
                 siteUrl = 'https:' + aEntry[1]
@@ -84,9 +84,9 @@ def showMovies(sSearch = ''):
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -99,7 +99,7 @@ def showLive():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -123,9 +123,9 @@ def showLive():
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
 			
     oGui.setEndOfDirectory()
   
@@ -135,7 +135,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -163,7 +163,7 @@ def showHosters():
                if oHoster != False:
                    oHoster.setDisplayName(sMovieTitle)
                    oHoster.setFileName(sMovieTitle)
-                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
            sPattern =  'src="(.+?)"'
            aResult = oParser.parse(sHtmlContent,sPattern)
            if aResult[0] is True:
@@ -173,7 +173,7 @@ def showHosters():
                if oHoster != False:
                    oHoster.setDisplayName(sMovieTitle)
                    oHoster.setFileName(sMovieTitle)
-                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     # (.+?) # ([^<]+) .+? 
     sPattern = 'href="([^<]+)">([^<]+)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -198,7 +198,7 @@ def showHosters():
                  if oHoster != False:
                      oHoster.setDisplayName(sMovieTitle)
                      oHoster.setFileName(sMovieTitle)
-                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
               sPattern =  "source = '(.+?)'"
               aResult = oParser.parse(sHtmlContent,sPattern)
               if aResult[0] is True:
@@ -209,7 +209,7 @@ def showHosters():
                  if oHoster != False:
                      oHoster.setDisplayName(sMovieTitle)
                      oHoster.setFileName(sMovieTitle)
-                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
                 
     oGui.setEndOfDirectory()

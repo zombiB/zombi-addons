@@ -173,7 +173,7 @@ def showMovies(sSearch = ''):
  
             siteUrl = aEntry[0]
             sInfo = ""
-            sThumbnail = aEntry[2].replace("(","").replace(")","")
+            sThumb = aEntry[2].replace("(","").replace(")","")
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -183,10 +183,10 @@ def showMovies(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear) 
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -237,7 +237,7 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
-            sThumbnail = aEntry[2].replace("(","").replace(")","")
+            sThumb = aEntry[2].replace("(","").replace(")","")
             sInfo = ''
             sDisplayTitle = sTitle.split('موسم')[0].split('حلقة')[0]
             sYear = ''
@@ -250,9 +250,9 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
             oOutputParameterHandler.addParameter('sYear', sYear)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
         
@@ -278,15 +278,15 @@ def showSeries(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ""
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -319,7 +319,7 @@ def showSeasons():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
@@ -342,16 +342,16 @@ def showSeasons():
             sTitle = sTitle.replace("S ","S")
             sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0]
-            sThumbnail = sThumbnail
+            sThumb = sThumb
             sInfo = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             
 
  
-            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
     else: 
     # (.+?) .+? ([^<]+)   
         sPattern = '<a class="hoverable activable.+?href="([^<]+)"><div class="Thumb"><span><i class="fa fa-play"></i></span></div><episodeArea><episodeTitle>([^<]+)</episodeTitle></episodeArea></a>'
@@ -366,17 +366,17 @@ def showSeasons():
                 sTitle = aEntry[1].replace("الحلقة","E").replace(" ","")
                 sTitle = sMovieTitle+" "+sTitle
                 siteUrl = aEntry[0]
-                sThumbnail = sThumbnail
+                sThumb = sThumb
                 sInfo = ""
                 sHoster = ""
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sHost', sHoster)
-                oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
             
 
  
-                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
  
     # .+? ([^<]+)
     sPattern = '<a title="([^<]+)" href="([^<]+)"><div class="Quality".+?</span></div><span>([^<]+)</span>'
@@ -391,16 +391,16 @@ def showSeasons():
             sTitle = aEntry[0]
             
             siteUrl = aEntry[1]
-            sThumbnail = aEntry[2]
+            sThumb = aEntry[2]
             sInfo = ''
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
  
     oGui.setEndOfDirectory() 
   
@@ -410,7 +410,7 @@ def showEps():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
@@ -431,16 +431,16 @@ def showEps():
             sTitle = aEntry[1].replace("الحلقة ","E")
             sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0]
-            sThumbnail = sThumbnail
+            sThumb = sThumb
             sInfo = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
     # .+? ([^<]+)
     sPattern = '<a title="([^<]+)" href="([^<]+)"><div class="Quality".+?</span></div><span>([^<]+)</span>'
     oParser = cParser()
@@ -454,17 +454,17 @@ def showEps():
             sTitle = aEntry[0]
             
             siteUrl = aEntry[1]
-            sThumbnail = aEntry[2]
+            sThumb = aEntry[2]
             sInfo = aEntry[2]
  
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
  
        
     oGui.setEndOfDirectory() 
@@ -474,7 +474,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumb')
+    sThumb = oInputParameterHandler.getValue('sThumb')
 
 
 
@@ -512,7 +512,7 @@ def showHosters():
             if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
     # ([^<]+) .+?
     sPattern = 'class="hoverable activable" href="([^<]+)"><quality>([^<]+)</quality><resolution><i class=".+?"></i>([^<]+)</resolution>'
@@ -538,7 +538,7 @@ def showHosters():
             if oHoster != False:
                 oHoster.setDisplayName(sTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
                 

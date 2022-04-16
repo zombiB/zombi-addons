@@ -488,7 +488,7 @@ def showServers():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
@@ -536,7 +536,7 @@ def showServers():
         
                    url = str(aEntry)
                    sTitle = " "
-                   sThumb = sThumbnail
+                   sThumb = sThumb
                    if 'govid' in url:
                       url = url.replace("play","down").replace("embed-","")
                    if url.startswith('//'):
@@ -583,7 +583,7 @@ def showServers():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
      
     oGui.setEndOfDirectory()	
@@ -594,7 +594,7 @@ def showServers1():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
@@ -625,9 +625,9 @@ def showServers1():
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle.replace(" موسم "," S").replace("الموسم ","S"))
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
 
     # (.+?) .+? ([^<]+)        	
     sPattern = 'rel="nofollow" href="(.+?)" class='
@@ -656,7 +656,7 @@ def showServers1():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
        
     oGui.setEndOfDirectory() 
 def showHosters():

@@ -132,16 +132,16 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = aEntry[2]
+            sThumb = aEntry[2]
             sInfo = ''
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
-            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   # ([^<]+) .+?
@@ -167,7 +167,7 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ""
 
 
@@ -221,15 +221,15 @@ def showSeriesSearch(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = aEntry[2]
+            sThumb = aEntry[2]
 			
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
    #([^<]+) .+?
@@ -251,7 +251,7 @@ def showSeriesSearch(sSearch = ''):
             siteUrl = 'https:'+aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = sThumbnail
+            sThumb = sThumb
             sInfo = ""
 			
 
@@ -259,8 +259,8 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   #([^<]+) .+?
@@ -284,7 +284,7 @@ def showSeriesSearch(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ""
 
 
@@ -304,7 +304,7 @@ def showEpisodes():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -336,15 +336,15 @@ def showEpisodes():
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = sThumbnail
+            sThumb = sThumb
 			
 
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, '', oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
 
         progress_.VSclose(progress_)
    #([^<]+) .+?
@@ -366,7 +366,7 @@ def showEpisodes():
             siteUrl = 'https:'+aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
-            sThumbnail = sThumbnail
+            sThumb = sThumb
             sInfo = ""
 			
 
@@ -374,8 +374,8 @@ def showEpisodes():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
   #([^<]+) .+?
@@ -399,7 +399,7 @@ def showEpisodes():
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ""
 
 
@@ -419,7 +419,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -451,7 +451,7 @@ def showHosters():
                        sDisplayTitle = sMovieTitle+sTitle
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sDisplayTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
                 

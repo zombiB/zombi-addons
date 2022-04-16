@@ -250,7 +250,7 @@ def showEpisodes():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -287,7 +287,7 @@ def showEpisodes():
  
             sTitle = aEntry[1].replace("الحلقة "," E").replace("مترجم","").replace("والأخيرة","")
             siteUrl = aEntry[0]
-            sThumbnail = sThumbnail
+            sThumb = sThumb
             sInfo = sNote
 			
 
@@ -295,8 +295,8 @@ def showEpisodes():
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
  
         sNextPage = __checkForNextPage(sHtmlContent)

@@ -317,7 +317,7 @@ def showServers():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -355,7 +355,7 @@ def showServers():
                sDisplayTitle = sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     # (.+?) ([^<]+) .+?
 
     sPattern = 'data-i="(.+?)" data-id="(.+?)"'
@@ -380,7 +380,7 @@ def showServers():
         
                    url = str(aEntry)
                    sTitle = " "
-                   sThumb = sThumbnail
+                   sThumb = sThumb
                    if 'govid' in url:
                       url = url.replace("play","down").replace("embed-","")
                    if url.startswith('//'):

@@ -64,7 +64,7 @@ def showMovies(sSearch = ''):
         
                url = "https://www.youtube.com/watch?v="+aEntry[1]
                sTitle = aEntry[0]+' [COLOR yellow] '+aEntry[2]+' [/COLOR]'
-               sThumbnail = "http://img.youtube.com/vi/"+aEntry[1]+"/hqdefault.jpg"
+               sThumb = "http://img.youtube.com/vi/"+aEntry[1]+"/hqdefault.jpg"
 				
 				
 
@@ -77,7 +77,7 @@ def showMovies(sSearch = ''):
                   sDisplayTitle = sTitle
                   oHoster.setDisplayName(sDisplayTitle)
                   oHoster.setFileName(sTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
  
@@ -106,7 +106,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -142,7 +142,7 @@ def showHosters():
                sDisplayTitle = sMovieTitle+sTitle
                oHoster.setDisplayName(sDisplayTitle)
                oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
                 
     oGui.setEndOfDirectory()

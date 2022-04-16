@@ -82,15 +82,15 @@ def showMovies(sSearch = ''):
 
             sTitle = aEntry[2]
             
-            sThumbnail = URL_MAIN+aEntry[0]
+            sThumb = URL_MAIN+aEntry[0]
             siteUrl = URL_MAIN+aEntry[1]
             sInfo = aEntry[3]
 
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
-            oGui.addMisc(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler) 
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oGui.addMisc(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
 
         
         progress_.VSclose(progress_)
@@ -126,16 +126,16 @@ def showMoviesLinks(sSearch = ''):
  
             sTitle = aEntry[2]
             
-            sThumbnail = URL_MAIN+aEntry[0]
+            sThumb = URL_MAIN+aEntry[0]
             siteUrl = URL_MAIN+aEntry[1]
             sInfo = aEntry[3]
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -166,7 +166,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
@@ -186,7 +186,7 @@ def showHosters():
             if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
 
                 

@@ -189,13 +189,13 @@ def showSearchSeries(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ""
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', sTitle, '', oOutputParameterHandler)
 
@@ -274,13 +274,13 @@ def showMovies(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ""
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
 
@@ -361,13 +361,13 @@ def showSeries(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumbnail = ""
+            sThumb = ""
             sInfo = ""
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
 
@@ -470,7 +470,7 @@ def showServer():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
@@ -497,7 +497,7 @@ def showServer():
             sTitle = aEntry[1].replace('</i>',"")
             sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
             url = url.replace("cimanow","rrsrr")
-            sThumb = sThumbnail
+            sThumb = sThumb
             if url.startswith('//'):
                url = 'http:' + url
 				
@@ -557,7 +557,7 @@ def showServer():
                     if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
             sPattern = '<a href="(.+?)">.+?<i class="fa fa-download"></i>'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -580,7 +580,7 @@ def showServer():
                     if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
                 
                 

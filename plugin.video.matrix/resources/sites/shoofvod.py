@@ -162,7 +162,7 @@ def showMovies(sSearch = ''):
 
             siteUrl = URL_MAIN+aEntry[0]
             siteUrl = siteUrl.replace('vidpage_','Play/')
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sInfo = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -174,14 +174,14 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear) 
 			
             if 'الحلقة' in aEntry[2]:
-                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
             else:
 
-                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
   # ([^<]+) .+?
@@ -249,7 +249,7 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","").replace("مدبلج","").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sInfo = ""
             sDisplayTitle2 = sTitle.split('مدبلج')[0]
 			
@@ -257,9 +257,9 @@ def showSeries(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle2)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -292,7 +292,7 @@ def showEps():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -310,19 +310,19 @@ def showEps():
             sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("مسلسل","").replace("مدبلج للعربية","").replace("مدبلج","").replace("والأخيرة","").replace("-","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = URL_MAIN+aEntry[0]
             siteUrl = siteUrl.replace('vidpage_','Play/')
-            sThumbnail = aEntry[1]
+            sThumb = aEntry[1]
             sInfo = ""
 
  
 
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumbnail', sThumbnail)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
             
 
  
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters',  sTitle, '', sThumbnail, sInfo, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters',  sTitle, '', sThumb, sInfo, oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
     
@@ -331,7 +331,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumbnail = oInputParameterHandler.getValue('sThumbnail')
+    sThumb = oInputParameterHandler.getValue('sThumb')
 
     UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
     
@@ -374,6 +374,6 @@ def showHosters():
                 if oHoster != False:
                    oHoster.setDisplayName(sMovieTitle)
                    oHoster.setFileName(sMovieTitle)
-                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumbnail)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
