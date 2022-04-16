@@ -31,7 +31,7 @@
             "url": "https://alarabclub.live"
         },
         "alarabiya": {
-            "label": "alarabiya",
+            "label": "alarabiya documentaries",
             "active": "True",
             "url": "https://www.alarabiya.net"
         },
@@ -56,7 +56,7 @@
             "url": "https://animeblkom.net"
         },
         "animeup": {
-            "label": "animeup",
+            "label": "anime4up",
             "active": "True",
             "url": "https://anime4up.art"
         },
@@ -106,7 +106,7 @@
             "url": "https://beinmatch.best"
         },
         "beinsports_net": {
-            "label": "beinsports_net",
+            "label": "beinsports",
             "active": "True",
             "url": "http://www.beinsports.com"
         },
@@ -121,7 +121,7 @@
             "url": "https://www.arteenz.com"
         },
         "cdrama": {
-            "label": "cdrama",
+            "label": "c-drama",
             "active": "True",
             "url": "https://cdrama.in"
         },
@@ -136,7 +136,7 @@
             "url": "https://cimanow.cc"
         },
         "cimau": {
-            "label": "cimau",
+            "label": "cima4u",
             "active": "True",
             "url": "https://cima4u.ink"
         },
@@ -166,7 +166,7 @@
             "url": "https://w2.egydead.live"
         },
         "ehna": {
-            "label": "ehna",
+            "label": "ehna.online",
             "active": "True",
             "url": "https://e7naaa.online"
         },
@@ -186,7 +186,7 @@
             "url": "https://www.familymoviz.net"
         },
         "fansubs": {
-            "label": "fansubs",
+            "label": "fansubstv",
             "active": "True",
             "url": "http://fansubs.tv"
         },
@@ -196,7 +196,7 @@
             "url": "https://www.faselhd.top"
         },
         "fnteam": {
-            "label": "fnteam",
+            "label": "fn-team",
             "active": "True",
             "url": "http://www.fn-team.com"
         },
@@ -256,7 +256,7 @@
             "url": "https://nightosphere.net"
         },
         "pakistani": {
-            "label": "pakistani",
+            "label": "pakistani-live",
             "active": "True",
             "url": "https://pakistani-live.net"
         },
@@ -276,7 +276,7 @@
             "url": "https://rotana.net"
         },
         "shahidu": {
-            "label": "shahidu",
+            "label": "shahid4u",
             "active": "True",
             "url": "https://shahed4u.pw"
         },
@@ -331,7 +331,7 @@
             "url": "https://a.tvfun.me"
         },
         "tvnine": {
-            "label": "tvnine",
+            "label": "tv96",
             "active": "True",
             "url": "https://www.tv96.tv"
         },
