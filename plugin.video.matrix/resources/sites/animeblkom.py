@@ -15,10 +15,10 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ANIM_NEWS = ('https://animeblkom.net/series-list', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/series-list', 'showSeries')
 
-ANIM_MOVIES = ('https://animeblkom.net/movie-list', 'showMovies')
-URL_SEARCH_SERIES = ('https://animeblkom.net/search?query=', 'showSeries')
+ANIM_MOVIES = (URL_MAIN + '/movie-list', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?query=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -43,8 +43,8 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
-        sUrl = 'https://animeblkom.net/search?query='+sSearchText
+    if sSearchText is not False:
+        sUrl = URL_MAIN + '/search?query='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return

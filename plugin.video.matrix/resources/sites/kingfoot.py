@@ -60,7 +60,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = ''+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -174,42 +174,52 @@ def showSeries(sSearch = ''):
         oGui.setEndOfDirectory()
 			
 def showHosters4():
-    import requests,re,json
+    import requests,re
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumbnail = oInputParameterHandler.getValue('sThumbnail')
-    murl = oInputParameterHandler.getValue('murl')
-    
-    oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : '1xnews.online'}
-    rurl = 'https://1xnews.online/home/matche/'+murl 
-    St=requests.Session()              
-    sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
+    murl = oInputParameterHandler.getValue('murl')                         
+       
     oParser = cParser()
-            
-    sPattern =  "&k=(.+?)'" 
+
+
+    oRequestHandler = cRequestHandler(sUrl)
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club'}
+    rurl = 'https://dalbouh.club/key.php'
+    St=requests.Session()              
+    sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')     
+    sPattern =  '"key":"(.+?)"'
+
     mk =  '' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         mk = aResult[1][0] 
 
+    oRequestHandler = cRequestHandler(sUrl)
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club'}
+    rurl = 'https://web-api.yalla-kora.tv/webapi/matche/'+murl 
+    St=requests.Session()              
+    sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
+    oParser = cParser()
+
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)   
     if aResult[0] is True:
         for aEntry in aResult[1]:
             sMovieTitle = aEntry[1]
-            
+            url = aEntry[0]
+
             if mk:
-               url = aEntry[0]+"&k="+mk
-            if '.php?' in url:
+               url = aEntry[0]+"&k="+mk+'&p=1'
+            if '.php?' in url:           
                 oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club','referer' : 'https://golato.tv/'}
-                data = {'watch':'1'}
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'live.yalla-kora.tv','referer' : 'https://live.golato.tv/'}
+                data = {'p':'1'}
                 St=requests.Session()
                 sHtmlContent = St.get(url,headers=hdr)
-                sHtmlContent2 = sHtmlContent.content
+                sHtmlContent2 = sHtmlContent.content         
                 oParser = cParser()
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent2,sPattern)

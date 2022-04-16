@@ -59,7 +59,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = 'https://www.awaan.ae/search'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()

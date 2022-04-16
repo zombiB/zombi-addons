@@ -43,7 +43,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = 'http://fansubs.tv/search?keyword=v'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()

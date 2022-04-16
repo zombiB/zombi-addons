@@ -68,7 +68,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = 'https://rotana.net/?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()

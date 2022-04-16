@@ -1129,8 +1129,8 @@ msgid "Hoster Direct"
 msgstr "Hoster Direct"
 
 msgctxt "#30470"
-msgid "Addon dnspython missing"
-msgstr "Addon dnspython manquant"
+msgid "Internet connection failed"
+msgstr "La connexion Internet a echoue"
 
 msgctxt "#30480"
 msgid "Small loading spinner"

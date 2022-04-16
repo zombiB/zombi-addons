@@ -149,7 +149,7 @@ def showSearchAll():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/find/?find='+sSearchText
         showAllSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -159,7 +159,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/find/?find='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -169,7 +169,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/find/?find='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -289,7 +289,7 @@ def showMovies(sSearch = ''):
        r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
      # (.+?) ([^<]+) .+?
-    sPattern = '</div><a href="([^<]+)">.+?<img src="([^<]+)" alt="(.+?)">'
+    sPattern = '</div><a href="([^<]+)">.+?data-src="(.+?)" alt="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -1,5 +1,5 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
 
 import re
 	
@@ -8,9 +8,8 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-from resources.lib.player import cPlayer
+from resources.lib.comaddon import progress, VSlog, siteManager
  
 SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'akwam'
@@ -159,19 +158,17 @@ def showYears():
  
 def showSearchAll():
     oGui = cGui()
- 
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/search?q='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
  
 def showSearch():
-    oGui = cGui()
- 
+    oGui = cGui() 
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/search?section=movie&year=0&rating=0&formats=0&quality=0&q='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -179,9 +176,8 @@ def showSearch():
  
 def showSearchSeries():
     oGui = cGui()
- 
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/search?section=series&year=0&rating=0&formats=0&quality=0&q='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -363,7 +359,7 @@ def showEpisodes():
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
   
      # (.+?) ([^<]+) .+?
-    sPattern = 'class="text-white">(.+?)</a>.+?<a href="(.+?)">.+?<img src="(.+?)" class="img-fluid" alt='
+    sPattern = 'class="text-white">([^<]+)</a>.+?<a href="([^<]+)">.+?<img src="([^<]+)" class="img-fluid" alt='
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if aResult[0] is True:
@@ -476,7 +472,6 @@ def showHosters():
     sPattern =  '<a href="([^<]+)" class="download-link"' 
 	
     aResult = oParser.parse(sHtmlContent,sPattern)
-    VSlog(aResult)
 
     if aResult[0] is True:
 
@@ -514,7 +509,6 @@ def showHosters2():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         murl =  aResult[1][0]
-        VSlog(murl)
         oRequest = cRequestHandler(murl)
         sHtmlContent2 = oRequest.request()
 

@@ -203,7 +203,7 @@
         "gateanime": {
             "label": "gateanime",
             "active": "True",
-            "url": "https://m.gateanime.cam"
+            "url": "https://a.gateanime.cam"
         },
         "geoarabic": {
             "label": "geoarabic",
@@ -229,6 +229,11 @@
             "label": "kingfoot",
             "active": "True",
             "url": "https://hd.king-shoot.tv"
+        },
+        "kora": {
+            "label": "kora",
+            "active": "True",
+            "url": "https://www.s-kora.com"
         },
         "lodynet": {
             "label": "lodynet",

@@ -1,5 +1,5 @@
 ﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+# zombi https://github.com/zombiB/zombi-addons/
 
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -73,7 +73,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -83,7 +83,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/?s='+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()

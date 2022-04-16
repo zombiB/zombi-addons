@@ -246,7 +246,7 @@ class cHosterGui:
             return self.getHoster('veehd')
 				
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
-            return self.getHoster('streamsforu')
+            return self.getHoster('streamz')
 				
         if ('archive.org/embed/"' in sHostName):
             return self.getHoster('archive')
@@ -395,9 +395,9 @@ class cHosterGui:
 
         # frenchvid et clone
         val = next((x for x in ['french-vid', 'diasfem', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
-                                'vfsplayer', 'gotochus', 'sendvid', "femax"] if x in sHostName), None)
+                                'vfsplayer', 'gotochus', 'suzihaza', 'sendvid', "femax"] if x in sHostName), None)
         if val:
-            return self.getHoster("frenchvid")
+            return self.getHoster("resolver")
 
         if ('directmoviedl' in sHostName) or ('moviesroot' in sHostName):
             return self.getHoster('directmoviedl')

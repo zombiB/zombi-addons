@@ -15,16 +15,16 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + 'ts/mosalsalat-ramadan-2022/', 'showSeries')
-SERIE_TR = (URL_MAIN + 'cat/mosalsalat-torkia-FJ/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + 'ts,mosalsalat--modablaja/', 'showSeries')
-SERIE_HEND = (URL_MAIN + 'cat/mosalsalat-hindia-DI/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'cat/mosalsalat-3arabia-YJ/', 'showSeries')
-SERIE_ASIA = (URL_MAIN + 'cat/mosalsalat-korea/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + 'cat/mosalsalat-latinia/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + 'cat/programme-tv/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2022/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia-FJ/', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/cat/mosalsalat-hindia-DI/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/cat/mosalsalat-3arabia-YJ/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + '/cat/mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + '/cat/mosalsalat-latinia/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + '/cat/programme-tv/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + 'q/', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
@@ -96,7 +96,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/q/'+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()

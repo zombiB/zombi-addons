@@ -1133,7 +1133,7 @@ msgid "Hoster Direct"
 msgstr ""
 
 msgctxt "#30470"
-msgid "Addon dnspython missing"
+msgid "Internet connection failed"
 msgstr ""
 
 msgctxt "#30480"

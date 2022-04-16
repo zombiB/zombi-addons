@@ -1,5 +1,8 @@
 ﻿#-*- coding: utf-8 -*-
 #zombi https://github.com/zombiB/zombi-addons/
+import base64
+import re
+
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -7,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress ,VSlog, siteManager
 from resources.lib.parser import cParser
-import re
  
 SITE_IDENTIFIER = 'asgoal'
 SITE_NAME = 'asgoal'
@@ -36,7 +38,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = ''+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -219,11 +221,10 @@ def showLive():
                        oRequestHandler = cRequestHandler(url)
                        oRequestHandler.setRequestType(1)
                        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0')
-                       oRequestHandler.addHeaderEntry('referer', 'https://ch.as-goal.tv/')
-                       sHtmlContent2 = oRequestHandler.request();
-                       oParser = cParser()
+                       oRequestHandler.addHeaderEntry('referer', url)
+                       data = oRequestHandler.request();
                        sPattern =  '(http[^<]+m3u8)'
-                       aResult = oParser.parse(sHtmlContent2,sPattern)
+                       aResult = oParser.parse(data,sPattern)
                        if aResult[0] is True:
                            url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
  

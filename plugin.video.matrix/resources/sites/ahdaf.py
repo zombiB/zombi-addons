@@ -64,7 +64,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[1]
             sThumbnail = aEntry[0]
-            siteUrl = URL_MAIN + aEntry[0]
+            siteUrl = URL_MAIN +aEntry[0]
             sInfo = '' 
 			
 			

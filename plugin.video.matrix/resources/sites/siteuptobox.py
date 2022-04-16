@@ -79,7 +79,7 @@ def opensetting():
 def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrlSearch = '&searchField=file_name&search=' + sSearchText
         showFile(sUrlSearch)
 

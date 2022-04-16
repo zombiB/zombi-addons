@@ -1,15 +1,18 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import base64
+import requests,re
+import sys
+
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-import base64
-import requests,re
-import sys
+from resources.lib.comaddon import progress, VSlog, siteManager
+
 sgn = requests.Session()
  
 SITE_IDENTIFIER = 'egybest'
@@ -18,6 +21,7 @@ SITE_DESC = 'arabic vod'
   
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 host = 'ww.egy.best'
+
 try:
     import requests
     url = URL_MAIN
@@ -37,6 +41,7 @@ MOVIE_HI = (URL_MAIN + '/movies/hindi', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/movies/japanese-korean-mandarin-chinese-cantonese-thai', 'showMovies')
 MOVIE_TURK = (URL_MAIN + '/movies/turkish', 'showMovies')
 
+MOVIE_ANNEES = (True, 'showYears')
 MOVIE_POP = (URL_MAIN + '/trending/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/movies/animation', 'showMovies')
 
@@ -125,12 +130,21 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
- 
+
+def showYears():
+    oGui = cGui()
+    oOutputParameterHandler = cOutputParameterHandler()
+    for i in reversed(range(1920, 2022)):
+        sYear = str(i)
+        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/movies/' + sYear)  # / inutile
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sYear, 'annees.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+	
 def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/explore/?q='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -140,7 +154,7 @@ def showSearchSeries():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = URL_MAIN + '/explore/?q='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()

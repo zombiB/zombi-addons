@@ -70,7 +70,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
         sUrl = 'https://aradramatv.co/?s='+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()

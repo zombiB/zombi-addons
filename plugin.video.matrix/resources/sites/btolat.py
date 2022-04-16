@@ -36,7 +36,7 @@ def load():
 def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
-    if sSearchText != False:
+    if sSearchText is not False:
             sUrl = ''  
             showMovies(sUrl)
             oGui.setEndOfDirectory()
