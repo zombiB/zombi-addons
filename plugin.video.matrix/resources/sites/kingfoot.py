@@ -1,5 +1,8 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import re
+
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -8,12 +11,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
-from resources.lib.gui.guiElement import cGuiElement
-from resources.lib.player import cPlayer
-from resources.lib.util import Unquote, Quote, QuotePlus
-import xbmcgui
-import re
-import unicodedata
+from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'kingfoot'
 SITE_NAME = 'kingfoot'
@@ -35,44 +33,24 @@ except:
 SPORT_LIVE = (URL_MAIN + '/today-matches/', 'showMovies')
 SPORT_FOOT = (URL_MAIN + '/videos/', 'showSeries')
 
-
-
-FUNCTION_SEARCH = 'showMovies'
  
 def load():
     oGui = cGui()
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler = cOutputParameterHandler()    
     oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', 'sport.png', oOutputParameterHandler)
 	
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'أهداف و ملخصات ', 'sport.png', oOutputParameterHandler)
    
     oGui.setEndOfDirectory()
 	
-def showSearch():
-    oGui = cGui()
- 
-    sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = ''+sSearchText
-        showMovies(sUrl)
-        oGui.setEndOfDirectory()
-        return
     
-def showMovies(sSearch = ''):
+def showMovies():
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -90,8 +68,6 @@ def showMovies(sSearch = ''):
     sHtmlContent = r.content.decode('utf8')
     sPattern = '"id":"(.+?)","sitemap":1,"api_matche_id":"(.+?)",.+?,"home_en":"(.+?)",.+?,"away_en":"(.+?)",'
 
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -107,7 +83,7 @@ def showMovies(sSearch = ''):
             sTitle =  aEntry[2] +' - '+ aEntry[3]
             sThumb = ""
             siteUrl =  "https://king-shoot.tv/gen-matche/"+aEntry[0]+'/'+aEntry[1]
-            sInfo = ''
+            sDesc = ''
 			
 			
 
@@ -116,21 +92,17 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('murl', aEntry[0])
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
  
-def showSeries(sSearch = ''):
+def showSeries():
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -158,7 +130,7 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             sTitle = aEntry[3]+' '+aEntry[2]+aEntry[1]           
             sThumb = ''
-            sInfo = ''
+            sDesc = ''
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -166,15 +138,14 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
 			
 def showHosters4():
-    import requests,re
+    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -202,7 +173,6 @@ def showHosters4():
     rurl = 'https://web-api.yalla-kora.tv/webapi/matche/'+murl 
     St=requests.Session()              
     sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
-    oParser = cParser()
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)   
@@ -219,8 +189,7 @@ def showHosters4():
                 data = {'p':'1'}
                 St=requests.Session()
                 sHtmlContent = St.get(url,headers=hdr)
-                sHtmlContent2 = sHtmlContent.content         
-                oParser = cParser()
+                sHtmlContent2 = sHtmlContent.content  
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if aResult[0] is True:
@@ -276,7 +245,6 @@ def showHosters4():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = "'link': u'(.+?)',"
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] is True:
         for aEntry in aResult[1]:

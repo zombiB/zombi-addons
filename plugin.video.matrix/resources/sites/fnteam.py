@@ -104,7 +104,7 @@ def showMovies(sSearch = ''):
             sTitle = aEntry[1].replace("&#8217;","'").replace("فيلم","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2].replace("(","").replace(")","")
-            sInfo = aEntry[1]
+            sDesc = aEntry[1]
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -154,7 +154,7 @@ def showSeries(sSearch = ''):
             sTitle = aEntry[1].replace("&#8217;","'").replace("مسلسل","").replace("الفيلم","").replace("فيلم","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2].replace("(","").replace(")","")
-            sInfo = aEntry[1]
+            sDesc = aEntry[1]
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -181,7 +181,7 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0] is True:
-        #print aResult[1][0]
+        
         return aResult[1][0]
 
     return False

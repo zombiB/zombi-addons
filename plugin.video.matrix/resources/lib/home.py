@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-# 
-# 
+# zombi https://github.com/zombiB/zombi-addons/
+# zombi.
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.pluginHandler import cPluginHandler
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.comaddon import addon, window, dialog
-
+from resources.lib.comaddon import addon, window
 
 SITE_IDENTIFIER = 'cHome'
 SITE_NAME = 'Home'
@@ -86,9 +85,6 @@ class cHome:
             oGui.addDir('cHome', 'showHistory', self.addons.VSlang(30308), 'annees.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-        oGui.addDir(SITE_IDENTIFIER, 'showContact', 'Contact', 'cntct.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oGui.addDir('globalSources', 'globalSources', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         view = False
@@ -96,14 +92,6 @@ class cHome:
             view = self.addons.getSetting('accueil-view')
 
         oGui.setEndOfDirectory(view)
-
-
-    def showContact(self):
-            url = 'https://github.com/zombiB/zombi-addons/issues'
-
-            DIALOG = dialog()
-
-            ret = DIALOG.VSselect(['https://github.com/zombiB/zombi-addons/issues'], 'يمكنك التواصل مع مطور الاضافة على')
 
     def showSearchText(self):
         oGui = cGui()
@@ -174,9 +162,6 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'DOC_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30112), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'DOC_DOCS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
-
         oGui.setEndOfDirectory()
 
     def showSport(self):
@@ -194,9 +179,6 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'SPORT_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30113), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'SPORT_SPORTS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -216,9 +198,6 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'ISLAM_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(70009), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'ISLAM_ISLAM')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
-
         oGui.setEndOfDirectory()
 
     def showRamadan(self):
@@ -227,18 +206,6 @@ class cHome:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'RAMADAN_SERIES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(70006), self.addons.VSlang(30121)), 'mslsl.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'RAMADAN_SHOWS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(70006), self.addons.VSlang(30117)), 'brmg.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'RAMADAN_ISLAM')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(70006), self.addons.VSlang(70009)), 'islm.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'RAMADAN_GENRES')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(70006), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'RAMADAN_RAMADAN')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -255,9 +222,6 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'KID_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(70012), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'KID_KID')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
-
         oGui.setEndOfDirectory()
 
     def showNets(self):
@@ -269,9 +233,6 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'NETS_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30114), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'NETS_NETS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -318,10 +279,7 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_ANNEES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30106)), 'annees.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_MOVIE')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
-
+		
         oGui.setEndOfDirectory()
 
     def showSeries(self):
@@ -361,9 +319,6 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30105)), 'genres.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_SERIES')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'mslsl.png', oOutputParameterHandler)
-
         oGui.setEndOfDirectory()
 
 
@@ -380,9 +335,6 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'ANIM_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30122), self.addons.VSlang(30105)), 'animes_genres.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'ANIM_ANIMS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
-
         oGui.setEndOfDirectory()
 
     def showReplay(self):
@@ -398,9 +350,6 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'REPLAYTV_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30117), self.addons.VSlang(30105)), 'replay_genres.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'REPLAYTV_REPLAYTV')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', self.addons.VSlang(30138), 'host.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 

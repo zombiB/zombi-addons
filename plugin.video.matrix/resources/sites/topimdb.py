@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# Venom.mino60.TmpName
 
 import re
 import unicodedata
@@ -13,37 +12,22 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 SITE_IDENTIFIER = 'topimdb'
 SITE_NAME = '[COLOR orange]Top 1000 IMDb[/COLOR]'
 SITE_DESC = 'Base de donnees videos.'
 
-
 URL_MAIN = 'https://www.imdb.com/'
 POSTER_URL = 'https://ia.media-imdb.com/images/m/'
 FANART_URL = 'https://ia.media-.imdb.com/images/m/'
-# FANART_URL = 'https://image.tmdb.org/t/p/w780/'
-# FANART_URL = 'https://image.tmdb.org/t/p/original/'
 
 MOVIE_WORLD = (URL_MAIN + 'search/title?groups=top_1000&sort=user_rating,desc&start=1', 'showMovies')
 MOVIE_TOP250 = (URL_MAIN + 'search/title?count=100&groups=top_250', 'showMovies')
-# MOVIE_TOP2021 = (URL_MAIN + 'search/title?year=2021,2021&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2020 = (URL_MAIN + 'search/title?year=2020,2020&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2019 = (URL_MAIN + 'search/title?year=2019,2019&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2018 = (URL_MAIN + 'search/title?year=2018,2018&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2017 = (URL_MAIN + 'search/title?year=2017,2017&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2016 = (URL_MAIN + 'search/title?year=2016,2016&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2015 = (URL_MAIN + 'search/title?year=2015,2015&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2014 = (URL_MAIN + 'search/title?year=2014,2014&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2013 = (URL_MAIN + 'search/title?year=2013,2013&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2012 = (URL_MAIN + 'search/title?year=2012,2012&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2011 = (URL_MAIN + 'search/title?year=2011,2011&title_type=feature&explore=languages', 'showMovies')
-MOVIE_TOP2010 = (URL_MAIN + 'search/title?year=2010,2010&title_type=feature&explore=languages', 'showMovies')
-MOVIE_FAMILY = (URL_MAIN + 'search/title/?genres=family&title_type=feature&explore=genres', 'showMovies')
-MOVIE_SAFE1 = (URL_MAIN + 'list/ls071966357/', 'showMovies')
-MOVIE_SAFE2 = (URL_MAIN + 'list/ls051507148/', 'showMovies')
-MOVIE_SAFE3 = (URL_MAIN + 'list/ls049481487/', 'showMovies')
-MOVIE_SAFE4 = (URL_MAIN + 'list/ls025574708/', 'showMovies')
-MOVIE_SAFE5 = (URL_MAIN + 'list/ls036376058/', 'showMovies')
+MOVIE_ANNEES = (True, 'showMovieYears')
 
 
 def unescape(text):
@@ -78,83 +62,27 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_WORLD[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_WORLD[1], 'Top Films Mondial', 'star.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_WORLD[1], 'Top Films Mondial', 'films.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP250[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP250[1], 'Top 250', 'star.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP250[1], 'Top 250', 'films.png', oOutputParameterHandler)
 
-    # oOutputParameterHandler = cOutputParameterHandler()
-    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2021[0])
-    # oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2021[1], 'Top Films 2021', 'star.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ANNEES[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_ANNEES[1], 'Top (Par Années)', 'annees.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2020[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2020[1], 'Top Films 2020', 'star.png', oOutputParameterHandler)
+    oGui.setEndOfDirectory()
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2019[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2019[1], 'Top Films 2019', 'star.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2018[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2018[1], 'Top Films 2018', 'star.png', oOutputParameterHandler)
+def showMovieYears():
+    oGui = cGui()
+
+    import datetime
+    now = datetime.datetime.now()
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2017[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2017[1], 'Top Films 2017', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2016[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2016[1], 'Top Films 2016', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2015[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2015[1], 'Top Films 2015', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2014[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2014[1], 'Top Films 2014', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2013[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2013[1], 'Top Films 2013', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2012[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2012[1], 'Top Films 2012', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2011[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2011[1], 'Top Films 2011', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP2010[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP2010[1], 'Top Films 2010', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_FAMILY[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_FAMILY[1], 'Top 50 Family Movies', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE1[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE1[1], 'SAFE MOVIES 1', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE2[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE2[1], 'SAFE MOVIES 2', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE3[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE3[1], 'SAFE MOVIES 3', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE4[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE4[1], 'SAFE MOVIES 4', 'star.png', oOutputParameterHandler)
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_SAFE5[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_SAFE5[1], 'SAFE MOVIES 5', 'star.png', oOutputParameterHandler)
+    for i in reversed(xrange(1903, int(now.year))):
+        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'search/title?year=' + str(i) + ',' + str(i) + '&title_type=feature&explore=languages')
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', str(i), 'annees.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -182,6 +110,7 @@ def showMovies(sSearch=''):
     if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
@@ -197,7 +126,6 @@ def showMovies(sSearch=''):
             sYear = re.search('([0-9]{4})', aEntry[3]).group(1)
             sDesc = aEntry[5]
 
-            oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', 'none')
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[0]))
             oOutputParameterHandler.addParameter('sYear', sYear)
@@ -218,12 +146,6 @@ def showMovies(sSearch=''):
 
 def __checkForNextPage(sHtmlContent):
     oParser = cParser()
-    sPattern = '<a class="flat-button lister-page-next next-page" href="([^<]+)">'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    if aResult[0] is True:
-        sUrl = ('%s/%s') % (URL_MAIN, aResult[1][0])
-        return sUrl
     sPattern = 'href="([^"]+?)"class="lister-page-next'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -237,14 +159,14 @@ def __checkForNextPage(sHtmlContent):
 def showTitle(sMovieTitle, sUrl):
 
     sExtraTitle = ''
-    # si c'est une serie
+    # si c'est une série
     if sUrl != 'none':
         sExtraTitle = sUrl.split('|')[1]
         sMovieTitle = sUrl.split('|')[0]
 
     try:
-        # ancien decodage
-        sMovieTitle = unicode(sMovieTitle, 'utf-8')  # converti en unicode pour aider aux convertions
+        # ancien décodage
+        sMovieTitle = unicode(sMovieTitle, 'utf-8')  # converti en unicode pour aider aux conversions
         sMovieTitle = unicodedata.normalize('NFD', sMovieTitle).encode('ascii', 'ignore').decode("unicode_escape")  # vire accent et '\'
         sMovieTitle = sMovieTitle.encode("utf-8").lower()  # on repasse en utf-8
     except:

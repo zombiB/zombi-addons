@@ -303,9 +303,6 @@ class cGui:
                         self.createContexMenuTrakt(oGuiElement, oOutputParameterHandler)
                     if self.ADDON.getSetting('tmdb_account') != '':
                         self.createContexMenuTMDB(oGuiElement, oOutputParameterHandler)
-                if sCat in (1, 2, 3):
-                    self.createContexMenuSimil(oGuiElement, oOutputParameterHandler)
-                    self.createContexMenuParents(oGuiElement, oOutputParameterHandler)
                 if sCat != 6:
                     self.createContexMenuWatch(oGuiElement, oOutputParameterHandler)
         else:
@@ -526,19 +523,7 @@ class cGui:
 
         self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getSiteName(), 'viewSimil', self.ADDON.VSlang(30213))
 
-    #MenuParents 
-    def createContexMenuParents(self, oGuiElement, oOutputParameterHandler=''):
-        oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('sFileName', oGuiElement.getFileName())
-        oOutputParameterHandler.addParameter('sTitle', oGuiElement.getTitle())
-        oOutputParameterHandler.addParameter('sTmdbId', oGuiElement.getTmdbId())
-        oOutputParameterHandler.addParameter('sImdbId', oGuiElement.getImdbId())
-        oOutputParameterHandler.addParameter('sYear', oGuiElement.getYear())
-        oOutputParameterHandler.addParameter('sCat', oGuiElement.getCat())
-        sType = cGui.CONTENT.replace('tvshows', 'tvshow').replace('movies', 'movie')
-        oOutputParameterHandler.addParameter('sType', sType)
 
-        self.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cGui', oGuiElement.getTmdbId(), 'viewParents', self.ADDON.VSlang(33213))
     def createSimpleMenu(self, oGuiElement, oOutputParameterHandler, sFile, sName, sFunction, sTitle):
         oContext = cContextElement()
         oContext.setFile(sFile)
@@ -681,68 +666,6 @@ class cGui:
         else:
             # On appel la fonction integrer a Kodi pour charger les infos.
             xbmc.executebuiltin('Action(Info)')
-		
-    def viewParents(self):
-        oInputParameterHandler = cInputParameterHandler()
-        sFileName = oInputParameterHandler.getValue('sFileName')
-        sFileName = sFileName.split('مدبلج')[0]
-        sType = oInputParameterHandler.getValue('sType')
-        sImdbId = oInputParameterHandler.getValue('sImdbId')
-        sTmdbId = oInputParameterHandler.getValue('sTmdbId')
-        sIMDb = 'tt9536846'
-        if 'movie'in sType:
-            meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
-            sIMDb = meta['imdb_id']
-            sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
-        else:
-            meta = cTMDb().search_tvshow_id(sTmdbId)
-            sIMDb = meta['external_ids']['imdb_id']
-            sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
-        oRequest = urllib2.Request(sUrl)
-        oResponse = urllib2.urlopen(oRequest)
-        DIALOG = dialog()
-
-                # En python 3 on doit décoder la reponse
-        if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
-            sContent = oResponse.read().decode('utf-8')
-        else:
-            sContent = oResponse.read()
-        Stext = "لم يقع تصنيف المحتوى"
-        Stext0 = ""
-        oParser = cParser()
-        sPattern = '>MPAA</td>.+?<td>([^<]+)<'
-        aResult = oParser.parse(sContent, sPattern)
-        if (aResult[0]):
-            Stext0 = aResult[1][0]
-        if 'Rated R' in Stext0 and 'sex' not in Stext0:
-            Stext = 'غير مناسب للمشاهدة العائلية'
-        if 'Rated R' in Stext0 and 'sex'  in Stext0 or 'nudity'  in Stext0:
-            Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
-        if 'Rated R' not in Stext0:
-            sPattern = 'Nudity</h4>.+?ipl-status-pill.+?">([^<]+)</span>'
-            aResult = oParser.parse(sContent, sPattern)
-            if (aResult[0]):
-               Stext2 = aResult[1][0]
-               if 'None'  in Stext2:
-                  Stext = '  مناسب للمشاهدة العائلية'
-               if 'Mild'  in Stext2:
-                  Stext = '   بعض المواد قد لا تكون مناسبة'
-               if 'Moderate'  in Stext2:
-                  Stext = '   غير مناسب للمشاهدة العائلية'
-               if 'Severe'  in Stext2:
-                  Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
-            Stext1 = re.findall('class="ipl-zebra-list__item">([^<]+)<div', sContent, re.S) 
-            if Stext1:
-               Stext1 = ' '.join(Stext1)
-               if 'kiss'  in Stext1:
-                  Stext = Stext+"\n"+' قد يحتوي بعض القبلات '
-               if 'cleavage'  in Stext1 or 'bikini'  in Stext1:
-                  Stext = Stext+"\n"+' ملابس غير ملائمة في بعض المشاهد '
-               if 'have sex'  in Stext1 or 'topless'  in Stext1:
-                  Stext = Stext+"\n"+' لقطات غير مناسبة للمشاهدة العائلية '
-        Stextf = Stext+"\n"+Stext0
-
-        ret = DIALOG.VSok(Stextf)
 						
     def viewSimil(self):
         sPluginPath = cPluginHandler().getPluginPath()

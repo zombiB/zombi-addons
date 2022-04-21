@@ -1,5 +1,6 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
 import re
 	
 from resources.lib.gui.hoster import cHosterGui
@@ -29,11 +30,9 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام إنمي', 'anime.png', oOutputParameterHandler)  
  
@@ -81,6 +80,8 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showServers', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -127,11 +128,14 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             sDesc = ''
+            sYear = ''
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -166,7 +170,6 @@ def showEpisodes():
        sHtmlContent = St.get(sUrl).content.decode('utf-8')
     
 
-    oParser = cParser()
      # (.+?) ([^<]+) .+?
     sPattern = 'data-tab="(.+?)">(.+?)</table>'
     oParser = cParser()
@@ -178,7 +181,6 @@ def showEpisodes():
             if sSeason:
                sHtmlContent1 = aEntry[1]
                sPattern = '<img src="(http[^<]+)" alt.+?href="([^<]+)">(.+?)</a>'
-               oParser = cParser()
                aResult = oParser.parse(sHtmlContent1, sPattern)
 	
                if aResult[0] is True:
@@ -212,7 +214,6 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0] is True:
-        #print aResult[1][0]
         return aResult[1][0]
 
     return False
@@ -244,7 +245,6 @@ def showServers():
             data = sgn.get(sId).content
             sHtmlContent2 = data    
             sPattern = 'src="([^<]+)" frameborder'
-            oParser = cParser()
             aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0] is True:
                 for aEntry in aResult[1]:

@@ -117,7 +117,7 @@ class dialog:
         return self.DIALOG.notification(str(title), str(desc), xbmcgui.NOTIFICATION_INFO, iseconds, sound)
 
     def VSerror(self, e):
-        return self.DIALOG.notification('matrix', 'Erreur: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Erreur: ' + str(e))
+        return self.DIALOG.notification('matrix', 'Error: ' + str(e), xbmcgui.NOTIFICATION_ERROR, 2000), VSlog('Error: ' + str(e))
 
     def VStextView(self, desc, title='matrix'):
         return self.DIALOG.textviewer(title, desc)
@@ -279,8 +279,11 @@ class progress:
 
         self.COUNT += 1
         iPercent = int(float(self.COUNT * 100) / total)
-        self.PROGRESS.update(iPercent, message = text + ' : ' + str(self.COUNT) + '/' + str(total))
-
+        text += ' : ' + str(self.COUNT) + '/' + str(total) + '\n'
+        if isinstance(self.PROGRESS, xbmcgui.DialogProgress):
+            self.PROGRESS.update(iPercent, text )
+        else:
+            self.PROGRESS.update(iPercent, message = text )
     def iscanceled(self):
         if isinstance(self.PROGRESS, xbmcgui.DialogProgress):
             return self.PROGRESS.iscanceled()

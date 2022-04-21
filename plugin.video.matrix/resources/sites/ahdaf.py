@@ -1,5 +1,5 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
 
 import re
 	
@@ -22,10 +22,6 @@ SPORT_FOOT = (URL_MAIN, 'showMovies')
  
 def load():
     oGui = cGui()
-
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
@@ -63,16 +59,15 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle = aEntry[1]
-            sThumb = aEntry[0]
-            siteUrl = URL_MAIN +aEntry[0]
-            sInfo = '' 
+            sThumb = ''
+            siteUrl = URL_MAIN + '/' +aEntry[0]
+            sDesc = '' 
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -85,7 +80,6 @@ def showLive():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -111,14 +105,13 @@ def showLive():
                 break
  
             sTitle = aEntry[1]
-            sThumb = aEntry[0]
-            siteUrl = URL_MAIN + aEntry[0]
-            sInfo = '' 
+            sThumb = '' 
+            siteUrl = URL_MAIN +'/'+ aEntry[0]
+            sDesc = '' 
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler)  
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)  
         
         progress_.VSclose(progress_)      
            
@@ -130,10 +123,9 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
     
     if not isMatrix():
        sHtmlContent = sHtmlContent.decode("windows-1256").encode("utf-8")
@@ -151,7 +143,6 @@ def showHosters():
 	
     if aResult:
         for aEntry in aResult:
-            
             sMovieTitle = aEntry[1]
             sHosterUrl = aEntry[0]
             if sHosterUrl.startswith('//'):
@@ -171,7 +162,7 @@ def showHosters():
             if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, '')
 
 		
     oGui.setEndOfDirectory()

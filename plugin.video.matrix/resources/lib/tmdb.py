@@ -11,6 +11,7 @@ import threading
 
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix, xbmc
 from resources.lib.util import QuotePlus
+
 try:
     from sqlite3 import dbapi2 as sqlite
     VSlog('SQLITE 3 as DB engine for tmdb')
@@ -21,7 +22,6 @@ except:
 #Gestion du multithread
 lock  = threading.Semaphore()
 
-	
 
 class cTMDb:
     # https://developers.themoviedb.org/3/genres/get-movie-list
@@ -59,7 +59,7 @@ class cTMDb:
 
     URL = 'https://api.themoviedb.org/3/'
     URL_TRAILER = 'plugin://plugin.video.youtube/play/?video_id=%s' # ancien : 'plugin://plugin.video.youtube/?action=play_video&videoid=%s'
-    CACHE = 'special://home/userdata/addon_data/plugin.video.matrix/video_cache.db'
+    CACHE = 'special://home/userdata/addon_data/plugin.video.vstream/video_cache.db'
 
     # important seul xbmcvfs peux lire le special
     if not isMatrix():
@@ -70,7 +70,6 @@ class cTMDb:
     def __init__(self, api_key='', debug=False, lang='en'):
 
         self.ADDON = addon()
-
 
         self.api_key = self.ADDON.getSetting('api_tmdb')
         self.debug = debug
@@ -90,7 +89,7 @@ class cTMDb:
             VSlog('Error: Unable to write on %s' % self.REALCACHE)
             pass
 
-        try:            
+        try:
             # Optimisation des acces SqlLite -> Autocommit
             # https://charlesleifer.com/blog/going-fast-with-sqlite-and-python/
             self.db = sqlite.connect(self.REALCACHE, isolation_level=None)
@@ -253,8 +252,8 @@ class cTMDb:
                 import pyqrcode
                 from resources.lib.librecaptcha.gui import cInputWindowYesNo
                 qr = pyqrcode.create(url + result['request_token'])
-                qr.png(VSPath('special://home/userdata/addon_data/plugin.video.matrix/qrcode.png'), scale=5)
-                oSolver = cInputWindowYesNo(captcha='special://home/userdata/addon_data/plugin.video.matrix/qrcode.png', msg="Scanner le QRCode pour acceder au lien d'autorisation", roundnum=1)
+                qr.png(VSPath('special://home/userdata/addon_data/plugin.video.vstream/qrcode.png'), scale=5)
+                oSolver = cInputWindowYesNo(captcha='special://home/userdata/addon_data/plugin.video.vstream/qrcode.png', msg="Scanner le QRCode pour acceder au lien d'autorisation", roundnum=1)
                 retArg = oSolver.get()
                 DIALOG = dialog()
                 if retArg == "N":
@@ -585,7 +584,7 @@ class cTMDb:
         if duration:
             _meta['duration'] = duration * 60
 
-
+        
         try:
             if _meta['year'] == 0:
                 _meta['year'] = int(_meta['premiered'][:4])
@@ -635,23 +634,6 @@ class cTMDb:
 
             if not isMatrix():
                 _meta['genre'] = unicode(_meta['genre'], 'utf-8')
-       
-        if 'overview' in meta and meta['overview']:
-            import requests
-            headers = {'Host': 'www.arabtran.com',
-							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Accept': '*/*',
-							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-							'X-Requested-With': 'XMLHttpRequest',
-							'Referer': 'https://www.arabtran.com/',
-							'Connection': 'keep-alive'}
-            data = {'text':meta['overview'],'gfrom':'en','gto':'ar','key':'ABC'}
-            s = requests.Session()
-            r = s.post('https://www.arabtran.com/gtranslate/', headers=headers,data = data)
-            _meta['plot'] = r.content.decode('utf8')
-        elif 'overview' in meta and meta['overview']:  # film ou série
-            _meta['plot'] = meta['overview']
 
         trailer_id = ''
         if 'trailer' in meta and meta['trailer']:   # Lecture du cache
@@ -822,7 +804,7 @@ class cTMDb:
             sql_select += ' AND episode.season = \'%s\' AND episode.episode = \'%s\'' % (season, episode)
         else:
             return None
-				
+
         matchedrow = None
         try:
             self.dbcur.execute(sql_select)
@@ -983,6 +965,7 @@ class cTMDb:
                     VSlog(str(e))
             else:
                 VSlog('SQL ERROR INSERT into table season')
+        
 
     # Cache pour les épisodes
     def _cache_save_episode(self, meta, name, season, episode):
@@ -1041,7 +1024,7 @@ class cTMDb:
         """
 
         name = re.sub(" +", " ", name)  # nettoyage du titre
-        name = name.replace('VF','').replace('VOSTFR','').replace('مدبلج','')
+        name = name.replace('VF','').replace('VOSTFR','')
         cleanTitle = None
         
         # VSlog('Attempting to retrieve meta data for %s: %s %s %s %s' % (media_type, name, year, imdb_id, tmdb_id))

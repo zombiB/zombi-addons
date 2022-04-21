@@ -13,12 +13,12 @@
         "akoam": {
             "label": "akoam",
             "active": "True",
-            "url": "https://old.akwam.to"
+            "url": "https://old.akwam.to/"
         },
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://akwam.in"
+            "url": "https://akwam.cx"
         },
         "alarab": {
             "label": "alarab",
@@ -119,11 +119,6 @@
             "label": "cartoon3rbi",
             "active": "True",
             "url": "https://www.arteenz.com"
-        },
-        "cdrama": {
-            "label": "c-drama",
-            "active": "True",
-            "url": "https://cdrama.in"
         },
         "cimaclub": {
             "label": "cimaclub",
@@ -278,7 +273,7 @@
         "shahidu": {
             "label": "shahid4u",
             "active": "True",
-            "url": "https://shahed4u.pw"
+            "url": "https://shahed4u.tax"
         },
         "shooflive": {
             "label": "shooflive",

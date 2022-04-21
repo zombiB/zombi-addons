@@ -1,5 +1,8 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -7,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-import re
  
 SITE_IDENTIFIER = 'tvnine'
 SITE_NAME = 'tv96'
@@ -60,16 +62,19 @@ def showMovies(sSearch = ''):
                 break
  
             sTitle =  aEntry[1]+' vs '+aEntry[3]
+            sYear = ""
             sThumb = ""
             siteUrl = aEntry[0]
-            sInfo = aEntry[2]+' GMT+1'
+            sDesc = aEntry[2]+' GMT+1'
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
@@ -90,18 +95,14 @@ def showLive():
 
     # (.+?) # ([^<]+) .+? 
     sPattern = 'data-embed="(.+?)">(.+?)</li>'
-    
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     #print aResult
    
     if aResult[0] is True:
         for aEntry in aResult[1]:
- 
             sTitle = aEntry[1]
             siteUrl = aEntry[0]
-            sInfo = ''
             oRequestHandler = cRequestHandler(siteUrl)
             data = oRequestHandler.request()
             oParser = cParser()

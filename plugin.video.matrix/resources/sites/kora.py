@@ -1,6 +1,6 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
-import base64
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
 import re
 
 from resources.lib.gui.hoster import cHosterGui
@@ -19,38 +19,20 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = ('https://www.s-kora.com/', 'showMovies')
 
-FUNCTION_SEARCH = 'showMovies'
  
 def load():
     oGui = cGui()
 
-    oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
- 
-    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler = cOutputParameterHandler() 
     oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', 'sport.png', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
-
-def showSearch():
-    oGui = cGui()
- 
-    sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = ''+sSearchText
-        showMovies(sUrl)
-        oGui.setEndOfDirectory()
-        return
    
 def showMovies(sSearch = ''):
     oGui = cGui()
-    if sSearch:
-      sUrl = sSearch
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
@@ -59,12 +41,8 @@ def showMovies(sSearch = ''):
 # ([^<]+) .+? (.+?)
 
     sPattern = '<a title="(.+?)" id="match-live" href="(.+?)">'
-
-
-
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+		
     if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -79,19 +57,19 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[1]
             if siteUrl.startswith('//'):
                 siteUrl = 'https:' + aEntry[1]
-            sInfo = ''
+            sDesc = ''
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
-    if not sSearch:
-        oGui.setEndOfDirectory()
+
+    oGui.setEndOfDirectory()
   
 def showLive():
     oGui = cGui()
@@ -108,9 +86,7 @@ def showLive():
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
-    #print aResult
    
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -118,14 +94,14 @@ def showLive():
  
             sTitle = aEntry[1]
             siteUrl = aEntry[0].replace('")',"").replace('("',"")
-            sInfo = "" 
+            sDesc = "" 
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
 			
     oGui.setEndOfDirectory()
   
@@ -144,11 +120,11 @@ def showHosters():
 
     sPattern = ' var servers(.+?)</script>'
     data = re.findall(sPattern, sHtmlContent)
-    VSlog(data)
+
     # (.+?) # ([^<]+) .+? 
     sPattern = '"(.+?)"'
     aResult = oParser.parse(data, sPattern)
-    VSlog(aResult)
+
     if aResult[0] is True:
        for aEntry in aResult[1]:
            url = aEntry

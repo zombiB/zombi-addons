@@ -48,7 +48,7 @@ class cShowBA:
 
     def SearchBA(self, window=False):
 
-        sTitle = self.search + ' trailer'
+        sTitle = self.search + ' Trailer'
 
         # Le lien sur la BA est déjà connu
         urlTrailer = self.sTrailerUrl

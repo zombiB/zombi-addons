@@ -1,14 +1,15 @@
-﻿#-*- coding: utf-8 -*-
-#zombi
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
-import re
  
 SITE_IDENTIFIER = 'nightosphere'
 SITE_NAME = 'nightosphere'
@@ -19,9 +20,9 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 KID_CARTOON = ('https://nightosphere.net/all-shows/', 'showSeries')
 
-URL_SEARCH = ('https://www.stardima.com/watch/search.php?keywords=', 'showSeriesSearch')
+URL_SEARCH = ('https://nightosphere.net/?s=', 'showSeriesSearch')
 
-URL_SEARCH_SERIES = ('https://www.stardima.com/watch/search.php?keywords=', 'showSeriesSearch')
+URL_SEARCH_SERIES = ('https://nightosphere.net/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -42,8 +43,8 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = 'https://www.stardima.com/watch/search.php?keywords='+sSearchText
-        showSeriesSearch(sUrl)
+        sUrl = 'https://nightosphere.net/?s='+sSearchText
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return 
   
@@ -51,15 +52,15 @@ def showSeries(sSearch = ''):
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
+      sPattern = '<div class="w-post-elm post_image usg_post_image_1 stretched"><a href="(.+?)" aria-label="(.+?)"></a>.+?src="(.+?)" class='
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+ # ([^<]+) .+? (.+?)
+        sPattern = '<a class="w-grid-item-anchor" href="(.+?)".+?aria-label="(.+?)"></a>.+?src="(.+?)" class='
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- # ([^<]+) .+? (.+?)
-    sPattern = '<a class="w-grid-item-anchor" href="(.+?)".+?aria-label="(.+?)"></a>.+?src="(.+?)" class='
-
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -104,7 +105,7 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0] is True:
-        #print aResult[1][0]
+        
         return aResult[1][0]
 
     return False

@@ -1,7 +1,8 @@
-﻿#-*- coding: utf-8 -*-
-#zombi
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
 
 import re
+	
 from resources.lib.util import Quote
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -156,6 +157,7 @@ def showSearchSeries(sSearch = ''):
             sTitle = sTitle.replace("S ","S")
             siteUrl = aEntry[0] + "watching/"
             sThumb = aEntry[5]
+            sYear = ""
             sDesc = ""
 
 
@@ -163,6 +165,8 @@ def showSearchSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
@@ -193,7 +197,6 @@ def showSearchSeries(sSearch = ''):
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
             sThumb = ""
-            sInfo = ""
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -258,6 +261,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -313,6 +317,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
 
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -369,12 +374,15 @@ def showSeasons():
             siteUrl = URL_MAIN+aEntry[2]
             sThumb = URL_MAIN+aEntry[1]
             sDesc = ""
+            sYear = ""
             if '/episode/' in aEntry[2]:
                 sTitle = sSeason+' E'+aEntry[2].split('/episode/')[1]
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
             if '/episode/'  in aEntry[2] :
                 oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
             else: 

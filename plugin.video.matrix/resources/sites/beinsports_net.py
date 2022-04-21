@@ -1,5 +1,8 @@
-﻿#-*- coding: utf-8 -*-
-#zombi https://github.com/zombiB/zombi-addons/
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -7,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager
-import re
 
 SITE_IDENTIFIER = 'beinsports_net'
 SITE_NAME = 'beinsports'
@@ -94,14 +96,14 @@ def showMovies(sSearch = ''):
                 break
 					
             sUrl = aEntry[1]
-            sInfo = '[COLOR aqua]'+aEntry[2]+" //[/COLOR]"+'[COLOR yellow]'+aEntry[3]+'[/COLOR]'
+            sDesc = '[COLOR aqua]'+aEntry[2]+" //[/COLOR]"+'[COLOR yellow]'+aEntry[3]+'[/COLOR]'
             if not 'http' in sUrl:
                 sUrl = str(URL_MAIN) + sUrl
 					
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', str(aEntry[4]))
             oOutputParameterHandler.addParameter('sThumb', str(aEntry[0]))
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[4], 'doc.png', aEntry[0], sInfo, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', aEntry[4], 'doc.png', aEntry[0], sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
             

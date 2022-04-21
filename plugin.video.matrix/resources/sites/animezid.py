@@ -1,14 +1,15 @@
-﻿#-*- coding: utf-8 -*-
-#zombi
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import re
+	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
-from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-import re
  
 SITE_IDENTIFIER = 'animezid'
 SITE_NAME = 'animezid'
@@ -35,25 +36,13 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'SEARCH SERIES', 'search.png', oOutputParameterHandler)
  
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
  
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_CARTOON[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', 'crtoon.png', oOutputParameterHandler)
   
     oGui.setEndOfDirectory()
- 
-def showSearchAll():
-    oGui = cGui()
- 
-    sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = URL_MAIN + '/search.php?keywords='+sSearchText
-        showSearchSeries(sUrl)
-        oGui.setEndOfDirectory()
-        return  
  
 def showSearchSeries():
     oGui = cGui()
@@ -93,7 +82,6 @@ def showMoviesSearch(sSearch = ''):
 # ([^<]+) .+? (.+?)
     sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
 
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -112,14 +100,14 @@ def showMoviesSearch(sSearch = ''):
 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","")
             siteUrl = aEntry[0].replace('watch.php?','play.php?')
-            sInfo = ''
+            sDesc = ''
             sThumb = aEntry[1]
 
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
 
         
         progress_.VSclose(progress_)
@@ -143,8 +131,6 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 # ([^<]+) .+? (.+?)
     sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -199,8 +185,6 @@ def showMovies(sSearch = ''):
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 # ([^<]+) .+? (.+?)
     sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -216,14 +200,14 @@ def showMovies(sSearch = ''):
 
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
-            sInfo = ''
+            sDesc = ''
             sThumb = aEntry[1]
 
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMisc(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
+            oGui.addMisc(SITE_IDENTIFIER, 'showMoviesLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
 
         
         progress_.VSclose(progress_)
@@ -305,8 +289,6 @@ def showSeries(sSearch = ''):
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 # ([^<]+) .+? (.+?)
     sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -322,7 +304,7 @@ def showSeries(sSearch = ''):
 
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
-            sInfo = ''
+            sDesc = ''
             sThumb = aEntry[1]
 
 			
@@ -330,7 +312,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMisc(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, '', sThumb, sInfo, oOutputParameterHandler) 
+            oGui.addMisc(SITE_IDENTIFIER, 'showSeriesLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
 
         
         progress_.VSclose(progress_)
@@ -356,8 +338,6 @@ def showSeriesLinks():
 
   # ([^<]+) .+? (.+?)
     sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -398,8 +378,6 @@ def showEpisodes():
 
   # ([^<]+) .+? (.+?)
     sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -442,8 +420,6 @@ def showEpisodes2():
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
   # ([^<]+) .+?
     sPattern = '<a href="(.+?)" class="movie" title="(.+?)">.+?data-src="(.+?)">'
-
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -485,8 +461,6 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    
-    oParser = cParser()
 
     # (.+?) .+? ([^<]+)
                
@@ -515,7 +489,6 @@ def showHosters():
                
 
     sPattern = 'target="_blank" href="(.+?)"><span>(.+?)</span>'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
