@@ -111,12 +111,12 @@ def showLive():
             aResult = oParser.parse(data, sPattern)
             if aResult[0] is True:
                for aEntry in aResult[1]:
-            
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url 
-                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'
+                   if '?src=' in url:
+                      url = url.split('?src=')[1]
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl
                    sMovieTitle = sTitle
             
 
@@ -134,8 +134,9 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url 
-                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl
                    sMovieTitle = sTitle
             
 
@@ -153,6 +154,8 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
+                   if '?src=' in url:
+                      url = url.split('?src=')[1]
                    if ".php" in url:
                        oRequestHandler = cRequestHandler(url)
                        data = oRequestHandler.request() 
@@ -163,9 +166,10 @@ def showLive():
             
                               url = aEntry
                               if url.startswith('//'):
-                                 url = 'https:' + url 
-                              sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
-                              sHosterUrl = sHosterUrl+ '|User-Agent=Android'
+                                 url = 'https:' + url
+                              if '?src=' in url:
+                                 url = url.split('?src=')[1] 
+                              sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl 
                               sMovieTitle = sTitle
             
 
@@ -175,7 +179,7 @@ def showLive():
                                   oHoster.setFileName(sMovieTitle)
                                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
                    sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl    
                    sMovieTitle = sTitle
             
 
@@ -193,8 +197,9 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
-                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl  
                    sMovieTitle = sTitle
             
 
@@ -212,8 +217,9 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
-                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' 
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' + '&Referer='+sHosterUrl
                    sMovieTitle = sTitle
             
 
@@ -232,8 +238,9 @@ def showLive():
                    url = aEntry
                    if url.startswith('//'):
                       url = 'https:' + url
-                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=' + UA + '&Referer=https://yastatic.net/' 
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = sHosterUrl+ '|User-Agent=' + UA + '&Referer='+sHosterUrl
                    sMovieTitle = sTitle
             
 

@@ -18,17 +18,6 @@ SITE_NAME = 'kingfoot'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
-
 
 SPORT_LIVE = (URL_MAIN + '/today-matches/', 'showMovies')
 SPORT_FOOT = (URL_MAIN + '/videos/', 'showSeries')
@@ -157,8 +146,8 @@ def showHosters4():
 
 
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club'}
-    rurl = 'https://dalbouh.club/key.php'
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'key.1xnews.xyz'}
+    rurl = 'https://key.1xnews.xyz/key.php'
     St=requests.Session()              
     sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')     
     sPattern =  '"key":"(.+?)"'

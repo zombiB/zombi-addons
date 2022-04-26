@@ -191,7 +191,6 @@ def ShowEps():
  
             sTitle = " E"+aEntry[1]
             sTitle = sTitle+sMovieTitle
-            sThumb = sThumb
             siteUrl = aEntry[0]
             sDesc = ''
             sYear = ''

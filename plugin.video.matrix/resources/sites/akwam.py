@@ -215,7 +215,6 @@ def showMovies(sSearch = ''):
             siteUrl = aEntry[1]
             sThumb = aEntry[2]
             sDesc = ''
-            sQua = aEntry[0]
             sYear = aEntry[4]
 
 
@@ -367,7 +366,7 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sEp = aEntry[0].split(':')[0]
-            sEp = sEp.replace("الحلقة "," E")
+            sEp = sEp.replace("الحلقة "," E").replace("حلقة "," E")
             sTitle = sMovieTitle+''+sEp
             siteUrl = aEntry[1]
             sThumb = aEntry[2]

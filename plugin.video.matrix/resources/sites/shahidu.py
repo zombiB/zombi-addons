@@ -387,7 +387,14 @@ def showHosters():
 
     sId='0'
     sLink='0'
+    sURL_MAIN='0'
     # (.+?) ([^<]+)
+
+    sPattern = '<a href="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sURL_MAIN = aResult[1][0]
 
     sPattern = '<li data-i=".+?" data-id="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -411,7 +418,7 @@ def showHosters():
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
 							'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
 							'X-Requested-With': 'XMLHttpRequest',
-							'Referer': URL_MAIN,
+							'Referer': sURL_MAIN,
 							'Connection': 'keep-alive'}
             r = s.post(sLink, headers=headers, data = data)
             sHtmlContent4 = r.content.decode('utf8',errors='ignore')

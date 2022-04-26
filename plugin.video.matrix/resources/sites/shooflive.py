@@ -10,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'shooflive'
 SITE_NAME = 'shooflive'
@@ -416,14 +415,14 @@ def showHosters():
         mId = aResult[1][0] 
     import requests
     s = requests.Session()            
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': Quote(sUrl)}
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
     data = {'id':mId,'action':'getpostServers'}
     r = s.post(URL_MAIN +'/wp-admin/admin-ajax.php', headers=headers,data = data)
     sHtmlContent = r.content.decode('utf8')
             
     sPattern =  '<a class="watchNow" href="([^<]+)" target=' 
     aResult = oParser.parse(sHtmlContent,sPattern)
+    m3url=''
     if aResult[0] is True:
         m3url = aResult[1][0] 
         if m3url.startswith('//'):

@@ -111,7 +111,6 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
-            sDub = ''
             m = re.search('([1-2][0-9]{3})', sTitle)
             if m:
                 sYear = str(m.group(0))
@@ -323,13 +322,9 @@ def showServers():
     if aResult[0] is True:
         for aEntry in aResult[1]:
             
-            url = str(aEntry)
-            sTitle = sMovieTitle
+            url = aEntry
             if url.startswith('//'):
-               url = 'http:' + url
-				
-					
-            
+               url = 'http:' + url					            
             sHosterUrl = url 
             if '?download_' in sHosterUrl:
                 sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
@@ -342,8 +337,7 @@ def showServers():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
-               sDisplayTitle = sTitle
-               oHoster.setDisplayName(sDisplayTitle)
+               oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     # (.+?) ([^<]+) .+?
@@ -354,12 +348,17 @@ def showServers():
    
     if aResult[0] is True:
         for aEntry in aResult[1]:
-            import requests
-            s = requests.Session()            
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
-            data = {'id':aEntry[1],'i':aEntry[0]}
-            r = s.post('https://alarabclub.live/wp-content/themes/ElshaikhNet/Inc/Ajax/Single/Server.php', headers=headers,data = data)
-            sHtmlContent = r.content.decode('utf8')
+            pdata = 'id='+aEntry[1]+'&i='+aEntry[0]
+            pUrl = URL_MAIN + '/wp-content/themes/ElshaikhNet/Inc/Ajax/Single/Server.php'
+            UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0"
+            oRequest = cRequestHandler(pUrl)
+            oRequest.setRequestType(1)
+            oRequest.addHeaderEntry('User-Agent', UA)
+            oRequest.addHeaderEntry('Accept', '*/*')
+            oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+            oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded')
+            oRequest.addParametersLine(pdata)
+            sHtmlContent = oRequest.request() 
    
             sPattern = 'src="(.+?)"'
             oParser = cParser()
@@ -368,9 +367,7 @@ def showServers():
             if aResult[0] is True:
                for aEntry in aResult[1]:
         
-                   url = str(aEntry)
-                   sTitle = " "
-                   sThumb = sThumb
+                   url = aEntry
                    if 'govid' in url:
                       url = url.replace("play","down").replace("embed-","")
                    if url.startswith('//'):
@@ -388,8 +385,7 @@ def showServers():
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
-                      sDisplayTitle = sMovieTitle
-                      oHoster.setDisplayName(sDisplayTitle)
+                      oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 

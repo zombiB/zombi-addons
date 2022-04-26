@@ -18,7 +18,7 @@
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://akwam.cx"
+            "url": "https://akwam.to"
         },
         "alarab": {
             "label": "alarab",
@@ -243,7 +243,7 @@
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycima.social:2096"
+            "url": "https://mycima.moe:2096"
         },
         "nightosphere": {
             "label": "nightosphere",
@@ -278,7 +278,7 @@
         "shooflive": {
             "label": "shooflive",
             "active": "True",
-            "url": "https://z.shooflive.site"
+            "url": "https://v.shooflive.site"
         },
         "shoofvod": {
             "label": "shoofvod",
