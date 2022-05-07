@@ -313,7 +313,7 @@ def showSeasons():
             sTitle = aEntry[1].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الأول","S1").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
             sTitle = sMovieTitle+sTitle
             if 'ضربة حظ'  in aEntry[1] :
-                sTitle = 'S1'+sMovieTitle
+                sTitle = sMovieTitle+' S1'
             siteUrl = URL_MAIN+'/series/'+str(aEntry[0])
             sThumb = sThumb
             sDesc = ''
@@ -404,11 +404,18 @@ def showHosters():
     sThumb = oInputParameterHandler.getValue('sThumb')
 
 
-
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    sHtmlContent = oRequestHandler.request() 
 
-    oParser = cParser()            
+    oParser = cParser()         
+
+    sURL_MAIN='0'
+    # (.+?) ([^<]+)
+    sPattern = '<a href="([^<]+)">الرئيسية'
+    aResult = oParser.parse(sHtmlContent, sPattern)    
+    if (aResult[0]):
+        sURL_MAIN = aResult[1][0]
+			
     sPattern =  'data-id="(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
@@ -417,7 +424,7 @@ def showHosters():
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
     data = {'id':mId,'action':'getpostServers'}
-    r = s.post(URL_MAIN +'/wp-admin/admin-ajax.php', headers=headers,data = data)
+    r = s.post(sURL_MAIN +'/wp-admin/admin-ajax.php', headers=headers,data = data)
     sHtmlContent = r.content.decode('utf8')
             
     sPattern =  '<a class="watchNow" href="([^<]+)" target=' 
@@ -430,7 +437,7 @@ def showHosters():
     import requests
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': URL_MAIN }
+							'Referer': sURL_MAIN }
     r = s.get(m3url, headers=headers)
     sHtmlContent = r.content.decode('utf8')
 

@@ -493,7 +493,7 @@ def showServers():
         spost = aResult[1][0]
     # (.+?) ([^<]+) .+?
 
-    sPattern = 'data-embedd="(.+?)">([^<]+)<'
+    sPattern = 'data-embedd="(.+?)">(.+?)<'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    

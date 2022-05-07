@@ -11,9 +11,6 @@ class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'govid', 'CimaClub', 'gold')
-			
-    def isDownloadable(self):
-        return True
 
     def setUrl(self, sUrl):
         self._url = str(sUrl)
@@ -24,12 +21,15 @@ class cHoster(iHoster):
         VSlog(self._url)
 
         oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('Referer', 'https://cima-club.io/')
+        oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
+        VSlog(sHtmlContent)  
         oParser = cParser()
 
        # (.+?) .+? ([^<]+)
         sPattern =  '<small>([^<]+)</small> <a target="_blank" download=.+?href="([^<]+)">' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
+        aResult = oParser.parse(sHtmlContent,sPattern)  
         if aResult[0] is True:
             url=[]
             qua=[]

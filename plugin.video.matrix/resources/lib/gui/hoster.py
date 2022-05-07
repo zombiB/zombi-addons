@@ -269,6 +269,9 @@ class cHosterGui:
         if ('vidhd' in sHostName) or ('oktube' in sHostName):
             return self.getHoster('vidhd')
             
+        if ('skyvid' in sHostName):
+            return self.getHoster('skyvid')
+            
         if ('seeeed' in sHostName):
             return self.getHoster('arabseed')
             

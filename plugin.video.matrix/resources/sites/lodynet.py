@@ -16,15 +16,15 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d9%87%d9%86%d8%af%d9%8a%d8%a9-%d8%a7%d9%84%d9%85%d8%aa%d8%b1%d8%ac%d9%85%d8%a9/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-a/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%86%d9%8a%d9%85%d9%8a/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/turkish-series-1a/', 'showSerie')
+SERIE_TR = (URL_MAIN + '/turkish-series-1b/', 'showSerie')
 SERIE_TR_AR = (URL_MAIN + '/dubbed-turkish-series-i/', 'showSerie')
 SERIE_HEND = (URL_MAIN + '/bالمسلسلات-هندية-مترجمة/', 'showSerie')
 SERIE_HEND_AR = (URL_MAIN + '/dubbed-indian-series-m6/', 'showSerie')
-SERIE_ASIA = (URL_MAIN + '/korean-series/', 'showSerie')
-SERIE_PAK = (URL_MAIN + '/category/المسلسلات-باكستانية/', 'showSerie')
+SERIE_ASIA = (URL_MAIN + '/korean-series-a/', 'showSerie')
+SERIE_PAK = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%a7%d9%83%d8%b3%d8%aa%d8%a7%d9%86%d9%8a%d8%a9/', 'showSerie')
 SERIE_LATIN = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%85%d9%83%d8%b3%d9%8a%d9%83%d9%8a%d8%a9-a/', 'showSerie')
 SERIE_GENRES = (True, 'showGenres')
 
@@ -276,7 +276,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة و تحميل","").replace("مشاهدة","").replace("وتحميل","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مدبلج للعربية","مدبلج")
+            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة و تحميل","").replace("مشاهدة","").replace("وتحميل","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("برنامج","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("انيمي","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ""
