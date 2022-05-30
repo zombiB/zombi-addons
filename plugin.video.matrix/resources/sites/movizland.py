@@ -124,7 +124,7 @@ def showSearchSeries(sSearch = ''):
 
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem">.+?<a href="([^<]+)">.+?src="([^<]+)" class.+?<div class="BlockTitle">([^<]+)</div>'
+    sPattern = '<div class="BlockItem"><a href="(.+?)">.+?data-src="(.+?)" class.+?<div class="BlockTitle">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -163,7 +163,7 @@ def showSearchSeries(sSearch = ''):
         
         progress_.VSclose(progress_)
  
-        sNextPage = __checkForNextPage(sHtmlContent)
+        sNextPage = __checkForNextPagesearch(sHtmlContent)
         if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
@@ -503,7 +503,15 @@ def showEpisodes():
         
        
     oGui.setEndOfDirectory()
-		
+def __checkForNextPagesearch(sHtmlContent):
+    sPattern = '<li><a href="(.+?)">.+?</a></li>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0] is True:
+        return aResult[1][0]
+
+    return False
+	
 def __checkForNextPage(sHtmlContent):
     sPattern = '<link rel="next" href="([^<]+)" />'
     oParser = cParser()

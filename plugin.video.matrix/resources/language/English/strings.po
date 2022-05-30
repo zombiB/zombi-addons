@@ -456,6 +456,10 @@ msgctxt "#30108"
 msgid "English"
 msgstr ""
 
+msgctxt "#33108"
+msgid "4k"
+msgstr ""
+
 msgctxt "#30109"
 msgid "Turkish"
 msgstr ""
