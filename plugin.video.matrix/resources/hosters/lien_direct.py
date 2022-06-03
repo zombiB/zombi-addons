@@ -31,11 +31,14 @@ class cHoster(iHoster):
             sReferer = self._url.split('|Referer=')[1]      
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
             api_call = api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
+        if 'wasabisys' in api_call:
+            UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
+            api_call = api_call + '|User-Agent=' + UA + '&Referer=https://www.toonsland.site'
  
 
        
         if 'akwam' in api_call:
-            api_call = api_call + '|AUTH=TLS&verifypeer=false' 
+            api_call = api_call + '|AUTH=TLS&verifypeer=false'  
         if 'panet' in api_call:
             api_call = api_call + '|AUTH=TLS&verifypeer=false' 
         if 'beintube' in api_call:
