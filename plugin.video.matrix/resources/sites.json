@@ -325,6 +325,11 @@
             "active": "True",
             "url": "https://tuktukcinema.co"
         },
+        "toonsland": {
+            "label": "toonsland",
+            "active": "True",
+            "url": "https://www.toonsland.site/"
+        },
         "tvfun": {
             "label": "tvfun",
             "active": "True",

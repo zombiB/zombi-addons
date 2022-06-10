@@ -190,7 +190,7 @@ class cGuiElement:
             sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("DvDrip","").replace("DvDRip","").replace("DVBRip","").replace("TVRip","").replace("WEB Dl","").replace("WeB Dl","").replace("WEB DL","").replace("WeB DL","").replace("Web DL","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","")
 
             if "مدبلج" in sTitle:
-                sTitle = sTitle.replace("مدبلجة","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلجه","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[COLOR yellow]مدبلج[/COLOR]")
+                sTitle = sTitle.replace("مدبلجة","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلجه","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلج بالمصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج مصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[COLOR yellow]مدبلج[/COLOR]")
 
             if not isMatrix():
                 sTitle = sTitle.decode('utf-8')

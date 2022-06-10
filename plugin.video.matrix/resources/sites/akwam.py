@@ -440,9 +440,9 @@ def showlink():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             if '/watch/' in siteUrl:
-               oGui.addLink(SITE_IDENTIFIER, 'showHosters', 'watch', '', sThumb, oOutputParameterHandler)
+               oGui.addLink(SITE_IDENTIFIER, 'showHosters', 'watch', sThumb, '', oOutputParameterHandler)
             if '/link/' in siteUrl:
-               oGui.addLink(SITE_IDENTIFIER, 'showHosters2', 'download', '', sThumb, oOutputParameterHandler)
+               oGui.addLink(SITE_IDENTIFIER, 'showHosters2', 'download', sThumb, '', oOutputParameterHandler)
  
        
     oGui.setEndOfDirectory() 
