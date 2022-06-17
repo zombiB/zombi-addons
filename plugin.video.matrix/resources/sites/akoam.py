@@ -10,7 +10,15 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager
+from resources.lib.util import cUtil, Unquote
 
+try:  # Python 2
+    import urllib2
+    from urllib2 import URLError as UrlError
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+    from urllib.error import URLError as UrlError
 
 SITE_IDENTIFIER = 'akoam'
 SITE_NAME = 'akoam'
@@ -374,7 +382,7 @@ def showLink():
         for aEntry in aResult[1]:
  
             sTitle = " يرجي الانتقال إلي التصميم الجديد من هنا"
-            siteUrl = "https://akwam.net/movie/"+aEntry
+            siteUrl = "https://akwam.to/movie/"+aEntry
             sThumb = sThumb
             sDesc = ""
 
@@ -395,21 +403,87 @@ def showLinks():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    import requests
-    s =requests.Session()
-    headers = {'origin': 'old.akwam.to',
-     'User-Agent': 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666',
-     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
-    r = s.get(sUrl.replace('download','watching'), headers=headers)
-    sHtmlContent = r.content.decode('utf8')
+    # ([^<]+) .+?
+
+ 
+
+    UA = 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666'
+
+    headers = {"User-Agent": UA}
+
+    req = urllib2.Request(sUrl, None, headers)
+
+    try:
+            response = urllib2.urlopen(req)
+    except UrlError as e:
+            print(e.read())
+            print(e.reason)
+
+    data = response.read()
+    head = response.headers
+    response.close()
+
+    # get cookie
+    cookies = ''
+    if 'Set-Cookie' in head:
+            oParser = cParser()
+            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
+            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
+            # print(aResult)
+            if (aResult[0] == True):
+                for cook in aResult[1]:
+                    cookies = cook[1] 
+                    cookies = Unquote(cookies)
+
+    sPattern = ',"route":"([^"]+)",'
+    oParser = cParser()
+    aResult = oParser.parse(cookies, sPattern)
+
+    sUrl = aResult[1][0].replace('download','watching')
+ 
+
+    UA = 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666'
+
+    headers = {"User-Agent": UA}
+
+    req = urllib2.Request(sUrl, None, headers)
+
+    try:
+            response = urllib2.urlopen(req)
+    except UrlError as e:
+            print(e.read())
+            print(e.reason)
+
+    data = response.read()
+    head = response.headers
+    response.close()
+
+    # get cookie
+    cookies = ''
+    if 'Set-Cookie' in head:
+            oParser = cParser()
+            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
+            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
+            # print(aResult)
+            if (aResult[0] == True):
+                for cook in aResult[1]:
+                    cook = cookies + cook[0] + '=' + cook[1] + ';' 
+    # ([^<]+) .+?
+
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.setRequestType(1)
+    oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666')
+    oRequestHandler.addHeaderEntry('host', 'old.akwam.to')
+    oRequestHandler.addHeaderEntry('origin', 'https://old.akwam.to')
+    oRequestHandler.addHeaderEntry('referer', sUrl)
+    sHtmlContent = oRequestHandler.request()
 
     sPattern = 'file: "(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-
 	
-    if aResult[0] is True:
+    if (aResult[0] == True):
         for aEntry in aResult[1]:
             
             sHosterUrl = aEntry
@@ -418,7 +492,7 @@ def showLinks():
                 sHosterUrl = 'http:' + sHosterUrl
              
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if (oHoster != False):
                 sDisplayTitle = sTitle
                 oHoster.setDisplayName(sDisplayTitle)
                 oHoster.setFileName(sMovieTitle)
