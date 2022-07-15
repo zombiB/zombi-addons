@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -17,7 +17,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_FAM = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
+MOVIE_FAM = ('https://www.familymoviz.net/category/movies/cutmovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
 MOVIE_AR = ('https://www.familymoviz.net/category/movies/arabicmovies/', 'showMovies')
 KID_MOVIES = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
@@ -46,10 +46,10 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام عائلية', 'crtoon.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_FAM[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عائلية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام اجنبية منقحة', 'film.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'mslsl.png', oOutputParameterHandler)   
@@ -391,7 +391,7 @@ def showHosters():
     if (sNote):
         oGui.addText(SITE_IDENTIFIER,'مده الحذف : ' + str(sNote))
    
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
+    #oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
     sNote2 = ''
     # (.+?) ([^<]+) .+?
     sPattern = '<td class="h_af">الارشاد العائلي</td><td class="h_af2">(.+?)</td>'
@@ -401,9 +401,9 @@ def showHosters():
         sNote2 = aResult[1][0]
     if (sNote2):
         oGui.addText(SITE_IDENTIFIER,'الارشاد العائلي : ' + str(sNote2))
-    oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
-
-    sPattern = 'SRC="(.+?)".+?width'
+    #oGui.addText(SITE_IDENTIFIER,'[COLOR olive]---------[/COLOR]')
+                    
+    sPattern = 'src="(.+?)".+?width'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] is True:
@@ -411,18 +411,17 @@ def showHosters():
             
             url = str(aEntry)
             if url.startswith('//'):
-                url = 'http:' + url
+                url = 'https:' + url
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
-                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setDisplayName(str(sNote2))
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
-
-    # (.+?) ([^<]+) .+?
-    sPattern = '<a class="stor2" href="(.+?)">.+?</a>'
+    
+    sPattern = 'iframe src="(.+?)".+?width'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] is True:
@@ -430,27 +429,52 @@ def showHosters():
             
             url = str(aEntry)
             if url.startswith('//'):
-                url = 'http:' + url
-
-            if 'goo.gl' in url or 'bit.ly' in url:
-                try:
-                    import requests
-                    url = url
-                    session = requests.Session()  # so connections are recycled
-                    resp = session.head(url, allow_redirects=True)
-                    url = resp.url
-                except:
-                    pass
-            if 'file-up.org' in url:
-                url = url.replace('file-up.org/','file-up.org/embed-')
-                url = url + '.html'
+                url = 'https:' + url
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
-                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setDisplayName(str(sNote2))
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
+    # SubQuality
+    sPattern = '<a class="d_q">(.+?)</a>'
+    oParser = cParser()
+    aResult2 = oParser.parse(sHtmlContent, sPattern)
+    if (aResult2[0]):
+        for aEntry in aResult2[1]:
+            sNote2 = aEntry
+           # URL
+            sPattern = '<input type="hidden" name="link" value="(.+?)".+?>'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0] is True:
+                for aEntry in aResult[1]:
+         
+                    url = str(aEntry)
+                    if url.startswith('//'):
+                        url = 'https:' + url
+
+                    if 'goo.gl' in url or 'bit.ly' in url:
+                        try:
+                            import requests
+                            url = url
+                            session = requests.Session()  # so connections are recycled
+                            resp = session.head(url, allow_redirects=True)
+                            url = resp.url
+                        except:
+                            pass
+                    if 'file-up.org' in url:
+                        url = url.replace('file-up.org/','file-up.org/embed-')
+                        url = url + '.html'
+                    
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                            
+                    if oHoster != False:
+                        oHoster.setDisplayName(str(sNote2))
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()
