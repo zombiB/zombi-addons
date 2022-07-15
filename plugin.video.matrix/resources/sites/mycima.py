@@ -310,22 +310,24 @@ def showSeasons():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult:
  
-            sTitle = aEntry[1].replace("موسم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = aEntry[1].replace("موسم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("مشاهده","").replace("برنامج","").replace("مترجمة","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج ","")
             sTitle =  " S" + sTitle
-            sTitle = sTitle.replace("S ","S")
-            sTitle = sMovieTitle+sTitle
+            sSeason = sTitle.replace("S ","S")
+            sTitle1 = sMovieTitle+sSeason
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sTitle', sTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sSeason', sSeason)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             
 
  
-            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle1, '', sThumb, sDesc, oOutputParameterHandler)
     else: 
     # (.+?) .+? ([^<]+)   
         sPattern = '<a class="hoverable activable.+?href="([^<]+)"><div class="Thumb"><span><i class="fa fa-play"></i></span></div><episodeArea><episodeTitle>([^<]+)</episodeTitle></episodeArea></a>'
@@ -377,6 +379,53 @@ def showSeasons():
 
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+ # ([^<]+) .+?
+
+    sPattern = '<div class="MoreEpisodes.+?" data-term="([^<]+)">'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0] is True:
+        oOutputParameterHandler = cOutputParameterHandler()  
+        for aEntry in aResult[1]:
+            import requests
+            s = requests.Session()            
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
+            data = aEntry
+            r1 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
+            sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
+            r2 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
+            sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
+            sHtmlContent = sHtmlContent1+sHtmlContent2
+
+	
+ # ([^<]+) .+?
+
+            sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
+
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+            if aResult[0] is True:
+                oOutputParameterHandler = cOutputParameterHandler()  
+                for aEntry in aResult[1]:
+ 
+                    siteUrl = aEntry[0].replace('"',"")
+                    sTitle = " E"+aEntry[1].replace("u0627u0644u062du0644u0642u0629","")
+                    sTitle = sTitle+sMovieTitle
+                    sThumb = sThumb
+                    sDesc = ""
+			
+
+
+                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
+ 
  
     oGui.setEndOfDirectory() 
   
@@ -386,6 +435,7 @@ def showEps():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sSeason = oInputParameterHandler.getValue('sSeason')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
@@ -405,7 +455,7 @@ def showEps():
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1].replace("الحلقة ","E")
-            sTitle = sMovieTitle+sTitle
+            sTitle = sMovieTitle+sSeason+sTitle
             siteUrl = aEntry[0]
             sThumb = sThumb
             sDesc = ""
@@ -443,6 +493,54 @@ def showEps():
 
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+ # ([^<]+) .+?
+
+    sPattern = '<div class="MoreEpisodes.+?" data-term="([^<]+)">'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0] is True:
+        oOutputParameterHandler = cOutputParameterHandler()  
+        for aEntry in aResult[1]:
+            import requests
+            s = requests.Session()            
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
+            data = aEntry
+            r1 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/30/', headers=headers)
+            sHtmlContent1 = r1.content.decode('utf8').replace("\\","")
+            r2 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/70/', headers=headers)
+            sHtmlContent2 = r2.content.decode('utf8').replace("\\","")
+            r3 = s.get('https://mycima.biz/AjaxCenter/MoreEpisodes/'+data+'/110/', headers=headers)
+            sHtmlContent3 = r3.content.decode('utf8').replace("\\","")
+            sHtmlContent = sHtmlContent1+sHtmlContent2+sHtmlContent3
+
+	
+ # ([^<]+) .+?
+
+            sPattern = 'href=([^<]+)"><div.+?<episodeTitle>([^<]+)<'
+
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+            if aResult[0] is True:
+                oOutputParameterHandler = cOutputParameterHandler()  
+                for aEntry in aResult[1]:
+ 
+                    siteUrl = aEntry[0].replace('"',"")
+                    sTitle = " E"+aEntry[1].replace("u0627u0644u062du0644u0642u0629","")
+                    sTitle = sMovieTitle+sSeason+sTitle
+                    sThumb = sThumb
+                    sDesc = ""
+			
+
+
+                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
  
        
     oGui.setEndOfDirectory() 
