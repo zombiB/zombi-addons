@@ -130,6 +130,11 @@
             "active": "True",
             "url": "https://cimanow.cc"
         },
+        "cdrama": {
+            "label": "cdrama",
+            "active": "True",
+            "url": "https://c-drama.net"
+        },
         "cimau": {
             "label": "cima4u",
             "active": "True",
@@ -248,7 +253,7 @@
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycima.moe:2096"
+            "url": "https://mycima.buzz:2096"
         },
         "nightosphere": {
             "label": "nightosphere",
