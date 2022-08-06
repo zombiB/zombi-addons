@@ -202,7 +202,7 @@ def showSeriesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("السلسلة الوثائقية","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("المسلسل الإذاعي","(المسلسل الإذاعي)").replace("مدبلج للعربية","مدبلج").replace("الجزء","الموسم")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("الانمي","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("السلسلة الوثائقية","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("المسلسل الإذاعي","(المسلسل الإذاعي)").replace("الجزء","الموسم").replace("مدبلج للعربية","مدبلج")
             siteUrl = aEntry[0]
             sDesc = ''
             sThumb = aEntry[1].replace("'background-image: url(","").replace(");'","")
@@ -347,18 +347,13 @@ def showLink():
                 sTitle = aEntry[0].split('akoam', 1)[0]
                 sTitle = sTitle.replace("."," ").replace("Ep","E").replace("Se","S").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720P","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080P","").replace("1080p","").replace("HC","").replace("Web-dl","").replace("DVD","").replace("BRRIP","").replace("BRRiP","").replace("WEB","")
                 sYear = ''
-                sEpisode = re.search('Ep(.+?).',  str(aEntry[0]))
+                sEp = str(aEntry[0]).replace("Ep","Ep").replace("EP","Ep").replace("ep","Ep")
+                sEpisode = re.search('Ep(.+?).',  sEp)
                 if sEpisode:
                    sEpisode= str(sEpisode.group(0))
-                   sEpisode= sEpisode.replace("Ep","E").replace("ep","E").replace(" ","")
+                   sEpisode= sEpisode.replace("Ep","E").replace("E ","E").replace(" E","E")
+                   sMovieTitle= sMovieTitle.replace("مدبلج","")
                    sTitle= sMovieTitle+sEpisode
-                
-                else: 
-                     sEpisode = re.search('ep(.+?).',  str(aEntry[0]))
-                     if sEpisode:
-                        sEpisode= str(sEpisode.group(0))
-                        sEpisode= sEpisode.replace("ep","E").replace(" ","")
-                        sTitle= sMovieTitle+sEpisode
                 m = re.search('([0-9]{4})', sTitle)
                 if m:
                    sYear = str(m.group(0))
@@ -369,7 +364,10 @@ def showLink():
                 oOutputParameterHandler.addParameter('siteUrl', siteUrl)
                 oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
-                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle+'('+aEntry[1]+')', sThumb, sDesc, oOutputParameterHandler)
+                if sEpisode:
+                   oGui.addEpisode(SITE_IDENTIFIER, 'showLinks', sTitle+'('+aEntry[1]+')', '', sThumb, sDesc, oOutputParameterHandler)
+                else:
+                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle+'('+aEntry[1]+')', sThumb, sDesc, oOutputParameterHandler)
     # (.+?) .+?
     sPattern = '<a href="https://akwam.+?/movie/(.+?)" target="_blank"><span style='
 

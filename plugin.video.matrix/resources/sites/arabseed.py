@@ -496,6 +496,9 @@ def showEps():
 
  
             sEp = "E"+aEntry[1].replace(" ","")
+            if "مدبلج" in sMovieTitle:
+                sMovieTitle = sMovieTitle.replace("مدبلج","")
+                sMovieTitle = "مدبلج"+sMovieTitle
             sTitle = sMovieTitle+sEp
             siteUrl = aEntry[0]
             sThumb = sThumb

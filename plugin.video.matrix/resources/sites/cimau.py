@@ -161,7 +161,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = "href='([^<]+)'>([^<]+)</a></li>"
+    sPattern = 'page-numbers" href=([^<]+)>([^<]+)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -405,7 +405,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = "href='([^<]+)'>([^<]+)</a></li>"
+    sPattern = 'page-numbers" href=([^<]+)>([^<]+)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -424,7 +424,7 @@ def showSeries(sSearch = ''):
             
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace('"',"")
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -481,8 +481,11 @@ def showEpisodes():
                for aEntry in aResult[1]:
  
                   sTitle = aEntry[2]
-                  sTitle = ' E'+sTitle
-                  sTitle = sMovieTitle+' '+sTitle
+                  sTitle = 'E'+sTitle
+                  if "مدبلج" in sMovieTitle:
+                     sMovieTitle = sMovieTitle.replace("مدبلج","")
+                     sMovieTitle = "مدبلج"+sMovieTitle
+                  sTitle = sMovieTitle+sTitle
                   sUrl = aEntry[0]
                   sThumb = sThumb
                   sDesc = ''

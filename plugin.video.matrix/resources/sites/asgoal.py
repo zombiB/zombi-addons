@@ -2,6 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+import base64
 
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -91,8 +92,6 @@ def showLive():
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-    #print aResult
    
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -103,7 +102,7 @@ def showLive():
             sDesc = ""
             import requests    
             oRequestHandler = cRequestHandler(siteUrl)
-            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','Accept-Encoding' : 'gzip','referer' : 'https://live.as-goal.tv/'}
+            hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : 'https://msdee.xyz/'}
             St=requests.Session()
             sHtmlContent = St.get(siteUrl,headers=hdr)
             sHtmlContent = sHtmlContent.content
@@ -195,13 +194,14 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry[0]
+                   VSlog(url)
                    if url.startswith('//'):
                       url = 'http:' + url
                    if 'xyz' in url:
                        oRequestHandler = cRequestHandler(url)
                        oRequestHandler.setRequestType(1)
                        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0')
-                       oRequestHandler.addHeaderEntry('referer', url)
+                       oRequestHandler.addHeaderEntry('referer', 'https://msdee.xyz/')
                        data = oRequestHandler.request();
                        sPattern =  '(http[^<]+m3u8)'
                        aResult = oParser.parse(data,sPattern)

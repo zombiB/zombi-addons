@@ -92,13 +92,13 @@ def showLive():
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1]
+            sTitle = sMovieTitle+' '+aEntry[1]
             siteUrl = aEntry[0].replace('")',"").replace('("',"")
             sDesc = "" 
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
@@ -116,6 +116,37 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
+    # (.+?) # ([^<]+) .+? 
+    sPattern = 'videosorc  ="(.+?)"; '
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0] is True:
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            sHosterUrl = url
+            sMovieTitle = sMovieTitle
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster != False:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    sPattern = "hls: '(.+?)',"
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0] is True:
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            sHosterUrl = url
+            sMovieTitle = sMovieTitle
+            
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster != False:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     
 
     sPattern = ' var servers(.+?)</script>'
