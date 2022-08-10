@@ -415,9 +415,34 @@ def showHosters():
     # (.+?) .+? ([^<]+)
                
 
+    sPattern =  '"embed_url":".+?id=(.+?)",'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
+
+	
+    if aResult[0] is True:
+       total = len(aResult[1])
+       for aEntry in aResult[1]:       
+           url = aEntry
+           if url.startswith('//'):
+              url = 'https:' + url
+				
+					
+            
+           sHosterUrl = url 
+           oHoster = cHosterGui().checkHoster(sHosterUrl)
+           if oHoster != False:
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    # (.+?) .+? ([^<]+)
+               
+
     sPattern =  '"embed_url":"(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
 
 	
     if aResult[0] is True:

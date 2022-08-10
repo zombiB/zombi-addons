@@ -90,6 +90,11 @@
             "active": "True",
             "url": "https://tv.arlionz.one"
         },
+        "asiaarabs": {
+            "label": "asia4arabs",
+            "active": "True",
+            "url": "https://www.asia4arabs.com"
+        },
         "asgoal": {
             "label": "asgoal",
             "active": "True",

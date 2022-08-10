@@ -22,13 +22,21 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 		
+        sPattern = 'sources: [{file:"(.+?)"}],'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
+        if aResult[0] is True:
+            api_call = aResult[1][0]
+		
         sPattern = 'file:"(.+?)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
         if aResult[0] is True:
             api_call = aResult[1][0]
 
         sPattern = ',{file:"(.+?)",label'
         aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
         if aResult[0] is True:
             api_call = aResult[1][0]
 

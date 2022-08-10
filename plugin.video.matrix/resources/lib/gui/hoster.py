@@ -190,6 +190,10 @@ class cHosterGui:
 
         if ('sbfull' in sHostName):
             return self.getHoster('viewsb')
+        if ('sbthe' in sHostName):
+            return self.getHoster('viewsb')
+        if ('viewsb' in sHostName):
+            return self.getHoster('viewsb')
             
         if ('megaupload.' in sHostName) or ('fansubs' in sHostName) or ('us.archive.' in sHostName) or ('ddsdd' in sHostName) or ('ffsff' in sHostName) or ('rrsrr' in sHostName)or ('fbcdn.net' in sHostName) or ('blogspot.com' in sHostName) or ('videodelivery' in sHostName) or ('bittube' in sHostName) or ('amazonaws.com' in sHostName):
             return self.getHoster('lien_direct')
