@@ -20,12 +20,12 @@ from resources.lib.util import UnquotePlus
 class UpNext:
     # Prépare le lien du prochain épisode d'une série
     def nextEpisode(self, guiElement):
-        
+
         # tester s'il s'agit d'une série
         if not guiElement.getItemValue('mediatype') == "episode":
             return
 
-        # Demander d'installer l'extension 
+        # Demander d'installer l'extension
         if not self.use_up_next():
             return
 
@@ -38,6 +38,9 @@ class UpNext:
         # La saison
         sSaison = oInputParameterHandler.getValue('sSeason')
 
+        # l'ID tmdb
+        sTmdbId = oInputParameterHandler.getValue('sTmdbId')
+
         # Calcule l'épisode suivant à partir de l'épisode courant
         sEpisode = oInputParameterHandler.getValue('sEpisode')
         if not sEpisode:
@@ -45,30 +48,39 @@ class UpNext:
             if not sEpisode:
                 return  # impossible de déterminer l'épisode courant
 
-        #tvShowTitle n'est pas toujours disponible.
+        # tvShowTitle n'est pas toujours disponible.
         tvShowTitle = guiElement.getItemValue('tvshowtitle')
         if not tvShowTitle:
-            tvShowTitle = re.search('\[\/COLOR\](.+?)\[COLOR',guiElement.getItemValue('title')).group(1)
+            tvShowTitle = re.search('\[\/COLOR\](.+?)\[COLOR', guiElement.getItemValue('title')).group(1)
 
         sMovieTitle = tvShowTitle
 
         numEpisode = int(sEpisode)
-        nextEpisode = numEpisode+1
+        nextEpisode = numEpisode + 1
         sNextEpisode = '%02d' % nextEpisode
 
         saisonUrl = oInputParameterHandler.getValue('saisonUrl')
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', saisonUrl)
         oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+        oOutputParameterHandler.addParameter('tvshowtitle', sMovieTitle)
+        oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
         sParams = oOutputParameterHandler.getParameterAsUri()
 
         sHosterIdentifier = oInputParameterHandler.getValue('sHosterIdentifier')
         nextSaisonFunc = oInputParameterHandler.getValue('nextSaisonFunc')
         sLang = oInputParameterHandler.getValue('sLang')
-        sTmdbId = oInputParameterHandler.getValue('sTmdbId')
 
         try:
+            # sauvegarde des parametres d'appel
+            oldParams = sys.argv[2] 
+            
             sHosterIdentifier, sMediaUrl, nextTitle, sDesc, sThumb = self.getMediaUrl(sSiteName, nextSaisonFunc, sParams, sSaison, nextEpisode, sLang, sHosterIdentifier)
+
+            # restauration des anciens params
+            sys.argv[2] = oldParams
+            
+            # pas d'épisode suivant
             if not sMediaUrl:
                 return
 
@@ -83,7 +95,7 @@ class UpNext:
                 nextTitle += ' (%s)' % sLang
 
             episodeTitle = nextTitle
-        
+
             saisonUrl = oInputParameterHandler.getValue('saisonUrl')
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('sHosterIdentifier', sHosterIdentifier)
@@ -170,13 +182,13 @@ class UpNext:
                 continue
 
             if sLang and 'sLang' in aParams and UnquotePlus(aParams['sLang']) != sLang:
-                continue           # La langue est connue mais ce n'est pas la bonne
+                continue           # La langue est connue, mais ce n'est pas la bonne
 
             if sSaison and 'sSeason' in aParams and aParams['sSeason'] and int(aParams['sSeason']) != int(sSaison):
-                continue           # La saison est connue mais ce n'est pas la bonne
+                continue           # La saison est connue, mais ce n'est pas la bonne
 
             if 'sEpisode' in aParams and aParams['sEpisode'] and int(aParams['sEpisode']) != iEpisode:
-                continue           # L'épisode est connue mais ce n'est pas le bon
+                continue           # L'épisode est connu, mais ce n'est pas le bon
 
             sMediaUrl = aParams['sMediaUrl'] if 'sMediaUrl' in aParams else None
             infoTag = listItem.getVideoInfoTag()
@@ -185,10 +197,10 @@ class UpNext:
                 sTitle = tagLine
             else:
                 sTitle = listItem.getLabel()
-                
+
             if not sDesc:
                 sDesc = infoTag.getPlot()
-                
+
             if not sTitle:
                 sTitle = UnquotePlus(aParams['sTitle']) if 'sTitle' in aParams else None
             if 'sHost' in aParams and aParams['sHost']:
@@ -222,7 +234,7 @@ class UpNext:
 
         return None, None, None, None, None
 
-    # Envoi des info à l'addon UpNext
+    # Envoi des infos à l'addon UpNext
     def notifyUpnext(self, data):
 
         try:

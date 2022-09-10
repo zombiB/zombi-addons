@@ -232,7 +232,6 @@ def showEpisodes():
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent1 = oRequest.request()
-        VSlog(m3url)
   # ([^<]+) .+? (.+?)
 
     sPattern = 'iframes([^<]+)=.+?width="100%" height="400" src="(.+?)" frameborder='

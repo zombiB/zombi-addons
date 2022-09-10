@@ -32,7 +32,6 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent,sPattern)
         if (aResult[0] == True):
             sHtmlContent = cPacker().unpack(aResult[1][0])
-            VSlog(sHtmlContent)
             sPattern = 'file:"(.+?)",label:".+?"}'
             aResult = oParser.parse(sHtmlContent,sPattern)
             if (aResult[0] == True):

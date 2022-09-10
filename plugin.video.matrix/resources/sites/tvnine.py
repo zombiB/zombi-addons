@@ -104,7 +104,10 @@ def showLive():
             sTitle = aEntry[1]
             siteUrl = aEntry[0]
             oRequestHandler = cRequestHandler(siteUrl)
+            oRequestHandler.addHeaderEntry('Referer', sUrl)
+            oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
             data = oRequestHandler.request()
+
             oParser = cParser()
     # (.+?) # ([^<]+) .+? 
             sPattern = 'source: "(.+?)",'
@@ -116,10 +119,25 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1]
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl
+                   sHosterUrl = url+ '|User-Agent=Android'+ '&Referer='+url
                    sMovieTitle = sTitle
-            
-
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster != False:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+    # (.+?) # ([^<]+) .+? 
+            sPattern = 'hls: "(.+?)"'
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0] is True:
+               for aEntry in aResult[1]:
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url 
+                   if '?src=' in url:
+                      url = url.split('?src=')[1]
+                   sHosterUrl = url+ '|User-Agent=Android'+ '&Referer='+url
+                   sMovieTitle = sTitle
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
@@ -136,7 +154,7 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl
+                   sHosterUrl = url+ '|User-Agent=Android'+ '&Referer='+url
                    sMovieTitle = sTitle
             
 
@@ -169,7 +187,7 @@ def showLive():
                                  url = 'https:' + url
                               if '?src=' in url:
                                  url = url.split('?src=')[1] 
-                              sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl 
+                              sHosterUrl = url+ '|User-Agent=Android'+ '&Referer='+url 
                               sMovieTitle = sTitle
             
 
@@ -189,6 +207,25 @@ def showLive():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)  
     # (.+?) # ([^<]+) .+? 
+            sPattern = 'hls: "(.+?)"'
+				
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0] is True:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   if url.startswith('//'):
+                      url = 'https:' + url
+                   if '?src=' in url:
+                      url = url.split('?src=')[1] 
+                   sHosterUrl = url+ '|User-Agent=Android'+ '&Referer='+url  
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster != False:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
             sPattern = "hls: '(.+?)'"
             aResult = oParser.parse(data, sPattern)
             if aResult[0] is True:
@@ -199,7 +236,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android'+ '&Referer='+sHosterUrl  
+                   sHosterUrl = url+ '|User-Agent=Android'+ '&Referer='+url  
                    sMovieTitle = sTitle
             
 
@@ -219,7 +256,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=Android' + '&Referer='+sHosterUrl
+                   sHosterUrl = url+ '|User-Agent=Android' + '&Referer='+url
                    sMovieTitle = sTitle
             
 
@@ -240,7 +277,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = sHosterUrl+ '|User-Agent=' + UA + '&Referer='+sHosterUrl
+                   sHosterUrl = url+ '|User-Agent=' + UA + '&Referer='+url
                    sMovieTitle = sTitle
             
 

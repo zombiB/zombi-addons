@@ -24,7 +24,6 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('Referer', 'https://cima-club.io/')
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
-        VSlog(sHtmlContent)  
         oParser = cParser()
 
        # (.+?) .+? ([^<]+)

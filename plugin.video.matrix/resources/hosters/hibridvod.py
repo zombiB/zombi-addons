@@ -32,7 +32,6 @@ class cHoster(iHoster):
         s = requests.Session()
         r = s.get(self._url, headers = headers)
         sHtmlContent = r.content.decode('utf8')
-        VSlog(sHtmlContent)
         oParser = cParser()
 
         list_q = []
@@ -43,7 +42,6 @@ class cHoster(iHoster):
         	url2 = aResult[1][0]
         	r = s.get(url2, headers = headers)
         	sHtmlContent2 = r.content.decode('utf8')
-        	VSlog(sHtmlContent2)
         	sPattern = ',RESOLUTION=(.+?),LANGUAGE="eng"(.+?)#EXT'
         	aResult = oParser.parse(sHtmlContent2, sPattern)
         	for aEntry in aResult[1]:

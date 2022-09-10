@@ -8,7 +8,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, siteManager
+from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'beinmatch'
@@ -108,6 +108,23 @@ def showLive():
         for aEntry in aResult[1]:
             
             url = aEntry
+            if '.php' in url:           
+                oRequestHandler = cRequestHandler(url)
+                sHtmlContent = oRequestHandler.request() 
+                sPattern =  'src="(.+?)"'
+                aResult = oParser.parse(sHtmlContent,sPattern)
+                if aResult[0] is True:
+                     url = aResult[1][0]
+ 
+                     sHosterUrl = url
+                     sMovieTitle = sMovieTitle
+            
+
+                     oHoster = cHosterGui().checkHoster(sHosterUrl)
+                     if oHoster != False:
+                               oHoster.setDisplayName(sMovieTitle)
+                               oHoster.setFileName(sMovieTitle)
+                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
             sHosterUrl = url
             sMovieTitle = sMovieTitle
             

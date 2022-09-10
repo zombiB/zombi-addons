@@ -72,7 +72,7 @@ class cHome:
         oGui.addDir('cFav', 'getBookmarks', self.addons.VSlang(30207), 'mark.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-        oGui.addDir('cViewing', 'getViewing', self.addons.VSlang(30125), 'continue.png', oOutputParameterHandler)
+        oGui.addDir('cViewing', 'showMenu', self.addons.VSlang(30125), 'continue.png', oOutputParameterHandler)
 		
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oGui.addDir(SITE_IDENTIFIER, 'showUsers', self.addons.VSlang(30455), 'user.png', oOutputParameterHandler)
@@ -115,7 +115,6 @@ class cHome:
         oGui = cGui()
         oGui.addText('globalSearch', self.addons.VSlang(30077) % searchtext, 'none.png')
 
-        # utilisation de guielement pour ajouter la bonne catégorie
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName('globalSearch')
         oGuiElement.setFunction('showSearch')
@@ -367,7 +366,7 @@ class cHome:
         oGui.addDir('cTrakt', 'getLoad', self.addons.VSlang(30214), 'trakt.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://')
-        oGui.addDir('siteuptobox', 'load', self.addons.VSlang(30325), 'sites/siteuptobox.png', oOutputParameterHandler)
+        oGui.addDir('siteuptobox', 'load', 'Uptobox', 'sites/siteuptobox.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://')
         oGui.addDir('siteonefichier', 'load', self.addons.VSlang(30327), 'sites/siteonefichier.png', oOutputParameterHandler)

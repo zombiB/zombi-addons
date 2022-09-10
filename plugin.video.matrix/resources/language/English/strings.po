@@ -532,6 +532,10 @@ msgctxt "#30125"
 msgid "Continue watching"
 msgstr ""
 
+msgctxt "#30126"
+msgid "All categories"
+msgstr ""
+
 msgctxt "#30127"
 msgid "Tools"
 msgstr ""
@@ -745,7 +749,7 @@ msgid "Library"
 msgstr ""
 
 msgctxt "#30325"
-msgid "UpToBox"
+msgid "Add to UpToBox"
 msgstr ""
 
 msgctxt "#30326"
@@ -866,6 +870,22 @@ msgstr ""
 
 msgctxt "#30360"
 msgid "My personnal Trakt lists"
+msgstr ""
+
+msgctxt "#31210"
+msgid "Add to new list"
+msgstr ""
+
+msgctxt "#31211"
+msgid "Add to existing list"
+msgstr ""
+
+msgctxt "#31212"
+msgid "Select a list"
+msgstr ""
+
+msgctxt "#30361"
+msgid "Activate scrobbling"
 msgstr ""
 
 msgctxt "#30400"

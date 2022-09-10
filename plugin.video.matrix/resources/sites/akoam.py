@@ -403,71 +403,6 @@ def showLinks():
     sThumb = oInputParameterHandler.getValue('sThumb')
     # ([^<]+) .+?
 
- 
-
-    UA = 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666'
-
-    headers = {"User-Agent": UA}
-
-    req = urllib2.Request(sUrl, None, headers)
-
-    try:
-            response = urllib2.urlopen(req)
-    except UrlError as e:
-            print(e.read())
-            print(e.reason)
-
-    data = response.read()
-    head = response.headers
-    response.close()
-
-    # get cookie
-    cookies = ''
-    if 'Set-Cookie' in head:
-            oParser = cParser()
-            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
-            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
-            # print(aResult)
-            if (aResult[0] == True):
-                for cook in aResult[1]:
-                    cookies = cook[1] 
-                    cookies = Unquote(cookies)
-
-    sPattern = ',"route":"([^"]+)",'
-    oParser = cParser()
-    aResult = oParser.parse(cookies, sPattern)
-
-    sUrl = aResult[1][0].replace('download','watching')
- 
-
-    UA = 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666'
-
-    headers = {"User-Agent": UA}
-
-    req = urllib2.Request(sUrl, None, headers)
-
-    try:
-            response = urllib2.urlopen(req)
-    except UrlError as e:
-            print(e.read())
-            print(e.reason)
-
-    data = response.read()
-    head = response.headers
-    response.close()
-
-    # get cookie
-    cookies = ''
-    if 'Set-Cookie' in head:
-            oParser = cParser()
-            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
-            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
-            # print(aResult)
-            if (aResult[0] == True):
-                for cook in aResult[1]:
-                    cook = cookies + cook[0] + '=' + cook[1] + ';' 
-    # ([^<]+) .+?
-
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666')
@@ -476,12 +411,19 @@ def showLinks():
     oRequestHandler.addHeaderEntry('referer', sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = 'file: "(.+?)",'
+    sPattern = 'href="([^<]+)">بالضغط هنا</a></span>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
     if (aResult[0] == True):
+        url = aResult[1][0].replace('downloadalt','watching').replace('download','watching')   
+        oRequestHandler = cRequestHandler(url)
+        sHtmlContent = oRequestHandler.request() 
+        sPattern =  'file: "(.+?)",'
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0] is True:
+           url = aResult[1][0]
         for aEntry in aResult[1]:
             
             sHosterUrl = aEntry

@@ -124,8 +124,8 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
 
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?style="background-image:url([^<]+);"></div>.+?</div></div>([^<]+)</div>'
-
+    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?data-bg="([^<]+)" style.+?</div></div>([^<]+)</div>'
+		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -141,7 +141,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1].replace("(","").replace(")","")
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -374,7 +374,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
       # (.+?) ([^<]+) .+?
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?style="background-image:url([^<]+);"></div>.+?</div></div>([^<]+)</div>'
+    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?data-bg="([^<]+)" style.+?</div></div>([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

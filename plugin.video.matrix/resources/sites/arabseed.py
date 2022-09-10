@@ -550,7 +550,7 @@ def showHosters():
 
     # (.+?) .+? ([^<]+)
                
-    sPattern = 'fa-play"></i> <span>(.+?)</span>.+?<iframe.+?src="(.+?)"'
+    sPattern = 'data-post="(.+?)" data-server="(.+?)" data-qu="(.+?)" class'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent2, sPattern)
 
@@ -558,59 +558,39 @@ def showHosters():
 	
     if aResult[0] is True:
         for aEntry in aResult[1]:
-        
-            url = aEntry[1]
-            sTitle = aEntry[0] .replace('"',"")
+            import requests
+            s = requests.Session()            
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+            data = {'post_id':aEntry[0],'server':aEntry[1],'qu':aEntry[2]}
+            r = s.post(URL_MAIN +'/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php', headers=headers,data = data)
+            sHtmlContent = r.content.decode('utf8',errors='ignore')
+            sTitle = aEntry[2]
             sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-            if url.startswith('//'):
-               url = 'https:' + url
-				
-					
-            
-            sHosterUrl = url
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
-               oHoster.setDisplayName(sTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-            
-    sPattern =  '<a href="([^<]+)" class="downloadBTn">' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
-        m3url = aResult[1][0] 
-        oRequest = cRequestHandler(m3url)
-        sHtmlContent = oRequest.request()
-
-
-    # (.+?) .+? ([^<]+)
-               
-
-    sPattern = 'rel="nofollow" href="(.+?)" class="download.+?</span><p>(.+?)</p></a>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
+   
+            sPattern = 'src="(.+?)"'
+            oParser = cParser()
+            aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
-        for aEntry in aResult[1]:
+            if aResult[0] is True:
+               for aEntry in aResult[1]:
         
-            url = aEntry[0]
-            sTitle = aEntry[1].replace('"',"")
-            sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-            if url.startswith('//'):
-               url = 'https:' + url
-				
-					
-            
-            sHosterUrl = url
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
-               oHoster.setDisplayName(sTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-                
+                   url = str(aEntry)
+                   sThumb = sThumb
+                   if url.startswith('//'):
+                      url = 'http:' + url
+								            
+                   sHosterUrl = url
+                   if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'moshahda' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'mystream' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster != False:
+                      sDisplayTitle = sTitle
+                      oHoster.setDisplayName(sDisplayTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     oGui.setEndOfDirectory()

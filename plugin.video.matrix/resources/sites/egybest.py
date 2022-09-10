@@ -575,7 +575,6 @@ def showEpisodes():
     sPattern = 'class="ep_title"><a href="([^<]+)"><span class="ep_num">([^<]+)</span>([^<]+)</a></td>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 	
 	
     if aResult[0] is True:

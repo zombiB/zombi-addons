@@ -442,7 +442,6 @@ def showHosters():
 # ([^<]+) .+? (.+?)
     sPattern =  '<a href="([^<]+)" class="link-btn' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    VSlog(aResult)
     if aResult[0] is True:
         murl =  aResult[1][0]
         oRequest = cRequestHandler(murl)
@@ -451,7 +450,6 @@ def showHosters():
 # ([^<]+) .+? (.+?)
     sPattern =  '>Click here</span> to go for your link...</a>.+?<a href="(.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    VSlog(aResult)
     if aResult[0] is True:
         murl =  aResult[1][0]
         oRequest = cRequestHandler(murl)

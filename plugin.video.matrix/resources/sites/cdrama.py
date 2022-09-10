@@ -79,7 +79,6 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    VSlog(sHtmlContent)
  # ([^<]+) .+?
 
     sPattern = '<img src="([^<]+)" class=.+?<a href="([^<]+)">([^<]+)</a></h3>'
@@ -137,7 +136,6 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    VSlog(sHtmlContent)
  # ([^<]+) .+?
 
     sPattern = "<img src='(.+?)' class.+?alt='(.+?)'.+?href='([^<]+)'>"

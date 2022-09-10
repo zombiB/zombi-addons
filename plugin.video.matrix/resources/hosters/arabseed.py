@@ -18,8 +18,6 @@ class cHoster(iHoster):
 
     def setUrl(self, sUrl):
         self._url = str(sUrl)
-        if 'embed' in sUrl:
-            self._url = self._url.replace("embed-","")
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
@@ -28,6 +26,14 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         oParser = cParser()
+            # (.+?) .+?
+        sPattern = '<source src="(.+?)" type="video/mp4"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        api_call = False
+
+        if aResult[0] is True:
+            api_call = aResult[1][0]+ '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=https://m.seeeed.xyz' 
     
         sId = ''
 

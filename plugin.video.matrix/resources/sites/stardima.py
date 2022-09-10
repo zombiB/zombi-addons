@@ -418,7 +418,6 @@ def showHosters():
     sPattern =  '"embed_url":".+?id=(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if aResult[0] is True:
@@ -442,7 +441,6 @@ def showHosters():
     sPattern =  '"embed_url":"(.+?)",'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if aResult[0] is True:

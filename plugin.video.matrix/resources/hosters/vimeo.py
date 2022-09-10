@@ -29,6 +29,8 @@ class cHoster(iHoster):
         web_url = 'https://player.vimeo.com/video/' + sId
 
         oRequest = cRequestHandler(web_url)
+        oRequest.addHeaderEntry('Referer', "https://live.tv96.cc/")
+        oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
         sHtmlContent = oRequest.request()
         sPattern =  ',"url":"(.+?)",.+?"quality":"(.+?)",'
         oParser = cParser()

@@ -151,7 +151,8 @@ class empty:
     def VSclose(self, dialog):
         pass
 
-
+    def getProgress(self):
+        return 100  # simuler la fin de la progression
 # Basé sur UrlResolver
 class CountdownDialog(object):
     __INTERVALS = 5
@@ -479,6 +480,12 @@ class siteManager:
             self.data = json.load(open(self.propertiesPath))
             
 
+    # sites désactivé par la team
+    def isEnable(self, sourceName):
+        return self.getDefaultProperty(sourceName, self.ACTIVE) == 'True'
+
+    
+    # sites désactivé par l'utilisateur
     def isActive(self, sourceName):
         return self.getProperty(sourceName, self.ACTIVE) == 'True'
     
@@ -557,11 +564,11 @@ class siteManager:
             self.defaultData = json.load(open(self.defaultPath))
 
         # Retrouver la prop par défaut
-        sourceData = self.defaultData[self.SITES].get(sourceName) if self.SITES in self.defaultData else None
+        sourceData = self.defaultData[self.SITES].get(sourceName) if self.defaultData and self.SITES in self.defaultData else None
         
         # pas de valeurs par défaut, on en crée à la volée
         if not sourceData:
-            sourceData = {self.ACTIVE : 'False', self.LABEL : sourceName, self.URL_MAIN : sourceName}
+            return {}
 
         return sourceData
     
@@ -584,7 +591,7 @@ class addonManager:
 
     # Vérifie la présence d'un addon
     def isAddonExists(self, addon_id):
-        return xbmc.getCondVisibility('System.HasAddon(%s)' % addon_id) == 0
+        return not xbmc.getCondVisibility('System.HasAddon(%s)' % addon_id) == 0
 
     # Active/desactive un addon
     def enableAddon(self, addon_id, enable='True'):

@@ -73,7 +73,7 @@
         "arabseed": {
             "label": "arabseed",
             "active": "True",
-            "url": "https://m.arabseed.ink"
+            "url": "https://m.arabseed.sbs"
         },
         "aracinema_co": {
             "label": "aramosalsal",
@@ -88,7 +88,7 @@
         "arblionz": {
             "label": "arblionz",
             "active": "True",
-            "url": "https://tv.arlionz.one"
+            "url": "https://w.arlionz.vip"
         },
         "asiaarabs": {
             "label": "asia4arabs",
@@ -238,12 +238,7 @@
         "kingfoot": {
             "label": "kingfoot",
             "active": "True",
-            "url": "https://hd.king-shoot.tv"
-        },
-        "kora": {
-            "label": "kora",
-            "active": "True",
-            "url": "https://www.s-kora.com"
+            "url": "https://king-shoot.tv/"
         },
         "lodynet": {
             "label": "lodynet",
@@ -333,7 +328,7 @@
         "tuktukcinema": {
             "label": "tuktukcinema",
             "active": "True",
-            "url": "https://tuktukcinema.co"
+            "url": "https://w.tuktukcinema.net"
         },
         "toonsland": {
             "label": "toonsland",
@@ -343,7 +338,7 @@
         "tvfun": {
             "label": "tvfun",
             "active": "True",
-            "url": "https://a.tvfun.me"
+            "url": "https://m.tvfun.me"
         },
         "tvnine": {
             "label": "tv96",

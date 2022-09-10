@@ -528,6 +528,10 @@ msgctxt "#30125"
 msgid "Continue watching"
 msgstr "En cours de visionnage"
 
+msgctxt "#30126"
+msgid "All categories"
+msgstr "Toutes les catégories"
+
 msgctxt "#30127"
 msgid "Tools"
 msgstr "Outils"
@@ -741,8 +745,8 @@ msgid "Library"
 msgstr "Librairie"
 
 msgctxt "#30325"
-msgid "UpToBox"
-msgstr "UpToBox"
+msgid "Add to UpToBox"
+msgstr "Ajouter sur Uptobox"
 
 msgctxt "#30326"
 msgid "Download and Play"
@@ -863,6 +867,22 @@ msgstr "Afficher les séries les plus vues du mois"
 msgctxt "#30360"
 msgid "My personnal Trakt lists"
 msgstr "Listes personnelles Trakt"
+
+msgctxt "#30361"
+msgid "Activate scrobbling"
+msgstr "Activer le suivi de lecture"
+
+msgctxt "#31210"
+msgid "Add to new list"
+msgstr "Add to new list"
+
+msgctxt "#31211"
+msgid "Add to existing list"
+msgstr "Add to existing list"
+
+msgctxt "#31212"
+msgid "Select a list"
+msgstr "Select a list"
 
 msgctxt "#30400"
 msgid "Premium/Login"

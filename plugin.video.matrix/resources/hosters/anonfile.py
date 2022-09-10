@@ -106,7 +106,6 @@ class cHoster(iHoster):
                 return True, api_call + '&Referer=' + self._url
         sPattern = 'src: "(.+?)", type: "application/x-mpegURL'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
         
         api_call = False
 

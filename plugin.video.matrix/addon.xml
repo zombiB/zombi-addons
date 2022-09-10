@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.matrix" name="matrix" version="5.2.3" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="5.2.4" provider-name="zombi">
     <requires>
 
         <trycatch>
@@ -28,15 +28,15 @@
     <extension point="kodi.context.item">
         <menu id="kodi.core.main">
             <item library="resources/lib/gui/menuInformation.py">
-		        <label>$ADDON[plugin.video.matrix 30208]</label>
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 30208][/COLOR]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
             </item>
             <item library="resources/lib/gui/menuAddBookmark.py">
-		        <label>$ADDON[plugin.video.matrix 30210]</label>
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 30210][/COLOR]</label>
 				<visible>Window.IsVisible(home) + !ListItem.Property(isBookmark) + ListItem.Property(sMeta)</visible>
             </item>
             <item library="resources/lib/gui/menuSimil.py">
-		        <label>$ADDON[plugin.video.matrix 30213]</label>
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 30213][/COLOR]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
             </item>
             <item library="resources/lib/gui/menuDelBookmark.py">

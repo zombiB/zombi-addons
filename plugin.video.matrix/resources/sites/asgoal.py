@@ -194,7 +194,6 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry[0]
-                   VSlog(url)
                    if url.startswith('//'):
                       url = 'http:' + url
                    if 'xyz' in url:

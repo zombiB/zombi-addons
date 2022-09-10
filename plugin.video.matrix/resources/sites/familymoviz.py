@@ -88,7 +88,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><noscript><img.+?src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<a'
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><noscript><img.+?src="([^<]+)" class.+?<h2>(.+?)</h2></a>.+?<p class="exp-news">([^<]+)<a'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

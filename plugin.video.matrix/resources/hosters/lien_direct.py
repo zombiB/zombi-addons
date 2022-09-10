@@ -41,6 +41,9 @@ class cHoster(iHoster):
             api_call = api_call + '|AUTH=TLS&verifypeer=false'  
         if 'panet' in api_call:
             api_call = api_call + '|AUTH=TLS&verifypeer=false' 
+        if 'scorarab' in api_call:
+            UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36'
+            api_call = api_call + '|&User-Agent=' + UA + '&Referer=' + 'https://live.scorarab.com/'
         if 'beintube' in api_call:
             UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36'
             api_call = api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + 'https://beinmatch.best/'

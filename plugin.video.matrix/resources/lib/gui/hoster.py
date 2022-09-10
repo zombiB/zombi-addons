@@ -116,14 +116,14 @@ class cHosterGui:
             accept = ['uptobox', 'uptostream', '1fichier', 'uploaded', 'uplea']
             for i in accept:
                 if host == i:
-                    oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteuptobox', 'siteuptobox', 'UptomyAccount', self.ADDON.VSlang(30325))
+                    oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteuptobox', 'siteuptobox', 'upToMyAccount', self.ADDON.VSlang(30325))
 
         # onefichier
         if cInputParameterHandler().getValue('site') != 'siteonefichier' and self.ADDON.getSetting('hoster_onefichier_premium') == 'true':
             host = oHoster.getPluginIdentifier()
             accept = '1fichier'  # les autres ne fonctionnent pas
             if host == accept:
-                oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteonefichier', 'siteonefichier', 'UptomyAccount', '1fichier')
+                oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteonefichier', 'siteonefichier', 'upToMyAccount', '1fichier')
 
         # context Library menu
         oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'cLibrary', 'cLibrary', 'setLibrary', self.ADDON.VSlang(30324))
@@ -280,6 +280,9 @@ class cHosterGui:
             return self.getHoster('skyvid')
             
         if ('seeeed' in sHostName):
+            return self.getHoster('arabseed')
+            
+        if ('reviewtech' in sHostName):
             return self.getHoster('arabseed')
             
         if ('4shared' in sHostName):
@@ -478,7 +481,7 @@ class cHosterGui:
             oHoster.setUrl(sMediaUrl)
             aLink = oHoster.getMediaLink()
 
-            if aLink[0] or aLink[1]:  # Le hoster ne sait pas résoudre mais a retourné une autre url
+            if aLink and (aLink[0] or aLink[1]):  # Le hoster ne sait pas résoudre mais a retourné une autre url
                 if not aLink[0]:  # Voir exemple avec allDebrid qui : return False, URL
                     oHoster = self.checkHoster(aLink[1], debrid=False)
                     if oHoster:

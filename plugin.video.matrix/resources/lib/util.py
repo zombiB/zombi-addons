@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
-from resources.lib.comaddon import xbmc, isMatrix
+from resources.lib.comaddon import isMatrix
 
 try:
     import htmlentitydefs
@@ -61,10 +61,10 @@ class cUtil:
         iSeconds = int(iSeconds)
         iMinutes = int(iSeconds / 60)
         iSeconds = iSeconds - (iMinutes * 60)
-        if (iSeconds < 10):
+        if iSeconds < 10:
             iSeconds = '0' + str(iSeconds)
 
-        if (iMinutes < 10):
+        if iMinutes < 10:
             iMinutes = '0' + str(iMinutes)
 
         return str(iMinutes) + ':' + str(iSeconds)
