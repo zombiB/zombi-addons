@@ -19,7 +19,6 @@
 """Unpacker for Dean Edward's p.a.c.k.e.r"""
 
 import re
-import sys
 
 from resources.lib.util import Unquote
 
@@ -52,11 +51,7 @@ class cPacker():
             word = match.group(0)
             return symtab[unbase(word)] or word
 
-        payload = payload.replace("\\\\", "\\").replace("\\'", "'")
-        if sys.version_info.major == 2:
-            source = re.sub(r'\b\w+\b', lookup, payload)    
-        else:
-            source = re.sub(r'\b\w+\b', lookup, payload, flags=re.ASCII)
+        source = re.sub(r'\b\w+\b', lookup, payload)
         return self._replacestrings(source)
 
     def _cleanstr(self, str):
@@ -87,7 +82,7 @@ class cPacker():
     def _filterargs(self, source):
         """Juice from a source file the four args needed by decoder."""
 
-        source = source.replace(',[],',',0,')
+        source = source.replace(',[],',',0,').replace("\\'", "'")
 
         juicer = (r"}\s*\(\s*(.*?)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*\((.*?)\).split\((.*?)\)")
         args = re.search(juicer, source, re.DOTALL)
@@ -99,6 +94,7 @@ class cPacker():
                 raise UnpackingError('Corrupted p.a.c.k.e.r. data.')
 
         juicer = (r"}\('(.*)', *(\d+), *(\d+), *'(.*)'\.split\('(.*?)'\)")
+#        juicer = (r"}\(\\'(.*)', *(\d+), *(\d+), *\\'(.*)'\.split\(\\'(.*?)\\'\)")
         args = re.search(juicer, source, re.DOTALL)
         if args:
             a = args.groups()

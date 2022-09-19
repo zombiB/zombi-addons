@@ -37,8 +37,8 @@ class cGui:
     searchResults = {}
     searchResultsSemaphore = threading.Semaphore()
 
-    if isKrypton():
-        CONTENT = 'addons'
+    # if isKrypton():
+    #     CONTENT = 'addons'
 
     def getEpisodeListing(self):
         return self.episodeListing
@@ -80,13 +80,14 @@ class cGui:
             oGuiElement.setMeta(sMeta)
 
         # Si pas d'id TMDB pour un episode, on recupère le précédent qui vient de la série
-        # if Type == 'episodes':
-        if not oOutputParameterHandler.getValue('sTmdbId'):
-            oInputParameterHandler = cInputParameterHandler()
-            sTmdbID = oInputParameterHandler.getValue('sTmdbId')
-            if sTmdbID:
-                oOutputParameterHandler.addParameter('sTmdbId', sTmdbID)
 
+        if sCat and not oOutputParameterHandler.getValue('sTmdbId'):
+            oInputParameterHandler = cInputParameterHandler()
+            sPreviousMeta = int(oInputParameterHandler.getValue('sMeta'))
+            if sPreviousMeta > 0 and sPreviousMeta < 7:
+                sTmdbID = oInputParameterHandler.getValue('sTmdbId')
+                if sTmdbID:
+                    oOutputParameterHandler.addParameter('sTmdbId', sTmdbID)
         oOutputParameterHandler.addParameter('sFav', sFunction)
 
         resumeTime = oOutputParameterHandler.getValue('ResumeTime')
@@ -109,6 +110,7 @@ class cGui:
             return self.addFolder(oGuiElement, oOutputParameterHandler)
         except Exception as error:
             VSlog("addNewDir error: " + str(error))
+
     
     #    Categorie       Meta          sCat     CONTENT
     #    Film            1             1        movies
@@ -220,7 +222,7 @@ class cGui:
     def addNetwork(self, sId, sFunction, sLabel, sIcon, oOutputParameterHandler=''):
         sThumbnail = ''
         sDesc = ''
-        return self.addNewDir('files', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 8, None)
+        return self.addNewDir('', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 8, None)
 
     def addNext(self, sId, sFunction, sLabel, oOutputParameterHandler):
         oGuiElement = cGuiElement()

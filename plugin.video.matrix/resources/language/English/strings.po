@@ -284,10 +284,6 @@ msgctxt "#30069"
 msgid "Unless you have a premium link generator,[CR] checking this box will bring you more problems than advantages."
 msgstr ""
 
-msgctxt "#30070"
-msgid "Choose your sources click OK[CR]- To validate the modifications click again on OK"
-msgstr ""
-
 msgctxt "#30071"
 msgid "Updated list"
 msgstr ""
@@ -357,7 +353,7 @@ msgid "Clear Cache matrix, Error"
 msgstr ""
 
 msgctxt "#30088"
-msgid "Visual search"
+msgid "TMDB"
 msgstr ""
 
 msgctxt "#30089"
@@ -668,6 +664,29 @@ msgctxt "#30223"
 msgid "Rename"
 msgstr ""
 
+msgctxt "#30224"
+msgid "Downloads"
+msgstr ""
+
+msgctxt "#30225"
+msgid "Records"
+msgstr ""
+
+msgctxt "#30226"
+msgid "Records"
+msgstr ""
+
+msgctxt "#30227"
+msgid "Open settings"
+msgstr ""
+
+msgctxt "#30228"
+msgid "Request registered"
+msgstr ""
+
+msgctxt "#30229"
+msgid "My downloads"
+msgstr ""
 msgctxt "#30300"
 msgid "Library"
 msgstr ""

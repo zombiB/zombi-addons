@@ -357,8 +357,8 @@ msgid "Clear Cache matrix, Error"
 msgstr "مسح  ذاكرة التخزين المؤقت ، خطأ"
 
 msgctxt "#30088"
-msgid "Visual search"
-msgstr "البحث المرئي"
+msgid "TMDB"
+msgstr "TMDB"
 
 msgctxt "#30089"
 msgid "Clear matrix Cache, Successful"
@@ -1226,6 +1226,30 @@ msgstr "Sites restants : %s"
 msgctxt "#31209"
 msgid "Results: %s"
 msgstr "Résultats : [COLOR deepskyblue]%s[/COLOR]"
+
+msgctxt "#30224"
+msgid "Downloads"
+msgstr "Téléchargements"
+
+msgctxt "#30225"
+msgid "Records"
+msgstr "Enregistrements TV"
+
+msgctxt "#30226"
+msgid "Records"
+msgstr "Enregistrement du direct"
+
+msgctxt "#30227"
+msgid "Open settings"
+msgstr "Ouvrir les paramètres"
+
+msgctxt "#30228"
+msgid "Request registered"
+msgstr "Demande enregistrée"
+
+msgctxt "#30229"
+msgid "My downloads"
+msgstr "Mes téléchargements"
 
 msgctxt "#30140"
 msgid "Loading"

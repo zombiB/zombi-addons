@@ -29,7 +29,6 @@ SERIE_GENRES = (True, 'showGenres')
 
 RAMADAN_SERIES = ('http://www.panet.co.il/mosalsalat/category/85/1', 'showSeries')
 REPLAYTV_NEWS = ('https://www.panet.co.il/mosalsalat/category/27/1', 'showSeries')
-NETS_NEWS = ('https://www.panet.co.il/mosalsalat/category/2/1', 'showEps')
 KID_CARTOON = ('http://www.panet.co.il/mosalsalat/category/15/1', 'showSeries')
 URL_SEARCH = ('http://www.panet.co.il/search/result/', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'

@@ -284,10 +284,6 @@ msgctxt "#30069"
 msgid "Unless you have a premium link generator,[CR] checking this box will bring you more problems than advantages."
 msgstr "A moins d'avoir un débrideur,[CR] cocher cette case vous apportera plus de problèmes que d'avantages."
 
-msgctxt "#30070"
-msgid "Choose your sources click OK[CR]- To validate the modifications click again on OK"
-msgstr "Choisissez vos sources et valider avec OK[CR]Confirmer les modifications en validant ici sur OK"
-
 msgctxt "#30071"
 msgid "Updated list"
 msgstr "Liste mise à jour"
@@ -357,8 +353,8 @@ msgid "Clear Cache matrix, Error"
 msgstr "Nettoyage du cache matrix, Erreur"
 
 msgctxt "#30088"
-msgid "Visual search"
-msgstr "Recherche visuelle"
+msgid "TMDB"
+msgstr "TMDB"
 
 msgctxt "#30089"
 msgid "Clear matrix Cache, Successful"
@@ -664,6 +660,29 @@ msgctxt "#30223"
 msgid "Rename"
 msgstr "Renommer"
 
+msgctxt "#30224"
+msgid "Downloads"
+msgstr "Téléchargements"
+
+msgctxt "#30225"
+msgid "Records"
+msgstr "Enregistrements TV"
+
+msgctxt "#30226"
+msgid "Records"
+msgstr "Enregistrement du direct"
+
+msgctxt "#30227"
+msgid "Open settings"
+msgstr "Ouvrir les paramètres"
+
+msgctxt "#30228"
+msgid "Request registered"
+msgstr "Demande enregistrée"
+
+msgctxt "#30229"
+msgid "My downloads"
+msgstr "Mes téléchargements"
 msgctxt "#30300"
 msgid "Library"
 msgstr "Librairie"

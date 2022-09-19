@@ -25,6 +25,8 @@ class cUpdate:
             sUrl = 'https://raw.githubusercontent.com/zombiB/zombi-addons/master/plugin.video.matrix/resources/sites.json'
             oRequestHandler = cRequestHandler(sUrl)
             properties = oRequestHandler.request(jsonDecode=True)
+            if properties == "":
+                return
             siteManager().setDefaultProps(properties)
 
             addons.setSetting('setting_time', str(time_now))

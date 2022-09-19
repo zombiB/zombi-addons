@@ -89,7 +89,6 @@ class cPluginHandler:
                         sSiteName = aPlugin[0]
                         item = self.__createAvailablePluginsItem("", sSiteName, sFileName, sSiteDesc)
 
-
                     aPlugins.append(item)
 
         return aPlugins

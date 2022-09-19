@@ -264,6 +264,10 @@ class cGuiElement:
                     sTitle = sTitle.replace(m.group(0), '')
                     sa = m.group(3)
 
+        # enleve les crochets et les parentheses si elles sont vides
+        if sa or ep:
+            sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
+
         if sa:
             self.__Season = sa
             self.addItemValues('Season', self.__Season)
@@ -317,7 +321,8 @@ class cGuiElement:
         self.__sCleanTitle = re.sub('\[.*\]|\(.*\)', '', sTitle)
         if not self.__sCleanTitle:
             self.__sCleanTitle = re.sub('\[.+?\]|\(.+?\)', '', sTitle)
-
+            if not self.__sCleanTitle:
+                self.__sCleanTitle = sTitle.replace('[', '').replace(']', '').replace('(', '').replace(')', '')
         if isMatrix():
             # Python 3 decode sTitle
             try:

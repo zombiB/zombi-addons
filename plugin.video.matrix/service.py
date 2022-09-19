@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# https://github.com/zombiB/zombi-addons
+# https://github.com/Kodi-vStream/venom-xbmc-addons
 
 # Import enregistrement
 import subprocess
@@ -29,13 +29,19 @@ def service():
     if recordIsActivate == 'false':
         return
 
+    # les flux TV ne permettent plus d'être enregistrés
+    return
+
     pathRecording = 'special://userdata/addon_data/plugin.video.matrix/Enregistrement'
+#    pathRecording = ADDON.getSetting('path_enregistrement_programmation')
     path = ''.join([pathRecording])
     if not xbmcvfs.exists(path):
         xbmcvfs.mkdir(path)
 
+
+    # enregistrement TV
     recordList = xbmcvfs.listdir(path)
-    interval = ADDON.getSetting('heure_verification')
+    interval = 55 # Vérifier toutes les minutes si un enregistrement est programmé
     ADDON.setSetting('path_enregistrement_programmation', path)
     recordInProgress = False
     monitor = xbmc.Monitor()
@@ -56,7 +62,7 @@ def service():
             proc = subprocess.Popen(command, stdout=subprocess.PIPE)
             p_status = proc.wait()
 
-    server_thread.join()
+    # server_thread.join()
 
 
 if __name__ == '__main__':

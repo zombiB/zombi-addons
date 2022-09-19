@@ -374,8 +374,8 @@ class cDb(object):
 
             self.db.commit()
 
-            dialog().VSinfo(addon().VSlang(30042), meta['title'])
-            VSlog('SQL INSERT favorite Successfully')
+            dialog().VSinfo(addon().VSlang(30042), meta['title'], 4)
+            VSlog('SQL INSERT favorite Successfully - ' + meta['title'])
         except Exception as e:
             if 'UNIQUE constraint failed' in str(e):
                 dialog().VSinfo(addon().VSlang(30043), meta['title'])
@@ -542,7 +542,6 @@ class cDb(object):
             self.dbcur.execute(ex, (title, url, sPath, meta['cat'], sIcon, '', '', 0))
             self.db.commit()
             VSlog('SQL INSERT download Successfully')
-            dialog().VSinfo(addon().VSlang(30042), meta['title'])
         except Exception as e:
             VSlog('SQL ERROR INSERT into download')
             pass
