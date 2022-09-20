@@ -481,7 +481,7 @@ def showLink():
     
     if (aResult[0]):
         sNote = aResult[1][0]
-	
+			
      # (.+?) ([^<]+) .+?
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a.+?href="javascript:;"><i.+?class="fa fa-play-circle"></i>([^<]+)</a></li>'
 
@@ -516,6 +516,7 @@ def showLink():
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
 
 	
     if aResult[0] is True:
@@ -560,6 +561,7 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
+    VSlog(sHtmlContent)
     # (.+?)
                
 

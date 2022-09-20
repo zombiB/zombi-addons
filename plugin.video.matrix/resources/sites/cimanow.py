@@ -376,7 +376,7 @@ def showServer():
  
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'cimanow.cc','referer' : 'sUrl'}
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'cimanowinc.com','referer' : 'https://cimanowinc.com'}
     St=requests.Session()
     sHtmlContent = St.get(sUrl,headers=hdr)
     sHtmlContent = sHtmlContent.content.decode('utf8')  
@@ -432,7 +432,7 @@ def showServer():
             sTitle = 'server '
             siteUrl = URL_MAIN + '/wp-content/themes/Cima%20Now%20New/core.php?action=switch&index='+aEntry[0]+'&id='+aEntry[1]
             oRequest = cRequestHandler(siteUrl)
-            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','host' : 'cimanow.cc','referer' : 'https://cimanow.cc'}
+            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','host' : 'cimanowinc.com','referer' : 'https://cimanowinc.com'}
             params = {'action':'switch','index':aEntry[0],'id':aEntry[1]}
             St=requests.Session()
             sHtmlContent = St.get(siteUrl,headers=hdr,params=params)

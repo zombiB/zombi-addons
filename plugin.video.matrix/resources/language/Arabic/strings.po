@@ -675,6 +675,10 @@ msgctxt "#30302"
 msgid "Auto update"
 msgstr "التحديث التلقائي"
 
+msgctxt "#30303"
+msgid "Media folders"
+msgstr "مجلدات الوسائط"
+
 msgctxt "#30304"
 msgid "Go to [COLOR teal]%s[/COLOR] Enter the code [COLOR teal]%s[/COLOR]"
 msgstr "انتقل إلى [COLOR teal]%s[/COLOR] أدخل الرمز  [COLOR teal]%s[/COLOR]"

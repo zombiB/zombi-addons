@@ -15,7 +15,7 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl)
         if '/down/'  in sUrl:
-            self._url = self._url.replace("/down/","/play/")
+            self._url = self._url.replace("/2down/","/play/").replace("/down/","/play/")
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)

@@ -37,8 +37,8 @@ class cGui:
     searchResults = {}
     searchResultsSemaphore = threading.Semaphore()
 
-    # if isKrypton():
-    #     CONTENT = 'addons'
+    if isKrypton():
+       CONTENT = 'addons'
 
     def getEpisodeListing(self):
         return self.episodeListing

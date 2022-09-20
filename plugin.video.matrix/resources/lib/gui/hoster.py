@@ -196,6 +196,8 @@ class cHosterGui:
             return self.getHoster('viewsb')
         if ('viewsb' in sHostName):
             return self.getHoster('viewsb')
+        if ('embed.scdn.' in sHostName):
+            return self.getHoster('faselhd')
             
         if ('megaupload.' in sHostName) or ('fansubs' in sHostName) or ('us.archive.' in sHostName) or ('ddsdd' in sHostName) or ('ffsff' in sHostName) or ('rrsrr' in sHostName)or ('fbcdn.net' in sHostName) or ('blogspot.com' in sHostName) or ('videodelivery' in sHostName) or ('bittube' in sHostName) or ('amazonaws.com' in sHostName):
             return self.getHoster('lien_direct')
@@ -233,7 +235,7 @@ class cHosterGui:
         if ('kingfoot' in sHostName):
             return self.getHoster('lien_direct')
             
-        if ('vidbm' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName):
+        if ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName):
             return self.getHoster('vidbm')
 				
         if ('streamcherry' in sHostName):
@@ -244,6 +246,9 @@ class cHosterGui:
 				
         if ('megaup.' in sHostName):
             return self.getHoster('megaup')
+            
+        if ('linkbox' in sHostName) or ('sharezweb' in sHostName):
+            return self.getHoster('resolver')
             
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
@@ -278,6 +283,9 @@ class cHosterGui:
         if ('vidhd' in sHostName) or ('oktube' in sHostName):
             return self.getHoster('vidhd')
             
+        if ('nowvid' in sHostName):
+            return self.getHoster('govid')
+            
         if ('skyvid' in sHostName):
             return self.getHoster('skyvid')
             
@@ -293,7 +301,7 @@ class cHosterGui:
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
             
-        if ('goved' in sHostName) or ('govid.me' in sHostName):
+        if ('goved' in sHostName) or ('govad' in sHostName) or ('govid.me' in sHostName):
             return self.getHoster('govidme')
             
         if ('govid' in sHostName) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName):

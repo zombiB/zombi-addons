@@ -141,7 +141,7 @@ class main:
                         
                         sitename = aPlugin[0]
                         if not sitesManager.isActive(aPlugin[1]):
-                            sitename = '[COLOR red](Off) ' + sitename + '[/COLOR]'
+                            sitename = '[COLOR red][OFF] ' + sitename + '[/COLOR]'
                         oOutputParameterHandler = cOutputParameterHandler()
                         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
                         icon = 'sites/%s.png' % (aPlugin[1])

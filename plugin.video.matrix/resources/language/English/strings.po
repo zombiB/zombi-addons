@@ -699,6 +699,10 @@ msgctxt "#30302"
 msgid "Auto update"
 msgstr ""
 
+msgctxt "#30303"
+msgid "Media folders"
+msgstr ""
+
 msgctxt "#30304"
 msgid "Go to [COLOR teal]%s[/COLOR] Enter the code [COLOR teal]%s[/COLOR]"
 msgstr ""

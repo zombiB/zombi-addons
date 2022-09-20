@@ -18,7 +18,7 @@
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://one.akwam.cx"
+            "url": "https://one.akwam.cc"
         },
         "alarab": {
             "label": "alarab",
@@ -58,7 +58,7 @@
         "animeup": {
             "label": "anime4up",
             "active": "True",
-            "url": "https://anime4up.art"
+            "url": "https://anime4up.vip"
         },
         "animezid": {
             "label": "animezid",
@@ -128,7 +128,7 @@
         "cimaclub": {
             "label": "cimaclub",
             "active": "True",
-            "url": "https://cima-club.io"
+            "url": "https://cima-club.co"
         },
         "cimanow": {
             "label": "cimanow",
@@ -143,7 +143,7 @@
         "cimau": {
             "label": "cima4u",
             "active": "True",
-            "url": "https://cima4u.ink"
+            "url": "https://cima4u.world"
         },
         "detectiveconanar": {
             "label": "detectiveconanar",
@@ -168,7 +168,7 @@
         "egydead": {
             "label": "egydead",
             "active": "True",
-            "url": "https://w2.egydead.live"
+            "url": "https://tv.egydead.live"
         },
         "ehna": {
             "label": "ehna.online",
@@ -178,12 +178,7 @@
         "esseq": {
             "label": "esseq",
             "active": "True",
-            "url": "https://eessq.net"
-        },
-        "eyoon": {
-            "label": "eyoon",
-            "active": "True",
-            "url": "https://eyoon.co"
+            "url": "https://ee.eshiq.net"
         },
         "familymoviz": {
             "label": "familymoviz",
@@ -208,7 +203,7 @@
         "gateanime": {
             "label": "gateanime",
             "active": "True",
-            "url": "https://a.gateanime.cam"
+            "url": "https://b.gateanime.cam"
         },
         "geoarabic": {
             "label": "geoarabic",
@@ -218,7 +213,7 @@
         "halacima": {
             "label": "halacima",
             "active": "True",
-            "url": "https://m.halacima.net"
+            "url": "https://halacima.pro"
         },
         "hdseed": {
             "label": "hdseed",
@@ -243,27 +238,22 @@
         "lodynet": {
             "label": "lodynet",
             "active": "True",
-            "url": "https://ww.lodynet.ink"
+            "url": "https://n.lodynet.ink"
         },
         "movizland": {
             "label": "movizland",
             "active": "True",
-            "url": "https://movizland.cyou"
+            "url": "https://new.movizland.cyou"
         },
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycima.buzz:2096"
+            "url": "https://mycimaa.fun"
         },
         "nightosphere": {
             "label": "nightosphere",
             "active": "True",
             "url": "https://nightosphere.net"
-        },
-        "pakistani": {
-            "label": "pakistani-live",
-            "active": "True",
-            "url": "https://pakistani-live.net"
         },
         "panet": {
             "label": "panet",
@@ -273,7 +263,7 @@
         "prstej": {
             "label": "prstej",
             "active": "True",
-            "url": "https://r.3rb.tv"
+            "url": "https://p.3rb.tv"
         },
         "rotana": {
             "label": "rotana",
@@ -283,12 +273,12 @@
         "shahidu": {
             "label": "shahid4u",
             "active": "True",
-            "url": "https://shahed4u.tax"
+            "url": "https://shahed4u.team"
         },
         "shooflive": {
             "label": "shooflive",
             "active": "True",
-            "url": "https://v.shooflive.site"
+            "url": "https://tv.shooflive.co"
         },
         "shoofvod": {
             "label": "shoofvod",
@@ -353,7 +343,7 @@
         "xsanime": {
             "label": "xsanime",
             "active": "True",
-            "url": "https://a.xsanime.com"
+            "url": "https://v.xsanime.com"
         }
     }
 }

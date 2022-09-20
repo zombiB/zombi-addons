@@ -683,6 +683,7 @@ msgstr "Demande enregistrée"
 msgctxt "#30229"
 msgid "My downloads"
 msgstr "Mes téléchargements"
+
 msgctxt "#30300"
 msgid "Library"
 msgstr "Librairie"
@@ -694,6 +695,10 @@ msgstr "A configurer dans kodi si vous voulez qu'ils soient importés"
 msgctxt "#30302"
 msgid "Auto update"
 msgstr "Mise à jour à chaque ajout"
+
+msgctxt "#30303"
+msgid "Media folders"
+msgstr "Dossiers médias"
 
 msgctxt "#30304"
 msgid "Go to [COLOR teal]%s[/COLOR] Enter the code [COLOR teal]%s[/COLOR]"

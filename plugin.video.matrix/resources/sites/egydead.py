@@ -812,7 +812,7 @@ def showHosters():
 				
     # ([^<]+) (.+?)   .+?      
 
-    sPattern = '<div class="server-info"><em>(.+?)</em>.+?class="ser-link" href="(.+?)">'
+    sPattern = '<span class="ser-name">(.+?)</span>.+?class="ser-link" href="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
