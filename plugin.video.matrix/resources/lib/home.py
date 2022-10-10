@@ -282,7 +282,7 @@ class cHome:
 
 
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR_AR')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30110)), 'trmdlj.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(31110)), 'trmdlj.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_ASIA')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30104)), 'asia.png', oOutputParameterHandler)

@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = (URL_MAIN + '/today-matches/', 'showMovies')
+SPORT_LIVE = (URL_MAIN, 'showMovies')
 
  
 def load():
@@ -43,18 +43,9 @@ def showMovies():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-            
-    from datetime import date
-    today = str(date.today())
+	# (.+?) .+? 
+    sPattern = '<div class="match-event".+?<a href="(.+?) title="">.+?<span class="team-name-en">(.+?)</span>.+?<span class="team-name-en">(.+?)</span>'
 
-# ([^<]+) .+? (.+?)
-    import requests
-    s = requests.Session()            
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-							'Referer': Quote(sUrl)}
-    r = s.get('https://web-api.golato.net/webapi/matches/'+today, headers=headers)
-    sHtmlContent = r.content.decode('utf8')
-    sPattern = '"id":"(.+?)","sitemap":1,"api_matche_id":"(.+?)",.+?,"home_en":"(.+?)",.+?,"away_en":"(.+?)",'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -68,16 +59,17 @@ def showMovies():
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[2] +' - '+ aEntry[3]
+            sTitle =  aEntry[1] +' - '+ aEntry[2]
             sThumb = ""
-            siteUrl =  "https://king-shoot.tv/gen-matche/"+aEntry[0]+'/'+aEntry[1]
-            sDesc = ''
+            siteUrl =  aEntry[0]
+            murl =  aEntry[0]
+            sDesc = ""
 			
 			
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('murl', aEntry[0])
+            oOutputParameterHandler.addParameter('murl', murl)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
@@ -157,10 +149,11 @@ def showHosters4():
         mk = aResult[1][0] 
 
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'dalbouh.club'}
-    rurl = 'https://web-api.yalla-kora.tv/webapi/matche/'+murl 
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'king-shoot.tv','Referer' : 'https://king-shoot.tv'}
+    rurl = sUrl
     St=requests.Session()              
     sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
+    VSlog(sHtmlContent)
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)   

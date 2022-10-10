@@ -464,6 +464,10 @@ msgctxt "#30109"
 msgid "Turkish"
 msgstr "تركية"
 
+msgctxt "#31110"
+msgid "Turkish dubbed"
+msgstr "Turkish dubbed"
+
 msgctxt "#30110"
 msgid "Database to delete"
 msgstr "Base de données à supprimer"

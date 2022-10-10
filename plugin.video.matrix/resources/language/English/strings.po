@@ -460,12 +460,12 @@ msgctxt "#30109"
 msgid "Turkish"
 msgstr ""
 
-msgctxt "#30110"
+msgctxt "#31110"
 msgid "Turkish dubbed"
 msgstr ""
 
+msgctxt "#30110"
 msgid "Database to delete"
-msgstr ""
 msgstr ""
 
 msgctxt "#30111"
@@ -687,6 +687,7 @@ msgstr ""
 msgctxt "#30229"
 msgid "My downloads"
 msgstr ""
+
 msgctxt "#30300"
 msgid "Library"
 msgstr ""

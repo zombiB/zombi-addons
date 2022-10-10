@@ -129,7 +129,6 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
 
     # (.+?) .+? ([^<]+)
-               
 
     sPattern =  'class="Video on on_iframe TrvideoFirst">(.+?)</div>'
     oParser = cParser()
@@ -140,6 +139,7 @@ def showHosters():
        total = len(aResult[1])
        for aEntry in aResult[1]:       
             sHtmlContent2 = base64.b64decode(aEntry)
+            VSlog(sHtmlContent2)
     # (.+?)    .+?    
             sPattern = 'src="(.+?)".+?allowfullscreen'
             aResult = oParser.parse(sHtmlContent2, sPattern)

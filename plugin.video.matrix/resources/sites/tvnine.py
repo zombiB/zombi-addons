@@ -94,15 +94,18 @@ def showLive():
     oParser = cParser()
 
     # (.+?) # ([^<]+) .+? 
-    sPattern = 'data-embed="(.+?)">(.+?)</li>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    #print aResult
+    if 'data-embed=' in sHtmlContent :
+        sPattern = 'data-embed="(.+?)">(.+?)</li>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+    if 'onclick=' in sHtmlContent :
+        sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
    
     if aResult[0] is True:
         for aEntry in aResult[1]:
             sTitle = aEntry[1]
-            siteUrl = aEntry[0]
+            siteUrl = aEntry[0].replace("'","")
             oRequestHandler = cRequestHandler(siteUrl)
             oRequestHandler.addHeaderEntry('Referer', sUrl)
             oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
@@ -115,6 +118,13 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
                    if url.startswith('//'):
                       url = 'https:' + url 
                    if '?src=' in url:
@@ -132,6 +142,13 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
                    if url.startswith('//'):
                       url = 'https:' + url 
                    if '?src=' in url:
@@ -150,6 +167,13 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
                    if url.startswith('//'):
                       url = 'https:' + url 
                    if '?src=' in url:
@@ -170,6 +194,13 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
                    if url.startswith('//'):
                       url = 'https:' + url
                    if '?src=' in url:
@@ -214,6 +245,13 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
                    if url.startswith('//'):
                       url = 'https:' + url
                    if '?src=' in url:
@@ -232,6 +270,13 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
+ 
+                   if 'googleusercontent' in url:
+                       continue
+                   if '.webp' in url:
+                       continue
+                   if '.jpg' in url:
+                       continue
                    if url.startswith('//'):
                       url = 'https:' + url
                    if '?src=' in url:
@@ -246,6 +291,21 @@ def showLive():
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
     # (.+?) # ([^<]+) .+? 
+            sPattern = '(http.+?m3u8)'
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0] is True:
+               for aEntry in aResult[1]:
+            
+                   url = aEntry
+                   sHosterUrl = url+ '|User-Agent=Android' + '&Referer='+url
+                   sMovieTitle = sTitle
+            
+
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster != False:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if aResult[0] is True:

@@ -78,7 +78,7 @@ def showPack():
     sHtmlContent = oRequestHandler.request()
 # ([^<]+) .+? 
 
-    sPattern = '<a href="([^<]+)">([^<]+)</a>'
+    sPattern = '<a href=([^<]+)>([^<]+)</a>'
 
 
     oParser = cParser()
@@ -124,7 +124,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
 
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?data-bg="([^<]+)" style.+?</div></div>([^<]+)</div>'
+    sPattern = '<li class=MovieBlock><a href=([^<]+)><div class=Thumb><div class=Half1 style=background-image:url([^<]+);></div.+?</div></div>([^<]+)</div>'
 		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -141,7 +141,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            sThumb = aEntry[1].replace("(","").replace(")","")
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -161,7 +161,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = 'page-numbers" href=([^<]+)>([^<]+)</a></li>'
+    sPattern = 'page-numbers href=([^<]+)>([^<]+)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -215,7 +215,7 @@ def showLinks():
         sDesc = aResult[1][0]
     
     # .+? ([^<]+)
-    sPattern = '<a href="([^<]+)"><div class="WatchingArea Hoverable">'
+    sPattern = '<a href=([^<]+)><div class="WatchingArea Hoverable">'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -374,7 +374,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
       # (.+?) ([^<]+) .+?
-    sPattern = '<li class="MovieBlock"><a href="([^<]+)">.+?data-bg="([^<]+)" style.+?</div></div>([^<]+)</div>'
+    sPattern = '<li class=MovieBlock><a href=([^<]+)><div class=Thumb><div class=Half1 style=background-image:url([^<]+);></div.+?</div></div>([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -405,7 +405,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = 'page-numbers" href=([^<]+)>([^<]+)</a></li>'
+    sPattern = 'page-numbers href=([^<]+)>([^<]+)</a></li>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -461,7 +461,7 @@ def showEpisodes():
 
     oParser = cParser()
             
-    sPattern =  '<a href="([^<]+)"><div class="WatchingArea Hoverable">' 
+    sPattern =  '<a href=([^<]+)><div class="WatchingArea Hoverable">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         m3url = aResult[1][0] 

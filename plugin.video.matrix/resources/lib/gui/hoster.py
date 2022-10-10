@@ -162,7 +162,11 @@ class cHosterGui:
             # L'user a activé alldebrid ?
             if self.ADDON.getSetting('hoster_alldebrid_premium') == 'true':
                 return self.getHoster('alldebrid')
-
+					
+            # L'user a activé realbrid ?
+            if self.ADDON.getSetting('hoster_realdebrid_premium') == 'true':
+                return self.getHoster('realdebrid')
+					
             # L'user a activé debrid_link ?
             if self.ADDON.getSetting('hoster_debridlink_premium') == 'true':
                 if "debrid.link" not in sHosterUrl:
@@ -191,11 +195,15 @@ class cHosterGui:
             return self.getHoster('vidshare')
 
         if ('sbfull' in sHostName):
-            return self.getHoster('viewsb')
+            return self.getHoster('resolver')
+        if ('sblanh' in sHostName):
+            return self.getHoster('resolver')
+        if ('sbspeed' in sHostName):
+            return self.getHoster('resolver')
         if ('sbthe' in sHostName):
-            return self.getHoster('viewsb')
+            return self.getHoster('resolver')
         if ('viewsb' in sHostName):
-            return self.getHoster('viewsb')
+            return self.getHoster('resolver')
         if ('embed.scdn.' in sHostName):
             return self.getHoster('faselhd')
             
@@ -241,6 +249,9 @@ class cHosterGui:
         if ('streamcherry' in sHostName):
             return self.getHoster('resolver')
 			
+        if ('twitch' in sHostName):
+            return self.getHoster('resolver')
+			
         if ('clicknupload' in sHostName):
             return self.getHoster('resolver')
 				
@@ -268,7 +279,7 @@ class cHosterGui:
         if (('anavids' in sHostName) or ('anavidz' in sHostName)):
             return self.getHoster('anavids')
 				
-        if (('anonfile' in sHostName) or ('govid.xyz' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
+        if (('anonfile' in sHostName) or ('filemoon' in sHostName) or ('govid.xyz' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
             return self.getHoster('anonfile')
 
         if (('cloudvideo' in sHostName) or ('streamcloud' in sHostName) or ('userscloud' in sHostName)):
@@ -443,7 +454,7 @@ class cHosterGui:
         if ('.mp4' in sHosterUrl):
             return self.getHoster('lien_direct')
 
-        if ('nitro.download' in sHosterUrl or 'Facebook'  or 'facebook' or 'infinityload' or 'turbobit' or 'tubeload' in sHosterUrl or 'fastdrive' in sHosterUrl or 'openload' in sHosterUrl or 'multiup' in sHosterUrl):
+        if ('nitro.download' in sHosterUrl or 'Facebook'  or 'facebook' or 'infinityload' or 'turbobit' or 'tubeload' in sHostName or 'fastdrive' in sHosterUrl or 'openload' in sHosterUrl or 'multiup' in sHosterUrl):
             return False
 
         return False

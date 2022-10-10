@@ -671,7 +671,7 @@ def showHosters():
             if 'govid' in url:
                url = url.replace("play","down").replace("embed-","")
             if url.startswith('//'):
-                              url = 'http:' + url
+               url = 'http:' + url
 				
 					
             

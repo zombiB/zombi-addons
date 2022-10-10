@@ -438,7 +438,7 @@ def showHosters():
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
-    oRequestHandler.addHeaderEntry('origin', "https://arlionz.cam")
+    oRequestHandler.addHeaderEntry('origin', "arlionztv.com")
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<li data-i="([^<]+)" data-id="([^<]+)" class'
@@ -446,12 +446,11 @@ def showHosters():
     if aResult[0] is True:
         for aEntry in aResult[1]:
             link = URL_MAIN + '/Embedder/'+aEntry[1]+'/'+aEntry[0]
-
             oRequestHandler = cRequestHandler(link)
             cook = oRequestHandler.GetCookies()
             oRequestHandler.setRequestType(1)
             oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-            oRequestHandler.addHeaderEntry('origin', "https://arlionz.cam")
+            oRequestHandler.addHeaderEntry('origin', "arlionztv.com")
             oRequestHandler.addHeaderEntry('Cookie', cook)
             oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
             oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
@@ -459,7 +458,7 @@ def showHosters():
     
     # (.+?) .+? ([^<]+)        
 
-            sPattern = '<iframe src="([^<]+)" frameborder'
+            sPattern = '<iframe src="(.+?)" frameborder='
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
 

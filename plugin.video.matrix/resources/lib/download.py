@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+# matrix https://github.com/Kodi-vStream/venom-xbmc-addons
 
 try:
     import urllib2
@@ -78,7 +78,6 @@ class cDownloadProgressBar(threading.Thread):
         iTotalSize = -1
         if 'content-length' in headers:
             iTotalSize = int(headers['Content-Length'])
-
             
         
         chunk = 512 * 1024
@@ -91,7 +90,6 @@ class cDownloadProgressBar(threading.Thread):
         while not (self.processIsCanceled or diag.isFinished()):
             data = self.oUrlHandler.read(chunk)
             if not data:
-
                 VSlog('DL err')
                 break
 
@@ -198,10 +196,6 @@ class cDownloadProgressBar(threading.Thread):
         except:
             VSlog('download error ' + self.__sUrl)
             self.DIALOG.VSinfo(self.ADDON.VSlang(30011), 'Download error', 5)
-
-
-
-
             return
 
         self._StartDownload()
@@ -209,7 +203,6 @@ class cDownloadProgressBar(threading.Thread):
     def __formatFileSize(self, iBytes):
         iBytes = int(iBytes)
         if iBytes == 0:
-
             return '0 MB'
 
         return "{:,.{}f} MB".format( iBytes/(1024*1024.0), 0 ).replace(',', ' ')
@@ -242,17 +235,12 @@ class cDownload:
         valid_chars = '-_.() abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
         filename = ''.join(c for c in sTitle if c in valid_chars)
         filename = filename.replace(' .', '.')
-
-
         filename = filename.strip()
         return filename
 
     def __formatFileSize(self, iBytes):
         iBytes = int(iBytes)
         if iBytes == 0:
-
-
-
             return '0 MB'
 
         return "{:,.{}f} MB".format( iBytes/(1024*1024.0), 0 ).replace(',', ' ')
@@ -319,14 +307,10 @@ class cDownload:
             extension = None
 
         sTitle = cUtil().CleanName(sTitle)
-        sTitle = cUtil().FormatSerie(sTitle)
+        # sTitle = cUtil().FormatSerie(sTitle)
 
         if type(sTitle) is bytes:
             sTitle = sTitle.decode('utf-8')
-
-
-
-
 
         if extension:
             return sTitle + '.' +extension
@@ -344,26 +328,18 @@ class cDownload:
 
     def getDownload(self):
 
-
         sPluginHandle = cPluginHandler().getPluginHandle()
         sPluginPath = cPluginHandler().getPluginPath()
         sItemUrl = '%s?site=%s&function=%s&title=%s' % (sPluginPath, SITE_IDENTIFIER, 'StartDownloadList', 'title')
         item = xbmcgui.ListItem('Démarrer la liste')
         item.setArt({'icon':'special://home/addons/plugin.video.matrix/resources/art/download.png'})
-
         xbmcplugin.addDirectoryItem(sPluginHandle, sItemUrl, item, isFolder=False)
 
         oGui = cGui()
-
-
-
         oOutputParameterHandler = cOutputParameterHandler()
         oGui.addDir(SITE_IDENTIFIER, 'StopDownloadList', self.ADDON.VSlang(30025), 'none.png', oOutputParameterHandler)
         oGui.addDir(SITE_IDENTIFIER, 'getDownloadList', self.ADDON.VSlang(30039), 'listes.png', oOutputParameterHandler)
-
-
         oGui.addDir(SITE_IDENTIFIER, 'CleanDownloadList', self.ADDON.VSlang(30040), 'trash.png', oOutputParameterHandler)
-
         oGui.setEndOfDirectory()
 
     def CleanDownloadList(self):
@@ -468,7 +444,6 @@ class cDownload:
 
     def StartDownload(self, data):
         if not data:
-
             return False
 
         title = data[1]
@@ -607,15 +582,10 @@ class cDownload:
         sTitle = self.__createDownloadFilename(sTitle)
         sTitle = cGui().showKeyBoard(sTitle)
 
-
         if sTitle:
 
             # chemin de sauvegarde
             sPath = VSPath(self.ADDON.getSetting('download_folder'))
-
-
-
-
 
             if sPath == '':
                 dialog = xbmcgui.Dialog()
@@ -650,8 +620,6 @@ class cDownload:
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
         sFileName = oInputParameterHandler.getValue('sFileName')
 
-
-
         meta = {}
         meta['url'] = sMediaUrl
         meta['cat'] = oInputParameterHandler.getValue('sCat')
@@ -675,8 +643,6 @@ class cDownload:
         oInputParameterHandler = cInputParameterHandler()
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
         sFileName = oInputParameterHandler.getValue('sFileName')
-
-
 
         meta = {}
         meta['url'] = sMediaUrl
@@ -722,7 +688,6 @@ class cDownload:
                         oPlayer.startPlayer()
 
                     else:
-
                         self.DIALOG.VSinfo(self.ADDON.VSlang(30085), 'Erreur', 5)
             else:
                 # notifier que la demande est prise en compte

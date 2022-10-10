@@ -706,10 +706,9 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
     # ([^<]+) .+?
-    sPattern = 'class="hoverable activable" href="([^<]+)"><quality>([^<]+)</quality><resolution><i class=".+?"></i>([^<]+)</resolution>'
+    sPattern = 'class="hoverable activable" target="_blank" href="([^<]+)"><quality>([^<]+)</quality><resolution><i class=".+?"></i>([^<]+)</resolution>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
 	
     if aResult[0] is True:
         for aEntry in aResult[1]:

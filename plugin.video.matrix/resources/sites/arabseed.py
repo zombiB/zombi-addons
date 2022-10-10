@@ -544,53 +544,35 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         m3url2 = aResult[1][0] 
-        oRequest = cRequestHandler(m3url2)
-        sHtmlContent2 = oRequest.request()
-
-
-    # (.+?) .+? ([^<]+)
-               
-    sPattern = 'data-post="(.+?)" data-server="(.+?)" data-qu="(.+?)" class'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
-
-
-	
-    if aResult[0] is True:
-        for aEntry in aResult[1]:
-            import requests
-            s = requests.Session()            
-            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+        import requests
+        s = requests.Session()            
+        headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'Referer': Quote(sUrl)}
-            data = {'post_id':aEntry[0],'server':aEntry[1],'qu':aEntry[2]}
-            r = s.post(URL_MAIN +'/wp-content/themes/Elshaikh2021/Ajaxat/Single/Server.php', headers=headers,data = data)
-            sHtmlContent = r.content.decode('utf8',errors='ignore')
-            sTitle = aEntry[2]
-            sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
+        r = s.post(m3url2, headers=headers)
+        sHtmlContent = r.content.decode('utf8',errors='ignore')
    
-            sPattern = 'src="(.+?)"'
-            oParser = cParser()
-            aResult = oParser.parse(sHtmlContent, sPattern)
+        sPattern = 'data-link="(.+?)" class'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
 	
-            if aResult[0] is True:
-               for aEntry in aResult[1]:
+        if aResult[0] is True:
+           for aEntry in aResult[1]:
         
-                   url = str(aEntry)
-                   sThumb = sThumb
-                   if url.startswith('//'):
-                      url = 'http:' + url
+               url = aEntry
+               sThumb = sThumb
+               if url.startswith('//'):
+                  url = 'http:' + url
 								            
-                   sHosterUrl = url
-                   if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'moshahda' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'mystream' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster != False:
-                      sDisplayTitle = sTitle
-                      oHoster.setDisplayName(sDisplayTitle)
-                      oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               sHosterUrl = url
+               if 'userload' in sHosterUrl:
+                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+               if 'moshahda' in sHosterUrl:
+                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+               if 'mystream' in sHosterUrl:
+                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
+               oHoster = cHosterGui().checkHoster(sHosterUrl)
+               if oHoster != False:
+                  oHoster.setDisplayName(sMovieTitle)
+                  oHoster.setFileName(sMovieTitle)
+                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     oGui.setEndOfDirectory()

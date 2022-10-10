@@ -18,7 +18,7 @@
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://one.akwam.cc"
+            "url": "https://two.akwam.in"
         },
         "alarab": {
             "label": "alarab",
@@ -73,7 +73,7 @@
         "arabseed": {
             "label": "arabseed",
             "active": "True",
-            "url": "https://m.arabseed.sbs"
+            "url": "https://arabseed.sbs"
         },
         "aracinema_co": {
             "label": "aramosalsal",
@@ -88,17 +88,12 @@
         "arblionz": {
             "label": "arblionz",
             "active": "True",
-            "url": "https://w.arlionz.vip"
+            "url": "https://arlionztv.com"
         },
         "asiaarabs": {
             "label": "asia4arabs",
             "active": "True",
             "url": "https://www.asia4arabs.com"
-        },
-        "asgoal": {
-            "label": "asgoal",
-            "active": "True",
-            "url": "https://www.as-goal.com"
         },
         "awaan": {
             "label": "awaan",
@@ -128,7 +123,7 @@
         "cimaclub": {
             "label": "cimaclub",
             "active": "True",
-            "url": "https://cima-club.co"
+            "url": "https://cima-club.icu"
         },
         "cimanow": {
             "label": "cimanow",
@@ -143,7 +138,7 @@
         "cimau": {
             "label": "cima4u",
             "active": "True",
-            "url": "https://cima4u.world"
+            "url": "https://cima4u.one"
         },
         "detectiveconanar": {
             "label": "detectiveconanar",
@@ -173,12 +168,12 @@
         "ehna": {
             "label": "ehna.online",
             "active": "True",
-            "url": "https://e7naaa.online"
+            "url": "https://e7naaaa.online"
         },
         "esseq": {
             "label": "esseq",
             "active": "True",
-            "url": "https://ee.eshiq.net"
+            "url": "https://plus.eshiq.net"
         },
         "familymoviz": {
             "label": "familymoviz",
@@ -203,7 +198,7 @@
         "gateanime": {
             "label": "gateanime",
             "active": "True",
-            "url": "https://b.gateanime.cam"
+            "url": "https://c.gateanime.cam"
         },
         "geoarabic": {
             "label": "geoarabic",
@@ -243,12 +238,12 @@
         "movizland": {
             "label": "movizland",
             "active": "True",
-            "url": "https://new.movizland.cyou"
+            "url": "https://watch.movizland.cyou"
         },
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycimaa.fun"
+            "url": "https://mycimaa.online"
         },
         "nightosphere": {
             "label": "nightosphere",
@@ -273,12 +268,12 @@
         "shahidu": {
             "label": "shahid4u",
             "active": "True",
-            "url": "https://shahed4u.team"
+            "url": "https://shahed4u.taxi"
         },
         "shooflive": {
             "label": "shooflive",
             "active": "True",
-            "url": "https://tv.shooflive.co"
+            "url": "https://ar.shooflive.co"
         },
         "shoofvod": {
             "label": "shoofvod",
@@ -344,6 +339,11 @@
             "label": "xsanime",
             "active": "True",
             "url": "https://v.xsanime.com"
+        },
+        "yallakora": {
+            "label": "yallakora",
+            "active": "True",
+            "url": "https://www.yallakora-online.tv"
         }
     }
 }
