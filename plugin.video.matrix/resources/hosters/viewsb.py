@@ -43,7 +43,6 @@ class cHoster(iHoster):
             sPattern =  'download_video([^"]+)[^\d]+\d+x(\d+)'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-            VSlog(aResult)
             if aResult[0] is True:
                 list_data = []
                 list_q = []
@@ -56,7 +55,6 @@ class cHoster(iHoster):
                     mode = list_data[1]
                     hash = list_data[2]
                     dl_url = host + 'dl?op=download_orig&id=' + code + '&mode=' + mode + '&hash=' + hash
-                    VSlog(dl_url)
                     
                     oRequest = cRequestHandler(dl_url)
                     sHtmlContent = oRequest.request()

@@ -516,7 +516,6 @@ def showLink():
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
 
 	
     if aResult[0] is True:
@@ -561,7 +560,6 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    VSlog(sHtmlContent)
     # (.+?)
                
 

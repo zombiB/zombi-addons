@@ -153,7 +153,6 @@ def showHosters4():
     rurl = sUrl
     St=requests.Session()              
     sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
-    VSlog(sHtmlContent)
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)   

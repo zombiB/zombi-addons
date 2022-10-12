@@ -31,7 +31,6 @@ class cHoster(iHoster):
         r = s.get(url, headers=headers)
         sHtmlContent = r.content.decode('utf8')
         oParser = cParser()
-        VSlog(sHtmlContent)
         
 
         sPattern = ',"url":"(.+?)",'
