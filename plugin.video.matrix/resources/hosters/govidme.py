@@ -19,8 +19,10 @@ class cHoster(iHoster):
         VSlog(self._url)
 
         oRequest = cRequestHandler(self._url)
-        oRequest.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Mobile Safari/537.36')
+        oRequest.addHeaderEntry('Referer', 'https://cima-club.io/')
+        oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
+        VSlog(sHtmlContent)
         
         api_call = ''
         #type1/([^"]+)/

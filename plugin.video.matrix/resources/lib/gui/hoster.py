@@ -267,6 +267,9 @@ class cHosterGui:
         if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
             return self.getHoster('uppom')
             
+        if ('filemoon' in sHostName):
+            return self.getHoster('filemoon')
+            
         if ('veehd.' in sHostName):
             return self.getHoster('veehd')
 				
@@ -279,7 +282,7 @@ class cHosterGui:
         if (('anavids' in sHostName) or ('anavidz' in sHostName)):
             return self.getHoster('anavids')
 				
-        if (('anonfile' in sHostName) or ('filemoon' in sHostName) or ('govid.xyz' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
+        if (('anonfile' in sHostName) or ('govid.xyz' in sHostName) or ('file.bz' in sHostName) or ('myfile.is' in sHostName) or ('upload.st' in sHostName)):
             return self.getHoster('anonfile')
 
         if (('cloudvideo' in sHostName) or ('streamcloud' in sHostName) or ('userscloud' in sHostName)):
