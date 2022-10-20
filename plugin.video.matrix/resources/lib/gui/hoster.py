@@ -176,7 +176,7 @@ class cHosterGui:
 
         supported_player = ['hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'mycima', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'mixloads', 'vidoza',
                             'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'netu', 'letsupload',
-                            'onevideo', 'playreplay', 'vimeo', 'prostream', 'vidfast', 'uqload', 'letwatch', 'mail.ru',
+                            'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch', 'mail.ru',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
                             'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'streamlare', 'vidload',
@@ -204,6 +204,8 @@ class cHosterGui:
             return self.getHoster('resolver')
         if ('viewsb' in sHostName):
             return self.getHoster('resolver')
+        if ('vimeo' in sHostName):
+            return self.getHoster('vimeo')
         if ('embed.scdn.' in sHostName):
             return self.getHoster('faselhd')
             
