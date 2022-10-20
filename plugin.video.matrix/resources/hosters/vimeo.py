@@ -12,7 +12,7 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'vimeo', 'Vimeo')
 
     def __getIdFromUrl(self, sUrl):
-        sPattern = 'vimeo\.com\/(?:video\/)?([0-9]+)'
+        sPattern = 'vimeo\.com\/(?:event\/)?([0-9]+)'
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
         if aResult[0] is True:
@@ -29,7 +29,7 @@ class cHoster(iHoster):
         web_url = 'https://player.vimeo.com/video/' + sId
 
         oRequest = cRequestHandler(web_url)
-        oRequest.addHeaderEntry('Referer', "https://live.tv96.cc/")
+        oRequest.addHeaderEntry('Referer', self._url)
         oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
         sHtmlContent = oRequest.request()
         sPattern =  ',"url":"(.+?)",.+?"quality":"(.+?)",'

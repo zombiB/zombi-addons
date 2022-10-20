@@ -100,7 +100,9 @@ def showLive():
     if 'onclick=' in sHtmlContent :
         sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+    else :
+        sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
    
     if aResult[0] is True:
         for aEntry in aResult[1]:

@@ -58,7 +58,7 @@ def showMovies(sSearch = ''):
  
             sTitle =  aEntry[1].replace(')','').replace("'",'').replace('_',' ')
             sThumb = ""
-            siteUrl = "https://beinmatch.tv/home/live/"+aEntry[0].replace('(','')
+            siteUrl = "https://beinmatch.site/home/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sDesc = aEntry[2]
@@ -83,6 +83,8 @@ def showLive():
     sThumb = oInputParameterHandler.getValue('sThumb')
  
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+    oRequestHandler.addHeaderEntry('authority', 'beinmatch.site')
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
     # (.+?) # ([^<]+) .+? 
@@ -140,8 +142,6 @@ def showLive():
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-    #print aResult
    
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  

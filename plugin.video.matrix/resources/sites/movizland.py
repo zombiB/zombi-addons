@@ -837,7 +837,6 @@ def showHosters1():
  
 def showHosters2():
     oGui = cGui()
-    import requests
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -873,8 +872,18 @@ def showHosters2():
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    
+    #Recuperation infos
+    # ([^<]+) (.+?)  .+?   
 
-    sPattern = '</td><td>(.+?)</td><td><a href="(.+?)" target="_blank">'
+    sPattern = 'name="code" value="(.+?)">.+?name="siteUrl" value="(.+?)">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        scode = aResult[1][0][0]
+        ssite = aResult[1][0][1]
+		
+    sPattern = '</td><td>(.+?)</td>.+?name="download" value="(.+?)" type="submit">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -882,7 +891,7 @@ def showHosters2():
     if aResult[0] is True:
         for aEntry in aResult[1]:
             
-            url = aEntry[1]
+            url = "https://"+ssite+"/"+scode+".html?"+aEntry[1]
             sTitle =  sMovieTitle+'('+aEntry[0]+')'
             if url.startswith('//'):
                 url = 'http:' + url
