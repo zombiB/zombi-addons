@@ -25,7 +25,16 @@ SITE_NAME = 'akwam'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/movies?section=29', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
@@ -448,6 +457,14 @@ def showHosters():
         sHtmlContent = oRequest.request()
             
 # ([^<]+) .+? (.+?)
+    sPattern =  'href="(http://.+?/watch/.+?)"' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0] is True:
+        murl =  aResult[1][0]
+        oRequest = cRequestHandler(murl)
+        sHtmlContent = oRequest.request()
+            
+# ([^<]+) .+? (.+?)
     sPattern =  '>Click here</span> to go for your link...</a>.+?<a href="(.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
@@ -456,8 +473,9 @@ def showHosters():
         sHtmlContent = oRequest.request()
 
     oParser = cParser()           
-    sPattern =  '<source src="([^<]+)" type="video/mp4" size="([^<]+)" />' 
+    sPattern =  '<source.+?src="(.+?)".+?type="video/mp4".+?size="(.+?)"' 
 	
+                                                                 
     aResult = oParser.parse(sHtmlContent,sPattern)
 
     if aResult[0] is True:

@@ -466,6 +466,40 @@ def showSeasons():
 
  
                     oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+    else:
+
+        sStart = '<div class="ContainerEpisodesList"'
+        sEnd = '<div style="clear: both;"></div>'
+        sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    # (.+?) .+? ([^<]+)
+        sPattern = '<a href="(.+?)">.+?<em>(.+?)</em>'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+    
+        if aResult[0] is True:
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+
+ 
+                sEp = "E"+aEntry[1].replace(" ","")
+                if "مدبلج" in sMovieTitle:
+                    sMovieTitle = sMovieTitle.replace("مدبلج","")
+                    sMovieTitle = "مدبلج"+sMovieTitle
+                sTitle = sMovieTitle+' '+sEp
+                siteUrl = aEntry[0]
+                sThumb = sThumb
+                sDesc = ''
+                sHost = ''
+
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sHost', sHost)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+            
+
+ 
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
     oGui.setEndOfDirectory() 
  

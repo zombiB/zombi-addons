@@ -254,9 +254,9 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- 
+  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="watch_aflam2"><a>([^<]+)</a></div><a class="imaf" href="([^<]+)"><noscript><img src="([^<]+)"></noscript>'
+    sPattern = '<div class="watch_aflam2"><a>(.+?)</a></div><a class="imaf" href="(.+?)"><noscript><img decoding="async" src="(.+?)"></noscript>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

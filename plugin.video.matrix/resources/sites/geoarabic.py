@@ -122,7 +122,7 @@ def showHosters():
     # ([^<]+) (.+?)
                
 
-    Id = "a"
+    videoId = "a"
     Vid = "a"     
 
     sPattern = '<td id="(.+?)">(.+?)</td>'
@@ -133,26 +133,26 @@ def showHosters():
     if aResult[0] is True:
         for aEntry in aResult[1]:
 
-            Id = aEntry[0]
+            videoId = aEntry[0]
             Vid = aEntry[1]
             url = ""
             if 'no_video' in Vid:
-               Id = ""
-            if 'ID' in Id:
+               videoId = ""
+            if 'ID' in videoId:
                url = 'http://www.youtube.com/watch?v=' + Vid
-            if 'IDGoogle' in Id:
+            if 'IDGoogle' in videoId:
                url = 'https://drive.google.com/file/d/' + Vid + '/preview'
-            if '2ID' in Id:
+            if '2ID' in videoId:
                url = 'http://www.youtube.com/watch?v=' + Vid
-            if '2IDOk' in Id:
+            if '2IDOk' in videoId:
                url = 'http://ok.ru/videoembed/' + Vid
-            if 'IDOk' in Id:
+            if 'IDOk' in videoId:
                url = 'http://ok.ru/videoembed/' + Vid
-            if 'IDRutube' in Id:
+            if 'IDRutube' in videoId:
                url = 'https://rutube.ru/play/embed/' + Vid
-            if 'IDDaily' in Id:
+            if 'IDDaily' in videoId:
                url = 'https://www.dailymotion.com/embed/video/' + Vid
-            if '2IDDaily' in Id:
+            if '2IDDaily' in videoId:
                url = 'https://www.dailymotion.com/embed/video/' + Vid
             if url.startswith('//'):
                url = 'http:' + url

@@ -324,8 +324,7 @@ def showSeasons():
     sSeason = ''
     
     #Recuperation infos
-
-    sPattern = 'href="([^<]+)"><span>([^<]+)</span><em>'
+    sPattern = 'href="([^<]+)"><span>([^<]+)</span><em'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
@@ -341,6 +340,28 @@ def showSeasons():
             oOutputParameterHandler.addParameter('sMovieUrl', sUrl)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+    else:
+    # (.+?) .+? ([^<]+)
+        sPattern = '<a href="(.+?)"><span>حلقة </span>(.+?)</a>'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+    
+        if aResult[0] is True:
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+                sTitle =  sMovieTitle+' E'+ aEntry[1]
+                siteUrl = aEntry[0]
+                sThumb = sThumb
+                sDesc = ''
+
+                oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+            
+
+ 
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
     oGui.setEndOfDirectory() 
    
