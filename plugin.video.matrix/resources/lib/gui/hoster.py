@@ -354,7 +354,7 @@ class cHosterGui:
             return self.getHoster('yadisk')
 
         if ('vidbom' in sHostName):
-            return self.getHoster('resolver')
+            return self.getHoster('vidbom')
 
         if ('vedpom' in sHostName) or ('vidbem' in sHostName):
             return self.getHoster('vidbem')

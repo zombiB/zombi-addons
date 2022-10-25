@@ -25,7 +25,7 @@ MOVIE_AR = (URL_MAIN + '/view-1/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A
 MOVIE_HI = (URL_MAIN + '/view-297/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9', 'showMovies')
 
 KID_MOVIES = (URL_MAIN + '/view-295/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showMovies')
-SERIE_AR = (URL_MAIN + '/ramadan2021', 'showSeries')
+SERIE_AR = (URL_MAIN + '/view-8/مسلسلات-رمضان-2022', 'showSeries')
 SERIE_TR = (URL_MAIN + '/view-299/مسلسلات-تركية', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
 
@@ -235,7 +235,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-    sPattern = '<div class="description-box "><div class="video-box"><a href="(.+?)"><img  src="/placeholder-600x400.png" class="lazyload" data-src="(.+?)" alt="(.+?)" />'
+    sPattern = '<div class="description-box "><div class="video-box"><a href="(.+?)">.+?data-src="(.+?)" alt="([^<]+)" />'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -43,23 +43,20 @@ class cHoster(iHoster):
         if (aResult[0]):
         	sId = aResult[1][0]
         	VSlog(sId)
+        pdata = 'op=download2&id='+sId+'&rand= '+'&referer='+Quote(sUrl)
+        UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0"
+        oRequest = cRequestHandler(sUrl)
+        oRequest.setRequestType(1)
+        oRequest.addHeaderEntry('user-Agent', UA)
+        oRequest.addHeaderEntry('cookie', cook)
+        oRequest.addHeaderEntry('referer', Quote(sUrl))
+        oRequest.addHeaderEntry('origin', 'https://'+sHost)
+        oRequest.addParametersLine(pdata)
+        sHtmlContent = oRequest.request() 
 
     
   # ([^<]+) .+?
-        headers = {'Host': sHost,
-                	'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
-                	'Accept': '*/*',
-                	'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-                	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                	'X-Requested-With': 'XMLHttpRequest',
-                	'cookie': cook,
-                	'Referer': Quote(sUrl),
-                	'origin': 'https://'+sHost+'/',
-                	'Connection': 'keep-alive'}
-        data = {'op':'download2','id':sId,'rand':'','referer':Quote(sUrl)}
-        s = requests.Session()
-        r = s.post(sUrl, headers = headers,data = data)
-        sHtmlContent = r.content.decode('utf8',errors='ignore')
+        VSlog(sHtmlContent)
         sPattern = '<span id="direct_link" style=.+?<a href="(.+?)</a>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0] is True:

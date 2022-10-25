@@ -106,6 +106,12 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
+            if "مسلسل"  in aEntry[1]:
+                continue
+ 
+            if "حلقة"  in aEntry[1]:
+                continue
+ 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("برنامج","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("انيمي","")
             siteUrl = aEntry[0]+'/watch'
             sThumb = aEntry[1]

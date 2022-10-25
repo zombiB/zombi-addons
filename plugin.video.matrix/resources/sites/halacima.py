@@ -15,6 +15,16 @@ SITE_NAME = 'halacima'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 SERIE_TR_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
 MOVIE_FAM = (URL_MAIN + '/genre/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%A7%D8%A6%D9%84%D9%8A.html', 'showMovies')
@@ -400,7 +410,7 @@ def showServers():
     if (aResult[0]):
         for aEntry in aResult[1]:
             
-            headers = {'Host': 'm.halacima.net',
+            headers = {'Host': 'halacima.online',
 							'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
 							'Accept': '*/*',
 							'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
@@ -411,28 +421,24 @@ def showServers():
             sId = aEntry.replace("('","").replace("')","")
             data = {'server':sId,'postID':sId2,'Ajax':'1'}
             s = requests.Session()			
-            r = s.post('https://m.halacima.net/ajax/getPlayer',data = data)
-            sdata = r.content.decode('utf8',errors='ignore')     
-
-
-
-            sPattern = "SRC='(.+?)' FRAMEBORDER"
+            r = s.post(URL_MAIN+'/ajax/getPlayer',data = data)
+            sHtmlContent1 = r.content.decode('utf8',errors='ignore')  
+            VSlog(sHtmlContent1)   
+            sPattern = "src='(.+?)' frameborder"
             oParser = cParser()
-            aResult = oParser.parse(sdata, sPattern)
+            aResult = oParser.parse(sHtmlContent1, sPattern)
             if aResult[0] is True:
-                for aEntry in aResult[1]:
-            
-                    url = aEntry
+                    url = aResult[1][0]
                     sTitle = sMovieTitle
                     if url.startswith('//'):
                        url = 'http:' + url
             
-                       sHosterUrl = url 
-                       oHoster = cHosterGui().checkHoster(sHosterUrl)
-                       if oHoster != False:
-                           oHoster.setDisplayName(sTitle)
-                           oHoster.setFileName(sTitle)
-                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    sHosterUrl = url 
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster != False:
+                       oHoster.setDisplayName(sTitle)
+                       oHoster.setFileName(sTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)  
 				
    
     # (.+?) ([^<]+) .+?

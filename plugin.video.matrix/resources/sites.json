@@ -23,7 +23,7 @@
         "alarab": {
             "label": "alarab",
             "active": "True",
-            "url": "https://watch.alarab.com"
+            "url": "https://vod2.alarab.com"
         },
         "alarabclub": {
             "label": "alarabclub",
@@ -138,7 +138,7 @@
         "cimau": {
             "label": "cima4u",
             "active": "True",
-            "url": "https://cima4u.one"
+            "url": "https://cima4u.hair"
         },
         "detectiveconanar": {
             "label": "detectiveconanar",

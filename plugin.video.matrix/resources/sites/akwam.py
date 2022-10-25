@@ -482,7 +482,7 @@ def showHosters():
        for aEntry1 in aResult[1]:
            sHosterUrl = aEntry1[0] 
            sHost = aEntry1[1]  
-           sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)  
+           sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if oHoster != False:
               oHoster.setDisplayName(sTitle)
