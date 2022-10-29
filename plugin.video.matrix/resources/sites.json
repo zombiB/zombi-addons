@@ -18,7 +18,7 @@
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://on.akwam.cz"
+            "url": "https://on1.akwam.cz"
         },
         "alarab": {
             "label": "alarab",
@@ -58,7 +58,7 @@
         "animeup": {
             "label": "anime4up",
             "active": "True",
-            "url": "https://anime4up.vip"
+            "url": "https://w1.anime4up.vip"
         },
         "animezid": {
             "label": "animezid",
@@ -95,6 +95,11 @@
             "active": "True",
             "url": "https://www.asia4arabs.com"
         },
+        "asgoal": {
+            "label": "asgoal",
+            "active": "True",
+            "url": "https://www.as-goal.com"
+        },
         "awaan": {
             "label": "awaan",
             "active": "True",
@@ -123,7 +128,7 @@
         "cimaclub": {
             "label": "cimaclub",
             "active": "True",
-            "url": "https://cima-club.icu"
+            "url": "https://cima-clup.site"
         },
         "cimanow": {
             "label": "cimanow",
@@ -138,7 +143,7 @@
         "cimau": {
             "label": "cima4u",
             "active": "True",
-            "url": "https://cima4u.hair"
+            "url": "https://cima4u.skin"
         },
         "detectiveconanar": {
             "label": "detectiveconanar",
@@ -208,7 +213,7 @@
         "halacima": {
             "label": "halacima",
             "active": "True",
-            "url": "https://halacima.pro"
+            "url": "https://halacima.online"
         },
         "hdseed": {
             "label": "hdseed",
@@ -228,7 +233,7 @@
         "kingfoot": {
             "label": "kingfoot",
             "active": "True",
-            "url": "https://king-shoot.tv/"
+            "url": "https://king-shoot.tv"
         },
         "lodynet": {
             "label": "lodynet",
@@ -238,22 +243,17 @@
         "movizland": {
             "label": "movizland",
             "active": "True",
-            "url": "https://watch.movizland.cyou"
+            "url": "https://movizland.win"
         },
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycimaa.online"
+            "url": "https://mycimaa.xyz"
         },
         "nightosphere": {
             "label": "nightosphere",
             "active": "True",
             "url": "https://nightosphere.net"
-        },
-        "panet": {
-            "label": "panet",
-            "active": "True",
-            "url": "http://www.panet.co.il"
         },
         "prstej": {
             "label": "prstej",
@@ -268,7 +268,7 @@
         "shahidu": {
             "label": "shahid4u",
             "active": "True",
-            "url": "https://shahed4u.taxi"
+            "url": "https://shahed4u.network"
         },
         "shooflive": {
             "label": "shooflive",
@@ -293,7 +293,7 @@
         "spacepowerfan": {
             "label": "spacepowerfan",
             "active": "True",
-            "url": "https://www.spacepowerfan.com"
+            "url": "https://spacepowerfan.com"
         },
         "stardima": {
             "label": "stardima",
@@ -318,7 +318,7 @@
         "toonsland": {
             "label": "toonsland",
             "active": "True",
-            "url": "https://www.toonsland.site/"
+            "url": "https://www.toonsland.site"
         },
         "tvfun": {
             "label": "tvfun",
@@ -335,15 +335,20 @@
             "active": "True",
             "url": "http://watanflix.com"
         },
+        "koralive": {
+            "label": "koralive",
+            "active": "True",
+            "url": "https://live.360koralive.com/"
+        },
+        "yallalive": {
+            "label": "yallalive",
+            "active": "True",
+            "url": "https://yallalive.org"
+        },
         "xsanime": {
             "label": "xsanime",
             "active": "True",
             "url": "https://v.xsanime.com"
-        },
-        "yallakora": {
-            "label": "yallakora",
-            "active": "True",
-            "url": "https://www.yallakora-online.tv"
         }
     }
 }

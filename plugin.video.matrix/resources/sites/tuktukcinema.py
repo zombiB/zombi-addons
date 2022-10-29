@@ -122,7 +122,7 @@ def showMovies(sSearch = ''):
     oParser = cParser()
 
     # (.+?) .+? ([^<]+)   
-    sPattern = '<a href="([^<]+)" title="(.+?)">.+?src="(.+?)" alt='
+    sPattern = '<div class="Block--Item.+?href="([^<]+)" title="(.+?)">.+?src="(.+?)" alt='
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0] is True:
         total = len(aResult[1])
@@ -198,7 +198,7 @@ def showSeriesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
-    sPattern = '<a href="([^<]+)" title="(.+?)">.+?src="(.+?)" alt='
+    sPattern = '<div class="Block--Item.+?href="([^<]+)" title="(.+?)">.+?src="(.+?)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

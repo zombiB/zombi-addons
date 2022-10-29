@@ -333,7 +333,7 @@ def showLink():
         # (.+?) .+? ([^<]+)
     oParser = cParser()
     sPattern = '<a class="vc_general vc_btn3 vc_btn3-size-lg vc_btn3-shape-square vc_btn3-style-flat vc_btn3-color-danger" href="(.+?)" title'
-    
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -359,7 +359,7 @@ def showLink():
         sHtmlContent = oRequest.request()
                
         
-    sPattern = 'src="(.+?)"'
+    sPattern = "data-url='(.+?)'"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

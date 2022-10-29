@@ -27,8 +27,6 @@ MOVIE_TOP = (URL_MAIN + '/imdb/', 'showTopMovies')
 MOVIE_TURK = (URL_MAIN + '/genre/turkish-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/genre/animation/', 'showMovies')
 SERIE_TR = (URL_MAIN + '/genre/turkish-series/', 'showSeries')
-
-SERIE_HEND = (URL_MAIN + '/genre/indian-series/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/genre/english-series/', 'showSeries')
 SERIE_AR = (URL_MAIN + '/genre/arabic-series/', 'showSeries')
 
@@ -72,10 +70,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)  
-
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler) 
 
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', 'msrh.png', oOutputParameterHandler)

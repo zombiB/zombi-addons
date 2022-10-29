@@ -6,6 +6,7 @@ from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import xbmcgui
 from resources.lib.comaddon import VSlog
+UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0'
 
 
 class cHoster(iHoster):
@@ -20,6 +21,17 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
+    # (.+?) # ([^<]+) .+? 
+        sPattern = ',"hls":"(.+?)",'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        if aResult[0] is True:
+            api_call = aResult[1][0]+ '|User-Agent=' + UA + '&Referer=' + self._url 
+            VSlog(api_call)
+
+            if api_call:
+                return True, api_call
     # (.+?) # ([^<]+) .+? 
         sPattern = 'quality="(.+?)" frameRate.+?<BaseURL>(.+?)<\/BaseURL>'
 

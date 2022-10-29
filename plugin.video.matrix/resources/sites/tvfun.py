@@ -119,6 +119,8 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if URL_MAIN not in siteUrl:
+                siteUrl = URL_MAIN + siteUrl
             sThumb = aEntry[2]
             sDesc = ''
             sYear = ''
@@ -220,6 +222,8 @@ def showSeriesSearch(sSearch = ''):
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if URL_MAIN not in siteUrl:
+                siteUrl = URL_MAIN + siteUrl
             sThumb = aEntry[2]
 			
 
@@ -250,6 +254,8 @@ def showSeriesSearch(sSearch = ''):
             siteUrl = 'https:'+aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if URL_MAIN not in siteUrl:
+                siteUrl = URL_MAIN + siteUrl
             sThumb = sThumb
             sDesc = ""
 			
@@ -325,12 +331,12 @@ def showEpisodes():
      
 
     if aResult[0] is True:
-        sHtmlContent2 = aResult[1][0]
+        sHtmlContent = aResult[1][0]
    # ([^<]+) .+? (.+?)
     sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)"><img src="(.+?)" sizes='
 	
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
     if aResult[0] is True:
@@ -345,6 +351,8 @@ def showEpisodes():
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if URL_MAIN not in siteUrl:
+                siteUrl = URL_MAIN + siteUrl
             sThumb = sThumb
 			
 
@@ -375,6 +383,8 @@ def showEpisodes():
             siteUrl = 'https:'+aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
+            if URL_MAIN not in siteUrl:
+                siteUrl = URL_MAIN + siteUrl
             sThumb = sThumb
             sDesc = ""
 			

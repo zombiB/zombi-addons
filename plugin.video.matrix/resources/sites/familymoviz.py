@@ -26,7 +26,7 @@ SERIE_EN = ('https://www.familymoviz.net/foreignseries/', 'showSeries')
 
 URL_SEARCH = ('https://www.familymoviz.net/?s=', 'showSeriesSearch')
 URL_SEARCH_MOVIES = ('https://www.familymoviz.net/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
-URL_SEARCH_SERIES= ('https://www.familymoviz.net/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
+URL_SEARCH_SERIES= ('https://www.familymoviz.net/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -146,7 +146,7 @@ def showSearchSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
     # (.+?) ([^<]+) .+?
-    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><noscript><img.+?src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="([^<]+)" />.+?<p class="exp-news">([^<]+)<a'
+    sPattern = '<div class="news-post"><a href="([^<]+)" class="imgnews"><noscript><img.+?src="([^<]+)" class="attachment-thumbnail size-thumbnail wp-post-image" alt="(.+?)".+?<p class="exp-news">([^<]+)<a'
  
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -177,12 +177,40 @@ def showSearchSeries(sSearch = ''):
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
+        
+  # ([^<]+) .+?
+
+    sPattern = "<a href='([^<]+)' class='inactive' >([^<]+)</a>"
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0] is True:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
  
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage != False:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            sTitle = aEntry[1]
+            
+            sTitle =  "PAGE " + sTitle
+            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+            siteUrl = aEntry[0]
+            sThumb = ""
+            sDesc = ""
+
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+			
+            oGui.addTV(SITE_IDENTIFIER, 'showSearchSeries', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -412,11 +440,14 @@ def showHosters():
             url = str(aEntry)
             if url.startswith('//'):
                 url = 'https:' + url
+ 
+            if ".jpg" in url:
+                continue
             
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
-                oHoster.setDisplayName(str(sNote2))
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
@@ -434,7 +465,7 @@ def showHosters():
             sHosterUrl = url
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
-                oHoster.setDisplayName(str(sNote2))
+                oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
@@ -473,7 +504,7 @@ def showHosters():
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                             
                     if oHoster != False:
-                        oHoster.setDisplayName(str(sNote2))
+                        oHoster.setDisplayName(sMovieTitle)
                         oHoster.setFileName(sMovieTitle)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 

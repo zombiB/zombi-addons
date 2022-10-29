@@ -20,6 +20,8 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
+        if 'youtu.be' in self._url:
+            self._url = self._url.replace("youtu.be/","www.youtube.com/watch?v=")
         if '/embed/' in self._url:
             self._url = self._url.replace("/embed/","/watch?v=")
         VSlog(self._url)

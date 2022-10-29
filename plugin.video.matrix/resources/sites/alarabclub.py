@@ -23,7 +23,6 @@ MOVIE_AR = (URL_MAIN + '/category/films/film-arabic-2', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/category/films/film-dubbed', 'showMovies')
 
 SERIE_DUBBED = (URL_MAIN + '/series-1?filter=193', 'showSerie')
-SERIE_HEND = (URL_MAIN + '/series-1?filter=2821', 'showSerie')
 SERIE_AR = (URL_MAIN + '/series-1', 'showSerie')
 REPLAYTV_NEWS = (URL_MAIN + '/category/2-tvshows?type=series', 'showSerie')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
@@ -52,9 +51,6 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
-	
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'عروض تلفزيونيه', 'brmg.png', oOutputParameterHandler) 
     
     oGui.setEndOfDirectory()
 
@@ -91,7 +87,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="box--item"><a href="([^<]+)">.+?<div class="poster"><img class="imgInit" data-image="([^<]+)" alt="([^<]+)"></div>'
+    sPattern = '<div class="box--item"><a href="(.+?)">.+?<div class="poster"><img class="imgInit" data-image="([^<]+)" alt="([^<]+)"></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -106,10 +102,10 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "مسلسل"  in aEntry[1]:
+            if "مسلسل"  in aEntry[2]:
                 continue
  
-            if "حلقة"  in aEntry[1]:
+            if "حلقة"  in aEntry[2]:
                 continue
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("برنامج","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("انيمي","")
@@ -176,7 +172,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="box--item"><a href="([^<]+)">.+?<div class="poster"><img class="imgInit" data-image="([^<]+)" alt="([^<]+)"></div>'
+    sPattern = '<div class="box--item"><a href="(.+?)">.+?<div class="poster"><img class="imgInit" data-image="([^<]+)" alt="([^<]+)"></div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

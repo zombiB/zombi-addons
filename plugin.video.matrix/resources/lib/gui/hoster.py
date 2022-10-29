@@ -227,6 +227,9 @@ class cHosterGui:
         if ('akwam' in sHostName):
             return self.getHoster('lien_direct')
 
+        if ('.vimeocdn.' in sHostName):
+            return self.getHoster('lien_direct')
+
         if ('bokracdn' in sHostName):
             return self.getHoster('lien_direct')
 

@@ -25,6 +25,9 @@ class cHoster(iHoster):
             api_call = self._url.replace("ddsdd","upbam")    
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
             api_call = api_call + '|User-Agent=' + UA + '&Referer=' + self._url
+        if 'amazonaws.com' in api_call:   
+            UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
+            api_call = api_call + '|User-Agent=' + UA + '&Referer=https://davorcdn.com/'
  	   
         if 'ffsff' in api_call:
             api_call = self._url.replace("ffsff","moshahda")

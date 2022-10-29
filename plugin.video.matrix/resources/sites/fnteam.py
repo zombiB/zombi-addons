@@ -101,6 +101,12 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
+            if "مسلسل"  in aEntry[1]:
+                continue
+ 
+            if "حلقة"  in aEntry[1]:
+                continue
+ 
             sTitle = aEntry[1].replace("&#8217;","'").replace("فيلم","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2].replace("(","").replace(")","")

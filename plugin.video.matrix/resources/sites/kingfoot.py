@@ -28,9 +28,6 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()    
     oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', 'sport.png', oOutputParameterHandler)
-	
-    oOutputParameterHandler.addParameter('siteUrl', SPORT_FOOT[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'أهداف و ملخصات ', 'sport.png', oOutputParameterHandler)
    
     oGui.setEndOfDirectory()
 	
@@ -44,7 +41,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<div class="match-event".+?<a href="(.+?) title="">.+?<span class="team-name-en">(.+?)</span>.+?<span class="team-name-en">(.+?)</span>'
+    sPattern = '<div class="match-event".+?<a href="(.+?)" title="">.+?<span class="team-name-en">(.+?)</span>.+?<span class="team-name-en">(.+?)</span>'
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -140,7 +137,7 @@ def showHosters4():
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'key.1xnews.xyz'}
     rurl = 'https://key.1xnews.xyz/key.php'
     St=requests.Session()              
-    sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')     
+    sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')    
     sPattern =  '"key":"(.+?)"'
 
     mk =  '' 
@@ -150,26 +147,39 @@ def showHosters4():
 
     oRequestHandler = cRequestHandler(sUrl)
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'king-shoot.tv','Referer' : 'https://king-shoot.tv'}
-    rurl = sUrl
+    durl = sUrl
     St=requests.Session()              
-    sHtmlContent = St.get(rurl,headers=hdr).content.decode('utf-8')
+    sHtmlContent = St.get(durl,headers=hdr).content.decode('utf-8') 
+  
+    sPattern =  '"kt": "(.+?)"'
+    kt =  '' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0] is True:
+        kt = aResult[1][0] 
+    sPattern =  'var k_url = "(.+?)";'
+    key =  '' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0] is True:
+        key = aResult[1][0] 
+    VSlog(key)                
 
     sPattern = '"link":"(.+?)",.+?"server_name":"(.+?)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)   
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)      
     if aResult[0] is True:
         for aEntry in aResult[1]:
             sMovieTitle = aEntry[1]
             url = aEntry[0]
 
             if mk:
-               url = aEntry[0]+"&k="+mk+'&p=1'
+               url = aEntry[0]+"&kt="+kt
             if '.php?' in url:           
                 oRequestHandler = cRequestHandler(url)
                 hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'live.yalla-kora.tv','referer' : 'https://live.golato.tv/'}
                 data = {'p':'1'}
                 St=requests.Session()
                 sHtmlContent = St.get(url,headers=hdr)
-                sHtmlContent2 = sHtmlContent.content  
+                sHtmlContent2 = sHtmlContent.content 
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if aResult[0] is True:
@@ -180,6 +190,19 @@ def showHosters4():
                    url = aResult[1][0]
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if aResult[0] is True:
+                   url = aResult[1][0]
+            if '/api/' in url:
+                oRequestHandler = cRequestHandler(url)
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'king-shoot.tv','referer' : 'https://king-shoot.tv'}
+                St=requests.Session() 
+                url = aEntry[0]+'?token='+key+'&kt='+kt    
+                VSlog(url)          
+                sHtmlContent2 = St.get(url,headers=hdr).content.decode('utf-8')   
+                VSlog(sHtmlContent2) 
+                oParser = cParser()
+                sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if aResult[0] is True:
                    url = aResult[1][0]

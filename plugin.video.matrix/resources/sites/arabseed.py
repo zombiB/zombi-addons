@@ -181,9 +181,9 @@ def showMovies(sSearch = ''):
        r = s.post(sURL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
      # (.+?) ([^<]+) .+?
-    sPattern = '</div><a href="([^<]+)">.+?data-src="(.+?)" alt="(.+?)">'
+    sPattern = '</div><a href="(.+?)">.+?data-src="(.+?)" alt="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
+
 	
     if aResult[0] is True:
         total = len(aResult[1])
