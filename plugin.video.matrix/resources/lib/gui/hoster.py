@@ -204,8 +204,6 @@ class cHosterGui:
             return self.getHoster('resolver')
         if ('viewsb' in sHostName):
             return self.getHoster('resolver')
-        if ('vimeo' in sHostName):
-            return self.getHoster('vimeo')
         if ('embed.scdn.' in sHostName):
             return self.getHoster('faselhd')
             
