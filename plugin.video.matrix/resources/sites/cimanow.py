@@ -16,7 +16,16 @@ SITE_NAME = 'cimanow'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/', 'showMovies')
 
@@ -373,16 +382,18 @@ def showServer():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    host = URL_MAIN.split('/')[2]
+    VSlog(host)
  
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'cimanowinc.com','referer' : 'https://cimanowinc.com'}
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : host,'referer' : URL_MAIN}
     St=requests.Session()
     sHtmlContent = St.get(sUrl,headers=hdr)
     sHtmlContent = sHtmlContent.content.decode('utf8')  
     oParser = cParser()
-    sStart = '<ul class="tabcontent" id="download">'
-    sEnd = '</ul>'
+    sStart = '<ul class="tabcontent active" id="watch">'
+    sEnd = '</section>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     # (.+?) .+? ([^<]+)        	
@@ -420,20 +431,26 @@ def showServer():
 				
     #Recuperation infos
     sId = ''
+    sPattern = 'data-id="(.+?)">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sId = aResult[1][0]
      # (.+?) ([^<]+) .+?
 
-    sPattern = 'data-index="([^<]+)" data-id="([^<]+)">'
+    sPattern = 'data-index="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
 
    
     if aResult[0] is True:
         for aEntry in aResult[1]:
 
             sTitle = 'server '
-            siteUrl = URL_MAIN + '/wp-content/themes/Cima%20Now%20New/core.php?action=switch&index='+aEntry[0]+'&id='+aEntry[1]
+            siteUrl = URL_MAIN + '/wp-content/themes/Cima%20Now%20New/core.php?action=switch&index='+aEntry+'&id='+sId
             oRequest = cRequestHandler(siteUrl)
-            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','host' : 'cimanowinc.com','referer' : 'https://cimanowinc.com'}
-            params = {'action':'switch','index':aEntry[0],'id':aEntry[1]}
+            hdr = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0','host' : host,'referer' : URL_MAIN}
+            params = {'action':'switch','index':aEntry,'id':sId}
             St=requests.Session()
             sHtmlContent = St.get(siteUrl,headers=hdr,params=params)
             sHtmlContent = sHtmlContent.content
