@@ -202,6 +202,8 @@ class cHosterGui:
             return self.getHoster('resolver')
         if ('sbthe' in sHostName):
             return self.getHoster('resolver')
+        if ('sbanh' in sHostName):
+            return self.getHoster('resolver')
         if ('viewsb' in sHostName):
             return self.getHoster('resolver')
         if ('embed.scdn.' in sHostName):

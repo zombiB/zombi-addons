@@ -357,6 +357,8 @@ def showMovies(sSearch = ''):
           
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN+siteUrl
             sThumb = aEntry[1]
             if sThumb.startswith('//'):
                 sThumb = "https:"+aEntry[1]

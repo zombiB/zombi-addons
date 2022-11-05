@@ -232,6 +232,14 @@ def showEpisodes():
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent1 = oRequest.request()
+    sPattern =  '<a href="(https://www.asia4arabs.co.+?)" target'
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    VSlog(aResult)
+    if aResult[0] is True:
+        m3url =  aResult[1][0]
+        oRequest = cRequestHandler(m3url)
+        sHtmlContent1 = oRequest.request()
+        VSlog(m3url)
   # ([^<]+) .+? (.+?)
 
     sPattern = 'iframes([^<]+)=.+?width="100%" height="400" src="(.+?)" frameborder='

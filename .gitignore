@@ -1,3 +1,4 @@
 *.pyo
 plugin.video.matrix/resources/hosters/lien_direct.py
 plugin.video.matrix/resources/lib/gui/guiElement.py
+plugin.video.matrix/resources/hosters/vidbom.py
