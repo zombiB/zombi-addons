@@ -255,6 +255,11 @@
             "active": "True",
             "url": "https://nightosphere.net"
         },
+        "pakistani": {
+            "label": "pakistani",
+            "active": "True",
+            "url": "https://pakistani-live.net"
+        },
         "prstej": {
             "label": "prstej",
             "active": "True",
@@ -338,7 +343,7 @@
         "koralive": {
             "label": "koralive",
             "active": "True",
-            "url": "https://live.360koralive.com/"
+            "url": "https://ww.360kora.live/"
         },
         "yallalive": {
             "label": "yallalive",

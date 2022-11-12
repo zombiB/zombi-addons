@@ -83,12 +83,21 @@ def showHosters4():
     sThumb = oInputParameterHandler.getValue('sThumb')                    
        
     oParser = cParser()
+ 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = "redirectUrl='(.+?)';"
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        sUrl = aResult[1][0]
 
 
     oRequestHandler = cRequestHandler(sUrl)
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'yallalive.org','Referer' : 'https://yallalive.org'}
     St=requests.Session()              
-    sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')            
+    sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')        
 
     # (.+?) .+? ([^<]+)
     sPattern = 'href="(.+?)" target="search_iframe">(.+?)</a>'

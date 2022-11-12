@@ -18,7 +18,16 @@ SITE_NAME = 'koralive'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
 
  
@@ -84,22 +93,34 @@ def showLive():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+
+    sPattern = 'content="0;url=(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
+    
+    if (aResult[0]):
+        sUrl = aResult[1][0]
+        oRequestHandler = cRequestHandler(sUrl)
+        sHtmlContent = oRequestHandler.request()
     # (.+?) # ([^<]+) .+? 
     sPattern = 'setURL([^<]+)">([^<]+)</button>'
     
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
    
+    VSlog(aResult)
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
             sTitle = aEntry[1]
             siteUrl = aEntry[0].replace("('","").replace("')","")
+            if siteUrl.startswith('/'):
+               siteUrl = URL_MAIN + siteUrl
             sDesc = ""
             import requests    
             oRequestHandler = cRequestHandler(siteUrl)
-            hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : 'https://msdee.xyz/'}
+            hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
             St=requests.Session()
             sHtmlContent = St.get(siteUrl,headers=hdr)
             sHtmlContent = sHtmlContent.content.decode('utf-8')
@@ -241,6 +262,14 @@ def showLive():
                                oHoster.setDisplayName(sMovieTitle+' '+sTitle)
                                oHoster.setFileName(sMovieTitle)
                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    
+    if 'streamable' in sUrl:
+        sHosterUrl = sUrl.split('?src=')[1]
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        if oHoster != False:
+           oHoster.setDisplayName(sMovieTitle)
+           oHoster.setFileName(sMovieTitle)
+           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
                 
     oGui.setEndOfDirectory()			
