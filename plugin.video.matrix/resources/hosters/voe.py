@@ -23,6 +23,26 @@ class cHoster(iHoster):
         oParser = cParser()
         
             # (.+?) .+?
+        sPattern = "'hls': '(.+?)',.+?'video_height': (.+?),"
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        api_call = False
+
+        if aResult[0] is True:
+            
+            #initialisation des tableaux
+            url=[]
+            qua=[]
+            
+            #Replissage des tableaux
+            for i in aResult[1]:
+                url.append(str(i[0]))
+                qua.append(str(i[1]))
+
+            api_call = dialog().VSselectqual(qua, url)
+
+            if api_call:
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url +'&verifypeer=false'
         sPattern = '"hls": "(.+?)",.+?"video_height": (.+?),'
         aResult = oParser.parse(sHtmlContent, sPattern)
         

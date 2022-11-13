@@ -67,14 +67,14 @@ def showMovies():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters4', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
  
     oGui.setEndOfDirectory()
 			
-def showHosters4():
+def showHosters():
     import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -220,34 +220,3 @@ def showHosters4():
 
 
     oGui.setEndOfDirectory()
-  	
-def showHosters():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    oParser = cParser() # (.+?) .+? ([^<]+)
-    sPattern = 'frameborder="0" allowfullscreen="" allow="autoplay" src="https.+?link=(.+?)" scrolling="no">' 
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sTitle = sMovieTitle
-            if url.startswith('//'):
-                url = 'https:' + url
-            
-                
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
-                oHoster.setDisplayName(sTitle)
-                oHoster.setFileName(sTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-                
-    oGui.setEndOfDirectory()    

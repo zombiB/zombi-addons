@@ -46,7 +46,7 @@ ANIM_MOVIES = ('https://w3.egydead.live/series-category/%d8%a7%d9%81%d9%84%d8%a7
 ANIM_NEWS = ('https://w3.egydead.live/series-category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d9%86%d9%85%d9%8a/', 'showSeries')
 REPLAYTV_PLAY = ('https://w.egydead.live/category/%d9%85%d8%b3%d8%b1%d8%ad%d9%8a%d8%a7%d8%aa/', 'showMovies')
 REPLAYTV_NEWS = ('https://w1.egydead.live/category/%d8%b9%d8%b1%d9%88%d8%b6-%d9%88%d8%ad%d9%81%d9%84%d8%a7%d8%aa/', 'showMovies')
-SPORT_WWE = ('https://w.egydead.live/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d8%a9/', 'showMovies')
+
 
 URL_SEARCH = ('https://ww.egydead.com/?s=', 'showMovies')
 URL_SEARCH_MOVIES = ('https://ww.egydead.com/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')

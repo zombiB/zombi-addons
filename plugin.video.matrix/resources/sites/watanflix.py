@@ -102,7 +102,7 @@ def showSeriesSearch(sSearch = ''):
         if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -228,15 +228,15 @@ def showSerie(sSearch = ''):
         if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSerie', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
   
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a href="([^<]+)" rel="next">&raquo;</a></li></ul></div>'
-	 #.+?([^<]+)
+    sPattern = 'href="([^<]+)" rel="next">'
+	 # .+? ([^<]+)
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  

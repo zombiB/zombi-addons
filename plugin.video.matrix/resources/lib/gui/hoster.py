@@ -461,8 +461,8 @@ class cHosterGui:
 
         if ('.mp4' in sHosterUrl):
             return self.getHoster('lien_direct')
-
-        if ('nitro.download' in sHosterUrl or 'Facebook'  or 'facebook' or 'infinityload' or 'turbobit' or 'tubeload' in sHostName or 'fastdrive' in sHosterUrl or 'openload' in sHosterUrl or 'multiup' in sHosterUrl):
+				
+        if ('nitroflare' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName or 'multiup' in sHostName):
             return False
 
         return False

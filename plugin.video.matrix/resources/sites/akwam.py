@@ -449,8 +449,8 @@ def showHosters():
 
     oParser = cParser()
             
-# ([^<]+) .+? (.+?)
-    sPattern =  '<a href="([^<]+)" class="link-btn' 
+# ([^<]+) .+? (.+?)<a href="http://noon.khsm.io/link/126002"
+    sPattern =  'href="(http[^<]+/watch/.+?)"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         murl =  aResult[1][0]

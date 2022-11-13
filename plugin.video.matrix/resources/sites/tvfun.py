@@ -166,6 +166,8 @@ def showSeries(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN + siteUrl
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             sThumb = ""
@@ -252,6 +254,8 @@ def showSeriesSearch(sSearch = ''):
  
             sTitle = "playlist"
             siteUrl = 'https:'+aEntry[0]
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN + siteUrl
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if URL_MAIN not in siteUrl:
