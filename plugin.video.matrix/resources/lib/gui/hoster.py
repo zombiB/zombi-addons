@@ -176,7 +176,7 @@ class cHosterGui:
 
         supported_player = ['hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'mycima', 'extremenow', 'yourupload', 'vidspeeds', 'moshahda', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'mixloads', 'vidoza',
                             'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'netu', 'letsupload',
-                            'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch', 'mail.ru',
+                            'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
                             'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'streamlare', 'vidload',
@@ -250,6 +250,9 @@ class cHosterGui:
             
         if ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName):
             return self.getHoster('vidbm')
+				
+        if ('mail.ru' in sHostName):
+            return self.getHoster('resolver')
 				
         if ('streamcherry' in sHostName):
             return self.getHoster('resolver')
@@ -325,9 +328,6 @@ class cHosterGui:
             
         if ('govid' in sHostName) or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName):
             return self.getHoster('govid')
-            
-        if ('jwplatform' in sHostName):
-            return self.getHoster('anonfile')
             
         if ('vid4up' in sHostName):
             return self.getHoster('vidforup')
