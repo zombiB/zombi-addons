@@ -50,9 +50,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<a title="(.+?)" id="match-live" href="(.+?)" target="_blank">'
-
-
+    sPattern = '<a title="(.+?)" id="match-live" href="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	

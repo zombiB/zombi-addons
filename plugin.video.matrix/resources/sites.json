@@ -18,7 +18,7 @@
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://akwam.us"
+            "url": "https://on.akwam.cx"
         },
         "alarab": {
             "label": "alarab",
@@ -58,7 +58,7 @@
         "animeup": {
             "label": "anime4up",
             "active": "True",
-            "url": "https://w1.anime4up.vip"
+            "url": "https://anime4up.tv"
         },
         "animezid": {
             "label": "animezid",
@@ -88,17 +88,12 @@
         "arblionz": {
             "label": "arblionz",
             "active": "True",
-            "url": "https://arlionztv.com"
+            "url": "https://arlionztv.online"
         },
         "asiaarabs": {
             "label": "asia4arabs",
             "active": "True",
             "url": "https://www.asia4arabs.com"
-        },
-        "asgoal": {
-            "label": "asgoal",
-            "active": "True",
-            "url": "https://www.as-goal.com"
         },
         "awaan": {
             "label": "awaan",
@@ -128,7 +123,7 @@
         "cimaclub": {
             "label": "cimaclub",
             "active": "True",
-            "url": "https://cima-clup.site"
+            "url": "https://cima-clup.sbs"
         },
         "cimanow": {
             "label": "cimanow",
@@ -143,7 +138,7 @@
         "cimau": {
             "label": "cima4u",
             "active": "True",
-            "url": "https://cima4u.skin"
+            "url": "https://cimaa4u.sbs"
         },
         "detectiveconanar": {
             "label": "detectiveconanar",
@@ -173,7 +168,7 @@
         "ehna": {
             "label": "ehna.online",
             "active": "True",
-            "url": "https://e7naaaa.online"
+            "url": "http://e7nna.online"
         },
         "esseq": {
             "label": "esseq",
@@ -213,7 +208,7 @@
         "halacima": {
             "label": "halacima",
             "active": "True",
-            "url": "https://halacima.online"
+            "url": "https://halacima.site"
         },
         "hdseed": {
             "label": "hdseed",
@@ -230,11 +225,6 @@
             "active": "True",
             "url": "https://www.katkoute.com"
         },
-        "kingfoot": {
-            "label": "kingfoot",
-            "active": "True",
-            "url": "https://king-shoot.tv"
-        },
         "lodynet": {
             "label": "lodynet",
             "active": "True",
@@ -248,7 +238,7 @@
         "mycima": {
             "label": "mycima",
             "active": "True",
-            "url": "https://mycimaa.xyz"
+            "url": "https://myciima.yachts"
         },
         "nightosphere": {
             "label": "nightosphere",
@@ -273,12 +263,12 @@
         "shahidu": {
             "label": "shahid4u",
             "active": "True",
-            "url": "https://shahed4u.network"
+            "url": "https://shaheed4u.cfd"
         },
         "shooflive": {
             "label": "shooflive",
             "active": "True",
-            "url": "https://ar.shooflive.co"
+            "url": "https://t.shooflive.co"
         },
         "shoofvod": {
             "label": "shoofvod",
@@ -349,11 +339,6 @@
             "label": "yallalive",
             "active": "True",
             "url": "https://yallalive.org"
-        },
-        "yacinetv": {
-            "label": "yacinetv",
-            "active": "True",
-            "url": "https://ar.yacine-tv.com"
         },
         "xsanime": {
             "label": "xsanime",
