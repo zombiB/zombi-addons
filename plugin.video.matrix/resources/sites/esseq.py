@@ -16,7 +16,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 
-SERIE_TR = (URL_MAIN + '/series/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
 MOVIE_TURK = (URL_MAIN + '/category/الأفلام-التركية/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
@@ -202,6 +202,7 @@ def showEps():
     # (.+?) .+?  ([^<]+)
     sPattern = '<article class="postEp">.+?<a href="(.+?)" title=.+?<div class="poster"><div class="imgSer" style="background-image:url(.+?);">.+?class="title">(.+?)</div>'
     
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -238,6 +239,16 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+            
+    sPattern =  '<div class="skipAd"><span><a href="(.+?)">' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0] is True:
+        m3url = aResult[1][0]
+        oRequestHandler = cRequestHandler(m3url)
+        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+        oRequestHandler.addHeaderEntry('referer', 'https://m.eshiq.net/')
+        sHtmlContent = oRequestHandler.request() 
 
     # (.+?) .+? ([^<]+)        	
     sPattern = 'data-name="(.+?)" data-server="(.+?)">' 
