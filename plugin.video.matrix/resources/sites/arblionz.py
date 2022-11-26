@@ -37,7 +37,7 @@ ANIM_NEWS = (URL_MAIN + '/category/series/anime/', 'showSeries')
 
 REPLAYTV_NEWS = (URL_MAIN + '/category/tv-show/', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + '/category/other-shows/theater/', 'showSeries')
-
+SPORT_FOOT = (URL_MAIN + '/category/other-shows/sport/', 'showMovies')
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')

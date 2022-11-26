@@ -570,20 +570,26 @@ def showHosters():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
+    cook = oRequestHandler.GetCookies()
     sHtmlContent = oRequestHandler.request();
+    VSlog(cook)
 
     oParser = cParser()
             
     sPattern =  '<a href="([^<]+)" class="watchBTn">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
-        m3url2 = aResult[1][0] 
-        import requests
-        s = requests.Session()            
-        headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'Referer': Quote(sUrl)}
-        r = s.post(m3url2, headers=headers)
-        sHtmlContent = r.content.decode('utf8',errors='ignore')
+        murl = aResult[1][0] 
+        VSlog(murl)
+        oRequest = cRequestHandler(murl)
+        cook = oRequest.GetCookies()
+        VSlog(cook)
+        oRequest.addHeaderEntry('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9')
+        oRequest.addHeaderEntry('accept-language', 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7')
+        oRequest.addHeaderEntry('Host', 'go.reviewtech.me')
+        oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+        sHtmlContent = oRequest.request()
+        VSlog(sHtmlContent)
    
         sPattern = 'data-link="(.+?)" class'
         oParser = cParser()

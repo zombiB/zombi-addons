@@ -97,9 +97,6 @@ def showLive():
     if 'data-embed=' in sHtmlContent :
         sPattern = 'data-embed="(.+?)">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-    if 'onclick=' in sHtmlContent :
-        sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
-        aResult = oParser.parse(sHtmlContent, sPattern)
     else :
         sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -133,7 +130,7 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1]
-                   sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc'
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
@@ -157,7 +154,7 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1]
-                   sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc'
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
@@ -182,7 +179,7 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc'
+                   sHosterUrl = url
                    sMovieTitle = sTitle
             
 
@@ -222,7 +219,7 @@ def showLive():
                                  url = 'https:' + url
                               if '?src=' in url:
                                  url = url.split('?src=')[1] 
-                              sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc' 
+                              sHosterUrl = url
                               sMovieTitle = sTitle
             
 
@@ -234,7 +231,7 @@ def showLive():
                    sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
  
                    UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
-                   sHosterUrl = sHosterUrl+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc'+ '&Referer='+sHosterUrl    
+                   sHosterUrl = sHosterUrl   
                    sMovieTitle = sTitle
             
 
@@ -262,7 +259,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc'
+                   sHosterUrl = url
                    sMovieTitle = sTitle
             
 
@@ -287,7 +284,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc' 
+                   sHosterUrl = url 
                    sMovieTitle = sTitle
             
 
@@ -303,7 +300,7 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
-                   sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc' 
+                   sHosterUrl = url
                    sMovieTitle = sTitle
             
 
@@ -322,7 +319,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ '|User-Agent='+UA+ '&origin=https://live.tv96.cc'
+                   sHosterUrl = url
                    sMovieTitle = sTitle
             
 
@@ -343,7 +340,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ '|User-Agent=' + UA + '&origin=https://live.tv96.cc'
+                   sHosterUrl = url
                    sMovieTitle = sTitle
             
 

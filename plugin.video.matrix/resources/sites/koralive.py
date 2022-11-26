@@ -95,7 +95,7 @@ def showLive():
 
     sPattern = 'content="0;url=(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+
     
     if (aResult[0]):
         sUrl = aResult[1][0]
