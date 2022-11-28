@@ -473,7 +473,7 @@ def showHosters():
     if aResult[0] is True:
             for aEntry in aResult[1]:
         
-                url = aEntry
+                url = aEntry.replace("+","")
                 sTitle = ''
                 if url.startswith('//'):
                    url = 'https:' + url
@@ -495,7 +495,7 @@ def showHosters():
     if aResult[0] is True:
             for aEntry in aResult[1]:
         
-                url = aEntry[0]
+                url = aEntry[0].replace("+","")
                 sTitle = sMovieTitle+' ['+aEntry[1]+'] '
                 if url.startswith('//'):
                    url = 'https:' + url

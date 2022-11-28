@@ -196,6 +196,8 @@ class cHosterGui:
 
         if ('sbfull' in sHostName):
             return self.getHoster('resolver')
+        if ('vanfem' in sHostName):
+            return self.getHoster('resolver')
         if ('sblanh' in sHostName):
             return self.getHoster('resolver')
         if ('sbspeed' in sHostName):
@@ -205,6 +207,8 @@ class cHosterGui:
         if ('sbanh' in sHostName):
             return self.getHoster('resolver')
         if ('viewsb' in sHostName):
+            return self.getHoster('resolver')
+        if ('tubeload' in sHostName):
             return self.getHoster('resolver')
         if ('vimeo' in sHostName):
             return self.getHoster('vimeo')

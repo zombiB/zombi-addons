@@ -106,7 +106,7 @@ def showLive():
     
     aResult = oParser.parse(sHtmlContent, sPattern)
    
-    VSlog(aResult)
+
     if aResult[0] is True:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
@@ -123,6 +123,7 @@ def showLive():
             sHtmlContent = St.get(siteUrl,headers=hdr)
             sHtmlContent = sHtmlContent.content.decode('utf-8')
             oParser = cParser()
+
     # (.+?) # ([^<]+) .+? 			
 
 
@@ -133,6 +134,8 @@ def showLive():
                    url = aEntry
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
                    sMovieTitle = sMovieTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -146,6 +149,8 @@ def showLive():
                    url = aEntry.replace("('","").replace("')","")
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
                    sMovieTitle = sMovieTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -159,6 +164,8 @@ def showLive():
                    url = aEntry.replace("('","").replace("')","")
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
                    sMovieTitle = sMovieTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -171,6 +178,8 @@ def showLive():
                    url = aEntry
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
                    sMovieTitle = sMovieTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -185,6 +194,8 @@ def showLive():
                    url = aEntry
                    sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                    sMovieTitle = sMovieTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -198,6 +209,8 @@ def showLive():
                    url = aEntry
                    sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                    sMovieTitle = sMovieTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -224,6 +237,8 @@ def showLive():
                           url = aResult[1][0]
                           sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
                           sMovieTitle = str(aEntry[1])
+                          if 'vimeo' in sHosterUrl:
+                              sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                           oHoster = cHosterGui().checkHoster(sHosterUrl)
                           if oHoster != False:
                               oHoster.setDisplayName(sMovieTitle+' '+sTitle)
@@ -253,6 +268,8 @@ def showLive():
  
                            sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","") 
                            sMovieTitle = sMovieTitle
+                           if 'vimeo' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
                            oHoster = cHosterGui().checkHoster(sHosterUrl)

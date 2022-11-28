@@ -238,7 +238,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<article id="post-.+?" class=.+?<img src="([^<]+)" alt="([^<]+)"><div.+?</div><a href="([^<]+)">'
+    sPattern = '<article id="post-.+?" class=.+?<img src="([^<]+)" alt="(.+?)".+?</div><a href="([^<]+)">'
 		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -290,8 +290,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<article id="post-.+?" class=.+?<img src="([^<]+)" alt="([^<]+)"><div.+?</div><a href="([^<]+)">'
-
+    sPattern = '<article id="post-.+?" class=.+?<img src="([^<]+)" alt="(.+?)".+?</div><a href="([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -344,7 +343,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-    sPattern = "<img src='([^<]+)'>.+?class='numerando'>(.+?)</div><div class='episodiotitle'><a href='(.+?)'>"
+    sPattern = '<img src="([^<]+)" /></div><div class="numerando">(.+?)</div><div class="episodiotitle"><a href="(.+?)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -400,10 +399,10 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
             
-    sPattern =  'name="postid" value="(.+?)">' 
+    sPattern =  'name="postid" value="(.+?)" />' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
-        m3url = aResult[1][0] 
+        m3url = aResult[1][0]
     import requests
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',

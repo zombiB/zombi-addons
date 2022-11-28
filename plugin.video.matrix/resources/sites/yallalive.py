@@ -154,6 +154,8 @@ def showHosters():
             VSlog(sHosterUrl)   
             if 'amazonaws.com'  in sHosterUrl:
                 sHosterUrl = url + '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+Referer
+            if 'vimeo' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -210,6 +212,8 @@ def showHosters():
                    url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
             sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URL_MAIN
             sMovieTitle = 'link'
+            if 'vimeo' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)

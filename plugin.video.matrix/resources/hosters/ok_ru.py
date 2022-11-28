@@ -49,6 +49,7 @@ class cHoster(iHoster):
 
         page = json.loads(sHtmlContent)
         page = json.loads(page['flashvars']['metadata'])
+        VSlog(page)
         if page:
             sPattern = "'hlsMasterPlaylistUrl': '(.+?)',"
             aResult = oParser.parse(page, sPattern)
