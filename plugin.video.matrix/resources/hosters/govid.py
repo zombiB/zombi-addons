@@ -19,9 +19,12 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
+        sReferer = ""
+        surl = self._url.split('|Referer=')[0]
+        sReferer = self._url.split('|Referer=')[1]
 
-        oRequest = cRequestHandler(self._url)
-        oRequest.addHeaderEntry('Referer', 'https://cima-club.io/')
+        oRequest = cRequestHandler(surl)
+        oRequest.addHeaderEntry('Referer', sReferer)
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
         oParser = cParser()
@@ -38,6 +41,6 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
 
             if api_call:
-                return True, api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + self._url
+                return True, api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
 
         return False, False

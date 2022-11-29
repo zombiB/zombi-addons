@@ -67,7 +67,7 @@ class cTMDb:
     else:
         REALCACHE = VSPath(CACHE)
 
-    def __init__(self, api_key='', debug=False, lang='en'):
+    def __init__(self, api_key='', debug=False, lang='ar'):
 
         self.ADDON = addon()
 

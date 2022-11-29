@@ -526,6 +526,8 @@ def showServers():
                       url = 'http:' + url
 								            
                    sHosterUrl = url
+                   if 'nowvid' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'userload' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'moshahda' in sHosterUrl:
@@ -555,6 +557,8 @@ def showServers():
 					
             
             sHosterUrl = url 
+            if 'nowvid' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -628,6 +632,8 @@ def showServers1():
 				
 					            
             sHosterUrl = url 
+            if 'nowvid' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
@@ -674,7 +680,9 @@ def showHosters():
 				
 					
             
-            sHosterUrl = url 
+            sHosterUrl = url
+            if 'nowvid' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:

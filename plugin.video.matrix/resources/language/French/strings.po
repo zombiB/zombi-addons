@@ -29,8 +29,8 @@ msgid "Media informations"
 msgstr "Informations détaillées des médias"
 
 msgctxt "#30006"
-msgid "Search Metadata (slowed matrix)"
-msgstr "Rechercher les métadonnées (ralenti matrix)"
+msgid "Search Metadata"
+msgstr "Rechercher les métadonnées"
 
 msgctxt "#30007"
 msgid "Posters Size"

@@ -29,8 +29,8 @@ msgid "Media informations"
 msgstr "Media informations"
 
 msgctxt "#30006"
-msgid "Search Metadata (slowed matrix)"
-msgstr "Search Metadata (may slow the Addon)"
+msgid "Search Metadata"
+msgstr "Search Metadata"
 
 msgctxt "#30007"
 msgid "Posters Size"

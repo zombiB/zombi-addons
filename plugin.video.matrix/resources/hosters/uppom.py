@@ -26,16 +26,23 @@ class cHoster(iHoster):
         	VSlog(self._url)
         	sUrl = self._url
         	VSlog(sUrl)
-        	d = re.findall('https://(.*?)/(.*?)',sUrl)
+        	d = re.findall('https://(.*?)/([^<]+)',sUrl)
         	for aEntry1 in d:
         	    sHost= aEntry1[0]
+        	    sID= aEntry1[1]
+        	    if '/' in sID:
+        	       sID = sID.split('/')[0]
+        	    sLink= 'https://'+aEntry1[0]+'/'+aEntry1[1]
         	    VSlog(sHost)
+        	    VSlog(sID)
+        	    VSlog(sLink)
 
         	api_call = ''
 
         	oRequest = cRequestHandler(self._url)
         	sHtmlContent = oRequest.request()
-        	_id = self._url.split('/')[-1].replace(".html","")
+        	_id = sID
+        	VSlog(_id)
         	Sgn=requests.Session()
         	UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
         	hdr = {'Host': sHost,
@@ -56,7 +63,7 @@ class cHoster(iHoster):
                 "referer": self._url,
                 "method_free": "+",
                 "method_premium": ""}
-        	_r = Sgn.post(self._url,headers=hdr,data=prm,allow_redirects=False).headers
+        	_r = Sgn.post(sLink,headers=hdr,data=prm,allow_redirects=False).headers
         	api_call = _r['Location'].replace(" ","").replace("[","%5B").replace("]","%5D").replace("+","%20")
                 	
         	if api_call:
