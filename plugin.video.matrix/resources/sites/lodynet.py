@@ -14,7 +14,16 @@ SITE_NAME = 'lodynet'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A%D8%A9/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-a/', 'showMovies')

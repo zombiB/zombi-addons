@@ -16,7 +16,16 @@ SITE_NAME = 'geoarabic'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 DOC_NEWS = ('https://www.geoarabic.com/search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
 

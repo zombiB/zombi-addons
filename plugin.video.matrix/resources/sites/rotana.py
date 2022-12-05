@@ -17,7 +17,16 @@ SITE_NAME = 'rotana'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 MOVIE_AR = ('https://rotana.net/vod-movies', 'showMovies')
 URL_SEARCH = ('https://rotana.net/?s=', 'showSeries')
 URL_SEARCH_MOVIES = ('https://rotana.net/?s=', 'showMoviesSearch')

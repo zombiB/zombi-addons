@@ -16,7 +16,16 @@ SITE_NAME = 'aflamfree'
 SITE_DESC = 'arabic vod'	 
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 MOVIE_PACK = (URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_ANNEES = (True, 'showYears')
 

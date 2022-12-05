@@ -16,7 +16,16 @@ SITE_NAME = 'alarab'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 MOVIE_CLASSIC = (URL_MAIN + '/view-6181/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%B5%D8%B1%D9%8A%D8%A9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/ramadan2021', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/view-5553/افلام-اجنبية', 'showMovies')

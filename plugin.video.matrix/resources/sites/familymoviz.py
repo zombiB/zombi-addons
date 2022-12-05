@@ -16,7 +16,16 @@ SITE_NAME = 'familymoviz'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 MOVIE_FAM = ('https://www.familymoviz.net/category/movies/cutmovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
 MOVIE_AR = ('https://www.familymoviz.net/category/movies/arabicmovies/', 'showMovies')

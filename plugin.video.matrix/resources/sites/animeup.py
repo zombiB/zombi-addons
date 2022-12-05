@@ -16,7 +16,16 @@ SITE_NAME = 'anime4up'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 
 ANIM_NEWS = (URL_MAIN + '/anime-season/%d8%ae%d8%b1%d9%8a%d9%81-%d8%b9%d8%a7%d9%85-2021/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/anime-type/movie-3/', 'showMovies')

@@ -16,7 +16,16 @@ SITE_NAME = 'watanflix'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+try:
+    import requests
+    url = URL_MAIN
+    session = requests.Session()  # so connections are recycled
+    resp = session.head(url, allow_redirects=True)
+    URL_MAIN = resp.url.split('/')[2]
+    URL_MAIN = 'https://' + URL_MAIN
+    VSlog(URL_MAIN)
+except:
+    pass 
 RAMADAN_SERIES = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 SERIE_AR = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 KID_CARTOON = (URL_MAIN + '/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
