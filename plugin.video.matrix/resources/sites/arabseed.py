@@ -19,7 +19,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/foreign-movies3/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/foreign-movies4/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/arabic-movies-5/', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%85%d8%af%d8%a8%d9%84%d8%ac%d8%a9/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/indian-movies/', 'showMovies')
@@ -158,9 +158,12 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    import requests
+    s = requests.Session()            
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+    r = s.post(sUrl, headers=headers)
+    sHtmlContent = r.content.decode('utf8')
 
     oParser = cParser()
     sURL_MAIN='0'
@@ -563,32 +566,36 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 def showHosters():
+    import requests
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
-    oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    sHtmlContent = oRequestHandler.request();
-    VSlog(cook)
+	
+    import requests
+    s = requests.Session()            
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+							'Referer': Quote(sUrl)}
+    r = s.post(sUrl, headers=headers)
+    sHtmlContent = r.content.decode('utf8')
 
     oParser = cParser()
             
-    sPattern =  '<a href="([^<]+)" class="watchBTn">' 
+    sPattern =  '<a href="([^<]+)" class="downloadBTn">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         murl = aResult[1][0] 
+        host = murl.split('/')[2]
         VSlog(murl)
-        oRequest = cRequestHandler(murl)
-        cook = oRequest.GetCookies()
+        VSlog(host)
+        oRequestHandler = cRequestHandler(murl)
+        cook = oRequestHandler.GetCookies()
         VSlog(cook)
-        oRequest.addHeaderEntry('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9')
-        oRequest.addHeaderEntry('accept-language', 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7')
-        oRequest.addHeaderEntry('Host', 'go.reviewtech.me')
-        oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
-        sHtmlContent = oRequest.request()
+        hdr = {'host' : host,'referer' : 'https://m4.arabseed.co/','user-agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1'}
+        St=requests.Session()
+        sHtmlContent = St.post(murl,headers=hdr)
+        sHtmlContent = sHtmlContent.content.decode('utf8')
         VSlog(sHtmlContent)
    
         sPattern = 'data-link="(.+?)" class'
