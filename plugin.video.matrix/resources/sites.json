@@ -18,7 +18,7 @@
         "akwam": {
             "label": "akwam",
             "active": "True",
-            "url": "https://on.akwam.cc"
+            "url": "https://to.akwam.cz"
         },
         "alarab": {
             "label": "alarab",
@@ -69,11 +69,6 @@
             "label": "arabsciences",
             "active": "True",
             "url": "https://arabsciences.com"
-        },
-        "arabseed": {
-            "label": "arabseed",
-            "active": "True",
-            "url": "https://m.arabseed.com"
         },
         "aracinema_co": {
             "label": "aramosalsal",
@@ -150,11 +145,6 @@
             "active": "True",
             "url": "https://docarabic.wordpress.com"
         },
-        "egybest": {
-            "label": "egybest",
-            "active": "True",
-            "url": "https://tool.egybest.zone"
-        },
         "egyclub": {
             "label": "egyclub",
             "active": "True",
@@ -208,7 +198,7 @@
         "halacima": {
             "label": "halacima",
             "active": "True",
-            "url": "https://halacima.cam"
+            "url": "https://halacima.site"
         },
         "hdseed": {
             "label": "hdseed",
@@ -224,6 +214,11 @@
             "label": "katkoute",
             "active": "True",
             "url": "https://www.katkoute.com"
+        },
+        "koralive": {
+            "label": "koralive",
+            "active": "True",
+            "url": "https://as.360kora.live/"
         },
         "lodynet": {
             "label": "lodynet",
@@ -324,11 +319,6 @@
             "label": "watanflix",
             "active": "True",
             "url": "http://watanflix.com"
-        },
-        "koralive": {
-            "label": "koralive",
-            "active": "True",
-            "url": "https://as.360kora.live/"
         },
         "yallalive": {
             "label": "yallalive",
