@@ -12,10 +12,10 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
 
 SITE_IDENTIFIER = 'xsanime'
-SITE_NAME = 'xsanime'
+SITE_NAME = 'Xsanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://v.xsanime.com/'
 try:
     import requests
     url = URL_MAIN

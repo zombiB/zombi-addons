@@ -13,10 +13,10 @@ from resources.lib.parser import cParser
 from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'stardima'
-SITE_NAME = 'stardima'
+SITE_NAME = 'Stardima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://www.stardima.co/watch/'
 
 KID_MOVIES = (URL_MAIN + '/movies/#gsc.tab=0', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/tvshows/#gsc.tab=0', 'showSeries')

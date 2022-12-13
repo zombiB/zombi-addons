@@ -15,17 +15,8 @@ SITE_IDENTIFIER = 'cartoonrbi'
 SITE_NAME = 'CartoonArbi'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://www.arteenz.com/'
+ 
 KID_MOVIES = (URL_MAIN + '/films.html', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/cartoon2549.html', 'showSeries')
 

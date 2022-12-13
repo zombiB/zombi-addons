@@ -12,20 +12,11 @@ from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'spacepowerfan'
-SITE_NAME = 'spacepowerfan'
+SITE_NAME = 'Spacepowerfan'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://spacepowerfan.com/'
+
 ANIM_MOVIES = (URL_MAIN + '/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
 ANIM_NEWS = (URL_MAIN + '/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
 

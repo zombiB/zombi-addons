@@ -10,10 +10,10 @@ from resources.lib.parser import cParser
 import re
  
 SITE_IDENTIFIER = 'lodynet'
-SITE_NAME = 'lodynet'
+SITE_NAME = 'Lodynet'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://n.lodynet.ink/'
 try:
     import requests
     url = URL_MAIN

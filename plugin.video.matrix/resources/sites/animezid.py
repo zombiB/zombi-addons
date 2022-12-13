@@ -12,20 +12,11 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'animezid'
-SITE_NAME = 'animezid'
+SITE_NAME = 'Animezid'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://animezid.net/'
+
 KID_MOVIES = (URL_MAIN + '/category.php?cat=movies', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/category.php?cat=series', 'showSeries')
 

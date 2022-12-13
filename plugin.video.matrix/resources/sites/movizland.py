@@ -12,43 +12,43 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'movizland'
-SITE_NAME = 'movizland'
+SITE_NAME = 'Movizland'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://movizland.icu/'
 try:
     import requests
     url = URL_MAIN
     session = requests.Session()  # so connections are recycled
     resp = session.head(url, allow_redirects=True)
     URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
+    URL_MAIN = 'https://' + URL_MAIN+'/'
     VSlog(URL_MAIN)
 except:
     pass 
-RAMADAN_SERIES = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
-MOVIE_FAM = (URL_MAIN + '/category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
-MOVIE_AR = (URL_MAIN + '/category/newmovies/arab/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/newmovies/newforeign/', 'showMovies')
-MOVIE_4k = (URL_MAIN + '/category/movies/4k/', 'showMovies')
-MOVIE_HI = (URL_MAIN + '/category/newmovies/india/', 'showMovies')
-KID_MOVIES = (URL_MAIN + '/category/newmovies/anime/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/newmovies/turkey/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + '/category/newmovies/asia/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + '/category/newmovies/backs/', 'showPacks')
+RAMADAN_SERIES = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
+MOVIE_FAM = (URL_MAIN + 'category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
+MOVIE_AR = (URL_MAIN + 'category/newmovies/arab/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category/newmovies/newforeign/', 'showMovies')
+MOVIE_4k = (URL_MAIN + 'category/movies/4k/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/newmovies/india/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/newmovies/anime/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category/newmovies/turkey/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category/newmovies/asia/', 'showMovies')
+MOVIE_PACK = (URL_MAIN + 'category/newmovies/backs/', 'showPacks')
 
-DOC_NEWS = (URL_MAIN + '/category/newmovies/documentary/', 'showMovies')
+DOC_NEWS = (URL_MAIN + 'category/newmovies/documentary/', 'showMovies')
 
-SERIE_EN = (URL_MAIN + '/category/series/foreign-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
-SPORT_WWE = (URL_MAIN + '/category/series/wwe/', 'showMovies')
+SERIE_EN = (URL_MAIN + 'category/series/foreign-series/', 'showSeries')
+SERIE_AR = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
+SPORT_WWE = (URL_MAIN + 'category/series/wwe/', 'showMovies')
 
-SERIE_TR = (URL_MAIN + '/category/series/turkish-series/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + '/category/series/anime-series/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/series/turkish-series/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'category/series/anime-series/', 'showSeries')
 
 
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -217,7 +217,7 @@ def showMovies(sSearch = ''):
  
 
             siteUrl = aEntry[0]
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("بجودة","").replace("بجوده","").replace("اونلاين","").replace("كامل","").replace("وتحميل","")
+            sTitle = aEntry[2].replace("تحميل","").replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("بجودة","").replace("بجوده","").replace("اونلاين","").replace("كامل","").replace("وتحميل","")
             
             sThumb = aEntry[1]
             sDesc = ''

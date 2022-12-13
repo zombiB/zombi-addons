@@ -12,20 +12,11 @@ from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'katkoute'
-SITE_NAME = 'katkoute'
+SITE_NAME = 'Katkoute'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://www.katkoute.com/'
+
 
 KID_CARTOON = ('https://www.katkoute.com/watch/browse.html', 'showSeries')
 

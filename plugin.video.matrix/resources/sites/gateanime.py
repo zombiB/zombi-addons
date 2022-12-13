@@ -13,10 +13,10 @@ from resources.lib.parser import cParser
 from resources.lib.util import Unquote
  
 SITE_IDENTIFIER = 'gateanime'
-SITE_NAME = 'gateanime'
+SITE_NAME = 'Gateanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://a.gateanime.cam/'
+URL_MAIN = 'https://c.gateanime.cam/'
 try:
     import requests
     url = URL_MAIN

@@ -14,10 +14,10 @@ from resources.lib.util import cUtil
 from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'koralive'
-SITE_NAME = 'koralive'
+SITE_NAME = 'Koralive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://sport.360kora.live/'
 try:
     import requests
     url = URL_MAIN

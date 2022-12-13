@@ -10,10 +10,10 @@ from resources.lib.parser import cParser
 import re
  
 SITE_IDENTIFIER = 'egydead'
-SITE_NAME = 'egydead'
+SITE_NAME = 'Egydead'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://w4.egydead.live/'
 try:
     import requests
     url = URL_MAIN

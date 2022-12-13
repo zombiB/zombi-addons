@@ -11,10 +11,10 @@ from resources.lib.parser import cParser
 import re 
  
 SITE_IDENTIFIER = 'halacima'
-SITE_NAME = 'halacima'
+SITE_NAME = 'Halacima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://halacima.site/'
 try:
     import requests
     url = URL_MAIN

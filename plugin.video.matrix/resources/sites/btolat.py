@@ -12,20 +12,11 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, siteManager
 
 SITE_IDENTIFIER = 'btolat'
-SITE_NAME = 'btolat'
+SITE_NAME = 'Btolat'
 SITE_DESC = 'sport vod'
 
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://www.btolat.com/'
+
 SPORT_FOOT = ('https://www.btolat.com/video', 'showMovies')
 
 SPORT_SPORTS = ('http://', 'load')

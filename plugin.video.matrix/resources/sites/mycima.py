@@ -12,10 +12,10 @@ from resources.lib.comaddon import progress, siteManager, VSlog
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'mycima'
-SITE_NAME = 'mycima'
+SITE_NAME = 'Mycima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://mycimaaa.click/'
 try:
     import requests
     url = URL_MAIN

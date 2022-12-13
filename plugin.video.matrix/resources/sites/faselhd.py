@@ -12,20 +12,11 @@ from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'faselhd'
-SITE_NAME = 'faselhd'
+SITE_NAME = 'Faselhd'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://www.faselhd.club/'
+
 MOVIE_EN = (URL_MAIN + '/movies', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/hindi', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/asian-movies', 'showMovies')

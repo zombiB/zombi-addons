@@ -12,10 +12,10 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'prstej'
-SITE_NAME = 'prstej'
+SITE_NAME = 'Prstej'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://v.3rb.tv/'
 try:
     import requests
     url = URL_MAIN

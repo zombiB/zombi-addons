@@ -12,10 +12,10 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'shooflive'
-SITE_NAME = 'shooflive'
+SITE_NAME = 'Shooflive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://t.shooflive.co/'
 try:
     import requests
     url = URL_MAIN

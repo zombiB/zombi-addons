@@ -21,17 +21,17 @@ except ImportError:  # Python 3
     from urllib.error import URLError as UrlError
 	
 SITE_IDENTIFIER = 'akwam'
-SITE_NAME = 'akwam'
+SITE_NAME = 'Akwam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://to.akwam.cz/'
 try:
     import requests
     url = URL_MAIN
     session = requests.Session()  # so connections are recycled
     resp = session.head(url, allow_redirects=True)
     URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
+    URL_MAIN = 'https://' + URL_MAIN+'/'
     VSlog(URL_MAIN)
 except:
     pass 

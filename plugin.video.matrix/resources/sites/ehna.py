@@ -14,10 +14,10 @@ from resources.lib.parser import cParser
 
  
 SITE_IDENTIFIER = 'ehna'
-SITE_NAME = 'ehna.online'
+SITE_NAME = 'Ehna'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'http://e7nna.online/'
 try:
     import requests
     url = URL_MAIN

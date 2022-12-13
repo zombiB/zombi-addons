@@ -1,9 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
-
-import re
-import base64
-	
+import re	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -11,23 +8,13 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
-from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'hdseed'
-SITE_NAME = 'hdseed'
+SITE_NAME = 'Hdseed'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://hdseed.net/'
+
 KID_MOVIES = (URL_MAIN + '/genre/movies/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeriesSearch')
@@ -39,7 +26,6 @@ def load():
     oGui = cGui()
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchMovies', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
 	
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
@@ -90,6 +76,10 @@ def showMovies(sSearch = ''):
             if sThumb.startswith('//'):
                sThumb = 'https:' + sThumb
             sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
             sDesc = ''
 
 
@@ -146,7 +136,8 @@ def showHosters():
 	
     if aResult[0] is True:
        total = len(aResult[1])
-       for aEntry in aResult[1]:       
+       for aEntry in aResult[1]:     
+            import base64  
             sHtmlContent2 = base64.b64decode(aEntry)
     # (.+?)    .+?    
             sPattern = 'src="(.+?)".+?allowfullscreen'

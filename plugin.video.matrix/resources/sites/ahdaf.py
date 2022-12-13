@@ -12,22 +12,11 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager
  
 SITE_IDENTIFIER = 'ahdaf'
-SITE_NAME = 'ahdaf'
+SITE_NAME = 'Ahdaf'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'http://www.ahdaf-kooora.com/'
 SPORT_FOOT = (URL_MAIN, 'showMovies')
-
  
 def load():
     oGui = cGui()

@@ -12,20 +12,11 @@ from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager
  
 SITE_IDENTIFIER = 'alwanfilm'
-SITE_NAME = 'alwanfilm'
+SITE_NAME = 'Alwanfilm'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = 'https://alwanfilm.com/'
+
 MOVIE_CLASSIC = (URL_MAIN + '/genre/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%85%d9%84%d9%88%d9%86%d8%a9/', 'showMovies')
 
 REPLAYTV_PLAY = (URL_MAIN + '/genre/%d9%85%d8%b3%d8%b1%d8%ad%d9%8a%d8%a7%d8%aa-%d9%85%d9%84%d9%88%d9%86%d8%a9/', 'showMovies')

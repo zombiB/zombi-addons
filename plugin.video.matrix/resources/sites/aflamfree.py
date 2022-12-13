@@ -1,38 +1,25 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
-
 import re
-	
-from resources.lib.comaddon import progress, VSlog, siteManager	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.comaddon import progress, VSlog, siteManager	
 
 SITE_IDENTIFIER = 'aflamfree'
-SITE_NAME = 'aflamfree'
+SITE_NAME = 'Aflamfree'
 SITE_DESC = 'arabic vod'	 
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
-MOVIE_PACK = (URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
+URL_MAIN = 'https://www.aflamfree.top/'
+MOVIE_PACK = (URL_MAIN + '%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_ANNEES = (True, 'showYears')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesearch')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesearch')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMoviesearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
-
 
 def load():
 	oGui = cGui()
@@ -51,7 +38,7 @@ def showYears():
     oOutputParameterHandler = cOutputParameterHandler()
     for i in reversed(range(1921, 2022)):
         sYear = str(i)
-        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/release-year/' + sYear)  # / inutile
+        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'release-year/' + sYear)  # / inutile
         oGui.addDir(SITE_IDENTIFIER, 'showLive', sYear, 'annees.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
 	
@@ -60,7 +47,7 @@ def showSearch():
 	 
 	sSearchText = oGui.showKeyBoard()
 	if sSearchText is not False:
-		sUrl = URL_MAIN + '/?s='+sSearchText
+		sUrl = URL_MAIN + '?s='+sSearchText
 		showMoviesearch(sUrl)
 		oGui.setEndOfDirectory()
 		return
