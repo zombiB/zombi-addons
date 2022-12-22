@@ -343,8 +343,8 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-    sPattern = '<img src="([^<]+)" /></div><div class="numerando">(.+?)</div><div class="episodiotitle"><a href="(.+?)">'
-
+    sPattern = "<img src='([^<]+)'></div><div class='numerando'>(.+?)</div><div class='episodiotitle'><a href='(.+?)'>"
+ 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -399,17 +399,18 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
             
-    sPattern =  'name="postid" value="(.+?)" />' 
+    sPattern =  'name="postid" value="(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         m3url = aResult[1][0]
     import requests
     s = requests.Session()            
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
+    headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'Referer': Quote(sUrl)}
     data = {'post':m3url,'action':'doo_player_ajax','nume':'1','type':'tv'}
     r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
     sHtmlContent = r.content.decode('utf8')
+    VSlog(data)
 
     # (.+?) .+? ([^<]+)
                
@@ -435,7 +436,8 @@ def showHosters():
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     # (.+?) .+? ([^<]+)
-               
+ 
+    import base64              
 
     sPattern =  '"embed_url":"(.+?)",'
     oParser = cParser()
@@ -446,6 +448,11 @@ def showHosters():
        total = len(aResult[1])
        for aEntry in aResult[1]:       
            url = aEntry
+           url = base64.b64decode(url).decode("utf-8")
+           VSlog(url)
+           if '/?id=' in url:
+              url = url.split('/?id=', 1)[1]
+           VSlog(url)
            if url.startswith('//'):
               url = 'https:' + url
 				
