@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'shahidu'
 SITE_NAME = 'Shahidu'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shaheed4u.tattoo/'
+URL_MAIN = 'https://shaheed4u.agency'
 try:
     import requests
     url = URL_MAIN
