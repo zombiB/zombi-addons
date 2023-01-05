@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'shooflive'
 SITE_NAME = 'Shooflive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://t.shooflive.co/'
+URL_MAIN = 'https://t.shooflive.co'
 try:
     import requests
     url = URL_MAIN
@@ -420,7 +420,7 @@ def showHosters():
 
     sURL_MAIN='0'
     # (.+?) ([^<]+)
-    sPattern = '<a href="([^<]+)">الرئيسية'
+    sPattern = 'title="الرئيسية" href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)    
     if (aResult[0]):
         sURL_MAIN = aResult[1][0]

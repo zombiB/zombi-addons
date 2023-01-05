@@ -92,20 +92,40 @@ def showLive():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-    VSlog(sUrl)
       # (.+?) ([^<]+) .+?
     sPattern = 'iframe" src="(.+?)" width'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-    
+    aResult = oParser.parse(sHtmlContent, sPattern)   
     if (aResult[0]):
         sUrl = aResult[1][0]
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
     # (.+?) # ([^<]+) .+? 
-    sPattern = 'href="(.+?)">(.+?)</a>'
-    
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    if 'no_mobile_iframe' in sHtmlContent:
+       sPattern = 'no_mobile_iframe = "(.+?)";'
+       aResult = oParser.parse(sHtmlContent, sPattern)
+       if (aResult[0]):
+           siteUrl = aResult[1][0]
+       import requests    
+       oRequestHandler = cRequestHandler(siteUrl)
+       hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
+       St=requests.Session()
+       sHtmlContent2 = St.get(siteUrl,headers=hdr)
+       sHtmlContent2 = sHtmlContent2.content.decode('utf-8')
+    if 'mobile' in sHtmlContent:
+       sPattern = '_iframe = "(.+?)";'
+       aResult = oParser.parse(sHtmlContent, sPattern)
+       if (aResult[0]):
+           siteUrl = aResult[1][0]
+       import requests    
+       oRequestHandler = cRequestHandler(siteUrl)
+       hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
+       St=requests.Session()
+       sHtmlContent1 = St.get(siteUrl,headers=hdr)
+       sHtmlContent1 = sHtmlContent1.content.decode('utf-8')
+       sHtmlContent = sHtmlContent2+sHtmlContent1
+
+    sPattern = 'href="(.+?)">(.+?)</a>'   
+    aResult = oParser.parse(sHtmlContent, sPattern) 
    
 
     if aResult[0] is True:
@@ -124,18 +144,15 @@ def showLive():
             sHtmlContent = St.get(siteUrl,headers=hdr)
             sHtmlContent = sHtmlContent.content.decode('utf-8')
             oParser = cParser()
-
     # (.+?) # ([^<]+) .+? 		
 
 
             sPattern = "<script>AlbaPlayerControl([^<]+)',"
             aResult = oParser.parse(sHtmlContent, sPattern)
-            VSlog(aResult)
             if aResult[0] is True: 
                import base64
                for aEntry in aResult[1]:
                    url_tmp = aEntry
-                   VSlog(url_tmp)
                    url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
                    VSlog(url)
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ siteUrl
@@ -154,7 +171,7 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
+                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"+'&Referer='+ siteUrl
                    sMovieTitle = sMovieTitle
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
@@ -169,7 +186,7 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
+                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
                    sMovieTitle = sMovieTitle
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
@@ -184,7 +201,7 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
+                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl 
                    sMovieTitle = sMovieTitle
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
@@ -198,7 +215,7 @@ def showLive():
             if aResult[0] is True:
                for aEntry in aResult[1]:
                    url = aEntry
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=https://hd.360kora.live/' 
+                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
                    sMovieTitle = sMovieTitle
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
