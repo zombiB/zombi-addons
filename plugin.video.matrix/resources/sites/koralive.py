@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'koralive'
 SITE_NAME = 'Koralive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://sport.360kora.live/'
+URL_MAIN = 'https://cool.360kora.live'
 try:
     import requests
     url = URL_MAIN
@@ -92,8 +92,9 @@ def showLive():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-
-    sPattern = 'content="0;url=(.+?)"'
+    VSlog(sUrl)
+      # (.+?) ([^<]+) .+?
+    sPattern = 'iframe" src="(.+?)" width'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     
@@ -102,7 +103,7 @@ def showLive():
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
     # (.+?) # ([^<]+) .+? 
-    sPattern = 'setURL([^<]+)">([^<]+)</button>'
+    sPattern = 'href="(.+?)">(.+?)</a>'
     
     aResult = oParser.parse(sHtmlContent, sPattern)
    
@@ -124,7 +125,28 @@ def showLive():
             sHtmlContent = sHtmlContent.content.decode('utf-8')
             oParser = cParser()
 
-    # (.+?) # ([^<]+) .+? 			
+    # (.+?) # ([^<]+) .+? 		
+
+
+            sPattern = "<script>AlbaPlayerControl([^<]+)',"
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            VSlog(aResult)
+            if aResult[0] is True: 
+               import base64
+               for aEntry in aResult[1]:
+                   url_tmp = aEntry
+                   VSlog(url_tmp)
+                   url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
+                   VSlog(url)
+                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ siteUrl
+                   sMovieTitle = sMovieTitle
+                   if 'vimeo' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster != False:
+                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
 
 
             sPattern = "source: '(.+?)',"
