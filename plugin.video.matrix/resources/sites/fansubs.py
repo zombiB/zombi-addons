@@ -15,12 +15,11 @@ SITE_IDENTIFIER = 'fansubs'
 SITE_NAME = 'Fansubstv'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'http://fansubs.tv/'
+URL_MAIN = 'http://fansubs.tv'
 
-ANIM_NEWS = ('http://fansubs.tv/videos/latest?page_id=1', 'showMovies')
+ANIM_NEWS = (URL_MAIN+'/videos/latest?page_id=1', 'showMovies')
 
-URL_SEARCH = ('http://fansubs.tv/search?keyword=', 'showSearch')
-URL_SEARCH_SERIES = ('http://fansubs.tv/search?keyword=', 'showSearch')
+URL_SEARCH = (URL_MAIN+'/search?keyword=', 'showSearch')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -40,7 +39,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText is not False:
-        sUrl = 'http://fansubs.tv/search?keyword=v'+sSearchText
+        sUrl = 'http://fansubs.tv/search?keyword='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return

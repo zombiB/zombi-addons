@@ -13,12 +13,12 @@ SITE_IDENTIFIER = 'aflamfree'
 SITE_NAME = 'Aflamfree'
 SITE_DESC = 'arabic vod'	 
  
-URL_MAIN = 'https://www.aflamfree.top/'
-MOVIE_PACK = (URL_MAIN + '%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
+URL_MAIN = 'https://www.aflamfree.top'
+MOVIE_PACK = (URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_ANNEES = (True, 'showYears')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showMoviesearch')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMoviesearch')
+URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
 
 def load():
@@ -38,7 +38,7 @@ def showYears():
     oOutputParameterHandler = cOutputParameterHandler()
     for i in reversed(range(1921, 2022)):
         sYear = str(i)
-        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'release-year/' + sYear)  # / inutile
+        oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/release-year/' + sYear)  # / inutile
         oGui.addDir(SITE_IDENTIFIER, 'showLive', sYear, 'annees.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
 	
@@ -47,7 +47,7 @@ def showSearch():
 	 
 	sSearchText = oGui.showKeyBoard()
 	if sSearchText is not False:
-		sUrl = URL_MAIN + '?s='+sSearchText
+		sUrl = URL_MAIN + '/?s='+sSearchText
 		showMoviesearch(sUrl)
 		oGui.setEndOfDirectory()
 		return

@@ -741,19 +741,6 @@ class cTMDb:
         return _meta
 
     def _clean_title(self, title):
-        # vire accent
-        try:
-            bMatrix = isMatrix()
-            if not bMatrix:
-                title = unicode(title, 'utf-8')
-            title = unicodedata.normalize('NFD', title).encode('ascii', 'ignore').decode('unicode_escape')
-            if not bMatrix:
-                title = title.encode('utf-8')  # on repasse en utf-8
-        except Exception as e:
-            pass
-
-        # Vire tous les caracteres non alphabetiques
-        title = re.sub('[^%s]' % (string.ascii_lowercase + string.digits), '', title.lower())
         return title
 
     def _cache_search(self, media_type, name, tmdb_id='', year='', season='', episode=''):

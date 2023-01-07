@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'Esseq'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://m.eshiq.net/'
+URL_MAIN = 'https://m.eshiq.net'
 try:
     import requests
     url = URL_MAIN
@@ -142,6 +142,13 @@ def showSeries(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
+    cook = oRequestHandler.GetCookies()
+    VSlog(cook)
+    oRequestHandler.setRequestType(1)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+    oRequestHandler.addHeaderEntry('host', 'm.eshiq.net')
+    oRequestHandler.addHeaderEntry('referer', sUrl)
+    oRequestHandler.addHeaderEntry('Cookie', cook)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 

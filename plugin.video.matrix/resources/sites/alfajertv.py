@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'alfajertv'
 SITE_NAME = 'Alfajertv'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://show.alfajertv.com/'
+URL_MAIN = 'https://show.alfajertv.com'
 
 MOVIE_EN = (URL_MAIN + '/genre/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/genre/arabic-movies/', 'showMovies')
@@ -447,7 +447,7 @@ def showServer():
     
     if aResult[0] is True:
        for aEntry in aResult[1]:
-           pUrl = URL_MAIN + 'wp-admin/admin-ajax.php'
+           pUrl = URL_MAIN + '/wp-admin/admin-ajax.php'
            post = aEntry[0]
            nume = aEntry[1]
            pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type=movie'

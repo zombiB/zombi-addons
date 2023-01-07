@@ -155,11 +155,6 @@
             "active": "True",
             "url": ""
         },
-        "esseq": {
-            "label": "Esseq",
-            "active": "True",
-            "url": ""
-        },
         "familymoviz": {
             "label": "Familymoviz",
             "active": "True",
@@ -192,11 +187,6 @@
         },
         "halacima": {
             "label": "Halacima",
-            "active": "True",
-            "url": ""
-        },
-        "hdseed": {
-            "label": "Hdseed",
             "active": "True",
             "url": ""
         },

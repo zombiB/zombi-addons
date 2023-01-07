@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'mycima'
 SITE_NAME = 'Mycima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://mycimaaa.click/'
+URL_MAIN = 'https://myciima.work'
 try:
     import requests
     url = URL_MAIN
