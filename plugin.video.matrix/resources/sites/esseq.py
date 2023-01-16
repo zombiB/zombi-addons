@@ -26,7 +26,7 @@ except:
     pass 
 
 SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
-MOVIE_TURK = (URL_MAIN + '/category/الأفلام-التركية/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
@@ -82,6 +82,8 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+    oRequestHandler.addHeaderEntry('referer', "https://m.eshiq.net/")
     sHtmlContent = oRequestHandler.request()
 
      # (.+?) ([^<]+) .+?
@@ -142,13 +144,6 @@ def showSeries(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    VSlog(cook)
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
-    oRequestHandler.addHeaderEntry('host', 'm.eshiq.net')
-    oRequestHandler.addHeaderEntry('referer', sUrl)
-    oRequestHandler.addHeaderEntry('Cookie', cook)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 

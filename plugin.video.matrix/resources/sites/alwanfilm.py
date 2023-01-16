@@ -142,7 +142,6 @@ def showServer():
     if (aResult[0]):
         sId = aResult[1][0]
     sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/'+sId+'/movie/2'
-    oRequestHandler = cRequestHandler(sUrl)
     import requests
     sgn = requests.Session()
     headers = {'Host': Host,

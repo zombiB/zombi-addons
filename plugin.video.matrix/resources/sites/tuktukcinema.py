@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'Tuktukcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://w.tuktukcinema.net/d6/'
+URL_MAIN = 'https://w.tuktukcinema.net/'
 try:
     import requests
     url = URL_MAIN
@@ -102,9 +102,9 @@ def showPack(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 			
             if 'sercat' in siteUrl:
-                oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, sThumb, oOutputParameterHandler)
             else:
-                oGui.addMovie(SITE_IDENTIFIER, 'showMovies', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, sThumb, oOutputParameterHandler)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage != False:

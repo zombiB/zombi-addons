@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'yallalive'
 SITE_NAME = 'Yallalive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://yallalive.org'
+URL_MAIN = 'https://hd.yallalive.is/'
 try:
     import requests
     url = URL_MAIN

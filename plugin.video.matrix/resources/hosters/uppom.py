@@ -41,6 +41,7 @@ class cHoster(iHoster):
 
         	oRequest = cRequestHandler(self._url)
         	sHtmlContent = oRequest.request()
+        	VSlog(sHtmlContent)
         	_id = sID
         	VSlog(_id)
         	Sgn=requests.Session()
