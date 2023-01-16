@@ -16,7 +16,7 @@ SITE_IDENTIFIER = 'cimaclub'
 SITE_NAME = 'Cimaclub'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://ciima-clup.sbs/c135'
+URL_MAIN = 'https://ciima-clup.space/c135'
 try:
     import requests
     url = URL_MAIN

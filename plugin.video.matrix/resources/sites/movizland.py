@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'movizland'
 SITE_NAME = 'Movizland'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://movizland.icu/'
+URL_MAIN = 'https://movizland.date/'
 try:
     import requests
     url = URL_MAIN

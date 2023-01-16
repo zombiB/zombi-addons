@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'Arblionz'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'https://arlionztv.online'
+URL_MAIN = 'https://arlionztv.store/'
 try:
     import requests
     url = URL_MAIN

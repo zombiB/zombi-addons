@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'shahidu'
 SITE_NAME = 'Shahidu'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shaheed4u.club/'
+URL_MAIN = 'https://shaheed4u.christmas/'
 try:
     import requests
     url = URL_MAIN

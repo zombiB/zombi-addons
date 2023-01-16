@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'cimanow'
 SITE_NAME = 'Cimanow'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://fr.cimanow.cc/'
+URL_MAIN = 'https://cimanow.cc/'
 try:
     import requests
     url = URL_MAIN
