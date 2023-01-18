@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'lodynet'
 SITE_NAME = 'Lodynet'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://n.lodynet.ink/'
+URL_MAIN = "https://n.lodynet.ink/"
 try:
     import requests
     url = URL_MAIN

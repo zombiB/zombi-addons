@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'shooflive'
 SITE_NAME = 'Shooflive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://t.shooflive.co'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 try:
     import requests
     url = URL_MAIN

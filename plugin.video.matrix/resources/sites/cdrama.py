@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'cdrama'
 SITE_NAME = 'Cdrama'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://c-drama.net/'
+URL_MAIN = "https://cdrama.in/"
 
 MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 

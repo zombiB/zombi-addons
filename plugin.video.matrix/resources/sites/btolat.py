@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'btolat'
 SITE_NAME = 'Btolat'
 SITE_DESC = 'sport vod'
 
-URL_MAIN = 'https://www.btolat.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_FOOT = ('https://www.btolat.com/video', 'showMovies')
 

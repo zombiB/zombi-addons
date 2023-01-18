@@ -16,7 +16,7 @@ SITE_IDENTIFIER = 'gateanime'
 SITE_NAME = 'Gateanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://c.gateanime.cam/'
+URL_MAIN = 'https://c.gateanime.com/'
 try:
     import requests
     url = URL_MAIN

@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'arblionz'
 SITE_NAME = 'Arblionz'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'https://arlionztv.store/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 try:
     import requests
     url = URL_MAIN

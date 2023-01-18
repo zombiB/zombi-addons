@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'aljazeera'
 SITE_NAME = 'Aljazeera'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.aljazeera.net'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 DOC_NEWS = ('https://www.aljazeera.net/programs/investigative', 'showMovies')
 DOC_SERIES = ('https://www.aljazeera.net/programs/documentaries', 'showMovies')

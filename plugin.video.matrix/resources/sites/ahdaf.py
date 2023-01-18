@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'ahdaf'
 SITE_NAME = 'Ahdaf'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://www.ahdaf-kooora.com'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 SPORT_FOOT = (URL_MAIN, 'showMovies')
  
 def load():

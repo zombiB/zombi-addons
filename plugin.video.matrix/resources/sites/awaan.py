@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'awaan'
 SITE_NAME = 'Awaan'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://awaan.ae/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
 URL_SERIE = 'https://www.awaan.ae/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
 

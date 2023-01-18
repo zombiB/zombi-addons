@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'fansubs'
 SITE_NAME = 'Fansubstv'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'http://fansubs.tv'
+URL_MAIN = "https://fansubs.tv/"
 
 ANIM_NEWS = (URL_MAIN+'/videos/latest?page_id=1', 'showMovies')
 

@@ -17,7 +17,7 @@ SITE_IDENTIFIER = 'ehna'
 SITE_NAME = 'Ehna'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://e7nna.online/'
+URL_MAIN = "https://e7nna.online/"
 try:
     import requests
     url = URL_MAIN

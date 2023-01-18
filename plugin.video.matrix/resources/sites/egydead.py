@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'egydead'
 SITE_NAME = 'Egydead'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://w4.egydead.live/'
+URL_MAIN = "https://w4.egydead.live/"
 try:
     import requests
     url = URL_MAIN

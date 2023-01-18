@@ -21,7 +21,7 @@ SITE_IDENTIFIER = 'topimdb'
 SITE_NAME = '[COLOR orange]Top 1000 IMDb[/COLOR]'
 SITE_DESC = 'Base de donnees videos.'
 
-URL_MAIN = 'https://www.imdb.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 POSTER_URL = 'https://ia.media-imdb.com/images/m/'
 FANART_URL = 'https://ia.media-.imdb.com/images/m/'
 

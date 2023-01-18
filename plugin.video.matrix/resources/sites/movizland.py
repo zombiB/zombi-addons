@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'movizland'
 SITE_NAME = 'Movizland'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://movizland.date/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 try:
     import requests
     url = URL_MAIN

@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'aflamfree'
 SITE_NAME = 'Aflamfree'
 SITE_DESC = 'arabic vod'	 
  
-URL_MAIN = 'https://www.aflamfree.top'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_PACK = (URL_MAIN + '/%D8%A7%D9%82%D8%B3%D8%A7%D9%85-%D8%A7%D9%84%D9%85%D9%88%D9%82%D8%B9', 'showPack')
 MOVIE_ANNEES = (True, 'showYears')
 

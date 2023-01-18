@@ -24,7 +24,7 @@ SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'Akwam'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://on.akwam.in/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 try:
     import requests
     url = URL_MAIN

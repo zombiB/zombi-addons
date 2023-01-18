@@ -15,8 +15,7 @@ SITE_IDENTIFIER = 'alfajertv'
 SITE_NAME = 'Alfajertv'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://show.alfajertv.com'
-
+URL_MAIN = "https://show.alfajertv.com/"
 MOVIE_EN = (URL_MAIN + '/genre/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/genre/arabic-movies/', 'showMovies')
 

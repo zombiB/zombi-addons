@@ -16,7 +16,7 @@ SITE_DESC = 'Base de données video.'
 
 # doc de l'api http://docs.themoviedb.apiary.io/
 
-URL_MAIN = 'https://www.themoviedb.org/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 API_VERS = '3'
 API_URL = URL_MAIN + API_VERS

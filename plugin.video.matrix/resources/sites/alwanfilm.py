@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'alwanfilm'
 SITE_NAME = 'Alwanfilm'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'https://alwanfilm.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_CLASSIC = (URL_MAIN + '/genre/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%85%d9%84%d9%88%d9%86%d8%a9/', 'showMovies')
 

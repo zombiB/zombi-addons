@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'beinmatch'
 SITE_NAME = 'Beinmatch'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://beinmatch.biz/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 try:
     import requests
     url = URL_MAIN

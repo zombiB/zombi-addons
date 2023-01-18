@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'Esseq'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://m.eshiq.net/'
+URL_MAIN = "https://m.eshiq.net/"
 try:
     import requests
     url = URL_MAIN

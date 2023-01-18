@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'detectiveconanar'
 SITE_NAME = 'Detectiveconanar'
 SITE_DESC = 'arabic vod'
 
-URL_MAIN = 'https://detectiveconanar.com/'
+URL_MAIN = "https://detectiveconanar.com/"
 ANIM_NEWS = ('https://detectiveconanar.com/episodes/', 'showSeries')
 ANIM_MOVIES = ('https://detectiveconanar.com/movies/', 'showMovies')
 

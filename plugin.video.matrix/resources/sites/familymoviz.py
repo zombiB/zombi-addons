@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'familymoviz'
 SITE_NAME = 'Familymoviz'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.familymoviz.net/'
+URL_MAIN = "https://www.familymoviz.net/"
 
 MOVIE_FAM = ('https://www.familymoviz.net/category/movies/cutmovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')

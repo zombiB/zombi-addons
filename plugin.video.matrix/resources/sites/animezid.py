@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'animezid'
 SITE_NAME = 'Animezid'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://animezid.net/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 KID_MOVIES = (URL_MAIN + '/category.php?cat=movies', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/category.php?cat=series', 'showSeries')

@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'halacima'
 SITE_NAME = 'Halacima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://halacima.site/'
+URL_MAIN = "https://halacima.us/"
 try:
     import requests
     url = URL_MAIN

@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'arabsciences'
 SITE_NAME = 'Arabsciences'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://arabsciences.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 DOC_NEWS = ('https://arabsciences.com/category/tv-channels/', 'showMovies')
 DOC_GENRES = (True, 'showGenres')

@@ -14,7 +14,7 @@ SITE_IDENTIFIER = 'asiaarabs'
 SITE_NAME = 'Asiaarabs'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.asia4arabs.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_ASIAN = (URL_MAIN + '/search/label/%D8%A3%D9%81%D9%84%D8%A7%D9%85', 'showMovies')
 SERIE_ASIA = (URL_MAIN + '/search/label/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')

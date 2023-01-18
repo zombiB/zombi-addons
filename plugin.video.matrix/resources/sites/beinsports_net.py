@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'beinsports_net'
 SITE_NAME = 'Beinsports'
 SITE_DESC = 'sport vod'
 
-URL_MAIN = 'http://www.beinsports.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_FOOT = ('https://www.beinsports.com/ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')
 SPORT_SPORTS = ('https://www.beinsports.com/ar/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88', 'showMovies')

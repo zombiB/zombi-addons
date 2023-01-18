@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'alarabiya'
 SITE_NAME = 'Alarabiya'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.alarabiya.net'
+URL_MAIN = 'https://www.alarabiya.net/'
  
 DOC_NEWS = ('https://www.alarabiya.net/programs/documentaries', 'showMovies')
 
