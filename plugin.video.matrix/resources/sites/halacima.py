@@ -14,17 +14,8 @@ SITE_IDENTIFIER = 'halacima'
 SITE_NAME = 'Halacima'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://halacima.us/"
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 SERIE_TR_AR = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D9%85%D8%AF%D8%A8%D9%84%D8%AC%D8%A9.html', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A%D8%A9', 'showMovies')
 MOVIE_FAM = (URL_MAIN + '/genre/%D8%A3%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%A7%D8%A6%D9%84%D9%8A.html', 'showMovies')

@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'watanflix'
 SITE_NAME = 'Watanflix'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://watanflix.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')
 SERIE_AR = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA', 'showSeries')

@@ -17,17 +17,8 @@ SITE_IDENTIFIER = 'koralive'
 SITE_NAME = 'Koralive'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://cool.360kora.live'
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+ 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
 
  
@@ -80,7 +71,20 @@ def showMovies():
  
  
     oGui.setEndOfDirectory()
-  
+
+	
+def check_host(URL_MAIN):
+    try:
+        import requests
+        url = URL_MAIN
+        session = requests.Session()  # so connections are recycled
+        resp = session.head(url, allow_redirects=True)
+        URL_MAIN = resp.url.split('/')[2]
+        URLMAIN = 'https://' + URL_MAIN
+        VSlog(URLMAIN)
+    except:
+        pass
+			
 def showLive():
     oGui = cGui()
    
@@ -88,6 +92,8 @@ def showLive():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    URLMAIN = str(check_host(URL_MAIN)) 
+    VSlog(URLMAIN)                  
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()

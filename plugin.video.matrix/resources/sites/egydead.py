@@ -13,17 +13,8 @@ SITE_IDENTIFIER = 'egydead'
 SITE_NAME = 'Egydead'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://w4.egydead.live/"
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER) 
 RAMADAN_SERIES = (URL_MAIN + '/tag/%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN+'/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 MOVIE_PACK = ('https://w3.egydead.live/assembly/', 'showPack')
@@ -682,6 +673,15 @@ def showHosters2():
 
    
     oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '<link rel="canonical" href="(.+?)" />'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
     # ([^<]+) (.+?)       
 
     sPattern = '<li data-link="(.+?)">'
@@ -767,6 +767,16 @@ def showHosters():
     sHtmlContent = r.content
     if isMatrix(): 
        sHtmlContent = sHtmlContent.decode('utf8',errors='ignore')
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '<link rel="canonical" href="(.+?)" />'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
     
 
    

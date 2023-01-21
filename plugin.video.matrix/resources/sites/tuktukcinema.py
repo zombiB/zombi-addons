@@ -15,17 +15,8 @@ SITE_IDENTIFIER = 'tuktukcinema'
 SITE_NAME = 'Tuktukcinema'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://w.tuktukcinema.net/'
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 MOVIE_PACK = (URL_MAIN , 'showPack')
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
@@ -422,7 +413,7 @@ def __checkForNextPage(sHtmlContent):
     if aResult[0] is True:
         return aResult[1][0]
     return False
-
+			
 def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -436,10 +427,17 @@ def showHosters():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-    # (.+?) ([^<]+) .+?
-              
-    sPattern = 'data-link="(.+?)" class='
     oParser = cParser()
+    # (.+?) ([^<]+) .+?
+     
+
+    sPattern = '"home": "(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0] 
+        VSlog(URL_MAIN)       
+    sPattern = 'data-link="(.+?)" class='
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     if aResult[0] is True:

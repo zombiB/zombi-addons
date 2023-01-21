@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'hidaya'
 SITE_NAME = 'Hidaya'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://hidaya.tn/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 ISLAM_QURAN = ('https://hidaya.tn/tilawet/ajax_tilawet.php?search=&page=1', 'showMovies')
 

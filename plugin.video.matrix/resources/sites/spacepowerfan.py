@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'spacepowerfan'
 SITE_NAME = 'Spacepowerfan'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://spacepowerfan.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 ANIM_MOVIES = (URL_MAIN + '/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
 ANIM_NEWS = (URL_MAIN + '/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')

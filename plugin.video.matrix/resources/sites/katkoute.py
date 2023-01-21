@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'katkoute'
 SITE_NAME = 'Katkoute'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.katkoute.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 
 KID_CARTOON = ('https://www.katkoute.com/watch/browse.html', 'showSeries')

@@ -15,8 +15,8 @@ SITE_IDENTIFIER = 'geoarabic'
 SITE_NAME = 'Geoarabic'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.geoarabic.com/'
 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 DOC_NEWS = ('https://www.geoarabic.com/search/label/%D9%88%D8%AB%D8%A7%D8%A6%D9%82%D9%8A', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
 

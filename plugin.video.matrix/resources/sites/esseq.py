@@ -13,17 +13,8 @@ SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'Esseq'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://m.eshiq.net/"
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
 MOVIE_TURK = (URL_MAIN + '/category/الأفلام-التركية/', 'showMovies')

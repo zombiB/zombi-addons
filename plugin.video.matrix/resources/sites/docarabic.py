@@ -15,8 +15,8 @@ SITE_IDENTIFIER = 'docarabic'
 SITE_NAME = 'Docarabic'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://docarabic.wordpress.com/'
 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 DOC_NEWS = ('https://docarabic.wordpress.com/', 'showMovies')
 
 

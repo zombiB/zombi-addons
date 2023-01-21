@@ -15,17 +15,8 @@ SITE_IDENTIFIER = 'cimanow'
 SITE_NAME = 'Cimanow'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://cimanow.cc/"
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/', 'showMovies')
 
@@ -382,6 +373,18 @@ def showServer():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '<a href="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
     host = URL_MAIN.split('/')[2]
     VSlog(host)
  

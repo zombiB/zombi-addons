@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'pakistani'
 SITE_NAME = 'Pakistani'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://pakistani-live.net/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_ASIAN = (URL_MAIN + '/category/أفلام-باكستانية/', 'showMovies')
 SERIE_PAK = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%A8%D8%A7%D9%83%D8%B3%D8%AA%D8%A7%D9%86%D9%8A%D8%A9-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/', 'showSeries')
@@ -233,8 +233,16 @@ def showHosters():
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
 
-   
     oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '<a href="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
     
     #Recuperation infos
 

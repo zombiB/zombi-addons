@@ -15,22 +15,13 @@ SITE_IDENTIFIER = 'tvfun'
 SITE_NAME = 'Tvfun'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://m.tvfun.me/'
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2022/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia-FJ/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia,3/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/cat/mosalsalat-hindia-DI/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/cat/mosalsalat-3arabia-YJ/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/cat/mosalsalat-hindia/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/cat/mosalsalat-3arabia,3/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/cat/mosalsalat-korea/', 'showSeries')
 SERIE_LATIN = (URL_MAIN + '/cat/mosalsalat-latinia/', 'showSeries')
 REPLAYTV_NEWS = (URL_MAIN + '/cat/programme-tv/', 'showSeries')
@@ -111,10 +102,10 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="serie-thumb"><a href="(.+?)" title="(.+?)"><img src="(.+?)" sizes='
+    sPattern = '<div class="serie-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="eager" src="(.+?)" alt'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
+	 
 	
     if aResult[0] is True:
         total = len(aResult[1])
@@ -124,7 +115,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = aEntry[1].replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مترجمة","").replace("مترجم","")
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
@@ -346,7 +337,7 @@ def showEpisodes():
     if aResult[0] is True:
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)"><img src="(.+?)" sizes='
+    sPattern = '<div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

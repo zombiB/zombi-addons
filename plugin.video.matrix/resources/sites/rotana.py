@@ -16,7 +16,7 @@ SITE_IDENTIFIER = 'rotana'
 SITE_NAME = 'Rotana'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://rotana.net/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_AR = ('https://rotana.net/vod-movies', 'showMovies')
 URL_SEARCH = ('https://rotana.net/?s=', 'showSeries')

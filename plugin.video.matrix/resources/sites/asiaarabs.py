@@ -11,7 +11,7 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'asiaarabs'
-SITE_NAME = 'Asiaarabs'
+SITE_NAME = 'Asia4arabs'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)

@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'shoofvod'
 SITE_NAME = 'Shoofvod'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'http://shoofvod.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + '/Cat-141-1', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/al_751319_1', 'showMovies')

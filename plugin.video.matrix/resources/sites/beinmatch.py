@@ -16,16 +16,7 @@ SITE_NAME = 'Beinmatch'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+
 SPORT_LIVE = ('https://beinmatch.biz', 'showMovies')
 
  
@@ -45,6 +36,16 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = 'rel="canonical" href="(.+?)" />'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
  
 # ([^<]+) .+? (.+?)
 
@@ -67,7 +68,7 @@ def showMovies(sSearch = ''):
  
             sTitle =  aEntry[1].replace(')','').replace("'",'').replace('_',' ')
             sThumb = ""
-            siteUrl = "https://beinmatch.one/home/live/"+aEntry[0].replace('(','')
+            siteUrl = URL_MAIN+"/home/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sDesc = aEntry[2]
@@ -169,7 +170,7 @@ def showLive():
         for aEntry in aResult[1]:
  
             sTitle = "link HD "+aEntry[1]
-            siteUrl = "https://beinmatch.one/home/live/"+aEntry[0].replace("(","")
+            siteUrl = URL_MAIN+"/home/live/"+aEntry[0].replace("(","")
             siteUrl = siteUrl+'/'+aEntry[1]
             sDesc = ''
  

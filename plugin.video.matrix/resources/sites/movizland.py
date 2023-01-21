@@ -16,16 +16,7 @@ SITE_NAME = 'Movizland'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN+'/'
-    VSlog(URL_MAIN)
-except:
-    pass 
+ 
 RAMADAN_SERIES = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
 MOVIE_FAM = (URL_MAIN + 'category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
 MOVIE_AR = (URL_MAIN + 'category/newmovies/arab/', 'showMovies')
@@ -545,9 +536,18 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '"url": "(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
 
    
-    oParser = cParser()
 
   # ([^<]+) .+?
     headers = {'Host': 'movizland.top',
@@ -718,6 +718,15 @@ def showHosters1():
    
     oParser = cParser()
 
+    # (.+?) ([^<]+)
+
+    sPattern = '"url": "(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
+
   # ([^<]+) .+?
     headers = {'Host': 'movizland.top',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -857,6 +866,16 @@ def showHosters2():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '"url": "(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
 
     # ([^<]+) (.+?)  .+?    
 				           

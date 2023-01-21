@@ -15,8 +15,8 @@ SITE_IDENTIFIER = 'familymoviz'
 SITE_NAME = 'Familymoviz'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://www.familymoviz.net/"
 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_FAM = ('https://www.familymoviz.net/category/movies/cutmovies/', 'showMovies')
 MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
 MOVIE_AR = ('https://www.familymoviz.net/category/movies/arabicmovies/', 'showMovies')

@@ -16,17 +16,8 @@ SITE_IDENTIFIER = 'gateanime'
 SITE_NAME = 'Gateanime'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://c.gateanime.com/'
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 ANIM_NEWS = (URL_MAIN + '/tag/أنميات-موسم-شتاء-2022/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/الأفلام/', 'showMovies')
 
@@ -256,6 +247,16 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     sHtmlContent = Unquote(sHtmlContent)
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '<a href="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
 
     oParser = cParser()       
 

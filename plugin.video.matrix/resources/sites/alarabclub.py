@@ -16,7 +16,7 @@ SITE_IDENTIFIER = 'alarabclub'
 SITE_NAME = 'Alarabclub'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://alarabclub.live/"
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022', 'showSerie')
 

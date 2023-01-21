@@ -12,20 +12,11 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'shahidu'
-SITE_NAME = 'Shahidu'
+SITE_NAME = 'Shahid4u'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://shaheed4u.design/'
-try:
-    import requests
-    url = URL_MAIN
-    session = requests.Session()  # so connections are recycled
-    resp = session.head(url, allow_redirects=True)
-    URL_MAIN = resp.url.split('/')[2]
-    URL_MAIN = 'https://' + URL_MAIN
-    VSlog(URL_MAIN)
-except:
-    pass 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 RAMADAN_SERIES = (URL_MAIN + '/category/رمضان-2022-4/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
@@ -375,7 +366,7 @@ def __checkForNextPage(sHtmlContent):
         return aResult
 
     return False 
- 
+	 
 def showHosters():
     oGui = cGui()
     import requests

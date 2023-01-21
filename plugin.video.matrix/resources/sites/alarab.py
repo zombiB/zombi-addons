@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'alarab'
 SITE_NAME = 'Alarab'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://vod2.alarab.com/"
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_CLASSIC = (URL_MAIN + '/view-6181/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%85%D8%B5%D8%B1%D9%8A%D8%A9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/ramadan2021', 'showSeries')

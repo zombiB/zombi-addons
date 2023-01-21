@@ -16,8 +16,7 @@ SITE_IDENTIFIER = 'toonsland'
 SITE_NAME = 'Toonsland'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.toonsland.site/'
-
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 KID_MOVIES = (URL_MAIN + '/search/label/Movies', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '/search?q=', 'showMovies')

@@ -15,7 +15,7 @@ SITE_IDENTIFIER = 'cartoonrbi'
 SITE_NAME = 'CartoonArbi'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = 'https://www.arteenz.com/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
 KID_MOVIES = (URL_MAIN + '/films.html', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/cartoon2549.html', 'showSeries')

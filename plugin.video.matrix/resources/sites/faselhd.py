@@ -15,8 +15,8 @@ SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'Faselhd'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = "https://www.faselhd.club/"
 
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_EN = (URL_MAIN + '/movies', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/hindi', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/asian-movies', 'showMovies')
