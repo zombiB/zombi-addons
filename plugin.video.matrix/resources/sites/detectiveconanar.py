@@ -15,7 +15,6 @@ SITE_IDENTIFIER = 'detectiveconanar'
 SITE_NAME = 'Detectiveconanar'
 SITE_DESC = 'arabic vod'
 
-
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 ANIM_NEWS = ('https://detectiveconanar.com/episodes/', 'showSeries')
 ANIM_MOVIES = ('https://detectiveconanar.com/movies/', 'showMovies')

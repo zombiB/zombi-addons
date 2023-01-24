@@ -12,7 +12,7 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'shahidu'
-SITE_NAME = 'Shahid4u'
+SITE_NAME = 'Shahidu'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
@@ -366,7 +366,7 @@ def __checkForNextPage(sHtmlContent):
         return aResult
 
     return False 
-	 
+ 
 def showHosters():
     oGui = cGui()
     import requests

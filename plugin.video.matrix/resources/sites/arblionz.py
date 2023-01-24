@@ -16,7 +16,7 @@ SITE_NAME = 'Arblionz'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
- 
+
 RAMADAN_SERIES = (URL_MAIN + '/category/series/arabic-series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')
 MOVIE_4k = (URL_MAIN + '/Quality/4k/', 'showMovies')
@@ -382,15 +382,12 @@ def showEps():
     sThumb = oInputParameterHandler.getValue('sThumb')
 
 
-    from resources.lib.util import Quote
-
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Referer', Quote(sMovieUrl))
     oRequestHandler.addHeaderEntry('origin', "https://tv.arlionz.one")
     sHtmlContent = oRequestHandler.request()
 
@@ -440,8 +437,6 @@ def showHosters():
     if (aResult[0]):
         URL_MAIN = aResult[1][0]
         VSlog(URL_MAIN)
-    # ([^<]+) .+?
-
     
     #Recuperation infos
     sNote = ''

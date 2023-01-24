@@ -16,6 +16,7 @@ SITE_NAME = 'Alfajertv'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 MOVIE_EN = (URL_MAIN + '/genre/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/genre/arabic-movies/', 'showMovies')
 

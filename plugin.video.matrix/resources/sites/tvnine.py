@@ -130,10 +130,10 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1]
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
@@ -156,10 +156,10 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1]
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
@@ -183,10 +183,10 @@ def showLive():
                       url = 'https:' + url 
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -212,7 +212,7 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1]
-                   if ".php" in url:
+                   if ".php" or ".html" in url:
                        oRequestHandler = cRequestHandler(url)
                        data = oRequestHandler.request() 
                        sPattern = "source: '(.+?)',"
@@ -225,10 +225,31 @@ def showLive():
                                  url = 'https:' + url
                               if '?src=' in url:
                                  url = url.split('?src=')[1] 
-                              sHosterUrl = url+ "|Referer=" + URL_MAIN
+                              sHosterUrl = url
                               sMovieTitle = sTitle
                               if 'vimeo' in sHosterUrl:
-                                  sHosterUrl = url + "|Referer=" + sUrl
+                                  sHosterUrl = sHosterUrl + "|Referer=" + sUrl
+            
+
+                              oHoster = cHosterGui().checkHoster(sHosterUrl)
+                              if oHoster != False:
+                                  oHoster.setDisplayName(sMovieTitle)
+                                  oHoster.setFileName(sMovieTitle)
+                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+                       sPattern = '<iframe src="(.+?)" height'
+                       aResult = oParser.parse(data, sPattern)
+                       if aResult[0] is True:
+                          for aEntry in aResult[1]:
+            
+                              url = aEntry
+                              if url.startswith('//'):
+                                 url = 'https:' + url
+                              if '?src=' in url:
+                                 url = url.split('?src=')[1] 
+                              sHosterUrl = url
+                              sMovieTitle = sTitle
+                              if 'vimeo' in sHosterUrl:
+                                  sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
                               oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -239,13 +260,13 @@ def showLive():
                    sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
  
                    UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
-                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                   sHosterUrl = sHosterUrl   
                    sMovieTitle = sTitle
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    if oHoster != False:
                        oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
@@ -269,10 +290,10 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -296,10 +317,10 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN 
+                   sHosterUrl = url 
                    sMovieTitle = sTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -314,10 +335,10 @@ def showLive():
                for aEntry in aResult[1]:
             
                    url = aEntry
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -335,10 +356,10 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN
+                   sHosterUrl = url
                    sMovieTitle = sTitle
                    if 'vimeo' in sHosterUrl:
-                       sHosterUrl = url + "|Referer=" + sUrl
+                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -358,9 +379,9 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1] 
-                   sHosterUrl = url+ "|Referer=" + URL_MAIN
+                   sHosterUrl = url
                    sMovieTitle = sTitle
-                   if 'vimeo' in url:
+                   if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
 

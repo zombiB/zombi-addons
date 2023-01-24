@@ -16,7 +16,7 @@ SITE_NAME = 'Prstej'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
- 
+
 MOVIE_EN = (URL_MAIN + '/category.php?cat=movieenglish', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2022', 'showSeries')
 MOVIE_AR = (URL_MAIN + '/category.php?cat=moviearabic', 'showMovies')
@@ -277,20 +277,12 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
 
-    # (.+?) ([^<]+)
-
-    sPattern = '<a href="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
     # ([^<]+) .+?
                
 
     sPattern = "data-embed='([^<]+)' data"
+    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	

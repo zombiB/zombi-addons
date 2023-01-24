@@ -16,7 +16,7 @@ SITE_NAME = 'Mycima'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
- 
+
 MOVIE_TOP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/best/', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/category/افلام/movies-english-افلام-اجنبي/list/top/', 'showMovies')
 MOVIE_CLASSIC = (URL_MAIN + '/category/افلام/arabic-movies-افلام-عربي/list/old/', 'showMovies')
@@ -676,16 +676,6 @@ def showHosters():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-
-    # (.+?) ([^<]+)
-
-    sPattern = '<a href="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
 
     # ([^<]+) .+?
                

@@ -16,11 +16,11 @@ SITE_IDENTIFIER = 'cimaclub'
 SITE_NAME = 'Cimaclub'
 SITE_DESC = 'arabic vod'
  
-
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+ 
 MOVIE_FAM = (URL_MAIN + '/getposts?genre=%D8%B9%D8%A7%D8%A6%D9%84%D9%8A&category=1', 'showMovies')
 MOVIE_TOP = (URL_MAIN + '/getposts?type=one&data=rating', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%89-aflam-onilne15', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A3%D8%AC%D9%86%D8%A8%D9%8A-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%B9%D8%B1%D8%A8%D9%8A-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86', 'showMovies')
 MOVIE_TURK = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%AA%D8%B1%D9%83%D9%8A%D8%A9', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
@@ -465,14 +465,6 @@ def showServers():
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<a href="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
-    # ([^<]+) .+?
-
    
     oParser = cParser()
     
@@ -582,14 +574,6 @@ def showServers1():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-
-    sPattern = '<a href="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
-    # ([^<]+) .+?
   
     oParser = cParser()
 
@@ -664,14 +648,6 @@ def showHosters():
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
     sHtmlContent = oRequestHandler.request()
-
-    sPattern = '<a href="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
-    # ([^<]+) .+?
 
     sPattern = '([^<]+)'
     oParser = cParser()

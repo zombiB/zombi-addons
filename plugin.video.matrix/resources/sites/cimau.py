@@ -12,11 +12,11 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'cimau'
-SITE_NAME = 'Cima4u'
+SITE_NAME = 'Cimaau'
 SITE_DESC = 'arabic vod'
  
-
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 
 RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-7series/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies7-english/', 'showMovies')
@@ -408,16 +408,6 @@ def showLinks():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-
-    # (.+?) ([^<]+)
-
-    sPattern = '<a href="(.+?)"'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
     
     oParser = cParser()
     

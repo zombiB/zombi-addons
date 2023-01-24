@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, siteManager, VSlog
+from resources.lib.comaddon import progress, siteManager
 from resources.lib.parser import cParser
 import re
  
@@ -485,16 +485,6 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
-    oParser = cParser()
-
-    # (.+?) ([^<]+)
-
-    sPattern = ',"url":"(.+?)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
     # (.+?) 
                
         

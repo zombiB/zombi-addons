@@ -105,7 +105,7 @@ def showSeries(sSearch = ''):
     sPattern = '<div class="serie-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="eager" src="(.+?)" alt'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	 
+	
 	
     if aResult[0] is True:
         total = len(aResult[1])

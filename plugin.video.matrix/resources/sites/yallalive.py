@@ -73,18 +73,6 @@ def showMovies():
  
  
     oGui.setEndOfDirectory()
-	
-def check_host(URL_MAIN):
-    try:
-        import requests
-        url = URL_MAIN
-        session = requests.Session()  # so connections are recycled
-        resp = session.head(url, allow_redirects=True)
-        URL_MAIN = resp.url.split('/')[2]
-        URLMAIN = 'https://' + URL_MAIN
-        VSlog(URLMAIN)
-    except:
-        pass
 			
 def showHosters():
     import requests
@@ -92,8 +80,7 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    URLMAIN = str(check_host(URL_MAIN))                   
+    sThumb = oInputParameterHandler.getValue('sThumb')                    
        
     oParser = cParser()
  
@@ -162,7 +149,7 @@ def showHosters():
                    a = a.replace('\\','')
                    b = var[0][1]
                    url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
-            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URLMAIN
+            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URL_MAIN
             Referer = aEntry[0].split('live')[0]
             VSlog(sHosterUrl)   
             if 'amazonaws.com'  in sHosterUrl:
@@ -223,7 +210,7 @@ def showHosters():
                    a = a.replace('\\','')
                    b = var[0][1]
                    url = 'https://video-a-sjc.xx.fbcdn.net/hvideo-ash66'+a
-            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URLMAIN
+            sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer=' + URL_MAIN
             sMovieTitle = 'link'
             if 'vimeo' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl

@@ -457,11 +457,11 @@ def showHosters():
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
             if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + sURL_MAIN
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + sURL_MAIN 
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + sURL_MAIN   
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster != False:
                 oHoster.setDisplayName(sMovieTitle)

@@ -17,8 +17,8 @@ SITE_IDENTIFIER = 'ehna'
 SITE_NAME = 'Ehna'
 SITE_DESC = 'arabic vod'
  
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER) 
 MOVIE_EN = (URL_MAIN + '/category/افلام/افلام-اجنبية/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/افلام/افلام-عربية/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showMovies')

@@ -13,8 +13,8 @@ SITE_IDENTIFIER = 'esseq'
 SITE_NAME = 'Esseq'
 SITE_DESC = 'arabic vod'
  
-
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
 
 SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
 MOVIE_TURK = (URL_MAIN + '/category/الأفلام-التركية/', 'showMovies')

@@ -4,7 +4,7 @@
 import re
 import unicodedata
 
-from resources.lib.comaddon import progress, siteManager
+from resources.lib.comaddon import progress
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
@@ -21,7 +21,7 @@ SITE_IDENTIFIER = 'topimdb'
 SITE_NAME = '[COLOR orange]Top 1000 IMDb[/COLOR]'
 SITE_DESC = 'Base de donnees videos.'
 
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://www.imdb.com/'
 POSTER_URL = 'https://ia.media-imdb.com/images/m/'
 FANART_URL = 'https://ia.media-.imdb.com/images/m/'
 

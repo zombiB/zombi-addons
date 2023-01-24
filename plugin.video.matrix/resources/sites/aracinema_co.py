@@ -19,6 +19,10 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_ASIAN = ('https://aradramtv.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+SERIE_AR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2020/', 'showSerie')
+
+SERIE_TR = (URL_MAIN + '/category/turkish-serie/ts-subtitled/', 'showSerie')
+SERIE_TR_AR = (URL_MAIN + '/category/turkish-serie/ts-doubled/', 'showSerie')
 SERIE_ASIA = ('https://aradramtv.com/category/serie/', 'showSerie')
 URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
 URL_SEARCH_MOVIES = ('https://aradramatv.co/?s=', 'showMovies')
@@ -41,9 +45,17 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'https://aramosalsal.net/category/hindi-movies/')
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'film.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات أسيوية', 'mslsl.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
+  
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR_AR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', 'mslsl.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory()
  

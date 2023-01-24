@@ -13,7 +13,6 @@ SITE_IDENTIFIER = 'egyclub'
 SITE_NAME = 'Egyclub'
 SITE_DESC = 'arabic vod'
  
-
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_EN = ('https://www.egy-club.com/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a', 'showMovies')
 MOVIE_HI = ('https://www.egy-club.com/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8%AF%D9%8A', 'showMovies')
