@@ -27,14 +27,14 @@ class cHoster(iHoster):
         #lien indirect
         sPattern = '<iframe.+?src="([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             oRequest = cRequestHandler(aResult[1][0])
             sHtmlContent = oRequest.request()
         
         #test pour voir si code
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
         sPattern = 'file:"([^"]+\.mp4)"(?:,label:"([^"]+)")*'
@@ -42,7 +42,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             
             #initialisation des tableaux
             url=[]

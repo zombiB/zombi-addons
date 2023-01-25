@@ -21,12 +21,14 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request().replace('\\u0026', '&')
+        cookies = oRequest.GetCookies()# + ";"
+        
         sPattern = 'CreatePlayer.+?v=(.+?)&tp'
 
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = Unquote(aResult[1][0])
         if api_call:
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
-
-        return False, False
+            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url + '&Cookie=' + cookies
+        
+        return False, False    

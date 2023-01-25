@@ -33,18 +33,18 @@ class cHoster(iHoster):
         #lien direct
         sPattern = ',{file: *"([^"]+)"}\]'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
         #2 test Dean Edwards Packer
         else:
             sPattern = "<script type='text/javascript'>(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>"
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                 sUnpacked = cPacker().unpack(aResult[1][0])
                 sPattern =  'file:"([^"]+\.mp4)'
                 aResult = oParser.parse(sUnpacked, sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                     api_call = aResult[1][0]
 
         if api_call:

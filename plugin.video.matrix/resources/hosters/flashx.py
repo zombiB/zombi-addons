@@ -258,7 +258,7 @@ class cHoster(iHoster):
             "(-*[0-9a-zA-Z]+)?(?:.html)?"
         oParser = cParser()
         aResult = oParser.parse(url, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             return aResult[1][0][1]
 
         return ''
@@ -412,7 +412,7 @@ class cHoster(iHoster):
 
         # VSlog(str(aResult))
 
-        if aResult[0] is True:
+        if aResult[0] :
             # initialisation des tableaux
             url = []
             qua = []

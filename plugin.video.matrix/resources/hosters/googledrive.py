@@ -26,7 +26,7 @@ class cHoster(iHoster):
         sPattern = 'google.+?([a-zA-Z0-9-_]{20,40})'
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             return aResult[1][0]
 
         return ''

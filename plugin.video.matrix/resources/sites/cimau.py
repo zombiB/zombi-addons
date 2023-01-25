@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -10,13 +10,14 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
+from resources.lib.util import Quote
  
 SITE_IDENTIFIER = 'cimau'
 SITE_NAME = 'Cimaau'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+ 
 
 RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-7series/%d9%85%d8%b4%d8%a7%d9%87%d8%af%d8%a9-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي-movies7-english/', 'showMovies')
@@ -92,7 +93,7 @@ def load():
 def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -101,7 +102,7 @@ def showSearch():
 def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -123,7 +124,7 @@ def showPack():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             sTitle = aEntry[1].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
@@ -168,7 +169,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -205,7 +206,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -248,7 +249,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -279,7 +280,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -331,7 +332,7 @@ def showEpisodes():
             
     sPattern =  '<a href="([^<]+)"><div class="WatchingArea Hoverable">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         m3url = aResult[1][0] 
         if 'Episode'  in m3url: 
             m3url = aResult[1][0] 
@@ -344,7 +345,7 @@ def showEpisodes():
             aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-            if aResult[0] is True:
+            if aResult[0] :
                oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
  
@@ -373,7 +374,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True: 
+    if aResult[0] : 
         oOutputParameterHandler = cOutputParameterHandler()             
         for aEntry in aResult[1]: 
             sTitle = aEntry[1]
@@ -398,16 +399,25 @@ def showEpisodes():
     oGui.setEndOfDirectory()
 
 def showLinks():
+    
     oGui = cGui()
-   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     sDesc = ''
- 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+    
+    # (.+?) ([^<]+) 
+    
+    sPattern = '<a href="(.+?)"'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
     
     oParser = cParser()
     
@@ -424,7 +434,7 @@ def showLinks():
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         m3url = aResult[1][0]
         if '/tag/'  in m3url: 
             m3url = aResult[1][0] 
@@ -437,7 +447,7 @@ def showLinks():
             aResult = oParser.parse(sData, sPattern)
 	
 	
-            if aResult[0] is True:
+            if aResult[0] :
                oOutputParameterHandler = cOutputParameterHandler()    
                for aEntry in aResult[1]:
  
@@ -462,7 +472,7 @@ def showLinks():
                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle, sThumb, sDesc, oOutputParameterHandler)
         
  
-               sNextPage = __checkForNextPage(sHtmlContent2)
+               sNextPage = __checkForNextPage(sHtmlContent)
                if sNextPage != False:
                   oOutputParameterHandler = cOutputParameterHandler()
                   oOutputParameterHandler.addParameter('siteUrl', sNextPage)
@@ -471,47 +481,37 @@ def showLinks():
                oRequest = cRequestHandler(m3url)
                sHtmlContent = oRequest.request()
 				
-
-
-            
+  
     sPattern =  '<meta itemprop="embedURL" content="(.+?)" />' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         m3url = aResult[1][0] 
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
 
     #print sUrl
-    
-
-
+   
     sPage='0'
-
     sPattern = 'data-link="([^<]+)" class=".+?"><img.+?/>(.+?)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
    
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             sPage = aEntry[0]
             sTitle = 'server '+':'+ aEntry[1]
-            siteUrl = 'https://tv.cima4u.film/structure/server.php?id='+sPage
+            siteUrl = 'https://tv.cimaaa4u.quest/structure/server.php?id='+sPage
             sDesc = sDesc
     
             oRequestHandler = cRequestHandler(siteUrl)
             sData = oRequestHandler.request();
     # (.+?)
-               
 
             sPattern = '<iframe.+?src="(.+?)"'
             oParser = cParser()
             aResult = oParser.parse(sData, sPattern)
 
-
-
-	
-            if aResult[0] is True:
+            if aResult[0] :
                 for aEntry in aResult[1]:
         
                     url = aEntry
@@ -538,8 +538,7 @@ def showLinks():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
         
@@ -547,9 +546,7 @@ def showLinks():
 
             if url.startswith('//'):
                url = 'http:' + url
-				
-					
-            
+
             sHosterUrl = url 
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
@@ -573,7 +570,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         return aResult[1][0]
 
     return False

@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -16,7 +16,7 @@ SITE_NAME = 'Arblionz'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+ 
 RAMADAN_SERIES = (URL_MAIN + '/category/series/arabic-series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/category/movies/english-movies/', 'showMovies')
 MOVIE_4k = (URL_MAIN + '/Quality/4k/', 'showMovies')
@@ -24,7 +24,7 @@ MOVIE_AR = (URL_MAIN + '/category/movies/arabic-movies/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/movies/indian-movies/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/movies/asian-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/anime-cartoon/cartoon/', 'showMovies')
-SERIE_TR = (URL_MAIN + '/category/turkish-series-translated/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/category/series/turkish-series-translated-20221/', 'showSeries')
 
 SERIE_TR_AR = (URL_MAIN + '/category/turkish-series-dubbed/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/series/english-series/', 'showSeries')
@@ -110,7 +110,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -120,7 +120,7 @@ def showSearchSeries():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search/'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -146,7 +146,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -186,7 +186,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -238,7 +238,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -276,7 +276,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -343,10 +343,10 @@ def showSeasons():
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
     
-        if aResult[0] is True:
+        if aResult[0] :
             oOutputParameterHandler = cOutputParameterHandler() 
             for aEntry in aResult[1]:
-                sTitle =  sMovieTitle+' E'+ aEntry[1]
+                sTitle =  sMovieTitle+'E'+ aEntry[1]
                 siteUrl = aEntry[0]
                 sThumb = sThumb
                 sDesc = ''
@@ -367,7 +367,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         return aResult[1][0]
 
     return False
@@ -382,13 +382,15 @@ def showEps():
     sThumb = oInputParameterHandler.getValue('sThumb')
 
 
+   
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('origin', "https://tv.arlionz.one")
+    
+    oRequestHandler.addHeaderEntry('origin', "arlionz.store")
     sHtmlContent = oRequestHandler.request()
 
 
@@ -400,7 +402,7 @@ def showEps():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
@@ -429,14 +431,16 @@ def showHosters():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
 
+    oParser = cParser()
     sPattern = ',"homeUrl":"(.+?)"}'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if (aResult[0]):
         URL_MAIN = aResult[1][0]
         VSlog(URL_MAIN)
+    # ([^<]+) .+?
+
     
     #Recuperation infos
     sNote = ''
@@ -458,19 +462,19 @@ def showHosters():
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
-    oRequestHandler.addHeaderEntry('origin', "arlionztv.com")
+    oRequestHandler.addHeaderEntry('origin', "arlionz.store")
     sHtmlContent = oRequestHandler.request()
 
     sPattern = '<li data-i="([^<]+)" data-id="([^<]+)" class'
     aResult = oParser.parse(sHtmlContent, sPattern)	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             link = URL_MAIN + '/Embedder/'+aEntry[1]+'/'+aEntry[0]
             oRequestHandler = cRequestHandler(link)
             cook = oRequestHandler.GetCookies()
             oRequestHandler.setRequestType(1)
             oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-            oRequestHandler.addHeaderEntry('origin', "arlionztv.com")
+            oRequestHandler.addHeaderEntry('origin', "arlionz.store")
             oRequestHandler.addHeaderEntry('Cookie', cook)
             oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
             oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
@@ -483,7 +487,7 @@ def showHosters():
             aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -506,6 +510,7 @@ def showHosters():
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    
     oRequestHandler.addHeaderEntry('Cookie', cook)
     oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
     oRequestHandler.addHeaderEntry('Referer', Quote(sUrl))
@@ -549,7 +554,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         return URL_MAIN+aResult[1][0]
 
     return False

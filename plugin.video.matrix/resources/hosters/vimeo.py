@@ -15,7 +15,7 @@ class cHoster(iHoster):
         sPattern = 'vimeo\.com\/(?:event\/)?([0-9]+)'
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             return aResult[1][0]
 
         return ''
@@ -53,7 +53,7 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         VSlog(aResult)
 
-        if aResult[0] is True:
+        if aResult[0] :
             #initialisation des tableaux
             url=[]
             qua=[]

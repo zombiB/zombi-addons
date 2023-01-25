@@ -28,7 +28,7 @@ class cHoster(iHoster):
         sPattern = '"file":"(.+?)","'
         aResult = oParser.parse(data, sPattern)
       # (.+?) ([^<]+) .+?
-        if aResult[0] is True:
+        if aResult[0] :
             url2 = aResult[1][0]
             oRequestHandler = cRequestHandler(url2)
             sHtmlContent2 = oRequestHandler.request()
@@ -38,7 +38,7 @@ class cHoster(iHoster):
             sPattern = ',RESOLUTION=(.+?),.+?(http.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0] :
             
             #initialisation des tableaux
                 url=[]
@@ -82,7 +82,7 @@ class cHoster(iHoster):
                 	sPattern =  ',RESOLUTION=(.+?),.+?index(.+?)token='
                 	oParser = cParser()
                 	aResult = oParser.parse(sHtmlContent, sPattern)
-                	if aResult[0] is True:
+                	if aResult[0] :
         	            url=[]
         	            qua=[]
         	            base= ''

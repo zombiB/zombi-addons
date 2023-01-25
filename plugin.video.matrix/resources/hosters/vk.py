@@ -26,7 +26,7 @@ class cHoster(iHoster):
 
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]+ '|User-Agent=' + UA + '&Referer=' + self._url 
             VSlog(api_call)
 
@@ -37,7 +37,7 @@ class cHoster(iHoster):
 
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             url=[]
             qua=[]
             for i in aResult[1]:

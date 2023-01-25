@@ -5,8 +5,8 @@ import xbmc
 import json
 import threading
 import copy
+import sys 
 
-from resources.lib.tmdb import cTMDb
 from resources.lib.comaddon import listitem, addon, dialog, window, isKrypton, isNexus, progress, VSlog
 from resources.lib.gui.contextElement import cContextElement
 from resources.lib.gui.guiElement import cGuiElement
@@ -15,18 +15,12 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.pluginHandler import cPluginHandler
 from resources.lib.parser import cParser
 from resources.lib.util import QuotePlus
-import re
 
-try:  # Python 2
-    import urllib2
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
 
 class cGui:
 
     SITE_NAME = 'cGui'
-    CONTENT = 'files'
+    CONTENT = ''
     listing = []
     thread_listing = []
     episodeListing = []  # Pour gérer l'enchainement des episodes
@@ -37,8 +31,9 @@ class cGui:
     searchResults = {}
     searchResultsSemaphore = threading.Semaphore()
 
-    if isKrypton():
-       CONTENT = 'addons'
+    # if isKrypton():
+    #     CONTENT = 'addons'
+
 
     def getEpisodeListing(self):
         return self.episodeListing
@@ -88,6 +83,7 @@ class cGui:
                 sTmdbID = oInputParameterHandler.getValue('sTmdbId')
                 if sTmdbID:
                     oOutputParameterHandler.addParameter('sTmdbId', sTmdbID)
+        
         oOutputParameterHandler.addParameter('sFav', sFunction)
 
         resumeTime = oOutputParameterHandler.getValue('ResumeTime')
@@ -157,6 +153,7 @@ class cGui:
             oOutputParameterHandler.addParameter('nextSaisonFunc', sFunction)
 
         return self.addNewDir('tvshows', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 2, 9)
+    
     def addMisc(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
         if sThumbnail or sDesc:
             type = 'videos'
@@ -276,6 +273,7 @@ class cGui:
                   'sTmdbId': oGuiElement.setTmdbId,
                   'sYear': oGuiElement.setYear,
                   'sRes': oGuiElement.setRes}
+        
         try:  # Py2
             for sParam, callback in params.iteritems():
                 value = oOutputParameterHandler.getValue(sParam)
@@ -302,6 +300,7 @@ class cGui:
                 oListItem.addStreamInfo('video', { 'width':1280, 'height' : 720 })
             elif '480' in sRes:
                 oListItem.addStreamInfo('video', { 'width':720, 'height' : 576 })
+       
         sCat = oGuiElement.getCat()
         if sCat:
             cGui.sCat = sCat
@@ -431,7 +430,7 @@ class cGui:
             videoInfoTag.setMpaa(data.get('mpaa', ""))
             videoInfoTag.setDuration(int(data.get('duration', 0)))
             videoInfoTag.setPlaycount(int(data.get('playcount', 0)))
-            videoInfoTag.setCountries(data.get('country', [""]))
+            videoInfoTag.setCountries(list(data.get('country', [""])))
             videoInfoTag.setTrailer(data.get('trailer', ""))
             videoInfoTag.setTagLine(data.get('tagline', ""))
             videoInfoTag.setStudios(list(data.get('studio', '').split("/")))
@@ -597,8 +596,10 @@ class cGui:
                 sDecoColor = self.ADDON.getSetting('deco_color')
                 titleMenu = '[COLOR %s]%s[/COLOR]' % (sDecoColor, oContextItem.getTitle())
                 aContextMenus += [(titleMenu, 'RunPlugin(%s)' % sTest)]
+           
             oListItem.addContextMenuItems(aContextMenus)
         oListItem.setProperty('nbcontextmenu', str(nbContextMenu))
+        
         return oListItem
 
     def __createItemUrl(self, oGuiElement, oOutputParameterHandler=''):
@@ -715,67 +716,7 @@ class cGui:
             # On appel la fonction integrer a Kodi pour charger les infos.
             xbmc.executebuiltin('Action(Info)')
 		
-    def viewParents(self):
-        oInputParameterHandler = cInputParameterHandler()
-        sFileName = oInputParameterHandler.getValue('sFileName')
-        sFileName = sFileName.split('مدبلج')[0]
-        sType = oInputParameterHandler.getValue('sType')
-        sImdbId = oInputParameterHandler.getValue('sImdbId')
-        sTmdbId = oInputParameterHandler.getValue('sTmdbId')
-        sIMDb = 'tt9536846'
-        if 'movie'in sType:
-            meta = cTMDb().get_meta(sType, sFileName, imdb_id = xbmc.getInfoLabel('ListItem.Property(ImdbId)'))
-            sIMDb = meta['imdb_id']
-            sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
-        else:
-            meta = cTMDb().search_tvshow_id(sTmdbId)
-            sIMDb = meta['external_ids']['imdb_id']
-            sUrl = 'https://www.imdb.com/title/'+sIMDb+'/parentalguide?ref_=tt_stry_pg'
-        oRequest = urllib2.Request(sUrl)
-        oResponse = urllib2.urlopen(oRequest)
-        DIALOG = dialog()
 
-                # En python 3 on doit décoder la reponse
-        if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
-            sContent = oResponse.read().decode('utf-8')
-        else:
-            sContent = oResponse.read()
-        Stext = "لم يقع تصنيف المحتوى"
-        Stext0 = ""
-        oParser = cParser()
-        sPattern = '>MPAA</td>.+?<td>([^<]+)<'
-        aResult = oParser.parse(sContent, sPattern)
-        if (aResult[0]):
-            Stext0 = aResult[1][0]
-        if 'Rated R' in Stext0 and 'sex' not in Stext0:
-            Stext = 'غير مناسب للمشاهدة العائلية'
-        if 'Rated R' in Stext0 and 'sex'  in Stext0 or 'nudity'  in Stext0:
-            Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
-        if 'Rated R' not in Stext0:
-            sPattern = 'Nudity</h4>.+?ipl-status-pill.+?">([^<]+)</span>'
-            aResult = oParser.parse(sContent, sPattern)
-            if (aResult[0]):
-               Stext2 = aResult[1][0]
-               if 'None'  in Stext2:
-                  Stext = '  مناسب للمشاهدة العائلية'
-               if 'Mild'  in Stext2:
-                  Stext = '   بعض المواد قد لا تكون مناسبة'
-               if 'Moderate'  in Stext2:
-                  Stext = '   غير مناسب للمشاهدة العائلية'
-               if 'Severe'  in Stext2:
-                  Stext = 'تحذير غير مناسب للمشاهدة وجود أو تكرار مشاهد تحتوي على عُري أو لقطات خادشة للحياء'
-            Stext1 = re.findall('class="ipl-zebra-list__item">([^<]+)<div', sContent, re.S) 
-            if Stext1:
-               Stext1 = ' '.join(Stext1)
-               if 'kiss'  in Stext1:
-                  Stext = Stext+"\n"+' قد يحتوي بعض القبلات '
-               if 'cleavage'  in Stext1 or 'bikini'  in Stext1:
-                  Stext = Stext+"\n"+' ملابس غير ملائمة في بعض المشاهد '
-               if 'have sex'  in Stext1 or 'topless'  in Stext1:
-                  Stext = Stext+"\n"+' لقطات غير مناسبة للمشاهدة العائلية '
-        Stextf = Stext+"\n"+Stext0
-
-        ret = DIALOG.VSok(Stextf)
 						
     def viewSimil(self):
         sPluginPath = cPluginHandler().getPluginPath()
@@ -790,15 +731,17 @@ class cGui:
         oOutputParameterHandler.addParameter('readdb', 'False')
 
         sParams = oOutputParameterHandler.getParameterAsUri()
-        sTest = '%s?site=%s&function=%s&%s' % (sPluginPath, 'globalSearch', 'globalSearch', sParams)
-
+        sTest = '?site=%s&function=%s&%s' % ('globalSearch', 'globalSearch', sParams)
+        sys.argv[2] = sTest
+        sTest = sPluginPath + sTest
+        
         # Si lancé depuis la page Home de Kodi, il faut d'abord en sortir pour lancer la recherche
         if xbmc.getCondVisibility('Window.IsVisible(home)'):
             xbmc.executebuiltin('ActivateWindow(%d)' % 10028)
 
         xbmc.executebuiltin('Container.Update(%s)' % sTest)
 
-        return False
+        return True
 
     def selectPage(self):
         sPluginPath = cPluginHandler().getPluginPath()

@@ -26,7 +26,7 @@ class cHoster(iHoster):
         #Dean Edwards Packer
         sPattern = "(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>"
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             sUnpacked = cPacker().unpack(aResult[1][0])
         
         #fh = open('c:\\test.txt', "w")
@@ -39,7 +39,7 @@ class cHoster(iHoster):
             
             #print aResult
             
-            if aResult[0] is True:
+            if aResult[0] :
                 return True , aResult[1][0]
         
         

@@ -16,13 +16,13 @@ SITE_DESC = 'Base de données video.'
 
 # doc de l'api http://docs.themoviedb.apiary.io/
 
-URL_MAIN = 'https://www.themoviedb.org/'
+URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 API_VERS = '3'
 API_URL = URL_MAIN + API_VERS
 
 # FANART_URL = 'https://image.tmdb.org/t/p/original/'
-# https://api.themoviedb.org/3/movie/popular?api_key=92ab39516970ab9d86396866456ec9b6
+# https://api.themoviedb.org/3/movie/popular?api_key=76fb338cabb39ffb34550aa7a8c34010
 
 view = '500'
 tmdb_session = ''
@@ -281,7 +281,7 @@ def getAction():
         # /tv/{tv_id}/season/{season_number}/episode/{episode_number}/rating
         numboard = oGui.showNumBoard('Min 0.5 - Max 10')
         if numboard != None:
-            if sSeason is not False and sEpisode is not False:
+            if sSeason != False and sEpisode != False:
                 sAction = '%s/%s/season/%s/episode/%s/rating' % (sCat, sTMDB, sSeason, sEpisode)
             else:
                 sAction = '%s/%s/rating' % (sCat, sTMDB)
@@ -399,7 +399,7 @@ def showSearchMovie():
     oGui = cGui()
 
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         showMovies(sSearchText.replace(' ', '+'))
         # oGui.setEndOfDirectory()
         return
@@ -409,7 +409,7 @@ def showSearchSerie():
     oGui = cGui()
 
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         showSeries(sSearchText.replace(' ', '+'))
         # oGui.setEndOfDirectory()
         return
@@ -419,7 +419,7 @@ def showSearchActor():
     oGui = cGui()
 
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         showActors(sSearchText.replace(' ', '+'))
         # oGui.setEndOfDirectory()
         return

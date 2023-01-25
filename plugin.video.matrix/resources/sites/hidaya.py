@@ -17,7 +17,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-ISLAM_QURAN = ('https://hidaya.tn/tilawet/ajax_tilawet.php?search=&page=1', 'showMovies')
+ISLAM_QURAN = (URL_MAIN +'/tilawet/ajax_tilawet.php?search=&page=1', 'showMovies')
 
  
 def load():
@@ -37,7 +37,7 @@ def showMovies(sSearch = ''):
     b = sUrl.split('=')[2]
     b = int(b)
     for b in range(b,b+5):
-        sUrl = "https://hidaya.tn/tilawet/ajax_tilawet.php?search=&page="+str(b)
+        sUrl = URL_MAIN +"/tilawet/ajax_tilawet.php?search=&page="+str(b)
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+?
@@ -47,7 +47,7 @@ def showMovies(sSearch = ''):
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
 	
-        if aResult[0] is True:
+        if aResult[0] :
            for aEntry in aResult[1]:
         
                url = "https://www.youtube.com/watch?v="+aEntry[1]
@@ -84,7 +84,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         return "https://hidaya.tn/tilawet/ajax_tilawet.php?search=&page=" + aResult[1][0]
 
     return False
@@ -102,7 +102,7 @@ def showHosters():
     oParser = cParser()       
     sPattern =  '<a href="([^<]+)".+?class="download-link"' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         m3url =  aResult[1][0]
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
@@ -114,7 +114,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
         
             url = aEntry[0]

@@ -25,13 +25,13 @@ class cHoster(iHoster):
     #recup du lien mp4
         sPattern =  ',policyKey:"(.+?)"}},{name:"dock",' 
         aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             mkey =  aResult[1][0]
     
  
         sPattern = 'data-account="(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
            import requests
            s = requests.Session()  
            mcnt =  aResult[1][0]   
@@ -48,7 +48,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             
             #initialisation des tableaux
             url=[]

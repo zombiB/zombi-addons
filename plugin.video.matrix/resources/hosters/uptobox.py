@@ -35,7 +35,7 @@ class cHoster(iHoster):
                 'srclang=[\'"].+?[\'"] label=[\'"]([^\'"]+)[\'"]>'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0] :
                 Files = []
                 for aEntry in aResult[1]:
                     url = aEntry[0]

@@ -17,12 +17,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = ('https://arabsciences.com/category/tv-channels/', 'showMovies')
+DOC_NEWS = (URL_MAIN +'/category/tv-channels/', 'showMovies')
 DOC_GENRES = (True, 'showGenres')
 
-URL_SEARCH = ('https://arabsciences.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://arabsciences.com/?s=', 'showMovies')
-URL_SEARCH_MISC = ('https://arabsciences.com/?s=', 'showMovies')
+URL_SEARCH = (URL_MAIN +'/?s=', 'showMovies')
+URL_SEARCH_MOVIES = (URL_MAIN +'?s=', 'showMovies')
+URL_SEARCH_MISC = (URL_MAIN +'/?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -74,7 +74,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = 'https://arabsciences.com/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -98,7 +98,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -137,7 +137,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         return aResult[1][0]
 
     return False
@@ -159,7 +159,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry.replace('?rel=0','').replace('"','')
@@ -180,7 +180,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = 'https://www.youtube.com/embed/'+aEntry
@@ -201,7 +201,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry.replace('?rel=0','').replace('"','')

@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -16,30 +16,25 @@ SITE_NAME = 'Movizland'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
-RAMADAN_SERIES = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
-MOVIE_FAM = (URL_MAIN + 'category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category/newmovies/arab/', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'category/newmovies/newforeign/', 'showMovies')
-MOVIE_4k = (URL_MAIN + 'category/movies/4k/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/newmovies/india/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category/newmovies/anime/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category/newmovies/turkey/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category/newmovies/asia/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + 'category/newmovies/backs/', 'showPacks')
-
-DOC_NEWS = (URL_MAIN + 'category/newmovies/documentary/', 'showMovies')
-
-SERIE_EN = (URL_MAIN + 'category/series/foreign-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
-SPORT_WWE = (URL_MAIN + 'category/series/wwe/', 'showMovies')
-
-SERIE_TR = (URL_MAIN + 'category/series/turkish-series/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + 'category/series/anime-series/', 'showSeries')
-
-
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+ 
+RAMADAN_SERIES = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
+MOVIE_FAM = (URL_MAIN + '/category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/newmovies/arab/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/newmovies/newforeign/', 'showMovies')
+MOVIE_4k = (URL_MAIN + '/category/movies/4k/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/newmovies/india/', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/category/newmovies/anime/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/newmovies/turkey/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/category/newmovies/asia/', 'showMovies')
+MOVIE_PACK = (URL_MAIN + '/category/newmovies/backs/', 'showPacks')
+DOC_NEWS = (URL_MAIN + '/category/newmovies/documentary/', 'showMovies')
+SERIE_EN = (URL_MAIN + '/category/series/foreign-series/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
+SPORT_WWE = (URL_MAIN + '/category/series/wwe/', 'showMovies')
+SERIE_TR = (URL_MAIN + '/category/series/turkish-series/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/category/series/anime-series/', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -98,7 +93,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -108,7 +103,7 @@ def showSearch():
     oGui = cGui()
 
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -134,7 +129,7 @@ def showSearchSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -190,14 +185,11 @@ def showMovies(sSearch = ''):
  
 
       # (.+?) ([^<]+) .+?
-
-
     sPattern = '<div class="BlockItem"><a href="([^<]+)">.+?src="([^<]+)" class.+?<div class="BlockTitle">([^<]+)</div>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -208,12 +200,11 @@ def showMovies(sSearch = ''):
  
 
             siteUrl = aEntry[0]
-            sTitle = aEntry[2].replace("تحميل","").replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("بجودة","").replace("بجوده","").replace("اونلاين","").replace("كامل","").replace("وتحميل","")
+            sTitle = aEntry[2].replace("تحميل","").replace("مشاهدة","").replace("WEB","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("بجودة","").replace("بجوده","").replace("اونلاين","").replace("كامل","").replace("وتحميل","")
             
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
-            sDub = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
                 sYear = str(m.group(0))
@@ -259,7 +250,7 @@ def showPacks(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -310,7 +301,7 @@ def showPack():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -332,7 +323,7 @@ def showPack():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
        
        
     oGui.setEndOfDirectory()
@@ -355,7 +346,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -427,7 +418,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -463,7 +454,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -489,7 +480,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -511,7 +502,7 @@ def __checkForNextPagesearch(sHtmlContent):
     sPattern = '<li><a href="(.+?)">.+?</a></li>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         return aResult[1][0]
 
     return False
@@ -520,7 +511,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<link rel="next" href="([^<]+)" />'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         return aResult[1][0]
 
     return False
@@ -536,9 +527,18 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '"url": "(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
 
    
-    oParser = cParser()
 
   # ([^<]+) .+?
     headers = {'Host': 'movizland.top',
@@ -561,7 +561,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry[1]
@@ -591,7 +591,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
              url = aEntry[1]
@@ -618,7 +618,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -644,7 +644,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -670,7 +670,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -709,6 +709,15 @@ def showHosters1():
    
     oParser = cParser()
 
+    # (.+?) ([^<]+)
+
+    sPattern = '"url": "(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
+
   # ([^<]+) .+?
     headers = {'Host': 'movizland.top',
      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -730,7 +739,7 @@ def showHosters1():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry[1]
@@ -761,7 +770,7 @@ def showHosters1():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry[1]
@@ -789,7 +798,7 @@ def showHosters1():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -815,7 +824,7 @@ def showHosters1():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -848,6 +857,16 @@ def showHosters2():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = '"url": "(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
 
     # ([^<]+) (.+?)  .+?    
 				           
@@ -857,7 +876,7 @@ def showHosters2():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -892,7 +911,7 @@ def showHosters2():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = "https://"+ssite+"/"+scode+".html?"+aEntry[1]
@@ -922,7 +941,7 @@ def showHosters2():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry

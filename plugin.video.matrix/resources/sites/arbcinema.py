@@ -92,7 +92,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -136,7 +136,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -194,7 +194,7 @@ def showSerie(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -246,7 +246,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -299,7 +299,7 @@ def showLink():
     aResult = oParser.parse(sHtmlContent, sPattern)
     
    
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -366,7 +366,7 @@ def showServer():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -435,7 +435,7 @@ def showServer2():
         sPattern2 = '<li data-name="([^<]+)" data-type="free"'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern2)
-        if aResult[0] is True:
+        if aResult[0] :
            for aEntry in aResult[1]:
                nume = aEntry
                headers = {'Host': 'ok.arbcinema.com',
@@ -454,7 +454,7 @@ def showServer2():
 
                oParser = cParser()
                aResult = oParser.parse(sHtmlContent, sPattern3)
-               if aResult[0] is True:
+               if aResult[0] :
                   for aEntry in aResult[1]:
             
                       url = aEntry
@@ -488,7 +488,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 

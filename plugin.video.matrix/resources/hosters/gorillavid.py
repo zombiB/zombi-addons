@@ -16,7 +16,7 @@ class cHoster(iHoster):
         sPattern = 'http://gorillavid.in/embed.+?-([^<]+)-'
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             return aResult[1][0]
 
         return ''
@@ -34,7 +34,7 @@ class cHoster(iHoster):
         sPattern =  '<input type="hidden" name="([^"]+)" value="([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0] :
             oRequest.setRequestType(cRequestHandler.REQUEST_TYPE_POST)
             for aEntry in aResult[1]:
                 oRequest.addParameters(aEntry[0], aEntry[1])

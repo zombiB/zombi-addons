@@ -38,7 +38,7 @@ class cHoster(iHoster):
         list_url = []
         sPattern = ',"embed_url":"(.+?)",'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
         	url2 = aResult[1][0]
         	r = s.get(url2, headers = headers)
         	sHtmlContent2 = r.content.decode('utf8')

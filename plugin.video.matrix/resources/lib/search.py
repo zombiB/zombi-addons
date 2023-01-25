@@ -15,31 +15,34 @@ class cSearch:
     def __init__(self):
         self.addons = addon()
 
-    def searchGlobal(self):
+    def searchGlobal(self, sSearchText = '', sCat = ''):
         try:
-            oInputParameterHandler = cInputParameterHandler()
-            sSearchText = oInputParameterHandler.getValue('searchtext')
-            sCat = oInputParameterHandler.getValue('sCat')
+           if not sSearchText:
+               oInputParameterHandler = cInputParameterHandler()
+               sSearchText = oInputParameterHandler.getValue('searchtext')
+               sCat = oInputParameterHandler.getValue('sCat')
+          
+           sSearchText = sSearchText.replace(':', ' ')
+          
+           listPlugins = self._initSearch(sSearchText, sCat)
 
-            listPlugins = self._initSearch(sSearchText, sCat)
-
-            if len(listPlugins) == 0:
+           if len(listPlugins) == 0:
                 return True
 
-            listThread = self._launchSearch(listPlugins, self._pluginSearch, [Quote(sSearchText), True])
-            self._finishSearch(listThread)
+           listThread = self._launchSearch(listPlugins, self._pluginSearch, [Quote(sSearchText), True])
+           self._finishSearch(listThread)
 
-            oGui = cGui()
-            oGui.addText('globalSearch', self.addons.VSlang(30081) % sSearchText, 'search.png')
+           oGui = cGui()
+           oGui.addText('globalSearch', self.addons.VSlang(30081) % sSearchText, 'search.png')
 
-            total = count = 0
-            searchResults = oGui.getSearchResult()
-            values = searchResults.values()
-            for result in values:
+           total = count = 0
+           searchResults = oGui.getSearchResult()
+           values = searchResults.values()
+           for result in values:
                 total += len(result)
-            self._progressClose()
+           self._progressClose()
 
-            if total:
+           if total:
                 xbmc.sleep(500)    # Nécessaire pour enchainer deux progressBar
                 # Progress de chargement des metadata
                 progressMeta = progress().VScreate(self.addons.VSlang(30076) + ' - ' + sSearchText, large = total > 50)
@@ -62,12 +65,12 @@ class cSearch:
 
                 progressMeta.VSclose(progressMeta)
             
-            else: # aucune source ne retourne de résultat
+           else: # aucune source ne retourne de résultat
                 oGui.addText('globalSearch') # "Aucune information"
 
-            cGui.CONTENT = 'files'
+           cGui.CONTENT = 'files'
 
-            oGui.setEndOfDirectory()
+           oGui.setEndOfDirectory()
 
         except Exception as error:
             VSlog('Error with searchGlobal: ' + str(error))
@@ -161,5 +164,3 @@ class cSearch:
             VSlog('Load Search: ' + str(plugin['identifier']))
         except Exception as e:
             VSlog(plugin['identifier'] + ': search failed (' + str(e) + ')')
-
-

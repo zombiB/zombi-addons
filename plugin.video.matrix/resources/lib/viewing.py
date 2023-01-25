@@ -112,7 +112,7 @@ class cViewing:
                     sSeason = data['season']
                     sTmdbId = data['tmdb_id'] if data['tmdb_id'] != '0' else None
 
-                    if catFilter is not False and cat != catFilter:
+                    if catFilter != False and cat != catFilter:
                         continue
 
                     oOutputParameterHandler = cOutputParameterHandler()

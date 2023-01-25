@@ -31,7 +31,7 @@ class cHoster(iHoster):
 
         sPattern = '{"src":"([^"]+)","type":"video/mp4"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
         # #type 2
@@ -49,7 +49,7 @@ class cHoster(iHoster):
 
         # sPattern = '<input type="hidden" id="srv_id" value="([^"]+)">'
         # aResult = oParser.parse(sHtmlContent, sPattern)
-        # if aResult[0] is True:
+        # if aResult[0] :
             # SRV = aResult[1][0]
 
             # pdata = 'file_name=' + FN + '.mp4&srv=' + SRV

@@ -23,14 +23,14 @@ class cHoster(iHoster):
        # (.+?) .+? ([^<]+)
         sPattern =  'sources: (.+?), ' 
         aResult = oParser.parse(sHtmlContent,sPattern) 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0].replace('["','').replace('"]','')
 
             if api_call:
                 return True, api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + self._url
         sPattern =  'src: "([^<]+)", type: "video/mp4", res: "(.+?)",' 
         aResult = oParser.parse(sHtmlContent,sPattern) 
-        if aResult[0] is True:
+        if aResult[0] :
             url=[]
             qua=[]
             for i in aResult[1]:

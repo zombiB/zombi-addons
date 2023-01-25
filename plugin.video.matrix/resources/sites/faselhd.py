@@ -24,7 +24,7 @@ KID_MOVIES = (URL_MAIN + '/dubbed-movies', 'showMovies')
 SERIE_EN = (URL_MAIN + '/series', 'showSeries')
 REPLAYTV_NEWS = (URL_MAIN + '/tvshows', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/anime-movies', 'showMovies')
-SERIE_ASIA = ('https://www.faselhd.co/asian-series', 'showSeries')
+SERIE_ASIA = (URL_MAIN +'/asian-series', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/anime', 'showAnimes')
 DOC_NEWS = (URL_MAIN + '/movies-cats/documentary', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/series_genres/documentary', 'showSeries')
@@ -96,7 +96,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -106,7 +106,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -130,7 +130,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -189,7 +189,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -245,7 +245,7 @@ def showAnimes(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -353,7 +353,7 @@ def showEpisodes():
 
        oParser = cParser()
        aResult = oParser.parse(sHtmlContent,sPattern)
-       if aResult[0] is True:
+       if aResult[0] :
                   for aEntry in aResult[1]:
                       oOutputParameterHandler = cOutputParameterHandler() 
                       if "العضوية" in aEntry[1]:
@@ -378,7 +378,7 @@ def showEpisodes():
 
        oParser = cParser()
        aResult = oParser.parse(sHtmlContent2,sPattern)
-       if aResult[0] is True:
+       if aResult[0] :
                   for aEntry in aResult[1]:
                       oOutputParameterHandler = cOutputParameterHandler() 
                       if "العضوية" in aEntry[1]:
@@ -434,7 +434,7 @@ def showEpisodes1():
     aResult = oParser.parse(sHtmlContent1, sPattern)
 	
 	
-    if aResult[0] is True:  
+    if aResult[0] :  
         oOutputParameterHandler = cOutputParameterHandler()                     
         for aEntry in aResult[1]:
  
@@ -489,7 +489,7 @@ def showLink():
     aResult = oParser.parse(sHtmlContent, sPattern)
  
    
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
  
@@ -518,7 +518,7 @@ def showLink():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
  
             if "embed.php?url=" in aEntry:
@@ -546,7 +546,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         return aResult[1][0]
 
     return False
@@ -568,7 +568,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -591,7 +591,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -614,7 +614,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -635,7 +635,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry

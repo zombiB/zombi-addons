@@ -19,6 +19,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
 
+
  
 def load():
     oGui = cGui()
@@ -36,7 +37,17 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
- 
+    oParser = cParser()
+
+    # (.+?) ([^<]+)
+
+    sPattern = 'rel="canonical" href="(.+?)" />'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
+
 # ([^<]+) .+? (.+?)
 
     sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">(.+?)</button>'
@@ -47,7 +58,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -58,7 +69,7 @@ def showMovies(sSearch = ''):
  
             sTitle =  aEntry[1].replace(')','').replace("'",'').replace('_',' ')
             sThumb = ""
-            siteUrl = "https://beinmatch.one/home/live/"+aEntry[0].replace('(','')
+            siteUrl = URL_MAIN+"/home/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sDesc = aEntry[2]
@@ -90,7 +101,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
     sPattern = 'source: "(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -110,7 +121,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
     sPattern = 'src="([^<]+)" frameborder'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -119,7 +130,7 @@ def showLive():
                 sHtmlContent = oRequestHandler.request() 
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                      url = aResult[1][0]
  
                      sHosterUrl = url
@@ -155,12 +166,12 @@ def showLive():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
    
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
             sTitle = "link HD "+aEntry[1]
-            siteUrl = "https://beinmatch.one/home/live/"+aEntry[0].replace("(","")
+            siteUrl = URL_MAIN+"/home/live/"+aEntry[0].replace("(","")
             siteUrl = siteUrl+'/'+aEntry[1]
             sDesc = ''
  
@@ -185,7 +196,7 @@ def showHosters():
     # (.+?) # ([^<]+) .+? 
     sPattern = 'source: "(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry

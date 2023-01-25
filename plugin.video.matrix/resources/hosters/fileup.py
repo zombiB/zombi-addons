@@ -38,12 +38,12 @@ class cHoster(iHoster):
         sPattern = "</script><script type='text/javascript'>([^<]+)</script></div>"
         aResult = oParser.parse(sHtmlContent,sPattern)
 
-        if aResult[0] is True:
+        if aResult[0] :
             sHtmlContent = cPacker().unpack(aResult[1][0])
 
             sPattern = 'file:"([^"]+)",flashplayer:'
             aResult = oParser.parse(sHtmlContent,sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                 api_call = aResult[1][0] + '|User-Agent=' + UA + '&Referer=' + self._url
                 
         if api_call:

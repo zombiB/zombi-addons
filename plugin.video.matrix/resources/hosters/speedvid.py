@@ -97,7 +97,7 @@ class cHoster(iHoster):
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\)\))<'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             for packed in aResult[1]:
                 sHtmlContent = cPacker().unpack(packed)
                 sHtmlContent = sHtmlContent.replace('\\', '')
@@ -111,7 +111,7 @@ class cHoster(iHoster):
         else:
             sPattern = "file\s*:\s*\'([^\']+.mp4)"
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                 api_call = aResult[1][0]
 
         VSlog('API_CALL: ' + api_call )

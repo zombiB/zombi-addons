@@ -31,7 +31,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             
             #initialisation des tableaux
             url=[]
@@ -53,7 +53,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
             if api_call:
@@ -65,7 +65,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
             if api_call:
@@ -77,7 +77,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
             if api_call:
@@ -89,7 +89,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
             if api_call:
@@ -99,7 +99,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
             if api_call:
@@ -109,7 +109,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
 
             if api_call:

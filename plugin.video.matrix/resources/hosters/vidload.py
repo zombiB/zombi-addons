@@ -18,7 +18,7 @@ class cHoster(iHoster):
         sPattern =  'var token="([^"]+)".+?var crsf="([^"]+)"'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             aEntry = aResult[1][0]
 
             oRequest = cRequestHandler('https://www.vidload.net/vid/')

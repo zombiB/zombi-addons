@@ -32,7 +32,7 @@ class cHoster(iHoster):
        # (.+?) .+? ([^<]+)
         sPattern =  '<small>([^<]+)</small> <a target="_blank" download=.+?href="([^<]+)">' 
         aResult = oParser.parse(sHtmlContent,sPattern)  
-        if aResult[0] is True:
+        if aResult[0] :
             url=[]
             qua=[]
             for i in aResult[1]:

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # https://github.com/zombiB/zombi-addons
-import xbmc
+#import xbmc
 
 # from resources.lib.statistic import cStatistic
 from resources.lib.home import cHome
@@ -132,6 +132,7 @@ class main:
                 aPlugins = oPluginHandler.getAvailablePlugins(force = (sFunction == 'globalSources'))
                 
                 sitesManager = siteManager()
+
                 if len(aPlugins) == 0:
                     addons = addon()
                     addons.openSettings()
@@ -142,6 +143,7 @@ class main:
                         sitename = aPlugin[0]
                         if not sitesManager.isActive(aPlugin[1]):
                             sitename = '[COLOR red][OFF] ' + sitename + '[/COLOR]'
+                        
                         oOutputParameterHandler = cOutputParameterHandler()
                         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
                         icon = 'sites/%s.png' % (aPlugin[1])

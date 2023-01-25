@@ -42,7 +42,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -63,7 +63,7 @@ def showMovies(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()   
@@ -115,7 +115,7 @@ def showSeries(sSearch = ''):
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -175,7 +175,7 @@ def showEpisodes():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             sSeason = "S"+aEntry[0]
             if sSeason:
@@ -183,7 +183,7 @@ def showEpisodes():
                sPattern = '<img src="(http[^<]+)" alt.+?href="([^<]+)">(.+?)</a>'
                aResult = oParser.parse(sHtmlContent1, sPattern)
 	
-               if aResult[0] is True:
+               if aResult[0] :
                    oOutputParameterHandler = cOutputParameterHandler()   
                    for aEntry in aResult[1]:
  
@@ -213,7 +213,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         return aResult[1][0]
 
     return False
@@ -246,7 +246,7 @@ def showServers():
             sHtmlContent2 = data    
             sPattern = 'src="([^<]+)" frameborder'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                 for aEntry in aResult[1]:
                     url = aEntry
                     sTitle = sMovieTitle

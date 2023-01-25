@@ -39,11 +39,11 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('Referer', host)
         sHtmlContent = oRequest.request()
 
-        if MODE == 1: #Non terminé encore
+        if MODE == 1: #Non terminï¿½ encore
             sPattern =  'download_video([^"]+)[^\d]+\d+x(\d+)'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                 list_data = []
                 list_q = []
                 for aEntry in aResult[1]:

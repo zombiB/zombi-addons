@@ -40,7 +40,7 @@ class cHoster(iHoster):
         sPattern = '(ﾟωﾟ.+?\(\'_\'\);)'
         aResult = oParser.parse(sHtmlContent1 , sPattern)
 
-        if aResult[0] is True:
+        if aResult[0] :
             sdecode = AADecoder(aResult[1][0]).decode()
 
             sPattern =  'morocco=".([^\W]+).+?"&mycountry=".([^\W]+)'
@@ -71,7 +71,7 @@ class cHoster(iHoster):
             sPattern = 'var\s(.+?)="([^"]*)'
             aResult = oParser.parse(strs, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0] :
                 for r in aResult[1]:
                     if r[0] == keymorocco:
                         morocco = r[1]

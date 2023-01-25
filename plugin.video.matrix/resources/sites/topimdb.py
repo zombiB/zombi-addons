@@ -4,7 +4,7 @@
 import re
 import unicodedata
 
-from resources.lib.comaddon import progress
+from resources.lib.comaddon import progress,siteManager
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
@@ -107,7 +107,7 @@ def showMovies(sSearch=''):
     sPattern = 'img alt="([^"]+).+?loadlate="([^"]+).+?primary">([^<]+).+?unbold">([^<]+).+?(?:|rated this(.+?)\s.+?)muted">([^<]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -149,7 +149,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = 'href="([^"]+?)"class="lister-page-next'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if aResult[0] is True:
+    if aResult[0] :
         sUrl = ('%s/%s') % (URL_MAIN, aResult[1][0])
         return sUrl
 

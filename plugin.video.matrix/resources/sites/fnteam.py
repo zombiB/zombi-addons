@@ -15,12 +15,12 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
-SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')
-KID_CARTOON = ('http://www.fn-team.com/?cat=6', 'showSeries')
-REPLAYTV_PLAY = ('http://www.fn-team.com/?cat=3', 'showSeries')
+MOVIE_AR = (URL_MAIN +'/?cat=5', 'showMovies')
+SERIE_AR = (URL_MAIN +'/?cat=25', 'showSeries')
+KID_CARTOON = (URL_MAIN +'/?cat=6', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN +'/?cat=3', 'showSeries')
 
-URL_SEARCH = ('http://www.fn-team.com/?s=', 'showSeries')
+URL_SEARCH = (URL_MAIN +'/?s=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
@@ -58,8 +58,8 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = 'http://www.fn-team.com/?s='+sSearchText
+    if sSearchText != False:
+        sUrl = URL_MAIN +'/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -68,7 +68,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -92,7 +92,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -148,7 +148,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -186,7 +186,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -208,7 +208,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry[0]
@@ -230,7 +230,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -251,7 +251,7 @@ def showHosters():
         sPattern = '<iframe.+?src="(.+?)" frameborder'
         
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             for aEntry in aResult[1]:
             
                 sHosterUrl = aEntry

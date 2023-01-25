@@ -25,7 +25,7 @@ class cHoster(iHoster):
         sPattern = '"(http[^"]+(?:.m3u8|.mp4))"'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = ''
 
             # initialisation des tableaux

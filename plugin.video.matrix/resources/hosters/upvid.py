@@ -51,11 +51,11 @@ class cHoster(iHoster):
 
             aResult = oParser.parse(sHtmlContent, sPattern1)
             
-            if aResult[0] is True:
+            if aResult[0] :
                 sUrl = aResult[1][0]
             else:
                 aResult = oParser.parse(sHtmlContent, sPattern2)
-                if aResult[0] is True:
+                if aResult[0] :
                     sUrl = aResult[1][0]
                     
         aResult = re.search('id="code".+?value="(.+?)"', sHtmlContent, re.DOTALL)
@@ -74,7 +74,7 @@ class cHoster(iHoster):
                         final = sDecode(chars, sFunc)
                         sPattern = "source\.setAttribute\('src', '([^']+)'\)"
                         aResult = oParser.parse(final, sPattern)
-                        if aResult[0] is True:
+                        if aResult[0] :
                             api_call = aResult[1][0]
 
         if api_call:

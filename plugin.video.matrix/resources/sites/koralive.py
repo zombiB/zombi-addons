@@ -18,7 +18,7 @@ SITE_NAME = 'Koralive'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+ 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
 
  
@@ -71,7 +71,10 @@ def showMovies():
  
  
     oGui.setEndOfDirectory()
-  
+
+	
+
+			
 def showLive():
     oGui = cGui()
    
@@ -79,7 +82,7 @@ def showLive():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()

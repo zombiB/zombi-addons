@@ -25,7 +25,7 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
 
         #VSlog(str(aResult))
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0][0]
 
         #VSlog(api_call)

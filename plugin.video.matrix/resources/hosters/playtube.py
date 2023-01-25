@@ -44,7 +44,7 @@ class cHoster(iHoster):
                 oParser = cParser()
                 sPattern = 'PROGRAM.*?BANDWIDTH.*?RESOLUTION=(\d+x\d+).*?(https.*?m3u8)'
                 aResult = oParser.parse(sHtmlContent2, sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                     for aEntry in aResult[1]:
                         list_url.append(aEntry[1])
                         list_qua.append(aEntry[0])

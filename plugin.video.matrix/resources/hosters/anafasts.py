@@ -30,7 +30,7 @@ class cHoster(iHoster):
             # (.+?) .+?
         sPattern = 'file:"(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             url2 = aResult[1][0]
             oRequestHandler = cRequestHandler(url2)
             sHtmlContent2 = oRequestHandler.request()

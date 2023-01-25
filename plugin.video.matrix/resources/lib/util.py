@@ -36,14 +36,11 @@ class cUtil:
     # percent : pourcentage de concordance, 75% = il faut au moins 3 mots sur 4
     # retourne True si pourcentage atteint
     def CheckOccurence(self, str1, str2, percent=75):
-
-
         str2 = self.CleanName(str2)
-
         nbOccurence = nbWord = 0
-        list2 = str2.split(' ')      # Comparaison mot à mot
+        list2 = str2.split(' ')                 # Comparaison mot à mot
         for part in str1.split(' '):
-            if len(part) == 1:       # Ignorer une seule lettre
+            if len(part) == 1:                  # Ignorer une seule lettre
                 continue
             nbWord += 1                         # nombre de mots au total
             if part in list2:
@@ -70,44 +67,48 @@ class cUtil:
         return str(iMinutes) + ':' + str(iSeconds)
 
     def unescape(self, text):
+       
+        # determine si conversion en unicode nécessaire        
+        isStr = isinstance(text, str)
+        
         def fixup(m):
             text = m.group(0)
             if text[:2] == '&#':
                 # character reference
-                try:
+             if isStr:
+                if text[:3] == '&#x':
+                     return chr(int(text[3:-1], 16))
+                else:
+                     return chr(int(text[2:-1]))
+             else:
                     if text[:3] == '&#x':
                         return unichr(int(text[3:-1], 16))
                     else:
                         return unichr(int(text[2:-1]))
-                except ValueError:
-                    pass
-                except NameError:
-                    if text[:3] == '&#x':
-                        return chr(int(text[3:-1], 16))
-                    else:
-                        return chr(int(text[2:-1]))
             else:
                 # named entity
-                try:
+                if isStr:
+                     text = chr(htmlentitydefs.name2codepoint[text[1:-1]])
+                else:
                     text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
-                except KeyError:
-                    pass
-                except NameError:
-                    text = chr(htmlentitydefs.name2codepoint[text[1:-1]])
 
+                    
             return text  # leave as is
+        
         return re.sub('&#?\w+;', fixup, text)
 
     def titleWatched(self, title):
-        if not isMatrix():
-            if isinstance(title, str):
-                # Must be encoded in UTF-8
-                try:
-                    title = title.decode('utf8')
-                except AttributeError:
-                    pass
-
-            title = unicodedata.normalize('NFKD', title).encode('ascii', 'ignore')
+        # enlève les accents, si nécessaire
+        n2 = re.sub('[^a-zA-Z0-9 ]', '', title)
+        if n2 != title:
+            try:
+                if not isMatrix():
+                    title = title.decode('utf8', 'ignore')    # converti en unicode pour aider aux convertions
+                title = unicodedata.normalize('NFD', title).encode('ascii', 'ignore')
+                if isMatrix():
+                    title = title.decode('utf8', 'ignore')
+            except Exception as e:
+                pass
 
         # cherche la saison et episode puis les balises [color]titre[/color]
         # title, saison = self.getSaisonTitre(title)
@@ -141,7 +142,8 @@ class cUtil:
 
         # vire tag
         name = re.sub('[\(\[].+?[\)\]]', '', name)
-
+        name = name.replace('[', '').replace(']', '') # crochet orphelin
+        
         # enlève les accents, si nécessaire
         n2 = re.sub('[^a-zA-Z0-9 ]', '', name)
         if n2 != name:
@@ -234,6 +236,6 @@ def QuoteSafe(sUrl):
 def urlEncode(sUrl):
     return urllib.urlencode(sUrl)
 
-# retroune le hostname d'une Url
-def urlHostName(sUrl):
+
+def urlHostName(sUrl):            # retroune le hostname d'une Url
     return urllib.urlparse(sUrl).hostname

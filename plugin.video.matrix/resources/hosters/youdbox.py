@@ -16,7 +16,7 @@ class cHoster(iHoster):
         sPattern = "https://youdbox.org/(.+?)/"
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             return aResult[1][0]
         return ''
 
@@ -37,7 +37,7 @@ class cHoster(iHoster):
 
         sPattern = '<source src="([^<]+)" type="video/mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0] 
 				
         _id = self._url.split('/')[-1].replace(".html","")
@@ -67,7 +67,7 @@ class cHoster(iHoster):
         oParser = cParser() 
         sPattern = '<a href="([^<]+)"><button class="lastbtn"><span>Free Download</span></button>'
         aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
         	api_call = aResult[1][0] 
         if api_call:
         	return True, api_call 

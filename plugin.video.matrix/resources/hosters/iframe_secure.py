@@ -39,7 +39,7 @@ class cHoster(iHoster):
                 sPattern = "replace\(.*'(.+?)'"
                 aResult = oParser.parse(sHtmlContent, sPattern)
 
-                if aResult[0] is True:
+                if aResult[0] :
                     sHosterUrl = aResult[1][0]
 
                     if not sHosterUrl.startswith('http'):

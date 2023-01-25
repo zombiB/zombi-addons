@@ -26,7 +26,7 @@ class cHoster(iHoster):
         sPattern =  '<input type="hidden" name="([^"]+)" value="([^"]+)"'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             time.sleep(7)
             oRequest = cRequestHandler(self._url)
             oRequest.setRequestType(cRequestHandler.REQUEST_TYPE_POST)
@@ -39,16 +39,16 @@ class cHoster(iHoster):
 
             sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                 sHtmlContent = cPacker().unpack(aResult[1][0])
                 sPattern =  ',file:"([^"]+)"}'
                 aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                     return True, aResult[1][0]
             else:
                 sPattern = '{file:"([^"]+)",label:"(\d+p)"}'
                 aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                     url=[]
                     qua=[]
                 for i in aResult[1]:

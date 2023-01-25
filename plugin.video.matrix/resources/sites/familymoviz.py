@@ -17,16 +17,16 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_FAM = ('https://www.familymoviz.net/category/movies/cutmovies/', 'showMovies')
-MOVIE_EN = ('https://www.familymoviz.net/category/movies/', 'showMovies')
-MOVIE_AR = ('https://www.familymoviz.net/category/movies/arabicmovies/', 'showMovies')
-KID_MOVIES = ('https://www.familymoviz.net/category/movies/familymovies/', 'showMovies')
+MOVIE_FAM = (URL_MAIN +'/category/movies/cutmovies/', 'showMovies')
+MOVIE_EN = (URL_MAIN +'/category/movies/', 'showMovies')
 
-SERIE_EN = ('https://www.familymoviz.net/foreignseries/', 'showSeries')
+KID_MOVIES = (URL_MAIN +'/category/movies/familymovies/', 'showMovies')
 
-URL_SEARCH = ('https://www.familymoviz.net/?s=', 'showSeriesSearch')
-URL_SEARCH_MOVIES = ('https://www.familymoviz.net/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
-URL_SEARCH_SERIES= ('https://www.familymoviz.net/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+SERIE_EN = (URL_MAIN +'/foreignseries/', 'showSeries')
+
+URL_SEARCH = (URL_MAIN +'/?s=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = (URL_MAIN +'/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMoviesSearch')
+URL_SEARCH_SERIES= (URL_MAIN +'/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -42,8 +42,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
    
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+    
     
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام عائلية', 'crtoon.png', oOutputParameterHandler)
@@ -60,8 +59,8 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = 'https://www.familymoviz.net/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+    if sSearchText != False:
+        sUrl = URL_MAIN +'/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -70,8 +69,8 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = 'https://www.familymoviz.net/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+    if sSearchText != False:
+        sUrl = URL_MAIN +'/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSearchSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -93,7 +92,7 @@ def showMoviesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -152,7 +151,7 @@ def showSearchSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -186,7 +185,7 @@ def showSearchSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -233,7 +232,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -289,7 +288,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -330,7 +329,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -342,7 +341,7 @@ def __checkForNextPageEpisodes(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -365,7 +364,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
  
@@ -434,7 +433,7 @@ def showHosters():
     sPattern = 'src="(.+?)".+?width'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = str(aEntry)
@@ -455,7 +454,7 @@ def showHosters():
     sPattern = 'iframe src="(.+?)".+?width'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = str(aEntry)
@@ -480,7 +479,7 @@ def showHosters():
             sPattern = '<input type="hidden" name="link" value="(.+?)".+?>'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                 for aEntry in aResult[1]:
          
                     url = str(aEntry)

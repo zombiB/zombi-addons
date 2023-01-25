@@ -23,7 +23,7 @@ class cHoster(iHoster):
 
         sPattern = 'sources: *\[{file:"([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             api_call = aResult[1][0]
             VSlog(api_call)
 

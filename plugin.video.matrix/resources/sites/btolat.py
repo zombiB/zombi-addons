@@ -16,7 +16,9 @@ SITE_NAME = 'Btolat'
 SITE_DESC = 'sport vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-SPORT_FOOT = ('https://www.btolat.com/video', 'showMovies')
+
+
+SPORT_FOOT = (URL_MAIN +'/video', 'showMovies')
 
 SPORT_SPORTS = ('http://', 'load')
 
@@ -41,7 +43,7 @@ def showMovies(sSearch = ''):
    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -74,7 +76,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = ""
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         aResult = URL_MAIN+aResult[1][0]
         return aResult
 
@@ -93,7 +95,7 @@ def showHosters():
 
     sPattern =  "'true' src='(.+?)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         m3url = aResult[1][0] 
         oRequest = cRequestHandler(m3url)
         sHtmlContent2 = oRequest.request()
@@ -101,7 +103,7 @@ def showHosters():
  
     sPattern = ",src:{hls:'(.+?)'}" 
     aResult = oParser.parse(sHtmlContent2, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
 
             url = aEntry

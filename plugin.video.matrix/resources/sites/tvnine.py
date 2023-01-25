@@ -12,12 +12,12 @@ from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'tvnine'
-SITE_NAME = 'Tv96'
+SITE_NAME = 'Tvninesix'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = ('https://www.tv96.tv', 'showMovies')
+SPORT_LIVE = (URL_MAIN, 'showMovies')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -52,7 +52,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -101,7 +101,7 @@ def showLive():
         sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
    
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             sTitle = aEntry[1]
             siteUrl = aEntry[0].replace("'","")
@@ -114,7 +114,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = 'source: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
                    url = aEntry
  
@@ -142,7 +142,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = 'hls: "(.+?)"'
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
                    url = aEntry
  
@@ -168,7 +168,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = "source: '(.+?)',"
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -197,7 +197,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = 'src="(.+?)"'
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -212,33 +212,12 @@ def showLive():
                       url = 'https:' + url
                    if '?src=' in url:
                       url = url.split('?src=')[1]
-                   if ".php" or ".html" in url:
+                   if ".php" in url:
                        oRequestHandler = cRequestHandler(url)
                        data = oRequestHandler.request() 
                        sPattern = "source: '(.+?)',"
                        aResult = oParser.parse(data, sPattern)
-                       if aResult[0] is True:
-                          for aEntry in aResult[1]:
-            
-                              url = aEntry
-                              if url.startswith('//'):
-                                 url = 'https:' + url
-                              if '?src=' in url:
-                                 url = url.split('?src=')[1] 
-                              sHosterUrl = url
-                              sMovieTitle = sTitle
-                              if 'vimeo' in sHosterUrl:
-                                  sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-            
-
-                              oHoster = cHosterGui().checkHoster(sHosterUrl)
-                              if oHoster != False:
-                                  oHoster.setDisplayName(sMovieTitle)
-                                  oHoster.setFileName(sMovieTitle)
-                                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
-                       sPattern = '<iframe src="(.+?)" height'
-                       aResult = oParser.parse(data, sPattern)
-                       if aResult[0] is True:
+                       if aResult[0] :
                           for aEntry in aResult[1]:
             
                               url = aEntry
@@ -275,7 +254,7 @@ def showLive():
             sPattern = 'hls: "(.+?)"'
 				
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -302,7 +281,7 @@ def showLive():
                        oHoster.setFileName(sMovieTitle)
             sPattern = "hls: '(.+?)'"
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -331,7 +310,7 @@ def showLive():
     # (.+?) # ([^<]+) .+? 
             sPattern = '(http.+?m3u8)'
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -348,7 +327,7 @@ def showLive():
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -371,7 +350,7 @@ def showLive():
             sPattern = '<iframe src=".+?stream_url=(.+?)" height'
             aResult = oParser.parse(data, sPattern)
             UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Mobile Safari/537.36'
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
             
                    url = aEntry

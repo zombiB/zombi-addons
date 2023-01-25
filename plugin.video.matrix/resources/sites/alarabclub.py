@@ -1,6 +1,7 @@
 ﻿#-*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
+from resources.lib.config import cConfig
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -25,7 +26,7 @@ MOVIE_DUBBED = (URL_MAIN + '/category/films/film-dubbed', 'showMovies')
 
 SERIE_DUBBED = (URL_MAIN + '/series-1?filter=193', 'showSerie')
 SERIE_AR = (URL_MAIN + '/series-1', 'showSerie')
-REPLAYTV_NEWS = (URL_MAIN + '/category/2-tvshows?type=series', 'showSerie')
+REPLAYTV_NEWS = (URL_MAIN + '/category/2-tvshows', 'showSerie')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSerie')
@@ -60,7 +61,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -70,7 +71,7 @@ def showSeriesSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/?s='+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
@@ -94,7 +95,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -136,7 +137,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -179,7 +180,7 @@ def showSerie(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -210,7 +211,7 @@ def showSerie(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -253,7 +254,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
             import requests
@@ -271,7 +272,7 @@ def showEpisodes():
             aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-            if aResult[0] is True:
+            if aResult[0] :
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
  
@@ -297,7 +298,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -322,7 +323,7 @@ def showServers():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -349,7 +350,7 @@ def showServers():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
    
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             pdata = 'id='+aEntry[1]+'&i='+aEntry[0]
             pUrl = URL_MAIN + '/wp-content/themes/ElshaikhNet/Inc/Ajax/Single/Server.php'
@@ -367,7 +368,7 @@ def showServers():
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
 	
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
         
                    url = aEntry

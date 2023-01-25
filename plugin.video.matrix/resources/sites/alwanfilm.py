@@ -63,7 +63,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -110,7 +110,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -142,6 +142,7 @@ def showServer():
     if (aResult[0]):
         sId = aResult[1][0]
     sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/'+sId+'/movie/2'
+    oRequestHandler = cRequestHandler(sUrl)
     import requests
     sgn = requests.Session()
     headers = {'Host': Host,
@@ -161,7 +162,7 @@ def showServer():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry

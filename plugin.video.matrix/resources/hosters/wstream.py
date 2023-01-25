@@ -28,7 +28,7 @@ class cHoster(iHoster):
         sPattern = "(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>"
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0] :
             sUnpacked = cPacker().unpack(aResult[1][0])
             sHtmlContent = sUnpacked
 
@@ -36,7 +36,7 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         # print(aResult)
 
-        if aResult[0] is True:
+        if aResult[0] :
             # initialisation des tableaux
             url = []
             qua = []

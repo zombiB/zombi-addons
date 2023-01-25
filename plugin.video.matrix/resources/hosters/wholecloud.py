@@ -17,7 +17,7 @@ class cHoster(iHoster):
         sPattern = 'v=([^<]+)'
         oParser = cParser()
         aResult = oParser.parse(self._url, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             return aResult[1][0]
 
         return ''

@@ -2,6 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+from resources.lib.config import cConfig
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -27,7 +28,6 @@ MOVIE_HI = (URL_MAIN + '/view-297/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%87%D9%86%D8
 KID_MOVIES = (URL_MAIN + '/view-295/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D9%83%D8%B1%D8%AA%D9%88%D9%86', 'showMovies')
 SERIE_AR = (URL_MAIN + '/view-8/مسلسلات-رمضان-2022', 'showSeries')
 SERIE_TR = (URL_MAIN + '/view-299/مسلسلات-تركية', 'showSeries')
-SERIE_GENRES = (True, 'showGenres')
 
 
 REPLAYTV_NEWS = (URL_MAIN + '/view-311/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86', 'showSeries')
@@ -106,7 +106,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -163,7 +163,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
        for aEntry in aResult[1]:    
             m3url =  URL_MAIN+aEntry
             oRequest = cRequestHandler(m3url)
@@ -175,7 +175,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             
@@ -205,7 +205,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
@@ -241,7 +241,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -287,7 +287,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         aResult = URL_MAIN+aResult[1][0]
         
         return aResult
@@ -306,9 +306,9 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  'src="([^<]+)" gesture="media"' 
+    sPattern =  '<a href="([^<]+)".+?a>.+?' 
     aResult = oParser.parse(sHtmlContent,sPattern) 
-    if aResult[0] is True:
+    if aResult[0] :
         m3url = aResult[1][0]
         if m3url.startswith('//'):
            m3url = 'http:' + m3url 	
@@ -318,7 +318,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:       
             url = aEntry
             if url.startswith('//'):

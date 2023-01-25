@@ -153,7 +153,7 @@ class empty:
 
     def getProgress(self):
         return 100  # simuler la fin de la progression
-# Basé sur UrlResolver
+# Basé sur ResolveURL
 class CountdownDialog(object):
     __INTERVALS = 5
 

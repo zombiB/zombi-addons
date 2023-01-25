@@ -18,11 +18,11 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 
-KID_CARTOON = ('https://www.katkoute.com/watch/browse.html', 'showSeries')
+KID_CARTOON = (URL_MAIN +'/watch/browse.html', 'showSeries')
 
-URL_SEARCH = ('https://www.katkoute.com/watch/search.php?keywords=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN +'/watch/search.php?keywords=', 'showSeriesSearch')
 
-URL_SEARCH_SERIES = ('https://www.katkoute.com/watch/search.php?keywords=', 'showSeriesSearch')
+URL_SEARCH_SERIES = (URL_MAIN +'/watch/search.php?keywords=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -41,8 +41,8 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = 'https://www.katkoute.com/watch/search.php?keywords='+sSearchText
+    if sSearchText != False:
+        sUrl = URL_MAIN +'/watch/search.php?keywords='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -65,7 +65,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -115,7 +115,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -168,7 +168,7 @@ def showEpisodes():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
 			
@@ -211,7 +211,7 @@ def showEps():
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -243,7 +243,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -269,7 +269,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
             for aEntry in aResult[1]:
         
                 url = aEntry
@@ -293,7 +293,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
             for aEntry in aResult[1]:
         
                 url = aEntry
@@ -319,7 +319,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
             for aEntry in aResult[1]:
         
                 url = aEntry
@@ -342,7 +342,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True: 
+    if aResult[0] : 
         oOutputParameterHandler = cOutputParameterHandler()            
         for aEntry in aResult[1]:
  

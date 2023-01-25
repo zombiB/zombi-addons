@@ -18,9 +18,9 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_AR = ('https://rotana.net/vod-movies', 'showMovies')
-URL_SEARCH = ('https://rotana.net/?s=', 'showSeries')
-URL_SEARCH_MOVIES = ('https://rotana.net/?s=', 'showMoviesSearch')
+MOVIE_AR = (URL_MAIN +'/vod-movies', 'showMovies')
+URL_SEARCH = (URL_MAIN +'/?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN +'/?s=', 'showMoviesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -60,8 +60,8 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
-        sUrl = 'https://rotana.net/?s='+sSearchText
+    if sSearchText != False:
+        sUrl = URL_MAIN +'/?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -83,7 +83,7 @@ def showMoviesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -133,7 +133,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -174,7 +174,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -195,7 +195,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:

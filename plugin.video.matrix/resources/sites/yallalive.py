@@ -47,7 +47,7 @@ def showMovies():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -73,7 +73,19 @@ def showMovies():
  
  
     oGui.setEndOfDirectory()
-			
+
+def check_host(URL_MAIN):
+    try:
+        import requests
+        url = URL_MAIN
+        session = requests.Session()  # so connections are recycled
+        resp = session.head(url, allow_redirects=True)
+        URL_MAIN = resp.url.split('/')[2]
+        URLMAIN = 'https://' + URL_MAIN
+        VSlog(URLMAIN)
+    except:
+        pass			
+
 def showHosters():
     import requests
     oGui = cGui()
@@ -81,7 +93,7 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')                    
-       
+    URLMAIN = str(check_host(URL_MAIN))    
     oParser = cParser()
  
     oRequestHandler = cRequestHandler(sUrl)
@@ -102,7 +114,7 @@ def showHosters():
     # (.+?) .+? ([^<]+)
     sPattern = 'href="(.+?)" target="search_iframe">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             sTitle = aEntry[1]
             url = aEntry[0]
@@ -116,20 +128,20 @@ def showHosters():
                 sHtmlContent2 = sHtmlContent.content 
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                    url = aResult[1][0]
                 sPattern =  '(http[^<]+m3u8)'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                    url = aResult[1][0]
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                    url = aResult[1][0]
                 sPattern =  "source: '(.+?)',"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                    url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
@@ -137,7 +149,7 @@ def showHosters():
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                    url = aResult[1][0]
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
@@ -166,7 +178,7 @@ def showHosters():
 
     sPattern = "'link': u'(.+?)',"
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -176,7 +188,7 @@ def showHosters():
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                    url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
@@ -184,7 +196,7 @@ def showHosters():
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                    url = aResult[1][0]
             if 'multi.html' in url:
                 url2 = url.split('=') 
@@ -195,7 +207,7 @@ def showHosters():
                 oParser = cParser()
                 sPattern =  "var src = (.+?),"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
-                if aResult[0] is True:
+                if aResult[0] :
                     url2 = aResult[1][0].split('hls:')
                     url2 = url2[1].split('+')
                     url2 = url2[0].replace("'","")

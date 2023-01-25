@@ -13,7 +13,7 @@ SITE_IDENTIFIER = 'hdseed'
 SITE_NAME = 'Hdseed'
 SITE_DESC = 'arabic vod'
  
-URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+URL_MAIN = 'https://hdseed.net/'
 
 KID_MOVIES = (URL_MAIN + '/genre/movies/', 'showMovies')
 
@@ -38,7 +38,7 @@ def showSearchMovies():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN +'/?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
@@ -61,7 +61,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -110,7 +110,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return aResult[1][0]
 
@@ -134,7 +134,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
        total = len(aResult[1])
        for aEntry in aResult[1]:     
             import base64  
@@ -143,7 +143,7 @@ def showHosters():
             sPattern = 'src="(.+?)".+?allowfullscreen'
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0] :
                for aEntry in aResult[1]:
                    sHosterUrl = str(aEntry) 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)

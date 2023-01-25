@@ -22,7 +22,7 @@ class cHoster(iHoster):
         sPattern = "id=([^<]+)"
         oParser = cParser()
         aResult = oParser.parse(self._url, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             return aResult[1][0]
         return ''
         
@@ -31,7 +31,7 @@ class cHoster(iHoster):
         oParser = cParser()
         sPattern =  'id=([a-zA-Z0-9]+)'
         aResult = oParser.parse(self._url, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             self._url = 'https://www.cloudy.ec/embed.php?id=' + aResult[1][0] + '&playerPage=1'
             #Patch en attendant kodi V17
             self._url = self._url.replace('https','http')
@@ -47,7 +47,7 @@ class cHoster(iHoster):
         oParser = cParser()
         sPattern =  '<source src="([^"]+)" type=\'(.+?)\'>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0] :
             url = []
             qua = []
             for x in aResult[1]:

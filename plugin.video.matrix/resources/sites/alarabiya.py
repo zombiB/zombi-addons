@@ -2,6 +2,7 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
+from resources.lib.config import cConfig
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -16,8 +17,9 @@ SITE_NAME = 'Alarabiya'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
- 
-DOC_NEWS = ('https://www.alarabiya.net/programs/documentaries', 'showMovies')
+
+
+DOC_NEWS = (URL_MAIN +'/programs/documentaries', 'showMovies')
 
  
 def load():
@@ -44,7 +46,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -81,7 +83,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0] :
         
         return URL_MAIN+aResult[1][0]
 
@@ -101,7 +103,7 @@ def showHosters():
  
     sPattern = ',"contentUrl": "(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0] :
         for aEntry in aResult[1]:
             url = aEntry
             if url.startswith('//'):

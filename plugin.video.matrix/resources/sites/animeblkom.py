@@ -43,7 +43,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText != False:
         sUrl = URL_MAIN + '/search?query='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
@@ -67,7 +67,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -121,7 +121,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0] :
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
@@ -180,7 +180,7 @@ def showEpisodes():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
-    if aResult[0] is True:
+    if aResult[0] :
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
@@ -207,7 +207,7 @@ def __checkForNextPage(sHtmlContent):
     sPattern = '<a class="page-link" href="([^<]+)" rel="next" '	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
-    if aResult[0] is True:        
+    if aResult[0] :        
         return aResult[1][0]
     return False
 
@@ -230,7 +230,7 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0] :
        for aEntry in aResult[1]:
            sSub = aEntry[0].replace('active',"")
            sSub = sSub+' ترجمة'
@@ -264,7 +264,7 @@ def showHosters():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if aResult[0] is True:
+    if aResult[0] :
        for aEntry in aResult[1]:
            sSub = aEntry[0]            
            if aEntry[0]:

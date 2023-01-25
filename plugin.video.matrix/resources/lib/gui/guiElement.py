@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+from pickle import UNICODE
 import re
 import xbmc
 
@@ -199,7 +200,7 @@ class cGuiElement:
         # convertion unicode ne fonctionne pas avec les accents
         try:
             # traitement du titre pour retirer le - quand c'est une Saison. Tiret, tiret moyen et cadratin
-            sTitle = sTitle.replace('Season', 'season').replace('Saison', 'season')
+            sTitle = sTitle.replace('Season', 'season').replace('Saison', 'season').replace('الموسم', ' season')
             sTitle = sTitle.replace(' - saison', ' season').replace(' – saison', ' season')\
                            .replace(' — saison', ' season')
             sTitle = sTitle.replace("WEB-DL","").replace("BRRip","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("WEBRip","").replace("DvDrip","").replace("DvDRip","").replace("DVBRip","").replace("TVRip","").replace("WEB Dl","").replace("WeB Dl","").replace("WEB DL","").replace("WeB DL","").replace("Web DL","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("HDCam","").replace("Full HD","").replace("HC","").replace("Web-dl","")
@@ -277,7 +278,10 @@ class cGuiElement:
 			
         # on repasse en utf-8
         if not isMatrix():
-            sTitle = sTitle.encode('utf-8')
+            try:
+                sTitle = sTitle.encode('utf-8')
+            except:
+                pass    
 				
         # on reformate SXXEXX Titre [tag] (Annee)
         sTitle2 = ''
@@ -286,22 +290,10 @@ class cGuiElement:
         if self.__Episode:
             sTitle2 = sTitle2 + 'E%02d' % int(self.__Episode)
 
-        arabBuck = {"'":"ء", "|":"آ", "?":"أ", "&":"ؤ", "<":"إ", "}":"ئ", "A":"ا", "b":"ب", "p":"ة", "t":"ت", "v":"ث", "g":"ج", "H":"ح", "x":"خ", "d":"د", "*":"ذ", "r":"ر", "z":"ز", "s":"س", "$":"ش", "S":"ص", "D":"ض", "T":"ط", "Z":"ظ", "E":"ع", "G":"غ", "_":"ـ", "f":"ف", "q":"ق", "k":"ك", "l":"ل", "m":"م", "n":"ن", "h":"ه", "w":"و", "Y":"ى", "y":"ي", "F":"ً", "N":"ٌ", "K":"ٍ", "~":"ّ", "o":"ْ", "u":"ُ", "a":"َ", "i":"ِ"}
-        sTitle4 = sTitle
-        if not isMatrix():
-
-           for char in sTitle:
-               ordbuckArab = {ord(v.decode('utf8')): unicode(k) for (k, v) in arabBuck.iteritems()}
-               sTitle4 = sTitle.translate(ordbuckArab)
-        else:
-
-           for char in sTitle:
-               ordbuckArab = {ord(v):(k) for (k, v) in arabBuck.items()}
-               sTitle4 = sTitle.translate(ordbuckArab)
-
+        
 
         # Titre unique pour marquer VU (avec numéro de l'épisode pour les séries)
-        self.__sTitleWatched = cUtil().titleWatched(sTitle4).replace(' ', '')
+        self.__sTitleWatched = cUtil().titleWatched(sTitle).replace(' ', '')
         if sTitle2:
             self.addItemValues('tvshowtitle', cUtil().getSerieTitre(sTitle))
             self.__sTitleWatched += '_' + sTitle2
@@ -347,8 +339,8 @@ class cGuiElement:
     def getCleanTitle(self):
         return self.__sCleanTitle
 
-#    def setTitleWatched(self, sTitleWatched):
-#        self.__sTitleWatched = sTitleWatched
+  # def setTitleWatched(self, sTitleWatched):
+      #  self.__sTitleWatched = sTitleWatched
 
     def getTitleWatched(self):
         return self.__sTitleWatched
