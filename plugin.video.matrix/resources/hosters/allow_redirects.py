@@ -23,7 +23,7 @@ class cHoster(iHoster):
             oHoster.setUrl(sHosterUrl)
             api_call = oHoster.getMediaLink()
 
-            if api_call[0] is True:
+            if api_call[0]:
                 return True, api_call[1]
 
         else:

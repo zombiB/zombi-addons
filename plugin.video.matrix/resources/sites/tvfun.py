@@ -84,7 +84,7 @@ def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
-    if sSearchText is not False:
+    if sSearchText:
         sUrl = URL_MAIN + '/q/' +sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -107,7 +107,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -143,7 +143,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern) 
      
 
-    if aResult[0] is True:
+    if aResult[0]:
         sHtmlContent4 = aResult[1][0]
   # ([^<]+) .+?
 
@@ -153,7 +153,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent4, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -203,7 +203,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern) 
      
 
-    if aResult[0] is True:
+    if aResult[0]:
         sHtmlContent2 = aResult[1][0]
    # ([^<]+) .+? (.+?)
     sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)"><img src="(.+?)" sizes='
@@ -212,7 +212,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent2, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -244,7 +244,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -280,7 +280,7 @@ def showSeriesSearch(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern) 
      
 
-    if aResult[0] is True:
+    if aResult[0]:
         sHtmlContent3 = aResult[1][0]
   # ([^<]+) .+?
 
@@ -290,7 +290,7 @@ def showSeriesSearch(sSearch = ''):
         aResult = oParser.parse(sHtmlContent3, sPattern)
 	
 	
-        if aResult[0] is True:
+        if aResult[0]:
             total = len(aResult[1])
             progress_ = progress().VScreate(SITE_NAME)
             for aEntry in aResult[1]:
@@ -334,7 +334,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern) 
      
 
-    if aResult[0] is True:
+    if aResult[0]:
         sHtmlContent = aResult[1][0]
    # ([^<]+) .+? (.+?)
     sPattern = '<div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt'
@@ -343,7 +343,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -375,7 +375,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         for aEntry in aResult[1]:
@@ -408,7 +408,7 @@ def showEpisodes():
     aResult = oParser.parse(sHtmlContent, sPattern) 
      
 
-    if aResult[0] is True:
+    if aResult[0]:
         sHtmlContent3 = aResult[1][0]
   # ([^<]+) .+?
 
@@ -418,7 +418,7 @@ def showEpisodes():
         aResult = oParser.parse(sHtmlContent3, sPattern)
 	
 	
-        if aResult[0] is True:
+        if aResult[0]:
             total = len(aResult[1])
             progress_ = progress().VScreate(SITE_NAME)
             for aEntry in aResult[1]:
@@ -460,7 +460,7 @@ def showHosters():
 
     sPattern =  "PGlmcmFt(.+?)'"
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
+    if aResult[0]:
         for aEntry in aResult[1]:
             m3url = "PGlmcmFt" + aEntry
             sHtmlContent2 = base64.b64decode(m3url)
@@ -468,7 +468,7 @@ def showHosters():
             sPattern = 'src="(.+?)".+?allowfullscreen'
             aResult = oParser.parse(sHtmlContent2, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0]:
                for aEntry in aResult[1]:
         
                    url = aEntry.replace("https://dai.ly/","https://www.dailymotion.com/video/")
@@ -478,7 +478,7 @@ def showHosters():
             
                    sHosterUrl = url 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster != False:
+                   if oHoster:
                        sDisplayTitle = sMovieTitle+sTitle
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sDisplayTitle)

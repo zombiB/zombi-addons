@@ -30,7 +30,7 @@ class cHoster(iHoster):
             sPattern = 'src="(http.+?)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0]:
                 for aEntry in aResult[1]:
                     sHoster = aEntry
                     oRequest = cRequestHandler(sHoster)

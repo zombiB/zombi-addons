@@ -41,7 +41,7 @@ class cHoster(iHoster):
             'name="([^"]+)" type="hidden" value="([^"]+)"/>'
 
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             postdata = aResult[1][0][0] + '=' + aResult[1][0][1] + '&' + aResult[1][0][2] + '=' + aResult[1][0][3]
 
             oRequest = cRequestHandler(self._url)
@@ -62,7 +62,7 @@ class cHoster(iHoster):
                     sPattern = "replace\(.*'(.+?)'"
                     aResult = oParser.parse(sHtmlContent, sPattern)
 
-                    if aResult[0] is True:
+                    if aResult[0]:
                         sHosterUrl = aResult[1][0]
 
                         if not sHosterUrl.startswith('http'):
@@ -74,7 +74,7 @@ class cHoster(iHoster):
                         oHoster.setUrl(sHosterUrl)
                         api_call = oHoster.getMediaLink()
 
-                        if api_call[0] is True:
+                        if api_call[0]:
                             return True, api_call[1]
 
                         return False, False

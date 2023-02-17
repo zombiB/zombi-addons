@@ -16,7 +16,7 @@ class cHoster(iHoster):
         sPattern = "id=([^<]+)"
         oParser = cParser()
         aResult = oParser.parse(self._url, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             return aResult[1][0]
 
         return ''
@@ -27,7 +27,7 @@ class cHoster(iHoster):
         sPattern = 'key: "(.+?)";'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             aResult = aResult[1][0].replace('.', '%2E')
             return aResult
         return ''
@@ -51,7 +51,7 @@ class cHoster(iHoster):
         sPattern =  'url=(.+?)&title'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             stream_url = Unquote(aResult[1][0])
             return True, stream_url
         else:

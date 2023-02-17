@@ -29,12 +29,12 @@ class cHoster(iHoster):
         sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
         aResult = oParser.parse(sHtmlContent,sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
 
             sPattern = '.mpd"},{file:"([^<]+)",label:"'
             aResult = oParser.parse(sHtmlContent,sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 api_call = aResult[1][0] + '|AUTH=TLS&verifypeer=false' 
                 
         if api_call:

@@ -34,7 +34,7 @@ class cHoster(iHoster):
         """
         sPattern = '\/(?:embed-)?(\w+)(?:-\d+x\d+)?(?:\.html)?$'
         aResult = cParser().parse( sUrl, sPattern )
-        if aResult[0] is True:
+        if aResult[0]:
             return aResult[1][0]
         return ''
 

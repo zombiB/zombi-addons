@@ -25,7 +25,7 @@ class cHoster(iHoster):
         sPattern = "\/play\/embed\/(\w+)" #au cas ou test \/play\/embed\/(\w+)(?:\?|\\?)
         oParser = cParser()
         aResult = oParser.parse(url, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             return aResult[1][0]
 
         return ''
@@ -35,7 +35,7 @@ class cHoster(iHoster):
         sPattern = "\?([^ ]+)"
         oParser = cParser()
         aResult = oParser.parse(url, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             return aResult[1][0]
 
         return ''
@@ -62,7 +62,7 @@ class cHoster(iHoster):
             sPattern = '"default": *"([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             url2 = aResult[1][0]
         else:
             return False,False
@@ -73,7 +73,7 @@ class cHoster(iHoster):
         sPattern = '(http.+?\?i=)([0-9x_]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             url=[]
             qua=[]
 

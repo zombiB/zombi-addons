@@ -24,7 +24,7 @@ class cHoster(iHoster):
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             for aEntry in aResult[1]:
                 qua.append(str(aEntry[0]))
                 url.append(str(aEntry[1]))

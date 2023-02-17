@@ -47,7 +47,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
@@ -58,7 +58,7 @@ def showMovies(sSearch = ''):
  
             sTitle =  aEntry[1].replace(')','').replace("'",'').replace('_',' ')
             sThumb = ""
-            siteUrl = "https://beinmatch.one/home/live/"+aEntry[0].replace('(','')
+            siteUrl = "https://beinmatch.life/home/live/"+aEntry[0].replace('(','')
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + aEntry[0]
             sDesc = aEntry[2]
@@ -84,13 +84,13 @@ def showLive():
  
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
-    oRequestHandler.addHeaderEntry('authority', 'beinmatch.one')
+    oRequestHandler.addHeaderEntry('authority', 'beinmatch.life')
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
     # (.+?) # ([^<]+) .+? 
     sPattern = 'source: "(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0]:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -103,14 +103,14 @@ def showLive():
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     # (.+?) # ([^<]+) .+? 
     sPattern = 'src="([^<]+)" frameborder'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0]:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -119,7 +119,7 @@ def showLive():
                 sHtmlContent = oRequestHandler.request() 
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent,sPattern)
-                if aResult[0] is True:
+                if aResult[0]:
                      url = aResult[1][0]
  
                      sHosterUrl = url
@@ -131,7 +131,7 @@ def showLive():
             
 
                      oHoster = cHosterGui().checkHoster(sHosterUrl)
-                     if oHoster != False:
+                     if oHoster:
                                oHoster.setDisplayName(sMovieTitle)
                                oHoster.setFileName(sMovieTitle)
                                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -144,7 +144,7 @@ def showLive():
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
@@ -155,12 +155,12 @@ def showLive():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
    
-    if aResult[0] is True:
+    if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
  
             sTitle = "link HD "+aEntry[1]
-            siteUrl = "https://beinmatch.one/home/live/"+aEntry[0].replace("(","")
+            siteUrl = "https://beinmatch.life/home/live/"+aEntry[0].replace("(","")
             siteUrl = siteUrl+'/'+aEntry[1]
             sDesc = ''
  
@@ -185,7 +185,7 @@ def showHosters():
     # (.+?) # ([^<]+) .+? 
     sPattern = 'source: "(.+?)",'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0] is True:
+    if aResult[0]:
         for aEntry in aResult[1]:
             
             url = aEntry
@@ -198,7 +198,7 @@ def showHosters():
             
 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
                 oHoster.setDisplayName(sMovieTitle)
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)

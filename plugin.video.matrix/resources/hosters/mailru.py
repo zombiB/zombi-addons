@@ -58,13 +58,13 @@ class cHoster(iHoster):
             sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
             aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
             # print(aResult)
-            if aResult[0] is True:
+            if aResult[0]:
                 for cook in aResult[1]:
                     cookies = cookies + cook[0] + '=' + cook[1] + ';'
 
         sPattern = '{"url":"([^"]+)",.+?"key":"(\d+p)"}'
         aResult = oParser.parse(data, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             # initialisation des tableaux
             url = []
             qua = []

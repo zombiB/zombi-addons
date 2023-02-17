@@ -52,23 +52,23 @@ class cHoster(iHoster):
 
         sPattern = 'sources:* \[(?:{file:)*"([^"]+)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             api_call = aResult[1][0]
 
         else:
             sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 sHtmlContent = cPacker().unpack(aResult[1][0])
 
                 sPattern = '{file: *"([^"]+smil)"}'
                 aResult = oParser.parse(sHtmlContent, sPattern)
-                if aResult[0] is True:
+                if aResult[0]:
                     api_call = self.extractSmil(aResult[1][0])
                 else:
                     sPattern = 'src:"([^"]+.mp4)"'
                     aResult = oParser.parse(sHtmlContent, sPattern)
-                    if aResult[0] is True:
+                    if aResult[0]:
                         api_call = aResult[1][0] #.decode('rot13')
 
         if api_call:

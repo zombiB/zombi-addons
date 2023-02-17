@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-import xbmcplugin
-import xbmc
+import copy
 import json
 import threading
-import copy
+import xbmc
+import xbmcplugin
+import sys
 
 from resources.lib.tmdb import cTMDb
 from resources.lib.comaddon import listitem, addon, dialog, window, isKrypton, isNexus, progress, VSlog
@@ -26,7 +27,7 @@ except ImportError:  # Python 3
 class cGui:
 
     SITE_NAME = 'cGui'
-    CONTENT = 'files'
+    CONTENT = 'addons'
     listing = []
     thread_listing = []
     episodeListing = []  # Pour gérer l'enchainement des episodes
@@ -37,8 +38,8 @@ class cGui:
     searchResults = {}
     searchResultsSemaphore = threading.Semaphore()
 
-    if isKrypton():
-       CONTENT = 'addons'
+    # if isKrypton():
+    #     CONTENT = 'addons'
 
     def getEpisodeListing(self):
         return self.episodeListing
@@ -55,7 +56,6 @@ class cGui:
 
         if sThumbnail == '':
             oGuiElement.setThumbnail(oGuiElement.getIcon())
-
         else:
             oGuiElement.setThumbnail(sThumbnail)
             oGuiElement.setPoster(sThumbnail)
@@ -80,7 +80,6 @@ class cGui:
             oGuiElement.setMeta(sMeta)
 
         # Si pas d'id TMDB pour un episode, on recupère le précédent qui vient de la série
-
         if sCat and not oOutputParameterHandler.getValue('sTmdbId'):
             oInputParameterHandler = cInputParameterHandler()
             sPreviousMeta = int(oInputParameterHandler.getValue('sMeta'))
@@ -111,7 +110,6 @@ class cGui:
         except Exception as error:
             VSlog("addNewDir error: " + str(error))
 
-    
     #    Categorie       Meta          sCat     CONTENT
     #    Film            1             1        movies
     #    Serie           2             2        tvshows
@@ -196,7 +194,6 @@ class cGui:
         return self.addNewDir('seasons', sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler, 5, 4)
 
     def addEpisode(self, sId, sFunction, sLabel, sIcon, sThumbnail, sDesc, oOutputParameterHandler=''):
-
         # Pour gérer l'enchainement des épisodes, l'URL de la saison
         oInputParameterHandler = cInputParameterHandler()
         saisonUrl = oInputParameterHandler.getValue('saisonUrl')
@@ -243,7 +240,6 @@ class cGui:
         return self.addText(sId)
 
     def addText(self, sId, sLabel='', sIcon='none.png'):
-
         # Pas de texte lors des recherches globales
         if window(10101).getProperty('search') == 'true':
             return
@@ -263,7 +259,7 @@ class cGui:
 
     # afficher les liens non playable
     def addFolder(self, oGuiElement, oOutputParameterHandler='', _isFolder=True):
-        if _isFolder is False:
+        if not _isFolder:
             cGui.CONTENT = 'files'
 
         # recherche append les reponses
@@ -313,7 +309,7 @@ class cGui:
 
         oListItem = self.__createContextMenu(oGuiElement, oListItem)
 
-        if _isFolder is True:
+        if _isFolder :
             # oListItem.setProperty('IsPlayable', 'true')
             if sCat:    # 1 = movies, moviePack; 2 = series, animes, episodes; 5 = MISC
                 if oGuiElement.getMeta():
@@ -329,7 +325,6 @@ class cGui:
                         self.createContexMenuTMDB(oGuiElement, oOutputParameterHandler)
                 if sCat in (1, 2, 3, 4, 9):
                     self.createContexMenuSimil(oGuiElement, oOutputParameterHandler)
-                    self.createContexMenuParents(oGuiElement, oOutputParameterHandler)
                 if sCat != 6:
                     self.createContexMenuWatch(oGuiElement, oOutputParameterHandler)
         else:
@@ -344,15 +339,11 @@ class cGui:
         return oListItem
 
     def createListItem(self, oGuiElement):
-
         # Récupération des metadonnées par thread
         if oGuiElement.getMeta() and oGuiElement.getMetaAddon() == 'true':
             return self.createListItemThread(oGuiElement)
-
         # pas de meta, appel direct
         return self._createListItem(oGuiElement)
-
-
     # Utilisation d'un Thread pour un chargement des metas en parallèle
     def createListItemThread(self, oGuiElement):
         itemTitle = oGuiElement.getTitle()
@@ -362,9 +353,7 @@ class cGui:
         t.start()
         return oListItem
 
-
     def _createListItem(self, oGuiElement, oListItem = None):
-
         # Enleve les elements vides
         data = {key: val for key, val in oGuiElement.getItemValues().items() if val != ""}
 
@@ -640,7 +629,6 @@ class cGui:
 
 
         del self.thread_listing[:]
-
         xbmcplugin.addDirectoryItems(iHandler, self.listing, len(self.listing))
         xbmcplugin.setPluginCategory(iHandler, '')
         xbmcplugin.setContent(iHandler, cGui.CONTENT)
@@ -787,19 +775,18 @@ class cGui:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('searchtext', sCleanTitle)
         oOutputParameterHandler.addParameter('sCat', sCat)
-        oOutputParameterHandler.addParameter('readdb', 'False')
 
         sParams = oOutputParameterHandler.getParameterAsUri()
-        sTest = '%s?site=%s&function=%s&%s' % (sPluginPath, 'globalSearch', 'globalSearch', sParams)
-
+        sTest = '?site=%s&function=%s&%s' % ('globalSearch', 'globalSearch', sParams)
+        sys.argv[2] = sTest
+        sTest = sPluginPath + sTest
+ 
         # Si lancé depuis la page Home de Kodi, il faut d'abord en sortir pour lancer la recherche
         if xbmc.getCondVisibility('Window.IsVisible(home)'):
-            xbmc.executebuiltin('ActivateWindow(%d)' % 10028)
+            xbmc.executebuiltin('ActivateWindow(%d)' % 10025)
 
         xbmc.executebuiltin('Container.Update(%s)' % sTest)
-
         return False
-
     def selectPage(self):
         sPluginPath = cPluginHandler().getPluginPath()
         oInputParameterHandler = cInputParameterHandler()

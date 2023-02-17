@@ -22,7 +22,7 @@ class cHoster(iHoster):
 
         sPattern = '{file:"([^"]+)",label:"([^"]+)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             url=[]
             qua=[]
             for i in aResult[1]:

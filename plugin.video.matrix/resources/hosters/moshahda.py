@@ -35,7 +35,7 @@ class cHoster(iHoster):
         
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
             # (.+?) .+?
@@ -44,13 +44,13 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0]:
             oRequest = cRequestHandler(aResult[1][0])
             data = oRequest.request()
         	
             sPattern =  ',RESOLUTION=(.+?),.+?https(.+?&i=([0-9]+).([0-9]+))'
             aResult = oParser.parse(data, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                url=[]
                qua=[]
                for i in aResult[1]:

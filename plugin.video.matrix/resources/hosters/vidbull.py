@@ -35,7 +35,7 @@ class cHoster(iHoster):
         sPattern =  "<script type='text\/javascript'>(eval\(function\(p,a,c,k,e,d.+?)<\/script>"
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             for i in aResult[1]:
                 sHtmlContent = cPacker().unpack(i)
                 #xbmc.log(sHtmlContent)

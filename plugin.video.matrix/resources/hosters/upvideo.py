@@ -39,7 +39,7 @@ class cHoster(iHoster):
         #    decoder = hunter(j[0],int(j[1]),j[2],int(j[3]),int(j[4]),int(j[5]))
         #    VSlog("Decoder ok")
 
-        if aResult[0] is True:
+        if aResult[0]:
             l = aResult[1]
             for j in l:
                 data = hunter(j[0],int(j[1]),j[2],int(j[3]),int(j[4]),int(j[5]))

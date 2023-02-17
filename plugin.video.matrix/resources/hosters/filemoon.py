@@ -24,17 +24,17 @@ class cHoster(iHoster):
 
         sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
             sPattern = 'file:"(.+?)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 api_call = aResult[1][0]
 
         else:
             sPattern = 'file:"([^"]+)",label:"[0-9]+"}'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 api_call = aResult[1][0] + '|User-Agent=' + UA# + '&Referer=' + self._url
 
 

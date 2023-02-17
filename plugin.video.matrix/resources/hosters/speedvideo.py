@@ -28,7 +28,7 @@ class cHoster(iHoster):
         sPattern = 'https*:\/\/speedvideo.[a-z]{3}\/(?:embed-)?([0-9a-zA-Z]+)'
         oParser = cParser()
         aResult = oParser.parse(url, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             self._url = 'https://speedvideo.net/embed-' + aResult[1][0] + '.html'
         else:
             VSlog('ID error')
@@ -43,7 +43,7 @@ class cHoster(iHoster):
 
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             sUrl = aResult[1][0]
 
             class NoRedirection(urllib2.HTTPErrorProcessor):

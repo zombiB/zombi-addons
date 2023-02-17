@@ -42,7 +42,7 @@ class cHoster(iHoster):
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             api_call = aResult[1][0]
         elif len(aResult_1) > 1 :
             sUnpacked = cPacker().unpack(aResult_1[1])
@@ -50,7 +50,7 @@ class cHoster(iHoster):
             sPattern = 'sources: *\[\{file:"([^"]+)"'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 api_call = aResult[1][0]
 
         if api_call:

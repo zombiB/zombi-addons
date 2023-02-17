@@ -30,7 +30,7 @@ class cHoster(iHoster):
         sPattern =  '([^"]+\.mp4)'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             #initialisation des tableaux
             url=[]
             qua=["HD", "SD"] #sd en 2eme pos generalement quand sd

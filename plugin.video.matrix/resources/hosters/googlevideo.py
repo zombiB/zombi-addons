@@ -41,7 +41,7 @@ class cHoster(iHoster):
         r = self.get_host_and_id(self._url)
 
         # si lien deja decode
-        if r is False:
+        if not r :
             if '//lh3.googleusercontent.com' in self._url:
                 # Nouveaute, avec cookie now
 

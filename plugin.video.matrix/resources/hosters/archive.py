@@ -20,7 +20,7 @@ class cHoster(iHoster):
 
         sPattern = '<source src="([^"]+.mp4)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             api_call = aResult[1][0]
             if api_call.startswith('/'):
                 api_call = 'https://archive.org' + aResult[1][0]

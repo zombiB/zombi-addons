@@ -27,12 +27,12 @@ class cHoster(iHoster):
         oParser = cParser()
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
 
         sPattern = '{file:"(http.+?mp4)"}'
         aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             api_call = aResult[1][0] #pas de choix qualité trouvé pour le moment
 
         if api_call:

@@ -30,7 +30,7 @@ class cHoster(iHoster):
 
         sPattern = 'src="([^<]+)" type="video/mp4">'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             api_call = aResult[1][0]
 
 

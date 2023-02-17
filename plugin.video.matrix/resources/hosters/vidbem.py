@@ -37,12 +37,12 @@ class cHoster(iHoster):
         sPattern = '(?:[>;]\s*)(ﾟωﾟ.+?\(\'_\'\);)'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True: # 1 seul à vérifier ici ?
+        if aResult[0]: # 1 seul à vérifier ici ?
             sdec = AADecoder(aResult[1][0]).decode()
             sPattern =  'file:"([^"]+).+?label:"([^"]+)'
             aResult = oParser.parse(sdec, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0]:
                 for aentry in aResult[1]:  # ou là
                     list_url.append(aentry[0])
                     list_q.append(aentry[1])

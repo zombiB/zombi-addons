@@ -19,7 +19,7 @@ class cHoster(iHoster):
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             return aResult[1][0]
         return ''
 
@@ -41,7 +41,7 @@ class cHoster(iHoster):
 
         sPattern = 'RESOLUTION=(\d+x\d+)(.+?.m3u8)'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             for aEntry in aResult[1]:
                 url.append('https://streamax.club' + aEntry[1])
                 qua.append(aEntry[0])

@@ -28,7 +28,7 @@ class cHoster(iHoster):
                 sdata = cPacker().unpack(i)
                 sPattern = 'file:"(.+?)",label:".+?"}'
                 aResult = oParser.parse(sdata,sPattern)
-                if aResult[0] is True:
+                if aResult[0]:
                     api_call = aResult[1][0] 
 
         if api_call:

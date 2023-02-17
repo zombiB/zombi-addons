@@ -200,7 +200,7 @@ class cHosterGui:
             return self.getHoster('resolver')
         if ('sblanh' in sHostName):
             return self.getHoster('resolver')
-        if ('sbspeed' in sHostName):
+        if ('sbchill' in sHostName):
             return self.getHoster('resolver')
         if ('sbthe' in sHostName):
             return self.getHoster('resolver')

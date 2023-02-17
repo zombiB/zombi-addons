@@ -26,7 +26,7 @@ class cHoster(iHoster):
 
             sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 sHtmlContent = cPacker().unpack(aResult[1][0])
 
                 sPattern = '{src:"([^"]+)"'
@@ -36,7 +36,7 @@ class cHoster(iHoster):
                 # fh.write(sHtmlContent)
                 # fh.close()
 
-                if aResult[0] is True:
+                if aResult[0]:
                     api_call = aResult[1][0]
         else:
             api_call = self._url

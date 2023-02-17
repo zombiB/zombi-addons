@@ -36,7 +36,7 @@ class cHoster(iHoster):
         sPattern =  '{"type":"application.+?mpegURL","url":"([^"]+)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             oRequest = cRequestHandler(aResult[1][0])
             oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:70.0) Gecko/20100101 Firefox/70.0')
             oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
@@ -45,7 +45,7 @@ class cHoster(iHoster):
 
             sPattern = 'NAME="([^"]+)"(,PROGRESSIVE-URI="([^"]+)"|http(.+?)\#)'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 for aEntry in reversed(aResult[1]):
                     quality = aEntry[0].replace('@60', '')
                     if quality not in qua:

@@ -25,13 +25,13 @@ class cHoster(iHoster):
         sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
 
             sHtmlContent = cPacker().unpack(aResult[1][0])
             sPattern = 'file":"([^"]+)".+?"label":"([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0]:
                 url = []
                 qua = []
 

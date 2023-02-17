@@ -106,7 +106,7 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -140,7 +140,7 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage != False:
+        if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -163,7 +163,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0] is True:
+    if aResult[0]:
        for aEntry in aResult[1]:    
             m3url =  URL_MAIN+aEntry
             oRequest = cRequestHandler(m3url)
@@ -175,7 +175,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             
@@ -205,7 +205,7 @@ def showEps():
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
@@ -241,7 +241,7 @@ def showSeries(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
-    if aResult[0] is True:
+    if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -274,7 +274,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage != False:
+        if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
@@ -287,7 +287,7 @@ def __checkForNextPage(sHtmlContent):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
-    if aResult[0] is True:
+    if aResult[0]:
         aResult = URL_MAIN+aResult[1][0]
         
         return aResult
@@ -308,24 +308,39 @@ def showHosters():
             
     sPattern =  'src="([^<]+)" gesture="media"' 
     aResult = oParser.parse(sHtmlContent,sPattern) 
-    if aResult[0] is True:
+    if aResult[0]:
         m3url = aResult[1][0]
         if m3url.startswith('//'):
            m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)
         sHtmlContent = oRequest.request()
-    sPattern = '"src": "(.+?)"'
+    sPattern = '<a href="(.+?)" target='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     
-    if aResult[0] is True:
+    if aResult[0]:
         for aEntry in aResult[1]:       
             url = aEntry
             if url.startswith('//'):
                url = 'http:' + url
             sHosterUrl = url  
             oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster != False:
+            if oHoster:
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    sPattern = '"src": "(.+?)"'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if aResult[0]:
+        for aEntry in aResult[1]:       
+            url = aEntry
+            if url.startswith('//'):
+               url = 'http:' + url
+            sHosterUrl = url  
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)

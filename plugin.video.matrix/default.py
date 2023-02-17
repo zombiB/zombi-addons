@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # https://github.com/zombiB/zombi-addons
-import xbmc
+#import xbmc
 
 # from resources.lib.statistic import cStatistic
 from resources.lib.home import cHome

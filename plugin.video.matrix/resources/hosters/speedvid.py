@@ -97,21 +97,21 @@ class cHoster(iHoster):
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\)\))<'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             for packed in aResult[1]:
                 sHtmlContent = cPacker().unpack(packed)
                 sHtmlContent = sHtmlContent.replace('\\', '')
                 if "jwplayer('vplayer').setup" in sHtmlContent:
                     sPattern2 = "{file:.([^']+.mp4)"
                     aResult2 = oParser.parse(sHtmlContent, sPattern2)
-                    if aResult2[0] is True:
+                    if aResult2[0] :
                         api_call = aResult2[1][0]
                         break
 
         else:
             sPattern = "file\s*:\s*\'([^\']+.mp4)"
             aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0] is True:
+            if aResult[0]:
                 api_call = aResult[1][0]
 
         VSlog('API_CALL: ' + api_call )

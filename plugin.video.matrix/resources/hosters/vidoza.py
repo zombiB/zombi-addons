@@ -22,7 +22,7 @@ class cHoster(iHoster):
         sPattern =  'src: *"([^"]+)".+?label:"([^"]+)"'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0] is True:
+        if aResult[0]:
             #initialisation des tableaux
             url=[]
             qua=[]

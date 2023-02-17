@@ -25,13 +25,13 @@ class cHoster(iHoster):
 
         # Attention sous titre present aussi
 
-        if aResult[0] is True:
+        if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
 
             sPattern = '{sources:\[{file:"([^"]+)",label:"([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-            if aResult[0] is True:
+            if aResult[0]:
                 api_call = aResult[1][0][0]
 
         if api_call:

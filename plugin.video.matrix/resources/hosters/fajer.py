@@ -30,7 +30,7 @@ class cHoster(iHoster):
         
         api_call = False
 
-        if aResult[0] is True:
+        if aResult[0]:
             
             #initialisation des tableaux
         	url=[]

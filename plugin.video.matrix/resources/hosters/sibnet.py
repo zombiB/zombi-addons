@@ -31,7 +31,7 @@ class cHoster(iHoster):
         sPattern = 'src:.+?"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             api_call= urlmain + aResult[1][0] + '|Referer=' + self._url
 
 

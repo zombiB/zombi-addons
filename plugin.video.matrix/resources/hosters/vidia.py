@@ -23,12 +23,12 @@ class cHoster(iHoster):
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
             sPattern = '{file:"([^"]+)"}'
             aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0] is True:
+        if aResult[0]:
             api_call = aResult[1][0].replace(',', '').replace('master.m3u8', 'index-v1-a1.m3u8')
 
         if api_call:

@@ -27,7 +27,7 @@ class cHoster(iHoster):
         sPattern = 'JuicyCodes\.Run\("(.+?)"\);'
         aResult = oParser.parse(sHtmlContent, sPattern)
         # VSlog(aResult)
-        if aResult[0] is True:
+        if aResult[0]:
 
             media = aResult[1][0].replace('+', '')
             media = base64.b64decode(media)
@@ -42,7 +42,7 @@ class cHoster(iHoster):
                 # VSlog(aResult)
 
                 # initialisation des tableaux
-                if aResult[0] is True:
+                if aResult[0]:
                     url = []
                     qua = []
                 # Remplissage des tableaux
