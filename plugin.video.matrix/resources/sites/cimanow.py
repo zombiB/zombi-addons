@@ -388,7 +388,7 @@ def showServer():
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
     # (.+?) .+? ([^<]+)        	
-    sPattern = '<a href="(.+?)">.+?download.+?>(.+?)</a>'
+    sPattern = '<a href="(.+?)">.+?download.+?>(.+?)<p'
 		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

@@ -496,9 +496,9 @@ def showLinks():
         for aEntry in aResult[1]:
             sPage = aEntry[0]
             sTitle = 'server '+':'+ aEntry[1]
-            siteUrl = 'https://tv.cima4u.film/structure/server.php?id='+sPage
+            siteUrl = 'https://tv.cimaaa4u.fun/structure/server.php?id='+sPage
             sDesc = sDesc
-    
+
             oRequestHandler = cRequestHandler(siteUrl)
             sData = oRequestHandler.request();
     # (.+?)

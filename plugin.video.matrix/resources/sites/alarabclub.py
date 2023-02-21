@@ -23,8 +23,8 @@ RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%
 MOVIE_AR = (URL_MAIN + '/category/films/film-arabic-2', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/category/films/film-dubbed', 'showMovies')
 
-SERIE_DUBBED = (URL_MAIN + '/series-1?filter=193', 'showSerie')
-SERIE_AR = (URL_MAIN + '/series-1', 'showSerie')
+SERIE_DUBBED = (URL_MAIN + '/category/series-doblag-1?type=series', 'showSerie')
+SERIE_AR = (URL_MAIN + '/category/series-arabic-10?type=series', 'showSerie')
 REPLAYTV_NEWS = (URL_MAIN + '/category/2-tvshows?type=series', 'showSerie')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
@@ -173,7 +173,7 @@ def showSerie(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="box--item"><a href="(.+?)">.+?<div class="poster"><img class="imgInit" data-image="([^<]+)" alt="([^<]+)"></div>'
+    sPattern = '<div class="box--item">.+?<a href="(.+?)">.+?data-image="([^<]+)" alt="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

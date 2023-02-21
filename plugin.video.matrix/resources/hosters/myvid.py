@@ -20,6 +20,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         oParser = cParser()
+        VSlog(sHtmlContent)
         
 
         sPattern = 'file:"([^<]+)",label'

@@ -10,15 +10,10 @@
             "active": "True",
             "url": "https://www.ahdaf-kooora.com/"
         },
-        "akoam": {
-            "label": "Akoam",
-            "active": "True",
-            "url": "https://old.akwam.to/"
-        },
         "akwam": {
             "label": "Akwam",
             "active": "True",
-            "url": "https://on.akwam.in/"
+            "url": "https://to.akwam.im/"
         },
         "alarab": {
             "label": "Alarab",
@@ -80,11 +75,6 @@
             "active": "True",
             "url": "https://ok.arbcinema.com/"
         },
-        "arblionz": {
-            "label": "Arblionz",
-            "active": "True",
-            "url": "https://tv.arlionztv.store/"
-        },
         "asiaarabs": {
             "label": "Asia4arabs",
             "active": "True",
@@ -133,7 +123,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://cima4uu.world/"
+            "url": "https://cimaaa4u.fun/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -178,7 +168,7 @@
         "faselhd": {
             "label": "Faselhd",
             "active": "True",
-            "url": "https://www.faselhd.club/"
+            "url": "https://www.faselhd.ac/"
         },
         "fnteam": {
             "label": "Fnteam",
@@ -228,7 +218,7 @@
         "mycima": {
             "label": "Mycima",
             "active": "True",
-            "url": "https://myciiima.autos/"
+            "url": "https://weciima.autos/"
         },
         "pakistani": {
             "label": "Pakistani",
@@ -244,11 +234,6 @@
             "label": "Rotana",
             "active": "True",
             "url": "https://rotana.net/"
-        },
-        "shahidu": {
-            "label": "Shahid4u",
-            "active": "True",
-            "url": "https://shaheed4u.info/"
         },
         "shooflive": {
             "label": "Shooflive",
