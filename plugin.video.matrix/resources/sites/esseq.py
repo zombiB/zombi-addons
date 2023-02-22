@@ -215,12 +215,9 @@ def showEps():
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("الموسم"," S").replace("S ","S").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = aEntry[0] 
             import base64
-            if '?post=' in siteUrl:
-                url_tmp = siteUrl.split('?post=')[-1].replace('%3D','=')
-                siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
-            if '?url=' in siteUrl:
+            if '?url=' in siteUrl or '?post=' in siteUrl:
                 url_tmp = siteUrl.split('?url=')[-1].replace('%3D','=')
-                siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')                
+                siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
             sThumb = sThumb
             sDesc = ''
  
@@ -243,6 +240,14 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
+
+    sPattern = ',"url":"(.+?)",'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        URL_MAIN = aResult[1][0]
+        VSlog(URL_MAIN)
+    oParser = cParser()
             
     sPattern =  '<div class="skipAd"><span><a href="(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -250,7 +255,7 @@ def showHosters():
         m3url = aResult[1][0]
         oRequestHandler = cRequestHandler(m3url)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-        oRequestHandler.addHeaderEntry('referer', 'https://ee.e3sk.net/')
+        oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
 
     # (.+?) .+? ([^<]+)        	

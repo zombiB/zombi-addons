@@ -10,15 +10,8 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager
-from resources.lib.util import cUtil, Unquote
 
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
 
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
 	
 SITE_IDENTIFIER = 'aflaam'
 SITE_NAME = 'Aflaam'
@@ -36,6 +29,7 @@ SERIE_EN = (URL_MAIN + '/series?section=2', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/search?q=', 'showMoviesSearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=', 'showMoviesSearch')
+URL_SEARCH_SERIES = (URL_MAIN + '/search?q=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showMoviesSearch'
 
 def load():
@@ -44,6 +38,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', 'search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'Search Series', 'search.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
@@ -76,7 +73,16 @@ def showSearch():
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
- 
+
+def showSearchSeries():
+    oGui = cGui()
+    sSearchText = oGui.showKeyBoard()
+    if sSearchText:
+        sUrl = URL_MAIN+'/search?q='+sSearchText
+        showSeriesSearch(sUrl)
+        oGui.setEndOfDirectory()
+        return  
+		
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
@@ -148,7 +154,9 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="actions d-flex">.+?<a href="([^<]+)".+?<img src="([^<]+)" class="img-fluid w-100".+?<h3 class="entry-title text-center text-white font-size-16 m-0">([^<]+)<'
+    sPattern = '<div class="actions d-flex"><a href="(.+?)" class.+?<picture><img src="(.+?)" class.+?<h3 class=".+?">(.+?)</h3>'
+
+
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -162,6 +170,9 @@ def showMoviesSearch(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+ 
+            if '/series/' in aEntry[0]:
+                continue
  
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
@@ -178,9 +189,7 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
-
- 
-            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler) 
             
 
         progress_.VSclose(progress_)
@@ -193,6 +202,67 @@ def showMoviesSearch(sSearch = ''):
     if not sSearch: 
         oGui.setEndOfDirectory()
 
+
+def showSeriesSearch(sSearch = ''):
+    oGui = cGui()
+    if sSearch:
+      sUrl = sSearch
+    else:
+        oInputParameterHandler = cInputParameterHandler()
+        sUrl = oInputParameterHandler.getValue('siteUrl')
+
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+ 
+     # (.+?) ([^<]+) .+?
+    sPattern = '<div class="actions d-flex"><a href="(.+?)" class.+?<picture><img src="(.+?)" class.+?<h3 class=".+?">(.+?)</h3>'
+
+
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+	
+	
+    if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+ 
+            if '/movie/' in aEntry[0]:
+                continue
+ 
+            sTitle = aEntry[2]
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1]
+            sDesc = ''
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            
+
+        progress_.VSclose(progress_)
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showMoviesSearch', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+    if not sSearch: 
+        oGui.setEndOfDirectory()
 
 
 def showSeries(sSearch = ''):

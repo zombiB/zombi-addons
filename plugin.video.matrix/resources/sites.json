@@ -158,7 +158,7 @@
         "esseq": {
             "label": "Esseq",
             "active": "True",
-            "url": "https://m.eshiq.net/"
+            "url": "https://ee.e3sk.net/"
         },
         "familymoviz": {
             "label": "Familymoviz",
@@ -254,11 +254,6 @@
             "label": "Shoofvod",
             "active": "True",
             "url": "http://shoofvod.com/"
-        },
-        "s3uditv": {
-            "label": "S3uditv",
-            "active": "True",
-            "url": "https://m.s3udi.tv/"
         },
         "spacepowerfan": {
             "label": "Spacepowerfan",

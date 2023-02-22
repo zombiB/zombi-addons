@@ -10,15 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager
-from resources.lib.util import cUtil, Unquote
-
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
 	
 SITE_IDENTIFIER = 'fushaar'
 SITE_NAME = 'Fushaar'
@@ -159,7 +150,7 @@ def showHosters():
 
 # ([^<]+) .+? (.+?)
     oParser = cParser()           
-    sPattern =  '<a class="watch-hd" href="([^<]+)" target="_blank" download>.+?'
+    sPattern =  '<a class="watch-hd" href="([^<]+)" target="_blank" download>(.+?)</a>'
 	
                                                                  
     aResult = oParser.parse(sHtmlContent,sPattern)
@@ -167,8 +158,9 @@ def showHosters():
     if aResult[0]:
         for aEntry in aResult[1]:
             
-            url = aEntry
-            sTitle = ""
+            url = aEntry[0] 
+            sHost = aEntry[1]  
+            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost) 
             sThumb = sThumb
             if url.startswith('//'):
                url = 'http:' + url
@@ -181,8 +173,34 @@ def showHosters():
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setDisplayName(sTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb)
+            
+
+# ([^<]+) .+? (.+?)
+    oParser = cParser()           
+    sPattern =  'file: "(.+?)",.+?label: "(.+?)"'
+	
+                                                                 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry[0] 
+            sHost = aEntry[1]  
+            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost) 
+            sThumb = sThumb
+            if url.startswith('//'):
+               url = 'http:' + url
+				
+				            
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+               oHoster.setDisplayName(sTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl , sThumb)
                 
     oGui.setEndOfDirectory()

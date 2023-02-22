@@ -18,6 +18,18 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
 MOVIE_PACK = (URL_MAIN , 'showPack')
+MOVIE_EN = (URL_MAIN + 'category/movies-33/افلام-اجنبي/', 'showMovies')
+MOVIE_HI = (URL_MAIN + 'category/movies-33/افلام-هندى/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + 'category/movies-33/افلام-اسيوي/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + 'category/movies-33/افلام-تركي/', 'showMovies')
+KID_MOVIES = (URL_MAIN + 'category/anime-6/افلام-انمي/', 'showMovies')
+SERIE_EN = (URL_MAIN + 'category/series-9/مسلسلات-اجنبي/', 'showSeries')
+
+
+SERIE_HEND = (URL_MAIN + 'category/series-9/مسلسلات-هندي/', 'showSeries')
+SERIE_ASIA = (URL_MAIN + 'category/series-9/مسلسلات-أسيوي/', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category/series-9/مسلسلات-تركي/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + 'category/anime-6/انمي-مترجم/', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeriesSearch')
@@ -36,6 +48,47 @@ def load():
 	
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', 'icon.png', oOutputParameterHandler)
+	
+	
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
+
+
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
+
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', 'film.png', oOutputParameterHandler)
+
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'film.png', oOutputParameterHandler)
+
+
+    oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', 'crtoon.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'mslsl.png', oOutputParameterHandler)
+
+
+
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', 'mslsl.png', oOutputParameterHandler)
+
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', 'anime.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', 'mslsl.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -55,7 +108,7 @@ def showSearchSeries():
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
         sUrl = URL_MAIN + '/?s='+sSearchText+'+%D9%85%D8%B3%D9%84%D8%B3%D9%84'
-        showSeriesSearch(sUrl)
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
 
