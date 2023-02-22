@@ -215,9 +215,12 @@ def showEps():
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("الموسم"," S").replace("S ","S").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = aEntry[0] 
             import base64
+            if '?post=' in siteUrl:
+                url_tmp = siteUrl.split('?post=')[-1].replace('%3D','=')
+                siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
             if '?url=' in siteUrl:
                 url_tmp = siteUrl.split('?url=')[-1].replace('%3D','=')
-                siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
+                siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')                
             sThumb = sThumb
             sDesc = ''
  
@@ -247,7 +250,7 @@ def showHosters():
         m3url = aResult[1][0]
         oRequestHandler = cRequestHandler(m3url)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-        oRequestHandler.addHeaderEntry('referer', 'https://m.eshiq.net/')
+        oRequestHandler.addHeaderEntry('referer', 'https://ee.e3sk.net/')
         sHtmlContent = oRequestHandler.request() 
 
     # (.+?) .+? ([^<]+)        	
