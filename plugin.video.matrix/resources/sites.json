@@ -5,6 +5,11 @@
             "active": "True",
             "url": "https://www.aflamfree.top/"
         },
+        "aflaam": {
+            "label": "Aflaam",
+            "active": "True",
+            "url": "https://aflaam.com/"
+        },
         "ahdaf": {
             "label": "Ahdaf",
             "active": "True",
@@ -175,6 +180,11 @@
             "active": "True",
             "url": "https://www.fn-team.com/"
         },
+        "fushaar": {
+            "label": "Fushaar",
+            "active": "True",
+            "url": "https://www.fushaar.com/"
+        },
         "gateanime": {
             "label": "Gateanime",
             "active": "True",
@@ -244,6 +254,11 @@
             "label": "Shoofvod",
             "active": "True",
             "url": "http://shoofvod.com/"
+        },
+        "s3uditv": {
+            "label": "S3uditv",
+            "active": "True",
+            "url": "https://m.s3udi.tv/"
         },
         "spacepowerfan": {
             "label": "Spacepowerfan",

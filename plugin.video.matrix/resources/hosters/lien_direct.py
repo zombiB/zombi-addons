@@ -36,7 +36,10 @@ class cHoster(iHoster):
             api_call = api_call + '|User-Agent=' + UA + '&Referer=https://www.toonsland.site'
  
 
-       
+        if 'aflaam' in api_call:
+            api_call = api_call + '|AUTH=TLS&verifypeer=false'  + '&Referer=https://aflaam.com/'
+        if 'fushaar' in api_call:
+            api_call = api_call + '|AUTH=TLS&verifypeer=false'  + '&Referer=https://fushaar.com/'
         if 'akwam' in api_call or '.akw.' in api_call:
             api_call = api_call + '|AUTH=TLS&verifypeer=false'  + '&Referer=https://to.akwam.im/'
         if 'panet' in api_call:
