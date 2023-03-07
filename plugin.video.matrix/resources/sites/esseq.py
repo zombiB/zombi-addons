@@ -214,10 +214,6 @@ def showEps():
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("الموسم"," S").replace("S ","S").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = aEntry[0] 
-            import base64
-            if '?url=' in siteUrl or '?post=' in siteUrl:
-                url_tmp = siteUrl.split('?url=')[-1].replace('%3D','=')
-                siteUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
             sThumb = sThumb
             sDesc = ''
  
@@ -241,15 +237,8 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 
-    sPattern = ',"url":"(.+?)",'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        URL_MAIN = aResult[1][0]
-        VSlog(URL_MAIN)
-    oParser = cParser()
-            
-    sPattern =  '<div class="skipAd"><span><a href="(.+?)">' 
+         
+    sPattern =  '<div class="skipAd">.+?href="(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0]
@@ -257,6 +246,7 @@ def showHosters():
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
+
 
     # (.+?) .+? ([^<]+)        	
     sPattern = 'data-name="(.+?)" data-server="(.+?)">' 
@@ -279,6 +269,10 @@ def showHosters():
                url =  'https://arabveturk.com/embed-'+url+'.html'
             if 'now' in host:
                url =  'https://extremenow.net/embed-'+url+'.html'
+            if 'box' in host:
+               url =  'https://youdboox.com/embed-'+url+'.html'
+            if 'Pro HD' in host:
+               url =  'https://embedo.co/e/'+url
             if 'online' in host:
                url =  'https://player.vimeo.com/video/'+url+'?title=0&byline=0'
             if 'youtube' in host:
