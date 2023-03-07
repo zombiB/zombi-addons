@@ -21,7 +21,7 @@ class cHoster(iHoster):
         VSlog(self._url)
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('user-agent',UA)
-        oRequest.addHeaderEntry('referer','https://www.faselhd.top/')
+        oRequest.addHeaderEntry('referer','https://www.faselhd.ac/')
         data = oRequest.request()
 
         oParser = cParser()
@@ -79,7 +79,7 @@ class cHoster(iHoster):
                 	core = api_call
                 	oRequest = cRequestHandler(api_call)
                 	sHtmlContent = oRequest.request()
-                	sPattern =  ',RESOLUTION=(.+?),.+?index(.+?)token='
+                	sPattern =  ',RESOLUTION=(.+?),.+?(https.+?.m3u8)'
                 	oParser = cParser()
                 	aResult = oParser.parse(sHtmlContent, sPattern)
                 	if aResult[0]:
@@ -87,8 +87,8 @@ class cHoster(iHoster):
         	            qua=[]
         	            base= ''
         	            for i in aResult[1]:
-                        	base= 'index' + str(i[1])
-                        	url.append(core.replace('master.m3u8?',base))
+                        	base=  str(i[1])
+                        	url.append(base)
                         	qua.append(str(i[0]))
         	            api_call = dialog().VSselectqual(qua, url)
  

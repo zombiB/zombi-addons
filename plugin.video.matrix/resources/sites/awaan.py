@@ -384,39 +384,25 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+ 
     oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-    sHtmlContent = oRequestHandler.request()
-    sHtmlContent = sHtmlContent.encode("utf8",errors='ignore').decode("unicode_escape")
+    cook = oRequestHandler.GetCookies()
+    VSlog(cook)
+    import requests
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'www.awaan.ae','referer' : URL_MAIN}
+    St=requests.Session()
+    sHtmlContent = St.get(sUrl,headers=hdr)
+    sHtmlContent = sHtmlContent.content.decode('utf8')  
+    VSlog(sHtmlContent)
 
 
     oParser = cParser()
             
-    sPattern =  'href="(.+?)" class="item">' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:       
-            m3url = aEntry	
-            oRequest = cRequestHandler(m3url)
-            sHtmlContent = oRequest.request()
-            
-    sPattern =  'value="(.+?)" id="videoUrl">' 
+    sPattern =  'src="(.+?)"   allow' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0]
-        if m3url.startswith('//'):
-           m3url = 'http:' + m3url 	
-        oRequest = cRequestHandler(m3url)
-        sHtmlContent = oRequest.request()
-            
-    sPattern =  'allowfullscreen="" src="(.+?)"   allowtransparency="true"' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        m3url = aResult[1][0]
+        VSlog(m3url)
         if m3url.startswith('//'):
            m3url = 'http:' + m3url 	
         oRequest = cRequestHandler(m3url)

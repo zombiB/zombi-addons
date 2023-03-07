@@ -250,9 +250,10 @@ def showServers():
                 for aEntry in aResult[1]:
                     url = aEntry
                     sTitle = sMovieTitle
+                    if 'video?path=' in url:
+                       url = url.replace("video?path=/../","")
                     if url.startswith('//'):
                        url = 'http:' + url
-                       
                     sHosterUrl = url 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:

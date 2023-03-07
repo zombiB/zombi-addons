@@ -25,11 +25,6 @@
             "active": "True",
             "url": "https://vod2.alarab.com/"
         },
-        "alarabclub": {
-            "label": "Alarabclub",
-            "active": "True",
-            "url": "https://alarabclub.com/"
-        },
         "alarabiya": {
             "label": "Alarabiya",
             "active": "True",
@@ -79,6 +74,11 @@
             "label": "Arbcinema",
             "active": "True",
             "url": "https://ok.arbcinema.com/"
+        },
+        "arblionz": {
+            "label": "Arblionz",
+            "active": "True",
+            "url": "https://arlionztv.cam/"
         },
         "asiaarabs": {
             "label": "Asia4arabs",
@@ -148,7 +148,7 @@
         "egydead": {
             "label": "Egydead",
             "active": "True",
-            "url": "https://w4.egydead.live/"
+            "url": "https://w6.egydead.live/"
         },
         "ehna": {
             "label": "Ehna",
@@ -159,11 +159,6 @@
             "label": "Esseq",
             "active": "True",
             "url": "https://ee.e3sk.net/"
-        },
-        "familymoviz": {
-            "label": "Familymoviz",
-            "active": "True",
-            "url": "https://www.familymoviz.net/"
         },
         "fansubs": {
             "label": "Fansubstv",
@@ -228,7 +223,7 @@
         "mycima": {
             "label": "Mycima",
             "active": "True",
-            "url": "https://weciima.autos/"
+            "url": "https://wecimaa.beauty/"
         },
         "pakistani": {
             "label": "Pakistani",
@@ -238,7 +233,7 @@
         "prstej": {
             "label": "Prstej",
             "active": "True",
-            "url": "https://v.3rb.tv/"
+            "url": "https://ps.3rb.tv/"
         },
         "rotana": {
             "label": "Rotana",
