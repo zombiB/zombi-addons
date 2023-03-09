@@ -118,7 +118,7 @@
         "cimaclub": {
             "label": "Cimaclub",
             "active": "True",
-            "url": "https://ciimaclub.click/"
+            "url": "https://ciimaclub.beauty/"
         },
         "cimanow": {
             "label": "Cimanow",
@@ -220,11 +220,6 @@
             "active": "True",
             "url": "https://movizland.men/"
         },
-        "mycima": {
-            "label": "Mycima",
-            "active": "True",
-            "url": "https://wecimaa.beauty/"
-        },
         "pakistani": {
             "label": "Pakistani",
             "active": "True",
@@ -278,7 +273,7 @@
         "tuktukcinema": {
             "label": "Tuktukcinema",
             "active": "True",
-            "url": "https://w.tuktukcinema.net/"
+            "url": "https://tuktukcinema.pro/"
         },
         "tvfun": {
             "label": "Tvfun",
@@ -294,6 +289,11 @@
             "label": "Watanflix",
             "active": "True",
             "url": "https://watanflix.com/"
+        },
+        "mycima": {
+            "label": "Wecima",
+            "active": "True",
+            "url": "https://wecimaa.beauty/"
         },
         "xsanime": {
             "label": "Xsanime",

@@ -23,8 +23,8 @@ KID_CARTOON = (URL_MAIN + '/tvshows/#gsc.tab=0', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeriesSearch')
 
-URL_SEARCH_MOVIES = ('https://www.stardima.com/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://www.stardima.com/?s=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = ('https://stardima.co/watch/?s=', 'showMoviesSearch')
+URL_SEARCH_SERIES = ('https://stardima.co/watch/?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -50,7 +50,7 @@ def showSearchMovies():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://www.stardima.com/?s='+sSearchText
+        sUrl = 'https://stardima.co/watch/?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -60,7 +60,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://www.stardima.com/?s='+sSearchText
+        sUrl = 'https://stardima.co/watch/?s='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -76,7 +76,7 @@ def showMoviesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = 'class="thumbnail animation-2"><a href=([^<]+)><img class=lazy src=".+?" data-src=(.+?)alt="(.+?)"><span class=movies>'
+    sPattern = 'class="thumbnail.+?<a href=([^<]+)>.+?data-src=(.+?)alt="(.+?)"><span class=movies>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -142,8 +142,8 @@ def showSeriesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = 'class="thumbnail animation-2"><a href=(.+?)><img class=lazy src=".+?" data-src=(.+?)alt="(.+?)"><span class=tvshows>'
-
+    sPattern = '<div class="thumbnail.+?<a href="(.+?)">.+?src="(.+?)" alt="(.+?)" /><span class="tvshows">'
+		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -208,7 +208,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<article id=post-.+?class.+?data-src=(.+?)alt="(.+?)">.+?</div><a href=(.+?)/>'
+    sPattern = '<article id=post-.+?src=(.+?)alt="(.+?)">.+?<a href=(.+?)/>'
 		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -260,10 +260,9 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<article id=post-.+?class.+?data-src=(.+?)alt="(.+?)">.+?</div><a href=(.+?)/>'
+    sPattern = '<article id="post-.+?src="(.+?)" alt="(.+?)">.+?<a href="(.+?)"><div class'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -313,7 +312,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-    sPattern = "data-src=(.+?)></div><div class=numerando>(.+?)</div><div class=episodiotitle><a href=(.+?)>"
+    sPattern = "<img src='(.+?)'>.+?class='numerando'>(.+?)</div>.+?<a href='(.+?)'>"
  
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -347,7 +346,7 @@ def showEpisodes():
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = "class=arrow_pag href=([^<]+)><i id=nextpagination class"
+    sPattern = "<a class='arrow_pag' href=(.+?)><i id='nextpagination' class"
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -369,9 +368,10 @@ def showHosters():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
                
 
-    sPattern =  '<a href=(.+?) target=_blank>Download<'
+    sPattern =  '/?download=([^<]+)&itag'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -379,31 +379,20 @@ def showHosters():
     if aResult[0]:
        total = len(aResult[1])
        for aEntry in aResult[1]:       
-           url = aEntry
-           oRequestHandler = cRequestHandler(url)
-           sHtmlContent1 = oRequestHandler.request()
-               
-
-           sPattern =  "value='(.+?)'>"
-           oParser = cParser()
-           aResult = oParser.parse(sHtmlContent1, sPattern)
-
-	
-           if aResult[0]:
-              total = len(aResult[1])
-              for aEntry in aResult[1]:       
-                  url = aEntry
+           url = 'https://www.stardima.co/watch/player/player.php?slug='+aEntry
 				
 					
             
-                  sHosterUrl = url 
-                  oHoster = cHosterGui().checkHoster(sHosterUrl)
-                  if oHoster:
-                     oHoster.setDisplayName(sMovieTitle)
-                     oHoster.setFileName(sMovieTitle)
-                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+           sHosterUrl = url 
+           oHoster = cHosterGui().checkHoster(sHosterUrl)
+           if oHoster:
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    from resources.lib.util import Quote
+    cook = oRequestHandler.GetCookies()
             
-    sPattern =  'data-type=(.+?) data-post=(.+?) data-nume=(.+?)>' 
+    sPattern =  "data-type='(.+?)' data-post='(.+?)' data-nume='(.+?)'>" 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
        total = len(aResult[1])
@@ -414,13 +403,13 @@ def showHosters():
            import requests
            s = requests.Session()            
            headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'Referer': URL_MAIN}
+							'cookie': cook,
+							'host': 'stardima.co',
+							'origin': 'https://stardima.co',
+							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
            r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
            sHtmlContent = r.content.decode('utf8')
-           VSlog(data)
-           VSlog(sHtmlContent)
-
     # (.+?) .+? ([^<]+)
                
 
@@ -458,10 +447,8 @@ def showHosters():
        for aEntry in aResult[1]:       
            url = aEntry
            url = base64.b64decode(url).decode("utf-8")
-           VSlog(url)
            if '/?id=' in url:
               url = url.split('/?id=', 1)[1]
-           VSlog(url)
            if url.startswith('//'):
               url = 'https:' + url
 				

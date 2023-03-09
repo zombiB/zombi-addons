@@ -152,8 +152,8 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = '</span><a href="([^<]+)" title="([^<]+)">.+?data-echo="([^<]+)" class="img-responsive">'
-
+    sPattern = 'class="fa fa-clock-o.+?<a href="([^<]+)" title="(.+?)">.+?data-echo="(.+?)" class="img-responsive">'
+		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -203,10 +203,11 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = 'href="(.+?)">&raquo;</a>'
+    sPattern = '<li class=""><a href="(.+?)">.+?</a></li></ul>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
  
     if aResult[0]:
         

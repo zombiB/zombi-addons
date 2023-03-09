@@ -17,8 +17,11 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
         
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
+        oRequestHandler = cRequestHandler(self._url)
+        oRequestHandler.setRequestType(1)
+        oRequestHandler.addHeaderEntry('Referer', self._url)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        sHtmlContent = oRequestHandler.request()
         
         oParser = cParser()
         
@@ -27,6 +30,7 @@ class cHoster(iHoster):
         if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
             sHtmlContent = sHtmlContent.replace('\\', '')
+
         
             # (.+?) .+?
         sPattern = "size:'(.+?)',src:'(.+?)',"

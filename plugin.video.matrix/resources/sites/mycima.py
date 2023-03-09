@@ -12,7 +12,7 @@ from resources.lib.comaddon import progress, siteManager, VSlog
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'mycima'
-SITE_NAME = 'Mycima'
+SITE_NAME = 'Wecima'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)

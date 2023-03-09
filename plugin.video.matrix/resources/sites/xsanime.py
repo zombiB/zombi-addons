@@ -135,6 +135,7 @@ def showSeries(sSearch = ''):
             sDesc = ''
             sYear = ''
             sTitle = sTitle.split('الحلقة')[0].split('الموسم')[0]
+            sTitle = sTitle.replace("Season ","S")
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -189,8 +190,8 @@ def ShowEps():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            sTitle = " E"+aEntry[1]
-            sTitle = sTitle+sMovieTitle
+            sTitle = "E"+aEntry[1]
+            sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0]
             sDesc = ''
             sYear = ''

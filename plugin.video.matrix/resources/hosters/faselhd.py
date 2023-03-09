@@ -6,7 +6,7 @@ from resources.lib.comaddon import dialog
 from resources.lib.comaddon import progress, VSlog
 import re
 import base64
-UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36'
+UA = 'ipad'
 
 class cHoster(iHoster):
 
@@ -30,8 +30,9 @@ class cHoster(iHoster):
       # (.+?) ([^<]+) .+?
         if aResult[0]:
             url2 = aResult[1][0]
-            oRequestHandler = cRequestHandler(url2)
-            sHtmlContent2 = oRequestHandler.request()
+            oRequest = cRequestHandler(url2)
+            oRequest.addHeaderEntry('user-agent',UA)
+            sHtmlContent2 = oRequest.request()
             core = url2.replace('\\','').replace("['",'').replace("']",'')
             
 
@@ -78,6 +79,7 @@ class cHoster(iHoster):
                 	api_call = t_url[0].replace('\\','').replace("['",'').replace("']",'')
                 	core = api_call
                 	oRequest = cRequestHandler(api_call)
+                	oRequest.addHeaderEntry('user-agent',UA)
                 	sHtmlContent = oRequest.request()
                 	sPattern =  ',RESOLUTION=(.+?),.+?(https.+?.m3u8)'
                 	oParser = cParser()
