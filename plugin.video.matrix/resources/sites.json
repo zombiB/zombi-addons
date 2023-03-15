@@ -18,7 +18,7 @@
         "akwam": {
             "label": "Akwam",
             "active": "True",
-            "url": "https://to.akwam.im/"
+            "url": "https://akw.am/"
         },
         "alarab": {
             "label": "Alarab",
@@ -53,7 +53,7 @@
         "animeup": {
             "label": "Anime4up",
             "active": "True",
-            "url": "https://anime4up.tv/"
+            "url": "https://w1.anime4up.tv/"
         },
         "animezid": {
             "label": "Animezid",
@@ -128,7 +128,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://cimaaa4u.fun/"
+            "url": "https://cima4u1.lol/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -208,17 +208,17 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://cool.360kora.live"
+            "url": "https://koora.360kora.live"
         },
         "lodynet": {
             "label": "Lodynet",
             "active": "True",
-            "url": "https://n.lodynet.ink/"
+            "url": "https://lodynet.link/"
         },
         "movizland": {
             "label": "Movizland",
             "active": "True",
-            "url": "https://movizland.men/"
+            "url": "https://movizland.xyz/"
         },
         "pakistani": {
             "label": "Pakistani",
@@ -228,7 +228,7 @@
         "prstej": {
             "label": "Prstej",
             "active": "True",
-            "url": "https://ps.3rb.tv/"
+            "url": "https://sa.3rb.media/"
         },
         "rotana": {
             "label": "Rotana",
@@ -293,7 +293,7 @@
         "mycima": {
             "label": "Wecima",
             "active": "True",
-            "url": "https://wecimaa.beauty/"
+            "url": "https://wecima.tube/"
         },
         "xsanime": {
             "label": "Xsanime",
@@ -303,7 +303,7 @@
         "yallalive": {
             "label": "Yallalive",
             "active": "True",
-            "url": "https://hd.yallalive.is/"
+            "url": "https://yallalive.art/"
         }
     }
 }
