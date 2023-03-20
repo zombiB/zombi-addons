@@ -33,7 +33,7 @@ class cHoster(iHoster):
 
         else:
             sPattern = 'file:"([^"]+)",label:"[0-9]+"}'
-            aResult = oParser.parse(sHtmlContent2, sPattern)
+            aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 # initialisation des tableaux
                 url = []
