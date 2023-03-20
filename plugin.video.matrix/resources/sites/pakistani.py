@@ -23,7 +23,6 @@ SERIE_DUBBED = (URL_MAIN + '/category/مسلسلات-مدبلجة/', 'showSeries
 
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

@@ -26,19 +26,6 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-oParser = cParser()
- 
-oRequestHandler = cRequestHandler(URL_MAIN)
-sHtmlContent = oRequestHandler.request()
-URL_MAIN='0'
-    # (.+?) ([^<]+)
-
-sPattern = '<a style="color:red" href="([^"]+)'
-aResult = oParser.parse(sHtmlContent, sPattern)
-    
-if (aResult[0]):
-    URL_MAIN = aResult[1][0]
-
 MOVIE_FAM = (URL_MAIN + '/movies?section=0&category=33&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/movies?section=29', 'showMovies')
 MOVIE_DUBBED = (URL_MAIN + '/movies?section=0&category=71&rating=0&year=0&language=0&formats=0&quality=0', 'showMovies')
@@ -491,7 +478,7 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]: 
             sTitle = sMovieTitle
-            siteUrl = sUrl.replace("https://akwam.to", URL_MAIN)
+            siteUrl = sUrl
             sThumb = sThumb
             sDesc = ""
  
@@ -535,7 +522,6 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
-        murl = murl.replace("https://akwam.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
 # ([^<]+) .+? (.+?)
@@ -543,7 +529,6 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
-        murl = murl.replace("https://akwam.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
             
@@ -552,7 +537,6 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
-        murl = murl.replace("https://akwam.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
 
@@ -564,8 +548,8 @@ def showHosters():
 
     if aResult[0]:
        for aEntry1 in aResult[1]:
-           sHosterUrl = aEntry1[0].replace("https://akwam.to", URL_MAIN) 
-           sHost = aEntry1[1].replace("https://akwam.to", URL_MAIN) 
+           sHosterUrl = aEntry1[0] 
+           sHost = aEntry1[1]  
            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
            oHoster = cHosterGui().checkHoster(sHosterUrl)
            if oHoster:
@@ -591,7 +575,6 @@ def showHosters2():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
-        murl = murl.replace("https://akwam.to", URL_MAIN)
         oRequest = cRequestHandler(murl)
         sHtmlContent2 = oRequest.request()
 
@@ -606,13 +589,13 @@ def showHosters2():
 	
     if aResult[0]: 
        for aEntry in aResult[1]:      
-           url = aEntry[0].replace("https://akwam.to", URL_MAIN)
-           sHost = aEntry[1].replace("https://akwam.to", URL_MAIN)				
+           url = aEntry[0]
+           sHost = aEntry[1]				
            sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)
 				
 					
             
-       sHosterUrl = url.replace("https://akwam.to", URL_MAIN)
+       sHosterUrl = url
        oHoster = cHosterGui().checkHoster(sHosterUrl)
        if oHoster:
           oHoster.setDisplayName(sTitle)

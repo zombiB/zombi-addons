@@ -384,31 +384,37 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
-    oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    VSlog(cook)
-    import requests
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Mobile Safari/537.36','Accept-Encoding' : 'gzip','cookie' : cook,'host' : 'www.awaan.ae','referer' : URL_MAIN}
-    St=requests.Session()
-    sHtmlContent = St.get(sUrl,headers=hdr)
-    sHtmlContent = sHtmlContent.content.decode('utf8')  
-    VSlog(sHtmlContent)
-
+	
+    oRequest = cRequestHandler(sUrl)
+    sHtmlContent = oRequest.request()
+    from resources.lib.util import Quote
 
     oParser = cParser()
             
-    sPattern =  'src="(.+?)"   allow' 
+    sPattern =  'back_rel: "(.+?)",' 
     aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        m3url = aResult[1][0]
-        VSlog(m3url)
-        if m3url.startswith('//'):
-           m3url = 'http:' + m3url 	
-        oRequest = cRequestHandler(m3url)
+    if aResult[0] is True:
+        murl = aResult[1][0] 
+        VSlog(murl)
+        oRequest = cRequestHandler(murl)
+        oRequest.setRequestType(0)
+        oRequest.addHeaderEntry('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9')
+        oRequest.addHeaderEntry('accept-language', 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7')
+        oRequest.addHeaderEntry('Host', 'www.awaan.ae')
+        oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+        oRequest.addHeaderEntry('Referer', Quote(sUrl))
         sHtmlContent = oRequest.request()
-
-    oParser = cParser()
+        cook = oRequest.GetCookies()
+        VSlog(cook)
+        oRequest = cRequestHandler(murl)
+        oRequest.setRequestType(0)
+        oRequest.addHeaderEntry('accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9')
+        oRequest.addHeaderEntry('accept-language', 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7')
+        oRequest.addHeaderEntry('cookie', cook)
+        oRequest.addHeaderEntry('Host', 'www.awaan.ae')
+        oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+        oRequest.addHeaderEntry('Referer', Quote(sUrl))
+        sHtmlContent = oRequest.request()
        
       # (.+?) ([^<]+) .+?     
     #recup du lien mp4

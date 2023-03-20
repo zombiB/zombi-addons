@@ -17,7 +17,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/Cat-141-1', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/Cat-144-1', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/al_751319_1', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/Cat-100-1', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/Cat-132-1', 'showMovies')
@@ -43,6 +43,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'rmdn.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)

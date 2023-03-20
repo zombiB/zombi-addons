@@ -22,14 +22,29 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
         oParser = cParser()
        
-        aResult = re.findall('(eval\(function\(p,a,c,k.*?)\s+<\/script>', sHtmlContent, re.DOTALL)
-        if aResult:
-           for i in aResult:
-                sdata = cPacker().unpack(i)
-                sPattern = 'file:"(.+?)",label:".+?"}'
-                aResult = oParser.parse(sdata,sPattern)
-                if aResult[0]:
-                    api_call = aResult[1][0] 
+
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        from resources.lib.util import Quote
+        import unicodedata
+
+        if aResult[0]:
+            data = aResult[1][0]
+            data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
+            sHtmlContent2 = cPacker().unpack(data)
+
+            sPattern = 'file:"(.+?)",label:"(.+?)"'
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+            VSlog(aResult)
+            if aResult[0]:
+                # initialisation des tableaux
+                url = []
+                qua = []
+                for i in aResult[1]:
+                    url.append(str(i[0]))
+                    qua.append(str(i[1]))
+
+                api_call = dialog().VSselectqual(qua, url)
 
         if api_call:
             return True, api_call

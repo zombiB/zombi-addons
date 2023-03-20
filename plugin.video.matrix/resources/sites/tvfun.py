@@ -17,7 +17,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2022/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2023/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia,3/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/cat/mosalsalat-hindia/', 'showSeries')
@@ -55,9 +55,9 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مدبلجة', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'rmdn.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/mosalsalat-maghribia/')
+    oOutputParameterHandler.addParameter('siteUrl', 'https://m.tvfun.me/cat/mosalsalat-maghribia/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مغربية', 'mslsl.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', 'https://a.tvfun.me/ts,mosalsalat-tarkiya/')
@@ -144,13 +144,13 @@ def showSeries(sSearch = ''):
      
 
     if aResult[0]:
-        sHtmlContent4 = aResult[1][0]
+        sHtmlContent = aResult[1][0]
   # ([^<]+) .+?
 
     sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent4, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
     if aResult[0]:

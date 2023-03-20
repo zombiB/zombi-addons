@@ -18,7 +18,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + '/category.php?cat=movieenglish', 'showMovies')
-RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2022', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2023', 'showSeries')
 MOVIE_AR = (URL_MAIN + '/category.php?cat=moviearabic', 'showMovies')
 SERIE_AR = (URL_MAIN + '/category.php?cat=mosalsalatarabia', 'showSeries')
 SERIE_TR = (URL_MAIN + '/category.php?cat=turkish-series', 'showSeries')
@@ -37,6 +37,9 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', 'rmdn.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
@@ -152,8 +155,8 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = 'class="fa fa-clock-o.+?<a href="([^<]+)" title="(.+?)">.+?data-echo="(.+?)" class="img-responsive">'
-		
+    sPattern = '<div class="pm-video-thumb">.+?<a href="(.+?)" title="(.+?)">.+?data-echo="(.+?)" class'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -240,7 +243,7 @@ def showEpisodes():
             sHtmlContent = aEntry[1]
  # ([^<]+) .+?
 
-            sPattern = '<a class="" href="(.+?)" title.+?<em>(.+?)</em><span>'
+            sPattern = 'href="(.+?)" title.+?<em>(.+?)</em><span>'
 
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)

@@ -33,9 +33,16 @@ class cHoster(iHoster):
 
         else:
             sPattern = 'file:"([^"]+)",label:"[0-9]+"}'
-            aResult = oParser.parse(sHtmlContent, sPattern)
+            aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0]:
-                api_call = aResult[1][0] + '|User-Agent=' + UA# + '&Referer=' + self._url
+                # initialisation des tableaux
+                url = []
+                qua = []
+                for i in aResult[1]:
+                    url.append(str(i[0]))
+                    qua.append(str(i[1]))
+
+                api_call = dialog().VSselectqual(qua, url + '|User-Agent=' + UA)
 
 
         if api_call:

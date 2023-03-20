@@ -1,14 +1,14 @@
 {
     "sites": {
-        "aflamfree": {
-            "label": "Aflamfree",
-            "active": "True",
-            "url": "https://www.aflamfree.top/"
-        },
         "aflaam": {
             "label": "Aflaam",
             "active": "True",
             "url": "https://aflaam.com/"
+        },
+        "aflamfree": {
+            "label": "Aflamfree",
+            "active": "True",
+            "url": "https://www.aflamfree.top/"
         },
         "ahdaf": {
             "label": "Ahdaf",
@@ -18,7 +18,7 @@
         "akwam": {
             "label": "Akwam",
             "active": "True",
-            "url": "https://akw.am/"
+            "url": "https://akwam.cz/"
         },
         "alarab": {
             "label": "Alarab",
@@ -65,6 +65,11 @@
             "active": "True",
             "url": "https://arabsciences.com/"
         },
+        "arabseed": {
+            "label": "arabseed",
+            "active": "True",
+            "url": "https://arbsd.sbs/"
+        },
         "aracinema_co": {
             "label": "Aramosalsal",
             "active": "True",
@@ -87,7 +92,7 @@
         },
         "awaan": {
             "label": "Awaan",
-            "active": "True",
+            "active": "False",
             "url": "https://www.awaan.ae/"
         },
         "beinmatch": {
@@ -120,6 +125,11 @@
             "active": "True",
             "url": "https://ciimaclub.beauty/"
         },
+        "cimalight": {
+            "label": "Cimalight",
+            "active": "True",
+            "url": "https://cc.cimalight.vip/"
+        },
         "cimanow": {
             "label": "Cimanow",
             "active": "True",
@@ -128,7 +138,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://cima4u1.lol/"
+            "url": "https://cima4u1.pics/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -139,6 +149,11 @@
             "label": "Docarabic",
             "active": "True",
             "url": "https://docarabic.wordpress.com/"
+        },
+        "dramacafe": {
+            "label": "Dramacafe",
+            "active": "True",
+            "url": "https://wwe.dramacafe-tv.com/"
         },
         "egyclub": {
             "label": "Egyclub",
@@ -162,7 +177,7 @@
         },
         "fansubs": {
             "label": "Fansubstv",
-            "active": "True",
+            "active": "False",
             "url": "https://fansubs.tv/"
         },
         "faselhd": {
@@ -193,7 +208,7 @@
         "halacima": {
             "label": "Halacima",
             "active": "True",
-            "url": "https://halacima.us/"
+            "url": "https://halacima.club/"
         },
         "hidaya": {
             "label": "Hidaya",
@@ -228,12 +243,7 @@
         "prstej": {
             "label": "Prstej",
             "active": "True",
-            "url": "https://sa.3rb.media/"
-        },
-        "rotana": {
-            "label": "Rotana",
-            "active": "True",
-            "url": "https://rotana.net/"
+            "url": "https://r.3rb.cam/"
         },
         "shooflive": {
             "label": "Shooflive",
@@ -293,7 +303,7 @@
         "mycima": {
             "label": "Wecima",
             "active": "True",
-            "url": "https://wecima.tube/"
+            "url": "https://weecima.store/"
         },
         "xsanime": {
             "label": "Xsanime",
@@ -303,7 +313,7 @@
         "yallalive": {
             "label": "Yallalive",
             "active": "True",
-            "url": "https://yallalive.art/"
+            "url": "https://yallalive.id/"
         }
     }
 }

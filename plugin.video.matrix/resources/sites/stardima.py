@@ -208,8 +208,7 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<article id=post-.+?src=(.+?)alt="(.+?)">.+?<a href=(.+?)/>'
-		
+    sPattern = '<article id="post-.+?" class=.+?data-src="([^<]+)" alt="([^<]+)"><noscript><img src=".+?" alt=".+?"></noscript>.+?<a href="([^<]+)"><div'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -260,7 +259,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<article id="post-.+?src="(.+?)" alt="(.+?)">.+?<a href="(.+?)"><div class'
+    sPattern = '<article id="post-.+?src="(https.+?jpg)" alt="(.+?)">.+?<a href="(.+?)"><div class'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
