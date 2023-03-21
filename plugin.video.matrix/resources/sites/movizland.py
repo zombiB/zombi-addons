@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -9,6 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
+from resources.lib.multihost import cMultiup
 from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'movizland'
@@ -17,21 +18,21 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
+# RAMADAN_SERIES = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
 MOVIE_FAM = (URL_MAIN + 'category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category/newmovies/arab/', 'showMovies')
+# MOVIE_AR = (URL_MAIN + 'category/newmovies/arab/', 'showMovies')
 MOVIE_EN = (URL_MAIN + 'category/newmovies/newforeign/', 'showMovies')
 MOVIE_4k = (URL_MAIN + 'category/movies/4k/', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category/newmovies/india/', 'showMovies')
 KID_MOVIES = (URL_MAIN + 'category/newmovies/anime/', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'category/newmovies/turkey/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category/newmovies/asia/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + 'category/newmovies/backs/', 'showPacks')
+# MOVIE_PACK = (URL_MAIN + 'category/newmovies/backs/', 'showPacks')
 
 DOC_NEWS = (URL_MAIN + 'category/newmovies/documentary/', 'showMovies')
 
 SERIE_EN = (URL_MAIN + 'category/series/foreign-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
+# SERIE_AR = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
 SPORT_WWE = (URL_MAIN + 'category/series/wwe/', 'showMovies')
 
 SERIE_TR = (URL_MAIN + 'category/series/turkish-series/', 'showSeries')
@@ -58,8 +59,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 4k أفلام', 'film.png', oOutputParameterHandler)
 	
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
@@ -79,8 +80,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'mslsl.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', 'mslsl.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'mslsl.png', oOutputParameterHandler)
@@ -90,8 +91,18 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مصارعة', 'wwe.png', oOutputParameterHandler)
-	
- 
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/movies/3d/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 3d أفلام', 'film.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/series/netflix-series/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netfilx', 'mslsl.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/newmovies/netflix/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام Netfilx', 'film.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
  
 def showSeriesSearch():
@@ -128,7 +139,7 @@ def showSearchSeries(sSearch = ''):
 
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem">.+?<a href="(.+?)">.+?data-src="(.+?)" class.+?<div class="BlockTitle">(.+?)</div>'
+    sPattern = '<div class="BlockItem">.+?<a href="(.+?)">.+?<img width=".+?" height=".+?" src="([^<]+)" class.+?class="BlockTitle">([^<]+)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -849,7 +860,8 @@ def showHosters2():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    # ([^<]+) (.+?)  .+?    
+    # ([^<]+) (.+?)  .+?
+
     sPattern = '<button onclick=".+?" value="(.+?)" type="submit">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -875,31 +887,6 @@ def showHosters2():
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, aEntry, sThumb)    
 				           
-
-    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-            sHosterUrl = url 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)			           
 
     sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
     oParser = cParser()
