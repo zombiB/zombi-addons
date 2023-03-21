@@ -850,7 +850,56 @@ def showHosters2():
     sHtmlContent = oRequestHandler.request()
 
     # ([^<]+) (.+?)  .+?    
+    sPattern = '<button onclick=".+?" value="(.+?)" type="submit">'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if aResult[0] :
+        for aEntry in aResult[1]:
+            if 'multiup' in aEntry:
+                aResult = cMultiup().GetUrls(aEntry)
+                
+                if (aResult):
+                    for aEntry in aResult:
+                        sHosterUrl = aEntry
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if (oHoster):
+                            oHoster.setDisplayName(sMovieTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            else:      
+                oHoster = cHosterGui().checkHoster(aEntry)
+                if (oHoster):
+                    oHoster.setDisplayName(sMovieTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, aEntry, sThumb)    
 				           
+
+    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            if url.startswith('//'):
+                url = 'http:' + url
+            
+            sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)			           
 
     sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
     oParser = cParser()
