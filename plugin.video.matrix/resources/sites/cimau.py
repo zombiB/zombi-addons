@@ -50,7 +50,11 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'film.png', oOutputParameterHandler)
 
-
+    oOutputParameterHandler.addParameter('siteUrl', 'https://cima4u1.monster/actors/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام النجوم', 'film.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', 'https://cima4u1.monster/netflix/')
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'netflix', 'film.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', 'film.png', oOutputParameterHandler)
