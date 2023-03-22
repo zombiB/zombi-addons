@@ -196,8 +196,16 @@ class cHosterGui:
 
         if ('sbfull' in sHostName):
             return self.getHoster('resolver')
+        if ('sbbrisk' in sHostName):
+            return self.getHoster('resolver')
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
+        if ('streamhide' in sHostName):
+            return self.getHoster('resolver')
+        if ('vidpro' in sHostName):
+            return self.getHoster('samashare')
+        if ('streamvid' in sHostName):
+            return self.getHoster('resolver')
         if ('sblanh' in sHostName):
             return self.getHoster('resolver')
         if ('sbchill' in sHostName):

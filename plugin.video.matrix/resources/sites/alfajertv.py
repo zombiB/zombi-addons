@@ -32,7 +32,7 @@ SERIE_AR = (URL_MAIN + '/genre/arabic-series/', 'showSeries')
 
 REPLAYTV_PLAY = (URL_MAIN + '/genre/plays/', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + '/genre/ramadan2022/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/genre/ramadan2023/', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')

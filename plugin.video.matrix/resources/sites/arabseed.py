@@ -22,7 +22,7 @@ oParser = cParser()
  
 oRequestHandler = cRequestHandler(URL_MAIN)
 sHtmlContent = oRequestHandler.request()
-URL_MAIN='0'
+URL_MAIN=''
     # (.+?) ([^<]+)
 
 sPattern = 'HomeURL = "(.+?)";'
@@ -178,15 +178,6 @@ def showMovies(sSearch = ''):
     r = s.post(sUrl, headers=headers)
     sHtmlContent = r.content.decode('utf8')
 
-    oParser = cParser()
-    sURL_MAIN='0'
-    # (.+?) ([^<]+)
-
-    sPattern = 'HomeURL = "(.+?)";'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sURL_MAIN = aResult[1][0]
     if sSearch:
        import requests
        s = requests.Session()            
@@ -194,7 +185,7 @@ def showMovies(sSearch = ''):
 							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
        data = {'search':psearch,'type':'movies'}
-       r = s.post(sURL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
      # (.+?) ([^<]+) .+?
     sPattern = '</div><a href="(.+?)">.+?data-src="(.+?)" alt="(.+?)">'
@@ -355,15 +346,6 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-    sURL_MAIN='0'
-    # (.+?) ([^<]+)
-
-    sPattern = 'HomeURL = "(.+?)";'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sURL_MAIN = aResult[1][0]
     if sSearch:
        import requests
        s = requests.Session()            
@@ -371,7 +353,7 @@ def showSeries(sSearch = ''):
 							'Referer': Quote(sUrl)}
        psearch = sUrl.rsplit('?find=', 1)[1]
        data = {'search':psearch,'type':'series'}
-       r = s.post(sURL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
+       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/SearchingTwo.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8',errors='ignore')
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
 
@@ -382,7 +364,7 @@ def showSeries(sSearch = ''):
        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
        psearch = sUrl.rsplit('/category/', 1)[1]
        data = {'category':psearch,'currentTermID':psearch}
-       r = s.post(sURL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Home/FilteringShows.php', headers=headers,data = data)
+       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Home/FilteringShows.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8',errors='ignore')
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
     oParser = cParser()
@@ -437,14 +419,6 @@ def showSeasons():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    sURL_MAIN='0'
-    # (.+?) ([^<]+)
-
-    sPattern = 'HomeURL = "(.+?)";'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sURL_MAIN = aResult[1][0]
     # (.+?) .+? ([^<]+)
     sPattern = 'data-id="(.+?)" data-season="(.+?)"><i class="fa fa-folder"></i>الموسم <span>(.+?)</span></li>'
 
@@ -462,7 +436,7 @@ def showSeasons():
             s = requests.Session()            
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
             data = {'post_id':post,'season':pseason}
-            r = s.post(sURL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php', headers=headers,data = data)
+            r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Single/Episodes.php', headers=headers,data = data)
             sHtmlContent = r.content.decode('utf8',errors='ignore')
             sPattern = 'href="([^<]+)">([^<]+)<em>([^<]+)</em>'
             aResult = oParser.parse(sHtmlContent, sPattern)

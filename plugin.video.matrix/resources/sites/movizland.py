@@ -904,7 +904,7 @@ def showHosters2():
     
     #Recuperation infos
     # ([^<]+) (.+?)  .+?   
-
+ 
     sPattern = 'name="code" value="(.+?)">.+?name="siteUrl" value="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
@@ -926,7 +926,7 @@ def showHosters2():
                 url = 'http:' + url
             
             sHosterUrl = url
-            if '?download_' in sHosterUrl:
+            if 'download_' in sHosterUrl:
                 sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'userload' in sHosterUrl:

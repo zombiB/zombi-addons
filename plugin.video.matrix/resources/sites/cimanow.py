@@ -26,7 +26,7 @@ MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85/%
 KID_MOVIES = (URL_MAIN + '/category/افلام-انيميشن/', 'showMovies')
 SERIE_TR = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showSeries')
 
-RAMADAN_SERIES = (URL_MAIN + '/category/رمضان-2022/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category/%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2023/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/', 'showSeries')
 SERIE_AR = (URL_MAIN + '/category/%d8%a7%d9%84%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category/مسلسلات-انيميشن/', 'showSeries')
@@ -335,7 +335,7 @@ def showEps():
     sEnd = '<ul class="tabcontent" id="related">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     # (.+?) .+?  ([^<]+)
-    sPattern = '<li><a href="(.+?)"><img  src="(.+?)" alt="logo" />.+?<em>(.+?)</em>'
+    sPattern = '<li><a href="(.+?)"><img src="(.+?)" alt="logo" />.+?<em>(.+?)</em>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
