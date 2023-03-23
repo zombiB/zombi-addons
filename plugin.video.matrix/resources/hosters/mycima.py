@@ -10,7 +10,7 @@ UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'mycima', 'mycima')
+        iHoster.__init__(self, 'mycima', 'wecima')
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)

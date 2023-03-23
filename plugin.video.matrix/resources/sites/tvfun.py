@@ -102,7 +102,8 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="serie-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="eager" src="(.+?)" alt'
+    sPattern = '<div class="serie-thumb"> <a href="(.+?)" title="(.+?)"> <img loading=".+?" src="(.+?)" alt'
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

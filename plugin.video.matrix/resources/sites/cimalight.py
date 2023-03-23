@@ -343,14 +343,40 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-    
             
 # ([^<]+) .+? (.+?)<a 
     
 
     oParser = cParser()           
     sPattern =  '<li data-embed-id=".+?" data-embed-url="(.+?)"' 
+	
+                                                                 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            sTitle = ""
+            sThumb = sThumb
+            if url.startswith('//'):
+               url = 'http:' + url
+				
+				            
+            sHosterUrl = url 
+            if 'uptobox' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+            
+# ([^<]+) .+? (.+?)
+    
+
+    oParser = cParser()           
+    sPattern =  '<iframe src="(.+?)" frameborder' 
 	
                                                                  
     aResult = oParser.parse(sHtmlContent,sPattern)

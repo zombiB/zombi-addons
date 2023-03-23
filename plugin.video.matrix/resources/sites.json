@@ -22,7 +22,7 @@
         },
         "alarab": {
             "label": "Alarab",
-            "active": "True",
+            "active": "False",
             "url": "https://vod2.alarab.com/"
         },
         "alarabiya": {
@@ -68,7 +68,7 @@
         "arabseed": {
             "label": "arabseed",
             "active": "True",
-            "url": "https://m.arbsd.site/"
+            "url": "https://arbsed.homes/"
         },
         "aracinema_co": {
             "label": "Aramosalsal",
@@ -138,7 +138,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://cima4u1.monster/"
+            "url": "https://cima4u1.motorcycles/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -233,7 +233,7 @@
         "movizland": {
             "label": "Movizland",
             "active": "True",
-            "url": "https://movizland.xyz/"
+            "url": "https://top.movizland.xyz/"
         },
         "pakistani": {
             "label": "Pakistani",
