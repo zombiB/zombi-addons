@@ -145,6 +145,11 @@
             "active": "True",
             "url": "https://detectiveconanar.com/"
         },
+        "daktna": {
+            "label": "Daktna",
+            "active": "True",
+            "url": "https://z.daktna.cam/"
+        },
         "docarabic": {
             "label": "Docarabic",
             "active": "True",

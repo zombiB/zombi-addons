@@ -196,8 +196,6 @@ class cHosterGui:
 
         if ('sbfull' in sHostName):
             return self.getHoster('resolver')
-        if ('sbbrisk' in sHostName):
-            return self.getHoster('resolver')
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
         if ('streamhide' in sHostName):
@@ -290,6 +288,9 @@ class cHosterGui:
         if ('linkbox' in sHostName) or ('sharezweb' in sHostName):
             return self.getHoster('resolver')
             
+        if ('vidoba' in sHostName):
+            return self.getHoster('vidoba')
+            
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
             
@@ -324,15 +325,15 @@ class cHosterGui:
             return self.getHoster('myvid')
             
         if ('streamwire' in sHostName) or ('vup' in sHostName):
-            return self.getHoster('streamwire')
+            return self.getHoster('resolver')
             
         if ('vidhd' in sHostName) or ('oktube' in sHostName):
             return self.getHoster('vidhd')
             
-        if ('nowvid' in sHostName):
+        if ('nowvid' in sHostName) or ('vegaasvid' in sHostName):
             return self.getHoster('govid')
             
-        if ('skyvid' in sHostName):
+        if ('skyvid' in sHostName) or ('gvadz' in sHostName):
             return self.getHoster('skyvid')
             
         if ('seeeed' in sHostName):

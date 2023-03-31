@@ -339,7 +339,7 @@ def showEpisodes():
 
     postdata = {'seasonID':postid}
     link = URL_MAIN + '/series-ajax/?_action=get_season_list&_post_id='+postid
-    headers = {'Host': 'www.faselhd.io',
+    headers = {'Host': 'www.faselhd.ac',
 							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36',
 							'Referer': sUrl,
 							'origin': URL_MAIN}
@@ -428,8 +428,7 @@ def showEpisodes1():
         sHtmlContent1 = aResult[1][0]
 	
      # (.+?) ([^<]+) .+?
-    sPattern = '<a href="([^<]+)">([^<]+)</a>'
-
+    sPattern = '<a href="([^<]+)>([^<]+)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent1, sPattern)
 	
