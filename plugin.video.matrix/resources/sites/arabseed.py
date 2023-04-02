@@ -51,6 +51,7 @@ ANIM_NEWS = (URL_MAIN + '/category/2496', 'showSeries')
 
 REPLAYTV_PLAY = (URL_MAIN + '/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showMovies')
 REPLAYTV_NEWS = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
+SPORT_WWE = (URL_MAIN + '/category/%d9%85%d8%b5%d8%a7%d8%b1%d8%b9%d8%a9/', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/find/?find=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/find/?find=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'

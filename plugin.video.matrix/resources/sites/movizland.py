@@ -18,28 +18,42 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_FAM = (URL_MAIN + 'category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
-MOVIE_AR = (URL_MAIN + 'category/newmovies/arab/', 'showMovies')
-MOVIE_EN = (URL_MAIN + 'category/newmovies/newforeign/', 'showMovies')
-MOVIE_4k = (URL_MAIN + 'category/movies/4k/', 'showMovies')
-MOVIE_HI = (URL_MAIN + 'category/newmovies/india/', 'showMovies')
-KID_MOVIES = (URL_MAIN + 'category/newmovies/anime/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + 'category/newmovies/turkey/', 'showMovies')
-MOVIE_ASIAN = (URL_MAIN + 'category/newmovies/asia/', 'showMovies')
-MOVIE_PACK = (URL_MAIN + 'category/newmovies/backs/', 'showPacks')
+oParser = cParser()
+ 
+oRequestHandler = cRequestHandler(URL_MAIN)
+sHtmlContent = oRequestHandler.request()
+URL_MAIN=''
+    # (.+?) ([^<]+)
 
-DOC_NEWS = (URL_MAIN + 'category/newmovies/documentary/', 'showMovies')
+sPattern = '<div class="Logo"><a href="(.+?)" title='
+aResult = oParser.parse(sHtmlContent, sPattern)
+    
+if (aResult[0]):
+    URL_MAIN = aResult[1][0]
+VSlog(URL_MAIN)
 
-SERIE_EN = (URL_MAIN + 'category/series/foreign-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + 'category/series/arab-series/', 'showSeries')
-SPORT_WWE = (URL_MAIN + 'category/series/wwe/', 'showMovies')
+MOVIE_FAM = (URL_MAIN + '/category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/newmovies/arab/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/newmovies/newforeign/', 'showMovies')
+MOVIE_4k = (URL_MAIN + '/category/movies/4k/', 'showMovies')
+MOVIE_HI = (URL_MAIN + '/category/newmovies/india/', 'showMovies')
+KID_MOVIES = (URL_MAIN + '/category/newmovies/anime/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/newmovies/turkey/', 'showMovies')
+MOVIE_ASIAN = (URL_MAIN + '/category/newmovies/asia/', 'showMovies')
+MOVIE_PACK = (URL_MAIN + '/category/newmovies/backs/', 'showPacks')
 
-SERIE_TR = (URL_MAIN + 'category/series/turkish-series/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + 'category/series/anime-series/', 'showSeries')
+DOC_NEWS = (URL_MAIN + '/category/newmovies/documentary/', 'showMovies')
+
+SERIE_EN = (URL_MAIN + '/category/series/foreign-series/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category/series/arab-series/', 'showSeries')
+SPORT_WWE = (URL_MAIN + '/category/series/wwe/', 'showMovies')
+
+SERIE_TR = (URL_MAIN + '/category/series/turkish-series/', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/category/series/anime-series/', 'showSeries')
 
 
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSearchSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -835,32 +849,6 @@ def showHosters2():
                     oHoster.setDisplayName(sMovieTitle)
                     oHoster.setFileName(sMovieTitle)
                     cHosterGui().showHoster(oGui, oHoster, aEntry, sThumb)
-    
-    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            if url.startswith('//'):
-                url = 'http:' + url
-            
-            sHosterUrl = url 
-            if 'userload' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sMovieTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    
     #Recuperation infos
     # ([^<]+) (.+?)  .+?   
  
@@ -924,6 +912,61 @@ def showHosters2():
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    # ([^<]+) (.+?)  .+?   
+ 
+    sPattern = 'class="postPlayer">.+?<a href="(.+?)" rel="nofollow">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    
+    if (aResult[0]):
+        ssite = aResult[1][0]
+        oRequestHandler = cRequestHandler(ssite)
+        oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
+        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
+        data = oRequestHandler.request() 
+        sPattern = 'data-srcout="(.+?)" FRAMEBORDER'
+        aResult = oParser.parse(data, sPattern)
+        if aResult[0]:
+           for aEntry in aResult[1]:
+            
+               url = aEntry
+               sHosterUrl = url
+               if url.startswith('//'):
+                  url = 'https:' + url
+               if 'moshahda' in sHosterUrl:
+                   sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            
+
+               oHoster = cHosterGui().checkHoster(sHosterUrl)
+               if oHoster:
+                   oHoster.setDisplayName(sMovieTitle)
+                   oHoster.setFileName(sMovieTitle)
+                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
+    
+    sPattern = 'allowfullscreen data-srcout="([^<]+)" FRAMEBORDER'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            if url.startswith('//'):
+                url = 'http:' + url
+            
+            sHosterUrl = url 
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    
 				
 
                 
