@@ -1,10 +1,10 @@
-#-*- coding: utf-8 -*-
+﻿#-*- coding: utf-8 -*-
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
 #http://uqload.com/embed-xxx.html
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import dialog, VSlog
 UA = 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
 
 class cHoster(iHoster):
@@ -19,6 +19,11 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
+        oDialog = dialog()
+
+        if 'File was deleted' in sHtmlContent:
+            oDialog.VSerror("للأسف تم حذف الفيديو")
+            return
 
         sPattern1 = 'sources.+?"([^"]+mp4)"'
 

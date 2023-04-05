@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+﻿#-*- coding: utf-8 -*-
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
 #https://sama-share.com/embed-shsaa6s49l55-750x455.html
 from resources.lib.handler.requestHandler import cRequestHandler
@@ -28,6 +28,11 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
+        from resources.lib.comaddon import dialog
+        oDialog = dialog()
+        if 'File was deleted' in sHtmlContent:
+            oDialog.VSerror("لم يعد الملف متاحًا حيث انتهت صلاحيته أو تم حذفه.")
+            return
 
         oParser = cParser()
         sPattern =  '(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>'

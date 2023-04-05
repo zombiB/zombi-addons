@@ -19,11 +19,17 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
+        api_call = False
 
         sUrl = self._url
  
         oRequest = cRequestHandler(sUrl)
         sHtmlContent = oRequest.request()
+        from resources.lib.comaddon import dialog
+        oDialog = dialog()
+        if 'File is no longer available as it expired or has been deleted.' in sHtmlContent:
+            oDialog.VSerror("لم يعد الملف متاحًا حيث انتهت صلاحيته أو تم حذفه.")
+            return
 
 
         oParser = cParser()
@@ -42,9 +48,6 @@ class cHoster(iHoster):
         if (aResult[0] == True):
             api_call = aResult[1][0] +'|User-Agent=' + UA + '&Referer=' + self._url
                 
-        if (api_call):
-            return True, api_call
-					
         if (api_call):
             return True, api_call
 

@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+﻿#-*- coding: utf-8 -*-
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
 #https://www.vidbm.com/emb.html?xxx=img.vidbm.com/xxx
 #https://www.vidbm.com/embed-xxx.html?auto=1
@@ -28,6 +28,11 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
+        from resources.lib.comaddon import dialog
+        oDialog = dialog()
+        if 'File is no longer available as it expired or has been deleted.' in sHtmlContent:
+            oDialog.VSerror("لم يعد الملف متاحًا حيث انتهت صلاحيته أو تم حذفه.")
+            return
 
         oParser = cParser()
         
