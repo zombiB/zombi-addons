@@ -315,17 +315,6 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
-    oParser = cParser()
-    
-    #Recuperation infos
-    sNote = ''
-
-    sPattern = '<h2>القصة</h2><p>([^<]+)</p>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sNote = aResult[1][0]
-    
 
     oParser = cParser()
             
@@ -348,12 +337,10 @@ def showEpisodes():
                oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
  
-                  sTitle = aEntry[2]
-                  sTitle = 'E'+sTitle
                   if "مدبلج" in sMovieTitle:
                      sMovieTitle = sMovieTitle.replace("مدبلج","")
                      sMovieTitle = "مدبلج"+sMovieTitle
-                  sTitle = sMovieTitle+sTitle
+                  sTitle = sMovieTitle+' E'+ aEntry[2]
                   sUrl = aEntry[0]
                   sThumb = sThumb
                   sDesc = ''

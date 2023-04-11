@@ -36,7 +36,7 @@ import xbmcvfs, re
 
 Objectif = ""
 DimTab = []
-STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.vstream'
+STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.matrix'
 
 
 class CliSolver(object):
@@ -78,7 +78,7 @@ class CliDynamicSolver(CliSolver):
         solver.finish()
 
     def show_imageNewTile(self, image):
-        oSolver = cInputWindowYesNo(captcha=image, msg="Est-ce que cette image est en lien avec le thème ?", roundnum=1)
+        oSolver = cInputWindowYesNo(captcha=image, msg="Is this image related to the theme?", roundnum=1)
         retArg = oSolver.get()
         return retArg
 

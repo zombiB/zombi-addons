@@ -40,7 +40,7 @@ API_JS_URL = "https://www.google.com/recaptcha/api.js"
 JS_URL_TEMPLATE = "https://www.gstatic.com/recaptcha/releases/{}/recaptcha__fr.js"
 
 STRINGS_VERSION = "0.1.0"
-STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.vstream'
+STRINGS_PATH = 'special://home/userdata/addon_data/plugin.video.matrix'
 
 DYNAMIC_SELECT_DELAY = 4.5  # seconds
 FIND_GOAL_SEARCH_DISTANCE = 10
