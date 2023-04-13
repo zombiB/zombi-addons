@@ -104,6 +104,7 @@ def showMoviesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern = "<a href='([^<]+)' class=inactive>"
@@ -170,6 +171,7 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     sPattern = "<a href='([^<]+)' class=inactive>"
@@ -311,7 +313,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-    sPattern = "<img src='(.+?)'>.+?class='numerando'>(.+?)</div>.+?<a href='(.+?)'>"
+    sPattern = '<img src=(.+?)></noscript></div><div class="numerando">(.+?)</div><div class="episodiotitle"><a href="(.+?)">'
  
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -325,7 +327,7 @@ def showEpisodes():
             sSea = aEntry[1].split('-')[0].replace(" ","")
             sSea = " S"+sSea
             sTitle = sMovieTitle+' '+sSea+sEp
-            siteUrl = aEntry[2]
+            siteUrl = aEntry[2].replace("'","")
             sThumb =  aEntry[0]
             sDesc = ''
 			
