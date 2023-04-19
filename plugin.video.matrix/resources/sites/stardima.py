@@ -313,7 +313,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-    sPattern = '<img src=(.+?)></noscript></div><div class="numerando">(.+?)</div><div class="episodiotitle"><a href="(.+?)">'
+    sPattern = '<img src=(.+?)></noscript>.+?numerando.+?>(.+?)</div>.+?episodiotitle.+?><a href=(.+?)>'
  
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -327,8 +327,8 @@ def showEpisodes():
             sSea = aEntry[1].split('-')[0].replace(" ","")
             sSea = " S"+sSea
             sTitle = sMovieTitle+' '+sSea+sEp
-            siteUrl = aEntry[2].replace("'","")
-            sThumb =  aEntry[0]
+            siteUrl = aEntry[2].replace("'","").replace('"',"")
+            sThumb =  aEntry[0].replace("'","").replace('"',"")
             sDesc = ''
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -412,55 +412,32 @@ def showHosters():
            r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
            sHtmlContent = r.content.decode('utf8')
     # (.+?) .+? ([^<]+)
-               
-
-    sPattern =  '"embed_url":".+?id=(.+?)",'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-       total = len(aResult[1])
-       for aEntry in aResult[1]:       
-           url = aEntry
-           if url.startswith('//'):
-              url = 'https:' + url
-				
-					
-            
-           sHosterUrl = url 
-           oHoster = cHosterGui().checkHoster(sHosterUrl)
-           if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    # (.+?) .+? ([^<]+)
  
-    import base64              
+           import base64              
 
-    sPattern =  '"embed_url":"(.+?)",'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+           sPattern =  '"embed_url":"(.+?)",'
+           oParser = cParser()
+           aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0]:
-       total = len(aResult[1])
-       for aEntry in aResult[1]:       
-           url = aEntry
-           url = base64.b64decode(url).decode("utf-8")
-           if '/?id=' in url:
-              url = url.split('/?id=', 1)[1]
-           if url.startswith('//'):
-              url = 'https:' + url
+           if aResult[0]:
+              total = len(aResult[1])
+              for aEntry in aResult[1]:       
+                  url = aEntry
+                  url = base64.b64decode(url).decode("utf-8")
+                  if '/?id=' in url:
+                     url = url.split('/?id=', 1)[1]
+                  if url.startswith('//'):
+                     url = 'https:' + url
 				
 					
             
-           sHosterUrl = url 
-           oHoster = cHosterGui().checkHoster(sHosterUrl)
-           if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                  sHosterUrl = url
+                  oHoster = cHosterGui().checkHoster(sHosterUrl)
+                  if oHoster:
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
                 
     oGui.setEndOfDirectory()				
