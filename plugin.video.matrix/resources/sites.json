@@ -15,6 +15,11 @@
             "active": "True",
             "url": "https://www.ahdaf-kooora.com/"
         },
+        "akoam": {
+            "label": "Akoam",
+            "active": "True",
+            "url": "https://akw.to/old/"
+        },
         "akwam": {
             "label": "Akwam",
             "active": "True",
