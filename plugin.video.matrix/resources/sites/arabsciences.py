@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager
 from resources.lib.parser import cParser
+from resources.lib.util import cUtil
  
 SITE_IDENTIFIER = 'arabsciences'
 SITE_NAME = 'Arabsciences'
@@ -92,7 +93,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  
 # ([^<]+) .+?
-    sPattern = '<a aria-label="(.+?)" href="(.+?)" class="post-thumb">.+?data-orig-file="(.+?)" data.+?class="post-excerpt">([^<]+)</p>'
+    sPattern = '<a aria-label="(.+?)" href="(.+?)" class="post-thumb">.+?data-breeze="(.+?)" src.+?class="post-excerpt">([^<]+)</p>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -111,10 +112,11 @@ def showMovies(sSearch = ''):
                 continue
  
             sTitle = aEntry[0]
-            
+            sTitle = cUtil().unescape(sTitle)
             sThumb = aEntry[2]
             siteUrl = aEntry[1]
             sDesc = aEntry[3]
+            sDesc = cUtil().unescape(sDesc)
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

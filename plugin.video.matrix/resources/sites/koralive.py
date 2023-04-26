@@ -79,12 +79,28 @@ def showLive():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
     URLMAIN = sUrl.split('/')[2]
     URLMAIN = 'https://' + URLMAIN
+    if "?src=" in sUrl:
+       slink = sUrl.split('?src=')[1]
+       VSlog(slink)
+    sHtmlContent2 =""
+    sHtmlContent1 =""
+    sHtmlContent3 =""
+      # (.+?) ([^<]+) .+?
+    sPattern = "iframe.src = ([^<]+)+link"
+    aResult = oParser.parse(sHtmlContent, sPattern)   
+    if (aResult[0]):
+        sUrl = aResult[1][0].replace("'","")
+        VSlog(sUrl)
+        sUrl = sUrl+slink
+        VSlog(sUrl)
+        oRequestHandler = cRequestHandler(sUrl)
+        sHtmlContent3 = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
     sPattern = 'iframe" src="(.+?)" width'
     aResult = oParser.parse(sHtmlContent, sPattern)   
@@ -92,6 +108,7 @@ def showLive():
         sUrl = aResult[1][0]
         if sUrl.startswith('/'):
            sUrl = URLMAIN + sUrl
+        VSlog(sUrl)
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
     # (.+?) # ([^<]+) .+? 
@@ -102,12 +119,12 @@ def showLive():
            siteUrl = aResult[1][0]
            if siteUrl.startswith('/'):
                siteUrl = URLMAIN + siteUrl
-       import requests    
-       oRequestHandler = cRequestHandler(siteUrl)
-       hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-       St=requests.Session()
-       sHtmlContent2 = St.get(siteUrl,headers=hdr)
-       sHtmlContent2 = sHtmlContent2.content.decode('utf-8')
+           import requests    
+           oRequestHandler = cRequestHandler(siteUrl)
+           hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
+           St=requests.Session()
+           sHtmlContent2 = St.get(siteUrl,headers=hdr)
+           sHtmlContent2 = sHtmlContent2.content.decode('utf-8')
     if 'mobile' in sHtmlContent:
        sPattern = '_iframe = "(.+?)";'
        aResult = oParser.parse(sHtmlContent, sPattern)
@@ -115,13 +132,13 @@ def showLive():
            siteUrl = aResult[1][0]
            if siteUrl.startswith('/'):
                siteUrl = URL_MAIN + siteUrl
-       import requests    
-       oRequestHandler = cRequestHandler(siteUrl)
-       hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-       St=requests.Session()
-       sHtmlContent1 = St.get(siteUrl,headers=hdr)
-       sHtmlContent1 = sHtmlContent1.content.decode('utf-8')
-       sHtmlContent = sHtmlContent2+sHtmlContent1
+           import requests    
+           oRequestHandler = cRequestHandler(siteUrl)
+           hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
+           St=requests.Session()
+           sHtmlContent1 = St.get(siteUrl,headers=hdr)
+           sHtmlContent1 = sHtmlContent1.content.decode('utf-8')
+    sHtmlContent = sHtmlContent3+sHtmlContent2+sHtmlContent1
 
     sPattern = 'href="(.+?)">(.+?)</a>'   
     aResult = oParser.parse(sHtmlContent, sPattern) 

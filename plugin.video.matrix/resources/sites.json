@@ -58,7 +58,7 @@
         "animezid": {
             "label": "Animezid",
             "active": "True",
-            "url": "https://animezid.net/"
+            "url": "https://animezid.com/"
         },
         "arabsciences": {
             "label": "Arabsciences",
@@ -228,7 +228,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://koora.360kora.live"
+            "url": "https://alkoora.360koralive.com/"
         },
         "lodynet": {
             "label": "Lodynet",
