@@ -15,9 +15,21 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
+oParser = cParser()
+ 
+oRequestHandler = cRequestHandler(URL_MAIN)
+sHtmlContent = oRequestHandler.request()
+    # (.+?) ([^<]+)
+
+sPattern = 'href="(.+?)" rel="nofollow">انقر هنا لدخول موقع قصة عشق</a>'
+aResult = oParser.parse(sHtmlContent, sPattern)
+    
+if (aResult[0]):
+    URL_MAIN = aResult[1][0]
+    VSlog(URL_MAIN)
 
 SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
-MOVIE_TURK = (URL_MAIN + '/category/الأفلام-التركية/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')

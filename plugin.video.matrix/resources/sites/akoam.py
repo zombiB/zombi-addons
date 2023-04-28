@@ -132,7 +132,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="tags_box"><a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
+    sPattern = '<div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -194,7 +194,7 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="tags_box"><a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
+    sPattern = '<div class="tags_box">.+?<a href="(.+?)">.+?style=(.+?)>.+?<h1>(.+?)</h1>'
 
 
     oParser = cParser()

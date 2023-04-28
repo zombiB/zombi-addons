@@ -34,7 +34,7 @@ VSlog(URL_MAIN)
 
 MOVIE_FAM = (URL_MAIN + '/category/movies/foreign/?genre=%d8%b9%d8%a7%d8%a6%d9%84%d9%8a', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/newmovies/arab/', 'showMovies')
-MOVIE_EN = (URL_MAIN + '/category/newmovies/newforeign/', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/newmovies/foreign/', 'showMovies')
 MOVIE_4k = (URL_MAIN + '/category/movies/4k/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/newmovies/india/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/newmovies/anime/', 'showMovies')
@@ -142,7 +142,7 @@ def showSearchSeries(sSearch = ''):
 
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="BlockItem">.+?<a href="(.+?)">.+?data-src="(.+?)" class.+?<div class="BlockTitle">(.+?)</div>'
+    sPattern = '<div class="BlockItem"><a href="(.+?)">.+?<img width=".+?" height=".+?" src="(.+?)" class.+?<div class="BlockTitle">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

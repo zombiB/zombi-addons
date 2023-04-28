@@ -29,6 +29,7 @@ aResult = oParser.parse(sHtmlContent, sPattern)
     
 if (aResult[0]):
     URL_MAIN = aResult[1][0]
+    VSlog(URL_MAIN)
 
 MOVIE_CLASSIC = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%84%d8%a7%d8%b3%d9%8a%d9%83%d9%8a%d9%87/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/foreign-movies4/', 'showMovies')

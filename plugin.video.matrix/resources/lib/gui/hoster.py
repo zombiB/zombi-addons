@@ -246,6 +246,16 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost('sbanh')
             return f
+        if ('sbhight' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('viewsb')
+            return f
+        if ('sbface' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('viewsb')
+            return f
         if ('viewsb' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -317,12 +327,6 @@ class cHosterGui:
             f.setRealHost('streamcherry')
             return f
 			
-        if ('twitch' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost('twitch')
-            return f
-			
         if ('clicknupload' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -331,6 +335,9 @@ class cHosterGui:
 				
         if ('vidspeed' in sHostName):
             return self.getHoster('vidspeeds')
+				
+        if ('rumble' in sHostName):
+            return self.getHoster('rumble')
 				
         if ('megaup.' in sHostName):
             return self.getHoster('megaup')

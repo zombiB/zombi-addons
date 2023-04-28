@@ -16,7 +16,8 @@ class cMultiup:
         sHtmlContent = GetHtml(url)
         sPattern = '<form action="(.+?)" method="post"'
         result = re.findall(sPattern, sHtmlContent)
-        url = 'https://multiup.org' + ''.join(result[0])
+        if result:
+           url = 'https://multiup.org' + ''.join(result[0])
 
         NewUrl = url.replace('https://www.multiup.org/fr/download', 'https://www.multiup.org/fr/mirror')\
                     .replace('https://www.multiup.eu/fr/download', 'https://www.multiup.org/fr/mirror')\

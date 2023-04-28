@@ -143,7 +143,7 @@ def showSeriesSearch(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<div class="thumbnail.+?<a href="(.+?)">.+?src="(.+?)" alt="(.+?)" /><span class="tvshows">'
+    sPattern = '<div class="thumbnail.+?"><a href="(.+?)"><img src="(.+?)" alt="(.+?)" /><span class="tvshows">'
 		
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

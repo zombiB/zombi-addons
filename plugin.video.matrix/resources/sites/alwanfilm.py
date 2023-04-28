@@ -17,9 +17,9 @@ SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_CLASSIC = (URL_MAIN + '/genre/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%85%d9%84%d9%88%d9%86%d8%a9/', 'showMovies')
+MOVIE_CLASSIC = (URL_MAIN + '/movies/', 'showMovies')
 
-REPLAYTV_PLAY = (URL_MAIN + '/genre/%d9%85%d8%b3%d8%b1%d8%ad%d9%8a%d8%a7%d8%aa-%d9%85%d9%84%d9%88%d9%86%d8%a9/', 'showMovies')
+REPLAYTV_PLAY = (URL_MAIN + '/genre/comedy/', 'showMovies')
 
 MOVIE_ANNEES = (True, 'showYears')
 
@@ -57,8 +57,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
   # .+? ([^<]+) (.+?) .+?
-
-    sPattern = 'data-src="([^<]+)" alt="([^<]+)" data.+?<a href="([^<]+)"><div '
+    sPattern = '<article.+?<img src="([^<]+)" alt="([^<]+)"><div.+?href="([^<]+)"><div.+?</article>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -79,6 +78,10 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[0]
             sDub = ''
             m = re.search('باﻷلوان', sTitle)
+            if m:
+                sDub = str(m.group(0))
+                sTitle = sTitle.replace(sDub,'')
+            m = re.search('Colorized', sTitle)
             if m:
                 sDub = str(m.group(0))
                 sTitle = sTitle.replace(sDub,'')
@@ -135,30 +138,41 @@ def showServer():
     
     #(.+?) 
     sId = ''
-    Host = URL_MAIN.split('//')[1]
 
-    sPattern = "data-post='(.+?)'"
+    sPattern = "data-post='(.+?)' data-nume='(.+?)'"
     aResult = oParser.parse(sHtmlContent, sPattern)
-    if (aResult[0]):
-        sId = aResult[1][0]
-    sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/'+sId+'/movie/2'
-    import requests
-    sgn = requests.Session()
-    headers = {'Host': Host,
-     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
-     'Accept': '*/*',
-     'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-     'X-Requested-With': 'XMLHttpRequest',
-     'Referer': sUrl,
-     'Connection': 'keep-alive'}
-    data = sgn.get(sUrl, headers=headers).content
-    sHtmlContent = data.decode('utf8',errors='ignore')
-    
+    if aResult[0]:
+        for aEntry in aResult[1]:       
+            sId = aEntry[0]
+            sNO = aEntry[1]
+    sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/'+sId+'/movie/'+sNO
+    oRequestHandler = cRequestHandler(sUrl)
+    sData = oRequestHandler.request()
+    sData = sData.replace('\\', '')
     # (.+?) .+? ([^<]+)        	
+    sPattern = 'src="([^<]+)" frameborder'
+    oParser = cParser()
+    aResult = oParser.parse(sData, sPattern)
+
+	
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry
+            if url.startswith('//'):
+               url = 'http:' + url
+				
+					
+            
+            sHosterUrl = url 
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+               oHoster.setDisplayName(sMovieTitle)
+               oHoster.setFileName(sMovieTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)        	
     sPattern = '"embed_url":"(.+?)",'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sData, sPattern)
 
 	
     if aResult[0]:
