@@ -26,6 +26,7 @@ class cHoster(iHoster):
         if aResult[0] is True:
            sHtmlContent = cPacker().unpack(aResult[1][0])
 
+        VSlog(sHtmlContent)
 
         sPattern = '{file:"([^"]+)"}]'
         aResult = oParser.parse(sHtmlContent, sPattern)

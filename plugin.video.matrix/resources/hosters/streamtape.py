@@ -19,14 +19,16 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
+        VSlog(sHtmlContent)
         
-        sPattern1 = 'ById\(\'ideoo.+?=\s*["\']([^"\']+)[\'"].+?["\']([^"\']+)\'\)'
+        sPattern1 = 'style="display:none;">(.+?)</div>'
         
         aResult = oParser.parse(sHtmlContent, sPattern1)
+        VSlog(aResult)
 
         if aResult[0]:
-            url = aResult[1][0][1]
-            api_call = 'https://streamtape.com/get_video' + url[url.find('?'):] + "&stream=1"
+            url = aResult[0][1]
+            api_call = 'https:/' + url
 
         if api_call:
             return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url

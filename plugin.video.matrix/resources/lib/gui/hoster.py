@@ -189,7 +189,7 @@ class cHosterGui:
                             'giga', 'megadrive', 'downace', 'clickopen', 'supervideo',
                             'jawcloud', 'kvid', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
-                            'upstream', 'pstream', 'vudeo', 'dood', 'vidia', 'streamtape', 'uptobox', 'uplea',
+                            'upstream', 'pstream', 'vudeo', 'dood', 'vidia', 'uptobox', 'uplea',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'brightcove', 'detectiveconanar']
 
         val = next((x for x in supported_player if x in sHostName), None)
@@ -247,13 +247,20 @@ class cHosterGui:
             f.setRealHost('sbanh')
             return f
         if ('sbhight' in sHostName):
-            return self.getHoster('viewsb')
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('viewsb')
             return f
         if ('sbface' in sHostName):
-            return self.getHoster('viewsb')
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('viewsb')
             return f
         if ('viewsb' in sHostName):
-            return self.getHoster('viewsb')
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('viewsb')
+            return f
         if ('tubeload' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -331,6 +338,12 @@ class cHosterGui:
 				
         if ('rumble' in sHostName):
             return self.getHoster('rumble')
+				
+        if ('streamtape' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('streamtape')
+            return f
 				
         if ('megaup.' in sHostName):
             return self.getHoster('megaup')
