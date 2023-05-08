@@ -247,20 +247,13 @@ class cHosterGui:
             f.setRealHost('sbanh')
             return f
         if ('sbhight' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost('viewsb')
+            return self.getHoster('viewsb')
             return f
         if ('sbface' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost('viewsb')
+            return self.getHoster('viewsb')
             return f
         if ('viewsb' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost('viewsb')
-            return f
+            return self.getHoster('viewsb')
         if ('tubeload' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
