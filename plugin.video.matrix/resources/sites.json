@@ -282,7 +282,7 @@
         },
         "toonsland": {
             "label": "Toonsland",
-            "active": "True",
+            "active": "False",
             "url": "https://www.toonsland.site/"
         },
         "topimdb": {
@@ -293,12 +293,12 @@
         "tuktukcinema": {
             "label": "Tuktukcinema",
             "active": "True",
-            "url": "https://tuktukcinema.pro/"
+            "url": "https://w.tuktukcinema.tv/"
         },
         "tvfun": {
             "label": "Tvfun",
             "active": "True",
-            "url": "https://m.tvfun.me/"
+            "url": "https://s.tvfun.me/"
         },
         "tvnine": {
             "label": "Tv96",

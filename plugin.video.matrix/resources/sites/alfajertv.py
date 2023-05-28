@@ -394,7 +394,7 @@ def showEpisodes():
     if (aResult[0]):
         sNote = aResult[1][0]
 # ([^<]+) .+? 
-    sPattern = "<div class='imagen'><a href='([^<]+)'><img src='([^<]+)'></a></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='.+?'>(.+?)</a> <span class='date'>"
+    sPattern = '<div class="imagen"><a href="([^<]+)"><img src="([^<]+)"></a></div><div class="numerando">([^<]+)</div><div class="episodiotitle"><a href=".+?">(.+?)</a> <span class="date">'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 

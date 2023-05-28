@@ -42,5 +42,12 @@ class cHoster(iHoster):
 
             if api_call:
                 return True, api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
+        sPattern =  '"playbackUrl": "(.+?)"' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        VSlog(aResult)  
+        if aResult[0]:
+           api_call = aResult[1][0].replace("hhttps","https") 
+           api_call = api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
+           VSlog(api_call) 
 
         return False, False
