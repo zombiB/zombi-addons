@@ -39,15 +39,15 @@ MOVIE_HI = (URL_MAIN + '/category/indian-movies/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/asian-movies/', 'showMovies')
 MOVIE_TURK = (URL_MAIN + '/category/turkish-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%86%d9%8a%d9%85%d9%8a%d8%b4%d9%86//', 'showMovies')
-SERIE_TR = (URL_MAIN + '/category/turkish-series-1/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/index.php?cat=2925', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/category/25308', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/category/72239', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/category/76025', 'showSeries')
-SERIE_EN = (URL_MAIN + '/category/foreign-series/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/category/arabic-series/', 'showSeries')
+SERIE_EN = (URL_MAIN + '/index.php?cat=4', 'showSeries')
+SERIE_AR = (URL_MAIN + '/index.php?cat=4257', 'showSeries')
 
-RAMADAN_SERIES = (URL_MAIN + '/category/ramadan-series-2023/', 'showSeries')
-ANIM_NEWS = (URL_MAIN + '/category/cartoon-series/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/index.php?cat=318535', 'showSeries')
+ANIM_NEWS = (URL_MAIN + '/index.php?cat=2496', 'showSeries')
 
 REPLAYTV_PLAY = (URL_MAIN + '/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B9%D8%B1%D8%A8%D9%8A%D9%87/', 'showMovies')
 REPLAYTV_NEWS = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC-%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A%D8%A9', 'showMovies')
@@ -363,7 +363,10 @@ def showSeries(sSearch = ''):
        import requests
        s = requests.Session()            
        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
-       psearch = sUrl.rsplit('/category/', 1)[1]
+       if '/category/' in sUrl:
+           psearch = sUrl.rsplit('/category/', 1)[1]
+       if 'index.php' in sUrl:
+           psearch = sUrl.rsplit('/index.php?cat=', 1)[1]
        data = {'category':psearch,'currentTermID':psearch}
        r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Home/FilteringShows.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8',errors='ignore')

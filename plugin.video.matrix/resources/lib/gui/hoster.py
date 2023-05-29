@@ -202,6 +202,8 @@ class cHosterGui:
 
         if ('sbfull' in sHostName):
             return self.getHoster('viewsb')
+        if ('sbrapid' in sHostName):
+            return self.getHoster('viewsb')
         if ('lvturbo' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -363,6 +365,9 @@ class cHosterGui:
             
         if ('veehd.' in sHostName):
             return self.getHoster('veehd')
+            
+        if ('film77' in sHostName):
+            return self.getHoster('film77')
 				
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
             return self.getHoster('streamz')

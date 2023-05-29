@@ -392,8 +392,10 @@ def showHosters():
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     from resources.lib.util import Quote
     cook = oRequestHandler.GetCookies()
+ # ([^<]+) .+? (.+?)
             
-    sPattern =  "data-type='(.+?)' data-post='(.+?)' data-nume='(.+?)'>" 
+    sPattern =  'data-type="(.+?)" data-post="(.+?)" data-nume="(.+?)">'
+	
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
        total = len(aResult[1])
@@ -425,6 +427,55 @@ def showHosters():
               for aEntry in aResult[1]:       
                   url = aEntry
                   url = base64.b64decode(url).decode("utf-8")
+                  VSlog(url)
+                  if '/?id=' in url:
+                     url = url.split('/?id=', 1)[1]
+                  if url.startswith('//'):
+                     url = 'https:' + url
+				
+					
+            
+                  sHosterUrl = url
+                  oHoster = cHosterGui().checkHoster(sHosterUrl)
+                  if oHoster:
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+				
+    sPattern =  "data-type='(.+?)' data-post='(.+?)' data-nume='(.+?)'>"
+	
+    aResult = oParser.parse(sHtmlContent,sPattern)
+    if aResult[0]:
+       total = len(aResult[1])
+       for aEntry in aResult[1]: 
+           m3url = aEntry[1]
+           mtype = aEntry[0]
+           mnume = aEntry[2]
+           import requests
+           s = requests.Session()            
+           headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
+							'cookie': cook,
+							'host': 'stardima.co',
+							'origin': 'https://stardima.co',
+							'Referer': Quote(sUrl)}
+           data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
+           r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
+           sHtmlContent = r.content.decode('utf8')
+    # (.+?) .+? ([^<]+)
+ 
+           import base64              
+
+           sPattern =  '"embed_url":"(.+?)",'
+           oParser = cParser()
+           aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+           if aResult[0]:
+              total = len(aResult[1])
+              for aEntry in aResult[1]:       
+                  url = aEntry
+                  url = base64.b64decode(url).decode("utf-8")
+                  VSlog(url)
                   if '/?id=' in url:
                      url = url.split('/?id=', 1)[1]
                   if url.startswith('//'):
