@@ -17,7 +17,20 @@ SITE_NAME = 'Cimaclub'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+
+oParser = cParser()
  
+oRequestHandler = cRequestHandler(URL_MAIN)
+sHtmlContent = oRequestHandler.request()
+    # (.+?) ([^<]+)
+
+sPattern = '<a href="([^<]+)" class="logo">'
+aResult = oParser.parse(sHtmlContent, sPattern)
+    
+if (aResult[0]):
+    URL_MAIN = aResult[1][0]
+    VSlog(URL_MAIN) 
+	
 MOVIE_FAM = (URL_MAIN + '/getposts?genre=%D8%B9%D8%A7%D8%A6%D9%84%D9%8A&category=1', 'showMovies')
 MOVIE_TOP = (URL_MAIN + '/getposts?type=one&data=rating', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%89-aflam-onilne18', 'showMovies')
@@ -161,7 +174,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<div class="content-box">.+?<a href="(.+?)" data-src="(.+?)" class="image">.+?<h3>(.+?)</h3>'
+    sPattern = 'class="fullClick">.+?<a href="(.+?)" data-src="(.+?)" class=.+?<h3>(.+?)</h3>'
 
 
     oParser = cParser()

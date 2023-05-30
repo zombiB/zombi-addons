@@ -5,18 +5,17 @@ from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
 
-UA = 'Android'
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'
 
 class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'govid', 'CimaClub', 'gold')
-
+			
     def setUrl(self, sUrl):
         self._url = str(sUrl)
         if '/down/'  in sUrl:
             self._url = self._url.replace("/2down/","/play/").replace("/down/","/play/")
-
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
         sReferer = ""
@@ -30,24 +29,25 @@ class cHoster(iHoster):
         oParser = cParser()
 
        # (.+?) .+? ([^<]+)
-        sPattern =  '<small>([^<]+)</small> <a target="_blank" download=.+?href="([^<]+)">' 
-        aResult = oParser.parse(sHtmlContent,sPattern)  
-        if aResult[0]:
-            url=[]
-            qua=[]
-            for i in aResult[1]:
-                url.append(str(i[1]))
-                qua.append(str(i[0]))
-            api_call = dialog().VSselectqual(qua, url)
-
-            if api_call:
-                return True, api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
         sPattern =  '"playbackUrl": "(.+?)"' 
         aResult = oParser.parse(sHtmlContent,sPattern)
-        VSlog(aResult)  
         if aResult[0]:
-           api_call = aResult[1][0].replace("hhttps","https") 
-           api_call = api_call + '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
-           VSlog(api_call) 
+            url2 = aResult[1][0].replace("hhttps","https")
+            oRequest = cRequestHandler(url2)
+            oRequest.addHeaderEntry('Referer', surl)
+            oRequest.addHeaderEntry('User-Agent', UA)
+            sHtmlContent2 = oRequest.request()
+            VSlog(sHtmlContent2) 
+            sPattern = 'PROGRAM-ID.+?RESOLUTION=(\w+).+?(https.+?m3u8)'
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+            for aEntry in aResult[1]:
+                list_q.append(aEntry[0].split('x')[1]+"p") 
+                list_url.append(aEntry[1]) 
 
+                if list_url:
+                   api_call = dialog().VSselectqual(list_q,list_url)
+
+
+                if api_call:
+                   return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
         return False, False

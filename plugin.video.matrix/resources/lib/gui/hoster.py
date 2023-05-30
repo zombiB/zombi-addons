@@ -215,6 +215,10 @@ class cHosterGui:
             return self.getHoster('streamhide')
         if ('vidpro' in sHostName):
             return self.getHoster('samashare')
+        if ('filelions' in sHostName):
+            return self.getHoster('filelions')
+        if ('streamwish' in sHostName):
+            return self.getHoster('streamwish')
         if ('streamvid' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
