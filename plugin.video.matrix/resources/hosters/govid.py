@@ -11,7 +11,6 @@ class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'govid', 'CimaClub', 'gold')
-			
     def setUrl(self, sUrl):
         self._url = str(sUrl)
         if '/down/'  in sUrl:
@@ -32,22 +31,22 @@ class cHoster(iHoster):
         sPattern =  '"playbackUrl": "(.+?)"' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if aResult[0]:
-            url2 = aResult[1][0].replace("hhttps","https")
+            url2 = aResult[1][0].replace("hhttps","https").replace('api.govid.co/api','d10o.drkvid.site/api')
             oRequest = cRequestHandler(url2)
             oRequest.addHeaderEntry('Referer', surl)
             oRequest.addHeaderEntry('User-Agent', UA)
             sHtmlContent2 = oRequest.request()
-            VSlog(sHtmlContent2) 
-            sPattern = 'PROGRAM-ID.+?RESOLUTION=(\w+).+?(https.+?m3u8)'
+            sPattern = ',NAME="(.+?)",.+?(https.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
+            list_url=[]
+            list_q=[]
             for aEntry in aResult[1]:
-                list_q.append(aEntry[0].split('x')[1]+"p") 
+                list_q.append(aEntry[0]) 
                 list_url.append(aEntry[1]) 
+				
+            api_call = dialog().VSselectqual(list_q,list_url)
 
-                if list_url:
-                   api_call = dialog().VSselectqual(list_q,list_url)
 
-
-                if api_call:
-                   return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
+            if api_call:
+               return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
         return False, False
