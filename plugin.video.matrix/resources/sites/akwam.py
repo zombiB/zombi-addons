@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -615,7 +615,7 @@ def showHosters():
         sHtmlContent = oRequest.request()
         
         oParser = cParser()           
-        sPattern =  '<source.size=\"(.*?)\".src=\"(.*?)\"' 
+        sPattern =  '<source src="(.*?)" type="video/mp4" size="(.*?)" />' 
         
                                                                      
         aResult = oParser.parse(sHtmlContent,sPattern)
@@ -643,7 +643,7 @@ def showHosters():
 
             oGui.setEndOfDirectory()
     else:
-        sPattern = '<source.src=\"(.*?)\".size=\"(.*?)\"'
+        sPattern = '<source src="(.*?)" type="video/mp4" size="(.*?)" />'
         aResult = oParser.parse(sHtmlContent,sPattern)
         
         url, qua = [], []
