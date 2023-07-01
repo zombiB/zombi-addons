@@ -198,6 +198,12 @@ class cHosterGui:
             
         if ('gettyshare' in sHostName):
             return self.getHoster('gettyshare')
+            
+        if ('shoffree' in sHostName):
+            return self.getHoster('shoffree')
+				
+        if ('egybist.' in sHostName):
+            return self.getHoster('egybest')
 
         if ('sbfull' in sHostName):
             return self.getHoster('viewsb')

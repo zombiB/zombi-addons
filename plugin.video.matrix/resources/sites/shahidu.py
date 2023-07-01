@@ -14,23 +14,11 @@ from resources.lib.parser import cParser
 
  
 SITE_IDENTIFIER = 'shahidu'
-SITE_NAME = 'Shahidu'
+SITE_NAME = 'Shahid4u'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-oParser = cParser()
- 
-oRequestHandler = cRequestHandler(URL_MAIN)
-sHtmlContent = oRequestHandler.request()
-    # (.+?) ([^<]+)
-
-sPattern = '<link rel="canonical" href="(.+?)" />'
-aResult = oParser.parse(sHtmlContent, sPattern)
-    
-if (aResult[0]):
-    URL_MAIN = aResult[1][0]
-    VSlog(URL_MAIN)
 RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-رمضان-2023', 'showSeries')
 
 
@@ -153,24 +141,24 @@ def seriesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['اكشن', URL_MAIN + '/genre/اكشن'])
-    liste.append(['انيميشن', URL_MAIN + '/genre/كرتون'])
-    liste.append(['مغامرات', URL_MAIN + '/genre/مغامرات'])
-    liste.append(['حركة', URL_MAIN + '/genre/حركة'])
-    liste.append(['تاريخي', URL_MAIN + '/genre/تاريخي'])
-    liste.append(['كوميديا', URL_MAIN + '/genre/كوميدي'])
-    liste.append(['موسيقى', URL_MAIN + '/genre/موسيقي'])
-    liste.append(['رياضي', URL_MAIN + '/genre/رياضي'])
-    liste.append(['دراما', URL_MAIN + '/genre/دراما'])
-    liste.append(['رعب', URL_MAIN + '/genre/رعب'])
-    liste.append(['عائلى', URL_MAIN + '/genre/عائلي'])
-    liste.append(['فانتازيا', URL_MAIN + '/genre/فانتازيا'])
-    liste.append(['حروب', URL_MAIN + '/genre/حروب'])
-    liste.append(['الجريمة', URL_MAIN + '/genre/جريمة'])
-    liste.append(['رومانسى', URL_MAIN + '/genre/رومانسي'])
-    liste.append(['خيال علمى', URL_MAIN + '/genre/خيال%20علمي'])
-    liste.append(['اثارة', URL_MAIN + '/genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
-    liste.append(['وثائقى', URL_MAIN + '/genre/وثائقي'])
+    liste.append(['اكشن', URL_MAIN + 'genre/اكشن'])
+    liste.append(['انيميشن', URL_MAIN + 'genre/كرتون'])
+    liste.append(['مغامرات', URL_MAIN + 'genre/مغامرات'])
+    liste.append(['حركة', URL_MAIN + 'genre/حركة'])
+    liste.append(['تاريخي', URL_MAIN + 'genre/تاريخي'])
+    liste.append(['كوميديا', URL_MAIN + 'genre/كوميدي'])
+    liste.append(['موسيقى', URL_MAIN + 'genre/موسيقي'])
+    liste.append(['رياضي', URL_MAIN + 'genre/رياضي'])
+    liste.append(['دراما', URL_MAIN + 'genre/دراما'])
+    liste.append(['رعب', URL_MAIN + 'genre/رعب'])
+    liste.append(['عائلى', URL_MAIN + 'genre/عائلي'])
+    liste.append(['فانتازيا', URL_MAIN + 'genre/فانتازيا'])
+    liste.append(['حروب', URL_MAIN + 'genre/حروب'])
+    liste.append(['الجريمة', URL_MAIN + 'genre/جريمة'])
+    liste.append(['رومانسى', URL_MAIN + 'genre/رومانسي'])
+    liste.append(['خيال علمى', URL_MAIN + 'genre/خيال%20علمي'])
+    liste.append(['اثارة', URL_MAIN + 'genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
+    liste.append(['وثائقى', URL_MAIN + 'genre/وثائقي'])
 
     for sTitle, sUrl in liste:
 
@@ -184,24 +172,24 @@ def moviesGenres():
     oGui = cGui()
 
     liste = []
-    liste.append(['اكشن', URL_MAIN + '/genre/اكشن'])
-    liste.append(['انيميشن', URL_MAIN + '/genre/كرتون'])
-    liste.append(['مغامرات', URL_MAIN + '/genre/مغامرات'])
-    liste.append(['حركة', URL_MAIN + '/genre/حركة'])
-    liste.append(['تاريخي', URL_MAIN + '/genre/تاريخي'])
-    liste.append(['كوميديا', URL_MAIN + '/genre/كوميدي'])
-    liste.append(['موسيقى', URL_MAIN + '/genre/موسيقي'])
-    liste.append(['رياضي', URL_MAIN + '/genre/رياضي'])
-    liste.append(['دراما', URL_MAIN + '/genre/دراما'])
-    liste.append(['رعب', URL_MAIN + '/genre/رعب'])
-    liste.append(['عائلى', URL_MAIN + '/genre/عائلي'])
-    liste.append(['فانتازيا', URL_MAIN + '/genre/فانتازيا'])
-    liste.append(['حروب', URL_MAIN + '/genre/حروب'])
-    liste.append(['الجريمة', URL_MAIN + '/genre/جريمة'])
-    liste.append(['رومانسى', URL_MAIN + '/genre/رومانسي'])
-    liste.append(['خيال علمى', URL_MAIN + '/genre/خيال%20علمي'])
-    liste.append(['اثارة', URL_MAIN + '/genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
-    liste.append(['وثائقى', URL_MAIN + '/genre/وثائقي'])
+    liste.append(['اكشن', URL_MAIN + 'genre/اكشن'])
+    liste.append(['انيميشن', URL_MAIN + 'genre/كرتون'])
+    liste.append(['مغامرات', URL_MAIN + 'genre/مغامرات'])
+    liste.append(['حركة', URL_MAIN + 'genre/حركة'])
+    liste.append(['تاريخي', URL_MAIN + 'genre/تاريخي'])
+    liste.append(['كوميديا', URL_MAIN + 'genre/كوميدي'])
+    liste.append(['موسيقى', URL_MAIN + 'genre/موسيقي'])
+    liste.append(['رياضي', URL_MAIN + 'genre/رياضي'])
+    liste.append(['دراما', URL_MAIN + 'genre/دراما'])
+    liste.append(['رعب', URL_MAIN + 'genre/رعب'])
+    liste.append(['عائلى', URL_MAIN + 'genre/عائلي'])
+    liste.append(['فانتازيا', URL_MAIN + 'genre/فانتازيا'])
+    liste.append(['حروب', URL_MAIN + 'genre/حروب'])
+    liste.append(['الجريمة', URL_MAIN + 'genre/جريمة'])
+    liste.append(['رومانسى', URL_MAIN + 'genre/رومانسي'])
+    liste.append(['خيال علمى', URL_MAIN + 'genre/خيال%20علمي'])
+    liste.append(['اثارة', URL_MAIN + 'genre/ﺗﺸﻮﻳﻖ%20ﻭﺇﺛﺎﺭﺓ'])
+    liste.append(['وثائقى', URL_MAIN + 'genre/وثائقي'])
 
     for sTitle, sUrl in liste:
 
@@ -238,7 +226,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            if "episode/" in aEntry[2]:
+            if "episode" in aEntry[2] or "season" in aEntry[2]or "series" in aEntry[2]:
                 continue
             if "مسلسل" in aEntry[3]:
                 continue
@@ -426,7 +414,13 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    sPattern = '<a href="([^"]+)".+?<h3>الحلقة<span>(.+?)</span></h3>'
+    oParser = cParser()
+
+    sStart = '<div class="holder-block">'
+    sEnd = '<div class="carousel-slider glide">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = '<a href="([^"]+)" class=.+?<span>(.+?)</span></h3>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -434,7 +428,8 @@ def showEpisodes():
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
- 
+            if "season/" in aEntry[0]:
+                continue 
             sTitle = " E"+aEntry[1]
             sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0].replace('episode/','download/')
@@ -446,34 +441,7 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-    sPattern = '<a href="([^"]+)".+?<h3>الحلقة <span>(.+?)</span></h3>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
- 
-            sTitle = " E"+aEntry[1]
-            sTitle = sMovieTitle+sTitle
-            siteUrl = aEntry[0].replace('episode/','download/')
-            sThumb = sThumb
-            sDesc = ''
-			
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-       
+      
     oGui.setEndOfDirectory()	
     # .+? ([^<]+)	
  
@@ -497,7 +465,7 @@ def showHosters():
     if (aResult[0]):
         fId = aResult[1][0]
 
-        siteUrl = URL_MAIN + '/ajaxCenter?_action=getdownloadlinks&postId='+fId
+        siteUrl = URL_MAIN + 'ajaxCenter?_action=getdownloadlinks&postId='+fId
 
         oRequestHandler = cRequestHandler(siteUrl)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
@@ -541,7 +509,7 @@ def showHosters():
 
         for i in range(0,8):
 
-            siteUrl = URL_MAIN + '/ajaxCenter?_action=getserver&_post_id='+fId+'&serverid='+str(i)
+            siteUrl = URL_MAIN + 'ajaxCenter?_action=getserver&_post_id='+fId+'&serverid='+str(i)
 
             oRequestHandler = cRequestHandler(siteUrl)
             oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')

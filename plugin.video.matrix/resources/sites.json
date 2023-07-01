@@ -190,6 +190,11 @@
             "active": "True",
             "url": "https://aflam.top/"
         },
+        "egybest": {
+            "label": "EgyBest",
+            "active": "True",
+            "url": "https://r.egybist.site/"
+        },
         "esseq": {
             "label": "Esseq",
             "active": "True",
@@ -266,9 +271,14 @@
             "url": "https://vip.brstej.com/"
         },
         "shahidu": {
-            "label": "Shahidu",
+            "label": "Shahid4u",
             "active": "True",
             "url": "https://shahhed4u.cam/"
+        },
+        "shoffree": {
+            "label": "Shoffree",
+            "active": "True",
+            "url": "https://sh.shoffree.com/"
         },
         "shooflive": {
             "label": "Shooflive",
