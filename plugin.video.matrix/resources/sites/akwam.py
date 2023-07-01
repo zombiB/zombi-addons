@@ -250,16 +250,17 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sId', sId)
-			
-            oGui.addMovie(SITE_IDENTIFIER, sId, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
+            oOutputParameterHandler.addParameter('IMDBNumber', sId)
+            
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, sId, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -315,7 +316,7 @@ def showSeriesSearch(sSearch = ''):
             
             
             if '/movie/' in siteUrl:
-                oGui.addMovie(SITE_IDENTIFIER, sId, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler) 
+                oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler) 
             else:
                 oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
@@ -325,7 +326,7 @@ def showSeriesSearch(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, sId, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -553,8 +554,9 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sId', sId)
+            oOutputParameterHandler.addParameter('IMDBNumber', sId)
              
-            oGui.addMovie(SITE_IDENTIFIER, sId, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
        
     oGui.setEndOfDirectory()
