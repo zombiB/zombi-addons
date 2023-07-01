@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.matrix" name="matrix" version="5.8.5" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="5.8.6" provider-name="zombi">
     <requires>
 
         <trycatch>
@@ -37,6 +37,10 @@
             </item>
             <item library="resources/lib/gui/menuSimil.py">
 		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 30213][/COLOR]</label>
+				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
+            </item>
+            <item library="resources/lib/gui/menuParents.py">
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 33213][/COLOR]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
             </item>
             <item library="resources/lib/gui/menuDelBookmark.py">

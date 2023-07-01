@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.matrix" name="matrix" version="5.8.5" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="5.8.6" provider-name="zombi">
     <requires>
 
         <trycatch>
@@ -38,12 +38,16 @@
 		        <label>$ADDON[plugin.video.matrix 30213]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
             </item>
+            <item library="resources/lib/gui/menuParents.py">
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 33213][/COLOR]</label>
+				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
+            </item>
             <item library="resources/lib/gui/menuDelBookmark.py">
 		        <label>$ADDON[plugin.video.matrix 30412]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(isBookmark)</visible>
             </item>
             <item library="resources/lib/gui/menuDelViewing.py">
-		        <label>$ADDON[plugin.video.vstream 30412]</label>
+		        <label>$ADDON[plugin.video.matrix 30412]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(isViewing)</visible>
             </item>
 		</menu>
@@ -51,7 +55,7 @@
 
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
-        <news>plugin.video.matrix-5.8.5</news>
+        <news>plugin.video.matrix-5.8.6</news>
         <summary lang="en">https://zombib.github.io</summary>
         <summary lang="fr">https://zombib.github.io</summary>
         <description lang="en">https://zombib.github.io/</description>
@@ -64,7 +68,7 @@
 
     <addon id="repository.zombi" 
 			name="Zombi Repository" 
-			version="0.0.8" 
+			version="0.0.9" 
 			provider-name="zombi">
         <extension point="xbmc.addon.repository" name="Zombi Repository">
             <dir>
@@ -77,16 +81,6 @@
             <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
             <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
             <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
-            </dir>
-            <dir>
-                <info compressed="false">https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml</info>
-                <checksum>https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master/addons.xml.md5</checksum>
-                <datadir zip="true">https://raw.githubusercontent.com/Ovni-crea/seleniumzip/master</datadir>
-            </dir>
-            <dir>
-                <info compressed="false">https://raw.githubusercontent.com/Arias800/Fichier-divers/master/addon.xml</info>
-                <checksum>https://raw.githubusercontent.com/Arias800/Fichier-divers/master/addons.xml.md5</checksum>
-                <datadir zip="true">https://raw.githubusercontent.com/Arias800/script.module.dnspython/master</datadir>
             </dir>
         </extension>
         <extension point="xbmc.addon.metadata">

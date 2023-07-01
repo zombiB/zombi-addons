@@ -137,10 +137,6 @@ class cHosterGui:
         sHosterUrl = sHosterUrl.split('|')[0]
         sHosterUrl = sHosterUrl.split('?')[0]
         sHosterUrl = sHosterUrl.lower()
-
-        # lien direct ?
-        if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
-            return self.getHoster('lien_direct')
         # Recuperation du host
         try:
             sHostName = sHosterUrl.split('/')[2]
@@ -185,7 +181,7 @@ class cHosterGui:
                             'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
-                            'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'streamlare', 'vidload',
+                            'videobin', 'stagevu', 'gorillavid', 'daclips', 'hdvid', 'vshare', 'vidload',
                             'giga', 'megadrive', 'downace', 'clickopen', 'supervideo',
                             'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
@@ -199,6 +195,9 @@ class cHosterGui:
         # Gestion classique
         if ('vadshar' in sHostName) or ('vidshar' in sHostName) or ('vedshaar' in sHostName) or ('vedsharr' in sHostName) or ('viidshar' in sHostName) or ('vedshar' in sHostName) or ('vidshare' in sHostName):
             return self.getHoster('vidshare')
+            
+        if ('gettyshare' in sHostName):
+            return self.getHoster('gettyshare')
 
         if ('sbfull' in sHostName):
             return self.getHoster('viewsb')
@@ -323,6 +322,12 @@ class cHosterGui:
             f = self.getHoster('resolver')
             #mise a jour du nom
             f.setRealHost('streamcherry')
+            return f
+			
+        if ('streamlare' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('streamlare')
             return f
 			
         if ('clicknupload' in sHostName):
@@ -558,6 +563,10 @@ class cHosterGui:
             return self.getHoster('lien_direct')
 
         if ('.mp4' in sHosterUrl):
+            return self.getHoster('lien_direct')
+
+        # lien direct ?
+        if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
             return self.getHoster('lien_direct')
 				
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):

@@ -108,7 +108,7 @@
         "beinsports_net": {
             "label": "Beinsports",
             "active": "True",
-            "url": "https://www.beinsports.com/ar/"
+            "url": "https://www.beinsports.com/"
         },
         "btolat": {
             "label": "Btolat",
@@ -135,6 +135,11 @@
             "active": "True",
             "url": "https://cc.cimalight.vip/"
         },
+        "cimacity": {
+            "label": "CimaCity",
+            "active": "True",
+            "url": "https://ww.cima-city.site/"
+        },
         "cimanow": {
             "label": "Cimanow",
             "active": "True",
@@ -144,6 +149,11 @@
             "label": "Cima4u",
             "active": "True",
             "url": "https://cima4u1.motorcycles/"
+        },
+        "cinemana": {
+            "label": "Cinemana",
+            "active": "True",
+            "url": "https://cinemana.work/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -235,15 +245,15 @@
             "active": "True",
             "url": "https://alkoora.360koralive.com/"
         },
+        "laroza": {
+            "label": "Laroza",
+            "active": "True",
+            "url": "https://d.laroza.one/"
+        },
         "lodynet": {
             "label": "Lodynet",
             "active": "True",
             "url": "https://lodynet.link/"
-        },
-        "movizland": {
-            "label": "Movizland",
-            "active": "True",
-            "url": "https://egy1.movizland.info/"
         },
         "pakistani": {
             "label": "Pakistani",
@@ -254,6 +264,11 @@
             "label": "Prstej",
             "active": "True",
             "url": "https://vip.brstej.com/"
+        },
+        "shahidu": {
+            "label": "Shahidu",
+            "active": "True",
+            "url": "https://shahhed4u.cam/"
         },
         "shooflive": {
             "label": "Shooflive",
