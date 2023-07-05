@@ -14,7 +14,9 @@ class cInputWindow(xbmcgui.WindowDialog):
 
         DimTab = kwargs.get('dimtab')
         self.DimTabTotal = DimTab[0] * DimTab[1]
-
+        # ADDON = addon()
+        # icons = ADDON.getSetting('defaultIcons')
+        
         bg_image = 'special://home/addons/plugin.video.vstream/resources/art/background.png'
         check_image = 'special://home/addons/plugin.video.vstream/resources/art/trans_checked.png'
 

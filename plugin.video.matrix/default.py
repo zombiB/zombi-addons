@@ -26,6 +26,9 @@ from resources.lib.search import cSearch
 # Mettre True pour activer le debug
 DEBUG = False
 
+ADDON = addon()
+icons = ADDON.getSetting('defaultIcons')
+    
 if DEBUG:
 
     import sys  # pydevd module need to be copied in Kodi\system\python\Lib\pysrc

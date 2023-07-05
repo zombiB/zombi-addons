@@ -11,12 +11,14 @@ from resources.lib.util import UnquotePlus
 SITE_IDENTIFIER = 'cViewing'
 SITE_NAME = 'Viewing'
 
+ADDON = addon()
+icons = ADDON.getSetting('defaultIcons')
 
 class cViewing:
 
     DIALOG = dialog()
     ADDON = addon()
-
+    
     # Suppression d'un bookmark, d'une catégorie, ou tous les bookmarks
     def delViewing(self):
         oInputParameterHandler = cInputParameterHandler()
@@ -60,17 +62,17 @@ class cViewing:
         addons = addon()
 
         oOutputParameterHandler = cOutputParameterHandler()
-        oGui.addDir(SITE_IDENTIFIER, 'getViewing', addons.VSlang(30126), 'replay.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getViewing', addons.VSlang(30126), icons + '/All.png', oOutputParameterHandler)
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sCat', '1')       # films
-        oGui.addDir(SITE_IDENTIFIER, 'getViewing', addons.VSlang(30120), 'films.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getViewing', addons.VSlang(30120), icons + '/Movies.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('sCat', '4')       # saisons
-        oGui.addDir(SITE_IDENTIFIER, 'getViewing', '%s/%s' % (self.ADDON.VSlang(30121), self.ADDON.VSlang(30122)), 'series.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getViewing', '%s/%s' % (self.ADDON.VSlang(30121), self.ADDON.VSlang(30122)), icons + '/TVShows.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('sCat', '5')       # Divers
-        oGui.addDir(SITE_IDENTIFIER, 'getViewing', self.ADDON.VSlang(30410), 'buzz.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getViewing', self.ADDON.VSlang(30410), icons + '/Misc.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -132,13 +134,13 @@ class cViewing:
                     oOutputParameterHandler.addParameter('TotalTime', totaltime)
 
                     if cat == '1':
-                        oListItem = oGui.addMovie(site, function, title, 'films.png', '', title, oOutputParameterHandler)
+                        oListItem = oGui.addMovie(site, function, title, icons + '/Movies.png', '', title, oOutputParameterHandler)
                     elif cat == '4':
-                        oListItem = oGui.addSeason(site, function, title, 'series.png', '', title, oOutputParameterHandler)
+                        oListItem = oGui.addSeason(site, function, title, icons + '/TVShows.png', '', title, oOutputParameterHandler)
                     elif cat == '5':
-                        oListItem = oGui.addMisc(site, function, title, 'buzz.png', '', title, oOutputParameterHandler)
+                        oListItem = oGui.addMisc(site, function, title, icons + '/buzz.png', '', title, oOutputParameterHandler)
                     else:
-                        oListItem = oGui.addTV(site, function, title, 'series.png', '', title, oOutputParameterHandler)
+                        oListItem = oGui.addTV(site, function, title, icons + '/TVShows.png', '', title, oOutputParameterHandler)
 
                     oOutputParameterHandler.addParameter('sTitleWatched', sTitleWatched)
                     oOutputParameterHandler.addParameter('sCat', cat)
@@ -151,7 +153,7 @@ class cViewing:
         if not xbmc.getCondVisibility('Window.IsActive(home)'):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('sCat', catFilter)
-            oGui.addDir(SITE_IDENTIFIER, 'delViewing', self.ADDON.VSlang(30211), 'trash.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'delViewing', self.ADDON.VSlang(30211), icons + '/Trash.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 

@@ -7,11 +7,13 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.comaddon import dialog, addon, VSlog
 
-
+ADDON = addon()
+icons = ADDON.getSetting('defaultIcons')
+    
 class cHosterGui:
     SITE_NAME = 'cHosterGui'
     ADDON = addon()
-
+    
     # step 1 - bGetRedirectUrl in ein extra optionsObject verpacken
     def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False):
         oOutputParameterHandler = cOutputParameterHandler()
@@ -52,7 +54,7 @@ class cHosterGui:
 
         oGuiElement.setFileName(oHoster.getFileName())
         oGuiElement.getInfoLabel()
-        oGuiElement.setIcon('host.png')
+        oGuiElement.setIcon(icons + '/Sources.png')
         if sThumbnail:
             oGuiElement.setThumbnail(sThumbnail)
             oGuiElement.setPoster(sThumbnail)

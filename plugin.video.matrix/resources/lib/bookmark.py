@@ -14,12 +14,14 @@ from resources.lib.util import UnquotePlus
 SITE_IDENTIFIER = 'cFav'
 SITE_NAME = 'Fav'
 
-
+Addon = addon()
+icons = Addon.getSetting('defaultIcons')
+    
 class cFav:
 
     DIALOG = dialog()
     ADDON = addon()
-
+    
     # Suppression d'un bookmark, d'une catégorie, ou tous les bookmarks
     def delBookmark(self):
         oInputParameterHandler = cInputParameterHandler()
@@ -61,22 +63,23 @@ class cFav:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('sCat', '1')
         total = compt[1] + compt[7]
-        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30120), str(total)), 'mark.png', oOutputParameterHandler)
+        
+        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30120), str(total)), icons + '/Bookmarks.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('sCat', '2')
         total = compt[2] + compt[3] + compt[4] + compt[8] + compt[9]
-        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s/%s (%s)') % (self.ADDON.VSlang(30121), self.ADDON.VSlang(30122), str(total)), 'mark.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s/%s (%s)') % (self.ADDON.VSlang(30121), self.ADDON.VSlang(30122), str(total)), icons + '/Bookmarks.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('sCat', '5')
         total = compt[5]
-        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30410), str(total)), 'mark.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30410), str(total)), icons + '/Bookmarks.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('sCat', '6')
         total = compt[6]
-        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30332), str(total)), 'mark.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getFav', ('%s (%s)') % (self.ADDON.VSlang(30332), str(total)), icons + '/Bookmarks.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('sAll', 'true')
-        oGui.addDir(SITE_IDENTIFIER, 'delBookmark', self.ADDON.VSlang(30209), 'trash.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'delBookmark', self.ADDON.VSlang(30209), icons + '/Trash.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -201,13 +204,13 @@ class cFav:
 
             except:
                 oOutputParameterHandler = cOutputParameterHandler()
-                oGui.addDir(SITE_IDENTIFIER, 'DoNothing', '[COLOR red]ERROR[/COLOR]', 'films.png', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'DoNothing', '[COLOR red]ERROR[/COLOR]',icons + '/Movies.png', oOutputParameterHandler)
 
         # La suppression n'est pas accessible lors de l'utilisation en Widget
         if not xbmc.getCondVisibility('Window.IsActive(home)'):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('sCat', sCat)
-            oGui.addDir(SITE_IDENTIFIER, 'delBookmark', self.ADDON.VSlang(30211), 'trash.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'delBookmark', self.ADDON.VSlang(30211),icons + '/Trash.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
