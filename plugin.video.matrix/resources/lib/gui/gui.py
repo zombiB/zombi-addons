@@ -23,6 +23,9 @@ try:  # Python 2
 except ImportError:  # Python 3
     import urllib.request as urllib2
 
+Addon = addon()
+icons = Addon.getSetting('defaultIcons')
+
 class cGui:
 
     SITE_NAME = 'cGui'
@@ -31,8 +34,9 @@ class cGui:
     thread_listing = []
     episodeListing = []  # Pour gérer l'enchainement des episodes
     ADDON = addon()
+    
     displaySeason = addon().getSetting('display_season_title')
-
+    
     # Gérer les résultats de la recherche
     searchResults = {}
     searchResultsSemaphore = threading.Semaphore()
@@ -225,7 +229,7 @@ class cGui:
         oGuiElement.setSiteName(sId)
         oGuiElement.setFunction(sFunction)
         oGuiElement.setTitle('[COLOR teal]' + sLabel + ' >>>[/COLOR]')
-        oGuiElement.setIcon('next.png')
+        oGuiElement.setIcon(icons + '/Next.png')
         oGuiElement.setThumbnail(oGuiElement.getIcon())
         oGuiElement.setMeta(0)
         oGuiElement.setCat(5)
@@ -238,7 +242,7 @@ class cGui:
     def addNone(self, sId):
         return self.addText(sId)
 
-    def addText(self, sId, sLabel='', sIcon='none.png'):
+    def addText(self, sId, sLabel='', sIcon=icons + '/None.png'):
         # Pas de texte lors des recherches globales
         if window(10101).getProperty('search') == 'true':
             return

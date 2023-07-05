@@ -5,10 +5,13 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 import re
- 
+
+ADDON = addon()
+icons = ADDON.getSetting('defaultIcons')
+
 SITE_IDENTIFIER = 'cdrama'
 SITE_NAME = 'Cdrama'
 SITE_DESC = 'arabic vod'
@@ -26,35 +29,35 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', icons + '/Search.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', icons + '/Asian.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'https://c-drama.net/category/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%b5%d9%8a%d9%86%d9%8a%d8%a9/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الصينية', 'mslsl.png', oOutputParameterHandler)   
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الصينية', icons + '/TVShows.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl','https://c-drama.net/category/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d9%83%d9%88%d8%b1%d9%8a%d8%a9/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الكورية', 'mslsl.png', oOutputParameterHandler)   
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما الكورية', icons + '/TVShows.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a9-japanese-drama/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما اليابانية', 'mslsl.png', oOutputParameterHandler)   
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'الدراما اليابانية', icons + '/TVShows.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%af%d8%b1%d8%a7%d9%85%d8%a7%d8%aa-%d8%a2%d8%ae%d8%b1%d9%89-other-dramas/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'درامات آخرى', 'mslsl.png', oOutputParameterHandler)   
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'درامات آخرى', icons + '/TVShows.png', oOutputParameterHandler)   
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%aa%d8%b1%d8%ac%d9%85%d8%a7%d8%aa%d9%86%d8%a7-%d8%a7%d9%84%d8%ad%d8%b5%d8%b1%d9%8a%d8%a9-our-exclusive-translation/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'ترجماتنا الحصرية', 'mslsl.png', oOutputParameterHandler)    
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'ترجماتنا الحصرية', icons + '/TVShows.png', oOutputParameterHandler)    
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl',  'https://c-drama.net/category/%d8%a7%d9%84%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%a7%d9%84%d8%a3%d8%b3%d9%8a%d9%88%d9%8a%d8%a9-asian-program/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', ' البرامج الأسيوية', 'mslsl.png', oOutputParameterHandler)         
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', ' البرامج الأسيوية', icons + '/TVShows.png', oOutputParameterHandler)         
     
     oGui.setEndOfDirectory()
  
@@ -120,7 +123,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -170,7 +173,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()

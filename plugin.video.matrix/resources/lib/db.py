@@ -11,6 +11,8 @@ from resources.lib.util import QuotePlus, Unquote
 
 SITE_IDENTIFIER = 'cDb'
 SITE_NAME = 'DB'
+ADDON = addon()
+icons = ADDON.getSetting('defaultIcons')
 
 try:
     from sqlite3 import dbapi2 as sqlite
@@ -166,7 +168,9 @@ class cDb(object):
         # title = Unquote(meta['title']).decode('ascii', 'ignore')
         title = self.str_conv(Unquote(meta['title']))
         disp = meta['disp']
-        icon = 'icon.png'
+        
+        
+        icon = icons + '/Icon.png'
 
         try:
             ex = 'INSERT INTO history (title, disp, icone) VALUES (?, ?, ?)'

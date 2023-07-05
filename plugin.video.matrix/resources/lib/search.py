@@ -11,10 +11,13 @@ from resources.lib.comaddon import progress, VSlog, addon, window
 from resources.lib.util import Quote
 
 class cSearch:
-
+    ADDON = addon()
+    icons = ADDON.getSetting('defaultIcons')
+    
     def __init__(self):
         self.addons = addon()
-
+        self.icons = self.addons.getSetting('defaultIcons')
+        
     def searchGlobal(self):
         try:
             oInputParameterHandler = cInputParameterHandler()
@@ -30,7 +33,7 @@ class cSearch:
             self._finishSearch(listThread)
 
             oGui = cGui()
-            oGui.addText('globalSearch', self.addons.VSlang(30081) % sSearchText, 'search.png')
+            oGui.addText('globalSearch', self.addons.VSlang(30081) % sSearchText, self.icons + '/Search.png')
 
             total = count = 0
             searchResults = oGui.getSearchResult()

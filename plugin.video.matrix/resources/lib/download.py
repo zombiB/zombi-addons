@@ -37,12 +37,13 @@ SITE_IDENTIFIER = 'cDownload'
 # GetProperty('arret') = '0' => Telechargement en cours
 # GetProperty('arret') = '1' => Arret demandé
 # GetProperty('arret') = '' =>  Jamais eu de telechargement
-
+Addon = addon()
+icons = Addon.getSetting('defaultIcons')
 
 class cDownloadProgressBar(threading.Thread):
     DIALOG = dialog()
     ADDON = addon()
-
+    #icons = ADDON.getSetting('defaultIcons')
     def __init__(self, *args, **kwargs):
 
         self.__sTitle = ''
@@ -327,19 +328,20 @@ class cDownload:
         return sTitle
 
     def getDownload(self):
-
+        
         sPluginHandle = cPluginHandler().getPluginHandle()
         sPluginPath = cPluginHandler().getPluginPath()
         sItemUrl = '%s?site=%s&function=%s&title=%s' % (sPluginPath, SITE_IDENTIFIER, 'StartDownloadList', 'title')
-        item = xbmcgui.ListItem('Démarrer la liste')
-        item.setArt({'icon':'special://home/addons/plugin.video.matrix/resources/art/download.png'})
+        item = xbmcgui.ListItem('Start Downloading')
+        
+        item.setArt({'icon':'special://home/addons/plugin.video.matrix/resources/art/' + icons + '/DownloadStart.png'})
         xbmcplugin.addDirectoryItem(sPluginHandle, sItemUrl, item, isFolder=False)
 
         oGui = cGui()
         oOutputParameterHandler = cOutputParameterHandler()
-        oGui.addDir(SITE_IDENTIFIER, 'StopDownloadList', self.ADDON.VSlang(30025), 'none.png', oOutputParameterHandler)
-        oGui.addDir(SITE_IDENTIFIER, 'getDownloadList', self.ADDON.VSlang(30039), 'listes.png', oOutputParameterHandler)
-        oGui.addDir(SITE_IDENTIFIER, 'CleanDownloadList', self.ADDON.VSlang(30040), 'trash.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'StopDownloadList', self.ADDON.VSlang(30025), icons + '/DownloadStop.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getDownloadList', self.ADDON.VSlang(30039), icons + '/Lists.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'CleanDownloadList', self.ADDON.VSlang(30040), icons + '/Trash.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
 
     def CleanDownloadList(self):

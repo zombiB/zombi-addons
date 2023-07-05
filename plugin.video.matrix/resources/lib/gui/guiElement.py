@@ -15,16 +15,17 @@ from resources.lib.util import cUtil, QuoteSafe
 
 
 class cGuiElement:
-
-    DEFAULT_FOLDER_ICON = 'icon.png'
+    Addon = addon()
+    icons = Addon.getSetting('defaultIcons')
+    DEFAULT_FOLDER_ICON = icons + '/Icon.png'
 
     def __init__(self):
 
         self.addons = addon()
-
+        
         # self.__sRootArt = cConfig().getRootArt()
         self.__sFunctionName = ''
-        self.__sRootArt = 'special://home/addons/plugin.video.matrix/resources/art/'
+        self.__sRootArt = 'special://home/addons/plugin.video.matrix/resources/art/' + self.addons.getSetting('defaultIcons')
         self.__sType = 'video'
         self.__sMeta = 0
         self.__sTrailer = ''

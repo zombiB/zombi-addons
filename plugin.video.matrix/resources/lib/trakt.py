@@ -31,7 +31,8 @@ class cTrakt:
     CONTENT = '0'
     ADDON = addon()
     DIALOG = dialog()
-
+    icons = ADDON.getSetting('defaultIcons')
+    
     def __init__(self):
         self.__sTitle = ''
         self.__sAction = ''
@@ -79,10 +80,10 @@ class cTrakt:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'https://')
         oOutputParameterHandler.addParameter('type', 'movie')
-        oGui.addDir('themoviedb_org', 'showSearchMovie', self.ADDON.VSlang(30423), 'films.png', oOutputParameterHandler)
+        oGui.addDir('themoviedb_org', 'showSearchMovie', self.ADDON.VSlang(30423), icons + '/Movies.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('type', 'show')
-        oGui.addDir('themoviedb_org', 'showSearchSerie', self.ADDON.VSlang(30424), 'series.png', oOutputParameterHandler)
+        oGui.addDir('themoviedb_org', 'showSearchSerie', self.ADDON.VSlang(30424), icons + '/TVShows.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -96,7 +97,7 @@ class cTrakt:
             VSlog('bstoken invalid')
             oOutputParameterHandler.addParameter('siteUrl', 'https://')
             oOutputParameterHandler.addParameter('type', 'movie')
-            oGui.addDir(SITE_IDENTIFIER, 'getToken', self.ADDON.VSlang(30305), 'trakt.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getToken', self.ADDON.VSlang(30305), icons + '/Trakt.png', oOutputParameterHandler)
         else:
             # nom de l'user
             try:
@@ -118,26 +119,26 @@ class cTrakt:
 
             oOutputParameterHandler.addParameter('siteUrl', 'https://')
             oOutputParameterHandler.addParameter('type', 'movie')
-            oGui.addDir(SITE_IDENTIFIER, 'search', self.ADDON.VSlang(30330), 'search.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'search', self.ADDON.VSlang(30330), icons + '/Search.png', oOutputParameterHandler)
 
             oOutputParameterHandler.addParameter('type', 'movie')
-            oGui.addDir(SITE_IDENTIFIER, 'getLists', self.ADDON.VSlang(30120), 'films.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getLists', self.ADDON.VSlang(30120), icons + '/Movies.png', oOutputParameterHandler)
 
             oOutputParameterHandler.addParameter('type', 'show')
-            oGui.addDir(SITE_IDENTIFIER, 'getLists', self.ADDON.VSlang(30121), 'series.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getLists', self.ADDON.VSlang(30121), icons + '/TVShows.png', oOutputParameterHandler)
 
             if self.ADDON.getSetting('trakt_show_lists') == 'true':
                 oOutputParameterHandler.addParameter('type', 'custom-lists')
-                oGui.addDir(SITE_IDENTIFIER, 'menuList', "Listes", 'trakt.png', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'menuList', "Listes", icons + '/Trakt.png', oOutputParameterHandler)
 
             oOutputParameterHandler.addParameter('siteUrl', URL_API + 'users/me/history?page=1&limit=' + str(MAXRESULT))
-            oGui.addDir(SITE_IDENTIFIER, 'getTrakt', self.ADDON.VSlang(30308), 'trakt.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getTrakt', self.ADDON.VSlang(30308), icons + '/Trakt.png', oOutputParameterHandler)
 
             oOutputParameterHandler.addParameter('siteUrl', URL_API + 'oauth/revoke')
-            oGui.addDir(SITE_IDENTIFIER, 'getCalendrier', self.ADDON.VSlang(30331), 'trakt.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getCalendrier', self.ADDON.VSlang(30331), icons + '/Trakt.png', oOutputParameterHandler)
 
             oOutputParameterHandler.addParameter('siteUrl', URL_API + 'oauth/revoke')
-            oGui.addDir(SITE_IDENTIFIER, 'getBsout', self.ADDON.VSlang(30309), 'trakt.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getBsout', self.ADDON.VSlang(30309), icons + '/Trakt.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -147,16 +148,16 @@ class cTrakt:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'https://')
         oOutputParameterHandler.addParameter('type', 'lists-tendances')
-        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Listes tendances", 'trakt.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Listes tendances", icons + '/Trakt.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('type', 'lists-pop')
-        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Listes populaires", 'trakt.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Listes populaires", icons + '/Trakt.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('type', 'custom-lists')
-        oGui.addDir(SITE_IDENTIFIER, 'getLists', self.ADDON.VSlang(30360), 'trakt.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getLists', self.ADDON.VSlang(30360), icons + '/Trakt.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('type', 'liked-lists')
-        oGui.addDir(SITE_IDENTIFIER, 'getLists', 'Mes listes aimées', 'trakt.png', oOutputParameterHandler)  
+        oGui.addDir(SITE_IDENTIFIER, 'getLists', 'Mes listes aimées', icons + '/Trakt.png', oOutputParameterHandler)  
 
         oGui.setEndOfDirectory() 
 
@@ -175,7 +176,7 @@ class cTrakt:
 
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
-            oGui.addDir(SITE_IDENTIFIER, 'getTrakt', sTitle, 'genres.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getTrakt', sTitle, icons + '/Genres.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -283,7 +284,7 @@ class cTrakt:
         for sTitle, sUrl in liste:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
-            oGui.addDir(SITE_IDENTIFIER, 'getTrakt', sTitle, 'genres.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'getTrakt', sTitle, icons + '/Genres.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -785,7 +786,7 @@ class cTrakt:
         oGuiElement.setFunction(sFunction)
         oGuiElement.setTitle(sTitle)
         oGuiElement.setFileName(sFile)
-        oGuiElement.setIcon('trakt.png')
+        oGuiElement.setIcon(icons + '/Trakt.png')
         oGuiElement.setImdbId(sImdb)
         oGuiElement.setTmdbId(sTmdb)
 
