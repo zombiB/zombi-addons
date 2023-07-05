@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addons/
+from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addon
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')

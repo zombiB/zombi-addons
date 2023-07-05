@@ -7,7 +7,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, siteManager, addons/
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -32,7 +32,7 @@ def load():
 	oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', icons + '/Search.png', oOutputParameterHandler)
 	
 	oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
-	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', icons + '/Icon.png', oOutputParameterHandler)
+	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', icons + '/All.png', oOutputParameterHandler)
 	
 	oGui.setEndOfDirectory()
 
@@ -83,7 +83,8 @@ def showMoviesearch(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
-            sThumb = aEntry[1] 
+            s1Thumb = aEntry[1] 
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
             if m:
@@ -122,8 +123,8 @@ def showPack(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 #([^<]+) .+? 
-
-    sPattern = 'style="font-size: large;"><a href="([^<]+)">([^<]+)</a><br />'
+    VSlog(sUrl)
+    sPattern = 'style=\"font-size: large;\"><a href=\"([^<]+)\">(.+?)</a>'
 
 
     oParser = cParser()
@@ -134,8 +135,35 @@ def showPack(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
-            sThumb = aEntry[1]
+            
+            
+            if 'عربية' in sTitle:
+                sThumb = icons + '/Arabic.png'
+            else:
+                if 'هندية' in sTitle:
+                    sThumb = icons + '/Hindi.png'
+                else:
+                    if 'اسيوية' in sTitle:
+                        sThumb = icons + '/Asian.png'
+                    else:
+                        if 'كرتون' in sTitle:
+                            sThumb = icons + '/Carton.png'
+                        else:
+                            if 'تركية' in sTitle:
+                                sThumb = icons + '/Turkish.png'
+                            else:
+                                if 'كورية' in sTitle:
+                                    sThumb = icons + '/MoviesKorean.png'
+                                else:
+                                    if 'مدبلج' in sTitle or 'مدبلجة' in sTitle:
+                                        sThumb = icons + '/Dubbed.png'
+                                    else:
+                                        if 'افلام' in sTitle:
+                                            sThumb = icons + '/Movies.png'
+            
+            
             siteUrl = aEntry[0]+'/page/1'
+            VSlog(siteUrl)
             sDesc = ''
 			
 
@@ -144,8 +172,10 @@ def showPack(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
+            #oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+            oGui.addDir(SITE_IDENTIFIER, 'showLive', sTitle, sThumb, oOutputParameterHandler)
+    
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
@@ -188,7 +218,8 @@ def showLive():
         for aEntry in aResult[1]: 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            s1Thumb = aEntry[1]
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sYear = ''
             m = re.search('([1-2][0-9]{3})', sTitle)
             if m:
@@ -213,7 +244,8 @@ def showLive():
         for aEntry in aResult[1]:
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
             siteUrl = aEntry[0]
-            sThumb = aEntry[1] 
+            s1Thumb = aEntry[1] 
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = "" 
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)

@@ -92,7 +92,7 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
+    VSlog('movies url: ' + sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
@@ -114,6 +114,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
+            VSlog('movie url: ' + sUrl)
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
@@ -379,6 +380,7 @@ def showEps():
         for aEntry in aResult[1]: 
             sTitle = sMovieTitle
             siteUrl = sUrl
+            
             sThumb = sThumb
             sDesc = ""
  
@@ -417,7 +419,8 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-            
+    VSlog(sUrl)
+    #VSlog(sHtmlContent)
 
 # ([^<]+) .+? (.+?)
     sPattern =  '<a href="([^<]+)" class="link-show d-flex align-items-center mx-2 ml-2">' 
