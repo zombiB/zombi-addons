@@ -69,61 +69,204 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'SEARCH_SERIES', icons + '/Search.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/MoviesEnglish.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/MoviesEnglish.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 4k أفلام', icons + '/4k.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_4k[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', ' 4k أفلام', icons + '/4k.png', oOutputParameterHandler)
 
-    #oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
-    #oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', icons + '/Arabic.png', oOutputParameterHandler)
+    # #oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
+    # #oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', icons + '/Arabic.png', oOutputParameterHandler)
  
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', icons + '/Asian.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', icons + '/Asian.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', icons + '/Hindi.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', icons + '/Hindi.png', oOutputParameterHandler)
  
-    oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', icons + '/Cartoon.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', icons + '/Cartoon.png', oOutputParameterHandler)
  
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
 
-    #oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
-    #oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
+    # #oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
+    # #oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', icons + '/Asian.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', icons + '/Asian.png', oOutputParameterHandler)
 
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler)
  
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_TR_AR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', icons + '/TVShowsTurkish-Dubbed.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SERIE_TR_AR[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', icons + '/TVShowsTurkish-Dubbed.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', icons + '/Hindi.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', icons + '/Hindi.png', oOutputParameterHandler)
  
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكي', icons + '/TVShows.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكي', icons + '/TVShows.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', icons + '/Anime.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', icons + '/Anime.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية',icons + '/Programs.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية',icons + '/Programs.png', oOutputParameterHandler)
     
-    #oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
-    #oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
-    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', icons + '/WWE.png', oOutputParameterHandler)
+    # #oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    # #oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مصارعة', icons + '/WWE.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%b9%d8%b1%d8%a8%d9%8a/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج عربي',icons + '/Programs.png', oOutputParameterHandler)
+    # oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%b9%d8%b1%d8%a8%d9%8a/')
+    # oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج عربي',icons + '/Programs.png', oOutputParameterHandler)
   
+    sUrl = URL_MAIN
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<a class=\"active__link\" href=\"(.+?)\">.*?</i>(.+?)</a>'
+    matches = re.findall(sPattern,sHtmlContent)
+    aResult = [True,matches]
+    
+    AcceptedCats = ['افلام','مسلسلات','رياضة','مصارعة','انمي','اطفال','رمضان','كرتون','بث حي','مباشر','مباريات']
+    okCats = ' '.join(AcceptedCats)
+    
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            sTitle = aEntry[1]
+            VSlog("Checking if " + sTitle + " is in [" + okCats +"]")
+            sSubTitle = sTitle.split(" ")
+            for Sub in sSubTitle:
+                if Sub in okCats:
+                    sThumb = getThumb(sTitle.replace("ة","ه").replace("أ","ا").replace("آ","ا")) #"icons + '/Movies.png'"
+                                    
+                    siteUrl = aEntry[0]+'/page/1'
+                    VSlog(siteUrl)
+                    sDesc = ''
+                    
+                    oOutputParameterHandler = cOutputParameterHandler()
+                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                    oGui.addDir(SITE_IDENTIFIER, getFunc(sTitle), sTitle, sThumb, oOutputParameterHandler)
+                    break
+                else:
+                    VSlog("iTS IS NOT")
+            
     oGui.setEndOfDirectory()
- 
+
+def getThumb(sTitle):
+    sThumb = None
+    if 'افلام' in sTitle: 
+        sThumb = icons + '/Movies.png'
+    if 'مسلسلات' in sTitle: 
+        sThumb = icons + '/TVShows.png'
+    if 'أنمي' in sTitle: 
+        sThumb = icons + '/Anime.png'
+    if 'اجنبي' in sTitle: 
+        sThumb = icons + '/Movies.png'
+    if 'عربي' in sTitle: 
+        sThumb = icons + '/Arabic.png'
+    if 'عربيه' in sTitle: 
+        sThumb = icons + '/Arabic.png'
+    if 'تركيه' in sTitle: 
+        sThumb = icons + '/Turkish.png'
+    if 'تركي' in sTitle: 
+        sThumb = icons + '/Turkish.png'
+    if 'اسيوي' in sTitle: 
+        sThumb = icons + '/Asian.png'
+    if 'اسيويه' in sTitle: 
+        sThumb = icons + '/Asian.png'
+    if 'كوري' in sTitle: 
+        sThumb = icons + '/Korean.png'
+    if 'كوريه' in sTitle: 
+        sThumb = icons + '/Korean.png'
+    if 'هندي' in sTitle: 
+        sThumb = icons + '/Hindi.png'
+    if 'هنديه' in sTitle: 
+        sThumb = icons + '/Hindi.png'
+    if 'مسلسلات اجنبيه' in sTitle: 
+        sThumb = icons + '/TVShows.png'
+    if 'برامج' in sTitle: 
+        sThumb = icons + '/Programs.png'
+    if 'وثائقي' in sTitle: 
+        sThumb = icons + '/Documentary.png'
+    if 'وثائقيه' in sTitle: 
+        sThumb = icons + '/Documentary.png'
+    if '4k' in sTitle: 
+        sThumb = icons + '/4k.png'
+    if 'اسلامي' in sTitle: 
+        sThumb = icons + '/Islamic.png'
+    if 'إسلامي' in sTitle: 
+        sThumb = icons + '/Islamic.png'
+    if 'رمضان' in sTitle: 
+        sThumb = icons + '/Ramadan.png'
+    if 'قرآن' in sTitle: 
+        sThumb = icons + '/Quran.png'
+    if 'اناشيد' in sTitle: 
+        sThumb = icons + '/Anasheed.png'
+    if 'كوميدي' in sTitle: 
+        sThumb = icons + '/Comedy.png'
+    if 'باكستاني' in sTitle: 
+        sThumb = icons + '/Pakistani.png'
+    if 'باكستانيه' in sTitle: 
+        sThumb = icons + '/Pakistani.png'
+    if 'رياضه' in sTitle: 
+        sThumb = icons + '/Sport.png'
+    if 'فاتبول' in sTitle: 
+        sThumb = icons + '/Sport.png'
+    if 'مباريات' in sTitle: 
+        sThumb = icons + '/Sport.png'
+    if 'مسرح' in sTitle: 
+        sThumb = icons + '/Theater.png'
+    if 'كلاسيكي' in sTitle: 
+        sThumb = icons + '/MoviesClassic.png'
+    if 'مصارعه' in sTitle: 
+        sThumb = icons + '/WWE.png'
+    if 'أخرى' in sTitle: 
+        sThumb = icons + '/Misc.png'
+    if 'هندي' in sTitle: 
+        sThumb = icons + '/Hindi.png'
+    if 'كرتون' in sTitle: 
+        sThumb = icons + '/Cartoon.png'
+    if 'انمي' in sTitle: 
+        sThumb = icons + '/Anime.png'
+    if 'اطفال' in sTitle: 
+        sThumb = icons + '/Kids.png'
+    if 'عائلي' in sTitle: 
+        sThumb = icons + '/Family.png'
+    if 'مدبلج' in sTitle: 
+        sThumb = icons + '/Dubbed.png'
+    if 'مترجم' in sTitle: 
+        sThumb = icons + '/Subtitled.png'
+    if 'تركيه مدبلجه' in sTitle: 
+        sThumb = icons + '/TVShowsTurkish-Dubbed.png'
+    if 'كوريه مدبلجه' in sTitle: 
+        sThumb = icons + '/TVShowsKoean-Dubbed.png'
+    if 'باسكتانيه مدبلجه' in sTitle: 
+        sThumb = icons + '/TVShowsPakistani-Dubbed.png'
+    if 'هنديه مدبلجه' in sTitle: 
+        sThumb = icons + '/TVShowsHindi-Dubbed.png'
+    if 'اسيويه مدبلجه' in sTitle: 
+        sThumb = icons + '/TVShowsAsian-Dubbed.png'
+    if 'مباشر' in sTitle: 
+        sThumb = icons + '/Live.png'
+
+    if sThumb is None:
+        sThumb = icons + '/None.png'
+    return sThumb
+
+def getFunc(sCat):
+    if 'افلام' in sCat:
+        return 'showMovies'
+    else:
+        return 'showSeries'
+
 def showSearch():
     oGui = cGui()
  
@@ -178,7 +321,8 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("عرض","").replace("الرو","").replace("بالتعليق العربي","[COLOR gold]- تعليق عربي -[/COLOR]")
             siteUrl = aEntry[0]
-            sThumb = aEntry[2]
+            s1Thumb = aEntry[2]
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -270,7 +414,8 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[2]
+            s1Thumb = aEntry[2]
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = ''
             sYear = ''
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace(" الثانى","2").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").split('الموسم')[0].split('الحلقة')[0]

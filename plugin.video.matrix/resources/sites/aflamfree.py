@@ -25,16 +25,68 @@ URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesearch')
 FUNCTION_SEARCH = 'showMoviesearch'
 
 def load():
-	oGui = cGui()
+    oGui = cGui()
 
-	oOutputParameterHandler = cOutputParameterHandler()
-	oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
-	oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', icons + '/Search.png', oOutputParameterHandler)
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', URL_SEARCH[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', icons + '/Search.png', oOutputParameterHandler)
+
+    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', icons + '/All.png', oOutputParameterHandler)
 	
-	oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
-	oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', icons + '/All.png', oOutputParameterHandler)
+    sUrl = URL_MAIN
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = 'cat-item cat-item-.*\"><a href=\"(.+?)\".?>(.+?)</a>'
+    matches = re.findall(sPattern,sHtmlContent)
+    aResult = [True,matches]
+
+
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
+
+            if 'عربية' in sTitle:
+                sThumb = icons + '/Arabic.png'
+            else:
+                if 'هندية' in sTitle:
+                    sThumb = icons + '/Hindi.png'
+                else:
+                    if 'اسيوية' in sTitle:
+                        sThumb = icons + '/Asian.png'
+                    else:
+                        if 'كرتون' in sTitle:
+                            sThumb = icons + '/Carton.png'
+                        else:
+                            if 'تركية' in sTitle:
+                                sThumb = icons + '/Turkish.png'
+                            else:
+                                if 'كورية' in sTitle:
+                                    sThumb = icons + '/MoviesKorean.png'
+                                else:
+                                    if 'مدبلج' in sTitle or 'مدبلجة' in sTitle:
+                                        sThumb = icons + '/Dubbed.png'
+                                    else:
+                                        if 'افلام' in sTitle:
+                                            sThumb = icons + '/Movies.png'
+                        
+            siteUrl = aEntry[0]+'/page/1'
+            #VSlog(siteUrl)
+            sDesc = ''
+            
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+            #oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+            oGui.addDir(SITE_IDENTIFIER, 'showLive', sTitle, sThumb, oOutputParameterHandler)
 	
-	oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
 
 def showYears():
     oGui = cGui()
@@ -123,9 +175,8 @@ def showPack(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 #([^<]+) .+? 
-    VSlog(sUrl)
+    #VSlog(sUrl)
     sPattern = 'style=\"font-size: large;\"><a href=\"([^<]+)\">(.+?)</a>'
-
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -135,8 +186,7 @@ def showPack(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
-            
-            
+
             if 'عربية' in sTitle:
                 sThumb = icons + '/Arabic.png'
             else:
@@ -160,13 +210,11 @@ def showPack(sSearch = ''):
                                     else:
                                         if 'افلام' in sTitle:
                                             sThumb = icons + '/Movies.png'
-            
-            
+                        
             siteUrl = aEntry[0]+'/page/1'
-            VSlog(siteUrl)
+            #VSlog(siteUrl)
             sDesc = ''
-			
-
+            
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
