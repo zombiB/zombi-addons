@@ -32,7 +32,7 @@ aResult = oParser.parse(sHtmlContent, sPattern)
     
 if (aResult[0]):
     URL_MAIN = aResult[1][0]
-    #VSlog(URL_MAIN)
+    VSlog(URL_MAIN)
 
 MOVIE_CLASSIC = (URL_MAIN + '/index.php?cat=19530', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/index.php?cat=2195', 'showMovies')
@@ -192,7 +192,7 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    ##VSlog("Movies Link : " + sUrl)
+    VSlog("Movies Link : " + sUrl)
     ##VSlog("html Link : " + sHtmlContent)
     import requests
     s = requests.Session()            
@@ -217,7 +217,7 @@ def showMovies(sSearch = ''):
     #aResult = oParser.parse(sHtmlContent, sPattern)
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
-    ##VSlog(aResult)
+    VSlog(aResult)
 	
     if aResult[0] is True:
         total = len(aResult[1])
@@ -230,7 +230,7 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("برنامج","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","").replace("مدبلج","").replace("عرض","").replace("الرو","")
             siteUrl = aEntry[0]
-            ##VSlog("Movie Link : " + siteUrl)
+            VSlog("Movie Link : " + siteUrl)
             
             s1Thumb = aEntry[1]
             sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
@@ -426,15 +426,16 @@ def showSeries(sSearch = ''):
        data = {'category':psearch,'currentTermID':psearch}
        r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Home/FilteringShows.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8',errors='ignore')
+       sHtmlContentfull = r.content.decode('utf8')
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
     #oParser = cParser()
     #aResult = oParser.parse(sHtmlContent, sPattern)
-    ##VSlog(sHtmlContent)
+    VSlog(sHtmlContentfull)
     sPattern = 'class=\"PlayButton\">.*\s*<a href=\"(.+?)\">.*\s*<div class=\"Poster\">.*\s*<img.class=\".*\".data-image=\"(.+?)\".*alt=\"(.+?)\">.*\s*</div>'
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
     #VSlog(aResult)
-    
+    itemList = []
     if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -453,16 +454,18 @@ def showSeries(sSearch = ''):
             sDesc = ''
             sTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").split('الحلقة')[0]
 
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
-            if 'الموسم' in aEntry[2]:
-                oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-            else:
-                oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
+            if sTitle not in itemList:
+                #VSlog(sTitle + " NOT FOUND, WILL BE ADDED TO LIST")
+                itemList.append(sTitle)
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sDesc', sDesc)
+                if 'الموسم' in aEntry[2]:
+                    oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                else:
+                    oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+        #VSlog(itemList)
         progress_.VSclose(progress_)
 
  
@@ -614,13 +617,14 @@ def showEps():
 
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a class="next page-numbers" href="(.+?)">'
+    sPattern = '<li><a class=\"next.page-numbers\" href=\"(.+?)\">.<'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
+    VSlog("next page" + str(aResult[1]))
+    
     if aResult[0] is True:
-        return URL_MAIN+aResult[1][0]
+        return URL_MAIN+aResult[1]
 
     return False
 
