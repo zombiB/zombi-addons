@@ -92,7 +92,7 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-    VSlog('movies url: ' + sUrl)
+    #VSlog('movies url: ' + sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
@@ -114,8 +114,9 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
-            VSlog('movie url: ' + sUrl)
-            sThumb = aEntry[1]
+            #VSlog('movie url: ' + sUrl)
+            s1Thumb = aEntry[1]
+            sThumb = re.sub(r'thumb\/\d*x\d*\/','',s1Thumb)
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -151,7 +152,7 @@ def showMoviesSearch(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
+    #VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
@@ -178,7 +179,10 @@ def showMoviesSearch(sSearch = ''):
  
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            #VSlog(siteUrl)
+            s1Thumb = aEntry[1]
+            sThumb = re.sub(r'thumb\/\d*x\d*\/','',s1Thumb)
+            #VSlog(sThumb)
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -213,7 +217,7 @@ def showSeriesSearch(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
+    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
@@ -221,7 +225,7 @@ def showSeriesSearch(sSearch = ''):
     sPattern = '<div class="actions d-flex"><a href="(.+?)" class.+?<picture><img src="(.+?)" class.+?<h3 class=".+?">(.+?)</h3>'
 
 
-
+    #VSlog(sUrl)
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -240,7 +244,10 @@ def showSeriesSearch(sSearch = ''):
  
             sTitle = aEntry[2]
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            #VSlog(siteUrl)
+            s1Thumb = aEntry[1]
+            sThumb = re.sub(r'thumb\/\d*x\d*\/','',s1Thumb)
+            #VSlog(sThumb)
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -275,7 +282,7 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
 
-
+    #VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
@@ -297,7 +304,10 @@ def showSeries(sSearch = ''):
             
             sTitle = aEntry[2].replace("مشاهدة","").replace("HD رمضان 2022","").replace("حلقات كاملة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مباشرة","").replace("HD","").replace("انتاج ","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("الحلقة "," E").replace("حلقة "," E")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            #VSlog(siteUrl)
+            s1Thumb = aEntry[1]
+            sThumb = re.sub(r'thumb\/\d*x\d*\/','',s1Thumb)
+            #VSlog(sThumb)
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -347,7 +357,7 @@ def showEps():
      # (.+?) ([^<]+) .+?
     sPattern = '<a href="([^<]+)">.+?img src="([^<]+)" class="img-fluid w-100" alt="([^<]+)".+?class="font-size-50">([^<]+)<'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
+    #VSlog(sUrl)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -357,7 +367,10 @@ def showEps():
             sEpNo = aEntry[3]
             sTitle = sMovieTitle+' E'+sEpNo+' '+sEp
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            #VSlog(siteUrl)
+            s1Thumb = aEntry[1]
+            sThumb = re.sub(r'thumb\/\d*x\d*\/','',s1Thumb)
+            #VSlog(sThumb)
             sDesc = ''
 			
 
@@ -380,8 +393,9 @@ def showEps():
         for aEntry in aResult[1]: 
             sTitle = sMovieTitle
             siteUrl = sUrl
-            
+            #VSlog(siteUrl)
             sThumb = sThumb
+            #VSlog(sThumb)
             sDesc = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -419,8 +433,8 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()
-    VSlog(sUrl)
-    #VSlog(sHtmlContent)
+    #VSlog(sUrl)
+    ##VSlog(sHtmlContent)
 
 # ([^<]+) .+? (.+?)
     sPattern =  '<a href="([^<]+)" class="link-show d-flex align-items-center mx-2 ml-2">' 

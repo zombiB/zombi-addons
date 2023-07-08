@@ -160,20 +160,6 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'افلام Netfilx', icons + '/Movies.png', oOutputParameterHandler)
              
     oGui.setEndOfDirectory()
-
-
-def xxload():
-    import requests
-    s = requests.Session()
-    r = s.get(URL_MAIN).content.decode('utf8')
-    pattern = '<li data-name=\"ا(.+?)\" class=\"\" data-tax=\"category\" data-term=\"(.+?)\"><i class'
-    Cats = re.findall(pattern, r)
-    VSlog(Cats)
-    
-    Cats = {'اخرى': '2961', 'اسلاميات': '62568', 'اشتراكات': '96369', 'اغاني اجنبي': '19906', 'اغاني عربي': '5239', 'افلام Netfilx': '136791', 'افلام اجنبي': '2195', 'افلام اسيوية': '5025', 'افلام انيميشن': '3482', 'افلام تركية': '325394', 'افلام عربي': '325393', 'افلام كلاسيكيه': '19530', 'افلام مدبلجة': '3304', 'افلام هندى': '3726', 'الاكثر مشاهدة': '327761', 'البومات مجمعه': '86672', 'العاب كمبيوتر': '31782', 'المسلسلات': '239928', 'برامج تلفزيونية': '12807', 'برامج كمبيوتر': '3536', 'سلاسل الأفلام': '36604', 'عيد 2021': '165617', 'عيد 2022': '245461', 'غير مصنف': '1', 'كرتون زمان': '230926', 'كليبات': '11688', 'كورسات': '62996', 'مسرحيات عربيه': '9409', 'مسلسلات Netfilx': '136792', 'مسلسلات اجنبي': '4', 'مسلسلات تركيه': '2925', 'مسلسلات رمضان 2018': '53185', 'مسلسلات رمضان 2019': '15016', 'مسلسلات رمضان 2020': '1187', 'مسلسلات رمضان 2021': '146282', 'مسلسلات رمضان 2022': '238601', 'مسلسلات رمضان 2023': '318535', 'مسلسلات عربي': '4257', 'مسلسلات كوريه': '72239', 'مسلسلات مدبلجة': '25308', 'مسلسلات مصريه': '318494', 'مسلسلات هندية': '76025', 'مصارعه': '2811', 'موبايلات': '15340', 'نيتفليكس - Netfilx': '136790'}
-    
-    
-    return
         
     
 def showSearch():
@@ -206,8 +192,8 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    #VSlog("Movies Link : " + sUrl)
-    #VSlog("html Link : " + sHtmlContent)
+    VSlog("Movies Link : " + sUrl)
+    ##VSlog("html Link : " + sHtmlContent)
     import requests
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0',
@@ -231,7 +217,7 @@ def showMovies(sSearch = ''):
     #aResult = oParser.parse(sHtmlContent, sPattern)
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
-    #VSlog(aResult)
+    VSlog(aResult)
 	
     if aResult[0] is True:
         total = len(aResult[1])
@@ -244,11 +230,11 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("برنامج","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","").replace("مدبلج","").replace("عرض","").replace("الرو","")
             siteUrl = aEntry[0]
-            #VSlog("Movie Link : " + siteUrl)
+            VSlog("Movie Link : " + siteUrl)
             
             s1Thumb = aEntry[1]
             sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
-            #VSlog(sThumb)
+            ##VSlog(sThumb)
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -284,7 +270,7 @@ def showPacks(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-    VSlog("Packs Link : " + sUrl)
+    #VSlog("Packs Link : " + sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  
@@ -340,7 +326,7 @@ def showPack():
     
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    VSlog("Pack Link : " + sUrl)
+    #VSlog("Pack Link : " + sUrl)
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
  
@@ -391,7 +377,7 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
     
-    VSlog("Series Page Link : " + sUrl)
+    #VSlog("Series Page Link : " + sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
@@ -440,15 +426,16 @@ def showSeries(sSearch = ''):
        data = {'category':psearch,'currentTermID':psearch}
        r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Home/FilteringShows.php', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8',errors='ignore')
+       sHtmlContentfull = r.content.decode('utf8')
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
     #oParser = cParser()
     #aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(sHtmlContent)
+    VSlog(sHtmlContentfull)
     sPattern = 'class=\"PlayButton\">.*\s*<a href=\"(.+?)\">.*\s*<div class=\"Poster\">.*\s*<img.class=\".*\".data-image=\"(.+?)\".*alt=\"(.+?)\">.*\s*</div>'
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
-    VSlog(aResult)
-    
+    #VSlog(aResult)
+    itemList = []
     if aResult[0] is True:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -460,23 +447,25 @@ def showSeries(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج للعربية","مدبلج")
             siteUrl = aEntry[0]
-            VSlog("TV Show Link: " + siteUrl)
+            #VSlog("TV Show Link: " + siteUrl)
             
             s1Thumb = aEntry[1]
             sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = ''
             sTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S").split('الحلقة')[0]
 
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
-            if 'الموسم' in aEntry[2]:
-                oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-            else:
-                oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
+            if sTitle not in itemList:
+                #VSlog(sTitle + " NOT FOUND, WILL BE ADDED TO LIST")
+                itemList.append(sTitle)
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sDesc', sDesc)
+                if 'الموسم' in aEntry[2]:
+                    oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                else:
+                    oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+        #VSlog(itemList)
         progress_.VSclose(progress_)
 
  
@@ -494,7 +483,7 @@ def showSeasons():
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    VSlog("TV Show Link: " + sUrl)
+    #VSlog("TV Show Link: " + sUrl)
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     oParser = cParser()
@@ -526,7 +515,7 @@ def showSeasons():
                 oOutputParameterHandler = cOutputParameterHandler() 
                 for aEntry in aResult[1]:
                     siteUrl = aEntry[0]
-                    VSlog("Season Link: " + siteUrl)
+                    #VSlog("Season Link: " + siteUrl)
                     sEp = "E"+aEntry[2]
                     sTitle = sSeason+sEp
                     sThumb = sThumb
@@ -561,7 +550,7 @@ def showSeasons():
                     sMovieTitle = "مدبلج"+sMovieTitle
                 sTitle = sMovieTitle+' '+sEp
                 siteUrl = aEntry[0]
-                VSlog("Episodes Link: " + siteUrl)
+                #VSlog("Episodes Link: " + siteUrl)
                 sThumb = sThumb
                 sDesc = ''
                 sHost = ''
@@ -582,7 +571,7 @@ def showEps():
    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    VSlog("Episodes Link2: " + sUrl)
+    #VSlog("Episodes Link2: " + sUrl)
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     oParser = cParser()
@@ -610,7 +599,7 @@ def showEps():
                 sMovieTitle = "مدبلج"+sMovieTitle
             sTitle = sMovieTitle+sEp
             siteUrl = aEntry[0]
-            VSlog("Episode Link: " + siteUrl)
+            #VSlog("Episode Link: " + siteUrl)
             sThumb = sThumb
             sDesc = ''
             sHost = ''
@@ -628,13 +617,14 @@ def showEps():
 
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a class="next page-numbers" href="(.+?)">'
+    sPattern = '<li><a class=\"next.page-numbers\" href=\"(.+?)\">.<'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
+    VSlog("next page" + str(aResult[1]))
+    
     if aResult[0] is True:
-        return URL_MAIN+aResult[1][0]
+        return URL_MAIN+aResult[1]
 
     return False
 
@@ -642,7 +632,7 @@ def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    VSlog("Hosters Link: " + sUrl)
+    #VSlog("Hosters Link: " + sUrl)
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     
@@ -669,7 +659,7 @@ def showHosters():
            for aEntry in aResult[1]:
         
                url = aEntry
-               VSlog("Hoster Link: " + url)
+               #VSlog("Hoster Link: " + url)
                sThumb = sThumb
                if url.startswith('//'):
                   url = 'http:' + url

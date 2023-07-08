@@ -11,6 +11,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.cloudflare import CloudflareBypass
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -210,7 +211,10 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
+    try:
+        sHtmlContent = oRequestHandler.request()
+    except:
+        sHtmlContent = CloudflareBypass().GetHtml(sUrl)
  # ([^<]+) .+? (.+?)
 
     sPattern = '<a href="([^"]+)".+?class="fullClick">.+?data-src="([^"]+)".+?<a href="([^"]+)"><h3>(.+?)</h3></a>'

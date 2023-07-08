@@ -11,6 +11,8 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
+from bs4 import BeautifulSoup
+import requests
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -42,7 +44,9 @@ ANIM_NEWS = (URL_MAIN + '/anime', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search?query=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search?query=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
- 
+
+s = requests.Session()
+        
 def load():
     oGui = cGui()
 
@@ -55,20 +59,131 @@ def load():
  
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/MoviesEnglish.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام', icons + '/MoviesEnglish.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', True)
+    oGui.addDir(SITE_IDENTIFIER, 'showGenresM', 'افلام حسب النوع', icons + '/Genres.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', True)
+    oGui.addDir(SITE_IDENTIFIER, 'showLangsM', 'افلام حسب اللغة', icons + '/Movies.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
+
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', True)
+    oGui.addDir(SITE_IDENTIFIER, 'showGenresS', 'مسلسلات حسب النوع', icons + '/Genres.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler = cOutputParameterHandler()
+    oOutputParameterHandler.addParameter('siteUrl', True)
+    oGui.addDir(SITE_IDENTIFIER, 'showLangsS', 'مسلسلات حسب اللغة', icons + '/Genres.png', oOutputParameterHandler)
 	
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', icons + '/Anime.png', oOutputParameterHandler)  
- 
-             
+
     oGui.setEndOfDirectory()
 
- 
+def showLangsM():
+    oGui = cGui()
+    sPattern = '<option value=\".*\">(.+?)</option'
+    
+    sUrl = MOVIE_EN[0]
+    r = s.get(sUrl)
+    soup = BeautifulSoup(r.content,"html.parser") 
+    sHtmlContent = str(soup.find("select",{"name":"lang"}))
+    
+    matches = re.findall(sPattern, sHtmlContent)
+    aResult = [True,matches]
+    
+    #VSlog(aResult)
+    
+    if aResult[0] is True:
+        for aEntry in aResult[1]:
+            CatURL = MOVIE_EN[0] + '?lang=' + aEntry
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', CatURL)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry, icons + '/Calendar.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
+    else:
+        pass
+
+def showGenresM():
+    oGui = cGui()
+    sPattern = '<option value=\".+?\">(.+?)</option'
+    
+    sUrl = MOVIE_EN[0]
+    r = s.get(sUrl)
+    soup = BeautifulSoup(r.content,"html.parser") 
+    sHtmlContent = str(soup.find("select",{"name":"genre"}))
+    
+    matches = re.findall(sPattern, sHtmlContent)
+    aResult = [True,matches]
+    
+    #VSlog(aResult)
+    
+    if aResult[0] is True:
+        for aEntry in aResult[1]:
+            CatURL = MOVIE_EN[0] + '?genre=' + aEntry[0]
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', CatURL)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry[1], icons + '/Genres.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
+    else:
+        pass
+        
+def showLangsS():
+    oGui = cGui()
+    sPattern = '<option value=\".*\">(.+?)</option'
+    
+    sUrl = SERIE_EN[0]
+    r = s.get(sUrl)
+    soup = BeautifulSoup(r.content,"html.parser") 
+    sHtmlContent = str(soup.find("select",{"name":"lang"}))
+    
+    matches = re.findall(sPattern, sHtmlContent)
+    aResult = [True,matches]
+    
+    #VSlog(aResult)
+    
+    if aResult[0] is True:
+        for aEntry in aResult[1]:
+            CatURL = SERIE_EN[0] + '?lang=' + aEntry
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', CatURL)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', aEntry, icons + '/Calendar.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
+    else:
+        pass
+
+def showGenresS():
+    oGui = cGui()
+    sPattern = '<option value=\"(.+?)\">(.+?)</option>'
+    
+    sUrl = SERIE_EN[0]
+    r = s.get(sUrl)
+    soup = BeautifulSoup(r.content,"html.parser") 
+    sHtmlContent = str(soup.find("select",{"name":"genre"}))
+    
+    matches = re.findall(sPattern, sHtmlContent)
+    aResult = [True,matches]
+    
+    #VSlog(aResult)
+    
+    if aResult[0] is True:
+        for aEntry in aResult[1]:
+            CatURL = SERIE_EN[0] + '?genre=' + aEntry[0]
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', CatURL)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', aEntry[1], icons + '/Genres.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
+    else:
+        pass
+    
+    
 def showSearch():
     oGui = cGui()
  
