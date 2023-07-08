@@ -430,7 +430,7 @@ def showSeries(sSearch = ''):
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
     #oParser = cParser()
     #aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(sHtmlContentfull)
+    #VSlog(sHtmlContentfull)
     sPattern = 'class=\"PlayButton\">.*\s*<a href=\"(.+?)\">.*\s*<div class=\"Poster\">.*\s*<img.class=\".*\".data-image=\"(.+?)\".*alt=\"(.+?)\">.*\s*</div>'
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]

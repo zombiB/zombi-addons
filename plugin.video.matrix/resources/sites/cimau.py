@@ -260,7 +260,7 @@ def showMovies(sSearch = ''):
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'Next' , sThumb, oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
@@ -341,7 +341,7 @@ def showSeries(sSearch = ''):
             #oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             
 			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'Next' , sThumb, oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 		
@@ -444,7 +444,7 @@ def showLinks():
     
     #Recuperation infos
 
-    sIMDB = re.compile(r'httph|https:\/\/www.imdb.com\/title\/(.+?)\/',sHtmlContent)
+    sIMDB = re.search(r'https://www.imdb.com/title/([^<]+)/',sHtmlContent)
     
     sPattern = '<h2>القصة</h2><p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)
