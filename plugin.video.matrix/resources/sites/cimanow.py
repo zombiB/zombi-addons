@@ -14,6 +14,8 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from bs4 import BeautifulSoup
+import requests
 
 import re
 import base64
@@ -50,7 +52,9 @@ URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
- 
+
+s = requests.Session()
+
 def load():
     oGui = cGui()
 
@@ -95,8 +99,8 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية',icons + '/Programs.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/category/رمضان-2022/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان 2022', icons + '/Ramadan.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + 'category/رمضان/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', icons + '/Ramadan.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -130,8 +134,7 @@ def showMovies(sSearch = ''):
     
     oRequest = cRequestHandler(sUrl)
     data = oRequest.request()
-
-
+    
      # (.+?) ([^<]+) .+?
 
     if 'adilbo' in data:
@@ -150,11 +153,43 @@ def showMovies(sSearch = ''):
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
             #VSlog(page)
- 
             sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
 
             oParser = cParser()
             aResult = oParser.parse(page, sPattern)
+            
+            # soup = BeautifulSoup(page,"html.parser") 
+            # #VSlog(soup)
+            # ContentSection = soup.find("section",{"aria-label":"posts"})
+            # Movies = ContentSection.findAll("article",{"aria-label":"post"})
+            # if Movies not in [None,""]:
+                # oOutputParameterHandler = cOutputParameterHandler()
+                
+                # for Movie in Movies:
+                    # siteUrl = Movie.find("a")['href'] + 'watching/'
+                    # VSlog(siteUrl)
+                    # sTitleOrg = Movie.find("li",{"aria-label":"title"}).text
+                    # sTitle = sTitleOrg.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").strip()
+                    
+                    # VSlog(sTitle)
+                    # sThumb = Movie.find("img")['data-src']
+                    # if sThumb.startswith('//'):
+                            # sThumb = 'http:' + sThumb
+                    
+                    
+                    # VSlog(sThumb)
+                    # sYear = Movie.find("li",{"aria-label":"year"}).text
+                    # sDesc = ''
+                    
+                    
+                    # oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    # oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    # oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    # oOutputParameterHandler.addParameter('sYear', sYear)
+                    # oOutputParameterHandler.addParameter('sDesc', sDesc)
+            
+                    # oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
             if aResult[0]:
                 total = len(aResult[1])
                 progress_ = progress().VScreate(SITE_NAME)
@@ -183,44 +218,44 @@ def showMovies(sSearch = ''):
 
                 progress_.VSclose(progress_)
 
-  # ([^<]+) .+?
-            sStart = '</section>'
-            sEnd = '</ul>'
-            page = oParser.abParse(page, sStart, sEnd)
+    if not sSearch:
+        sStart = '</section>'
+        sEnd = '</ul>'
+        page = oParser.abParse(page, sStart, sEnd)
 
-            sPattern = '<li><a href="(.+?)">(.+?)</a>'
-            oParser = cParser()
-            aResult = oParser.parse(page, sPattern)
-	
-	
-            if aResult[0]:
-                total = len(aResult[1])
-                progress_ = progress().VScreate(SITE_NAME)
-                oOutputParameterHandler = cOutputParameterHandler()  
-                for aEntry in aResult[1]:
-                    progress_.VSupdate(progress_, total)
-                    if progress_.iscanceled():
-                        break
- 
-                    sTitle = aEntry[1]
+        sPattern = '<li><a href="(.+?)">(.+?)</a>'
+        oParser = cParser()
+        aResult = oParser.parse(page, sPattern)
+        
+        soup = BeautifulSoup(page,"html.parser")
+        CurrentPage = int(soup.find("li",{"class":"active"}).text)
+        VSlog(CurrentPage)
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()  
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+                
+                deviation = int(aEntry[1])-CurrentPage
+                if deviation==1:
+                    #sTitle = aEntry[1]
             
-                    sTitle =  "PAGE " + sTitle
-                    sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                    sTitle =  'Next'
+                    #sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                     siteUrl = aEntry[0]
-                    sThumb = ""
-
+                    sThumb = icons + '/next.png'
 
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-                    oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+            
+                    oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, sThumb, oOutputParameterHandler)
 
-                progress_.VSclose(progress_)
- 
-
- 
-    if not sSearch:
+            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
@@ -264,7 +299,7 @@ def showSeries(sSearch = ''):
             oParser = cParser()
             aResult = oParser.parse(page, sPattern)
 	
-	
+            itemList = []
             if aResult[0]:
                 total = len(aResult[1])
                 progress_ = progress().VScreate(SITE_NAME)
@@ -284,55 +319,86 @@ def showSeries(sSearch = ''):
                         sThumb = 'http:' + sThumb
                     sDesc = ''
                     sYear = aEntry[1]
+                    
+                    if sTitle not in itemList:
+                        itemList.append(sTitle)
 
-
-
-                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                    oOutputParameterHandler.addParameter('sThumb', sThumb)
-                    oOutputParameterHandler.addParameter('sYear', sYear)
-                    oOutputParameterHandler.addParameter('sDesc', sDesc)
-			
-                    oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                        oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+                        oOutputParameterHandler.addParameter('sYear', sYear)
+                        oOutputParameterHandler.addParameter('sDesc', sDesc)
+                
+                        oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
                 progress_.VSclose(progress_)
 
-  # ([^<]+) .+?
-            sStart = '</section>'
-            sEnd = '</ul>'
-            page = oParser.abParse(page, sStart, sEnd)
 
-            sPattern = '<li><a href="(.+?)">(.+?)</a>'
-            oParser = cParser()
-            aResult = oParser.parse(page, sPattern)
-	
-	
-            if aResult[0]:
-                total = len(aResult[1])
-                progress_ = progress().VScreate(SITE_NAME)
-                oOutputParameterHandler = cOutputParameterHandler()  
-                for aEntry in aResult[1]:
-                    progress_.VSupdate(progress_, total)
-                    if progress_.iscanceled():
-                        break
+                        
+            #itemList = []
+            # if aResult[0]:
+                # total = len(aResult[1])
+                # progress_ = progress().VScreate(SITE_NAME)
+                # oOutputParameterHandler = cOutputParameterHandler()  
+                # for aEntry in aResult[1]:
+                    # progress_.VSupdate(progress_, total)
+                    # if progress_.iscanceled():
+                        # break
  
-                    sTitle = aEntry[1]
+                    # sTitle = aEntry[1]
             
-                    sTitle =  "PAGE " + sTitle
-                    sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-                    siteUrl = aEntry[0]
-                    sThumb = ""
+                    # sTitle =  "PAGE " + sTitle
+                    # sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                    # siteUrl = aEntry[0]
+                    # sThumb = ""
 
+                    # if sTitle not in itemList:
+                        # itemList.append(sTitle)
+                        # oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                        # oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                        # oOutputParameterHandler.addParameter('sThumb', sThumb)
+                
+                        # oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
 
-                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-                    oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-                    oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
-
-                progress_.VSclose(progress_)
+                # progress_.VSclose(progress_)
  
     if not sSearch:
+        sStart = '</section>'
+        sEnd = '</ul>'
+        page = oParser.abParse(page, sStart, sEnd)
+
+        sPattern = '<li><a href="(.+?)">(.+?)</a>'
+        oParser = cParser()
+        aResult = oParser.parse(page, sPattern)
+        
+        soup = BeautifulSoup(page,"html.parser")
+        CurrentPage = int(soup.find("li",{"class":"active"}).text)
+        VSlog(CurrentPage)
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()  
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+                
+                deviation = int(aEntry[1])-CurrentPage
+                if deviation==1:
+                    #sTitle = aEntry[1]
+            
+                    sTitle =  'Next'
+                    #sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                    siteUrl = aEntry[0]
+                    sThumb = icons + '/next.png'
+
+                    oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+            
+                    oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, sThumb, oOutputParameterHandler)
+                progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
  
 def showSeasons():
