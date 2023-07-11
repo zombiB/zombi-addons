@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -10,7 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addon
 from resources.lib.parser import cParser
- 
+from bs4 import BeautifulSoup
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 
@@ -125,13 +125,15 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    
+    soup = BeautifulSoup(sHtmlContent, "html.parser")
+    sHtmlContent = str(soup.find("div",{"id":"postList"}))
+    #VSlog(sHtmlContent)
 
- # ([^<]+) .+? (.+?)
-    sPattern = '<div class="postDiv ">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    sPattern = '<div class=\"postDiv\">.*\s*<a href=\"(.+?)\".*\s*.*\s*.*alt=\"(.+?)\".*data-src=\"(.+?)(\?resize|\")'
 	
+    matches = re.findall(sPattern,sHtmlContent)
+    aResult = [True,matches]
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -143,9 +145,10 @@ def showMovies(sSearch = ''):
                 break
  
             
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1].replace("(","").replace(")","")
+            s1Thumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)
@@ -183,13 +186,21 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    
+    soup = BeautifulSoup(sHtmlContent, "html.parser")
+    sHtmlContent = str(soup.find("div",{"id":"postList"}))
+    #VSlog(sHtmlContent)
 
+    sPattern = '<div class=\"postDiv\">.*\s*<a href=\"(.+?)\".*\s*.*\s*.*alt=\"(.+?)\".*data-src=\"(.+?)(\?resize|\")'
+	
+    matches = re.findall(sPattern,sHtmlContent)
+    aResult = [True,matches]
  # ([^<]+) .+?
-    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
+    #sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
 
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    #oParser = cParser()
+    #aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
     if aResult[0]:
@@ -202,9 +213,10 @@ def showSeries(sSearch = ''):
                 break
  
             
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
+            sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمى","").replace("مترجم","").replace("فيلم","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("برنامج","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1].replace("(","").replace(")","")
+            s1Thumb = aEntry[2].replace("(","").replace(")","")
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = ''
             sDisplayTitle2 = sTitle.split('ال')[0]
             sDisplayTitle2 = sDisplayTitle2.split('مدبلج')[0]
@@ -242,10 +254,19 @@ def showAnimes(sSearch = ''):
     if isMatrix(): 
        sHtmlContent = str(sHtmlContent.encode('latin-1',errors='ignore'),'utf-8',errors='ignore')
  
-      # (.+?) ([^<]+) .+?
-    sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    soup = BeautifulSoup(sHtmlContent, "html.parser")
+    sHtmlContent = str(soup.find("div",{"id":"postList"}))
+    #VSlog(sHtmlContent)
+
+    sPattern = '<div class=\"postDiv\">.*\s*<a href=\"(.+?)\".*\s*.*\s*.*alt=\"(.+?)\".*data-src=\"(.+?)(\?resize|\")'
+	
+    matches = re.findall(sPattern,sHtmlContent)
+    aResult = [True,matches]
+    
+      # # (.+?) ([^<]+) .+?
+    # sPattern = '<div class="postDiv">.+?<a href="([^<]+)">.+?data-src="(.+?)".+?alt="(.+?)"/>'
+    # oParser = cParser()
+    # aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
     if aResult[0]:
@@ -257,9 +278,9 @@ def showAnimes(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("انمي","").replace("انمى","").replace("برنامج","")
+            sTitle = aEntry[1].replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("انمي","").replace("انمى","").replace("برنامج","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1].replace("(","").replace(")","")
+            sThumb = aEntry[2].replace("(","").replace(")","")
             sDesc = ""
 
 
@@ -489,7 +510,9 @@ def showLink():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
+    VSlog(sHtmlContent)
+    VSlog("Link Pattern :" +sPattern)
+    VSlog(aResult)
    
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -518,7 +541,8 @@ def showLink():
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
+    VSlog("Link Pattern :" +sPattern)
+    VSlog(aResult)
 	
     if aResult[0]:
         for aEntry in aResult[1]:
@@ -539,19 +563,28 @@ def showLink():
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				
 
-
     oGui.setEndOfDirectory()       
   
 def __checkForNextPage(sHtmlContent):
-    sPattern = "href='([^<]+)'>&rsaquo;</a>"
+    sPattern = "<li class=\"page-item disabled active\"><span class=\"page-link\">(.+?)</span>"
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0]:
-        return aResult[1][0]
-
-    return False
+        currentPage = aResult[1][0]
+        VSlog('currentPage : ' + currentPage)
+        AllPagesPattern = '<li class=\"page-item\"><a class=\"page-link\" href=\"(.+?)\">(.+?)</a></li>'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, AllPagesPattern)
+        VSlog(aResult)
+        if aResult[0]:
+            for res in aResult[1]:
+                VSlog('PAGE : ' + str(res))
+                if res[1] > currentPage or res[1] == '›':
+                    return res[0]
+    else:
+        return aResult[0]
 
 def showHosters():
     oGui = cGui()
