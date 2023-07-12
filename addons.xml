@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addons>
-<addon id="plugin.video.matrix" name="matrix" version="5.8.12" provider-name="zombi">
+<addon id="plugin.video.matrix" name="Matrix" version="5.9.0" provider-name="zombi">
     <requires>
-
+    
         <trycatch>
             <try>
                 <import addon="xbmc.python" version="3.0.0"/>
@@ -14,13 +13,15 @@
         </trycatch>
         <import addon="repository.zombi"/>
         <import addon="script.module.pyqrcode"/>
+        <import addon="script.kodi.loguploader"/>
         <import addon="script.module.requests"/>
+        <import addon="script.module.resolveurl" version="5.1.00"/>
         <import addon="script.module.dnspython" optional="true"/>
-        <import addon="script.module.resolveurl" optional="true"/>
         <import addon="script.module.selenium" optional="true"/>
-		<import addon="script.module.beautifulsoup4" version="4.9.3"/>
+        <import addon="script.module.beautifulsoup4" version="4.9.3"/>
         <!-- Pour le DEBUG        <import addon="script.module.pydevd" version="4.4.0"/> -->
     </requires>
+
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
@@ -28,15 +29,15 @@
     <extension point="kodi.context.item">
         <menu id="kodi.core.main">
             <item library="resources/lib/gui/menuInformation.py">
-		        <label>$ADDON[plugin.video.matrix 30208]</label>
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 30208][/COLOR]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
             </item>
             <item library="resources/lib/gui/menuAddBookmark.py">
-		        <label>$ADDON[plugin.video.matrix 30210]</label>
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 30210][/COLOR]</label>
 				<visible>Window.IsVisible(home) + !ListItem.Property(isBookmark) + ListItem.Property(sMeta)</visible>
             </item>
             <item library="resources/lib/gui/menuSimil.py">
-		        <label>$ADDON[plugin.video.matrix 30213]</label>
+		        <label>[COLOR lightcoral]$ADDON[plugin.video.matrix 30213][/COLOR]</label>
 				<visible>Window.IsVisible(home) + ListItem.Property(sMeta)</visible>
             </item>
             <item library="resources/lib/gui/menuParents.py">
@@ -56,38 +57,32 @@
 
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
-        <news>plugin.video.matrix-5.8.9</news>
-        <summary lang="en">https://zombib.github.io</summary>
-        <summary lang="fr">https://zombib.github.io</summary>
-        <description lang="en">https://zombib.github.io/</description>
+        <summary lang="fr_FR">Matrix is an arabic addon</summary>
+        <description lang="fr_FR">Matrix lets u access arabic video websites in a beautiful and easy way</description>
+        <disclaimer lang="fr_FR">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
+        <summary lang="fr_CA">Matrix is an arabic addon</summary>
+        <description lang="fr_CA">Matrix lets u access arabic video websites in a beautiful and easy way</description>
+        <disclaimer lang="fr_CA">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
+        <summary lang="en_GB">Matrix is an arabic addon</summary>
+        <description lang="en_GB">Matrix lets u access arabic video websites in a beautiful and easy way</description>
+        <disclaimer lang="en_GB">Matrix is an arabic addon</disclaimer>
+        <summary lang="en_NZ">Matrix lets u access arabic video websites in a beautiful and easy way</summary>
+        <description lang="en_NZ">Matrix lets u access arabic video websites in a beautiful and easy way</description>
+        <disclaimer lang="en_NZ">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
+        <summary lang="en_US">Matrix is an arabic addon</summary>
+        <description lang="en_US">Matrix lets u access arabic video websites in a beautiful and easy way</description>
+        <disclaimer lang="en_US">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE</license>
         <forum>https://github.com/zombiB/zombi-addons/issues</forum>
-		<source>https://github.com/zombiB/zombi-addons/</source>
+        <source>https://github.com/zombiB/zombi-addons/issues</source>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.jpg</fanart>
+            <screenshot>screenshot-01.jpg</screenshot>
+            <screenshot>screenshot-02.jpg</screenshot>
+            <screenshot>screenshot-03.jpg</screenshot>
+            <screenshot>screenshot-04.jpg</screenshot>
+        </assets>
     </extension>
 </addon>
-
-    <addon id="repository.zombi" 
-			name="Zombi Repository" 
-			version="0.0.9" 
-			provider-name="zombi">
-        <extension point="xbmc.addon.repository" name="Zombi Repository">
-            <dir>
-			<info compressed="false">https://raw.githubusercontent.com/zombiB/zombi-addons/master/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/zombiB/zombi-addons/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://github.com/zombiB/zombi-addons/raw/master/repo</datadir>
-            <hashes>false</hashes>
-			</dir>
-            <dir>
-            <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
-            </dir>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <summary>Matrix Repository</summary>
-            <description>arabic vod addon</description>
-            <platform>all</platform>
-    </extension>
-</addon>
-</addons>
