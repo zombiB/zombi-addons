@@ -371,7 +371,7 @@ class cHosterGui:
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
             
-        if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
+        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
             return self.getHoster('uppom')
             
         if ('allviid' in sHostName):

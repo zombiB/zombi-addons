@@ -348,7 +348,6 @@ def showHosters():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     host = URL_MAIN.split('/')[2]
-    VSlog(host)
 
 
     oRequestHandler = cRequestHandler(sUrl)
@@ -361,7 +360,6 @@ def showHosters():
     oParser = cParser()   
     sPattern = '<a data-like="likeCount" data-id="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
     
     if aResult[0]:
         sId = aResult[1][0]
@@ -370,7 +368,6 @@ def showHosters():
     oParser = cParser()
     sPattern = 'data-server="(.+?)"'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
 
    
     if aResult[0]:
@@ -386,26 +383,21 @@ def showHosters():
             sPattern =  '<iframe.+?src="([^"]+)"'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent, sPattern)
-            #VSlog(aResult)
             if aResult[0]:
                 for aEntry in aResult[1]:
             
                     url = aEntry.split('\\')[0]
-                    sTitle = " "
                     if url.startswith('//'):
                        url = 'http:' + url
             
                     sHosterUrl = url
                     if 'userload' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                    if 'moshahda' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                     if 'mystream' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
-                       sDisplayTitle = sTitle
-                       oHoster.setDisplayName(sDisplayTitle)
+                       oHoster.setDisplayName(sMovieTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				

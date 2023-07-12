@@ -1,7 +1,5 @@
 ===================================================
-version="5.2.0"
--mycima fix show all episodes in some +30 episodes series
--familymoviz  Scrapes all download links in the movies page
+
 =====================================================
 ===================================================
 version="5.1.9"

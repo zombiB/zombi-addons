@@ -109,8 +109,9 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
+        VSlog(sUrl)
         oGui.setEndOfDirectory()
         return
  
@@ -119,7 +120,7 @@ def showSeriesSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -131,10 +132,15 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
-    
+      
+
+
+    oParser = cParser()
     oRequest = cRequestHandler(sUrl)
+    oRequest.addHeaderEntry('User-Agent', UA)
     data = oRequest.request()
     
+
      # (.+?) ([^<]+) .+?
 
     if 'adilbo' in data:
@@ -147,13 +153,19 @@ def showMovies(sSearch = ''):
             sc = script.split('.')
             page = ''
             for elm in sc:
-                c_elm = base64.b64decode(elm+'==').decode()
+                c_elm = base64.b64decode(elm+'==').decode('utf-8')
                 t_ch = re.findall('\d+', c_elm, re.S)
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
+
             #VSlog(page)
             sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
+
+            VSlog(page)
+ 
+            sPattern = '<article aria-label="post"><a href="([^"]+).+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
+
 
             oParser = cParser()
             aResult = oParser.parse(page, sPattern)
@@ -199,9 +211,11 @@ def showMovies(sSearch = ''):
                     if progress_.iscanceled():
                         break
  
-                    sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+                    sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("مسرحية","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+                    sTitle = str(sTitle.encode('latin-1'),'utf-8')
                     siteUrl = aEntry[0] + '/watching/'
-                    sThumb = aEntry[3]
+                    sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
+                    
                     if sThumb.startswith('//'):
                         sThumb = 'http:' + sThumb
                     sYear = aEntry[1]
@@ -217,6 +231,8 @@ def showMovies(sSearch = ''):
                     oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
                 progress_.VSclose(progress_)
+            
+            
 
     if not sSearch:
         sStart = '</section>'
@@ -266,11 +282,8 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
  
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-     # (.+?) ([^<]+) .+?
-
     oRequest = cRequestHandler(sUrl)
+    oRequest.addHeaderEntry('User-Agent', UA)
     data = oRequest.request()
 
 
@@ -313,8 +326,9 @@ def showSeries(sSearch = ''):
                         continue
  
                     sTitle = aEntry[2]
+                    sTitle = str(sTitle.encode('latin-1'),'utf-8')
                     siteUrl = aEntry[0]
-                    sThumb = aEntry[3]
+                    sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
                     if sThumb.startswith('//'):
                         sThumb = 'http:' + sThumb
                     sDesc = ''
@@ -409,17 +423,18 @@ def showSeasons():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
  
+    # (.+?) .+?  ([^<]+)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
     sStart = '<section aria-label="seasons">'
     sEnd = '<ul class="tabcontent" id="related">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    # (.+?) .+?  ([^<]+)
 
     oRequest = cRequestHandler(sUrl)
+    oRequest.addHeaderEntry('User-Agent', UA)
     data = oRequest.request()
-
+    
 
      # (.+?) ([^<]+) .+?
 
@@ -439,6 +454,12 @@ def showSeasons():
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
             VSlog(page)
+            
+            oParser = cParser()
+            sStart = '<section aria-label="seasons">'
+            sEnd = '<ul class="tabcontent" id="related">'
+            page = oParser.abParse(page, sStart, sEnd)
+            
             sPattern = '<a href="([^<]+)">([^<]+)<em>'
     
             oParser = cParser()
@@ -449,8 +470,9 @@ def showSeasons():
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
 
- 
-                    sTitle = sMovieTitle+aEntry[1].replace("الموسم"," S").replace("S ","S")
+                    sSeason = str(aEntry[1].encode('latin-1'),'utf-8')
+                    sTitle = sMovieTitle+sSeason.replace("الموسم"," S").replace("S ","S")
+                    
                     siteUrl = aEntry[0]
                     sThumb = sThumb
                     sDesc = ""
@@ -473,16 +495,16 @@ def showEps():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
- 
+
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
     sStart = '<section aria-label="seasons">'
     sEnd = '<ul class="tabcontent" id="related">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
-    # (.+?) .+?  ([^<]+)
-
+    
     oRequest = cRequestHandler(sUrl)
+    oRequest.addHeaderEntry('User-Agent', UA)
     data = oRequest.request()
 
 
@@ -504,7 +526,12 @@ def showEps():
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
             VSlog(page)
-
+            
+            oParser = cParser()
+            sStart = '<section aria-label="seasons">'
+            sEnd = '<ul class="tabcontent" id="related">'
+            page = oParser.abParse(page, sStart, sEnd)
+            
             sPattern = '<li><a href="(.+?)"><img  src="(.+?)" alt="logo" />.+?<em>(.+?)</em>'
 
             oParser = cParser()
@@ -517,9 +544,10 @@ def showEps():
                 for aEntry in aResult[1]:
 
  
-                    sTitle = sMovieTitle+' E'+aEntry[2] 
+                    sTitle = sMovieTitle+' E'+aEntry[2]
+                    
                     siteUrl = aEntry[0] + 'watching/'
-                    sThumb = aEntry[1]
+                    sThumb = str(aEntry[1].encode('latin-1'),'utf-8')
                     sDesc = ""
 
                     oOutputParameterHandler.addParameter('siteUrl', siteUrl)

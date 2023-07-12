@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
 <addon id="plugin.video.matrix" name="Matrix" version="5.9.0" provider-name="zombi">
+<addons>
+<addon id="plugin.video.matrix" name="matrix" version="5.9.0" provider-name="zombi">
     <requires>
     
         <trycatch>
@@ -72,6 +75,10 @@
         <summary lang="en_US">Matrix is an arabic addon</summary>
         <description lang="en_US">Matrix lets u access arabic video websites in a beautiful and easy way</description>
         <disclaimer lang="en_US">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
+        <news>plugin.video.matrix-5.9.0</news>
+        <summary lang="en">https://zombib.github.io</summary>
+        <summary lang="fr">https://zombib.github.io</summary>
+        <description lang="en">https://zombib.github.io/</description>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE</license>
         <forum>https://github.com/zombiB/zombi-addons/issues</forum>
