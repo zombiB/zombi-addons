@@ -132,10 +132,17 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
+<<<<<<< Updated upstream
       
 
 
     oParser = cParser()
+=======
+        
+    oParser = cParser()
+    oRequest = cRequestHandler(sUrl)
+    oRequest.addHeaderEntry('User-Agent', UA)
+>>>>>>> Stashed changes
     oRequest = cRequestHandler(sUrl)
     oRequest.addHeaderEntry('User-Agent', UA)
     data = oRequest.request()
@@ -160,7 +167,7 @@ def showMovies(sSearch = ''):
                     page = page + chr(nb)
 
             #VSlog(page)
-            sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
+            sPattern = '<article aria-label="post"><a href="([^"]+).+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
 
             VSlog(page)
  
@@ -215,7 +222,10 @@ def showMovies(sSearch = ''):
                     sTitle = str(sTitle.encode('latin-1'),'utf-8')
                     siteUrl = aEntry[0] + '/watching/'
                     sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
+<<<<<<< Updated upstream
                     
+=======
+>>>>>>> Stashed changes
                     if sThumb.startswith('//'):
                         sThumb = 'http:' + sThumb
                     sYear = aEntry[1]
@@ -245,7 +255,7 @@ def showMovies(sSearch = ''):
         
         soup = BeautifulSoup(page,"html.parser")
         CurrentPage = int(soup.find("li",{"class":"active"}).text)
-        VSlog(CurrentPage)
+        #VSlog(CurrentPage)
         
         if aResult[0]:
             total = len(aResult[1])
@@ -304,7 +314,7 @@ def showSeries(sSearch = ''):
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
-            VSlog(page)
+            #VSlog(page)
 
             sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
 
@@ -325,10 +335,19 @@ def showSeries(sSearch = ''):
                     if "فيلم" in aEntry[2]:
                         continue
  
+<<<<<<< Updated upstream
                     sTitle = aEntry[2]
                     sTitle = str(sTitle.encode('latin-1'),'utf-8')
                     siteUrl = aEntry[0]
                     sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
+=======
+                    sTitle = str(aEntry[2].encode('latin-1'),'utf-8')
+                    
+                    siteUrl = aEntry[0]
+                    
+                    sThumb = str(aEntry[3].encode('latin-1'),'utf-8')
+                    
+>>>>>>> Stashed changes
                     if sThumb.startswith('//'):
                         sThumb = 'http:' + sThumb
                     sDesc = ''
@@ -387,7 +406,7 @@ def showSeries(sSearch = ''):
         
         soup = BeautifulSoup(page,"html.parser")
         CurrentPage = int(soup.find("li",{"class":"active"}).text)
-        VSlog(CurrentPage)
+        #VSlog(CurrentPage)
         
         if aResult[0]:
             total = len(aResult[1])
@@ -453,6 +472,7 @@ def showSeasons():
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
+<<<<<<< Updated upstream
             VSlog(page)
             
             oParser = cParser()
@@ -460,6 +480,12 @@ def showSeasons():
             sEnd = '<ul class="tabcontent" id="related">'
             page = oParser.abParse(page, sStart, sEnd)
             
+=======
+            #VSlog(page)
+            oRequest = cRequestHandler(sUrl)
+            oRequest.addHeaderEntry('User-Agent', UA)
+            data = oRequest.request()
+>>>>>>> Stashed changes
             sPattern = '<a href="([^<]+)">([^<]+)<em>'
     
             oParser = cParser()
@@ -470,9 +496,16 @@ def showSeasons():
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
 
+<<<<<<< Updated upstream
                     sSeason = str(aEntry[1].encode('latin-1'),'utf-8')
                     sTitle = sMovieTitle+sSeason.replace("الموسم"," S").replace("S ","S")
                     
+=======
+ 
+                    sTitle = sMovieTitle+aEntry[1].replace("الموسم"," S").replace("S ","S")
+                    sSeason = str(aEntry[1].encode('latin-1'),'utf-8')
+                    sTitle = sMovieTitle+sSeason.replace("الموسم"," S").replace("S ","S")
+>>>>>>> Stashed changes
                     siteUrl = aEntry[0]
                     sThumb = sThumb
                     sDesc = ""
@@ -507,7 +540,6 @@ def showEps():
     oRequest.addHeaderEntry('User-Agent', UA)
     data = oRequest.request()
 
-
      # (.+?) ([^<]+) .+?
 
     if 'adilbo' in data:
@@ -525,8 +557,12 @@ def showEps():
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
+<<<<<<< Updated upstream
             VSlog(page)
             
+=======
+            #VSlog(page)
+>>>>>>> Stashed changes
             oParser = cParser()
             sStart = '<section aria-label="seasons">'
             sEnd = '<ul class="tabcontent" id="related">'
@@ -572,7 +608,7 @@ def showServer():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     host = URL_MAIN.split('/')[2]
-    VSlog(host)
+    #VSlog(host)
  
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()

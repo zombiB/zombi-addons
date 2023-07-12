@@ -224,7 +224,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
     sPattern = '<div class="thumbnail">.+?<a href="([^<]+)" title="([^<]+)">.+?<img src="([^<]+)" alt='
-
+    VSlog(sHtmlContent)
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -333,7 +333,7 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
             
-    sPattern =  '<a id="play-video" class="video-play-button" href="(.+?)" target=' 
+    sPattern =  '<a id=\"play-video\" class=\"video-play-button\" href=\"(.+?)\" ' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         m3url = aResult[1][0]

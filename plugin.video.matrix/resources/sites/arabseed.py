@@ -12,11 +12,15 @@ from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
 from bs4 import BeautifulSoup
+<<<<<<< Updated upstream
 
  
 
 import os
 
+=======
+import os
+>>>>>>> Stashed changes
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 
@@ -222,6 +226,10 @@ def showMovies(sSearch = ''):
 
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	
     if aResult[0] is True:
         total = len(aResult[1])
@@ -415,7 +423,10 @@ def showSeries(sSearch = ''):
        sHtmlContentfull = r.content.decode('utf8')
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     sPattern = 'class=\"PlayButton\">.*\s*<a href=\"(.+?)\">.*\s*<div class=\"Poster\">.*\s*<img.class=\".*\".data-image=\"(.+?)\".*alt=\"(.+?)\">.*\s*</div>'
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
@@ -450,7 +461,10 @@ def showSeries(sSearch = ''):
                     oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
                 else:
                     oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         progress_.VSclose(progress_)
 
  
@@ -611,7 +625,10 @@ def __checkForNextPage(sHtmlContent):
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     if aResult[0] is True:
         return URL_MAIN+aResult[1][0]
 
@@ -646,6 +663,7 @@ def showHosters():
         soup = BeautifulSoup(sHtmlContent, "html.parser")
         sHtmlContent = soup.find("div",{"class":"containerServers"})
         
+<<<<<<< Updated upstream
 
                url = aEntry
                ##VSlog("Hoster Link: " + url)
@@ -667,6 +685,8 @@ def showHosters():
                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     oGui.setEndOfDirectory()
 
+=======
+>>>>>>> Stashed changes
         sections = sHtmlContent.findAll("h3")
         
         
@@ -739,5 +759,9 @@ def showHosters():
                           oHoster.setFileName(sMovieTitle)
                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                           
+<<<<<<< Updated upstream
     oGui.setEndOfDirectory()
 
+=======
+    oGui.setEndOfDirectory()
+>>>>>>> Stashed changes
