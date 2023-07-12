@@ -206,13 +206,14 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
  
+        
+ 
+    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
- 
-    if not sSearch:
         oGui.setEndOfDirectory()  
 
  
@@ -268,13 +269,14 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
  
+        
+ 
+    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
- 
-    if not sSearch:
         oGui.setEndOfDirectory()  
 def showSeasons():
 	oGui = cGui()

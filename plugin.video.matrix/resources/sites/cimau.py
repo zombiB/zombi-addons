@@ -78,6 +78,10 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
 
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انمي', icons + '/Anime.png', oOutputParameterHandler)
+ 
+
+
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام انمي', icons + '/Anime.png', oOutputParameterHandler)
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
     
@@ -85,8 +89,12 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netflix', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
 
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', icons + '/Cartoon.png', oOutputParameterHandler) 
+
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_NETFLIX[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات Netflix', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
@@ -112,6 +120,14 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', PROGRAMS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيون', icons + '/Programs.png', oOutputParameterHandler)
+
+    
+    oOutputParameterHandler.addParameter('siteUrl', WWE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مصارعة', icons + '/WWE.png', oOutputParameterHandler)
+    
+    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    # oGui.addDir(SITE_IDENTIFIER, 'showPack', 'سلاسل افلام', icons + '/pack.png', oOutputParameterHandler)
+
     
     oOutputParameterHandler.addParameter('siteUrl', WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مصارعة', icons + '/WWE.png', oOutputParameterHandler)
@@ -239,6 +255,31 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
+
+    if not sSearch:
+        sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+     
+                siteUrl = aEntry.replace('"',"")
+                VSlog("Check for next Movies : " + siteUrl)
+                sThumb = icons + '/next.png'
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'Next' , sThumb, oOutputParameterHandler)
+
     sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
 
     oParser = cParser()
@@ -262,9 +303,8 @@ def showMovies(sSearch = ''):
 			
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
- 
-    if not sSearch:
+
+            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 			
 def showSeries(sSearch = ''):
@@ -317,6 +357,7 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
+
     sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
 
     oParser = cParser()
@@ -344,8 +385,35 @@ def showSeries(sSearch = ''):
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
-		
+
     if not sSearch:
+        sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+     
+                siteUrl = aEntry.replace('"',"")
+                VSlog("Check for next series : " + siteUrl)
+                sThumb = icons + '/next.png'
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sThumb',sThumb)
+                #oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'Next' , sThumb, oOutputParameterHandler)
+
+            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 	
 def showEpisodes():
@@ -444,7 +512,11 @@ def showLinks():
     
     #Recuperation infos
 
+
+    sIMDB = re.compile(r'httph|https:\/\/www.imdb.com\/title\/(.+?)\/',sHtmlContent)
+
     sIMDB = re.search(r'https://www.imdb.com/title/([^<]+)/',sHtmlContent)
+
     
     sPattern = '<h2>القصة</h2><p>([^<]+)</p>'
     aResult = oParser.parse(sHtmlContent, sPattern)

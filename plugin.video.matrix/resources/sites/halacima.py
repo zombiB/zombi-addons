@@ -167,38 +167,39 @@ def showMovies(sSearch = ''):
         
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]           
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
-            sThumb = ""
-            sDesc = ""
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+    
  
     if not sSearch:
+        sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+     
+                sTitle = aEntry[1]           
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+                sThumb = ""
+                sDesc = ""
+
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+
+            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
@@ -218,7 +219,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    itemList = []
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -240,50 +241,52 @@ def showSeries(sSearch = ''):
             sDesc = ""
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الأول","S1").replace(" الثانى","2").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الحلقة "," E").replace("الموسم","S").replace("S ","S")
 
+            if sDisplayTitle not in itemList:
+                itemList.append(sDisplayTitle)
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-
-            oGui.addTV(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                oGui.addTV(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
         
   # ([^<]+) .+?
 
-    sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
-            sThumb = ""
-            sDesc = ""
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+    
  
     if not sSearch:
+        sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+     
+                sTitle = aEntry[1]
+                
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+                sThumb = ""
+                sDesc = ""
+
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+
+            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 
 def showSerie(sSearch = ''):
@@ -330,39 +333,40 @@ def showSerie(sSearch = ''):
         
   # ([^<]+) .+?
 
-    sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
-            sThumb = ""
-            sDesc = ""
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+    
  
     if not sSearch:
+        sPattern = '<li><a href="([^<]+)" data-ci-pagination-page="([^<]+)">'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+     
+                sTitle = aEntry[1]
+                
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+                sThumb = ""
+                sDesc = ""
+
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+
+            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 
 	 

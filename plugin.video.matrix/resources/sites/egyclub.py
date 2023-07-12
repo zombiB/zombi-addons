@@ -134,14 +134,15 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
  
+        
+
+ 
+    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-
- 
-    if not sSearch:
         oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
@@ -175,7 +176,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    itemList = []
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -194,26 +195,28 @@ def showSeries(sSearch = ''):
             sYear = ''
             sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثانى","S2").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الحلقة "," E").replace("حلقة "," E").replace("الموسم","S").replace("S ","S").replace("موسم","S").replace("S ","S")
 
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sYear', sYear)
-            if sSearch:
-               oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
-            if not sSearch:
-               oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            if sDisplayTitle not in itemList:
+                itemList.append(sDisplayTitle)
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sYear', sYear)
+                if sSearch:
+                   oGui.addEpisode(SITE_IDENTIFIER, 'showServers', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+                if not sSearch:
+                   oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
+        
+ 
+ 
+    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
- 
- 
-    if not sSearch:
         oGui.setEndOfDirectory() 
   
 def showEpisodes():
