@@ -283,8 +283,6 @@ def showHosters():
                 sHosterUrl = url 
                 if 'userload' in sHosterUrl:
                     sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                if 'moshahda' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                 if 'mystream' in sHosterUrl:
                     sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -311,8 +309,6 @@ def showHosters():
             sHosterUrl = url
             if '?download_' in sHosterUrl:
                 sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'moshahda' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 

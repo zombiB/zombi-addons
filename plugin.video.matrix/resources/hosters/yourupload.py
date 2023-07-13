@@ -35,8 +35,11 @@ class cHoster(iHoster):
         api_call = False
 
         if aResult[0]:
-            api_call = aResult[1][0]
+            for aEntry in aResult[1]:
+                if 'http' not in aEntry:
+                    continue 
+                api_call = aEntry
 
-            if api_call:
-                return True, api_call + '|User-Agent=' + UA+ '&Referer=' + self._url
+                if api_call:
+                    return True, api_call + '|User-Agent=' + UA+ '&Referer=' + self._url
         

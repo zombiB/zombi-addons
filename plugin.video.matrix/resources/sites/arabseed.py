@@ -12,11 +12,7 @@ from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
 from bs4 import BeautifulSoup
-
- 
-
 import os
-
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 
@@ -222,6 +218,7 @@ def showMovies(sSearch = ''):
 
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
+
 	
     if aResult[0] is True:
         total = len(aResult[1])
@@ -415,7 +412,6 @@ def showSeries(sSearch = ''):
        sHtmlContentfull = r.content.decode('utf8')
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
 
-
     sPattern = 'class=\"PlayButton\">.*\s*<a href=\"(.+?)\">.*\s*<div class=\"Poster\">.*\s*<img.class=\".*\".data-image=\"(.+?)\".*alt=\"(.+?)\">.*\s*</div>'
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
@@ -450,7 +446,6 @@ def showSeries(sSearch = ''):
                     oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
                 else:
                     oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
         progress_.VSclose(progress_)
 
  
@@ -611,7 +606,6 @@ def __checkForNextPage(sHtmlContent):
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
     if aResult[0] is True:
         return URL_MAIN+aResult[1][0]
 
@@ -646,27 +640,6 @@ def showHosters():
         soup = BeautifulSoup(sHtmlContent, "html.parser")
         sHtmlContent = soup.find("div",{"class":"containerServers"})
         
-
-               url = aEntry
-               ##VSlog("Hoster Link: " + url)
-               sThumb = sThumb
-               if url.startswith('//'):
-                  url = 'http:' + url
-								            
-               sHosterUrl = url
-               if 'userload' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'moshahda' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'mystream' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-               oHoster = cHosterGui().checkHoster(sHosterUrl)
-               if oHoster != False:
-                  oHoster.setDisplayName(sMovieTitle)
-                  oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    oGui.setEndOfDirectory()
-
         sections = sHtmlContent.findAll("h3")
         
         
@@ -692,17 +665,16 @@ def showHosters():
                        sThumb = icons + '/resolution/' + quality + '.png'
                        if url.startswith('//'):
                           url = 'http:' + url
+                       sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, quality)
                                                     
                        sHosterUrl = url
                        if 'userload' in sHosterUrl:
-                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                       if 'moshahda' in sHosterUrl:
                           sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                        if 'mystream' in sHosterUrl:
                           sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                        oHoster = cHosterGui().checkHoster(sHosterUrl)
                        if oHoster != False:
-                          oHoster.setDisplayName(quality)
+                          oHoster.setDisplayName(sTitle)
                           oHoster.setFileName(sMovieTitle)
                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                     
@@ -725,19 +697,17 @@ def showHosters():
                        sThumb = icons + '/resolution/' + quality + '.png'
                        if url.startswith('//'):
                           url = 'http:' + url
+                       sTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, quality)
                                                     
                        sHosterUrl = url
                        if 'userload' in sHosterUrl:
-                          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                       if 'moshahda' in sHosterUrl:
                           sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                        if 'mystream' in sHosterUrl:
                           sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
                        oHoster = cHosterGui().checkHoster(sHosterUrl)
                        if oHoster != False:
-                          oHoster.setDisplayName(quality)
+                          oHoster.setDisplayName(sTitle)
                           oHoster.setFileName(sMovieTitle)
                           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                           
     oGui.setEndOfDirectory()
-

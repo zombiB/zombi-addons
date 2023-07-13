@@ -22,7 +22,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
 KID_MOVIES = (URL_MAIN + '/films.html', 'showMovies')
-KID_CARTOON = (URL_MAIN + '/cats.html', 'showSeries')
+KID_CARTOON = (URL_MAIN + '/cartoon2549.html', 'showSeries')
 
  
 def load():
@@ -112,7 +112,7 @@ def __checkForNextPageEp(sHtmlContent):
         if '«' in page.text:
             return URL_MAIN+'/'+ page['href']
     return False		
- 
+ 	
 def showSeries(sSearch = ''):
     oGui = cGui()
 
@@ -121,52 +121,44 @@ def showSeries(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    
-    soup = BeautifulSoup(sHtmlContent, "html.parser")
-    oHtmlContent = soup.find("div",{"id":"blocks2"})
-    #VSlog(oHtmlContent)
-    # sPattern = '<div class=\"cartoon_cat_pic\">.+?<a href=\"(.+?)\" title=\"(.+?)\".+?src=\"(.+?)\" title'
 
-    # oParser = cParser()
-    # aResult = oParser.parse(oHtmlContent, sPattern)
-    Shows = oHtmlContent.findAll("div",{"class":"cartoon_cat"})
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<div id="sidebar"><div class="sidebar_title">'
+    sEnd = '</div><div class="myline">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    
+ 
+    sPattern = '<li><a href="([^<]+)">([^<]+)</a></li'
+    aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    if Shows:
-        total = len(Shows)
+	
+    if aResult[0]:
+        total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in Shows:
+        for aEntry in aResult[1]:
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
-            
-            sTitle = aEntry.find("a")['title']
-            #sTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الجزء","الموسم").replace("الموسم","S").replace("موسم","S").replace("S ","S")
-            #siteUrl = aEntry[0]
-            siteUrl = aEntry.find("a")['href']
-            
-            #sThumb = aEntry[2]
-            sThumb = aEntry.find("a").find("img")['src']
+ 
+            sTitle = aEntry[1].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الجزء","الموسم").replace("الموسم","S").replace("موسم","S").replace("S ","S")
+            siteUrl = URL_MAIN+'/'+aEntry[0]
+            sThumb = ""
 			
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            
+
             oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
  
-        sNextPage = __checkForNextPage(sHtmlContent)
-        if sNextPage:
-            oOutputParameterHandler = cOutputParameterHandler()
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
- 
     if not sSearch:
         oGui.setEndOfDirectory()
-   
+			
 def showEps():
     oGui = cGui()
    
@@ -174,7 +166,7 @@ def showEps():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    VSlog(sUrl)
+	
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
