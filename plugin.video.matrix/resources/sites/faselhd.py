@@ -510,9 +510,8 @@ def showLink():
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(sHtmlContent)
-    VSlog("Link Pattern :" +sPattern)
-    VSlog(aResult)
+    #VSlog("Link Pattern :" +sPattern)
+    #VSlog(aResult)
    
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()    
@@ -541,8 +540,8 @@ def showLink():
     sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog("Link Pattern :" +sPattern)
-    VSlog(aResult)
+    #VSlog("Link Pattern :" +sPattern)
+    #VSlog(aResult)
 	
     if aResult[0]:
         for aEntry in aResult[1]:
@@ -573,14 +572,14 @@ def __checkForNextPage(sHtmlContent):
  
     if aResult[0]:
         currentPage = aResult[1][0]
-        VSlog('currentPage : ' + currentPage)
+        #VSlog('currentPage : ' + currentPage)
         AllPagesPattern = '<li class=\"page-item\"><a class=\"page-link\" href=\"(.+?)\">(.+?)</a></li>'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, AllPagesPattern)
-        VSlog(aResult)
+        #VSlog(aResult)
         if aResult[0]:
             for res in aResult[1]:
-                VSlog('PAGE : ' + str(res))
+                #VSlog('PAGE : ' + str(res))
                 if res[1] > currentPage or res[1] == '›':
                     return res[0]
     else:

@@ -23,14 +23,16 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
-        VSlog(self._url)
+        VSlog(sReferer)
         
         oParser = cParser()
         
-        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?)</script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             sHtmlContent = cPacker().unpack(aResult[1][0])
+        VSlog(sHtmlContent)
+        
         
             # (.+?) .+?
         sPattern = 'file:"(.+?)",label:"(.+?)","type":"mp4"'
@@ -52,7 +54,7 @@ class cHoster(iHoster):
             api_call = dialog().VSselectqual(qua, url)
  
             if (api_call):
-                return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
+                return True, api_call+'|AUTH=TLS&verifypeer=false'  + '&User-Agent=' + UA + '&Referer=' + sReferer
             
         return False, False
    

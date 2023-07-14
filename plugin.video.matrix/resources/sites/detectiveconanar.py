@@ -19,8 +19,8 @@ SITE_NAME = 'Detectiveconanar'
 SITE_DESC = 'arabic vod'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-ANIM_NEWS = ('https://detectiveconanar.com/episodes/', 'showSeries')
-ANIM_MOVIES = ('https://detectiveconanar.com/movies/', 'showMovies')
+ANIM_NEWS = (URL_MAIN + '/episodes/', 'showSeries')
+ANIM_MOVIES = (URL_MAIN + '/movies/', 'showMovies')
 
  
 def load():
@@ -130,7 +130,7 @@ def showSeries(sSearch = ''):
         oGui.setEndOfDirectory()
   # .+? ([^<]+) 
 def __checkForNextPage(sHtmlContent):
-    sPattern = "class='arrow_pag' href=([^<]+)><i id='nextpagination'"
+    sPattern = '/a><a class="arrow_pag" href="([^"]+)'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

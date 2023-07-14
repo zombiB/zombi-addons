@@ -11,7 +11,7 @@ UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'shoffree', 'shoffree')
+        iHoster.__init__(self, 'shoffree', 'Shoffree/EgyBest', 'gold')
 
     def isDownloadable(self):
         return False
@@ -29,7 +29,7 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
-        VSlog(sHtmlContent)
+
         
         oParser = cParser()
         
@@ -49,7 +49,19 @@ class cHoster(iHoster):
  
             if api_call:
                 return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
+
+        sPattern = '<source src="(.+?)" type='
+        aResult = oParser.parse(sHtmlContent, sPattern)
         
+        api_call = False
+
+        if aResult[0]:
+            api_call = aResult[1][0]
+ 
+            if api_call:
+                return True, api_call + '|User-Agent=' + UA + '&Referer=' + sReferer
+
+
         sPattern = 'file:.+?"(.+?)",.+?label: "(.+?)",'
         aResult = oParser.parse(sHtmlContent, sPattern)
         

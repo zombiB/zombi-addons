@@ -178,7 +178,7 @@ class cHosterGui:
                 else:
                     return self.getHoster("lien_direct")
 
-        supported_player = ['hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'extremenow', 'yourupload', 'vidspeeds', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'mixloads', 'vidoza',
+        supported_player = ['hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'extremenow', 'yourupload', 'vidspeeds', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'vidoza',
                             'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'netu', 'letsupload',
                             'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
@@ -201,7 +201,7 @@ class cHosterGui:
         if ('gettyshare' in sHostName):
             return self.getHoster('gettyshare')
             
-        if ('shoffree' in sHostName):
+        if ('shoffree' in sHostName) or ('egy-best' in sHostName):
             return self.getHoster('shoffree')
 				
         if ('egybist.' in sHostName):
@@ -218,10 +218,14 @@ class cHosterGui:
             return f
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
-        if ('guccihide' in sHostName) or ('streamhide' in sHostName):
+        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName):
             return self.getHoster('streamhide')
         if ('vidpro' in sHostName):
-            return self.getHoster('samashare')
+            return self.getHoster('samashare')				
+        if ('.aflam' in sHosterUrl):
+            return self.getHoster('mixloads')			
+        if ('mixloads' in sHosterUrl):
+            return self.getHoster('mixloads')
         if ('filelions' in sHostName):
             return self.getHoster('filelions')
         if ('streamwish' in sHostName):
@@ -457,7 +461,7 @@ class cHosterGui:
         if ('sama-share' in sHostName):
             return self.getHoster('samashare')
 
-        if ('anafast' in sHostName):
+        if ('anafast' in sHostName) or ('anamov' in sHostName):
             return self.getHoster('anafasts')
 
         if ('myvi.' in sHostName):

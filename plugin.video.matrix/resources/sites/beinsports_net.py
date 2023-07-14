@@ -36,7 +36,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', icons + '/Search.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', 'http://frenchstream.org/les-plus-vues')
-    oGui.addDir(SITE_IDENTIFIER, 'showGenres', 'Sports', icons + '/Genres.png', oOutputParameterHandler)    
+    oGui.addDir(SITE_IDENTIFIER, 'showGenres', 'Sports', icons + '/Sport.png', oOutputParameterHandler)    
             
     oGui.setEndOfDirectory()
   

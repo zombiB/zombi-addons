@@ -220,6 +220,11 @@
             "active": "True",
             "url": "https://www.fushaar.com/"
         },
+        "ifushaar": {
+            "label": "iFushaar",
+            "active": "True",
+            "url": "https://t.ifushaar.com/"
+        },
         "gateanime": {
             "label": "Gateanime",
             "active": "True",
