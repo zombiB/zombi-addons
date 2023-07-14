@@ -607,7 +607,7 @@ def showServer():
 
 
     # (.+?) .+? ([^<]+)        	
-            sPattern = '<a href="([^"]+)"><i class.+?download.+?</i>(.+?)<p'
+            sPattern = sPattern = '<a href="(.+?)".+?class="fas fa-cloud-download-alt"></i>(.+?)<p'
             oParser = cParser()
             aResult = oParser.parse(page, sPattern)
 
@@ -645,7 +645,7 @@ def showServer():
 	
             if aResult[0]:
                 for aEntry in aResult[1]:
-                    url = aEntry
+                    url = aEntry.replace("cimanow","rrsrrs")
                     sTitle = sMovieTitle
                     if url.startswith('//'):
                         url = 'http:' + url
@@ -658,7 +658,7 @@ def showServer():
                     if 'moshahda' in sHosterUrl:
                         sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                     if 'mystream' in sHosterUrl:
-                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     if oHoster:
                         oHoster.setDisplayName(sTitle)

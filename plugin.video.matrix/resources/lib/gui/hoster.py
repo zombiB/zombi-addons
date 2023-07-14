@@ -299,6 +299,9 @@ class cHosterGui:
         if ('nextcdn' in sHostName):
             return self.getHoster('lien_direct')
 
+        if ('akoam' in sHostName):
+            return self.getHoster('lien_direct')
+
         if ('akwam' in sHostName):
             return self.getHoster('lien_direct')
 

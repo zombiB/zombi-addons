@@ -261,11 +261,10 @@ def showHosters():
 
     oParser = cParser()       
 
-
     # (.+?) .+? ([^<]+)
                
 
-    sPattern = 'data-ep-url="([^<]+)">'
+    sPattern = "data-type='(.+?)' data-post='(.+?)' data-nume='(.+?)'><ul><li>"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 

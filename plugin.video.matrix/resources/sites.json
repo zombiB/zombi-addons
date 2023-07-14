@@ -130,6 +130,11 @@
             "active": "True",
             "url": "https://cima-clb.cam/"
         },
+        "cimalek": {
+            "label": "Cimalek",
+            "active": "True",
+            "url": "https://w.cimalek.to/"
+        },
         "cimalight": {
             "label": "Cimalight",
             "active": "True",

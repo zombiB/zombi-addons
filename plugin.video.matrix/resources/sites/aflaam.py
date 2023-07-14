@@ -14,6 +14,7 @@ from resources.lib.comaddon import progress, VSlog, siteManager, addon
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 	
+TimeOut = 60 	
 SITE_IDENTIFIER = 'aflaam'
 SITE_NAME = 'Aflaam'
 SITE_DESC = 'arabic vod'
@@ -442,6 +443,7 @@ def showHosters():
     if aResult[0] :
         murl =  aResult[1][0]
         oRequest = cRequestHandler(murl)
+        oRequest.setTimeout(TimeOut)
         sHtmlContent = oRequest.request()
             
 
@@ -460,6 +462,6 @@ def showHosters():
            if oHoster != False:
               oHoster.setDisplayName(sTitle)
               oHoster.setFileName(sMovieTitle)
-              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+              cHosterGui().showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb)
                 
     oGui.setEndOfDirectory()

@@ -46,7 +46,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', icons + '/Search.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'أقسام الموقع', icons + '/Icon.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'أقسام الموقع', icons + '/All.png', oOutputParameterHandler)
    
 #    oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
 #    oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'مسلسلات', icons + '/TVShows.png', oOutputParameterHandler) 

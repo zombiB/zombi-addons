@@ -33,6 +33,7 @@ DOC_NEWS = (URL_MAIN + '/movies-cats/documentary', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/series_genres/documentary', 'showSeries')
 MOVIE_TOP = (URL_MAIN + '/movies_top_votes', 'showMovies')
 MOVIE_POP = (URL_MAIN + '/movies_top_views', 'showMovies')
+MOVIE_PACK = (URL_MAIN , 'showPack')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%8A%D9%84%D9%85+', 'showMovies')
@@ -92,6 +93,9 @@ def load():
     
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية',icons + '/Programs.png', oOutputParameterHandler) 
+	
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', icons + '/Lists.png', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
 	
@@ -115,6 +119,54 @@ def showSeriesSearch():
         oGui.setEndOfDirectory()
         return
 
+def showPack():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = 'id="siteMenu"'
+    sEnd = '</ul>'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    sPattern = 'href="([^<]+)">([^<]+)</a>'
+
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult[1]:
+            if '#' in aEntry[0] or 'oscar' in aEntry[0] or 'soon' in aEntry[0] or 'review' in aEntry[0]:
+                continue 
+            sTitle = aEntry[1]
+            siteUrl = aEntry[0].split('"')[0]
+            if siteUrl.startswith('/'):
+                siteUrl = URL_MAIN + aEntry[0].split('"')[0]
+
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+
+            if 'serie' in siteUrl or 'tvshow' in siteUrl or 'tvshow' in siteUrl or 'asian_top_views' in siteUrl or 'anime_top_views' in siteUrl:
+                oGui.addMisc(SITE_IDENTIFIER, 'showSeries', sTitle, 'mslsl.png', '', '', oOutputParameterHandler)
+            else:
+                oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
+
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showPack', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()
+	
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:

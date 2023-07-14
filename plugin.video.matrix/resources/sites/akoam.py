@@ -355,7 +355,7 @@ def showLink():
     if aResult:
         sNote = aResult[1]
      # (.+?) ([^<]+) .+?
-    sPattern = "class=\"sub_file_title\">(.+?)<i>(.+?)</i>.+?class=\"download_btn\" href=\"(.+?)\">"
+    sPattern = "class='sub_file_title'>(.+?)<i>(.+?)</i>.+?class='download_btn' href='(.+?)'></a>"
 		 
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -428,8 +428,8 @@ def showLinks():
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.setRequestType(1)
     oRequestHandler.addHeaderEntry('user-agent', 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.109 Safari/537.36 CrKey/1.54.248666')
-    oRequestHandler.addHeaderEntry('host', 'akw.to')
-    oRequestHandler.addHeaderEntry('origin', 'akw.to')
+    oRequestHandler.addHeaderEntry('host', 'ak.sv')
+    oRequestHandler.addHeaderEntry('origin', 'ak.sv')
     oRequestHandler.addHeaderEntry('referer', sUrl)
     sHtmlContent = oRequestHandler.request()
 

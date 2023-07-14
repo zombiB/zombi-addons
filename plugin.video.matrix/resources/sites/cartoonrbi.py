@@ -36,7 +36,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', icons + '/Cartoon.png', oOutputParameterHandler)    
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'جميع الكرتون', 'listes.png', oOutputParameterHandler)   
+    oGui.addDir(SITE_IDENTIFIER, 'showPack', 'جميع الكرتون', icons + '/Lists.png', oOutputParameterHandler)   
 	
     oGui.setEndOfDirectory()
 
