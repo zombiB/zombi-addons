@@ -436,7 +436,7 @@ def __checkForNextPage(sHtmlContent):
         return aResult[1][0]
     return False
 	
-def showServer():
+def showServerold():
     oGui = cGui()
    
     oInputParameterHandler = cInputParameterHandler()
@@ -447,11 +447,11 @@ def showServer():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
+    #VSlog(sHtmlContent)
     oParser = cParser()
     Host = URL_MAIN.split('//')[1]
      # (.+?) ([^<]+) .+?
-    sPattern = 'data-post="([^<]+)" data-nume="(.+?)">'
+    sPattern = 'id=\"player-option-1\" data-type=\"movie\" data-post=\"(.+?)\" data-nume=\"(.+?)\">'
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if aResult[0]:
@@ -470,21 +470,20 @@ def showServer():
            oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
            oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded')
            oRequest.addParametersLine(pdata)
-           sHtmlContent = oRequest.request() 
+           sHtmlContent2 = oRequest.request() 
+           #VSlog(sHtmlContent)
+           
            sPattern = "<iframe.+?src='(.+?)' frameborder"
-           aResult = oParser.parse(sHtmlContent, sPattern)
+           aResult = oParser.parse(sHtmlContent2, sPattern)
+           #VSlog(aResult)
            if aResult[0]:
                for aEntry in aResult[1]:            
-                   url = aEntry
+                   url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]
+                   VSlog(url)
                    if 'hadara.ps' in aEntry :
-                       continue
-                   if 'fajer.video' in url:
-                      url = url.split('id=')[1]
-                      url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
-                   if url.startswith('//'):
-                      url = 'http:' + url
-            
+                        url = url + "|Referer=" + aEntry + "| User-Agent= Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
                    sHosterUrl = url
+                   VSlog(sHosterUrl)
                    if 'userload' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
                    if 'mystream' in sHosterUrl:
@@ -494,16 +493,118 @@ def showServer():
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-           sPattern = '<iframe.+?src="(.+?)" frameborder'
+           
+           sPattern = 'domain=(.+?)\".+?href=\"(.+?)\".+?quality\">(.+?)</.+?<td>.+?</td><td>(.+?)</td>'
+           oParser = cParser()
            aResult = oParser.parse(sHtmlContent, sPattern)
+           VSlog(aResult)
+           
+           if aResult[0]:
+               for aEntry in aResult[1]: 
+                    oRequest = cRequestHandler(aEntry[1])
+                    sHtmlContent3 = oRequest.request()
+                    VSlog(sHtmlContent3)
+                    oParser = cParser()
+                    sPattern = 'rel=\"nofollow\" href=\"(.+?)\" class'
+                    aResult = oParser.parse(sHtmlContent3, sPattern)
+                    VSlog(aResult)
+                    
+                    if aResult[0]:
+                       for aEntry in aResult[1]:            
+                           url = aEntry[1]
+                           if url.startswith('//'):
+                              url = 'http:' + url
+                    
+                           sHosterUrl = url
+                           if 'userload' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                           if 'mystream' in sHosterUrl:
+                               sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                           oHoster = cHosterGui().checkHoster(sHosterUrl)
+                           if oHoster:
+                              oHoster.setDisplayName(aEntry[0] +'-' + aEntry[2]+'-' + aEntry[3] )
+                              oHoster.setFileName(sMovieTitle)
+                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    oGui.setEndOfDirectory()
+    
+	
+def showServer():
+    oGui = cGui()
+   
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+    #VSlog(sHtmlContent)
+    oParser = cParser()
+    Host = URL_MAIN.split('//')[1]
+     # (.+?) ([^<]+) .+?
+    sPattern = 'id=\"player-option-\d\" data-type=\"(.+?)\" data-post=\"(.+?)\" data-nume=\"(.+?)\">'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
+    if aResult[0]:
+       for aEntry in aResult[1]:
+           pUrl = URL_MAIN + '/wp-admin/admin-ajax.php'
+           post = aEntry[1]
+           nume = aEntry[2]
+           datatype= aEntry[0]
+           pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type='+datatype
+           UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0"
+           oRequest = cRequestHandler(pUrl)
+           oRequest.setRequestType(1)
+           oRequest.addHeaderEntry('User-Agent', UA)
+           oRequest.addHeaderEntry('Referer', sUrl)
+           oRequest.addHeaderEntry('Host', 'show.alfajertv.com')
+           oRequest.addHeaderEntry('Accept', '*/*')
+           oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+           oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded')
+           oRequest.addParametersLine(pdata)
+           sHtmlContent2 = oRequest.request() 
+           VSlog(sHtmlContent)
+           
+           sPattern = "<iframe.+?src='(.+?)' frameborder"
+           aResult = oParser.parse(sHtmlContent2, sPattern)
+           VSlog(aResult)
            if aResult[0]:
                for aEntry in aResult[1]:            
-                   url = aEntry
+                   url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]
+                   VSlog(url)
                    if 'hadara.ps' in aEntry :
-                       continue
-                   if 'fajer.video' in url:
-                      url = url.split('id=')[1]
-                      url = "https://fajer.video/hls/"+url+"/"+url+".playlist.m3u8"
+                        url = url + "|Referer=" + aEntry + "| User-Agent= Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+                   sHosterUrl = url
+                   VSlog(sHosterUrl)
+                   if 'userload' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                   if 'mystream' in sHosterUrl:
+                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                   oHoster = cHosterGui().checkHoster(sHosterUrl)
+                   if oHoster:
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+           
+    sPattern = 'domain=(.+?)\".+?href=\"(.+?)\".+?quality\">(.+?)</.+?<td>.+?</td><td>(.+?)</td>'
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
+
+    if aResult[0]:
+       for aEntry in aResult[1]: 
+            oRequest = cRequestHandler(aEntry[1])
+            sHtmlContent3 = oRequest.request()
+            VSlog(sHtmlContent3)
+            oParser = cParser()
+            sPattern = 'rel=\"nofollow\" href=\"(.+?)\" class'
+            aResult = oParser.parse(sHtmlContent3, sPattern)
+            VSlog(aResult)
+            
+            if aResult[0]:
+               for aEntry in aResult[1]:            
+                   url = aEntry[1]
                    if url.startswith('//'):
                       url = 'http:' + url
             
@@ -514,7 +615,7 @@ def showServer():
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
-                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setDisplayName(aEntry[0] +'-' + aEntry[2]+'-' + aEntry[3] )
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     oGui.setEndOfDirectory()

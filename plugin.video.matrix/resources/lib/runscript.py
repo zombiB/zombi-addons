@@ -9,6 +9,8 @@ import xbmcvfs
 import xbmc
 import xbmcgui
 import sys
+import xbmcaddon
+import os
 
 try:  # Python 2
     import urllib2
@@ -30,7 +32,7 @@ except:
 
 SITE_IDENTIFIER = 'runscript'
 SITE_NAME = 'runscript'
-
+ADDON = xbmcaddon.Addon(id='plugin.video.matrix')
 
 class cClear:
 
@@ -231,6 +233,7 @@ class cClear:
                     self.DIALOG.VSerror(self.ADDON.VSlang(30096))
             return
 
+            
         # activer toutes les sources
         elif (env == 'enableSources'):
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
@@ -390,12 +393,26 @@ class cClear:
                     self.DIALOG.VSerror(self.ADDON.VSlang(30100))
 
                 return
+        
+        elif (env == 'RequestCache'):
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(300981)):
+                
+                temp_dir = xbmcvfs.translatePath("special://home/userdata/addon_data/")
+                DBPath = os.path.join(temp_dir, ADDON.getAddonInfo('id') , 'Requests cache',)
+                DB = "/".join([DBPath, 'RequestsCache.db']) 
+                try:
+                    xbmcvfs.delete(DB)
+                    #xbmcvfs.rmdir(DBPath, True)
+                    text = 'Matrix Request Cache was deleted'
+                    self.DIALOG.VSok(text)
+                except:
+                    self.DIALOG.VSerror(self.ADDON.VSlang(301001))
 
         else:
             return
 
         return
-
+    
     # def ClearDir(self, dir, clearNested=False):
     #     try:
     #         dir = dir.decode("utf8")

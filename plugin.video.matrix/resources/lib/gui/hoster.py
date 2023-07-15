@@ -371,7 +371,7 @@ class cHosterGui:
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
             
-        if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
+        if ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
             return self.getHoster('uppom')
             
         if ('allviid' in sHostName):
@@ -445,6 +445,9 @@ class cHosterGui:
             
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')
+        
+        if ('hadara.ps' in sHostName):
+            return self.getHoster('lien_direct')
             
         if ('youtube' in sHostName) or ('youtu.be' in sHostName):
             return self.getHoster('youtube')
