@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -59,7 +59,7 @@ def load():
  
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام', icons + '/MoviesEnglish.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'جميع الافلام', icons + '/MoviesEnglish.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', True)
@@ -71,7 +71,7 @@ def load():
     
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'جميع المسلسلات', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', True)
@@ -106,13 +106,13 @@ def showLangsM():
             CatURL = MOVIE_EN[0] + '?lang=' + aEntry
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', CatURL)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry, icons + '/Calendar.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry, icons + '/Language.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
     else:
         pass
 
 def showGenresM():
-    oGui = cGui()
+    oGui = cGui()   
     sPattern = '<option value=\".+?\">(.+?)</option'
     
     sUrl = MOVIE_EN[0]
@@ -127,10 +127,10 @@ def showGenresM():
     
     if aResult[0] is True:
         for aEntry in aResult[1]:
-            CatURL = MOVIE_EN[0] + '?genre=' + aEntry[0]
+            CatURL = MOVIE_EN[0] + '?genre=' + aEntry
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', CatURL)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry[1], icons + '/Genres.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry, icons + '/Genres.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
     else:
         pass
@@ -154,7 +154,7 @@ def showLangsS():
             CatURL = SERIE_EN[0] + '?lang=' + aEntry
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', CatURL)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', aEntry, icons + '/Calendar.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', aEntry, icons + '/Language.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
     else:
         pass
@@ -409,7 +409,7 @@ def __checkForNextPage(sHtmlContent):
     return False
 
 
-def showHostersepisode():
+def showHostersepisodeOLD():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -474,14 +474,15 @@ def showHostersepisode():
                   oHoster.setFileName(sMovieTitle)
                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     oGui.setEndOfDirectory()
-def showHosters():
+    
+def showHostersepisode():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-
-
+    VSlog('Episode URL : ' + sUrl)
+    LinksList = []
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
     oRequestHandler.setRequestType(1)
@@ -493,10 +494,146 @@ def showHosters():
 
     oParser = cParser()
             
+    sPattern =  'name="codes" value="(.+?)">' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+
+    if aResult[0] is True:
+        mcode = aResult[1][0] #+ '&submit=submit'
+        VSlog('mcode : ' + mcode)
+    
+    
+    sPattern =  '<form action="(.+?)" method="post">' 
+    aResult = oParser.parse(sHtmlContent,sPattern)
+   
+    if aResult[0] is True:
+        murl = aResult[1][0] 
+        LinksList.append(murl)
+        #VSlog('murl URL : ' + murl)
+        import requests
+        s = requests.Session()            
+        headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
+							'origin': "https://sh.shoffree.com",
+							'referer': murl}
+        data = {'codes':mcode}
+        
+        r = s.post(murl,data = data)
+        sHtmlContent = r.content.decode('utf8')
+        
+        
+        ## Watch Section
+        soup = BeautifulSoup(sHtmlContent, "html.parser")
+        watchContainer = soup.find("label",{"class":"btn-success"})
+        watchlink = watchContainer.find("a")['href']
+        #VSlog("Watchlink: " + str(watchlink))
+        
+        oHoster = cHosterGui().checkHoster(watchlink)
+        sHosterUrl = watchlink
+        LinksList.append(watchlink)
+        if 'userload' in sHosterUrl:
+          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+        if 'shoffree' in sHosterUrl:
+          sHosterUrl = sHosterUrl + "|Referer=" + murl
+        if 'mystream' in sHosterUrl:
+          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
+        if oHoster != False:
+          oHoster.setDisplayName(sMovieTitle + ' [Watch]')
+          oHoster.setFileName(sMovieTitle)
+          cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                 
+        ## Download Section
+        DownloadContainer = soup.find("label",{"class":"btn btn-secondary"})
+        DownloadLinkPage= DownloadContainer.find("a")['href']
+        LinksList.append(DownloadLinkPage)
+        DownloadLinkPage = DownloadLinkPage.replace("/d/","/stream/")+'?role=d'
+        #VSlog("Downloadlink: " + str(DownloadLinkPage))
+        
+        oRequestHandler = cRequestHandler(DownloadLinkPage)
+        sHtmlContent2 = oRequestHandler.request()
+        soup = BeautifulSoup(sHtmlContent2, "html.parser")
+            
+        Container = soup.find("div",{"class":"EpisodesList"})
+        downlinks = Container.findAll("a")
+        
+        for lnk in downlinks:
+            quality = str(lnk.contents[0].replace("الجودة","").replace("(","").replace(")","").strip())
+            size = lnk.em.text
+            url = lnk['href']
+            LinksList.append(url)
+            oHoster = cHosterGui().checkHoster(url)
+
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'shoffree' in sHosterUrl:
+              sHosterUrl = sHosterUrl + "|Referer=" + murl
+            if 'mystream' in sHosterUrl:
+              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+              
+            if oHoster != False:
+              oHoster.setDisplayName('['+quality+']'+ ' ['+size+']')
+              oHoster.setFileName(sMovieTitle)
+              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+        
+        ## Others Section
+        soup = BeautifulSoup(sHtmlContent, "html.parser")
+       
+        othersContainers = soup.findAll("div",{"class":"scroller_wrap"})
+        
+        for Cont in othersContainers:
+            othersContainer = Cont.findAll("a")
+            
+            for sec in othersContainer:
+                url = sec['href']
+                sHost = sec.div.text.replace("\n","").strip()
+                #VSlog('Other Links')
+                #VSlog(url)
+                if url not in LinksList:
+                    LinksList.append(url)
+                    oHoster = cHosterGui().checkHoster(url)
+                    sHosterUrl = url
+                    if 'userload' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'shoffree' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + murl
+                    if 'mystream' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
+                    if oHoster != False:
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    #VSlog(LinksList)  
+    oGui.setEndOfDirectory()
+
+ 
+def showHosters():
+    oGui = cGui()
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    VSlog('Movie URL : ' + sUrl)
+    LinksList = []
+    oRequestHandler = cRequestHandler(sUrl)
+    cook = oRequestHandler.GetCookies()
+    oRequestHandler.setRequestType(1)
+    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
+    oRequestHandler.addHeaderEntry('Cookie', cook)
+    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
+    oRequestHandler.addHeaderEntry('origin', URL_MAIN)
+    sHtmlContent = oRequestHandler.request()
+    
+    #VSlog(sHtmlContent)
+    oParser = cParser()
+            
     sPattern =  '<a href="/movie(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
+    VSlog(aResult)
     if aResult[0] is True:
         murl = URL_MAIN+'movie'+aResult[1][0] 
+        LinksList.append(murl)
+    VSlog('murl URL : ' + murl)
     
     oParser = cParser()
     import requests
@@ -510,49 +647,112 @@ def showHosters():
 
     oParser = cParser()
             
-    sPattern =  'name="code" value="(.+?)">' 
+    sPattern =  'name="codes" value="(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
+
     if aResult[0] is True:
-        mcode = aResult[1][0] 
-        VSlog(mcode)
-            
+        mcode = aResult[1][0] #+ '&submit=submit'
+        #VSlog('mcode : ' + mcode)
+    
+    
     sPattern =  '<form action="(.+?)" method="post">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
+   
     if aResult[0] is True:
         murl2 = aResult[1][0] 
-        VSlog(murl2)
+        LinksList.append(murl2)
+        #VSlog('murl2 URL : ' + murl2)
         import requests
         s = requests.Session()            
         headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'origin': "https://sh.shoffree.com",
 							'referer': murl}
-        data = {'code':mcode}
+        data = {'codes':mcode}
+        
         r = s.post(murl2,data = data)
         sHtmlContent = r.content.decode('utf8')
-   
-        sPattern = '"iframe_a" href="(.+?)"><div'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
-	
-        if aResult[0] is True:
-           for aEntry in aResult[1]:
         
-               url = aEntry
-               sThumb = sThumb
-               if url.startswith('//'):
-                  url = 'http:' + url
-								            
-               sHosterUrl = url
-               if 'userload' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'shoffree' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + murl2
-               if 'mystream' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-               oHoster = cHosterGui().checkHoster(sHosterUrl)
-               if oHoster != False:
-                  oHoster.setDisplayName(sMovieTitle)
-                  oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+        
+        ## Watch Section
+        soup = BeautifulSoup(sHtmlContent, "html.parser")
+        watchContainer = soup.find("label",{"class":"btn-success"})
+        watchlink = watchContainer.find("a")['href']
+        
+        oHoster = cHosterGui().checkHoster(watchlink)
+        sHosterUrl = watchlink
+        LinksList.append(watchlink)
+        if 'userload' in sHosterUrl:
+          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+        if 'shoffree' in sHosterUrl:
+          sHosterUrl = sHosterUrl + "|Referer=" + murl2
+        if 'mystream' in sHosterUrl:
+          sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
+        if oHoster != False:
+          oHoster.setDisplayName(sMovieTitle + ' [Watch]')
+          oHoster.setFileName(sMovieTitle)
+          cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                 
+        ## Download Section
+        DownloadContainer = soup.find("label",{"class":"btn btn-secondary"})
+        DownloadLinkPage= DownloadContainer.find("a")['href']
+        LinksList.append(DownloadLinkPage)
+        DownloadLinkPage = DownloadLinkPage.replace("/d/","/stream/")+'?role=d'
+        #VSlog(str(DownloadLinkPage))
+        
+        oRequestHandler = cRequestHandler(DownloadLinkPage)
+        sHtmlContent2 = oRequestHandler.request()
+        soup = BeautifulSoup(sHtmlContent2, "html.parser")
+            
+        Container = soup.find("div",{"class":"EpisodesList"})
+        downlinks = Container.findAll("a")
+        
+        for lnk in downlinks:
+            quality = str(lnk.contents[0].replace("الجودة","").replace("(","").replace(")","").strip())
+            size = lnk.em.text
+            url = lnk['href']
+            LinksList.append(url)
+            oHoster = cHosterGui().checkHoster(url)
+
+            sHosterUrl = url
+            if 'userload' in sHosterUrl:
+              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'shoffree' in sHosterUrl:
+              sHosterUrl = sHosterUrl + "|Referer=" + murl2
+            if 'mystream' in sHosterUrl:
+              sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+              
+            if oHoster != False:
+              oHoster.setDisplayName('['+quality+']'+ ' ['+size+']')
+              oHoster.setFileName(sMovieTitle)
+              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+        
+        ## Others Section
+        soup = BeautifulSoup(sHtmlContent, "html.parser")
+       
+        othersContainers = soup.findAll("div",{"class":"scroller_wrap"})
+        
+        for Cont in othersContainers:
+            othersContainer = Cont.findAll("a")
+            
+            for sec in othersContainer:
+                url = sec['href']
+                sHost = sec.div.text.replace("\n","").strip()
+                
+                if url not in LinksList:
+                    LinksList.append(url)
+                    oHoster = cHosterGui().checkHoster(url)
+                    sHosterUrl = url
+                    if 'userload' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'shoffree' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + murl2
+                    if 'mystream' in sHosterUrl:
+                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+
+                    if oHoster != False:
+                      oHoster.setDisplayName(sMovieTitle)
+                      oHoster.setFileName(sMovieTitle)
+                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    #VSlog(LinksList)  
     oGui.setEndOfDirectory()
