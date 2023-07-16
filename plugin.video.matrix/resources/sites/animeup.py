@@ -10,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from bs4 import BeautifulSoup
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -255,66 +256,103 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+    VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()       
 
+
     # (.+?) .+? ([^<]+)
                
 
-    sPattern = "data-type='(.+?)' data-post='(.+?)' data-nume='(.+?)'><ul><li>"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    # sPattern = 'data-ep-url="([^<]+)">'
+    # oParser = cParser()
+    # aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
-    if aResult[0]:
-            oOutputParameterHandler = cOutputParameterHandler() 
-            for aEntry in aResult[1]:
+    # if aResult[0]:
+            # oOutputParameterHandler = cOutputParameterHandler() 
+            # for aEntry in aResult[1]:
         
-                url = aEntry
-                if url.startswith('//'):
-                    url = 'https:' + url
+                # url = aEntry
+                # if url.startswith('//'):
+                    # url = 'https:' + url
 				
 					
             
-                sHosterUrl = url 
-                if 'userload' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                # sHosterUrl = url 
+                # if 'userload' in sHosterUrl:
+                    # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                # if 'moshahda' in sHosterUrl:
+                    # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                # if 'mystream' in sHosterUrl:
+                    # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                # oHoster = cHosterGui().checkHoster(sHosterUrl)
+                # if oHoster:
+                    # sDisplayTitle = sMovieTitle
+                    # oHoster.setDisplayName(sDisplayTitle)
+                    # oHoster.setFileName(sMovieTitle)
+                    # cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+    # sPattern = '<a href="(.+?)" target="_blank"><i class="fa fa-star"></i><span>.+?</span><span>(.+?)</span></a>' 
+    # aResult = re.findall(sPattern, sHtmlContent)
+    # VSlog(aResult)
+    
+    # if aResult:
+        # for aEntry in aResult:
+            
+            # url = aEntry[0]
+            # sTitle = sMovieTitle+'('+aEntry[1]+')'
+            
+            # sHosterUrl = url
+            # if '?download_' in sHosterUrl:
+                # sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            # if 'moshahda' in sHosterUrl:
+                # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            # if 'mystream' in sHosterUrl:
+                # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            # oHoster = cHosterGui().checkHoster(sHosterUrl)
+            # if oHoster:
+                # oHoster.setDisplayName(sTitle)
+                # oHoster.setFileName(sMovieTitle)
+                # cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                
+    soup = BeautifulSoup(sHtmlContent, "html.parser")
+    Qualities = soup.findAll("ul",{"class":"quality-list"})
+
+    
+    aResult = []
+    QualityDict = {"SD" : "480P", "HD": "720p", "FHD": "1080p"}
+    for link in Qualities:
+        #VSlog (link)
+        
+        QL = link.li.text.replace("الجودة المتوسطة","").replace("الجودة العالية","").replace("الجودة الخارقة","").strip()
+        #VSlog(QL)
+        sPattern = 'class=\"btn btn-default\" href=\"([^<]+)\" target.+?>([^<]+)</a>' 
+        aResult = re.findall(sPattern, str(link))
+        #VSlog(aResult)     
+	
+        if aResult:
+            for aEntry in aResult:
+                
+                url = aEntry[0]
+                sTitle = '('+aEntry[1]+')'
+                sDisplayName = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, QualityDict[QL])
+                
+                sHosterUrl = url
+                if '?download_' in sHosterUrl:
+                    sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                if 'moshahda' in sHosterUrl:
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                 if 'mystream' in sHosterUrl:
                     sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:
-                    sDisplayTitle = sMovieTitle
-                    oHoster.setDisplayName(sDisplayTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-    sPattern = '<a href="(.+?)" target="_blank"><i class="fa fa-star"></i><span>.+?</span><span>(.+?)</span></a>' 
-    aResult1 = re.findall(sPattern, sHtmlContent)
-    sPattern = 'class="btn btn-default" href="([^<]+)">([^<]+)</a>' 
-    aResult2 = re.findall(sPattern, sHtmlContent)
-    aResult = aResult1 + aResult2
-    
-    # (.+?) .+?  ([^<]+)       
-	
-    if aResult:
-        for aEntry in aResult:
-            
-            url = aEntry[0]
-            sTitle = sMovieTitle+'('+aEntry[1]+')'
-            
-            sHosterUrl = url
-            if '?download_' in sHosterUrl:
-                sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'mystream' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                oHoster.setDisplayName(sTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    oHoster.setDisplayName(sDisplayName)
+                    oHoster.setFileName(sTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icons + '/resolution/' + QualityDict[QL] + ".png")
                 
     oGui.setEndOfDirectory()	

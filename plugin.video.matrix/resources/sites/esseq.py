@@ -247,10 +247,15 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
+    import base64
+    if '?url=' in sUrl:
+       url_tmp = sUrl.split('?url=')[-1].replace('%3D','=')
+       sUrl = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
+    VSlog(sUrl)
 
          
     sPattern =  '<div class="skipAd">.+?href="(.+?)">' 
@@ -261,6 +266,7 @@ def showHosters():
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
+        VSlog(sHtmlContent)
 
 
     # (.+?) .+? ([^<]+)        	

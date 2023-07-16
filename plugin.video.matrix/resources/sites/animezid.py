@@ -291,9 +291,8 @@ def showSeries(sSearch = ''):
     sEnd = '<div class="clearfix"></div>'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 # ([^<]+) .+? (.+?)
-    sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
+    sPattern = '<a href="(.+?)" class="movie" title="(.+?)"><img class="lazy" data-src="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -305,10 +304,10 @@ def showSeries(sSearch = ''):
                 break
  
 
-            sTitle = aEntry[2]
+            sTitle = aEntry[1]
             siteUrl = aEntry[0]
             sDesc = ''
-            sThumb = aEntry[1]
+            sThumb = aEntry[2]
 
 			
 
@@ -335,12 +334,9 @@ def showSeriesLinks():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-    sStart = '<div id="movies" class="movies">'
-    sEnd = '<div class="clearfix"></div>'
-    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 
   # ([^<]+) .+? (.+?)
-    sPattern = '<a href="(.+?)" class=.+?data-src="(.+?)">.+?class="title">(.+?)</span>'
+    sPattern = '<a href="([^<]+)" class="movie" title="(.+?)">.+?data-src="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -348,9 +344,9 @@ def showSeriesLinks():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle =  aEntry[2].replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","")
+            sTitle =  aEntry[1].replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            sThumb = aEntry[2]
             sDesc = ''
 			
 

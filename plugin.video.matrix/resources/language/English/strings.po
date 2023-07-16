@@ -408,12 +408,20 @@ msgctxt "#30098"
 msgid "Are you sure? This will erase all thumbnails"
 msgstr ""
 
+msgctxt "#300981"
+msgid "Are you sure? This will erase requests cache"
+msgstr ""
+
 msgctxt "#30099"
 msgid "Import/Export Database, Successful"
 msgstr ""
 
 msgctxt "#30100"
 msgid "Import/Export Database, Error"
+msgstr ""
+
+msgctxt "#301001"
+msgid "Error Occured, Cache was not cleared"
 msgstr ""
 
 msgctxt "#30101"
@@ -1333,3 +1341,18 @@ msgctxt "#70013"
 msgid "Pack"
 msgstr ""
 
+msgctxt "#3042215"
+msgid "Enable request cache"
+msgstr ""
+
+msgctxt "#3042215"
+msgid "Cache online responses"
+msgstr ""
+
+msgctxt "#30422151"
+msgid "Store cache for (hours)"
+msgstr ""
+
+msgctxt "#301271"
+msgid "Matrix Cache"
+msgstr ""

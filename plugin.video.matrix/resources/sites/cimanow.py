@@ -81,7 +81,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', icons + '/Anime.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية',icons + '/MoviesEnglish.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية',icons + '/TVShowsEnglish.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية',icons + '/Arabic.png', oOutputParameterHandler)
@@ -111,7 +111,7 @@ def showSearch():
     if sSearchText:
         sUrl = URL_MAIN + '?s=%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
         showMovies(sUrl)
-        VSlog(sUrl)
+        #VSlog(sUrl)
         oGui.setEndOfDirectory()
         return
  
@@ -160,9 +160,7 @@ def showMovies(sSearch = ''):
                     page = page + chr(nb)
 
             #VSlog(page)
-            sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
-
-            VSlog(page)
+            sPattern = '<article aria-label="post"><a href="([^"]+).+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
  
             sPattern = '<article aria-label="post"><a href="([^"]+).+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
 
@@ -245,7 +243,7 @@ def showMovies(sSearch = ''):
         
         soup = BeautifulSoup(page,"html.parser")
         CurrentPage = int(soup.find("li",{"class":"active"}).text)
-        VSlog(CurrentPage)
+        #VSlog(CurrentPage)
         
         if aResult[0]:
             total = len(aResult[1])
@@ -304,7 +302,7 @@ def showSeries(sSearch = ''):
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
-            VSlog(page)
+            #VSlog(page)
 
             sPattern = '<article aria-label="post"><a href="([^<]+)">.+?<li aria-label="year">(.+?)</li>.+?<li aria-label="title">([^<]+)<em>.+?data-src="(.+?)" width'
 
@@ -387,7 +385,7 @@ def showSeries(sSearch = ''):
         
         soup = BeautifulSoup(page,"html.parser")
         CurrentPage = int(soup.find("li",{"class":"active"}).text)
-        VSlog(CurrentPage)
+        #VSlog(CurrentPage)
         
         if aResult[0]:
             total = len(aResult[1])
@@ -453,7 +451,7 @@ def showSeasons():
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
-            VSlog(page)
+            #VSlog(page)
             
             oParser = cParser()
             sStart = '<section aria-label="seasons">'
@@ -525,7 +523,7 @@ def showEps():
                 if t_ch:
                     nb = int(t_ch[0])+int(t_int[0])
                     page = page + chr(nb)
-            VSlog(page)
+            #VSlog(page)
             
             oParser = cParser()
             sStart = '<section aria-label="seasons">'
@@ -572,7 +570,7 @@ def showServer():
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     host = URL_MAIN.split('/')[2]
-    VSlog(host)
+    #VSlog(host)
  
     oRequestHandler = cRequestHandler(sUrl)
     cook = oRequestHandler.GetCookies()
@@ -607,7 +605,7 @@ def showServer():
 
 
     # (.+?) .+? ([^<]+)        	
-            sPattern = sPattern = '<a href="(.+?)".+?class="fas fa-cloud-download-alt"></i>(.+?)<p'
+            sPattern = '<a href="([^"]+)"><i class.+?download.+?</i>(.+?)<p'
             oParser = cParser()
             aResult = oParser.parse(page, sPattern)
 
@@ -645,7 +643,7 @@ def showServer():
 	
             if aResult[0]:
                 for aEntry in aResult[1]:
-                    url = aEntry.replace("cimanow","rrsrrs")
+                    url = aEntry
                     sTitle = sMovieTitle
                     if url.startswith('//'):
                         url = 'http:' + url

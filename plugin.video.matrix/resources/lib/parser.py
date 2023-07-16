@@ -2,7 +2,8 @@
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 from operator import itemgetter
 import re
-
+from resources.lib.comaddon import VSlog
+import time
 
 class cParser:
 
@@ -44,7 +45,63 @@ class cParser:
         if (len(aMatches) >= iMinFoundValue):
             return True, aMatches
         return False, aMatches
+          
+    # def parse(self, sHtmlContent, sPattern, url="", ParseAgain=False):
+        # sTime = time.time()
+        # iMinFoundValue=1
+        
+        # VSlog("Parsing url : " + url)
+        # if url not in [None,""]:
+          # if ParseAgain == False:
+              # try:            
+                  # Cached = db.get(url+sPattern)
+              # except:
+                  # Cached = None
+                          
+              # if Cached is None or Cached[0] == False: ##if not in cache or Existing Cache was a failed parse
+                  # VSlog('Matrix : No cache found for [%s]' % (url))
+                  # sHtmlContent = self.__replaceSpecialCharacters(str(sHtmlContent))
+                  # aMatches = re.compile(sPattern, re.IGNORECASE).findall(sHtmlContent)
+                  # if (len(aMatches) >= iMinFoundValue):
+                      # forcaching = {"sUrl": url+sPattern, "val": [False, aMatches]}
+                      
+                      # VSlog("New Parsing " + sPattern + " for " + url)
+                      # VSlog(" Finished parsing in {s}s".format(s=time.time()-sTime))
+                      
+                      # db.set(forcaching)
+                      # return True, aMatches
+              # else:
+                  # VSlog("Matrix : Loading from cache for [%s]" % (url))
+                  # VSlog("Cached Parsing " + sPattern + " for " + url)
+                  # VSlog(" Finished parsing in {s}s".format(s=time.time()-sTime))
+                  # return Cached
+          # else:
+            # sHtmlContent = self.__replaceSpecialCharacters(str(sHtmlContent))
+            # aMatches = re.compile(sPattern, re.IGNORECASE).findall(sHtmlContent)
 
+            # # extrait la page html après retraitement vStream
+            # # fh = open('c:\\test.txt', "w")
+            # # fh.write(sHtmlContent)
+            # # fh.close()
+
+            # if (len(aMatches) >= iMinFoundValue):
+                # VSlog("New Parsing " + sPattern + " for " + url)
+                # VSlog(" Finished parsing in {s}s".format(s=time.time()-sTime))
+                # return True, aMatches
+        # else:
+          # sHtmlContent = self.__replaceSpecialCharacters(str(sHtmlContent))
+          # aMatches = re.compile(sPattern, re.IGNORECASE).findall(sHtmlContent)
+
+          # # extrait la page html après retraitement vStream
+          # # fh = open('c:\\test.txt', "w")
+          # # fh.write(sHtmlContent)
+          # # fh.close()
+          # if (len(aMatches) >= iMinFoundValue):
+              # VSlog("New Parsing " + sPattern + " for " + url)
+              # VSlog(" Finished parsing in {s}s".format(s=time.time()-sTime))
+              # return True, aMatches
+        # return False, aMatches
+    
     def replace(self, sPattern, sReplaceString, sValue):
         return re.sub(sPattern, sReplaceString, sValue)
 

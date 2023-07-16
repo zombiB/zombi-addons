@@ -457,6 +457,9 @@ class cHosterGui:
             
         if ('fajer.video' in sHostName):
             return self.getHoster('fajer')
+        
+        if ('hadara.ps' in sHostName):
+            return self.getHoster('lien_direct')
             
         if ('youtube' in sHostName) or ('youtu.be' in sHostName):
             return self.getHoster('youtube')

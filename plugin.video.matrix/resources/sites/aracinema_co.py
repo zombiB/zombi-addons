@@ -10,12 +10,14 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, siteManager, VSlog, addon
 from resources.lib.parser import cParser
- 
+from resources.lib.Styling import getThumb
+from bs4 import BeautifulSoup
+
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 
 SITE_IDENTIFIER = 'aracinema_co'
-SITE_NAME = 'aradramtv'
+SITE_NAME = 'AradramTV'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
@@ -32,13 +34,19 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', icons + '/Search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', icons + '/Search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', icons + '/Asian.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'جميع الأفلام اسيوية', icons + '/Asian.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'مسلسلات أسيوية', icons + '/Asian.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSerie', 'جميع المسلسلات الاسوية', icons + '/Asian.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', True)
+    oGui.addDir(SITE_IDENTIFIER, 'ShowTVGenres', 'مسلسلات حسب التصنيف', icons + '/Genres.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', True)
+    oGui.addDir(SITE_IDENTIFIER, 'ShowMGenres', 'افلام حسب التصنيف', icons + '/Genres.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory()
  
@@ -52,7 +60,39 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
    
+def ShowTVGenres():
+    oGui = cGui()
+    List = []
 
+    List.append(['الدراما الكورية','/k-drama'])
+    List.append(['الدراما اليابانية','/j-drama'])
+    List.append(['الدراما الصينية','/c-drama'])
+    List.append(['الدراما التايلندية','/t-drama'])
+    List.append(['البرامج الترفيهة','/k-shows'])
+    URLBase = 'https://aradramtv.com/type'
+    oOutputParameterHandler = cOutputParameterHandler()
+    for Li in List:
+        oOutputParameterHandler.addParameter('siteUrl', URLBase+ Li[1])
+        oGui.addDir(SITE_IDENTIFIER, 'showSerie', Li[0], getThumb(Li[0].replace("الدراما","").replace("الترفيهة","")), oOutputParameterHandler)
+    oGui.setEndOfDirectory()
+    
+def ShowMGenres():
+    oGui = cGui()
+    List = []
+
+    List.append(['الافلام الكورية','/k-movies'])
+    List.append(['الافلام اليابانية','/j-movies'])
+    List.append(['الافلام الصينية','/c-movies']) 
+    List.append(['الافلام التايلندية','/t-movies'])
+    List.append(['الافلام التايوانية','/فيلم-تايواني'])
+    List.append(['الافلام الفلبينية','/فيلم-فلبيني'])
+    List.append(['الافلام الفيتنامية','/فيلم-فيتنامي'])
+    URLBase = 'https://aradramtv.com/type'
+    oOutputParameterHandler = cOutputParameterHandler()
+    for Li in List:
+        oOutputParameterHandler.addParameter('siteUrl', URLBase+ Li[1])
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', Li[0], getThumb(Li[0].replace("الافلام ","")), oOutputParameterHandler)
+    oGui.setEndOfDirectory()
  
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -86,7 +126,8 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[1].replace("&#8217;","'").replace("مشاهدة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("برنامج","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[2]
+            s1Thumb = aEntry[2]
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = ""
             sYear = aEntry[3]
 
@@ -178,7 +219,8 @@ def showSerie(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
+    
+    #VSlog(sHtmlContent)
 
     # ([^<]+) .+?
     sPattern ='<a class="first_A" href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt.+?</i>([^<]+)</a>'
@@ -201,9 +243,10 @@ def showSerie(sSearch = ''):
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             sDisplayTitle2 = sTitle.split('الحلقة')[0].split('الموسم')[0].split('مدبلج')[0].split('مسلسل')[0]
             siteUrl = aEntry[0]
-            sThumb = aEntry[2]
-            sDesc = aEntry[3]
-            sYear = ''
+            s1Thumb = aEntry[2]
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
+            sDesc = ''#aEntry[3]
+            sYear = aEntry[3]
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -236,17 +279,30 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
+    VSlog(sUrl)
+    #VSlog(sHtmlContent)
     
-    #Recuperation infos
+    
+    soup = BeautifulSoup(sHtmlContent, "html.parser")
+    plot = soup.find("div",{"class":"s-desc"})
+    sections =  plot.findAll("h3")
     sNote = ''
+    for sec in sections:
+        if 'القصة' in sec.text:
+            try:
+                sNote = sec.find_next_sibling("p").encode('utf8')#.replace("<p>","").replace("</p>","")
+            except:
+                sNote = ''
+            
+    # #Recuperation infos
+    # sNote = ''
 
-    sPattern = '<p class="<h3>القصة :</h3><p>([^<]+)</p>'
+    sPattern = '<iframe src=\"(.+?)\" width'
+    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    
+    VSlog(aResult[1][0])
     if (aResult[0]):
-        sNote = aResult[1][0]
+        sTrailer = aResult[1][0]
             
     sPattern =  'href="([^<]+)" title="">' 
     oParser = cParser()
@@ -270,7 +326,8 @@ def showEpisodes():
             sTitle = aEntry[1].replace("الحلقة "," E").replace("مترجم","").replace("والأخيرة","")
             sTitle = sTitle.replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("كامل","").replace("برنامج","").replace("فيلم","").replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الأول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("موسم","S").replace("S ","S")
             siteUrl = aEntry[0]
-            sThumb = sThumb
+            s1Thumb = sThumb
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = sNote
             sYear = ''
 			
@@ -282,6 +339,8 @@ def showEpisodes():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear', sYear)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
+            oOutputParameterHandler.addParameter('sTrailer', sTrailer)
+            
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
  
@@ -359,6 +418,8 @@ def showLink():
             sHosterUrl = url
             if 'userload' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -417,6 +478,8 @@ def showHosters():
             
             sHosterUrl = url
             if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   

@@ -7,7 +7,9 @@ from resources.lib.util import urlEncode, urlHostName
 
 import requests.packages.urllib3.util.connection as urllib3_cn
 import socket
-
+from resources.lib.SQLiteCache import SqliteCache
+import time
+db = SqliteCache()
 
 class cRequestHandler:
     REQUEST_TYPE_GET = 0
@@ -122,7 +124,52 @@ class cRequestHandler:
     def getRealUrl(self):
         return self.__sRealUrl
 
-    def request(self, jsonDecode=False):
+    def request(self, jsonDecode=False, FetchNew=False):
+        ADDON = addon()
+        CacheStatus = ADDON.getSetting('RequestCache')
+        CacheDur = ADDON.getSetting('RequestCacheDuration')
+        
+        sTime = time.time()
+        # Supprimee car deconne si url contient ' ' et '+' en meme temps
+        url = self.__sUrl#.replace(' ', '+')
+        if FetchNew == True:
+            VSlog("New Request for: " + url)
+            VSlog("Finished request in {s}s".format(s=time.time()-sTime))
+            return self.__callRequest(jsonDecode)
+        else:
+            if CacheStatus == 'true':
+                if "https://api.themoviedb.org" not in url:
+                    if 'php' not in url:
+                        try:            
+                            Cached = db.get(url)
+                        except:
+                            Cached = None
+                                
+                        if Cached is None: ##if not in cache
+                            VSlog('Matrix : No cache found for [%s]' % (url))
+                            resp = self.__callRequest(jsonDecode)
+                            forcaching = {"sUrl": url, "val": resp}
+                            VSlog("New Request for: " + url)
+                            VSlog("Finished request in {s}s".format(s=time.time()-sTime))
+                            db.set(forcaching, int(CacheDur)*60*60)
+                            VSlog("Saving new cache")
+                            
+                        else:
+                            resp = Cached
+                            VSlog("Cache Request for: " + url)
+                            VSlog("Finished request in {s}s".format(s=time.time()-sTime))
+                        return resp
+                    else:
+                        VSlog("Cache Request is disabled for this php url")
+                        return self.__callRequest(jsonDecode)
+                else:
+                    VSlog("Cache Request is disabled for tmdb urls")
+                    return self.__callRequest(jsonDecode)
+            else:
+                VSlog("Cache Request is disabled in settings")
+                return self.__callRequest(jsonDecode)
+        
+    def request2(self, jsonDecode=False):
         # Supprimee car deconne si url contient ' ' et '+' en meme temps
         # self.__sUrl = self.__sUrl.replace(' ', '+')
         return self.__callRequest(jsonDecode)
