@@ -392,89 +392,24 @@ def showEps():
  
 def __checkForNextPage(sHtmlContent):
     sPattern = '<meta property="og:url" content="(.+?)" />'
-	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0] is True:
-        URL_MAIN = aResult[1][0]
-    sPattern = '<a class="page-link" href="(.+?)">التالي</a>'
-	
+        URL_MAIN = aResult[1][0].split("?p=")[0]
+    
+    sPattern = '<a class=\"page-link\" href=\"(.+?)\">(.+?)</a>'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0] is True:
-        return URL_MAIN+aResult[1][0]
+        for aEntry in aResult[1]:
+            if 'التالي' in aEntry[1]:
+                return URL_MAIN+aEntry[0]
 
     return False
 
-
-def showHostersepisodeOLD():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-
-    oRequestHandler = cRequestHandler(sUrl)
-    cook = oRequestHandler.GetCookies()
-    oRequestHandler.setRequestType(1)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-    oRequestHandler.addHeaderEntry('Cookie', cook)
-    oRequestHandler.addHeaderEntry('X-Requested-With', 'XMLHttpRequest')
-    oRequestHandler.addHeaderEntry('origin', URL_MAIN)
-    sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
-            
-    sPattern =  'name="code" value="(.+?)">' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
-        mcode = aResult[1][0] 
-        VSlog(mcode)
-            
-    sPattern =  '<form action="(.+?)" method="post">' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0] is True:
-        murl2 = aResult[1][0] 
-        VSlog(murl2)
-        import requests
-        s = requests.Session()            
-        headers = {'user-agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
-							'origin': "https://sh.shoffree.com",
-							'referer': sUrl}
-        data = {'code':mcode}
-        r = s.post(murl2,data = data)
-        sHtmlContent = r.content.decode('utf8')
-   
-        sPattern = '"iframe_a" href="(.+?)"><div'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
-	
-        if aResult[0] is True:
-           for aEntry in aResult[1]:
-        
-               url = aEntry
-               sThumb = sThumb
-               if url.startswith('//'):
-                  url = 'http:' + url
-								            
-               sHosterUrl = url
-               if 'userload' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-               if 'shoffree' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + murl2
-               if 'mystream' in sHosterUrl:
-                  sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN    
-               oHoster = cHosterGui().checkHoster(sHosterUrl)
-               if oHoster != False:
-                  oHoster.setDisplayName(sMovieTitle)
-                  oHoster.setFileName(sMovieTitle)
-                  cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    oGui.setEndOfDirectory()
-    
+  
 def showHostersepisode():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
