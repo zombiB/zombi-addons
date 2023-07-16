@@ -27,13 +27,13 @@ MOVIE_FAM = (URL_MAIN + '/mpaa/pg/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/4-movies-english-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a/', 'showMovies')
 
 RAMADAN_SERIES = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023-series-ramadan-2023/list/', 'showSeries')
-MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/arabic-movies-%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/hindi-movie/', 'showMovies')
+MOVIE_AR = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%d8%a8%d9%8a-arabic-movies/', 'showMovies')
+MOVIE_TURK = (URL_MAIN + '/category/افلام/افلام-تركى-turkish-films/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%87%d9%86%d8%af%d9%8a-indian-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d9%83%d8%b1%d8%aa%d9%88%d9%86/', 'showMovies')
 SERIE_AR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/13-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d9%87-arabic-series/list/', 'showSeries')
 SERIE_EN = (URL_MAIN + '/category/مسلسلات/5-series-english-مسلسلات-اجنبي/list/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/category/مسلسلات/9-series-indian-مسلسلات-هندية/list/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/9-series-indian-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%87%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86/list/', 'showSeries')
 SERIE_ASIA = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/list/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/8-%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%b1%d9%83%d9%8a%d8%a9-turkish-series/list/', 'showSeries')
@@ -140,10 +140,16 @@ def showMovies(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
-    sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)" title="(.+?)">.+?image:url(.+?);"><div.+?class="year">(.+?)</span>'
-
+      
+    sStart = '<div class="Grid--WecimaPosts">'
+    sEnd = '</wecima>'
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    GridItems = oParser.abParse(sHtmlContent, sStart, sEnd)
+    
+    sPattern = '<div class="Thumb--GridItem"><a href="([^<]+)" title="(.+?)">.+?image:url(.+?);"><div.+?class="year">(.+?)</span>'
+    
+    oParser = cParser()
+    aResult = oParser.parse(GridItems, sPattern)
 	
 	
     if aResult[0]:
@@ -246,39 +252,6 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
         
-  # ([^<]+) .+?
-
-    sPattern = '<li><a class="page-numbers" href="([^<]+)">([^<]+)</a></li>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            sTitle = aEntry[1]
-            
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
-            sThumb = ""
-            sDesc = ""
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -394,7 +367,7 @@ def showAnimes(sSearch = ''):
  
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li><a class="next page-numbers" href="(.+?)">'
+    sPattern = 'next page.+?href=\"(.+?)\"'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -692,7 +665,6 @@ def showHosters():
         for aEntry in aResult[1]:
             
             sHosterUrl = aEntry
-            sHosterUrl = sHosterUrl.replace("upbaam","ddsdd")
             sHosterUrl = sHosterUrl.replace("upbbom","ddsdd")
             sHosterUrl = sHosterUrl.replace("upbam","ddsdd")
             if sHosterUrl.startswith('//'):
@@ -717,7 +689,7 @@ def showHosters():
     if aResult[0]:
         for aEntry in aResult[1]:
             sHosterUrl = aEntry[0]
-            sHosterUrl = sHosterUrl.replace("upbam","ddsdd").replace("upbaam","ddsdd")
+            sHosterUrl = sHosterUrl.replace("upbam","ddsdd").replace("upbem","ddsdd")
             sTitle = sMovieTitle+' ['+aEntry[2]+aEntry[1]+'] '
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
