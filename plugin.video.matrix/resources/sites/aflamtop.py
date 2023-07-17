@@ -1,4 +1,3 @@
-﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -11,6 +10,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
+from resources.lib.Styling import getGenreIcon
 from bs4 import BeautifulSoup
 
 ADDON = addon()
@@ -170,7 +170,7 @@ def showGenres():
         
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, getFunc(sTitle), sTitle, icons + "/Genres.png", oOutputParameterHandler)       
+        oGui.addDir(SITE_IDENTIFIER, getFunc(sTitle), sTitle, getGenreIcon(sTitle), oOutputParameterHandler)       
 
     oGui.setEndOfDirectory()  
 
@@ -202,7 +202,7 @@ def showQuality():
         
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, getFunc(sTitle), sTitle, icons + "/Genres.png", oOutputParameterHandler)       
+        oGui.addDir(SITE_IDENTIFIER, getFunc(sTitle), sTitle, icons + "/HD.png", oOutputParameterHandler)       
 
     oGui.setEndOfDirectory() 
 
@@ -234,7 +234,7 @@ def showYears():
         
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, getFunc(sTitle), sTitle, icons + "/Genres.png", oOutputParameterHandler)       
+        oGui.addDir(SITE_IDENTIFIER, getFunc(sTitle), sTitle, icons + "/Calendar.png", oOutputParameterHandler)       
 
     oGui.setEndOfDirectory() 
     
