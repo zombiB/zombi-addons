@@ -1,4 +1,4 @@
-from resources.lib.comaddon import addon
+from resources.lib.comaddon import addon, VSlog
 
  
 ADDON = addon()
@@ -144,3 +144,127 @@ def getFunc(sCat):
         return 'showMovies'
     else:
         return 'showSeries'
+        
+
+def getGenreIcon(sTitle):
+    sTitle = sTitle.replace("أ","ا").replace("آ","ا").replace("ة","ه").strip()
+    genre = False
+    
+    if 'كوميديا' in sTitle:
+         genre =  'Comedy'
+    if 'كوميدي' in sTitle:
+         genre =  'Comedy'
+    if 'رعب' in sTitle:
+         genre =  'Horror'
+    if 'اكشن' in sTitle:
+         genre =  'Action'
+    if 'اثاره' in sTitle:
+         genre =  'Thriller'
+    if 'غموض' in sTitle:
+         genre =  'Mystery'
+    if 'مغامره' in sTitle:
+         genre =  'Adventure'
+    if 'دراما' in sTitle:
+         genre =  'Drama'
+    if 'جريمه' in sTitle:
+         genre =  'Crime'
+    if 'رومانسيه' in sTitle:
+         genre =  'Romance'
+    if 'خيال علمي' in sTitle:
+         genre =  'sci-fi'
+    if 'سيره ذاتيه' in sTitle:
+         genre =  'biography'
+    if 'خيال' in sTitle:
+         genre =  'fantasy'
+    if 'حرب' in sTitle:
+         genre =  'War'
+    if 'عائليه' in sTitle:
+         genre =  'Family'
+    if 'غربيه' in sTitle:
+         genre =  'Western'
+    if 'موسيقيه' in sTitle:
+         genre =  'Musical'
+    if 'وثائقيه' in sTitle:
+         genre =  'Documentary'
+    if 'فنتازيا' in sTitle:
+         genre =  'Fantasy'
+    if 'سامبا' in sTitle:
+         genre =  'samba'
+    if 'سالسا' in sTitle:
+         genre =  'slasa'
+    if 'شرقي' in sTitle:
+         genre =  'oriental'
+    if 'موسيقي' in sTitle:
+         genre =  'Musical'
+    if 'وثائقي' in sTitle:
+         genre =  'Documentary'
+    if 'رومانس' in sTitle:
+         genre =  'Romance'
+    if 'جرائم' in sTitle:
+         genre =  'Crime'
+    if 'مغامرات' in sTitle:
+         genre =  'Adventure'
+    if 'غربي' in sTitle:
+         genre =  'Western'
+    if 'عائلي' in sTitle:
+         genre =  'Family'
+    if 'خيالي' in sTitle:
+         genre =  'Fiction'
+    if 'خياليه' in sTitle:
+         genre =  'Fiction'
+    if 'فضاء' in sTitle:
+         genre =  'aliens'
+    if 'فضائيين' in sTitle:
+         genre =  'aliens'
+    if 'فضائي' in sTitle:
+         genre =  'aliens'
+    if 'اطفال' in sTitle:
+         genre =  'children'
+    if 'كريسماس' in sTitle:
+         genre =  'christmas'
+    if 'اعيادميلاد' in sTitle:
+         genre =  'christmas'
+    if 'كلاسيكي' in sTitle:
+         genre =  'classical'
+    if 'كلاسيكيه' in sTitle:
+         genre =  'classical'
+    if 'كوارث' in sTitle:
+         genre =  'disaster'
+    if 'ديزني' in sTitle:
+         genre =  'disney'
+    if 'الكتروني' in sTitle:
+         genre =  'electronic'
+    if 'تاريخ' in sTitle:
+         genre =  'history'
+    if 'تاريخي' in sTitle:
+         genre =  'history'
+    if 'شرطه' in sTitle:
+         genre =  'police'
+    if 'قصير' in sTitle:
+         genre =  'short'
+    if 'فصيره' in sTitle:
+         genre =  'short'
+    if 'روح' in sTitle:
+         genre =  'soul'
+    if 'روحاني' in sTitle:
+         genre =  'soul'
+    if 'روحانيه' in sTitle:
+         genre =  'soul'
+    if 'ارواح' in sTitle:
+         genre =  'soul'
+    if 'رياضه' in sTitle:
+         genre =  'sport'
+    if 'رياضي' in sTitle:
+         genre =  'sport'
+    if 'استوائي' in sTitle:
+         genre =  'tropical'
+    if 'استوائيه' in sTitle:
+         genre =  'tropical'
+    if 'حروب' in sTitle:
+         genre =  'war'
+         
+    if genre:
+        return 'genres/' + str(genre.lower()) + '.png'
+    else:
+        return False
+        
