@@ -11,6 +11,8 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
+from resources.lib.Styling import getGenreIcon
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -130,7 +132,7 @@ def showGenresM():
             CatURL = MOVIE_EN[0] + '?genre=' + aEntry
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', CatURL)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry, icons + '/Genres.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', aEntry, getGenreIcon(aEntry), oOutputParameterHandler)
         oGui.setEndOfDirectory()
     else:
         pass
@@ -178,7 +180,7 @@ def showGenresS():
             CatURL = SERIE_EN[0] + '?genre=' + aEntry[0]
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', CatURL)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', aEntry[1], icons + '/Genres.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', aEntry[1], getGenreIcon(aEntry[1]), oOutputParameterHandler)
         oGui.setEndOfDirectory()
     else:
         pass

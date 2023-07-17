@@ -8,7 +8,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
-
+from resources.lib.Styling import getThumb, getGenreIcon
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 
@@ -49,30 +49,7 @@ def load():
         for aEntry in aResult[1]:
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","") 
 
-            if 'عربية' in sTitle:
-                sThumb = icons + '/Arabic.png'
-            else:
-                if 'هندية' in sTitle:
-                    sThumb = icons + '/Hindi.png'
-                else:
-                    if 'اسيوية' in sTitle:
-                        sThumb = icons + '/Asian.png'
-                    else:
-                        if 'كرتون' in sTitle:
-                            sThumb = icons + '/Carton.png'
-                        else:
-                            if 'تركية' in sTitle:
-                                sThumb = icons + '/Turkish.png'
-                            else:
-                                if 'كورية' in sTitle:
-                                    sThumb = icons + '/MoviesKorean.png'
-                                else:
-                                    if 'مدبلج' in sTitle or 'مدبلجة' in sTitle:
-                                        sThumb = icons + '/Dubbed.png'
-                                    else:
-                                        if 'افلام' in sTitle:
-                                            sThumb = icons + '/Movies.png'
-                        
+            sThumb = getThumb(sTitle)
             siteUrl = aEntry[0]+'/page/1'
             #VSlog(siteUrl)
             sDesc = ''
