@@ -135,6 +135,105 @@ def getThumb(sTitle):
         sThumb = icons + '/Live.png'
     if 'غير عائلي' in sTitle:
         sThumb = icons + '/18.png'
+    if 'فلسطين' in sTitle:
+        sThumb = icons + '/Palestinian.png'
+    if 'فلسطينيه' in sTitle:
+        sThumb = icons + '/Palestinian.png'
+    if 'الاردن' in sTitle:
+        sThumb = icons + '/Jordanian.png'
+    if 'اردنية' in sTitle:
+        sThumb = icons + '/Jordanian.png'  
+    if 'اردني' in sTitle:
+        sThumb = icons + '/Jordanian.png' 
+    if 'سوريا' in sTitle:
+        sThumb = icons + '/Syrian.png'
+    if 'سوريه' in sTitle:
+        sThumb = icons + '/Syrian.png'
+    if 'لبنان' in sTitle:
+        sThumb = icons + '/Lebanese.png'
+    if 'لبناني' in sTitle:
+        sThumb = icons + '/Lebanese.png'
+    if 'لبنانيه' in sTitle:
+        sThumb = icons + '/Lebanese.png'
+    if 'عراق' in sTitle:
+        sThumb = icons + '/Iraqi.png'  
+    if 'العراق' in sTitle:
+        sThumb = icons + '/Iraqi.png' 
+    if 'عراقي' in sTitle:
+        sThumb = icons + '/Iraqi.png'
+    if 'عراقية' in sTitle:
+        sThumb = icons + '/Iraqi.png' 
+    if 'تونس' in sTitle:
+        sThumb = icons + '/Tunisian.png'
+    if 'تونسي' in sTitle:
+        sThumb = icons + '/Tunisian.png'
+    if 'تونسيه' in sTitle:
+        sThumb = icons + '/Tunisian.png'
+    if 'مغرب' in sTitle:
+        sThumb = icons + '/Moroccan.png'  
+    if 'مغربي' in sTitle:
+        sThumb = icons + '/Moroccan.png' 
+    if 'مغربيه' in sTitle:
+        sThumb = icons + '/Moroccan.png'
+    if 'جزائر' in sTitle:
+        sThumb = icons + '/Algerian.png'
+    if 'جزائري' in sTitle:
+        sThumb = icons + '/Algerian.png'
+    if 'جزائرية' in sTitle:
+        sThumb = icons + '/Algerian.png'
+    if 'ليبيا' in sTitle:
+        sThumb = icons + '/Libyan.png'
+    if 'ليبي' in sTitle:
+        sThumb = icons + '/Libyan.png'  
+    if 'ليبيه' in sTitle:
+        sThumb = icons + '/Libyan.png' 
+    if 'امارات' in sTitle:
+        sThumb = icons + '/UAE.png'
+    if 'الامارات' in sTitle:
+        sThumb = icons + '/UAE.png' 
+    if 'اماراتي' in sTitle:
+        sThumb = icons + '/UAE.png'
+    if 'اماراتيه' in sTitle:
+        sThumb = icons + '/UAE.png'  
+    if 'السعودية' in sTitle:
+        sThumb = icons + '/Saudi.png'
+    if 'سعودي' in sTitle:
+        sThumb = icons + '/Saudi.png'
+    if 'الكويت' in sTitle:
+        sThumb = icons + '/Kuwaiti.png'
+    if 'كويتي' in sTitle:
+        sThumb = icons + '/Kuwaiti.png'  
+    if 'كويتية' in sTitle:
+        sThumb = icons + '/Kuwaiti.png' 
+    if 'عمان' in sTitle:
+        sThumb = icons + '/Omani.png'
+    if 'عماني' in sTitle:
+        sThumb = icons + '/Omani.png'
+    if 'عمانيه' in sTitle:
+        sThumb = icons + '/Omani.png'
+    if 'االبحرين' in sTitle:
+        sThumb = icons + '/Bahraini.png'
+    if 'بحريني' in sTitle:
+        sThumb = icons + '/Bahraini.png'
+    if 'بحرينية' in sTitle:
+        sThumb = icons + '/Bahraini.png'  
+    if 'قطر' in sTitle:
+        sThumb = icons + '/Qatari.png' 
+    if 'قطري' in sTitle:
+        sThumb = icons + '/Qatari.png'
+    if 'قطرية' in sTitle:
+        sThumb = icons + '/Qatari.png' 
+    if 'الخليج' in sTitle:
+        sThumb = icons + '/ArabGulf.png'
+    if 'خليجي' in sTitle:
+        sThumb = icons + '/ArabGulf.png'  
+    if 'خليجية' in sTitle:
+        sThumb = icons + '/ArabGulf.png'  
+    if 'مصري' in sTitle:
+        sThumb = icons + '/Egyptian.png'  
+    if 'مصرية' in sTitle:
+        sThumb = icons + '/Egyptian.png'
+        
     if sThumb is None:
         sThumb = icons + '/None.png'
     return sThumb
@@ -270,6 +369,24 @@ def getGenreIcon(sTitle):
          genre =  'kids'
     if 'كارتون' in sTitle:
          genre =  'kids'
+    if 'انمي' in sTitle:
+         genre =  'Anime'
+    if 'انيميشن' in sTitle:
+         genre =  'Anime'
+    if 'رومنسي' in sTitle:
+         genre =  'Romance'
+    if 'غريبه' in sTitle:
+         genre =  'mystery'
+    if 'غريب' in sTitle:
+         genre =  'mystery'
+    if 'موسيقى' in sTitle:
+         genre =  'music'
+    if 'موسيقي' in sTitle:
+         genre =  'music'
+    if 'موسيقيه' in sTitle:
+         genre =  'music'
+    if 'خارق للطبيعه' in sTitle:
+         genre =  'soul' 
          
     if genre:
         return 'genres/' + str(genre.lower()) + '.png'
