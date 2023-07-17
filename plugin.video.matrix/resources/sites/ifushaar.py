@@ -1,4 +1,3 @@
-﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -10,6 +9,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.Styling import getGenreIcon
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 	
@@ -22,7 +22,10 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_FAM = (URL_MAIN + 'gerne/family/', 'showMovies')
 MOVIE_EN = (URL_MAIN + 'packs/افلام-اجنبية/', 'showMovies')
 MOVIE_FAM = (URL_MAIN + 'archive/افلام-عائلية/', 'showMovies')
-MOVIE_TOP = (URL_MAIN + '#trending', 'showMovies')
+MOVIE_TRE = (URL_MAIN + '#trending', 'showMovies')
+MOVIE_REC = (URL_MAIN + '#latest', 'showMovies')
+MOVIE_TOP = (URL_MAIN + '#most-viewed', 'showMovies')
+
 MOVIE_GENRES = (URL_MAIN, 'moviesGenres')
 URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
@@ -38,18 +41,24 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/MoviesEnglish.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/Movies.png', oOutputParameterHandler)
    
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_FAM[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عائلية', icons + '/Movies.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عائلية', icons + '/Family.png', oOutputParameterHandler)
 
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TRE[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_TRE[1], 'أفلام (شائع)', icons + '/Movies.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_REC[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_REC[1], 'أفلام (الاحدث)', icons + '/Movies.png', oOutputParameterHandler)
+    
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TOP[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP[1], 'أفلام (شعبية)', icons + '/Movies.png', oOutputParameterHandler)
-
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_TOP[1], 'أفلام (الاكثر مشاهدة)', icons + '/Movies.png', oOutputParameterHandler)
+    
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', icons + '/Movies.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', icons + '/Genres.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -92,12 +101,12 @@ def moviesGenres():
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
 
-            sTitle = aEntry[1]
+            sTitle = aEntry[1].replace("افلام","").replace("أفلام","").strip()
             siteUrl = aEntry[0]
 
 			
@@ -106,8 +115,8 @@ def moviesGenres():
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
 			
-            oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, 'film.png', '', '', oOutputParameterHandler)
-
+            oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, getGenreIcon(sTitle), '', '', oOutputParameterHandler)
+    
     oGui.setEndOfDirectory()	
 
 def showMovies(sSearch = ''):
@@ -164,7 +173,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
 
 
