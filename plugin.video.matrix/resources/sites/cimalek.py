@@ -24,14 +24,14 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_FAM = (URL_MAIN + '/category/aflam-online/aflam-family/', 'showMovies')
 MOVIE_EN = (URL_MAIN + '/category/aflam-online/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/asian-aflam/', 'showMovies')
-MOVIE_TURK = (URL_MAIN + '/category/hindi-movie/', 'showMovies')
+MOVIE_NETFLIX = (URL_MAIN + '/category/netflix-movies/', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/indian-movies/', 'showMovies')
 KID_MOVIES = (URL_MAIN + '/category/cartoon-movies/', 'showMovies')
 SERIE_EN = (URL_MAIN + '/category/english-series/', 'showSeries')
 ANIM_NEWS = (URL_MAIN + '/category/anime-series/', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + '/category/anime-movies/', 'showMovies')
 SERIE_ASIA = (URL_MAIN + '/category/asian-series/', 'showSeries')
-
+SERIE_NETFLIX = (URL_MAIN + '/category/netflix-series/', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
@@ -51,8 +51,8 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/MoviesEnglish.png', oOutputParameterHandler)
  
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', icons + '/Turkish.png', oOutputParameterHandler)
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_NETFLIX[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام نيتفلكس', icons + '/Movies.png', oOutputParameterHandler)
     
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', icons + '/Hindi.png', oOutputParameterHandler)
@@ -65,6 +65,9 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', icons + '/Asian.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_NETFLIX[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات نيتفلكس', icons + '/TVShows.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', icons + '/Anime.png', oOutputParameterHandler)
