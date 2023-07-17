@@ -387,6 +387,8 @@ def getGenreIcon(sTitle):
          genre =  'music'
     if 'خارق للطبيعه' in sTitle:
          genre =  'soul' 
+    if 'نهايه العالم' in sTitle:
+         genre =  'disaster' 
          
     if genre:
         return 'genres/' + str(genre.lower()) + '.png'
