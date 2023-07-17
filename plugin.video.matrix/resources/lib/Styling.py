@@ -188,6 +188,8 @@ def getGenreIcon(sTitle):
          genre =  'Documentary'
     if 'فنتازيا' in sTitle:
          genre =  'Fantasy'
+    if 'فانتازيا' in sTitle:
+         genre =  'Fantasy'
     if 'سامبا' in sTitle:
          genre =  'samba'
     if 'سالسا' in sTitle:
@@ -205,6 +207,8 @@ def getGenreIcon(sTitle):
     if 'مغامرات' in sTitle:
          genre =  'Adventure'
     if 'غربي' in sTitle:
+         genre =  'Western'
+    if 'ويسترن' in sTitle:
          genre =  'Western'
     if 'عائلي' in sTitle:
          genre =  'Family'
@@ -262,6 +266,10 @@ def getGenreIcon(sTitle):
          genre =  'tropical'
     if 'حروب' in sTitle:
          genre =  'war'
+    if 'كرتون' in sTitle:
+         genre =  'kids'
+    if 'كارتون' in sTitle:
+         genre =  'kids'
          
     if genre:
         return 'genres/' + str(genre.lower()) + '.png'
