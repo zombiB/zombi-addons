@@ -55,7 +55,9 @@ class cHoster(iHoster):
         if 'cimanow' in api_call:
             UA = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36'
             api_call = api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA + '&Referer=' + 'https://en.cimanow.cc'
-       
+        if 'hadara' in api_call:
+            UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
+            api_call = api_call + '|AUTH=TLS&verifypeer=false' + '&User-Agent=' + UA
         if '?src=' in api_call:
             api_call = api_call.split('?src=')[1]
        
