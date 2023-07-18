@@ -47,7 +47,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="containerMatch"><a href="(.+?)" target=.+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
+    sPattern = '<div class=\"containerMatch\"><a href=\"(.+?)\" target=.+?src=\"(.+?)\".+?<div style=\"font-weight: bold\">(.+?)</div>.+?<div class=\"matchTime\">(.+?)</div>.+?<div style=\"font-weight: bold\">(.+?)</div>'
 
 
 
@@ -64,11 +64,11 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1]+' vs '+aEntry[3]
+            sTitle =  aEntry[2]+' vs '+aEntry[4]
             sYear = ""
-            sThumb = ""
+            sThumb = aEntry[1]
             siteUrl = aEntry[0]
-            sDesc = aEntry[2]+' GMT+1'
+            sDesc = aEntry[3]+' GMT+1'
 			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
