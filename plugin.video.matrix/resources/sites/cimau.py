@@ -273,7 +273,7 @@ def showMovies(sSearch = ''):
                     break
      
                 siteUrl = aEntry.replace('"',"")
-                VSlog("Check for next Movies : " + siteUrl)
+                #VSlog("Check for next Movies : " + siteUrl)
                 sThumb = icons + '/next.png'
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -296,7 +296,7 @@ def showMovies(sSearch = ''):
                 break
  
             siteUrl = aEntry.replace('"',"")
-            VSlog("Check for next Movies : " + siteUrl)
+            #VSlog("Check for next Movies : " + siteUrl)
             sThumb = icons + '/next.png'
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -362,7 +362,7 @@ def showSeries(sSearch = ''):
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
+    #VSlog(aResult)
 	
     if aResult[0]:
         total = len(aResult[1])
@@ -374,7 +374,7 @@ def showSeries(sSearch = ''):
                 break
  
             siteUrl = aEntry.replace('"',"")
-            VSlog("Check for next series : " + siteUrl)
+            #VSlog("Check for next series : " + siteUrl)
             sThumb = icons + '/next.png'
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -391,7 +391,7 @@ def showSeries(sSearch = ''):
 
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
+        #VSlog(aResult)
         
         if aResult[0]:
             total = len(aResult[1])
@@ -403,7 +403,7 @@ def showSeries(sSearch = ''):
                     break
      
                 siteUrl = aEntry.replace('"',"")
-                VSlog("Check for next series : " + siteUrl)
+                #VSlog("Check for next series : " + siteUrl)
                 sThumb = icons + '/next.png'
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -679,7 +679,7 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
  
     if aResult[0]:
-        VSlog("Check for next func : " + aResult[1])
+        #VSlog("Check for next func : " + aResult[1])
         return aResult[1]
 
     return False
