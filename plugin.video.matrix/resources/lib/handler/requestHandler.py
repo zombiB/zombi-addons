@@ -138,7 +138,11 @@ class cRequestHandler:
             return self.__callRequest(jsonDecode)
         else:
             if CacheStatus == 'true':
-                if "https://api.themoviedb.org" or 'php' or 'ajax' or '/?s=' or 'search' or '/?q=' not in url:
+                if "themoviedb.org" or 'php' or 'ajax' or '/?s=' or 'search' or '/?q=' or 'mp4' or 'avi' or 'm3u' or '?query='or 'find' in url:
+                    VSlog("Cache Request is disabled for tmdb and search urls")
+                    return self.__callRequest(jsonDecode)
+                else:
+                    VSlog("Not a search url")
                     try:            
                         Cached = db.get(url)
                     except:
@@ -158,9 +162,6 @@ class cRequestHandler:
                         VSlog("Cache Request for: " + url)
                         VSlog("Finished request in {s}s".format(s=time.time()-sTime))
                     return resp
-                else:
-                    VSlog("Cache Request is disabled for tmdb and search urls")
-                    return self.__callRequest(jsonDecode)
             else:
                 VSlog("Cache Request is disabled in settings")
                 return self.__callRequest(jsonDecode)
