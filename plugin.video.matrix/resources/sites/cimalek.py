@@ -33,9 +33,6 @@ ANIM_MOVIES = (URL_MAIN + '/category/anime-movies/', 'showMovies')
 SERIE_ASIA = (URL_MAIN + '/category/asian-series/', 'showSeries')
 SERIE_NETFLIX = (URL_MAIN + '/category/netflix-series/', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_ANIMS = (URL_MAIN + '/?s=', 'showAnimes')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():

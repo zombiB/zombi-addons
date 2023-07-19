@@ -92,7 +92,7 @@ def showMovies(sSearch = ''):
 
      # (.+?) ([^<]+) .+?
 
-    sPattern = '<article class="post">.+?<a href="(.+?)" title=.+?<div class="posterThumb"><div class="imgBg" style="background-image:url(.+?);"></div></div> <div class="title">(.+?)</div>'
+    sPattern = '<a href="(.+?)" title.+?<div class="imgBg" style="background-image:url(.+?);"></div></div>        <div class="title">(.+?)</div>'
  
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -110,7 +110,7 @@ def showMovies(sSearch = ''):
             if "فيلم" not in aEntry[2]:
                 continue
  
-            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace('مترجم للعربية',"").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace('"',"").replace('-',"")
             siteUrl = aEntry[0]
             sThumb = aEntry[1].replace("(","").replace(")","")
             if sThumb.startswith('//'):
@@ -194,7 +194,7 @@ def showSeries(sSearch = ''):
         oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<a href='([^<]+)'>&rsaquo;</a>"
+    sPattern = "<a href='(.+?)' class='inactive' >"
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

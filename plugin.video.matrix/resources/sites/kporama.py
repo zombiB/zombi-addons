@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+# Mr-7mdan 
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -14,13 +15,6 @@ from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
 import requests
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
