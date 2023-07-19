@@ -86,12 +86,17 @@ def showMovies(sSearch = ''):
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
+    VSlog(sHtmlContent)
      # (.+?) ([^<]+) .+?
-
+    
+    oParser = cParser()
+    sStart = '<div class=\"containers container-fluid\">'
+    sEnd = '<div class=\"footer">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    
     sPattern = '<a href="(.+?)" title.+?<div class="imgBg" style="background-image:url(.+?);"></div></div>        <div class="title">(.+?)</div>'
  
     oParser = cParser()
@@ -112,6 +117,9 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace('مترجم للعربية',"").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace('"',"").replace('-',"")
             siteUrl = aEntry[0]
+            VSlog(sTitle)
+            VSlog(siteUrl)
+            
             sThumb = aEntry[1].replace("(","").replace(")","")
             if sThumb.startswith('//'):
                sThumb = 'http:' + sThumb
@@ -150,7 +158,12 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
      # (.+?) ([^<]+) .+?
-
+    
+    oParser = cParser()
+    sStart = '<div class=\"containers container-fluid\">'
+    sEnd = '<div class=\"footer">'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
+    
     sPattern = '<article class.+?<a href="(.+?)" title=.+?style="background-image:url(.+?);">.+?class="title">(.+?)</div>'
 
     oParser = cParser()
@@ -238,14 +251,21 @@ def showEps():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
  
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        
+    else:
+        if 'قريباً في موقع قصة عشق' in sHtmlContent:
+            oGui.addText('', 'Soon on Esseq - No Episodes Yet',icons + '/None.png')
+        else:
+            oGui.addText('', 'Error - No Episodes Founds',icons + '/None.png')
     oGui.setEndOfDirectory() 
 
 def showHosters():
+    
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    VSlog(sMovieTitle)
+    VSlog(sUrl)
     sThumb = oInputParameterHandler.getValue('sThumb')
     import base64
     if '?url=' in sUrl:
@@ -255,13 +275,14 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
-    VSlog(sUrl)
+    
 
          
     sPattern =  '<div class="skipAd">.+?href="(.+?)">' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0]
+        VSlog(m3url)
         oRequestHandler = cRequestHandler(m3url)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
