@@ -359,6 +359,11 @@
             "label": "Yallalive",
             "active": "True",
             "url": "https://yallalive.id/"
+        },
+        "kporama": {
+            "label": "Kporama",
+            "active": "True",
+            "url": "https://asia.kporama.net/"
         }
     }
 }
