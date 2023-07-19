@@ -30,6 +30,7 @@ class cHosterGui:
         sRes = oInputParameterHandler.getValue('sRes')
         sTmdbId = oInputParameterHandler.getValue('sTmdbId')
         sFav = oInputParameterHandler.getValue('sFav')
+        sThumb = oInputParameterHandler.getValue('sThumb')
         if not sFav:
             sFav = oInputParameterHandler.getValue('function')
 
@@ -55,9 +56,11 @@ class cHosterGui:
         oGuiElement.setFileName(oHoster.getFileName())
         oGuiElement.getInfoLabel()
         oGuiElement.setIcon(icons + '/Sources.png')
+            
         if sThumbnail:
             oGuiElement.setThumbnail(sThumbnail)
             oGuiElement.setPoster(sThumbnail)
+            oGuiElement.setIcon(sThumbnail)
             
         title = oGuiElement.getCleanTitle()
 
@@ -460,6 +463,9 @@ class cHosterGui:
         
         if ('hadara.ps' in sHostName):
             return self.getHoster('lien_direct')
+
+        if ('vod540' in sHostName):
+            return self.getHoster('vod540')
             
         if ('youtube' in sHostName) or ('youtu.be' in sHostName):
             return self.getHoster('youtube')
