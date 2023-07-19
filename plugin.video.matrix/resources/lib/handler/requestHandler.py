@@ -139,31 +139,31 @@ class cRequestHandler:
         else:
             if CacheStatus == 'true':
                 if "themoviedb.org" or 'php' or 'ajax' or '/?s=' or 'search' or '/?q=' or 'mp4' or 'avi' or 'm3u' or '?query='or 'find' in url:
-                    VSlog("Cache Request is disabled for tmdb and search urls")
+                    #VSlog("Cache Request is disabled for tmdb and search urls")
                     return self.__callRequest(jsonDecode)
                 else:
-                    VSlog("Not a search url")
+                    #VSlog("Not a search url")
                     try:            
                         Cached = db.get(url)
                     except:
                         Cached = None
                             
                     if Cached is None: ##if not in cache
-                        VSlog('Matrix : No cache found for [%s]' % (url))
+                        #VSlog('Matrix : No cache found for [%s]' % (url))
                         resp = self.__callRequest(jsonDecode)
                         forcaching = {"sUrl": url, "val": resp}
-                        VSlog("New Request for: " + url)
-                        VSlog("Finished request in {s}s".format(s=time.time()-sTime))
+                        #VSlog("New Request for: " + url)
+                        #VSlog("Finished request in {s}s".format(s=time.time()-sTime))
                         db.set(forcaching, int(CacheDur)*60*60)
-                        VSlog("Saving new cache")
+                        #VSlog("Saving new cache")
                         
                     else:
                         resp = Cached
-                        VSlog("Cache Request for: " + url)
-                        VSlog("Finished request in {s}s".format(s=time.time()-sTime))
+                        #VSlog("Cache Request for: " + url)
+                        #VSlog("Finished request in {s}s".format(s=time.time()-sTime))
                     return resp
             else:
-                VSlog("Cache Request is disabled in settings")
+                #VSlog("Cache Request is disabled in settings")
                 return self.__callRequest(jsonDecode)
         
     def request2(self, jsonDecode=False):
