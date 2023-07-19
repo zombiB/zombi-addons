@@ -1,5 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-# Mr-7mdan 
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -15,6 +14,13 @@ from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
 import requests
+try:  # Python 2
+    import urllib2
+    from urllib2 import URLError as UrlError
+
+except ImportError:  # Python 3
+    import urllib.request as urllib2
+    from urllib.error import URLError as UrlError
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -65,8 +71,10 @@ def showSiteCats():
     
     for item in MenuItems:
         mItems=(item.a.text,item.a['href'])
-        oOutputParameterHandler.addParameter('siteUrl',  mItems[1]) 
-        oGui.addDir(SITE_IDENTIFIER, getFunc(mItems[0]), mItems[0], getThumb(mItems[0]), oOutputParameterHandler)
+        if mItems[1] not in [None,"", "#"]:
+            if mItems[1].startswith("http"):
+                oOutputParameterHandler.addParameter('siteUrl',  mItems[1]) 
+                oGui.addDir(SITE_IDENTIFIER, getFunc(mItems[0]), mItems[0], getThumb(mItems[0]), oOutputParameterHandler)
     oGui.setEndOfDirectory()
  
 def showSearchAll():
@@ -87,12 +95,12 @@ def showSearch():
         oGui.setEndOfDirectory()
         return
  
-def showSearchSeries():
+def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
         sUrl = URL_MAIN + '/?s='+sSearchText
-        showMovies(sUrl)
+        showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
 		
