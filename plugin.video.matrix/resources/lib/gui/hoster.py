@@ -326,8 +326,14 @@ class cHosterGui:
         if ('alarabiya' in sHostName):
             return self.getHoster('lien_direct')
 
-        if ('kingfoot' in sHostName):
-            return self.getHoster('lien_direct')
+        if ('asiawiki' in sHostName):
+            return self.getHoster('asiadtv')
+
+        if ('asiawiki' in sHostName):
+            return self.getHoster('asiadtv')
+            
+        if ('asiatvplayer' in sHostName):
+            return self.getHoster('asiadtv')
             
         if ('vidbm' in sHostName) or ('vadbam' in sHostName) or ('vedbom' in sHostName) or ('vadbom' in sHostName) or ('vidbam' in sHostName):
             return self.getHoster('vidbm')
