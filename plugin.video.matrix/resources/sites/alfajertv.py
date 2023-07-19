@@ -76,7 +76,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler) 
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', icons + '/Hindi.png', oOutputParameterHandler) 
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Hindi.png', oOutputParameterHandler) 
 
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
@@ -457,29 +457,35 @@ def showServer():
     aResult = oParser.parse(sHtmlContent, sPattern)
     #VSlog(aResult)
     if aResult[0]:
-       for aEntry in aResult[1]:
-           pUrl = URL_MAIN + '/wp-admin/admin-ajax.php'
-           post = aEntry[1]
-           nume = aEntry[2]
-           datatype= aEntry[0]
-           pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type='+datatype
-           UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0"
-           oRequest = cRequestHandler(pUrl)
-           oRequest.setRequestType(1)
-           oRequest.addHeaderEntry('User-Agent', UA)
-           oRequest.addHeaderEntry('Referer', sUrl)
-           oRequest.addHeaderEntry('Host', 'show.alfajertv.com')
-           oRequest.addHeaderEntry('Accept', '*/*')
-           oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
-           oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded')
-           oRequest.addParametersLine(pdata)
-           sHtmlContent2 = oRequest.request() 
-           #VSlog(sHtmlContent)
-           
-           sPattern = "<iframe.+?src='(.+?)' frameborder"
-           aResult = oParser.parse(sHtmlContent2, sPattern)
-           #VSlog(aResult)
-           if aResult[0]:
+        total = 12
+        progress_ = progress().VScreate(SITE_NAME)
+        oOutputParameterHandler = cOutputParameterHandler()             
+        for aEntry in aResult[1]:
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
+            pUrl = URL_MAIN + '/wp-admin/admin-ajax.php'
+            post = aEntry[1]
+            nume = aEntry[2]
+            datatype= aEntry[0]
+            pdata = 'action=doo_player_ajax&post='+post+'&nume='+nume+'&type='+datatype
+            UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0"
+            oRequest = cRequestHandler(pUrl)
+            oRequest.setRequestType(1)
+            oRequest.addHeaderEntry('User-Agent', UA)
+            oRequest.addHeaderEntry('Referer', sUrl)
+            oRequest.addHeaderEntry('Host', 'show.alfajertv.com')
+            oRequest.addHeaderEntry('Accept', '*/*')
+            oRequest.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
+            oRequest.addHeaderEntry('Content-Type', 'application/x-www-form-urlencoded')
+            oRequest.addParametersLine(pdata)
+            sHtmlContent2 = oRequest.request() 
+            #VSlog(sHtmlContent)
+
+            sPattern = "<iframe.+?src='(.+?)' frameborder"
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+            #VSlog(aResult)
+            if aResult[0]:
                for aEntry in aResult[1]:            
                    url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]
                    #VSlog(url)
@@ -504,6 +510,9 @@ def showServer():
 
     if aResult[0]:
        for aEntry in aResult[1]: 
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
             oRequest = cRequestHandler(aEntry[1])
             sHtmlContent3 = oRequest.request()
             
@@ -529,4 +538,6 @@ def showServer():
                       oHoster.setDisplayName(aEntry[0] +'-' + aEntry[2]+'-' + aEntry[3] )
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    progress_.VSclose(progress_)
     oGui.setEndOfDirectory()
+    
