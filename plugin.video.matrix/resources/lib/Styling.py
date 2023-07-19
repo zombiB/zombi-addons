@@ -238,12 +238,25 @@ def getThumb(sTitle):
         sThumb = icons + '/None.png'
     return sThumb
 
-def getFunc(sCat):
-    if 'افلام' or 'الانيميشن' or 'ملتيميديا' in sCat:
+def getFunc(sTitle):
+    sTitle = sTitle.replace("أ","ا").replace("آ","ا").replace("ة","ه").strip()
+    VSlog("Fetching function for : " + sTitle)
+    if 'افلام' in sTitle:
+        VSlog('Function : ' + 'showMovies')
         return 'showMovies'
-    else:
+    if 'الانيميشن'in sTitle:
+        VSlog('Function : ' + 'showMovies')
+        return 'showMovies'
+    if 'ملتيميديا' in sTitle:
+        VSlog('Function : ' + 'showMovies')
+        return 'showMovies'
+    if 'مسلسلات' in sTitle:
+        VSlog('Function : ' + 'showSeries')
         return 'showSeries'
-        
+    if 'برامج' in sTitle:
+        VSlog('Function : ' + 'showSeries')
+        return 'showSeries'
+    return False
 
 def getGenreIcon(sTitle):
     sTitle = sTitle.replace("أ","ا").replace("آ","ا").replace("ة","ه").strip()
