@@ -73,7 +73,7 @@
         "arabseed": {
             "label": "Arabseed",
             "active": "True",
-            "url": "https://f20.arabseed.ink/"
+            "url": "https://k70.arabseed.ink/"
         },
         "aracinema_co": {
             "label": "Aramosalsal",
@@ -364,6 +364,11 @@
             "label": "Kporama",
             "active": "True",
             "url": "https://asia.kporama.net/"
+        },
+        "asiadtv": {
+            "label": "AsiaDramaTV",
+            "active": "True",
+            "url": "https://www.asiadtv.com/"
         }
     }
 }
