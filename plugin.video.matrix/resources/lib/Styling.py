@@ -38,27 +38,31 @@ def getThumb(sTitle):
         sThumb = icons + '/Hindi.png'
     if 'ياباني' in sTitle: 
         sThumb = icons + '/Japanese.png'
-    if 'يابانية' in sTitle: 
+    if 'يابانيه' in sTitle: 
         sThumb = icons + '/Japanese.png'
     if 'صيني' in sTitle: 
         sThumb = icons + '/Chinese.png'
-    if 'صينية' in sTitle: 
+    if 'صينيه' in sTitle: 
         sThumb = icons + '/Chinese.png'
     if 'تايواني' in sTitle: 
         sThumb = icons + '/Taiwanese.png'
-    if 'تايوانية' in sTitle: 
+    if 'تايوانيه' in sTitle: 
+        sThumb = icons + '/Taiwanese.png'
+    if 'تايونيه' in sTitle: 
         sThumb = icons + '/Taiwanese.png'
     if 'تايلندي' in sTitle: 
         sThumb = icons + '/Thai.png'
-    if 'تايلندية' in sTitle: 
+    if 'تايلنديه' in sTitle: 
+        sThumb = icons + '/Thai.png'
+    if 'تايلانديه' in sTitle: 
         sThumb = icons + '/Thai.png'
     if 'فلبيني' in sTitle: 
         sThumb = icons + '/Filipino.png'
-    if 'فلبينية' in sTitle: 
+    if 'فلبينيه' in sTitle: 
         sThumb = icons + '/Filipino.png'
     if 'فيتنامي' in sTitle: 
         sThumb = icons + '/Vietnamese.png'
-    if 'فيتنامية' in sTitle: 
+    if 'فيتناميه' in sTitle: 
         sThumb = icons + '/Vietnamese.png'
         
     if 'مسلسلات اجنبيه' in sTitle: 
@@ -256,6 +260,10 @@ def getFunc(sTitle):
     if 'برامج' in sTitle:
         VSlog('Function : ' + 'showSeries')
         return 'showSeries'
+    if 'دراما' in sTitle:
+        VSlog('Function : ' + 'showSeries')
+        return 'showSeries'
+    
     return False
 
 def getGenreIcon(sTitle):

@@ -8,7 +8,7 @@ from resources.lib.search import cSearch
 from resources.lib.handler.pluginHandler import cPluginHandler
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.comaddon import addon, window
+from resources.lib.comaddon import addon, window, addon, VSlog
 
 SITE_IDENTIFIER = 'cHome'
 SITE_NAME = 'Home'
@@ -429,6 +429,12 @@ class cHome:
         return True
 
     def callpluging(self):
+        ADDON = addon()
+        CurrentCacheStatus = ADDON.getSetting('RequestCache')
+        VSlog('CurrentCacheStatus: ' + ADDON.getSetting('RequestCache'))
+        ## Turnoff Matrix Cache
+        ADDON.setSetting('RequestCache','False')
+        VSlog('After trying to switch it off CacheStatus: ' + ADDON.getSetting('RequestCache'))
         oGui = cGui()
 
         oInputParameterHandler = cInputParameterHandler()
@@ -444,7 +450,9 @@ class cHome:
                 oGui.addDir(aPlugin[2], aPlugin[3], aPlugin[1], icon, oOutputParameterHandler)
             except:
                 pass
-
+        
+        ADDON.setSetting('RequestCache',CurrentCacheStatus)
+        VSlog('Reverting to original setting CurrentCacheStatus: ' + ADDON.getSetting('RequestCache'))
         oGui.setEndOfDirectory()
 
     def showHostDirect(self):  # fonction de recherche
