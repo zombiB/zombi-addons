@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress,#VSlog, siteManager, dialog, addon
+from resources.lib.comaddon import progress,VSlog, siteManager, dialog, addon
 from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
@@ -364,7 +364,7 @@ def showHosters():
                             oHoster.setFileName(sHost)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                         else:
-                           #VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
+                           VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
     ## Download Servers
     soup = BeautifulSoup(sHtmlContent, "html.parser")
     DownloadLinksSoup = soup.find("div",{"class":"TPTblCn"}).table.tbody
@@ -392,6 +392,6 @@ def showHosters():
                     oHoster.setFileName(sHost)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 else:
-                   #VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
+                    VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
         
     oGui.setEndOfDirectory()

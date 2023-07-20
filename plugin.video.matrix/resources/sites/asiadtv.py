@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress,#VSlog, siteManager, dialog, addon
+from resources.lib.comaddon import progress,VSlog, siteManager, dialog, addon
 from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
@@ -371,46 +371,6 @@ def showHosters():
                         oHoster.setFileName(sHost)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                     else:
-                       #VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
-    # ## Download Servers
-    # soup = BeautifulSoup(sHtmlContent, "html.parser")
-    # DownloadLinksSoup = soup.find("div",{"class":"DownloadLinks"})
-    
-    # DownloadLinksRows = DownloadLinksSoup.findAll("a")
-    # DownLinks = []
-    # for row in DownloadLinksRows:
-        # #VSlog(row)
-        # sHost = a.span.text.strip()
-        ##VSlog('sHost : ' + sHost)
-        # sHosterUrl = a['href']
-        # DownLinks.append([sHost,sHosterUrl])
-    
-    # for lnk in DownLinks:
-        # oRequestHandler = cRequestHandler(lnk[1])
-        # sHtmlContent = oRequestHandler.request()
-        # soup = BeautifulSoup(sHtmlContent, "html.parser")
-        # form = soup.find("form")
-        # method = form['method']
-        # _csrfToken = form.div.find("input",{"name":"_csrfToken"})['value']
-        # s = requests.Session()            
-        # headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
-        # data = {inputmethod:inputvalue}
-        ##VSlog(data)
-        # r = s.post(url, headers=headers,data = data)
-        # sHtmlContent = r.content.decode('utf8',errors='ignore')
-        # soup = BeautifulSoup(sHtmlContent, "html.parser")
-        # #VSlog(sHtmlContent)
-        # GridISoup = soup.find("ul",{"class":"ServerNames"})
-        # if sHosterUrl not in FullHostersList:
-            # if sHosterUrl:
-                # FullHostersList.append(sHosterUrl)
-                # oHoster = cHosterGui().checkHoster(sHosterUrl)
+                       VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
 
-                # if oHoster:
-                    # oHoster.setDisplayName(sTitle)
-                    # oHoster.setFileName(sHost)
-                    # cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-                # else:
-                    ##VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
-        
     oGui.setEndOfDirectory()
