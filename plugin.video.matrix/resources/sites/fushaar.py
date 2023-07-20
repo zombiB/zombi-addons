@@ -193,7 +193,7 @@ def showHosters():
             
             url = aEntry[0] 
             sHost = aEntry[1]  
-            sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost) 
+            sTitle = ('%s  [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sHost) 
             sThumb = sThumb
             if url.startswith('//'):
                url = 'http:' + url
