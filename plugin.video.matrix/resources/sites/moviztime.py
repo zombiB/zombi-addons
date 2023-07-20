@@ -3,15 +3,16 @@
 # Yonn1981 https://github.com/Yonn1981/Repo
 #############################################################
 
+ 
 import re
 	
-from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.matrix.resources.lib.gui.hoster import cHosterGui
-from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.matrix.resources.lib.gui.gui import cGui
-from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.matrix.resources.lib.handler.inputParameterHandler import cInputParameterHandler
-from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.matrix.resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.matrix.resources.lib.handler.requestHandler import cRequestHandler
-from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.matrix.resources.lib.comaddon import progress, VSlog, siteManager, dialog
-from Plugins.Extensions.IPTVPlayer.tsiplayer.addons.matrix.resources.lib.parser import cParser
+from resources.lib.gui.hoster import cHosterGui
+from resources.lib.gui.gui import cGui
+from resources.lib.handler.inputParameterHandler import cInputParameterHandler
+from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
+from resources.lib.handler.requestHandler import cRequestHandler
+from resources.lib.comaddon import progress, VSlog, siteManager, dialog
+from resources.lib.parser import cParser
  
 SITE_IDENTIFIER = 'moviztime'
 SITE_NAME = 'MovizTime'
