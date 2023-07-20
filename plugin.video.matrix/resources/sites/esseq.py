@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import progress,#VSlog, siteManager, addon
 from resources.lib.parser import cParser
 import re
 
@@ -29,7 +29,7 @@ aResult = oParser.parse(sHtmlContent, sPattern)
     
 if (aResult[0]):
     URL_MAIN = aResult[1][0]
-    VSlog(URL_MAIN)
+   #VSlog(URL_MAIN)
 
 SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
 MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
@@ -89,7 +89,7 @@ def showMovies(sSearch = ''):
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    VSlog(sHtmlContent)
+   #VSlog(sHtmlContent)
      # (.+?) ([^<]+) .+?
     
     oParser = cParser()
@@ -117,8 +117,8 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace('مترجم للعربية',"").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace('"',"").replace('-',"")
             siteUrl = aEntry[0]
-            VSlog(sTitle)
-            VSlog(siteUrl)
+           #VSlog(sTitle)
+           #VSlog(siteUrl)
             
             sThumb = aEntry[1].replace("(","").replace(")","")
             if sThumb.startswith('//'):
@@ -264,8 +264,8 @@ def showHosters():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    VSlog(sMovieTitle)
-    VSlog(sUrl)
+   #VSlog(sMovieTitle)
+   #VSlog(sUrl)
     sThumb = oInputParameterHandler.getValue('sThumb')
     import base64
     if '?url=' in sUrl:
@@ -282,12 +282,12 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0]
-        VSlog(m3url)
+       #VSlog(m3url)
         oRequestHandler = cRequestHandler(m3url)
         oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
         oRequestHandler.addHeaderEntry('referer', URL_MAIN)
         sHtmlContent = oRequestHandler.request() 
-        VSlog(sHtmlContent)
+       #VSlog(sHtmlContent)
 
 
     # (.+?) .+? ([^<]+)        	

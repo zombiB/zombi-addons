@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, siteManager, dialog, addon
+from resources.lib.comaddon import progress,#VSlog, siteManager, dialog, addon
 from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
@@ -45,7 +45,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Movies', icons + '/Search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'Search Series', icons + '/Search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'Search Series', icons + '/Search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchAll', 'Search All', icons + '/Search.png', oOutputParameterHandler)
@@ -207,14 +207,14 @@ def showSeasons():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sSearchText = oInputParameterHandler.getValue('sMovieTitle').split("/")[0].split("الموسم")[0]
-    VSlog(sSearchText)
+   #VSlog(sSearchText)
     if sSearchText:
         sUrl = URL_MAIN + '/?s='+sSearchText
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
         
-    VSlog(sUrl)
+   #VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
@@ -260,7 +260,7 @@ def showEpisodes():
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    VSlog(sUrl)
+   #VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
@@ -276,7 +276,7 @@ def showEpisodes():
     for item in GridItems:
         
         row = item.find("td", {"class":"MvTbTtl"})
-        VSlog(row)
+       #VSlog(row)
         siteUrl = row.a['href']
         sTitle = row.a.text.replace("الحلقة","E").replace("الحلقه","E")
         sYear = ''
@@ -364,7 +364,7 @@ def showHosters():
                             oHoster.setFileName(sHost)
                             cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                         else:
-                            VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
+                           #VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
     ## Download Servers
     soup = BeautifulSoup(sHtmlContent, "html.parser")
     DownloadLinksSoup = soup.find("div",{"class":"TPTblCn"}).table.tbody
@@ -376,7 +376,7 @@ def showHosters():
         Columns = row.findAll("td")
         #VSlog(Columns)
         sHost = Columns[2].span.text.replace("🌟","").strip()
-        VSlog('sHost : ' + sHost)
+       #VSlog('sHost : ' + sHost)
         sHosterUrl = Columns[1].a['href']
         sTitle = Columns[3].span.text.replace("HD","").replace("SD","").replace("(","").replace(")","").strip()
         
@@ -392,6 +392,6 @@ def showHosters():
                     oHoster.setFileName(sHost)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 else:
-                    VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
+                   #VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
         
     oGui.setEndOfDirectory()

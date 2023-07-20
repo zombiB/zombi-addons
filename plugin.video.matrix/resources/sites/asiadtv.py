@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, siteManager, dialog, addon
+from resources.lib.comaddon import progress,#VSlog, siteManager, dialog, addon
 from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
@@ -63,7 +63,7 @@ def showSiteCats():
     soup = BeautifulSoup(sHtmlContent, "html.parser")
     MenuSoup = soup.find("div",{"class":"advancedSearch"}).div.form.find("select",{"name":"types"})
     
-    VSlog(MenuSoup)
+   #VSlog(MenuSoup)
     MenuItems = MenuSoup.findAll("option")
     
     for item in MenuItems:
@@ -107,7 +107,7 @@ def showMovies(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
     
-    VSlog(sUrl)
+   #VSlog(sUrl)
     
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
@@ -120,10 +120,10 @@ def showMovies(sSearch = ''):
         GridItems = GridSoup.findAll("div",{"class":"block-post2"})
     except:
         GridItems = GridSoup.findAll("div",{"class":"block-post2"})
-    VSlog(GridSoup)
+   #VSlog(GridSoup)
     oOutputParameterHandler = cOutputParameterHandler()
     for item in GridItems:
-        VSlog(item)
+       #VSlog(item)
         siteUrl = item.a['href']
         sTitle = item.find("div",{"class":"blockTitle"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
         sYear = ''
@@ -161,7 +161,7 @@ def showSeries(sSearch = ''):
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
     
-    VSlog(sUrl)
+   #VSlog(sUrl)
     
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
@@ -174,10 +174,10 @@ def showSeries(sSearch = ''):
         GridItems = GridSoup.findAll("div",{"class":"block-post2"})
     except:
         GridItems = GridSoup.findAll("div",{"class":"block-post2"})
-    VSlog(GridSoup)
+   #VSlog(GridSoup)
     oOutputParameterHandler = cOutputParameterHandler()
     for item in GridItems:
-        VSlog(item)
+       #VSlog(item)
         siteUrl = item.a['href']
         sTitle = item.find("div",{"class":"blockTitle"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").strip()
         sYear = ''
@@ -213,7 +213,7 @@ def showSeasons():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     
-    VSlog(sUrl)
+   #VSlog(sUrl)
     oInputParameterHandler = cInputParameterHandler()
     sThumb = oInputParameterHandler.getValue('sThumb')
     
@@ -227,10 +227,10 @@ def showSeasons():
 
     GridItems = GridSoup.findAll("li")
 
-    VSlog(GridSoup)
+   #VSlog(GridSoup)
     oOutputParameterHandler = cOutputParameterHandler()
     for item in GridItems:
-        VSlog(item)
+       #VSlog(item)
         siteUrl = item.a['href']
         sTitle = item.a.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
         sYear = ''
@@ -255,7 +255,7 @@ def showEpisodes():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     
-    VSlog(sUrl)
+   #VSlog(sUrl)
     oInputParameterHandler = cInputParameterHandler()
     sThumb = oInputParameterHandler.getValue('sThumb')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -322,7 +322,7 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    VSlog(sUrl)
+   #VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     
@@ -340,17 +340,17 @@ def showHosters():
     s = requests.Session()            
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
     data = {inputmethod:inputvalue}
-    VSlog(data)
+   #VSlog(data)
     r = s.post(url, headers=headers,data = data)
     sHtmlContent = r.content.decode('utf8',errors='ignore')
     soup = BeautifulSoup(sHtmlContent, "html.parser")
-    VSlog(sHtmlContent)
+   #VSlog(sHtmlContent)
     GridISoup = soup.find("ul",{"class":"ServerNames"})
     GridItems = GridISoup.findAll("li")
     for item in GridItems:
-        VSlog(item)
+       #VSlog(item)
         sHosterFrame = item['data-server']
-        VSlog(sHosterFrame)
+       #VSlog(sHosterFrame)
         sPattern = 'iframe src=\"(.+?)\"'
         oParser = cParser()
         aResult = oParser.parse(sHosterFrame.lower(), sPattern)
@@ -358,7 +358,7 @@ def showHosters():
             sHosterUrl = aResult[1][0].replace("&quot;","")
             sHost = item.i.text.strip()
             sTitle = sMovieTitle
-            VSlog('sHost : ' + sHost + ' sHosterUrl : ' + sHosterUrl)
+           #VSlog('sHost : ' + sHost + ' sHosterUrl : ' + sHosterUrl)
             if 'asiatvplayer' in sHosterUrl:
                 sHosterUrl = sHosterUrl + '|Referer=' + url
             if sHosterUrl not in FullHostersList:
@@ -371,7 +371,7 @@ def showHosters():
                         oHoster.setFileName(sHost)
                         cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                     else:
-                        VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
+                       #VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
     # ## Download Servers
     # soup = BeautifulSoup(sHtmlContent, "html.parser")
     # DownloadLinksSoup = soup.find("div",{"class":"DownloadLinks"})
@@ -381,7 +381,7 @@ def showHosters():
     # for row in DownloadLinksRows:
         # #VSlog(row)
         # sHost = a.span.text.strip()
-        # VSlog('sHost : ' + sHost)
+        ##VSlog('sHost : ' + sHost)
         # sHosterUrl = a['href']
         # DownLinks.append([sHost,sHosterUrl])
     
@@ -395,7 +395,7 @@ def showHosters():
         # s = requests.Session()            
         # headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
         # data = {inputmethod:inputvalue}
-        # VSlog(data)
+        ##VSlog(data)
         # r = s.post(url, headers=headers,data = data)
         # sHtmlContent = r.content.decode('utf8',errors='ignore')
         # soup = BeautifulSoup(sHtmlContent, "html.parser")
@@ -411,6 +411,6 @@ def showHosters():
                     # oHoster.setFileName(sHost)
                     # cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 # else:
-                    # VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
+                    ##VSlog("URL ["+sHosterUrl+"] has no hoster resolver")
         
     oGui.setEndOfDirectory()
