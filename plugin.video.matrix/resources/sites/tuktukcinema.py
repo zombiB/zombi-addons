@@ -161,7 +161,7 @@ def showPack(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showPack', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 			
 def showMovies(sSearch = ''):
     oGui = cGui()
@@ -217,7 +217,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
 
 def showSeriesSearch(sSearch = ''):
@@ -276,7 +276,7 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 		
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -337,7 +337,7 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
 def showSeasons():
 	oGui = cGui()

@@ -145,7 +145,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/%D9%81%D9%8A%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/search/+'+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -154,7 +154,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/search/+'+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -280,31 +280,31 @@ def showMovies(sSearch = ''):
                 
                 oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'Next' , sThumb, oOutputParameterHandler)
 
-    sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
+        sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            siteUrl = aEntry.replace('"',"")
-            #VSlog("Check for next Movies : " + siteUrl)
-            sThumb = icons + '/next.png'
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+     
+                siteUrl = aEntry.replace('"',"")
+                #VSlog("Check for next Movies : " + siteUrl)
+                sThumb = icons + '/next.png'
 
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
 
 
-            progress_.VSclose(progress_)
+                progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 			
 def showSeries(sSearch = ''):
@@ -358,35 +358,36 @@ def showSeries(sSearch = ''):
   # ([^<]+) .+?
 
 
-    sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
 
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog(aResult)
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
- 
-            siteUrl = aEntry.replace('"',"")
-            #VSlog("Check for next series : " + siteUrl)
-            sThumb = icons + '/next.png'
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sThumb',sThumb)
-            #oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
 
     if not sSearch:
+        sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        #VSlog(aResult)
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+     
+                siteUrl = aEntry.replace('"',"")
+                #VSlog("Check for next series : " + siteUrl)
+                sThumb = icons + '/next.png'
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sThumb',sThumb)
+                #oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
+
+            progress_.VSclose(progress_)
         sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
 
         oParser = cParser()

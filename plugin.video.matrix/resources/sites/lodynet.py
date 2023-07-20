@@ -5,7 +5,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, siteManager, addon
+from resources.lib.comaddon import progress, siteManager, addon, VSlog
 from resources.lib.parser import cParser
 import re
 
@@ -265,7 +265,7 @@ def showSearchSerie(sSearch = ''):
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
  
 def showMovies(sSearch = ''):
@@ -295,8 +295,9 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة و تحميل","").replace("مشاهدة","").replace("وتحميل","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("برنامج","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("انيمي","")
+            sTitle = aEntry[1].replace("&#8217;", "'").replace("مشاهدة و تحميل","").replace("مشاهدة","").replace("وتحميل","").replace("مترجم","").replace("اونلاين","").replace("تحميل فلم","").replace("مشاهده","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("اونلاين","").replace("برنامج","").replace("بجودة","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","مدبلج").replace("انيمي","").strip()
             siteUrl = aEntry[0]
+            
             s1Thumb = aEntry[2]
             sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
             sDesc = ""
@@ -467,7 +468,7 @@ def showHosters():
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
     # (.+?) 
                
         
