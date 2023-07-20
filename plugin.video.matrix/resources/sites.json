@@ -369,6 +369,11 @@
             "label": "AsiaDramaTV",
             "active": "True",
             "url": "https://www.asiadtv.com/"
+        },
+        "asia2tv": {
+            "label": "Asia2TV",
+            "active": "True",
+            "url": "https://ww1.asia2tv.pw/"
         }
     }
 }
