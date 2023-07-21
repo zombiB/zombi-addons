@@ -79,7 +79,7 @@ class cHome:
         view = False
         if (self.addons.getSetting('active-view') == 'true'):
             view = self.addons.getSetting('accueil-view')
-
+               
         oGui.setEndOfDirectory(view)
 
     def showSearchText(self):
@@ -92,7 +92,14 @@ class cHome:
             return False
 
     def showSearch(self, searchtext=None):
-
+        
+        ADDON = addon()
+        CurrentCacheStatus = ADDON.getSetting('RequestCache')
+        VSlog('CurrentCacheStatus: ' + ADDON.getSetting('RequestCache'))
+        ## Turnoff Matrix Cache
+        ADDON.setSetting('RequestCache','False')
+        VSlog('After trying to switch it off CacheStatus: ' + ADDON.getSetting('RequestCache'))
+        
         if not searchtext:
             searchtext=cInputParameterHandler().getValue('searchtext')
 
@@ -135,7 +142,9 @@ class cHome:
         oGuiElement.setCat(5)
         oGui.addFolder(oGuiElement, oOutputParameterHandler)
 
-
+        ADDON.setSetting('RequestCache',CurrentCacheStatus)
+        VSlog('Reverting to original setting CurrentCacheStatus: ' + ADDON.getSetting('RequestCache'))
+        
         oGui.setEndOfDirectory()
 
     def showDocs(self):
@@ -230,14 +239,32 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_EN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30108)), icons + '/Movies.png', oOutputParameterHandler)
 		
-        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_4k')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(33108)), icons + '/4k.png', oOutputParameterHandler)
-
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_TURK')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30109)), icons + '/Turkish.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_ASIAN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30104)), icons + '/Asian.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_KR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301041)), icons + '/Korean.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_KR_AR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301042)), icons + '/Dubbed.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_CN')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301043)), icons + '/Chinese.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_JP')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301044)), icons + '/Japanese.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_THAI')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301045)), icons + '/Thai.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_VIET')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301046)), icons + '/Vietnamese.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_TA')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301047)), icons + '/Taiwanese.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_HI')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30103)), icons + '/Hindi.png', oOutputParameterHandler)
@@ -259,6 +286,9 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_ANNEES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30106)), icons + '/Calendar.png', oOutputParameterHandler)
+        
+        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_LANGS')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301061)), icons + '/Language.png', oOutputParameterHandler)
 		
         oGui.setEndOfDirectory()
 
@@ -275,20 +305,36 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_EN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30108)), icons + '/TVShows.png', oOutputParameterHandler)
 
-
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30109)), icons + '/Turkish.png', oOutputParameterHandler)
-
 
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR_AR')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(31110)), icons + '/TVShowsTurkish-Dubbed.png', oOutputParameterHandler)
 
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_KR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301041)), icons + '/Korean.png', oOutputParameterHandler)
+        
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_ASIA')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30104)), icons + '/Asian.png', oOutputParameterHandler)
 
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_KR_AR')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301042)), icons + '/TVShowsKorean-Dubbed.png', oOutputParameterHandler)
 
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_CN')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301043)), icons + '/Chinese.png', oOutputParameterHandler)
 
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_JP')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301044)), icons + '/Japanese.png', oOutputParameterHandler)
 
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_THAI')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301045)), icons + '/Thai.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_VIET')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301046)), icons + '/Vietnamese.png', oOutputParameterHandler)
+
+        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TA')
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301047)), icons + '/Taiwanese.png', oOutputParameterHandler)
+        
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_PAK')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30111)), icons + '/Pakistani.png', oOutputParameterHandler)
 
@@ -298,18 +344,13 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_HEND_AR')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30136)), icons + '/TVShowsHindi-Dubbed.png', oOutputParameterHandler)
 
-
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_LATIN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30137)), icons + '/TVShows.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_GENRES')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30105)), icons + '/Genres.png', oOutputParameterHandler)
 
-
-
-
         oGui.setEndOfDirectory()
-
 
     def showAnimes(self):
         oGui = cGui()
@@ -429,12 +470,7 @@ class cHome:
         return True
 
     def callpluging(self):
-        ADDON = addon()
-        CurrentCacheStatus = ADDON.getSetting('RequestCache')
-        VSlog('CurrentCacheStatus: ' + ADDON.getSetting('RequestCache'))
-        ## Turnoff Matrix Cache
-        ADDON.setSetting('RequestCache','False')
-        VSlog('After trying to switch it off CacheStatus: ' + ADDON.getSetting('RequestCache'))
+        
         oGui = cGui()
 
         oInputParameterHandler = cInputParameterHandler()
@@ -451,8 +487,6 @@ class cHome:
             except:
                 pass
         
-        ADDON.setSetting('RequestCache',CurrentCacheStatus)
-        VSlog('Reverting to original setting CurrentCacheStatus: ' + ADDON.getSetting('RequestCache'))
         oGui.setEndOfDirectory()
 
     def showHostDirect(self):  # fonction de recherche
