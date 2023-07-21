@@ -81,7 +81,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, REPLAYTV_PLAY[1], 'برامج ترفيهية', icons + '/Programs.png', oOutputParameterHandler)
     
-    showSiteCats()
+    #showSiteCats()
     
     oGui.setEndOfDirectory()
 
