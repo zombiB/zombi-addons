@@ -13,6 +13,7 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.Styling import getGenreIcon
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -106,7 +107,7 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', icons + '/MoviesEnglish.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', icons + '/Genres.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -140,20 +141,20 @@ def moviesGenres():
     liste.append(['قصة حقيقية', URL_MAIN + 'category/%d9%82%d8%b5%d8%a9-%d8%ad%d9%82%d9%8a%d9%82%d9%8a%d8%a9/'])
     liste.append(['دراما', URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/drama/'])
     liste.append(['رعب', URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/%d8%b1%d8%b9%d8%a8-%d9%85%d8%aa%d8%b1%d8%ac%d9%85/'])
-    liste.append(['عائلى', URL_MAIN + 'category/%d8%b9%d8%a7%d8%a6%d9%84%d9%8a/'])
+    liste.append(['عائلي', URL_MAIN + 'category/%d8%b9%d8%a7%d8%a6%d9%84%d9%8a/'])
     liste.append(['حروب', URL_MAIN + 'category/%d8%ad%d8%b1%d9%88%d8%a8/'])
     liste.append(['الجريمة', URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%ac%d8%b1%d9%8a%d9%85%d8%a9/'])
     liste.append(['رومانسى', URL_MAIN + 'category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a3%d8%ac%d9%86%d8%a8%d9%8a%d8%a9/%d8%b1%d9%88%d9%85%d8%a7%d9%86%d8%b3%d9%8a/'])
     liste.append(['خيال علمى', URL_MAIN + 'category/%d8%ae%d9%8a%d8%a7%d9%84-%d8%b9%d9%84%d9%85%d9%8a/'])
     liste.append(['اثارة', URL_MAIN + 'category/%d8%a7%d8%ab%d8%a7%d8%b1%d8%a9/'])
-    liste.append(['وثائقى', URL_MAIN + 'category/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/'])
+    liste.append(['وثائقي', URL_MAIN + 'category/%d9%88%d8%ab%d8%a7%d8%a6%d9%82%d9%8a/'])
     liste.append(['غموض', URL_MAIN + 'category/%d8%ba%d9%85%d9%88%d8%b6/'])
 
     for sTitle, sUrl in liste:
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, getGenreIcon(sTitle), oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
