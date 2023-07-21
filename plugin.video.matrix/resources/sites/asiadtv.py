@@ -30,7 +30,19 @@ SITE_NAME = 'AsiaDramaTV'
 SITE_DESC = 'Asian Movies and TV Shows'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+MOVIE_ASIAN = (URL_MAIN + 'types/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+SERIE_KR = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%83%d9%88%d8%b1%d9%8a%d8%a9/', 'showSeries')
+SERIE_CN = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%b5%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_JP = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries')
+SERIE_THAI = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%84%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries')
+SERIE_TA = (URL_MAIN + 'types/%d8%a7%d9%84%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%a7%d9%84%d8%aa%d8%a7%d9%8a%d9%88%d9%86%d9%8a%d8%a9/', 'showSeries')
 
+
+URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')
+URL_SEARCH_MISC = (URL_MAIN + '/?s=', 'showSeriesSearch')
+FUNCTION_SEARCH = 'showSeries'
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون','دراما', 'الدراما')
 def load():
     oGui = cGui()
@@ -45,7 +57,25 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchAll', 'Search All', icons + '/Search.png', oOutputParameterHandler)
     
-    showSiteCats()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_ASIAN[1], 'افلام آسيوية', icons + '/Asian.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', icons + '/Korean.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_CN[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_CN[1], 'مسلسلات صينية', icons + '/Chinese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_JP[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات يابانية', icons + '/Japanese.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_TA[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_CN[1], 'مسلسلات تايوانية', icons + '/Taiwanese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_THAI[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات تايلندية', icons + '/Thai.png', oOutputParameterHandler)
+    
+    #showSiteCats()
     
     oGui.setEndOfDirectory()
 
@@ -125,7 +155,7 @@ def showMovies(sSearch = ''):
     for item in GridItems:
        #VSlog(item)
         siteUrl = item.a['href']
-        sTitle = item.find("div",{"class":"blockTitle"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+        sTitle = item.find("div",{"class":"blockTitle"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").split("/")[0].strip()
         sYear = ''
         
         try:
@@ -150,7 +180,7 @@ def showMovies(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
@@ -179,15 +209,15 @@ def showSeries(sSearch = ''):
     for item in GridItems:
        #VSlog(item)
         siteUrl = item.a['href']
-        sTitle = item.find("div",{"class":"blockTitle"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").strip()
+        sTitle = item.find("div",{"class":"blockTitle"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").split("/")[0].strip()
         sYear = ''
-        
+        VSlog(sTitle)
         try:
             sThumb = item.a.div.img['data-img'].replace('"','')
         except:
             sThumb = item.a.div.img['src'].replace('"','')
         sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
-        
+        VSlog(sThumb)
         if sThumb.startswith('//'):
             sThumb = 'https:' + sThumb
            
@@ -204,7 +234,7 @@ def showSeries(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
 
  			
@@ -247,7 +277,7 @@ def showSeasons():
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeasons', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeasons', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
     oGui.setEndOfDirectory()
  
 def showEpisodes():
@@ -298,7 +328,7 @@ def showEpisodes():
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
     except:
         oGui.addText('', 'No Episodes Yet',icons + '/None.png')
   
