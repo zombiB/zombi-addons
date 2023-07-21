@@ -204,6 +204,15 @@ class cHosterGui:
         if ('gettyshare' in sHostName):
             return self.getHoster('gettyshare')
             
+        if ('avideo' in sHostName):
+            return self.getHoster('avideo')     
+       
+        if ('vidhls' in sHosterUrl):
+            return self.getHoster('vidhls')
+
+        if ('play.imovietime' in sHosterUrl):
+            return self.getHoster('moviztime')
+	    
         if ('shoffree' in sHostName) or ('egy-best' in sHostName):
             return self.getHoster('shoffree')
 				
