@@ -379,6 +379,11 @@
             "label": "Asia2TV",
             "active": "True",
             "url": "https://ww1.asia2tv.pw/"
+        },
+        "MatrixTV": {
+            "label": "MatrixTV",
+            "active": "True",
+            "url": "https://iptv-org.github.io/"
         }
     }
 }
