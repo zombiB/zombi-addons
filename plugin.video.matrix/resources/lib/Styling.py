@@ -410,7 +410,14 @@ def getGenreIcon(sTitle):
          genre =  'soul' 
     if 'نهايه العالم' in sTitle:
          genre =  'disaster' 
-
+    if 'وثائقي' in sTitle:
+         genre =  'documentary' 
+    if 'قصه حقيقيه' in sTitle:
+         genre =  'adventure' 
+    if 'عائلي' in sTitle:
+         genre =  'kids'
+    if 'عائليه' in sTitle:
+         genre =  'kids' 
     if 'Shop' in sTitle:
          genre =  'foreign' 
     if 'Classic' in sTitle:
