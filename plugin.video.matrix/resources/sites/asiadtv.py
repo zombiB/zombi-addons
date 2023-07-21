@@ -181,7 +181,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -235,7 +235,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
  			
 def showSeasons():
@@ -278,7 +278,7 @@ def showSeasons():
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeasons', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
  
 def showEpisodes():
     oGui = cGui()

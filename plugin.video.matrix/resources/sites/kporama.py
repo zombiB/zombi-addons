@@ -43,10 +43,10 @@ SERIE_CN = (URL_MAIN + 'app/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-
 SERIE_JP = (URL_MAIN + 'app/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a91/', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + 'app/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%8a%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a91/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')
-URL_SEARCH_MISC = (URL_MAIN + '/?s=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeriesSearch')
+URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون')
 def load():
@@ -117,7 +117,7 @@ def showSearchAll():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -126,7 +126,7 @@ def showSearch():
     oGui = cGui() 
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -135,7 +135,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -189,7 +189,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -238,7 +238,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+        oGui.setEndOfDirectory()
 
 
 def showEpisodes():
