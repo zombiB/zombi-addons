@@ -36,7 +36,7 @@ SERIE_EN = (URL_MAIN + 'category.php?cat=english-series3', 'showSeries')
 SERIE_AR = (URL_MAIN + 'category.php?cat=arabic-series22', 'showSeries')
 SERIE_HEND = (URL_MAIN + 'category.php?cat=4indian-series', 'showSeries')
 SERIE_TR = (URL_MAIN + 'category.php?cat=turkish-3isk-seriess21', 'showSeries')
-PROGRAMS = (URL_MAIN + 'category.php?cat=tv-programs5', 'showMovies')
+REPLAYTV_PLAY = (URL_MAIN + 'category.php?cat=tv-programs5', 'showMovies')
 THEATER = (URL_MAIN + '/category.php?cat=masrh1', 'showMovies')
 URL_SEARCH = (URL_MAIN + '/search.php?keywords=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
@@ -93,7 +93,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + PROGRAMS[0])
+    oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'برامج تلفزيونية', icons + '/Programs.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory()
@@ -195,7 +195,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
@@ -257,7 +257,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
  
       # (.+?) ([^<]+) .+?

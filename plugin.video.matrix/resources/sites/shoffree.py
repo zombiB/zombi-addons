@@ -39,7 +39,12 @@ if (aResult[0]):
     VSlog(URL_MAIN)
 
 MOVIE_EN = (URL_MAIN + '/movies', 'showMovies')
+MOVIE_GENRES = (True, 'showGenresM')
+MOVIE_ANNEES= (True, 'showGenresM')
+
 SERIE_EN = (URL_MAIN + '/series', 'showSeries')
+SERIE_GENRES = (True, 'showGenresS')
+SERIE_ANNEES = (True, 'showGenresS')
 
 ANIM_NEWS = (URL_MAIN + '/anime', 'showSeries')
 
@@ -258,7 +263,7 @@ def showMovies(sSearch = ''):
         if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -309,7 +314,7 @@ def showSeries(sSearch = ''):
         if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()

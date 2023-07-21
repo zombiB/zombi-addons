@@ -25,7 +25,7 @@ SERIE_AR = (URL_MAIN + '/ar/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA'
 KID_CARTOON = (URL_MAIN + '/ar/category/%D8%A3%D8%B7%D9%81%D8%A7%D9%84', 'showSerie')
 MOVIES = (URL_MAIN + '/category/%D8%A7%D9%84%D8%A3%D9%81%D9%84%D8%A7%D9%85','showSerie')
 THEATER = (URL_MAIN + '/category/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA','showSerie')
-PROGRAMS = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC','showSerie')
+REPLAYTV_PLAY = (URL_MAIN + '/category/%D8%A8%D8%B1%D8%A7%D9%85%D8%AC','showSerie')
 
 
 
@@ -57,7 +57,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', PROGRAMS[0])
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج', icons + '/Movies.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory()
@@ -123,7 +123,7 @@ def showSeriesSearch(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -205,7 +205,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -257,7 +257,7 @@ def showSerie(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSerie', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSerie', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
