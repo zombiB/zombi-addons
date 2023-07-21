@@ -98,36 +98,48 @@ def showGroups():
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     CatsList = []
+    Count = 0
     for aEntry in ChannelsList:
         CatsList.append(aEntry['cat'])
         
     CatsList = list(set(CatsList))
+    
+    CatsCounter = dict(zip(CatsList, [0]*len(CatsList)))
+    
+    for Cat in CatsList:
+        for Ch in ChannelsList:
+            if Ch['cat'] == Cat:
+                CatsCounter[Cat] = CatsCounter[Cat] + 1
+
     for aEntry in CatsList:
         if aEntry not in [None,""," "]:
+            sTitle = aEntry.title() + ' (' + str(CatsCounter[aEntry]) + ')'
             oOutputParameterHandler.addParameter('siteUrl',  sUrl) 
-            oOutputParameterHandler.addParameter('sTitle',  aEntry.title()) 
+            oOutputParameterHandler.addParameter('sTitle',  sTitle) 
+            oOutputParameterHandler.addParameter('sTitle2',  aEntry.title()) 
+            
             oOutputParameterHandler.addParameter('sThumb',  '') 
             
-            oGui.addDir(SITE_IDENTIFIER, 'showChannels', aEntry.title(), getGenreIcon(aEntry.title()), oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showChannels', sTitle, getGenreIcon(sTitle), oOutputParameterHandler)
     oGui.setEndOfDirectory()
 
 
 def showChannels():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
-    SelectedCat = oInputParameterHandler.getValue('sTitle')
-    VSlog("SelectedCat;" + SelectedCat)
+    SelectedCat = oInputParameterHandler.getValue('sTitle2')
+    
     ChannelsList = getChannels()
 
     for aEntry in ChannelsList:
-        VSlog("aEntry['cat'];" + aEntry['cat'])
+      
         if SelectedCat in aEntry['cat'].title():
             
             sHosterUrl = aEntry['url']
-            VSlog(aEntry['referrer'])
+   
             if aEntry['referrer'] not in [None, 'none', '']:
                 sHosterUrl = sHosterUrl + '|Referrer=' + aEntry['referrer']
-            VSlog(aEntry['ua'])
+     
             if aEntry['ua'] not in [None, 'none', '']:
                 sHosterUrl = sHosterUrl + '|User-Agent=' + aEntry['ua']
             
@@ -145,7 +157,7 @@ def showChannels():
 def showAllChannels():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
-    SelectedCat = oInputParameterHandler.getValue('sTitle')
+    SelectedCat = oInputParameterHandler.getValue('sTitle2')
 
     ChannelsList = getChannels()
 
@@ -153,9 +165,9 @@ def showAllChannels():
 
         sHosterUrl = aEntry['url']
         if aEntry['referrer'] not in [None, 'none', '']:
-            sHosterUrl = + '|Referrer=' + aEntry['referrer']
+            sHosterUrl = sHosterUrl + '|Referrer=' + aEntry['referrer']
         if aEntry['ua'] not in [None, 'none', '']:
-            sHosterUrl = + '|User-Agent=' + aEntry['ua']
+            sHosterUrl = sHosterUrl + '|User-Agent=' + aEntry['ua']
             
         oHoster = cHosterGui().checkHoster(sHosterUrl)
         
