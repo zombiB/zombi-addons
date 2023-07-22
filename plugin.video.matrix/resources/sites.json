@@ -389,6 +389,11 @@
             "label": "HikaietHob",
             "active": "True",
             "url": "https://7obtv.top/"
+        },
+        "bestdrama": {
+            "label": "Best-Drama",
+            "active": "True",
+            "url": "https://best-drama.com/"
         }
     }
 }
