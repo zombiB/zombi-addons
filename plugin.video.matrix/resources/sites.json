@@ -145,6 +145,11 @@
             "active": "True",
             "url": "https://ww.cima-city.site/"
         },
+        "cimaking": {
+            "label": "CimaKing",
+            "active": "True",
+            "url": "https://cimaking.com/"
+        },
         "cimanow": {
             "label": "Cimanow",
             "active": "True",
@@ -215,6 +220,11 @@
             "active": "True",
             "url": "https://www.faselhd.ac/"
         },
+        "filmihq": {
+            "label": "FilmiHQ",
+            "active": "True",
+            "url": "https://filmihq.su/"
+        },
         "fnteam": {
             "label": "Fnteam",
             "active": "True",
@@ -250,6 +260,11 @@
             "active": "True",
             "url": "https://hidaya.tn/"
         },
+        "honadrama": {
+            "label": "Honadrama",
+            "active": "True",
+            "url": "https://tn.honadrama.us/"
+        },
         "katkoute": {
             "label": "Katkoute",
             "active": "True",
@@ -279,6 +294,11 @@
             "label": "Prstej",
             "active": "True",
             "url": "https://vip.brstej.com/"
+        },
+        "s3uditv": {
+            "label": "S3uditv",
+            "active": "True",
+            "url": "https://k.s3udi.tv/"
         },
         "shahidu": {
             "label": "Shahid4u",
@@ -345,6 +365,11 @@
             "active": "True",
             "url": "https://watanflix.com/"
         },
+        "witanime": {
+            "label": "WitAnime",
+            "active": "True",
+            "url": "https://witanime.com/"
+        },
         "mycima": {
             "label": "Wecima",
             "active": "True",
@@ -354,6 +379,11 @@
             "label": "Xsanime",
             "active": "True",
             "url": "https://v.xsanime.com/"
+        },
+        "yalladrama": {
+            "label": "Yalladrama",
+            "active": "True",
+            "url": "https://v2.yalladrama.co/"
         },
         "yallalive": {
             "label": "Yallalive",
