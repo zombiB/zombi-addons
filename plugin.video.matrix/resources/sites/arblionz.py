@@ -132,7 +132,7 @@ def load():
     matches = re.findall(sPattern,sHtmlContent)
     aResult = [True,matches]
     
-    AcceptedCats = ['افلام','مسلسلات','رياضة','مصارعة','انمي','اطفال','رمضان','كرتون','بث حي','مباشر','مباريات']
+    AcceptedCats = ['افلام','مسلسلات','رياضة','مصارعة','انمي','اطفال','رمضان','كرتون','بث حي','مباشر','مباريات', 'مسرحيات']
     okCats = ' '.join(AcceptedCats)
     
     if aResult[0]:
@@ -143,7 +143,7 @@ def load():
             sSubTitle = sTitle.split(" ")
             for Sub in sSubTitle:
                 if Sub in okCats:
-                    sThumb = getThumb(sTitle.replace("ة","ه").replace("أ","ا").replace("آ","ا")) #"icons + '/Movies.png'"
+                    sThumb = getThumb(sTitle.replace("ة","ه").replace("أ","ا").replace("آ","ا")) 
                                     
                     siteUrl = aEntry[0]+'/page/1'
                     #VSlog(siteUrl)
@@ -380,7 +380,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
@@ -476,7 +476,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()  
 			
 def showSeasons():

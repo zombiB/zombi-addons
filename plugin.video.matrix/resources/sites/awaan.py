@@ -27,7 +27,7 @@ SERIE_AR = ('https://www.awaan.ae/series?page=1', 'showSeries')
 
 RAMADAN_SERIES = ('https://www.awaan.ae/ramadan?page=1', 'showSeries')
 
-REPLAYTV_PLAY = ('http://awaan.ae/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86?page=1', 'showEps')
+THEATER = ('http://awaan.ae/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86?page=1', 'showEps')
 ISLAM_SHOWS = ('https://www.awaan.ae/programs/30349/%D8%A5%D8%B3%D9%84%D8%A7%D9%85%D9%8A%D8%A7%D8%AA?page=1', 'showSeries')
 
 ISLAM_QURAN = ('https://www.awaan.ae/programs/208779/%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86-%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85?page=1', 'showSeries')
@@ -53,7 +53,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showEps', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()

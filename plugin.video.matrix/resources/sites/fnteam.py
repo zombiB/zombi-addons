@@ -21,7 +21,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_AR = ('http://www.fn-team.com/?cat=5', 'showMovies')
 SERIE_AR = ('http://www.fn-team.com/?cat=25', 'showSeries')
 KID_CARTOON = ('http://www.fn-team.com/?cat=6', 'showSeries')
-REPLAYTV_PLAY = ('http://www.fn-team.com/?cat=3', 'showSeries')
+THEATER = ('http://www.fn-team.com/?cat=3', 'showSeries')
 
 URL_SEARCH = ('http://www.fn-team.com/?s=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
@@ -52,7 +52,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات كرتون', icons + '/Cartoon.png', oOutputParameterHandler)    
     
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
     
     oGui.setEndOfDirectory()

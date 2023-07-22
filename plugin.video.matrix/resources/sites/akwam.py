@@ -55,7 +55,7 @@ DOC_NEWS = (URL_MAIN + '/movies?category=28', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/shows?section=46&category=0&rating=0&year=0&formats=0&quality=0', 'showSeries')
 
 REPLAYTV_NEWS = (URL_MAIN + '/shows?section=42', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + '/shows?section=45', 'showMovies')
+THEATER = (URL_MAIN + '/shows?section=45', 'showMovies')
 
 MOVIE_ANNEES = (True, 'showYears')
 
@@ -155,7 +155,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية',icons + '/Programs.png', oOutputParameterHandler)
 	
     oOutputParameterHandler = cOutputParameterHandler()
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
@@ -255,7 +255,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oOutputParameterHandler.addParameter('sId', sId)
-            oOutputParameterHandler.addParameter('IMDBNumber', sId)
+            oOutputParameterHandler.addParameter('sImdbId', sId)
             
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
             
@@ -265,7 +265,7 @@ def showMovies(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -336,7 +336,7 @@ def showSeriesSearch(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -486,7 +486,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
     if not sSearch:
         oGui.setEndOfDirectory()
 
