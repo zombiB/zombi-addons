@@ -105,6 +105,11 @@
             "active": "True",
             "url": "https://beinmatch.biz/"
         },
+        "bazplay": {
+            "label": "BazPlay",
+            "active": "True",
+            "url": "https://bazplay.cc/"
+        },     
         "beinsports_net": {
             "label": "Beinsports",
             "active": "True",
