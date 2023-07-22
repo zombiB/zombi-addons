@@ -38,9 +38,6 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oGui.addDir(SITE_IDENTIFIER, 'showDocs', self.addons.VSlang(30112), icons + '/Documentary.png', oOutputParameterHandler)
-        
-        oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-        oGui.addDir(SITE_IDENTIFIER, 'showLiveTV', 'Live TV' , icons + '/LiveTV.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oGui.addDir(SITE_IDENTIFIER, 'showIslam', self.addons.VSlang(70009), icons + '/Islamic.png', oOutputParameterHandler)
@@ -237,20 +234,6 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(70012), self.addons.VSlang(30105)), icons + '/Genres.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
-
-
-    def showLiveTV(self):
-        oGui = cGui()
-
-        oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', 'TV_GROUPS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', 'Live TV Groups', icons + '/Groups.png', oOutputParameterHandler)
-
-        oOutputParameterHandler.addParameter('siteUrl', 'TV_CHANNELS')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', 'Live TV Channels', icons + '/Channels.png', oOutputParameterHandler)
-
-        oGui.setEndOfDirectory()
-
 
     def showMovies(self):
         oGui = cGui()

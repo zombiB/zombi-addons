@@ -95,6 +95,16 @@
             "active": "True",
             "url": "https://www.asia4arabs.com/"
         },
+        "asiadtv": {
+            "label": "AsiaDramaTV",
+            "active": "True",
+            "url": "https://www.asiadtv.com/"
+        },
+        "asia2tv": {
+            "label": "Asia2TV",
+            "active": "True",
+            "url": "https://ww1.asia2tv.pw/"
+        },
         "awaan": {
             "label": "Awaan",
             "active": "False",
@@ -109,11 +119,16 @@
             "label": "BazPlay",
             "active": "True",
             "url": "https://bazplay.cc/"
-        },     
+        },
         "beinsports_net": {
             "label": "Beinsports",
             "active": "True",
             "url": "https://www.beinsports.com/"
+        },
+        "bestdrama": {
+            "label": "Best-Drama",
+            "active": "True",
+            "url": "https://best-drama.com/"
         },
         "btolat": {
             "label": "Btolat",
@@ -265,6 +280,11 @@
             "active": "True",
             "url": "https://hidaya.tn/"
         },
+        "HikaietHob": {
+            "label": "HikaietHob",
+            "active": "True",
+            "url": "https://7obtv.top/"
+        },
         "honadrama": {
             "label": "Honadrama",
             "active": "True",
@@ -279,6 +299,11 @@
             "label": "Koralive",
             "active": "True",
             "url": "https://alkoora.360koralive.com/"
+        },
+        "kporama": {
+            "label": "Kporama",
+            "active": "True",
+            "url": "https://asia.kporama.net/"
         },
         "laroza": {
             "label": "Laroza",
@@ -399,36 +424,6 @@
             "label": "Yallalive",
             "active": "True",
             "url": "https://yallalive.id/"
-        },
-        "kporama": {
-            "label": "Kporama",
-            "active": "True",
-            "url": "https://asia.kporama.net/"
-        },
-        "asiadtv": {
-            "label": "AsiaDramaTV",
-            "active": "True",
-            "url": "https://www.asiadtv.com/"
-        },
-        "asia2tv": {
-            "label": "Asia2TV",
-            "active": "True",
-            "url": "https://ww1.asia2tv.pw/"
-        },
-        "MatrixTV": {
-            "label": "MatrixTV",
-            "active": "True",
-            "url": "https://iptv-org.github.io/"
-        },
-        "HikaietHob": {
-            "label": "HikaietHob",
-            "active": "True",
-            "url": "https://7obtv.top/"
-        },
-        "bestdrama": {
-            "label": "Best-Drama",
-            "active": "True",
-            "url": "https://best-drama.com/"
         }
     }
 }
