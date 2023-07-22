@@ -234,7 +234,7 @@ def showSeries(sSearch = ''):
         oOutputParameterHandler.addParameter('sThumb', sThumb)
         oOutputParameterHandler.addParameter('sYear',sYear)
         
-        oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes' , sTitleEN, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addTV(SITE_IDENTIFIER, 'showEpisodes' , sTitleEN, sYear, sThumb, sDesc, oOutputParameterHandler)
     
     if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -270,7 +270,7 @@ def showEpisodes():
     GridLabels = GridSoup.findAll("div",{"class":"titlepisode"})
     for i in range(0,len(GridLinks)):
         #VSlog(GridLinks[i])
-        sTitle = 'E' + GridLabels[i].text.split("الحلقة")[1].strip()
+        sTitle = sMovieTitle + ' E' + GridLabels[i].text.split("الحلقة")[1].strip()
         siteUrl = GridLinks[i]['href']
         #.replace("الحلقة ","E").replace("الحلقة","E").replace("الحلقه ","E").replace("الحلقه","E").replace("END","").replace("والاخيرة","").replace("والأخيرة","").strip()
         
@@ -279,7 +279,7 @@ def showEpisodes():
         oOutputParameterHandler.addParameter('sThumb', sThumb)
         oOutputParameterHandler.addParameter('sYear',sYear)
         oOutputParameterHandler.addParameter('sDesc',sDesc)
-        oGui.addTV(SITE_IDENTIFIER, 'showHostersE' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addEpisode(SITE_IDENTIFIER, 'showHostersE' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
   
     oGui.setEndOfDirectory()	
     

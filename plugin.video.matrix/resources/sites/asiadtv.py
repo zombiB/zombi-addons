@@ -262,7 +262,7 @@ def showSeasons():
     for item in GridItems:
        #VSlog(item)
         siteUrl = item.a['href']
-        sTitle = item.a.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+        sTitle = item.a.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").replace('الموسم ','S').strip()
         sYear = ''
         sDesc = soup.find("div",{"class":"description"}).text.encode('utf-8')
         oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -271,14 +271,9 @@ def showSeasons():
         oOutputParameterHandler.addParameter('sYear',sYear)
         oOutputParameterHandler.addParameter('sDesc',sDesc)
         oOutputParameterHandler.addParameter('sSaison',sTitle.split("الموسم")[0].strip())
-        oGui.addTV(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
     
-        sNextPage = __checkForNextPage(sHtmlContent)
-        oOutputParameterHandler = cOutputParameterHandler()
-        if sNextPage:
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeasons', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
-        oGui.setEndOfDirectory()
+    oGui.setEndOfDirectory()
  
 def showEpisodes():
     oGui = cGui()
@@ -316,13 +311,13 @@ def showEpisodes():
         itemsList.sort()
         for item in itemsList:
             siteUrl = item[1]
-            sTitle = item[0]
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle + ' ' +  sTitle )
+            sTitle = sMovieTitle + ' E' +item[0]
+            oOutputParameterHandler.addParameter('sMovieTitle',   sTitle )
             oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sYear',sYear)
             oOutputParameterHandler.addParameter('sDesc',sDesc)
-            oGui.addTV(SITE_IDENTIFIER, 'showHosters' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
         
         sNextPage = __checkForNextPage(sHtmlContent)
         oOutputParameterHandler = cOutputParameterHandler()

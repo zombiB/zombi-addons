@@ -146,7 +146,7 @@ def showSeasons(sSearch=''):
        #VSlog(item)
         seriesID = item['data-season']
         siteUrl = URL_MAIN + '/wp-content/themes/7ob2022/temp/ajax/seasons2.php?seriesID=' + seriesID + '|Referer=' + sUrl
-        sTitle = item.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+        sTitle = item.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").replace('الموسم ','S').strip()
         sYear = ''
         
         oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -155,7 +155,9 @@ def showSeasons(sSearch=''):
         oOutputParameterHandler.addParameter('sYear',sYear)
         oOutputParameterHandler.addParameter('sDesc',sDesc)
         oOutputParameterHandler.addParameter('sSaison',sTitle.split("الموسم")[0].strip())
-        oGui.addTV(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oOutputParameterHandler.addParameter('sSeason',sTitle.split("الموسم")[0].strip())
+        
+        oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
     
     oGui.setEndOfDirectory()
  
@@ -216,7 +218,7 @@ def showEpisodes(sSearch=''):
         oOutputParameterHandler.addParameter('sThumb', sThumb)
         oOutputParameterHandler.addParameter('sYear',sYear)
         oOutputParameterHandler.addParameter('sDesc',sDesc)
-        oGui.addTV(SITE_IDENTIFIER, 'showHosters' , sTitle , sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addEpisode(SITE_IDENTIFIER, 'showHosters' , sTitle , sYear, sThumb, sDesc, oOutputParameterHandler)
     
     sNextPage = __checkForNextPage(sHtmlContent)
     oOutputParameterHandler = cOutputParameterHandler()
