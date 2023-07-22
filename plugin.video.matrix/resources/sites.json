@@ -384,6 +384,11 @@
             "label": "MatrixTV",
             "active": "True",
             "url": "https://iptv-org.github.io/"
+        },
+        "HikaietHob": {
+            "label": "HikaietHob",
+            "active": "True",
+            "url": "https://7obtv.top/"
         }
     }
 }
