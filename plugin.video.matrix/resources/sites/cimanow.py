@@ -261,7 +261,7 @@ def showMovies(sSearch = ''):
                     sTitle =  'Next'
                     #sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                     siteUrl = aEntry[0]
-                    sThumb = icons + '/next.png'
+                    sThumb = icons + '/Next.png'
 
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -403,7 +403,7 @@ def showSeries(sSearch = ''):
                     sTitle =  'Next'
                     #sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                     siteUrl = aEntry[0]
-                    sThumb = icons + '/next.png'
+                    sThumb = icons + '/Next.png'
 
                     oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                     oOutputParameterHandler.addParameter('sMovieTitle', sTitle)

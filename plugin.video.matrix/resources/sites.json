@@ -290,6 +290,11 @@
             "active": "True",
             "url": "https://lodynet.link/"
         },
+        "moviztime": {
+            "label": "MovizTime",
+            "active": "True",
+            "url": "https://movtime3.store/"
+        },
         "pakistani": {
             "label": "Pakistani",
             "active": "True",
@@ -409,6 +414,21 @@
             "label": "Asia2TV",
             "active": "True",
             "url": "https://ww1.asia2tv.pw/"
+        },
+        "MatrixTV": {
+            "label": "MatrixTV",
+            "active": "True",
+            "url": "https://iptv-org.github.io/"
+        },
+        "HikaietHob": {
+            "label": "HikaietHob",
+            "active": "True",
+            "url": "https://7obtv.top/"
+        },
+        "bestdrama": {
+            "label": "Best-Drama",
+            "active": "True",
+            "url": "https://best-drama.com/"
         }
     }
 }

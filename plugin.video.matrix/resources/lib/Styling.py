@@ -237,7 +237,7 @@ def getThumb(sTitle):
         sThumb = icons + '/Egyptian.png'  
     if 'مصرية' in sTitle:
         sThumb = icons + '/Egyptian.png'
-        
+
     if sThumb is None:
         sThumb = icons + '/None.png'
     return sThumb
@@ -410,7 +410,55 @@ def getGenreIcon(sTitle):
          genre =  'soul' 
     if 'نهايه العالم' in sTitle:
          genre =  'disaster' 
-         
+    if 'وثائقي' in sTitle:
+         genre =  'documentary' 
+    if 'قصه حقيقيه' in sTitle:
+         genre =  'adventure' 
+    if 'عائلي' in sTitle:
+         genre =  'kids'
+    if 'عائليه' in sTitle:
+         genre =  'kids' 
+    if 'Shop' in sTitle:
+         genre =  'foreign' 
+    if 'Classic' in sTitle:
+         genre =  'classical' 
+    if 'Culture' in sTitle:
+         genre =  'eastern' 
+    if 'Entertainment' in sTitle:
+         genre =  'adventure' 
+    if 'News' in sTitle:
+         genre =  'news' 
+    if 'Movies' in sTitle:
+         genre =  'video' 
+    if 'Documentary' in sTitle:
+         genre =  'documentary' 
+    if 'Undefined' in sTitle:
+         genre =  'indie' 
+    if 'General' in sTitle:
+         genre =  'general' 
+    if 'Business' in sTitle:
+         genre =  'buisness' 
+    if 'Travel' in sTitle:
+         genre =  'tropical' 
+    if 'Outdoor' in sTitle:
+         genre =  'action' 
+    if 'Sports' in sTitle:
+         genre =  'sport' 
+    if 'Series' in sTitle:
+         genre =  'video' 
+    if 'Comedy' in sTitle:
+         genre =  'comedy' 
+    if 'Animation' in sTitle:
+         genre =  'anime' 
+    if 'Kids' in sTitle:
+         genre =  'kids' 
+    if 'Music' in sTitle:
+         genre =  'musical' 
+    if 'Religious' in sTitle:
+         genre =  'soul' 
+    if 'Education' in sTitle:
+         genre =  'documentary' 
+
     if genre:
         return 'genres/' + str(genre.lower()) + '.png'
     else:

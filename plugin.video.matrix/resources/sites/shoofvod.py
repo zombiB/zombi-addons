@@ -33,7 +33,7 @@ SERIE_TR_AR = (URL_MAIN + '/Cat-129-1', 'showSeries')
 SERIE_HEND = (URL_MAIN + '/Cat-130-1', 'showSeries')
 SERIE_GENRES = (True, 'showGenres')
 REPLAYTV_NEWS = (URL_MAIN + '/Cat-39-1', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + '/Cat-44-1', 'showEps')
+THEATER = (URL_MAIN + '/Cat-44-1', 'showEps')
 KID_CARTOON = (URL_MAIN + '/Cat-56-1', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/Search/', 'showMovies')
@@ -88,7 +88,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية',icons + '/Programs.png', oOutputParameterHandler)
 	
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showEps', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
@@ -182,7 +182,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
@@ -236,7 +236,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
  
  

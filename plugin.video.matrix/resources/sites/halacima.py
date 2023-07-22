@@ -228,7 +228,7 @@ def showMovies(sSearch = ''):
                 sTitle =  "PAGE " + sTitle
                 sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                 siteUrl = aEntry[0]
-                sThumb = ""
+                sThumb = icons + '/Next.png'
                 sDesc = ""
 
 
@@ -315,7 +315,7 @@ def showSeries(sSearch = ''):
                 sTitle =  "PAGE " + sTitle
                 sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                 siteUrl = aEntry[0]
-                sThumb = ""
+                sThumb = icons + '/Next.png'
                 sDesc = ""
 
 
@@ -395,7 +395,7 @@ def showSerie(sSearch = ''):
                 sTitle =  "PAGE " + sTitle
                 sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                 siteUrl = aEntry[0]
-                sThumb = ""
+                sThumb = icons + '/Next.png'
                 sDesc = ""
 
 

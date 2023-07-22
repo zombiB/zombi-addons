@@ -1,3 +1,4 @@
+﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
@@ -9,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from bs4 import BeautifulSoup
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -20,15 +20,11 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_GN = (URL_MAIN + '/category102.php?cat=movies2023', 'showMovies')
-RAMADAN_SERIES = (URL_MAIN + '/category102.php?cat=ramdan2023', 'showSeries')
-MOVIE_AR = (URL_MAIN + '/category102.php?cat=aflam2023', 'showMovies')
-SERIE_AR = (URL_MAIN + '/category102.php?cat=arab2023', 'showSeries')
-SERIE_TR = (URL_MAIN + '/category102.php?cat=ty-2023', 'showSeries')
-SERIE_GULF = (URL_MAIN + '/category102.php?cat=5a-2023', 'showSeries')
-SERIE_EGY = (URL_MAIN + '/category102.php?cat=eg2024', 'showSeries')
-SERIE_SY = (URL_MAIN + '/category102.php?cat=sy-2023', 'showSeries')
-PROGRAMS = (URL_MAIN + '/category102.php?cat=tv2023', 'showSeries')
+MOVIE_EN = (URL_MAIN + '/category.php?cat=movieenglish', 'showMovies')
+RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2023', 'showSeries')
+MOVIE_AR = (URL_MAIN + '/category.php?cat=moviearabic', 'showMovies')
+SERIE_AR = (URL_MAIN + '/category.php?cat=mosalsalatarabia', 'showSeries')
+SERIE_TR = (URL_MAIN + '/category.php?cat=turkish-series', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/search.php?keywords=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
@@ -44,30 +40,21 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', icons + '/Search.png', oOutputParameterHandler)
-       	
-    oOutputParameterHandler.addParameter('siteUrl', MOVIE_GN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام', icons + '/Movies.png', oOutputParameterHandler)
     
+    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', icons + '/Ramadan.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/MoviesEnglish.png', oOutputParameterHandler)
+   
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', icons + '/Arabic.png', oOutputParameterHandler)
-    
+	
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_EGY[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مصرية', icons + '/Eygptian.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler.addParameter('siteUrl', SERIE_SY[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات شامية', icons + '/Syrian.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler.addParameter('siteUrl', PROGRAMS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج', icons + '/Turkish.png', oOutputParameterHandler)
-    
-    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', icons + '/Ramadan.png', oOutputParameterHandler)
 	
     oGui.setEndOfDirectory()
  
@@ -156,7 +143,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
@@ -171,9 +158,8 @@ def showSeries(sSearch = ''):
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class=\"pm-video-thumb\">.+?<a href=\"(.+?)\" title=\"(.+?)\">.+?data-echo=\"(.+?)\"'
+    sPattern = '<div class="pm-video-thumb">.+?<a href="(.+?)" title="(.+?)">.+?data-echo="(.+?)" class'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -220,39 +206,23 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
  
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    soup = BeautifulSoup(sHtmlContent, "html.parser")
-            
-    pagesCont = soup.find("ul",{"class":"pagination pagination-sm pagination-arrows"})
-    VSlog(pagesCont)
-    pages = pagesCont.findAll("li")
-    
-    for page in pages:
-        if '»' in page.a.text:
-            VSlog(page)
-            nextP = URL_MAIN + page.a['href']
-            VSlog('Next Page : ' + nextP)
-            return nextP
-        else:
-            VSlog("Next Page couldn't be fouund")
-    return False
-    # sPattern = '<a href=\"([^<]+)\">&raquo;</a>'
+    sPattern = '<li class=""><a href="(.+?)">.+?</a></li></ul>'
 	
-    # oParser = cParser()
-    # aResult = oParser.parse(sHtmlContent, sPattern)
-    # #VSlog(aResult)
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    #VSlog(aResult)
  
-    # if aResult[0]:
-        # VSlog(URL_MAIN+aResult[1][0])
-        # return URL_MAIN+aResult[1][0]
-    # else:
-        # VSlog("Next Page couldn't be fouund")
-    # return False
+    if aResult[0]:
+        
+        return URL_MAIN+aResult[1][0]
+
+    return False
 	
 def showEpisodes():
     oGui = cGui()

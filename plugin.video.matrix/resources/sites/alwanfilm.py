@@ -22,7 +22,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_CLASSIC = (URL_MAIN + '/movies/', 'showMovies')
 
-REPLAYTV_PLAY = (URL_MAIN + '/genre/comedy/', 'showMovies')
+THEATER = (URL_MAIN + '/genre/comedy/', 'showMovies')
 
 MOVIE_ANNEES = (True, 'showYears')
 
@@ -35,7 +35,7 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_CLASSIC[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كلاسيكية', icons + '/Movies.png', oOutputParameterHandler)
  
-    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
     
 
@@ -105,7 +105,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
 

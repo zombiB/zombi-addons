@@ -189,7 +189,7 @@ def showMovies(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -257,7 +257,7 @@ def showSeries(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -344,7 +344,7 @@ def showAnimes(sSearch = ''):
             sTitle =  "PAGE " + sTitle
             sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
             siteUrl = aEntry[0]
-            sThumb = ""
+            sThumb = sThumb
             sDesc = ""
 
 
@@ -360,7 +360,7 @@ def showAnimes(sSearch = ''):
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showAnimes', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showAnimes', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
@@ -460,7 +460,7 @@ def showSeasons():
             sTitle = aEntry[0]
             
             siteUrl = aEntry[1]
-            sThumb = aEntry[2]
+            sThumb = sThumb
             sDesc = ''
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -550,6 +550,7 @@ def showEps():
             sTitle = sMovieTitle+sSeason+sTitle
             siteUrl = aEntry[0]
             sThumb = sThumb
+            VSlog(sThumb)
             sDesc = ""
  
             oOutputParameterHandler.addParameter('siteUrl', siteUrl)
@@ -573,7 +574,7 @@ def showEps():
             sTitle = aEntry[0]
             
             siteUrl = aEntry[1]
-            sThumb = aEntry[2]
+            sThumb = sThumb
             sDesc = aEntry[2]
  
             oOutputParameterHandler = cOutputParameterHandler()

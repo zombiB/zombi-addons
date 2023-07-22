@@ -38,9 +38,9 @@ SERIE_ASIA = (URL_MAIN + '/category/مسلسلات-7series/مسلسلات-اسي
 SERIE_HEND = (URL_MAIN + '/category/مسلسلات-7series/مسلسلات-هندية-series-indian/', 'showSeries')
 SERIE_LATIN = (URL_MAIN + '/category/مسلسلات-7series/latino-mexico/', 'showSeries')
 SERIE_RAMADAN = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2023/', 'showSeries')
-WWE = (URL_MAIN + '/category/%d8%a7%d8%ae%d8%b1%d9%89-1other/wwe/', 'showSeries')
+SPORT_WWE = (URL_MAIN + '/category/%d8%a7%d8%ae%d8%b1%d9%89-1other/wwe/', 'showSeries')
 SERIE_ANIME = (URL_MAIN + '/category/series/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d8%b1%d8%aa%d9%88%d9%86-anime-series/', 'showSeries')
-PROGRAMS = (URL_MAIN + '/category/series/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%8a%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9-tv1-shows/', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + '/category/series/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%8a%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a9-tv1-shows/', 'showSeries')
 SERIE_NETFLIX = (URL_MAIN + '/category/series/series-netflix/', 'showSeries')
 
 MOVIE_PACK = (URL_MAIN , '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d8%ac%d9%86%d8%a8%d9%8a-movies7-english/full-pack/')
@@ -109,7 +109,6 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', icons + '/Hindi.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', SERIE_LATIN[0])
-
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات لاتيني', icons + '/TVShows.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ANIME[0])
@@ -118,23 +117,13 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', SERIE_RAMADAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', icons + '/Ramadan.png', oOutputParameterHandler)
     
-    oOutputParameterHandler.addParameter('siteUrl', PROGRAMS[0])
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيون', icons + '/Programs.png', oOutputParameterHandler)
 
     
-    oOutputParameterHandler.addParameter('siteUrl', WWE[0])
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_WWE[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مصارعة', icons + '/WWE.png', oOutputParameterHandler)
-    
-    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
-    # oGui.addDir(SITE_IDENTIFIER, 'showPack', 'سلاسل افلام', icons + '/pack.png', oOutputParameterHandler)
 
-    
-    oOutputParameterHandler.addParameter('siteUrl', WWE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مصارعة', icons + '/WWE.png', oOutputParameterHandler)
-    
-    # oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
-    # oGui.addDir(SITE_IDENTIFIER, 'showPack', 'سلاسل افلام', icons + '/pack.png', oOutputParameterHandler)
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مكسيكي', icons + '/TVShows.png', oOutputParameterHandler)  
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_PACK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showPack', 'أقسام الموقع', icons + '/Icon.png', oOutputParameterHandler)
 
@@ -198,7 +187,7 @@ def showPack():
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showPack', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showPack', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
     oGui.setEndOfDirectory()
 			
@@ -274,7 +263,7 @@ def showMovies(sSearch = ''):
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next Movies : " + siteUrl)
-                sThumb = icons + '/next.png'
+                sThumb = icons + '/Next.png'
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                 
@@ -297,7 +286,7 @@ def showMovies(sSearch = ''):
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next Movies : " + siteUrl)
-                sThumb = icons + '/next.png'
+                sThumb = icons + '/Next.png'
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                 
@@ -378,7 +367,7 @@ def showSeries(sSearch = ''):
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next series : " + siteUrl)
-                sThumb = icons + '/next.png'
+                sThumb = icons + '/Next.png'
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                 oOutputParameterHandler.addParameter('sThumb',sThumb)
@@ -405,7 +394,7 @@ def showSeries(sSearch = ''):
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next series : " + siteUrl)
-                sThumb = icons + '/next.png'
+                sThumb = icons + '/Next.png'
 
                 oOutputParameterHandler.addParameter('siteUrl',siteUrl)
                 oOutputParameterHandler.addParameter('sThumb',sThumb)
@@ -493,7 +482,7 @@ def showEpisodes():
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
        
     oGui.setEndOfDirectory()
 
@@ -572,7 +561,7 @@ def showLinks():
                if sNextPage:
                   oOutputParameterHandler = cOutputParameterHandler()
                   oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-                  oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
+                  oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
         else:
                oRequest = cRequestHandler(m3url)
                sHtmlContent = oRequest.request()

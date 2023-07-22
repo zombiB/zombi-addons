@@ -448,6 +448,34 @@ msgctxt "#30104"
 msgid "Asian"
 msgstr ""
 
+msgctxt "#301041"
+msgid "Korean"
+msgstr ""
+
+msgctxt "#301042"
+msgid "Korean - Dubbed"
+msgstr ""
+
+msgctxt "#301043"
+msgid "Chinese"
+msgstr ""
+
+msgctxt "#301044"
+msgid "Japanese"
+msgstr ""
+
+msgctxt "#301045"
+msgid "Thai"
+msgstr ""
+
+msgctxt "#301046"
+msgid "Vietnamese"
+msgstr ""
+
+msgctxt "#301047"
+msgid "Taiwanese"
+msgstr ""
+
 msgctxt "#30111"
 msgid "Pakistani"
 msgstr ""
@@ -458,6 +486,10 @@ msgstr ""
 
 msgctxt "#30106"
 msgid "Years"
+msgstr ""
+
+msgctxt "#301061"
+msgid "Languages"
 msgstr ""
 
 msgctxt "#33107"
@@ -504,7 +536,7 @@ msgctxt "#30114"
 msgid "Web video"
 msgstr ""
 
-msgctxt "#30115"
+msgctxt "#	"
 msgid "Television/Radio"
 msgstr ""
 

@@ -31,6 +31,21 @@ SITE_DESC = 'Asian Movies and TV Shows'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
+MOVIE_ASIAN = (URL_MAIN + 'category/asian-movies/', 'showMovies')
+SERIE_ASIAN = (URL_MAIN + 'category/asian-drama/', 'showSeries')
+SERIE_KR = (URL_MAIN + 'category/asian-drama/korean/', 'showSeries')
+SERIE_CN = (URL_MAIN + 'category/asian-drama/chinese-taiwanese/', 'showSeries')
+SERIE_JP = (URL_MAIN + 'category/asian-drama/japanese/', 'showSeries')
+SERIE_THAI = (URL_MAIN + 'category/asian-drama/thai/', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + 'category/asian-drama/kshow/', 'showSeries')
+
+
+URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')
+URL_SEARCH_MISC = (URL_MAIN + '/?s=', 'showSeriesSearch')
+FUNCTION_SEARCH = 'showSeries'
+
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون','دراما', 'الدراما')
 def load():
     oGui = cGui()
@@ -45,7 +60,28 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchAll', 'Search All', icons + '/Search.png', oOutputParameterHandler)
     
-    showSiteCats()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_ASIAN[1], 'أفلام آسيوية', icons + '/Asian.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_ASIAN[1], 'مسلسلات آسيوية', icons + '/Korean.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', icons + '/Korean.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_CN[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_CN[1], 'مسلسلات صينية', icons + '/Chinese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_JP[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات يابانية', icons + '/Japanese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_THAI[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_THAI[1], 'مسلسلات تايلاندية', icons + '/Japanese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, REPLAYTV_PLAY[1], 'برامج ترفيهية', icons + '/Programs.png', oOutputParameterHandler)
+    
+    #showSiteCats()
     
     oGui.setEndOfDirectory()
 
@@ -124,6 +160,7 @@ def showMovies(sSearch = ''):
        #VSlog(item)
         siteUrl = item.find("div",{"class":"postmovie-photo"}).a['href']
         sTitle = item.find("div",{"class":"postmovie-photo"}).a['title'].replace("فيلم","").replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+        sTitle = re.sub('[^a-zA-Z]', ' ', sTitle)
         sYear = item.find("div",{"class":"post-date"}).text.strip()
         
         try:
@@ -148,8 +185,8 @@ def showMovies(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -176,32 +213,36 @@ def showSeries(sSearch = ''):
        #VSlog(item)
         siteUrl = item.find("div",{"class":"postmovie-photo"}).a['href']
         sTitle = item.find("div",{"class":"postmovie-photo"}).a['title'].replace("فيلم","").replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+        sTitleEN = re.sub('[^a-zA-Z]', ' ', sTitle)
+        sTitleAR = re.sub(r'([a-zA-Z\xC0-\xFF]+)', ' ', sTitle)
         sYear = item.find("div",{"class":"post-date"}).text.strip()
-        
+        VSlog(sTitle)
         try:
             sThumb = item.find("div",{"class":"postmovie-photo"}).div.img['src']
         except:
             sThumb = ''
-        sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
-        
+        #sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
+        VSlog(sThumb)
         if sThumb.startswith('//'):
             sThumb = 'https:' + sThumb
            
         sDesc = ''
-        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+        oOutputParameterHandler.addParameter('sMovieTitle', sTitleEN)
+        oOutputParameterHandler.addParameter('sTitle2', sTitleAR)
+        
         oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
         oOutputParameterHandler.addParameter('sThumb', sThumb)
         oOutputParameterHandler.addParameter('sYear',sYear)
         
-        oGui.addMovie(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addTV(SITE_IDENTIFIER, 'showEpisodes' , sTitleEN, sYear, sThumb, sDesc, oOutputParameterHandler)
     
     if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
 
  
 def showEpisodes():
@@ -229,7 +270,7 @@ def showEpisodes():
     GridLabels = GridSoup.findAll("div",{"class":"titlepisode"})
     for i in range(0,len(GridLinks)):
         #VSlog(GridLinks[i])
-        sTitle = 'E' + GridLabels[i].text.split("الحلقة")[1].strip()
+        sTitle = sMovieTitle + ' E' + GridLabels[i].text.split("الحلقة")[1].strip()
         siteUrl = GridLinks[i]['href']
         #.replace("الحلقة ","E").replace("الحلقة","E").replace("الحلقه ","E").replace("الحلقه","E").replace("END","").replace("والاخيرة","").replace("والأخيرة","").strip()
         
@@ -238,7 +279,7 @@ def showEpisodes():
         oOutputParameterHandler.addParameter('sThumb', sThumb)
         oOutputParameterHandler.addParameter('sYear',sYear)
         oOutputParameterHandler.addParameter('sDesc',sDesc)
-        oGui.addTV(SITE_IDENTIFIER, 'showHostersE' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addEpisode(SITE_IDENTIFIER, 'showHostersE' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
   
     oGui.setEndOfDirectory()	
     

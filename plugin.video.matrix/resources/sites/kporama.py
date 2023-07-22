@@ -31,10 +31,22 @@ SITE_DESC = 'Asian Movies and TV Shows'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-URL_SEARCH = (URL_MAIN + '/search?q=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search?q=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search?q=', 'showSeriesSearch')
-URL_SEARCH_MISC = (URL_MAIN + '/search?q=', 'showSeriesSearch')
+MOVIE_ASIAN = (URL_MAIN + 'movies/', 'showMovies')
+
+MOVIE_KR = (URL_MAIN + 'app/category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%83%d9%88%d8%b1%d9%8a%d8%a91/', 'showMovies')
+
+MOVIE_CN = (URL_MAIN  +'app/category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%b5%d9%8a%d9%86%d9%8a%d8%a91/', 'showMovies')
+MOVIE_JP = (URL_MAIN  +'app/category/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a91/', 'showMovies')
+
+SERIE_KR = (URL_MAIN + 'app/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d8%a91/', 'showSeries')
+SERIE_CN = (URL_MAIN + 'app/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b5%d9%8a%d9%86%d9%8a%d8%a91/', 'showSeries')
+SERIE_JP = (URL_MAIN + 'app/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a91/', 'showSeries')
+REPLAYTV_PLAY = (URL_MAIN + 'app/category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a91/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac-%d8%aa%d9%84%d9%8a%d9%81%d8%b2%d9%8a%d9%88%d9%86%d9%8a%d8%a91/', 'showSeries')
+
+URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeriesSearch')
+URL_SEARCH_MISC = (URL_MAIN + '?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون')
 def load():
@@ -50,7 +62,31 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchAll', 'Search All', icons + '/Search.png', oOutputParameterHandler)
     
-    showSiteCats()
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_ASIAN[1], 'أفلام آسيوية', icons + '/Asian.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_KR[1], 'أفلام كورية', icons + '/Korean.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_CN[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_CN[1], 'أفلام صينية', icons + '/Chinese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', MOVIE_JP[0])
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_JP[1], 'أفلام يابانية', icons + '/Japanese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_KR[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_KR[1], 'مسلسلات كورية', icons + '/Korean.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_CN[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_CN[1], 'مسلسلات صينية', icons + '/Chinese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', SERIE_JP[0])
+    oGui.addDir(SITE_IDENTIFIER, SERIE_JP[1], 'مسلسلات يابانية', icons + '/Japanese.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_PLAY[0])
+    oGui.addDir(SITE_IDENTIFIER, REPLAYTV_PLAY[1], 'برامج ترفيهية', icons + '/Programs.png', oOutputParameterHandler)
+    
+    #showSiteCats()
     
     oGui.setEndOfDirectory()
 
@@ -81,7 +117,7 @@ def showSearchAll():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -90,7 +126,7 @@ def showSearch():
     oGui = cGui() 
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -99,7 +135,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
+        sUrl = URL_MAIN + '?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -107,12 +143,12 @@ def showSeriesSearch():
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
-      sUrl = sSearch+'&section=series&year=0&rating=0&formats=0&quality=0'
+      sUrl = sSearch 
     else:
         oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
+        sUrl = oInputParameterHandler.getValue('siteUrl') 
         
-    
+    VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
     oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
@@ -125,19 +161,20 @@ def showMovies(sSearch = ''):
     oOutputParameterHandler = cOutputParameterHandler()
     for item in GridItems:
         #VSlog(item)
-        siteUrl = item.article.a['href']
-        sTitle = item.article.a.h3.text
+        siteUrl = item.article.a['href'] 
+        sTitle = item.article.a.h3.text.replace("مترجم","").replace("مدبلج","").replace("فيلم","").split("/")[0]
         sYear = item.article.a.span.text 
         
         try:
             sThumb = item.article.a.div.figure.img['data-lazy-src'].replace('"','')
         except:
             sThumb = item.article.a.div.figure.img['src'].replace('"','')
+        #sThumb = item.article.a.div.figure.img['src'].replace('"','')
         sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
         
         if sThumb.startswith('//'):
-            sThumb = 'https:' + item.article.a.div.figure.img['data-lazy-src'].replace('"','')
-           
+            sThumb = 'https:' + sThumb.replace('"','')
+        VSlog(sThumb)
         sDesc = ''
         oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
         oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
@@ -151,8 +188,8 @@ def showMovies(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
     oGui = cGui()
@@ -174,7 +211,8 @@ def showSeries(sSearch = ''):
     oOutputParameterHandler = cOutputParameterHandler()
     for item in GridItems:
         siteUrl = item.article.a['href']
-        sTitle = item.article.a.h3.text
+        sTitle = item.article.a.h3.text.replace("مترجم","").replace("مدبلج","").replace("مسلسل","").split("/")[0]
+        YearPattern = '<span class=\"Year\">(\d+?)</span>'
         sYear = ''
         
         try:
@@ -199,67 +237,17 @@ def showSeries(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         if sNextPage:
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
+        oGui.setEndOfDirectory()
 
- 			
-def showSeasons():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sSearchText = oInputParameterHandler.getValue('sMovieTitle').split("/")[0].split("الموسم")[0]
-   #VSlog(sSearchText)
-    if sSearchText:
-        sUrl = URL_MAIN + '/?s='+sSearchText
-    else:
-        oInputParameterHandler = cInputParameterHandler()
-        sUrl = oInputParameterHandler.getValue('siteUrl')
-        
-   #VSlog(sUrl)
-    oRequestHandler = cRequestHandler(sUrl)
-    oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
-    oRequestHandler.addHeaderEntry('Referer', URL_MAIN)
-    sHtmlContent = oRequestHandler.request()
-    
-    soup = BeautifulSoup(sHtmlContent, "html.parser")
-    GridSoup = soup.find("ul",{"class":"MovieList"})
-    GridItems = GridSoup.findAll("li")
-    
-    oOutputParameterHandler = cOutputParameterHandler()
-    for item in GridItems:
-        siteUrl = item.article.a['href']
-        sTitle = 'Season ' + item.article.a.h3.text.split("الموسم")[1].replace("الاول","1").replace("الأول","1").replace("الثاني","2").replace("الثالث","3").replace("الرابع","4").replace("الخامس","5").replace("السادس","6").replace("السابع","7").replace("الثامن","8").replace("التاسع","9").replace("العاشر","10").replace("الحادي عشر","11").replace("الثاني عشر","12").replace("الثالث عشر","13").replace("الرابع عشر","14").replace("الخامس عشر","15").replace("السادس عشر","16").replace("السابع عشر","17")
-        sYear = ''
-        
-        try:
-            sThumb = item.article.a.div.figure.img['data-lazy-src'].replace('"','')
-        except:
-            sThumb = item.article.a.div.figure.img['src'].replace('"','')
-        sThumb = re.sub(r'-\d*x\d*.','.', sThumb)
-        
-        if sThumb.startswith('//'):
-            sThumb = 'https:' + sThumb
-           
-        sDesc = ''
-        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-        oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
-        oOutputParameterHandler.addParameter('sThumb', sThumb)
-        oOutputParameterHandler.addParameter('sYear',sYear)
-        
-        oGui.addTV(SITE_IDENTIFIER, 'showSeasons' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
-    
-    if sUrl:
-        sNextPage = __checkForNextPage(sHtmlContent)
-        oOutputParameterHandler = cOutputParameterHandler()
-        if sNextPage:
-            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/next.png', oOutputParameterHandler)
-    oGui.setEndOfDirectory()
- 
+
 def showEpisodes():
     oGui = cGui()
 
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    
    #VSlog(sUrl)
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
@@ -292,12 +280,14 @@ def showEpisodes():
             sThumb = 'https:' + sThumb
            
         #sDesc = ''
-        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+        oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+        oOutputParameterHandler.addParameter('Episode', sTitle)
+        oOutputParameterHandler.addParameter('Season', 1)
         oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
         oOutputParameterHandler.addParameter('sThumb', sThumb)
         oOutputParameterHandler.addParameter('sYear',sYear)
         
-        oGui.addEpisode(SITE_IDENTIFIER, 'showHosters' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addEpisode(SITE_IDENTIFIER, 'showHosters' , sMovieTitle + ' - ' + sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 	
@@ -317,7 +307,7 @@ def showHosters():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    #sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     
     oRequestHandler = cRequestHandler(sUrl)
