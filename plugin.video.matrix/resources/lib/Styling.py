@@ -394,6 +394,8 @@ def getGenreIcon(sTitle):
          genre =  'Anime'
     if 'انيميشن' in sTitle:
          genre =  'Anime'
+    if 'نيتفليكس' in sTitle:
+         genre =  'netflix'
     if 'رومنسي' in sTitle:
          genre =  'Romance'
     if 'غريبه' in sTitle:
