@@ -213,6 +213,8 @@ c'est le changelog de la beta !        <setting label="30036" type="action" acti
 
         <setting type="sep"/>
         <setting label="30064" type="action" action="ReloadSkin()"/>
+        
+        <setting id="testingfeatures" type="bool" label="304221" default="false"/>
     </category>
     
 </settings>
