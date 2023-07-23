@@ -6,7 +6,7 @@ import xbmcvfs
 import json
 
 from resources.lib.comaddon import addon, VSlog, VSPath, siteManager
-
+ADDON = addon()
 
 class cPluginHandler:
 
@@ -40,7 +40,11 @@ class cPluginHandler:
             if (xbmcvfs.exists(sFilePath) == True):
                 if (sFilePath.lower().endswith('py')):
                     sItemName = sItemName.replace('.py', '')
-                    aNameList.append(sItemName)
+                    if 'MatrixTV' in sItemName:
+                        if ADDON.getSetting('testingfeatures')=='true':
+                            aNameList.append(sItemName)
+                    else:
+                        aNameList.append(sItemName)
         return aNameList
 
     def __importPlugin(self, sName, sLabel=""):
