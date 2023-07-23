@@ -8,9 +8,12 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
- 
+from resources.lib.Styling import getGenreIcon
+
+ADDON = addon()
+icons = ADDON.getSetting('defaultIcons')
 SITE_IDENTIFIER = 'filmihq'
 SITE_NAME = 'FilmiHQ'
 SITE_DESC = 'arabic vod'
@@ -37,33 +40,33 @@ def load():
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_MOVIES', icons + '/Search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', 'SEARCH_SERIES', icons + '/Search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', 'agnab.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/Movies.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', 'hend.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', icons + '/Hindi.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', 'agnab.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', icons + '/TVShows.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', 'turk.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_GENRES[0])
-    oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', 'mslsl.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, SERIE_GENRES[1], 'المسلسلات (الأنواع)', icons + '/Genres.png', oOutputParameterHandler)
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_GENRES[0])
-    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', 'film.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, MOVIE_GENRES[1], 'الأفلام (الأنواع)', icons + '/Genres.png', oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
  
@@ -100,21 +103,21 @@ def seriesGenres():
     liste.append(['رياضي', URL_MAIN + 'genre/music.html'])
     liste.append(['دراما', URL_MAIN + 'genre/drama.html'])
     liste.append(['رعب', URL_MAIN + 'genre/horror.html'])
-    liste.append(['عائلى', URL_MAIN + 'genre/family.html'])
+    liste.append(['عائلي', URL_MAIN + 'genre/family.html'])
     liste.append(['فانتازيا', URL_MAIN + 'genre/fantasy.html'])
     liste.append(['حروب', URL_MAIN + 'genre/war.html'])
     liste.append(['الجريمة', URL_MAIN + 'genre/crime.html'])
-    liste.append(['رومانسى', URL_MAIN + 'genre/romance.html'])
-    liste.append(['خيال علمى', URL_MAIN + 'genre/science-fiction.html'])
+    liste.append(['رومانسي', URL_MAIN + 'genre/romance.html'])
+    liste.append(['خيال علمي', URL_MAIN + 'genre/science-fiction.html'])
     liste.append(['اثارة', URL_MAIN + 'genre/thriller.html'])
-    liste.append(['وثائقى', URL_MAIN + 'genre/documentary.html'])
+    liste.append(['وثائقي', URL_MAIN + 'genre/documentary.html'])
     liste.append(['نيتفليكس', URL_MAIN + 'genre/netflix.html'])
 
     for sTitle, sUrl in liste:
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, 'genres.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, getGenreIcon(sTitle), oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
@@ -131,21 +134,21 @@ def moviesGenres():
     liste.append(['رياضي', URL_MAIN + 'genre/music.html'])
     liste.append(['دراما', URL_MAIN + 'genre/drama.html'])
     liste.append(['رعب', URL_MAIN + 'genre/horror.html'])
-    liste.append(['عائلى', URL_MAIN + 'genre/family.html'])
+    liste.append(['عائلي', URL_MAIN + 'genre/family.html'])
     liste.append(['فانتازيا', URL_MAIN + 'genre/fantasy.html'])
     liste.append(['حروب', URL_MAIN + 'genre/war.html'])
     liste.append(['الجريمة', URL_MAIN + 'genre/crime.html'])
-    liste.append(['رومانسى', URL_MAIN + 'genre/romance.html'])
-    liste.append(['خيال علمى', URL_MAIN + 'genre/science-fiction.html'])
+    liste.append(['رومانسي', URL_MAIN + 'genre/romance.html'])
+    liste.append(['خيال علمي', URL_MAIN + 'genre/science-fiction.html'])
     liste.append(['اثارة', URL_MAIN + 'genre/thriller.html'])
-    liste.append(['وثائقى', URL_MAIN + 'genre/documentary.html'])
+    liste.append(['وثائقي', URL_MAIN + 'genre/documentary.html'])
     liste.append(['نيتفليكس', URL_MAIN + 'genre/netflix.html'])
 
     for sTitle, sUrl in liste:
 
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, 'genres.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, getGenreIcon(sTitle), oOutputParameterHandler)
 
     oGui.setEndOfDirectory()
 
