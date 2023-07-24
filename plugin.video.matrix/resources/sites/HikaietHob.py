@@ -117,6 +117,7 @@ def showSeasons(sSearch=''):
     #VSlog(sUrl)
     oInputParameterHandler = cInputParameterHandler()
     sThumb = oInputParameterHandler.getValue('sThumb')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
 
     oRequestHandler = cRequestHandler(sUrl)
     oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
@@ -124,36 +125,50 @@ def showSeasons(sSearch=''):
     sHtmlContent = oRequestHandler.request()
         
     soup = BeautifulSoup(sHtmlContent, "html.parser")
+    
     try:
-        GridSoup = soup.find("div",{"class":"secTitle"}).find("ul",{"class":"listSeasons2"})
-    except:
-        GridSoup = soup.find("div",{"class":"the_content"}).find("ul",{"class":"listSeasons"})
+        try:
+            GridSoup = soup.find("div",{"class":"secTitle"}).find("ul",{"class":"listSeasons2"})
+        except:
+            GridSoup = soup.find("div",{"class":"the_content"}).find("ul",{"class":"listSeasons"})
 
-    GridItems = GridSoup.findAll("li")
-    try:
-        sDesc = soup.find("div",{"class":"story"}).text
+        GridItems = GridSoup.findAll("li")
+        try:
+            sDesc = soup.find("div",{"class":"story"}).text
+        except:
+            sDesc = ''
+       #VSlog(GridSoup)
+        oOutputParameterHandler = cOutputParameterHandler()
+        for item in GridItems:
+           #VSlog(item)
+            seriesID = item['data-season']
+            siteUrl = URL_MAIN + '/wp-content/themes/7ob2022/temp/ajax/seasons2.php?seriesID=' + seriesID + '|Referer=' + sUrl
+            sTitle = item.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").replace('الموسم ','S').strip()
+            sYear = ''
+            
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear',sYear)
+            oOutputParameterHandler.addParameter('sDesc',sDesc)
+            
+            oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        
+        oGui.setEndOfDirectory()
     except:
-        sDesc = ''
-   #VSlog(GridSoup)
-    oOutputParameterHandler = cOutputParameterHandler()
-    for item in GridItems:
-       #VSlog(item)
-        seriesID = item['data-season']
-        siteUrl = URL_MAIN + '/wp-content/themes/7ob2022/temp/ajax/seasons2.php?seriesID=' + seriesID + '|Referer=' + sUrl
-        sTitle = item.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").replace('الموسم ','S').strip()
-        sYear = ''
-        
+        oOutputParameterHandler = cOutputParameterHandler()
+        sTitle = sMovieTitle + ' S 1'
         oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-        oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
+        oOutputParameterHandler.addParameter('siteUrl',  sUrl + '|Referer=' + Referer) 
         oOutputParameterHandler.addParameter('sThumb', sThumb)
-        oOutputParameterHandler.addParameter('sYear',sYear)
-        oOutputParameterHandler.addParameter('sDesc',sDesc)
-        oOutputParameterHandler.addParameter('sSaison',sTitle.split("الموسم")[0].strip())
-        oOutputParameterHandler.addParameter('sSeason',sTitle.split("الموسم")[0].strip())
+        oOutputParameterHandler.addParameter('sYear','')
+        oOutputParameterHandler.addParameter('sDesc','')
+
         
-        oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes' , sTitle, sYear, sThumb, sDesc, oOutputParameterHandler)
+        oGui.addSeason(SITE_IDENTIFIER, 'showEpisodes' , sTitle, '', sThumb, '', oOutputParameterHandler)
     
     oGui.setEndOfDirectory()
+    
  
 def showEpisodes(sSearch=''):
     oGui = cGui()
