@@ -160,6 +160,11 @@
             "active": "True",
             "url": "https://cc.cimalight.vip/"
         },
+        "cimalina": {
+            "label": "CimaLina",
+            "active": "True",
+            "url": "https://cimalina.cam/"
+        },
         "cimacity": {
             "label": "CimaCity",
             "active": "True",
