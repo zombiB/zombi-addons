@@ -25,16 +25,7 @@ SITE_DESC = 'Asian Movies and TV Shows'
 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = (URL_MAIN + 'category/asian-movies/', 'showMovies')
-SERIE_ASIAN = (URL_MAIN + 'category/asian-drama/', 'showSeries')
-SERIE_KR = (URL_MAIN + 'category/asian-drama/korean/', 'showSeries')
-SERIE_CN = (URL_MAIN + 'category/asian-drama/chinese-taiwanese/', 'showSeries')
-SERIE_JP = (URL_MAIN + 'category/asian-drama/japanese/', 'showSeries')
-SERIE_THAI = (URL_MAIN + 'category/asian-drama/thai/', 'showSeries')
-REPLAYTV_PLAY = (URL_MAIN + 'category/asian-drama/kshow/', 'showSeries')
-
-
-REPLAYTV_PLAY = (URL_MAIN + 'cate-serie/%d8%a8%d8%b1%d8%a7%d9%85%d8%ac/', 'showSeries', 'برامج تلفزيونية')
+REPLAYTV_PLAY = (URL_MAIN + 'cate-serie/برامج/', 'showSeries', 'برامج تلفزيونية')
 #DRAMA_CN = (URL_MAIN + 'cate-serie/%d8%af%d8%b1%d8%a7%d9%85%d8%a7-%d8%b5%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries', 'دراما صينية')
 SERIE_FULL = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries', 'مسلسلات')
 SERIE_THAI = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%aa%d8%a7%d9%8a%d9%84%d9%86%d8%af%d9%8a%d8%a9/', 'showSeries', 'مسلسلات تايلندية')
@@ -42,7 +33,7 @@ SERIE_THAI = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-
 SERIE_CN = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b5%d9%8a%d9%86%d9%8a%d8%a9/', 'showSeries', 'مسلسلات صينية')
 #SERIE_AR = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b9%d8%b1%d8%a8%d9%8a%d8%a9/', 'showSeries', 'مسلسلات عربية')
 SERIE_KR = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%83%d9%88%d8%b1%d9%8a%d8%a9/', 'showSeries', 'مسلسلات كورية')
-SERIE_JP = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d9%8a%d8%a7%d8%a8%d8%a7%d9%86%d9%8a%d8%a9/', 'showSeries', 'مسلسلات يابانية')
+SERIE_JP = (URL_MAIN + 'cate-serie/مسلسلات-يابانية/', 'showSeries', 'مسلسلات يابانية')
 #SERIE_GENRES = (True, 'showSeriesGenres', 'تصنيفات المسلسلات')
 
 URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
@@ -229,17 +220,18 @@ def showEpisodes():
 def __checkForNextPage(sHtmlContent):
     soup = BeautifulSoup(sHtmlContent, "html.parser")
     
-    PaginationSection = soup.find("div",{"class":"pagination"})
-    CurrentPage = PaginationSection.find("span",{"class":"current"}).text.strip()
-    VSlog('CurrentPage ' + CurrentPage)
-    VSlog(PaginationSection)
-    Pages = PaginationSection.findAll("a")
-    for page in Pages:
-        if int(page.text) - int(CurrentPage) ==1:
-            VSlog('NextPage' + page['href'])
-            return page['href']
-    # except:
-        # return False
+    try:
+        PaginationSection = soup.find("div",{"class":"pagination"})
+        CurrentPage = PaginationSection.find("span",{"class":"current"}).text.strip()
+        VSlog('CurrentPage ' + CurrentPage)
+        VSlog(PaginationSection)
+        Pages = PaginationSection.findAll("a")
+        for page in Pages:
+            if int(page.text) - int(CurrentPage) ==1:
+                VSlog('NextPage' + page['href'])
+                return page['href']
+    except:
+        return False
     return False
 
 def showHostersE():
