@@ -429,6 +429,11 @@
             "label": "Best-Drama",
             "active": "True",
             "url": "https://best-drama.com/"
+        },
+        "nabdhlb": {
+            "label": "Nabd8lb",
+            "active": "True",
+            "url": "https://nabd8lb.net/
         }
     }
 }
