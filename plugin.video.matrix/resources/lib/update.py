@@ -20,8 +20,9 @@ class cUpdate:
         # delai mise a jour
         time_now = datetime.datetime.now()
         time_service = self.__strptime(setting_time)
-        time_sleep = datetime.timedelta(hours = 72)
+        time_sleep = datetime.timedelta(hours = 0.5)
         if time_now - time_service > time_sleep:
+        
             sUrl = 'https://raw.githubusercontent.com/zombiB/zombi-addons/master/plugin.video.matrix/resources/sites.json'
             oRequestHandler = cRequestHandler(sUrl)
             properties = oRequestHandler.request(jsonDecode=True)
