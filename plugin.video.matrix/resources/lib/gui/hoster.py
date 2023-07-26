@@ -212,8 +212,11 @@ class cHosterGui:
 
         if ('play.imovietime' in sHosterUrl):
             return self.getHoster('moviztime')
-	    
-        if ('shoffree' in sHostName) or ('egy-best' in sHostName):
+	
+	if ('linkbox' in sHostName) or ('sharezweb' in sHostName):
+            return self.getHoster('resolver')
+
+	if ('shoffree' in sHostName) or ('egy-best' in sHostName):
             return self.getHoster('shoffree')
 				
         if ('egybist.' in sHostName):
