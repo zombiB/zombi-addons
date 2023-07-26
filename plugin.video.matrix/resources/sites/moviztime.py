@@ -37,7 +37,7 @@ aResult = oParser.parse(sHtmlContent, sPattern)
     
 if (aResult[0]):
     URL_MAIN = aResult[1][0]
-    VSlog(URL_MAIN)
+    #VSlog(URL_MAIN)
 
 MOVIE_EN = (URL_MAIN + 'category/أفلام-أجنبية/', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category/أفلام-هندية/', 'showMovies')
@@ -412,12 +412,12 @@ def showHosters2():
                 sPattern = '<a href="(.+?)" class="download_btn"'
                 oParser = cParser()
                 aResult = oParser.parse(sHtmlContent, sPattern)
-                VSlog(sHosterUrl)
+                #VSlog(sHosterUrl)
                 if aResult[0]:
                     for aEntry in aResult[1]:               
                         sHosterUrl = aEntry
 
-                        VSlog(sHosterUrl)
+                        #VSlog(sHosterUrl)
                         if 'movietime' in sHosterUrl:
                             oHoster = cHosterGui().getHoster('lien_direct')
                             if oHoster:
