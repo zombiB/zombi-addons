@@ -138,7 +138,7 @@ class cRequestHandler:
             return self.__callRequest(jsonDecode)
         else:
             if CacheStatus == 'true':
-                if "themoviedb.org" or 'php' or 'ajax' or '/?s=' or 'search' or '/?q=' or 'mp4' or 'avi' or 'm3u' or '?query='or 'find' in url:
+                if "themoviedb.org" or 'php' or 'ajax' or '/?s=' or 'search' or '/?q=' or 'mp4' or 'avi' or 'm3u' or '?query='or 'find' or 'githubusercontent' or 'github' in url:
                     #VSlog("Cache Request is disabled for tmdb and search urls")
                     return self.__callRequest(jsonDecode)
                 else:
