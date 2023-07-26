@@ -143,7 +143,11 @@ def showSeasons(sSearch=''):
            #VSlog(item)
             seriesID = item['data-season']
             siteUrl = URL_MAIN + '/wp-content/themes/7ob2022/temp/ajax/seasons2.php?seriesID=' + seriesID + '|Referer=' + sUrl
-            sTitle = item.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").replace('الموسم ','S').strip()
+            sTitle = item.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+            if '' in sTitle:
+                sTitle = sMovieTitle + ' S' + sTitle.split('الموسم')[1]
+            else:
+                sTitle = sMovieTitle + ' S1'
             sYear = ''
             
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -157,7 +161,7 @@ def showSeasons(sSearch=''):
         oGui.setEndOfDirectory()
     except:
         oOutputParameterHandler = cOutputParameterHandler()
-        sTitle = sMovieTitle + ' S 1'
+        sTitle = sMovieTitle + ' S1'
         oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
         oOutputParameterHandler.addParameter('siteUrl',  sUrl + '|Referer=' + Referer) 
         oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -204,38 +208,47 @@ def showEpisodes(sSearch=''):
     
     soup = BeautifulSoup(sHtmlContent, "html.parser")
     
-    GridItems = soup.findAll("div",{"class":"block-post"})
-    itemsList = []
-    oOutputParameterHandler = cOutputParameterHandler()
-    for item in GridItems:
-        #VSlog(item)
-        siteUrl = item.a['href'] + '?do=views'
-        #VSlog(siteUrl)
+    ## Checking if no episodes
+    try:
+        alert = soup.find("div",{"class":"noResult alert alert-danger alert-dismissable"}).h4.text
+        VSlog(alert)
+        oGui.addText('', alert,icons + '/None.png')
+    except:
+        pass
         
-        EpNum = str(item.a.find("div",{"class":"episodeNum"}).contents[3]).replace("<span>","").replace("</span>","").strip()
+    try:
+        GridItems = soup.findAll("div",{"class":"block-post"})
+        itemsList = []
+        oOutputParameterHandler = cOutputParameterHandler()
+        for item in GridItems:
+            #VSlog(item)
+            siteUrl = item.a['href'] + '?do=views'
+            #VSlog(siteUrl)
+            
+            EpNum = str(item.a.find("div",{"class":"episodeNum"}).contents[3]).replace("<span>","").replace("</span>","").strip()
 
-        sTitle = item.a['title'].strip() + ' E' + EpNum
-        try:
-            sThumb = item.a.find("div",{"class":"imgSer"})['style'].replace('background-image:url(','').replace(");","")
-        except:
-            sThumb = item.a.find("div",{"class":"imgBg"})['style'].replace('background-image:url(','').replace(");","")
-        #VSlog(sTitle)
-        sYear = ''
+            sTitle = item.a['title'].strip() + ' E' + EpNum
+            try:
+                sThumb = item.a.find("div",{"class":"imgSer"})['style'].replace('background-image:url(','').replace(");","")
+            except:
+                sThumb = item.a.find("div",{"class":"imgBg"})['style'].replace('background-image:url(','').replace(");","")
+            #VSlog(sTitle)
+            sYear = ''
+            
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear',sYear)
+            oOutputParameterHandler.addParameter('sDesc',sDesc)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters' , sTitle , sYear, sThumb, sDesc, oOutputParameterHandler)
         
-        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-        oOutputParameterHandler.addParameter('siteUrl',  siteUrl) 
-        oOutputParameterHandler.addParameter('sThumb', sThumb)
-        oOutputParameterHandler.addParameter('sYear',sYear)
-        oOutputParameterHandler.addParameter('sDesc',sDesc)
-        oGui.addEpisode(SITE_IDENTIFIER, 'showHosters' , sTitle , sYear, sThumb, sDesc, oOutputParameterHandler)
-    
-    sNextPage = __checkForNextPage(sHtmlContent)
-    oOutputParameterHandler = cOutputParameterHandler()
-    if sNextPage:
-        oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-        oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
-    # except:
-        # oGui.addText('', 'No Episodes Yet',icons + '/None.png')
+        sNextPage = __checkForNextPage(sHtmlContent)
+        oOutputParameterHandler = cOutputParameterHandler()
+        if sNextPage:
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showEpisodes', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
+    except:
+        oGui.addText('', 'No Episodes Yet',icons + '/None.png')
   
     oGui.setEndOfDirectory()	
 
@@ -283,7 +296,7 @@ def showSeriesSearch(sSearch=''):
             sitemsList.append(sTitle)
             siteUrl = item.a['href'] 
             if 'php' in siteUrl:
-                siteUrl = siteUrl.replace('https://www.zinaclub.com/7obco.php?postUrl=','') + '?do=views' + '|Referer=' + sUrl
+                siteUrl = siteUrl.split('php?postUrl=')[1] + '?do=views' + '|Referer=' + sUrl
             #VSlog(siteUrl)
             
             EpNum = str(item.a.find("div",{"class":"episodeNum"}).contents[3]).replace("<span>","").replace("</span>","").strip()
