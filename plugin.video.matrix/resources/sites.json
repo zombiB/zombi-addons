@@ -433,7 +433,13 @@
         "nabdhlb": {
             "label": "Nabd8lb",
             "active": "True",
-            "url": "https://nabd8lb.net/
+            "url": "https://nabd8lb.net"
+        },
+        "linkbox": {
+            "label": "Telebox",
+            "active": "True",
+            "url": "https://www.linkbox.to"
         }
     }
 }
+
