@@ -199,7 +199,7 @@ def showSeries(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-	
+    itemsList = []
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -216,24 +216,27 @@ def showSeries(sSearch = ''):
             sYear = ''
             sTitle = sTitle.split('الحلقة')[0].split('الموسم')[0]
             sTitle = sTitle.replace("Season ","S")
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oOutputParameterHandler.addParameter('sYear', sYear)
-            oOutputParameterHandler.addParameter('sDesc', sDesc)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'ShowEps2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            
+            if sTitle not in itemsList:
+                itemsList.append(sTitle)
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sYear', sYear)
+                oOutputParameterHandler.addParameter('sDesc', sDesc)
+                
+                oGui.addTV(SITE_IDENTIFIER, 'ShowEps2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
  
+        
+ 
+    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
-    if not sSearch:
         oGui.setEndOfDirectory()
  
 def ShowEps():
