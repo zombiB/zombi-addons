@@ -1056,6 +1056,10 @@ msgctxt "#30422"
 msgid "Enable log records"
 msgstr ""
 
+msgctxt "#304221"
+msgid "Enable Experimental Features"
+msgstr ""
+
 msgctxt "#30423"
 msgid "Search a Movie"
 msgstr ""
@@ -1383,6 +1387,10 @@ msgstr ""
 
 msgctxt "#30422151"
 msgid "Store cache for (hours)"
+msgstr ""
+
+msgctxt "#30422152"
+msgid "Auto Update Sources every (hours)"
 msgstr ""
 
 msgctxt "#301271"
