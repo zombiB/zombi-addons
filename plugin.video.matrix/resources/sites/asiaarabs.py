@@ -118,36 +118,37 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            if "youtube" in aEntry[1]:
-                continue
- 
-            sTitle = aEntry[1]
-            
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+    
  
     if not sSearch:
+        sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()    
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+                if "youtube" in aEntry[1]:
+                    continue
+     
+                sTitle = aEntry[1]
+                
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
+
+        progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
@@ -196,36 +197,37 @@ def showSeries(sSearch = ''):
         progress_.VSclose(progress_)
   # ([^<]+) .+?
 
-    sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
-    if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
-        oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            if "youtube" in aEntry[1]:
-                continue
- 
-            sTitle = aEntry[1]
-            
-            sTitle =  "PAGE " + sTitle
-            sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
-            siteUrl = aEntry[0]
-
-
-            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-			
-            oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
+    
  
     if not sSearch:
+        sPattern = "href='([^<]+)' id='.+?' title='(.+?)'>"
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent, sPattern)
+        
+        
+        if aResult[0]:
+            total = len(aResult[1])
+            progress_ = progress().VScreate(SITE_NAME)
+            oOutputParameterHandler = cOutputParameterHandler()    
+            for aEntry in aResult[1]:
+                progress_.VSupdate(progress_, total)
+                if progress_.iscanceled():
+                    break
+                if "youtube" in aEntry[1]:
+                    continue
+     
+                sTitle = aEntry[1]
+                
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+
+
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+
+            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 		
 
