@@ -36,8 +36,11 @@ SERIE_KR = (URL_MAIN + 'cate-serie/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d
 SERIE_JP = (URL_MAIN + 'cate-serie/مسلسلات-يابانية/', 'showSeries', 'مسلسلات يابانية')
 #SERIE_GENRES = (True, 'showSeriesGenres', 'تصنيفات المسلسلات')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeriesSearch')
+URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
+
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+
 FUNCTION_SEARCH = 'showSeries'
 
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون','دراما', 'الدراما')

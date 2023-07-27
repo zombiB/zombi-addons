@@ -126,18 +126,20 @@ def load():
     oGui.setEndOfDirectory()
 
  
-def showSearchSeries():
+def showSearchSeries(sSearchText=''):
     oGui = cGui()
-    sSearchText = oGui.showKeyBoard()
+    if sSearchText in [None,'',' ']:
+        sSearchText = oGui.showKeyBoard()
     if sSearchText:
         sUrl = URL_MAIN + '?s='+sSearchText
         showSeriesSearch(sSearch=sUrl,stype = 'Movies')
         oGui.setEndOfDirectory()
         return  
 
-def showSearchMovies():
+def showSearchMovies(sSearchText=''):
     oGui = cGui()
-    sSearchText = oGui.showKeyBoard()
+    if sSearchText in [None,'',' ']:
+        sSearchText = oGui.showKeyBoard()
     if sSearchText:
         sUrl = URL_MAIN + '?s='+sSearchText
         showSeriesSearch(sSearch=sUrl,stype = 'Movies')
