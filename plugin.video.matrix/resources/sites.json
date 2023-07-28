@@ -315,6 +315,11 @@
             "active": "True",
             "url": "https://d.laroza.one/"
         },
+        "linkbox": {
+            "label": "Telebox",
+            "active": "True",
+            "url": "https://www.linkbox.to"
+        },
         "lodynet": {
             "label": "Lodynet",
             "active": "True",

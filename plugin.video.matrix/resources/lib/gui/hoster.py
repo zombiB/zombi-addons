@@ -204,7 +204,7 @@ class cHosterGui:
         if ('gettyshare' in sHostName):
             return self.getHoster('gettyshare')
             
-        if ('avideo' in sHostName):
+        if ('avideo.host' in sHosterUrl):
             return self.getHoster('avideo')     
        
         if ('vidhls' in sHosterUrl):
