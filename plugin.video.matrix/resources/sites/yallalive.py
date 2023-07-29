@@ -44,7 +44,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<a class="alba_sports_events_link" href="(.+?)" target="_blank" title.+?<div class="event_inner"><div class="team-aria team-first"><div class="team"><div class="alba-team_logo"><img alt="(.+?)" title=.+?<div class="matchTime">(.+?)</div>.+?<img alt="(.+?)" title='
+    sPattern = '<a class="AF_EvLink" href="(.+?)" target="_blank" title.+?class="AF_TeamLogo"><img alt="(.+?)" title.+?src="(.+?)" width=.+?<div class="AF_EvTime">(.+?)</div><div.+?<div class="AF_TeamLogo"><img alt="(.+?)" title='
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -59,10 +59,10 @@ def showMovies():
             if progress_.iscanceled():
                 break
  
-            sTitle =  aEntry[1] +' - '+ aEntry[3]
-            sThumb = ""
+            sTitle =  aEntry[1] +' - '+ aEntry[4]
+            sThumb = aEntry[2]
             siteUrl =  aEntry[0]
-            sDesc = aEntry[2]+ " KSA"
+            sDesc = aEntry[3]+ " KSA"
 			
 			
 
