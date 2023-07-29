@@ -76,7 +76,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler) 
     
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Hindi.png', oOutputParameterHandler) 
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', icons + '/Hindi.png', oOutputParameterHandler) 
 
     oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
@@ -404,7 +404,7 @@ def showEpisodes():
     if (aResult[0]):
         sNote = aResult[1][0]
 # ([^<]+) .+? 
-    sPattern = '<div class="imagen"><a href="([^<]+)"><img src="([^<]+)"></a></div><div class="numerando">([^<]+)</div><div class="episodiotitle"><a href=".+?">(.+?)</a> <span class="date">'
+    sPattern = "<div class='imagen'><a href='([^<]+)'><img src='([^<]+)'></a></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='.+?'>([^<]+)</a> <span class='date'>"
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -489,8 +489,9 @@ def showServer():
                for aEntry in aResult[1]:            
                    url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]
                    #VSlog(url)
+                   #link geoblocked
                    if 'hadara.ps' in aEntry :
-                        url = url
+                      continue
                    sHosterUrl = url
                    #VSlog(sHosterUrl)
                    if 'userload' in sHosterUrl:
@@ -502,42 +503,5 @@ def showServer():
                       oHoster.setDisplayName(sMovieTitle)
                       oHoster.setFileName(sMovieTitle)
                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-           
-    sPattern = 'domain=(.+?)\".+?href=\"(.+?)\".+?quality\">(.+?)</.+?<td>.+?</td><td>(.+?)</td>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-
-    if aResult[0]:
-       for aEntry in aResult[1]: 
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
-            oRequest = cRequestHandler(aEntry[1])
-            sHtmlContent3 = oRequest.request()
-            
-            oParser = cParser()
-            sPattern = 'rel=\"nofollow\" href=\"(.+?)\" class'
-            aResult = oParser.parse(sHtmlContent3, sPattern)
-            
-            
-            if aResult[0]:
-               for aEntry in aResult[1]:            
-                   url = aEntry[1]
-                   if url.startswith('//'):
-                      url = 'http:' + url
-                    
-                   sHosterUrl = url
-                   #VSlog(sHosterUrl)
-                   if 'userload' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                   if 'mystream' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                      oHoster.setDisplayName(aEntry[0] +'-' + aEntry[2]+'-' + aEntry[3] )
-                      oHoster.setFileName(sMovieTitle)
-                      cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    progress_.VSclose(progress_)
-    oGui.setEndOfDirectory()
-    
+        progress_.VSclose(progress_)
+    oGui.setEndOfDirectory()   
