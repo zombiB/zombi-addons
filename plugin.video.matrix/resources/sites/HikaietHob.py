@@ -1,4 +1,7 @@
-﻿import re
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import re
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -10,7 +13,6 @@ from resources.lib.comaddon import progress,VSlog, siteManager, dialog, addon
 from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
-import requests
 
 
 ADDON = addon()
@@ -23,10 +25,11 @@ SITE_DESC = 'Turkish TV Shows'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SERIE_TR = (URL_MAIN + 'all-series1/', 'showSeries')
-
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
+#bad search results
+#URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
 sitemsList = []
+
 def load():
     oGui = cGui()
 
@@ -74,7 +77,7 @@ def showSeries(sSearch = ''):
     for item in GridItems:
        #VSlog(item)
         siteUrl = item.a['href']
-        sTitle = item.find("div",{"class":"title"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").split("/")[0].strip()
+        sTitle = item.find("div",{"class":"title"}).text.replace("مترجم ","").replace("مترجم","").replace("مسلسل","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").split("/")[0].strip()
         sYear = ''
         #VSlog(sTitle)
 
@@ -143,7 +146,7 @@ def showSeasons(sSearch=''):
            #VSlog(item)
             seriesID = item['data-season']
             siteUrl = URL_MAIN + '/wp-content/themes/7ob2022/temp/ajax/seasons2.php?seriesID=' + seriesID + '|Referer=' + sUrl
-            sTitle = item.text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
+            sTitle = item.text.replace("مترجم ","").replace("مسلسل","").replace("مترجم","").replace("مدبلج ","").replace("مدبلج","").strip()
             if '' in sTitle:
                 sTitle = sMovieTitle + ' S' + sTitle.split('الموسم')[1]
             else:
@@ -227,7 +230,8 @@ def showEpisodes(sSearch=''):
             
             EpNum = str(item.a.find("div",{"class":"episodeNum"}).contents[3]).replace("<span>","").replace("</span>","").strip()
 
-            sTitle = item.a['title'].strip() + ' E' + EpNum
+            sTitle = item.a['title'].strip() + ' E' + EpNum.replace("مسلسل","")
+            sTitle = sTitle.replace("مسلسل","")
             try:
                 sThumb = item.a.find("div",{"class":"imgSer"})['style'].replace('background-image:url(','').replace(");","")
             except:
@@ -292,6 +296,7 @@ def showSeriesSearch(sSearch=''):
     oOutputParameterHandler = cOutputParameterHandler()
     for item in GridItems:
         sTitle = item.a['title'].strip()
+        sTitle = sTitle.replace("مسلسل","")
         if sTitle not in sitemsList:
             sitemsList.append(sTitle)
             siteUrl = item.a['href'] 
