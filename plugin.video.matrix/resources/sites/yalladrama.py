@@ -43,7 +43,7 @@ URL_SEARCH = (URL_MAIN + '/search.php?keywords=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search.php?keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
- 
+
 def load():
     oGui = cGui()
 
@@ -126,7 +126,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search.php?keywords=فيلم+'+sSearchText
+        sUrl = URL_MAIN + '/search.php?keywords='+sSearchText+'&video-id='
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -134,7 +134,7 @@ def showSearch():
 def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
-      sUrl = sSearch
+      sUrl = sSearch+'&video-id='
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
@@ -157,6 +157,9 @@ def showMovies(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+ 
+            if " لم يتم العثور على ما يطابق بحثك"  in sHtmlContent:
+                continue
  
             if "مسلسل"  in aEntry[1]:
                 continue
