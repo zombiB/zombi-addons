@@ -33,10 +33,6 @@ SERIE_THAI = (URL_MAIN + 'category/asian-drama/thai/', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN + 'category/asian-drama/kshow/', 'showSeries')
 
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
-
 FUNCTION_SEARCH = 'showSeries'
 
 WhiteList = ('افلام','مسلسلات','برامج','اطفال','رمضان','انمي','كرتون','كارتون','دراما', 'الدراما')

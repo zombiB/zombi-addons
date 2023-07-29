@@ -494,7 +494,7 @@ class cHosterGui:
         if ('myvi.' in sHostName):
             return self.getHoster('myvi')
 
-        if ('yodbox' in sHostName) or ('youdbox' in sHostName):
+        if ('yodbox' in sHostName) or ('youdboox' in sHostName) or ('youdbox' in sHostName):
             return self.getHoster('youdbox')
 
         if ('yandex' in sHostName) or ('yadi.sk' in sHostName):

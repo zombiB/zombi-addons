@@ -19,6 +19,7 @@ SITE_NAME = 'Tuktukcinema'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
+VSlog(URL_MAIN)
  
 MOVIE_PACK = (URL_MAIN , 'showPack')
 MOVIE_EN = (URL_MAIN + 'category/movies-33/افلام-اجنبي/', 'showMovies')
@@ -156,7 +157,7 @@ def showPack(sSearch = ''):
         
  
     if not sSearch:
-        sNextPage = __checkForNextPage(sHtmlContent)
+        sNextPage = __checkForNextPage(sHtmlContent,sUrl)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
@@ -291,12 +292,11 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
-    sPattern = '<div class="Block--Item"><a href="([^<]+)" title=""><div class="Poster--Block"><img src="https://w.tuktukcinema.net/wp-content/themes/Elshaikh/no.png" alt="([^<]+)" data-src="([^<]+)"></div>.+?</li></ul><h3>.+?</h3></div></a></div>'
+    sPattern = '<div class="Block--Item.+?href="([^<]+)" title="(.+?)">.+?src="(.+?)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
-    itemList = []
     if aResult[0]:
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
@@ -315,18 +315,17 @@ def showSeries(sSearch = ''):
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
             sDesc = ''
-            sDisplayTitle = sTitle.replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S").replace("الحلقة "," E")
+            sDisplayTitle = sTitle.split('الحلقة')[0].split('الموسم')[0].replace("الموسم العاشر","S10").replace("الموسم الحادي عشر","S11").replace("الموسم الثاني عشر","S12").replace("الموسم الثالث عشر","S13").replace("الموسم الرابع عشر","S14").replace("الموسم الخامس عشر","S15").replace("الموسم السادس عشر","S16").replace("الموسم السابع عشر","S17").replace("الموسم الثامن عشر","S18").replace("الموسم التاسع عشر","S19").replace("الموسم العشرون","S20").replace("الموسم الحادي و العشرون","S21").replace("الموسم الثاني و العشرون","S22").replace("الموسم الثالث و العشرون","S23").replace("الموسم الرابع والعشرون","S24").replace("الموسم الخامس و العشرون","S25").replace("الموسم السادس والعشرون","S26").replace("الموسم السابع والعشرون","S27").replace("الموسم الثامن والعشرون","S28").replace("الموسم التاسع والعشرون","S29").replace("الموسم الثلاثون","S30").replace("الموسم الحادي و الثلاثون","S31").replace("الموسم الثاني والثلاثون","S32").replace("الموسم الاول","S1").replace("الموسم الثاني","S2").replace("الموسم الثالث","S3").replace("الموسم الثالث","S3").replace("الموسم الرابع","S4").replace("الموسم الخامس","S5").replace("الموسم السادس","S6").replace("الموسم السابع","S7").replace("الموسم الثامن","S8").replace("الموسم التاسع","S9").replace("الموسم","S").replace("S ","S")
 
-            if sDisplayTitle not in itemList:
-                itemList.append(sDisplayTitle)
 
-                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
-                oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
-                oOutputParameterHandler.addParameter('sThumb', sThumb)
-                oOutputParameterHandler.addParameter('sYear', sYear)
-                oOutputParameterHandler.addParameter('sDesc', sDesc)
 
-                oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sDisplayTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            oOutputParameterHandler.addParameter('sYear', sYear)
+            oOutputParameterHandler.addParameter('sDesc', sDesc)
+
+            oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
         progress_.VSclose(progress_)
 
@@ -350,7 +349,7 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
     # .+? ([^<]+)
-	sPattern = '<div class="Block--Item"><a href="([^<]+)" title=""><div class="Poster--Block"><img src="https://w.tuktukcinema.net/wp-content/themes/Elshaikh/no.png" alt="([^<]+)" data-srccs="([^<]+)"></div>'
+	sPattern = '<div class="Block--Item"><a href="([^<]+)" title=""><div class="Poster--Block"><img src=".+?/no.png" alt="([^<]+)" data-srccs="([^<]+)"></div>'
 
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
@@ -359,7 +358,8 @@ def showSeasons():
 		oOutputParameterHandler = cOutputParameterHandler()
 		for aEntry in aResult[1]:
  
-			sTitle = sMovieTitle+aEntry[1].replace("الموسم","S").replace("S ","S")
+			sTitle = aEntry[1].replace("الموسم ","S")
+			sTitle = sMovieTitle+""+sTitle
 			siteUrl = aEntry[0]
 			sThumb = aEntry[2]
 			sDesc = ""

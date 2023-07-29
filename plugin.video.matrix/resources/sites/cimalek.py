@@ -33,9 +33,6 @@ ANIM_MOVIES = (URL_MAIN + '/category/anime-movies/', 'showMovies')
 SERIE_ASIA = (URL_MAIN + '/category/asian-series/', 'showSeries')
 SERIE_NETFLIX = (URL_MAIN + '/category/netflix-series/', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_ANIMS = (URL_MAIN + '/?s=', 'showAnimes')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -115,8 +112,8 @@ def showMovies(sSearch = ''):
        data = {'keyword':psearch,'nonce':'775957ec22'}
        r = s.post('https://w.cimalek.to/wp-json/lalaplay/search/?keyword='+psearch+'&nonce=775957ec22', headers=headers,data = data)
        sHtmlContent = r.content.decode('utf8')
-       VSlog(psearch)
-       VSlog(sHtmlContent)
+        #VSlog(psearch)
+        #VSlog(sHtmlContent)
       # (.+?) ([^<]+) .+?
     sPattern = '<div class="title">(.+?)</div>.+?<a href="(.+?)">.+?data-src="(.+?)" alt'
 
@@ -161,12 +158,12 @@ def showMovies(sSearch = ''):
         progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
+    if not sSearch:
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
-    if not sSearch:
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):

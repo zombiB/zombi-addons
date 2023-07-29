@@ -47,9 +47,6 @@ REPLAYTV_NEWS = (URL_MAIN + '/category/برامج-تلفزيونية', 'showSeri
 DOC_NEWS = (URL_MAIN + '/genre/وثائقي', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/genre/وثائقي', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/search?s=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search?s=فيلم+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search?s=مسلسل+', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

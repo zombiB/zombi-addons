@@ -1,4 +1,7 @@
-﻿import re
+﻿# -*- coding: utf-8 -*-
+# zombi https://github.com/zombiB/zombi-addons/
+
+import re
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -11,13 +14,6 @@ from resources.lib.util import cUtil, Unquote, urlEncode, Quote
 from resources.lib.Styling import getFunc, getThumb, getGenreIcon
 from bs4 import BeautifulSoup
 import requests
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -50,10 +46,6 @@ SERIE_LATIN = (URL_MAIN + 'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%
 
 RAMDAN_SERIES = (URL_MAIN +'category/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa-%d8%b1%d9%85%d8%b6%d8%a7%d9%86-2022/', 'showSeries')
 
-
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showSearchMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSearchSeries')
-FUNCTION_SEARCH = 'showSearchSeries'
 sitemsList = []
 def load():
     oGui = cGui()

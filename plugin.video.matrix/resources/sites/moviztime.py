@@ -55,10 +55,10 @@ ANIM_NEWS = (URL_MAIN+'category/قائمة-الأنمي-b/مسلسلات-أنم�
 
 REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-تلفزيونية/', 'showMovies')
 
-URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
-FUNCTION_SEARCH = 'showSearch'
+#URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
+#URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+#URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
+#FUNCTION_SEARCH = 'showSearch'
  
 def load():
     oGui = cGui()
@@ -226,7 +226,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
@@ -281,6 +280,7 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 
                 oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+        progress_.VSclose(progress_)
  
         
         
@@ -293,7 +293,6 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
  
       # (.+?) ([^<]+) .+?

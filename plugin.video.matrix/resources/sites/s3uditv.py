@@ -15,7 +15,7 @@ from resources.lib.parser import cParser
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 SITE_IDENTIFIER = 's3uditv'
-SITE_NAME = 'S3udi-TV'
+SITE_NAME = 'S3uditv'
 SITE_DESC = 'arabic vod'
 
 UA = 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.48 Mobile Safari/537.36'

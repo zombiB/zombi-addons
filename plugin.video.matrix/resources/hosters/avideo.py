@@ -26,11 +26,13 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         sUrl = self._url
-
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
-        sHost = sUrl.split('/e')[0]
-        sCode = sUrl.split('/e-')[1]
+        VSlog(sUrl)
+        if '/e' in sUrl:
+            sHost = sUrl.split('/e')[0]
+            sCode = sUrl.split('/e-')[1]
+        else:
+            sHost = sUrl
+            sCode = sUrl  
 
         Sgn=requests.Session()
 
@@ -47,11 +49,11 @@ class cHoster(iHoster):
                 "auto": "1",
                 "referer": ""}
         _r = Sgn.post('https://avideo.host/dl',headers=hdr,data=prm)
-        sHtmlContent = _r.content.decode('utf8',errors='ignore')
+        sdata = _r.content.decode('utf8',errors='ignore')
         oParser = cParser() 
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?)</script>'
-        aResult = oParser.parse(sHtmlContent, sPattern)
+        aResult = oParser.parse(sdata, sPattern)
 
         import unicodedata
 
@@ -63,9 +65,11 @@ class cHoster(iHoster):
 
             sPattern = 'file:"([^"]+)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-            VSlog(aResult)
+
             if aResult[0]:
                 api_call = aResult[1][0]  + '|AUTH=TLS&verifypeer=false' 
+
+        api_call = sUrl
 
         if api_call:
             return True, api_call
