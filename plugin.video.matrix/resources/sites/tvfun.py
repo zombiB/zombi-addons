@@ -31,8 +31,9 @@ SERIE_KR = (URL_MAIN + '/cat/mosalsalat-korea/', 'showSeries')
 SERIE_LATIN = (URL_MAIN + '/cat/mosalsalat-latinia/', 'showSeries')
 REPLAYTV_NEWS = (URL_MAIN + '/cat/programme-tv/', 'showSeries')
 
-# URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
-# FUNCTION_SEARCH = 'showSeriesSearch'
+URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
+URL_SEARCH_SERIES = (URL_MAIN + '/q/', 'showSeriesSearch')
+FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
     oGui = cGui()
@@ -40,6 +41,9 @@ def load():
     oOutputParameterHandler = cOutputParameterHandler()
     # oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     # oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search Series', icons + '/Search.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'SEARCH_SERIES', icons + '/Search.png', oOutputParameterHandler)
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
@@ -75,7 +79,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/search/' +sSearchText + '/#gsc.tab=0&gsc.q=' + sSearchText
+        sUrl = URL_MAIN + '/q/' +sSearchText 
 
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
@@ -140,15 +144,15 @@ def showSeries(sSearch = ''):
 def showSeriesSearch(sSearch = ''):
     oGui = cGui()
     if sSearch:
-      sUrl = sSearch+"/"
+      sUrl = sSearch+'/'
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    VSlog(sHtmlContent)
-    sPattern = 'ctorig=\"(.+?)\">.+?src=\"(.+?)\".+?data-cturl.+?/\">(.+?)</b>'  
+	
+    sPattern = '<div class="thumb"><div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt='  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -161,9 +165,9 @@ def showSeriesSearch(sSearch = ''):
             if progress_.iscanceled():
                 break
  
-            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والاخيرة","")
+            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والاخيرة","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[1]
+            sThumb = aEntry[2]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if URL_MAIN not in siteUrl:
@@ -173,7 +177,7 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addEpisode(SITE_IDENTIFIER, 'showSeries', sTitle, '', sThumb, '', oOutputParameterHandler)
+            oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
         
         progress_.VSclose(progress_)
 
@@ -227,17 +231,8 @@ def showEpisodes():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-
-    sPattern = 'class="headline">(.+?)class="head-title"> أخر الحلقات </h3>'  
-    
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern) 
-     
-
-    if aResult[0]:
-        sHtmlContent = aResult[1][0]
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt'
+    sPattern = '<div class="thumb"><div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt='
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
