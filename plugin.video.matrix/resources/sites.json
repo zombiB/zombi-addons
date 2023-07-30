@@ -117,7 +117,7 @@
         },
         "bazplay": {
             "label": "BazPlay",
-            "active": "True",
+            "active": "False",
             "url": "https://bazplay.cc/"
         },
         "beinsports_net": {
@@ -127,7 +127,7 @@
         },
         "bestdrama": {
             "label": "Best-Drama",
-            "active": "True",
+            "active": "False",
             "url": "https://best-drama.com/"
         },
         "btolat": {
@@ -157,22 +157,22 @@
         },
         "cimalight": {
             "label": "Cimalight",
-            "active": "True",
+            "active": "False",
             "url": "https://cc.cimalight.vip/"
         },
         "cimalina": {
             "label": "CimaLina",
-            "active": "True",
+            "active": "False",
             "url": "https://cimalina.cam/"
         },
         "cimacity": {
             "label": "CimaCity",
-            "active": "True",
+            "active": "False",
             "url": "https://ww.cima-city.site/"
         },
         "cimaking": {
             "label": "CimaKing",
-            "active": "True",
+            "active": "False",
             "url": "https://cimaking.com/"
         },
         "cimanow": {
@@ -352,7 +352,7 @@
         },
         "s3uditv": {
             "label": "S3uditv",
-            "active": "True",
+            "active": "False",
             "url": "https://k.s3udi.tv/"
         },
         "shahidu": {
@@ -407,7 +407,7 @@
         },
         "tvfun": {
             "label": "Tvfun",
-            "active": "True",
+            "active": "False",
             "url": "https://www.tv-f.com/"
         },
         "tvnine": {

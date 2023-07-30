@@ -136,6 +136,7 @@ def showMovies(sSearch = ''):
     oGui = cGui()
     if sSearch:
       sUrl = sSearch
+      sSearchText = sUrl.replace(URL_MAIN, '').replace('/search.php?keywords=', '')
     else:
         oInputParameterHandler = cInputParameterHandler()
         sUrl = oInputParameterHandler.getValue('siteUrl')
