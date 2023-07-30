@@ -144,6 +144,10 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
+            m = re.search('([1-2][0-9]{3})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
 
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)

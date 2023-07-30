@@ -28,7 +28,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
-        sPattern = 'src="([^<]+)" type="video/mp4">'
+        sPattern = 'source src="([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             api_call = aResult[1][0]

@@ -77,7 +77,7 @@ def showSeries(sSearch = ''):
     for item in GridItems:
        #VSlog(item)
         siteUrl = item.a['href']
-        sTitle = item.find("div",{"class":"title"}).text.replace("مترجم ","").replace("مترجم","").replace("مسلسل","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").split("/")[0].strip()
+        sTitle = item.find("div",{"class":"title"}).text.replace("مترجم ","").replace("مترجم","").replace("مسلسل","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").replace("الموسم","S").replace("S ","S").split("/")[0].strip()
         sYear = ''
         #VSlog(sTitle)
 

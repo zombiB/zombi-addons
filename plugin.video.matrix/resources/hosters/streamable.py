@@ -19,13 +19,13 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
             # (.+?) .+?
-        sPattern = 'poster=.+?src="(.+?)".+?controlsList="nodownload"'
+        sPattern = 'poster=.+?src="([^"]+)'
         
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             api_call = 'https:'+ aResult[1][0] 
 
         if (api_call):
-            return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url
+            return True, api_call 
 
         return False, False

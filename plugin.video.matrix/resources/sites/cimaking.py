@@ -35,8 +35,8 @@ SERIE_EN = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-اجنب�
 
 RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-series/مسلسلات-رمضان/', 'showSeries')
 
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=%D9%81%D9%84%D9%85+', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 	
 def load():
@@ -87,7 +87,7 @@ def showSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%81%D9%84%D9%85+'+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         if 'مسلسل' in sUrl or 'موسم' in sUrl:
             showSeries(sUrl)
         showMovies(sUrl)
@@ -98,7 +98,7 @@ def showSeriesSearch():
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = URL_MAIN + '/?s=%D9%85%D8%B3%D9%84%D8%B3%D9%84+'+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showSeries(sUrl)
         oGui.setEndOfDirectory()
         return  
@@ -128,10 +128,12 @@ def showMovies(sSearch = ''):
         total = len(aResult[1])
         progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
+        for aEntry in aResult[1]  :
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+            if 'مسلسل' in aEntry[2] or 'موسم' in aEntry[2]:
+               continue
  
             sTitle = aEntry[2].replace("تحميل و فيلم","").replace("تحميل ومشاهدة","").replace("ومشاهدة","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[arabic]").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("بجودة عالية","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace("للعربية","").replace("وتحميل","").replace("مباشر","").replace("تحميل","").replace("الاجنبى","").replace("ال ","").replace("الاجنبي","").replace("الغموض والدراما","").replace("التشويق والحركة","").replace("الدراما","").replace("بجودة","").replace("الحركة والمخيف","")
             siteUrl = aEntry[0]
@@ -195,6 +197,8 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+            if 'فيلم' in aEntry[2] :
+               continue
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("مسلسل","").replace("Web-dl","").replace("بجودة","").replace("اونلاين","").replace("بجوده","").replace("كامل","").replace("والأخيره","").replace("و الأخيرة","").replace("والأخيرة","").replace("والاخيرة","").replace("Full Episodes","").replace("وتحميل","").replace("شاهد","")
             siteUrl = aEntry[0]
