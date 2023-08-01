@@ -23,7 +23,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 ANIM_MOVIES = (URL_MAIN + '/%d8%a3%d9%81%d9%84%d8%a7%d9%85/', 'showMovies')
 ANIM_NEWS = (URL_MAIN + '/%d9%85%d8%b3%d9%84%d8%b3%d9%84%d8%a7%d8%aa/', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH_ANIMS = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

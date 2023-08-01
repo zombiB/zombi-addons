@@ -29,7 +29,7 @@ ANIM_DUBBED = (URL_MAIN + '/anime-category/%d8%a7%d9%84%d8%a7%d9%86%d9%85%d9%8a-
 
 URL_SEARCH = (URL_MAIN + '/?search_param=animes&s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?search_param=animes&s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?search_param=animes&s=', 'showSeries')
+URL_SEARCH_ANIMS = (URL_MAIN + '/?search_param=animes&s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():

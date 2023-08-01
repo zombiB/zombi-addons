@@ -549,7 +549,7 @@ msgid "Programs"
 msgstr ""
 
 msgctxt "#30118"
-msgid "Search (Anim)"
+msgid "Search (Anime)"
 msgstr ""
 
 msgctxt "#30119"

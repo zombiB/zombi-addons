@@ -25,7 +25,7 @@ KID_CARTOON = ('https://www.katkoute.com/watch/browse.html', 'showSeries')
 
 URL_SEARCH = ('https://www.katkoute.com/watch/search.php?keywords=', 'showSeriesSearch')
 
-URL_SEARCH_SERIES = ('https://www.katkoute.com/watch/search.php?keywords=', 'showSeriesSearch')
+URL_SEARCH_ANIMS = ('https://www.katkoute.com/watch/search.php?keywords=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

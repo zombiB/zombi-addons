@@ -204,7 +204,6 @@ def showSeries(sSearch = ''):
         siteUrl = item.a['href']
         sTitle = item.find("div",{"class":"blockTitle"}).text.replace("مترجم ","").replace("مترجم","").replace("مدبلج ","").replace("تقرير","").replace("+","").replace("حلقات","").replace("الحلقات","").replace(" ة "," ").split("/")[0].strip()
         sYear = ''
-        VSlog(sTitle)
         try:
             sThumb = item.a.div.img['data-img'].replace('"','')
         except:

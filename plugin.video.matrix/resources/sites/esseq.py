@@ -35,7 +35,6 @@ SERIE_TR = (URL_MAIN + '/all-series/', 'showSeries')
 MOVIE_TURK = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a3%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%aa%d8%b1%d9%83%d9%8a%d8%a9/', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
 FUNCTION_SEARCH = 'showSeries'
  
@@ -117,8 +116,6 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace('مترجم للعربية',"").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","").replace('"',"").replace('-',"")
             siteUrl = aEntry[0]
-           #VSlog(sTitle)
-           #VSlog(siteUrl)
             
             sThumb = aEntry[1].replace("(","").replace(")","")
             if sThumb.startswith('//'):
@@ -136,6 +133,7 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
  
+    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
@@ -143,8 +141,6 @@ def showMovies(sSearch = ''):
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
 
- 
-    if not sSearch:
         oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):

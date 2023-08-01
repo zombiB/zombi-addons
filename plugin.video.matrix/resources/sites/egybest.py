@@ -152,7 +152,7 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
 
-            if 'serie/' in aEntry[0]:
+            if '/serie/' in aEntry[0]:
                 continue 
 
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
@@ -177,8 +177,6 @@ def showMovies(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-        
-        #progress_.VSclose(progress_)
  
     if not sSearch:
         sNextPage = __checkForNextPageM(sHtmlContent, sUrl)
@@ -215,7 +213,7 @@ def showSeries(sSearch = ''):
             if progress_.iscanceled():
                 break
 
-            if 'movie/' in aEntry[0]:
+            if '/movie/' in aEntry[0]:
                 continue 
             
             sTitle = aEntry[2].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
@@ -225,6 +223,11 @@ def showSeries(sSearch = ''):
             if sThumb.startswith('//'):
                 sThumb = "https:"+aEntry[1]
             sDesc = ''
+            sYear = ''
+            m = re.search('([0-9]{4})', sTitle)
+            if m:
+                sYear = str(m.group(0))
+                sTitle = sTitle.replace(sYear,'')
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -234,9 +237,6 @@ def showSeries(sSearch = ''):
 
         progress_.VSclose(progress_)
 
-        
-
-        #progress_.VSclose(progress_)
 
     if not sSearch:
         sNextPage = __checkForNextPageS(sHtmlContent, sUrl)

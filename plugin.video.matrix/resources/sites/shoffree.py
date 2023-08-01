@@ -237,6 +237,12 @@ def showMovies(sSearch = ''):
             if progress_.iscanceled():
                 break
  
+            if "مسلسل"  in aEntry[1]:
+                continue
+ 
+            if "حلقة"  in aEntry[1]:
+                continue
+ 
             sTitle = aEntry[1].replace("مشاهدة","").replace("برنامج","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","").replace("مدبلج للعربية","").replace("مدبلج","").replace("عرض","").replace("الرو","")
             siteUrl = aEntry[0]
             sThumb = aEntry[2]
@@ -293,6 +299,9 @@ def showSeries(sSearch = ''):
             progress_.VSupdate(progress_, total)
             if progress_.iscanceled():
                 break
+ 
+            if "فيلم"  in aEntry[1]:
+                continue
  
             sTitle = aEntry[1].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مدبلج للعربية","مدبلج")
             siteUrl = aEntry[0]

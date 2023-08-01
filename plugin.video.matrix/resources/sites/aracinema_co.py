@@ -25,7 +25,6 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 MOVIE_ASIAN = ('https://aradramtv.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
 SERIE_ASIA = ('https://aradramtv.com/category/serie/', 'showSerie')
 URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://aradramatv.co/?s=', 'showMovies')
 URL_SEARCH_SERIES = ('https://aradramatv.co/?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
@@ -142,6 +141,7 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showLink', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
+    if not sSearch:
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -149,7 +149,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
-    if not sSearch:
         oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
@@ -199,6 +198,7 @@ def showSeries(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
         progress_.VSclose(progress_)
+    if not sSearch:
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -206,7 +206,6 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
  
-    if not sSearch:
         oGui.setEndOfDirectory()
  
 def showSerie(sSearch = ''):

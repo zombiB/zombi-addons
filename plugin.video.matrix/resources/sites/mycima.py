@@ -42,7 +42,6 @@ DOC_NEWS = (URL_MAIN + '/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85/%d8%a7%d9%81%d9
 URL_SEARCH = (URL_MAIN + '/search/', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + '/search/', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/search/', 'showSeries')
-URL_SEARCH_ANIMS = (URL_MAIN + '/search/', 'showAnimes')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():

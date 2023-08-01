@@ -220,7 +220,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):

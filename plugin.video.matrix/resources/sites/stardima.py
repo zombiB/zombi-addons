@@ -27,7 +27,7 @@ KID_CARTOON = (URL_MAIN + '/tvshows/#gsc.tab=0', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeriesSearch')
 
 URL_SEARCH_MOVIES = ('https://stardima.co/watch/?s=', 'showMoviesSearch')
-URL_SEARCH_SERIES = ('https://stardima.co/watch/?s=', 'showSeriesSearch')
+URL_SEARCH_ANIMS = ('https://stardima.co/watch/?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():

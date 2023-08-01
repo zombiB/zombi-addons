@@ -30,7 +30,7 @@ KID_CARTOON = (URL_MAIN + '/category/%d9%85%d8%af%d8%a8%d9%84%d8%ac/?tr_post_typ
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
+URL_SEARCH_ANIMS = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
