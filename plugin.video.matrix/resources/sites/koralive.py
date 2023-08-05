@@ -168,11 +168,12 @@ def showLive():
                    url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ siteUrl
                    sMovieTitle = sMovieTitle
+                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
+                       oHoster.setDisplayName(sdTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
 
@@ -184,11 +185,12 @@ def showLive():
                    url = aEntry
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"+'&Referer='+ siteUrl
                    sMovieTitle = sMovieTitle
+                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
+                       oHoster.setDisplayName(sdTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
@@ -199,11 +201,12 @@ def showLive():
                    url = aEntry.replace("('","").replace("')","")
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
                    sMovieTitle = sMovieTitle
+                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
+                       oHoster.setDisplayName(sdTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
@@ -214,11 +217,12 @@ def showLive():
                    url = aEntry.replace("('","").replace("')","")
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl 
                    sMovieTitle = sMovieTitle
+                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
+                       oHoster.setDisplayName(sdTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
             sPattern = 'source:"(.+?)",'
@@ -228,11 +232,12 @@ def showLive():
                    url = aEntry
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
                    sMovieTitle = sMovieTitle
+                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
                    if 'vimeo' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + sUrl
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
+                       oHoster.setDisplayName(sdTitle)
                        oHoster.setFileName(sMovieTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 

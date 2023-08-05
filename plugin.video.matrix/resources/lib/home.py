@@ -343,8 +343,8 @@ class cHome:
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_EN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30108)), icons + '/TVShows.png', oOutputParameterHandler)
 
-        oOutputParameterHandler.addParameter('siteUrl', 'SERIE_NETFLIX')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30108)), icons + '/TVShows.png', oOutputParameterHandler)
+        #oOutputParameterHandler.addParameter('siteUrl', 'SERIE_NETFLIX')
+        #oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30108)), icons + '/TVShows.png', oOutputParameterHandler)
         oOutputParameterHandler.addParameter('siteUrl', 'SERIE_TR')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(30109)), icons + '/Turkish.png', oOutputParameterHandler)
 

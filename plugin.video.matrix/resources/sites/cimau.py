@@ -467,8 +467,6 @@ def showLinks():
     #Recuperation infos
 
 
-    sIMDB = re.compile(r'httph|https:\/\/www.imdb.com\/title\/(.+?)\/',sHtmlContent)
-
     sIMDB = re.search(r'https://www.imdb.com/title/([^<]+)/',sHtmlContent)
 
     
