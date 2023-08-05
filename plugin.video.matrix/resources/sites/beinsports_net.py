@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -91,13 +91,8 @@ def showMovies(sSearch = ''):
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
 					
             sUrl = URL_MAIN+aEntry[4]
             sTitle = aEntry[3]
@@ -111,7 +106,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', str(aEntry[0]))
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, icons + '/Documentary.png', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
             
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:

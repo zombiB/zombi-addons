@@ -8,7 +8,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import Quote
 from resources.lib.Styling import getGenreIcon
@@ -48,8 +48,8 @@ SERIE_ANNEES = (True, 'showGenresS')
 
 ANIM_NEWS = (URL_MAIN + '/anime', 'showSeries')
 
-URL_SEARCH_MOVIES = (URL_MAIN + '/search?query=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search?query=', 'showSeries')
+#URL_SEARCH_MOVIES = (URL_MAIN + '/search?query=', 'showMovies')
+#URL_SEARCH_SERIES = (URL_MAIN + '/search?query=', 'showSeries')
 FUNCTION_SEARCH = 'showMovies'
 
 s = requests.Session()
@@ -229,13 +229,8 @@ def showMovies(sSearch = ''):
 
 	
     if aResult[0] is True:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             if "مسلسل"  in aEntry[1]:
                 continue
@@ -262,8 +257,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage != False:
@@ -292,13 +285,8 @@ def showSeries(sSearch = ''):
 	
 	
     if aResult[0] is True:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             if "فيلم"  in aEntry[1]:
                 continue
@@ -315,8 +303,6 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oOutputParameterHandler.addParameter('sDesc', sDesc)
             oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
 
  
         sNextPage = __checkForNextPage(sHtmlContent)

@@ -276,9 +276,6 @@ class cHome:
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_EN')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30108)), icons + '/Movies.png', oOutputParameterHandler)
-        
-        oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_NETFLIX')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30108)), icons + '/Movies.png', oOutputParameterHandler)
 		
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_TURK')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30109)), icons + '/Turkish.png', oOutputParameterHandler)

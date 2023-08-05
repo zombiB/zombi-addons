@@ -8,7 +8,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
 from resources.lib.util import Quote
@@ -51,13 +51,8 @@ def showMovies():
 	
 	
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle =  aEntry[1] +' - '+ aEntry[4]
             sThumb = aEntry[2]
@@ -71,8 +66,6 @@ def showMovies():
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
  
  
     oGui.setEndOfDirectory()

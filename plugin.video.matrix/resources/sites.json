@@ -95,40 +95,15 @@
             "active": "True",
             "url": "https://www.asia4arabs.com/"
         },
-        "asiadtv": {
-            "label": "AsiaDramaTV",
-            "active": "True",
-            "url": "https://www.asiadtv.com/"
-        },
-        "asia2tv": {
-            "label": "Asia2TV",
-            "active": "True",
-            "url": "https://ww1.asia2tv.pw/"
-        },
-        "awaan": {
-            "label": "Awaan",
-            "active": "False",
-            "url": "https://www.awaan.ae/"
-        },
         "beinmatch": {
             "label": "Beinmatch",
             "active": "True",
             "url": "https://beinmatch.biz/"
         },
-        "bazplay": {
-            "label": "BazPlay",
-            "active": "False",
-            "url": "https://bazplay.cc/"
-        },
         "beinsports_net": {
             "label": "Beinsports",
             "active": "True",
             "url": "https://www.beinsports.com/"
-        },
-        "bestdrama": {
-            "label": "Best-Drama",
-            "active": "False",
-            "url": "https://best-drama.com/"
         },
         "btolat": {
             "label": "Btolat",
@@ -150,31 +125,6 @@
             "active": "True",
             "url": "https://cmaclb.online/"
         },
-        "cimalek": {
-            "label": "Cimalek",
-            "active": "True",
-            "url": "https://w.cimalek.to/"
-        },
-        "cimalight": {
-            "label": "Cimalight",
-            "active": "False",
-            "url": "https://cc.cimalight.vip/"
-        },
-        "cimalina": {
-            "label": "CimaLina",
-            "active": "False",
-            "url": "https://cimalina.cam/"
-        },
-        "cimacity": {
-            "label": "CimaCity",
-            "active": "False",
-            "url": "https://ww.cima-city.site/"
-        },
-        "cimaking": {
-            "label": "CimaKing",
-            "active": "False",
-            "url": "https://cimaking.com/"
-        },
         "cimanow": {
             "label": "Cimanow",
             "active": "True",
@@ -184,11 +134,6 @@
             "label": "Cima4u",
             "active": "True",
             "url": "https://cima4u1.motorcycles/"
-        },
-        "cinemana": {
-            "label": "Cinemana",
-            "active": "True",
-            "url": "https://cinemana.work/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -204,11 +149,6 @@
             "label": "Docarabic",
             "active": "True",
             "url": "https://docarabic.wordpress.com/"
-        },
-        "dramacafe": {
-            "label": "Dramacafe",
-            "active": "True",
-            "url": "https://wwe.dramacafe-tv.com/"
         },
         "egyclub": {
             "label": "Egyclub",
@@ -245,11 +185,6 @@
             "active": "True",
             "url": "https://www.faselhd.ac/"
         },
-        "filmihq": {
-            "label": "FilmiHQ",
-            "active": "True",
-            "url": "https://filmihq.su/"
-        },
         "fnteam": {
             "label": "Fnteam",
             "active": "True",
@@ -285,16 +220,6 @@
             "active": "True",
             "url": "https://hidaya.tn/"
         },
-        "HikaietHob": {
-            "label": "HikaietHob",
-            "active": "True",
-            "url": "https://7obtv.top/"
-        },
-        "honadrama": {
-            "label": "Honadrama",
-            "active": "True",
-            "url": "https://tn.honadrama.us/"
-        },
         "katkoute": {
             "label": "Katkoute",
             "active": "True",
@@ -304,16 +229,6 @@
             "label": "Koralive",
             "active": "True",
             "url": "https://alkoora.360koralive.com/"
-        },
-        "kporama": {
-            "label": "Kporama",
-            "active": "True",
-            "url": "https://asia.kporama.net/"
-        },
-        "laroza": {
-            "label": "Laroza",
-            "active": "True",
-            "url": "https://d.laroza.one/"
         },
         "linkbox": {
             "label": "Telebox",
@@ -334,11 +249,6 @@
             "label": "MovizTime",
             "active": "True",
             "url": "https://movtime3.store/"
-        },
-        "nabd8lb": {
-            "label": "Nabd8lb",
-            "active": "True",
-            "url": "https://nabd8lb.net/"
         },
         "pakistani": {
             "label": "Pakistani",
@@ -434,11 +344,6 @@
             "label": "Xsanime",
             "active": "True",
             "url": "https://v.xsanime.com/"
-        },
-        "yalladrama": {
-            "label": "Yalladrama",
-            "active": "True",
-            "url": "https://v2.yalladrama.co/"
         },
         "yallalive": {
             "label": "Yallalive",

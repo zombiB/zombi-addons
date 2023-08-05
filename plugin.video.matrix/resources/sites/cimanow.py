@@ -12,7 +12,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from bs4 import BeautifulSoup
 import requests
@@ -201,13 +201,8 @@ def showMovies(sSearch = ''):
                     # oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
             if aResult[0]:
-                total = len(aResult[1])
-                progress_ = progress().VScreate(SITE_NAME)
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
-                    progress_.VSupdate(progress_, total)
-                    if progress_.iscanceled():
-                        break
  
                     sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("مسرحية","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
                     sTitle = str(sTitle.encode('latin-1'),'utf-8')
@@ -228,8 +223,6 @@ def showMovies(sSearch = ''):
 			
                     oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-                progress_.VSclose(progress_)
-            
             
 
     if not sSearch:
@@ -246,13 +239,8 @@ def showMovies(sSearch = ''):
         #VSlog(CurrentPage)
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()  
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
                 
                 deviation = int(aEntry[1])-CurrentPage
                 if deviation==1:
@@ -269,7 +257,6 @@ def showMovies(sSearch = ''):
             
                     oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, sThumb, oOutputParameterHandler)
 
-            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
  
 def showSeries(sSearch = ''):
@@ -312,13 +299,8 @@ def showSeries(sSearch = ''):
 	
             itemList = []
             if aResult[0]:
-                total = len(aResult[1])
-                progress_ = progress().VScreate(SITE_NAME)
                 oOutputParameterHandler = cOutputParameterHandler()  
                 for aEntry in aResult[1]:
-                    progress_.VSupdate(progress_, total)
-                    if progress_.iscanceled():
-                        break
  
                     if "فيلم" in aEntry[2]:
                         continue
@@ -343,7 +325,6 @@ def showSeries(sSearch = ''):
                 
                         oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-                progress_.VSclose(progress_)
 
 
                         
@@ -388,13 +369,8 @@ def showSeries(sSearch = ''):
         #VSlog(CurrentPage)
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()  
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
                 
                 deviation = int(aEntry[1])-CurrentPage
                 if deviation==1:
@@ -410,7 +386,6 @@ def showSeries(sSearch = ''):
                     oOutputParameterHandler.addParameter('sThumb', sThumb)
             
                     oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, sThumb, oOutputParameterHandler)
-                progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
  
 def showSeasons():

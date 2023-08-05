@@ -9,7 +9,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, isMatrix, siteManager, addon
+from resources.lib.comaddon import VSlog, isMatrix, siteManager, addon
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -56,13 +56,8 @@ def showMovies(sSearch = ''):
 	
 	
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[1]
             sThumb = ''
@@ -75,7 +70,6 @@ def showMovies(sSearch = ''):
 
             oGui.addMisc(SITE_IDENTIFIER, 'showLive', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
-        progress_.VSclose(progress_)
  
  
     oGui.setEndOfDirectory()
@@ -107,13 +101,8 @@ def showLive():
     
    
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[1]
             sThumb = '' 
@@ -124,7 +113,6 @@ def showLive():
             oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)  
         
-        progress_.VSclose(progress_)      
            
        
     oGui.setEndOfDirectory()

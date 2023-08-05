@@ -8,7 +8,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from bs4 import BeautifulSoup
 import requests
@@ -213,13 +213,8 @@ def showMovies(sSearch = ''):
 	
 	
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[0]
@@ -240,8 +235,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showLinks', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
 
@@ -253,13 +246,8 @@ def showMovies(sSearch = ''):
         
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next Movies : " + siteUrl)
@@ -276,13 +264,8 @@ def showMovies(sSearch = ''):
         
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next Movies : " + siteUrl)
@@ -293,7 +276,6 @@ def showMovies(sSearch = ''):
                 oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
 
 
-                progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 			
 def showSeries(sSearch = ''):
@@ -319,13 +301,8 @@ def showSeries(sSearch = ''):
 	
     itemList = []
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[2].replace("&#8217;","'").replace("مشاهدة","").replace("مترجمة","").replace("مسلسل","").replace("انمي","").replace("أنمي","").replace("كاملة","").replace("كامل","").replace("مترجم","").replace("فيلم","").replace("برنامج","").replace("برنامج","").replace("اون لاين","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("4K","").replace("All","").replace("BDRip","").replace("HDCAM","").replace("HDTC","").replace("HDTV","").replace("HD","").replace("720","").replace("HDCam","").replace("Full HD","").replace("1080","").replace("HC","").replace("Web-dl","")
             
@@ -343,7 +320,6 @@ def showSeries(sSearch = ''):
                 
                 oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
 
@@ -357,13 +333,8 @@ def showSeries(sSearch = ''):
         #VSlog(aResult)
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next series : " + siteUrl)
@@ -376,7 +347,6 @@ def showSeries(sSearch = ''):
                 
                 oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]' , sThumb, oOutputParameterHandler)
 
-            progress_.VSclose(progress_)
         sPattern = '<a class=\"next.page-numbers\" href=\"(.+?)\">'
 
         oParser = cParser()
@@ -384,13 +354,8 @@ def showSeries(sSearch = ''):
         #VSlog(aResult)
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
      
                 siteUrl = aEntry.replace('"',"")
                 #VSlog("Check for next series : " + siteUrl)
@@ -403,7 +368,6 @@ def showSeries(sSearch = ''):
                 
                 oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'Next' , sThumb, oOutputParameterHandler)
 
-            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 	
 def showEpisodes():

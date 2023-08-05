@@ -9,7 +9,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.Styling import getGenreIcon, getThumb, getFunc
 from bs4 import BeautifulSoup
@@ -259,13 +259,8 @@ def showSearchSeries(sSearch = ''):
 	
     itemList = []
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[4]+'S'+aEntry[3]+' E'+aEntry[1]
             sTitle = sTitle.replace("S ","S")
@@ -285,8 +280,6 @@ def showSearchSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sDesc', sDesc)
                 
                 oGui.addTV(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        
-        progress_.VSclose(progress_)
 
 
  
@@ -302,13 +295,8 @@ def showSearchSeries(sSearch = ''):
         
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()    
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
      
                 sTitle = aEntry[1]
                 
@@ -324,7 +312,6 @@ def showSearchSeries(sSearch = ''):
                 
                 oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', sTitle, '', oOutputParameterHandler)
 
-            progress_.VSclose(progress_)
         oGui.setEndOfDirectory() 
 def showSeriesSearch():
     oGui = cGui()
@@ -356,13 +343,8 @@ def showMovies(sSearch = ''):
 	
 	
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             if 'مسلسل' in aEntry[2] or 'موسم' in aEntry[2] or 'الحلقة' in aEntry[2]:
                continue
  
@@ -384,8 +366,6 @@ def showMovies(sSearch = ''):
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
- 
         
  
     if not sSearch:
@@ -418,13 +398,8 @@ def showSeries(sSearch = ''):
 	
     itemList = []
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()    
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("برنامج","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             
@@ -445,7 +420,6 @@ def showSeries(sSearch = ''):
 
                 oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
  
         
  

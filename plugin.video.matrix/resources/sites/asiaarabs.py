@@ -7,7 +7,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
 
 ADDON = addon()
@@ -85,13 +85,8 @@ def showMovies(sSearch = ''):
 	
 	
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             if "مترجم" not in aEntry[1]:
                 continue
             if "مسلسل" in aEntry[1]:
@@ -114,8 +109,6 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('sYear', sYear) 
 			
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     
@@ -127,13 +120,8 @@ def showMovies(sSearch = ''):
         
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()    
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
                 if "youtube" in aEntry[1]:
                     continue
      
@@ -148,7 +136,6 @@ def showMovies(sSearch = ''):
                 
                 oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, '', oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 
 def showSeries(sSearch = ''):
@@ -170,13 +157,8 @@ def showSeries(sSearch = ''):
 	
 	
     if aResult[0]:
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
             if "مترجم" not in aEntry[1]:
                 continue
             if "فيلم" in aEntry[1]:
@@ -194,7 +176,6 @@ def showSeries(sSearch = ''):
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
   # ([^<]+) .+?
 
     
@@ -206,13 +187,8 @@ def showSeries(sSearch = ''):
         
         
         if aResult[0]:
-            total = len(aResult[1])
-            progress_ = progress().VScreate(SITE_NAME)
             oOutputParameterHandler = cOutputParameterHandler()    
             for aEntry in aResult[1]:
-                progress_.VSupdate(progress_, total)
-                if progress_.iscanceled():
-                    break
                 if "youtube" in aEntry[1]:
                     continue
      
@@ -227,7 +203,6 @@ def showSeries(sSearch = ''):
                 
                 oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
 
-            progress_.VSclose(progress_)
         oGui.setEndOfDirectory()
 		
 

@@ -12,7 +12,7 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import progress, VSlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.Styling import getGenreIcon
 
 ADDON = addon()
@@ -55,10 +55,10 @@ ANIM_NEWS = (URL_MAIN+'category/قائمة-الأنمي-b/مسلسلات-أنم�
 
 REPLAYTV_NEWS = (URL_MAIN + 'category/برامج-تلفزيونية/', 'showMovies')
 
-#URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
-#URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
-#URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
-#FUNCTION_SEARCH = 'showSearch'
+URL_SEARCH = (URL_MAIN + '?s=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + '?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '?s=', 'showSeries')
+FUNCTION_SEARCH = 'showSearch'
  
 def load():
     oGui = cGui()
@@ -177,13 +177,8 @@ def showMovies(sSearch = ''):
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
     if aResult[0] :
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
  
             if "مسلسل"  in aEntry[1]:
                 continue
@@ -215,10 +210,6 @@ def showMovies(sSearch = ''):
 
             oGui.addMovie(SITE_IDENTIFIER, 'showHosters2', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-        progress_.VSclose(progress_)
- 
-        
- 
     if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
@@ -249,13 +240,8 @@ def showSeries(sSearch = ''):
 	
     itemsList = []
     if aResult[0] :
-        total = len(aResult[1])
-        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
-            progress_.VSupdate(progress_, total)
-            if progress_.iscanceled():
-                break
 
             if "فيلم"  in aEntry[1]:
                 continue
@@ -280,7 +266,6 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 
                 oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
-        progress_.VSclose(progress_)
  
         
         
