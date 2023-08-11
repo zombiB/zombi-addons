@@ -1,15 +1,17 @@
 #-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
-
+import re
+from resources.lib.util import Unquote
 class iHoster:
 
-    def __init__(self, pluginIdentifier, displayName, color = 'skyblue'):
+    def __init__(self, pluginIdentifier, displayName, color='skyblue'):
         self._defaultDisplayName = displayName
         self._displayName = self._defaultDisplayName
         self._fileName = displayName
         self._pluginIdentifier = pluginIdentifier
         self.color = color
         self._url = None
+        self._mediaFile = None
 
     def getPluginIdentifier(self):
         return self._pluginIdentifier
@@ -26,6 +28,9 @@ class iHoster:
     def setDisplayName(self, displayName):
         self._displayName = displayName + ' [COLOR ' + self.color + ']' + self._defaultDisplayName + '[/COLOR]'
 
+    def setMediaFile(self, mediaFile):
+        self._mediaFile = mediaFile
+
     def isDownloadable(self):
         return True
 
@@ -37,6 +42,24 @@ class iHoster:
 
     def getMediaLink(self):
         return self._getMediaLinkForGuest()
+
+    # nom du fichier, interessant pour afficher la release
+    def getMediaFile(self):
+        mediaFile = self._mediaFile
+        if not mediaFile: 
+            mediaFile = self._url
+            if not mediaFile:
+                return None
+        if mediaFile[-4:] not in '.mkv.avi.mp4.m4v.iso':
+            return None
+        
+        sMediaFile = mediaFile[:-4]
+        sMediaFile = Unquote(sMediaFile.split('/')[-1])
+        sMediaFile = re.sub('TM\d+TM', '', sMediaFile)
+        sMediaFile = re.sub('RES-.+?-RES', '', sMediaFile)
+        sMediaFile = sMediaFile.replace('.', ' ')
+        sMediaFile = sMediaFile.replace('_', ' ')
+        return sMediaFile
 
     def _getMediaLinkForGuest(self):
         raise NotImplementedError()

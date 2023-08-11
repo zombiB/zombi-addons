@@ -73,7 +73,7 @@ class UpNext:
 
         try:
             # sauvegarde des parametres d'appel
-            oldParams = sys.argv[2] 
+            oldParams = sys.argv[2]
             
             sHosterIdentifier, sMediaUrl, nextTitle, sDesc, sThumb = self.getMediaUrl(sSiteName, nextSaisonFunc, sParams, sSaison, nextEpisode, sLang, sHosterIdentifier)
 
@@ -97,6 +97,9 @@ class UpNext:
             episodeTitle = nextTitle
 
             saisonUrl = oInputParameterHandler.getValue('saisonUrl')
+            siteUrl = oInputParameterHandler.getValue('siteUrl')
+            sourceFav = oInputParameterHandler.getValue('sourceFav')
+            
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('sHosterIdentifier', sHosterIdentifier)
             oOutputParameterHandler.addParameter('sourceName', sSiteName)
@@ -111,9 +114,12 @@ class UpNext:
             oOutputParameterHandler.addParameter('sSeason', sSaison)
             oOutputParameterHandler.addParameter('sEpisode', sNextEpisode)
             oOutputParameterHandler.addParameter('sLang', sLang)
-            oOutputParameterHandler.addParameter('tvshowtitle', tvShowTitle)
+            oOutputParameterHandler.addParameter('tvShowTitle', tvShowTitle)
             oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
 
+            # gestion Marqué VU
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sourceFav', sourceFav)
             sParams = oOutputParameterHandler.getParameterAsUri()
             url = 'plugin://plugin.video.matrix/?site=cHosterGui&function=play&%s' % sParams
 
@@ -292,7 +298,7 @@ class UpNext:
                     return False
 
                 return True  # addon activé
-            else:                          # UpNext non installé, on l'installe et on l'utilise
+            else:  # UpNext non installé, on l'installe et on l'utilise
                 addonManager().installAddon(upnext_id)
                 # ce n'est pas pris en compte à l'installation de l'addon, donc return False, il faudra attendre le prochain épisode
                 return False

@@ -16,6 +16,7 @@ class cHosterGui:
     
     # step 1 - bGetRedirectUrl in ein extra optionsObject verpacken
     def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False):
+        oHoster.setUrl(sMediaUrl)
         oOutputParameterHandler = cOutputParameterHandler()
         oInputParameterHandler = cInputParameterHandler()
 
@@ -23,6 +24,8 @@ class cHosterGui:
         siteUrl = oInputParameterHandler.getValue('siteUrl')
         site = oInputParameterHandler.getValue('site')
         saisonUrl = oInputParameterHandler.getValue('saisonUrl')
+        sSeason = oInputParameterHandler.getValue('sSeason')
+        sEpisode = oInputParameterHandler.getValue('sEpisode')
         nextSaisonFunc = oInputParameterHandler.getValue('nextSaisonFunc')
         movieUrl = oInputParameterHandler.getValue('movieUrl')
         movieFunc = oInputParameterHandler.getValue('movieFunc')
@@ -30,14 +33,12 @@ class cHosterGui:
         sRes = oInputParameterHandler.getValue('sRes')
         sTmdbId = oInputParameterHandler.getValue('sTmdbId')
         sFav = oInputParameterHandler.getValue('sFav')
-        sThumb = oInputParameterHandler.getValue('sThumb')
         if not sFav:
             sFav = oInputParameterHandler.getValue('function')
 
         oGuiElement = cGuiElement()
         oGuiElement.setSiteName(self.SITE_NAME)
         oGuiElement.setFunction('play')
-        oGuiElement.setTitle(oHoster.getDisplayName())
 
         # Catégorie de lecture
         if oInputParameterHandler.exist('sCat'):
@@ -60,16 +61,31 @@ class cHosterGui:
         if sThumbnail:
             oGuiElement.setThumbnail(sThumbnail)
             oGuiElement.setPoster(sThumbnail)
-            oGuiElement.setIcon(sThumbnail)
             
-        title = oGuiElement.getCleanTitle()
+        sMediaFile = oHoster.getMediaFile()
+        if sMediaFile:  # Afficher le nom du fichier plutot que le titre
+            oGuiElement.setMediaUrl(sMediaFile)
+            if self.ADDON.getSetting('display_info_file') == 'true':
+                oHoster.setDisplayName(sMediaFile)
+                oGuiElement.setTitle(oHoster.getFileName())  # permet de calculer le cleanTitle
+                oGuiElement.setRawTitle(oHoster.getDisplayName())   # remplace le titre par le lien
+            else:
+                oGuiElement.setTitle(oHoster.getDisplayName())
+        else:
+            oGuiElement.setTitle(oHoster.getDisplayName())
 
+
+        title = oGuiElement.getCleanTitle()
+        tvShowTitle = oGuiElement.getItemValue('tvshowtitle')
         oOutputParameterHandler.addParameter('sMediaUrl', sMediaUrl)
         oOutputParameterHandler.addParameter('sHosterIdentifier', oHoster.getPluginIdentifier())
         oOutputParameterHandler.addParameter('bGetRedirectUrl', bGetRedirectUrl)
         oOutputParameterHandler.addParameter('sFileName', oHoster.getFileName())
         oOutputParameterHandler.addParameter('sTitleWatched', oGuiElement.getTitleWatched())
+        oOutputParameterHandler.addParameter('tvShowTitle', tvShowTitle)
         oOutputParameterHandler.addParameter('sTitle', title)
+        oOutputParameterHandler.addParameter('sSeason', sSeason)
+        oOutputParameterHandler.addParameter('sEpisode', sEpisode)
         oOutputParameterHandler.addParameter('sLang', sLang)
         oOutputParameterHandler.addParameter('sRes', sRes)
         oOutputParameterHandler.addParameter('sId', 'cHosterGui')
@@ -123,7 +139,7 @@ class cHosterGui:
             for i in accept:
                 if host == i:
                     oGui.createSimpleMenu(oGuiElement, oOutputParameterHandler, 'siteuptobox', 'siteuptobox', 'upToMyAccount', self.ADDON.VSlang(30325))
-
+                    break
         # onefichier
         if cInputParameterHandler().getValue('site') != 'siteonefichier' and self.ADDON.getSetting('hoster_onefichier_premium') == 'true':
             host = oHoster.getPluginIdentifier()

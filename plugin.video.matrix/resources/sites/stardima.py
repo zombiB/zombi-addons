@@ -21,13 +21,25 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
+oParser = cParser()
+ 
+oRequestHandler = cRequestHandler(URL_MAIN)
+sHtmlContent = oRequestHandler.request()
+    # (.+?) ([^<]+)
+
+sPattern = 'class="logo"><a href="(.+?)"><img'
+aResult = oParser.parse(sHtmlContent, sPattern)
+    
+if (aResult[0]):
+    URL_MAIN = aResult[1][0]
+    VSlog(URL_MAIN)
 KID_MOVIES = (URL_MAIN + '/movies/#gsc.tab=0', 'showMovies')
 KID_CARTOON = (URL_MAIN + '/tvshows/#gsc.tab=0', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeriesSearch')
 
-URL_SEARCH_MOVIES = ('https://stardima.co/watch/?s=', 'showMoviesSearch')
-URL_SEARCH_ANIMS = ('https://stardima.co/watch/?s=', 'showSeriesSearch')
+URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesSearch')
+URL_SEARCH_ANIMS = (URL_MAIN + '/?s=', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeries'
  
 def load():
@@ -53,7 +65,7 @@ def showSearchMovies():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://stardima.co/watch/?s='+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showMoviesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -63,7 +75,7 @@ def showSearchSeries():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://stardima.co/watch/?s='+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showSeriesSearch(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -330,7 +342,6 @@ def __checkForNextPage(sHtmlContent):
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-    VSlog(aResult)
  
     if aResult[0]:
         
@@ -359,7 +370,7 @@ def showHosters():
     if aResult[0]:
        total = len(aResult[1])
        for aEntry in aResult[1]:       
-           url = 'https://www.stardima.co/watch/player/player.php?slug='+aEntry
+           url = URL_MAIN + '/player/player.php?slug='+aEntry
 				
 					
             
@@ -386,8 +397,8 @@ def showHosters():
            s = requests.Session()            
            headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'cookie': cook,
-							'host': 'stardima.co',
-							'origin': 'https://stardima.co',
+							'host': 'w1.stardima.sbs',
+							'origin': 'https://w1.stardima.sbs',
 							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
            r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
@@ -434,8 +445,8 @@ def showHosters():
            s = requests.Session()            
            headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'cookie': cook,
-							'host': 'stardima.co',
-							'origin': 'https://stardima.co',
+							'host': 'w1.stardima.sbs',
+							'origin': 'https://w1.stardima.sbs',
 							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
            r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
@@ -454,7 +465,6 @@ def showHosters():
               for aEntry in aResult[1]:       
                   url = aEntry
                   url = base64.b64decode(url).decode("utf-8")
-                  VSlog(url)
                   if '/?id=' in url:
                      url = url.split('/?id=', 1)[1]
                   if url.startswith('//'):
