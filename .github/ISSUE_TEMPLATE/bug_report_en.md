@@ -1,14 +1,11 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
-assignees:
-  - zombiB
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
+---
+name: Bug report
+about: Create a report to help us improve, make sure to include a full debug log. 
+title: "[BUG] "
+labels: bug
+assignees: zombiB
+
+---
 
 1-Describe the bug:
 
