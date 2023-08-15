@@ -296,13 +296,13 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301044)), icons + '/Japanese.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_THAI')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301045)), icons + '/Thai.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301045)), icons + '/Thai.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_VIET')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301046)), icons + '/Vietnamese.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301046)), icons + '/Vietnamese.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_TA')
-        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30121), self.addons.VSlang(301047)), icons + '/Taiwanese.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(301047)), icons + '/Taiwanese.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'MOVIE_HI')
         oGui.addDir(SITE_IDENTIFIER, 'callpluging', '%s (%s)' % (self.addons.VSlang(30120), self.addons.VSlang(30103)), icons + '/Hindi.png', oOutputParameterHandler)

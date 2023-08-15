@@ -193,6 +193,7 @@ c'est le changelog de la beta !        <setting label="30036" type="action" acti
         <setting id="debug" type="bool" label="30422" default="true"/>
         
         <setting label="30033" type="lsep"/>
+        <setting label="loguploader" type="action" option="close" action="RunScript(script.kodi.loguploader, loguploader)"/>
 
         <setting subsetting="true" label="30055" type="lsep"/>
         <setting label="Import/Export" type="action" action="RunScript(plugin.video.matrix, sauv, ?site=globalRun&amp;function=sauv)"/>

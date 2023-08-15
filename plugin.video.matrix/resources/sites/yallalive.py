@@ -42,7 +42,12 @@ def showMovies():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+
     oParser = cParser()
+     # (.+?) ([^<]+) .+?
+    sStart = '<div id="today"'
+    sEnd = '<div id="tommorw"'
+    sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 	# (.+?) .+? 
     sPattern = '<a class="AF_EvLink" href="(.+?)" target="_blank" title.+?class="AF_TeamLogo"><img alt="(.+?)" title.+?src="(.+?)" width=.+?<div class="AF_EvTime">(.+?)</div><div.+?<div class="AF_TeamLogo"><img alt="(.+?)" title='
 

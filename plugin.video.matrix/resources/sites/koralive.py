@@ -22,7 +22,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = (URL_MAIN, 'showMovies')
+SPORT_LIVE = (URL_MAIN + '/p/matches-today-koora360.html', 'showMovies')
 
  
 def load():

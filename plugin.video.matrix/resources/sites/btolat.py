@@ -139,7 +139,7 @@ def showMovies(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl', sUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, 'doc.png', sThumb, sDesc, oOutputParameterHandler)
+            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
 
 
@@ -194,7 +194,7 @@ def __checkForNextPage(sHtmlContent):
     aResult = oParser.parse(sHtmlContent, sPattern)
     
     if aResult[0]:
-        nPage = URL_MAIN+'video/LoadMore?VideoID='+aResult[1][0]+'&cat='
+        nPage = URL_MAIN+'/video/LoadMore?VideoID='+aResult[1][0]+'&cat='
         return nPage
 
 
@@ -227,7 +227,7 @@ def showHosters():
         sHtmlContent2 = oRequest.request()
     
  
-    sPattern = ",src:{hls:'(.+?)'}" 
+    sPattern = ",source:'(.+?)'," 
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
