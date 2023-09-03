@@ -8,7 +8,7 @@ from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import vlog, siteManager, addon
+from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
 
 ADDON = addon()

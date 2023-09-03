@@ -227,7 +227,7 @@ def showHosters():
         sHtmlContent2 = oRequest.request()
     
  
-    sPattern = ",source:'(.+?)'," 
+    sPattern = "src:{hls:'(.+?)'}" 
     aResult = oParser.parse(sHtmlContent2, sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:

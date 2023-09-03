@@ -26,6 +26,7 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         sUrl = self._url
+        api_call = ''
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()

@@ -24,8 +24,10 @@ class cHoster(iHoster):
         self._url = str(url)
 
     def _getMediaLinkForGuest(self):
+        VSlog(self._url)
 
         url = self._url
+        api_call = ''
         
         oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('user-agent',UA)

@@ -112,6 +112,9 @@ def showMovies(sSearch = ''):
             if "مقال" in aEntry[0]:
                 continue
  
+            if "مقال" in aEntry[0]:
+                continue
+ 
             sTitle = aEntry[0]
             sTitle = cUtil().unescape(sTitle)
             sThumb = aEntry[2]
