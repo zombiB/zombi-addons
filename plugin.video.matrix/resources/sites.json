@@ -53,17 +53,17 @@
         "animeblkom": {
             "label": "Animeblkom",
             "active": "True",
-            "url": "https://animeblkom.net/"
+            "url": "https://blkom.com/"
         },
         "animeup": {
             "label": "Anime4up",
             "active": "True",
-            "url": "https://w1.anime4up.tv/"
+            "url": "https://anime4up.com/"
         },
         "animezid": {
             "label": "Animezid",
             "active": "True",
-            "url": "https://animezid.net/"
+            "url": "https://animezid.org/"
         },
         "arabsciences": {
             "label": "Arabsciences",
