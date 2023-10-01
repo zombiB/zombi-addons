@@ -51,6 +51,7 @@ class cHoster(iHoster):
         sPattern =  '"origin":"(.+?)","url":"(.+?)",'
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(sHtmlContent)
         VSlog(aResult)
 
         if aResult[0]:

@@ -43,6 +43,7 @@ def showMovies(sSearch = ''):
 # ([^<]+) .+? (.+?)
     sPattern = '<a class="list-item-link" href="(.+?)" title="(.+?)">.+?<img src="(.+?)" width='
 
+                            
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	

@@ -23,7 +23,6 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('user-agent',UA)
         oRequest.addHeaderEntry('Referer',sReferer)
         sHtmlContent = oRequest.request()
-        VSlog(sReferer)
         
         oParser = cParser()
         
@@ -31,7 +30,6 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if (aResult[0] == True):
             sHtmlContent = cPacker().unpack(aResult[1][0])
-        VSlog(sHtmlContent)
         
         
             # (.+?) .+?

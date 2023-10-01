@@ -98,7 +98,7 @@ def showHosters():
     oRequestHandler = cRequestHandler(sUrl)
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'yallalive.id','Referer' : 'https://yallalive.id/'}
     St=requests.Session()              
-    sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')        
+    sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')  
 
     # (.+?) .+? ([^<]+)
     sPattern = 'href="(.+?)" target="search_iframe">(.+?)</a>'
@@ -111,20 +111,24 @@ def showHosters():
                 url = url.split('=')[1] 
             if '.php' in url:           
                 oRequestHandler = cRequestHandler(url)
-                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','referer' : 'https://riyadh.himtree.com/'}
+                hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','referer' : 'https://ddolahdplay.xyz/'}
                 St=requests.Session()
                 sHtmlContent = St.get(url,headers=hdr)
-                sHtmlContent2 = sHtmlContent.content 
+                sHtmlContent2 = sHtmlContent.content.decode('utf-8')  
                 sPattern =  'src="(.+?)"'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if aResult[0]:
                    url = aResult[1][0]
-                sPattern =  '(http[^<]+m3u8)'
+                sPattern =  ":'(http[^<]+m3u8)'"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if aResult[0]:
                    url = aResult[1][0]
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
+                aResult = oParser.parse(sHtmlContent2,sPattern)
+                if aResult[0]:
+                   url = aResult[1][0]
+                sPattern =  "source:'(.+?)',"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
                 if aResult[0]:
                    url = aResult[1][0]
@@ -134,7 +138,7 @@ def showHosters():
                    url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = St.get(url).content.decode('utf-8') 
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -142,7 +146,7 @@ def showHosters():
                    url = aResult[1][0]
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent4 = St.get(url).content
+                sHtmlContent4 = St.get(url).content.decode('utf-8') 
                 regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
                 var = re.findall(regx,sHtmlContent4,re.S)
                 if var:
@@ -154,7 +158,7 @@ def showHosters():
             Referer = aEntry[0].split('live')[0]
             VSlog(sHosterUrl)   
             if 'amazonaws.com'  in sHosterUrl:
-                sHosterUrl = url + '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+Referer
+                sHosterUrl = url + '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+url
             if 'vimeo' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + sUrl
             
@@ -173,7 +177,7 @@ def showHosters():
             url = aEntry
             if '.php?' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = St.get(url).content.decode('utf-8') 
                 oParser = cParser()
                 sPattern =  'source: "(.+?)",'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -181,7 +185,7 @@ def showHosters():
                    url = aResult[1][0]
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = St.get(url).content.decode('utf-8') 
                 oParser = cParser()
                 sPattern =  'src="(.+?)" scrolling="no">'
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -192,7 +196,7 @@ def showHosters():
                 live = url2[1].replace("&ch","")
                 ch = url2[2]
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent2 = St.get(url).content
+                sHtmlContent2 = St.get(url).content.decode('utf-8') 
                 oParser = cParser()
                 sPattern =  "var src = (.+?),"
                 aResult = oParser.parse(sHtmlContent2,sPattern)
@@ -203,7 +207,7 @@ def showHosters():
                     url = url2+live+'/'+ch+'.m3u8'
             if '/dash/' in url:
                 oRequestHandler = cRequestHandler(url)
-                sHtmlContent4 = St.get(url).content
+                sHtmlContent4 = St.get(url).content.decode('utf-8') 
                 regx = '''var s = '(.+?)';.+?url="(.+?)".+?s;'''
                 var = re.findall(regx,sHtmlContent4,re.S)
                 if var:

@@ -14,17 +14,16 @@ class cInputWindow(xbmcgui.WindowDialog):
 
         DimTab = kwargs.get('dimtab')
         self.DimTabTotal = DimTab[0] * DimTab[1]
-        # ADDON = addon()
-        # icons = ADDON.getSetting('defaultIcons')
-        
-        bg_image = 'special://home/addons/plugin.video.vstream/resources/art/background.png'
-        check_image = 'special://home/addons/plugin.video.vstream/resources/art/trans_checked.png'
+
+        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
+        check_image = 'special://home/addons/plugin.video.matrix/resources/art/trans_checked.png'
+        sel_image = 'special://home/addons/plugin.video.matrix/resources/art/sel.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
         self.addControl(self.ctrlBackground)
 
-        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, 'Le theme est : ' + kwargs.get('msg'), 'font40', '0xFFFF00FF')
+        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, 'The theme is : ' + kwargs.get('msg'), 'font40', '0xFFFF00FF')
         self.addControl(self.strActionInfo)
 
         self.img = xbmcgui.ControlImage(250, 110, 780, 499, str(self.cptloc))
@@ -45,7 +44,7 @@ class cInputWindow(xbmcgui.WindowDialog):
             for x in range(DimTab[0]):
 
                 self.chk[c] = xbmcgui.ControlImage(ox + cx * x, oy + cy * y, cx, cy, check_image)
-                self.chkbutton[c] = xbmcgui.ControlButton(ox + cx * x, oy + cy * y, cx, cy, str(c + 1), font='font1')
+                self.chkbutton[c] = xbmcgui.ControlButton(ox + cx * x, oy + cy * y, cx, cy, str(c + 1), sel_image)
                 c += 1
 
         for obj in self.chk:
@@ -148,7 +147,7 @@ class cInputWindowYesNo(xbmcgui.WindowDialog):
     def __init__(self, *args, **kwargs):
         self.cptloc = kwargs.get('captcha')
 
-        bg_image = 'special://home/addons/plugin.video.vstream/resources/art/background.png'
+        bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
