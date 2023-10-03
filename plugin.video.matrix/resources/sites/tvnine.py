@@ -47,7 +47,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class=\"containerMatch\"><a href=\"(.+?)\" target=.+?src=\"(.+?)\".+?<div style=\"font-weight: bold\">(.+?)</div>.+?<div class=\"matchTime\">(.+?)</div>.+?<div style=\"font-weight: bold\">(.+?)</div>'
+    sPattern = '<div class="containerMatch"><a href="(.+?)"><div class="row">.+?<img alt="Image" src="(.+?)" style.+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
 
 
 
@@ -551,6 +551,7 @@ def showLive():
 				
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -610,6 +611,7 @@ def showLive():
             sPattern = 'url.+?(http.+?m3u8)'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
                    if 'm3u8' not in url:
                        continue
@@ -629,6 +631,7 @@ def showLive():
             sPattern = 'file: "(.+?)",'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -651,6 +654,7 @@ def showLive():
             sPattern = '<iframe src=".+?stream_url=(.+?)" height'
             aResult = oParser.parse(data, sPattern)
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
             
                    url = aEntry
@@ -673,6 +677,7 @@ def showLive():
             aResult = oParser.parse(data, sPattern)
             
             if aResult[0]:
+               oOutputParameterHandler = cOutputParameterHandler()
                for aEntry in aResult[1]:
                    sContent = aEntry.replace("(unescape('","").replace("'))","")
                    import urllib

@@ -45,7 +45,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<div class="match-container"><a href="([^"]+)".+?title="([^"]+)".+?id="result">(.+?)</div>.+?data-start=["\']([^"\']+)["\']'
+    sPattern = '<div class="match-container"> <a href="(.+?)" target="_blank".+?<img alt="(.+?)" src="(.+?)" title.+?id="result">(.+?)</div>.+?<div class="team-logo"> <img alt="(.+?)" src'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 
@@ -57,16 +57,16 @@ def showMovies():
             else:
                 sCondition = "الروابط متاحة \n \n"
  
-            sTitle =  aEntry[1]
+            sTitle =  aEntry[1]+'-'+aEntry[4]
 
             if 'مباراة' in sTitle:
                 sTitle = sTitle.split('مباراة')[1]
                 if 'كورة' in sTitle:
                     sTitle = sTitle.split('كورة')[0]
-            sThumb = ''
+            sThumb = aEntry[2]
             siteUrl =  aEntry[0]
 
-            sDesc = sCondition + f'وقت المباراة \n {aEntry[3].split("T")[1]}GMT \n \n النتيجة \n {aEntry[2]}'
+            sDesc = sCondition + aEntry[3]
 			
 			
 
@@ -90,7 +90,21 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    if '.mp4' in sUrl:
+        oOutputParameterHandler = cOutputParameterHandler()
+        sTitle = ' نتيجة مباراة ' + sMovieTitle
+        url = sUrl.split('src=')[1]
+            
+                
+        sHosterUrl = url
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        sHosterUrl = sHosterUrl 
+        if oHoster:
+           oHoster.setDisplayName(sTitle)
+           oHoster.setFileName(sTitle)
+           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
+    murl = ''
     sPattern = 'iframe.src = ["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:

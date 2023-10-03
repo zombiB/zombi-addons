@@ -233,7 +233,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://yalla.360koralive.com/"
+            "url": "https://online.360kora-live.com/"
         },
         "linkbox": {
             "label": "Telebox",
@@ -328,7 +328,7 @@
         "tvnine": {
             "label": "Tv96",
             "active": "True",
-            "url": "https://www.tv96.tv/"
+            "url": "https://m.tv96.me/"
         },
         "watanflix": {
             "label": "Watanflix",
