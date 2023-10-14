@@ -11,7 +11,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog, siteManager, dialog, addon
 from resources.lib.util import cUtil, Unquote, urlEncode, Quote
-
+from resources.lib import librecaptcha
 
 try:  # Python 2
     import urllib2
@@ -23,6 +23,7 @@ except ImportError:  # Python 3
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
 
 SITE_IDENTIFIER = 'akwam'
 SITE_NAME = 'Akwam'
@@ -56,7 +57,7 @@ DOC_SERIES = (URL_MAIN + '/shows?section=46&category=0&rating=0&year=0&formats=0
 
 REPLAYTV_NEWS = (URL_MAIN + '/shows?section=42', 'showSeries')
 THEATER = (URL_MAIN + '/shows?section=45', 'showMovies')
-
+SPORT_WWE = (URL_MAIN + '/shows?section=43&category=0&rating=0&year=0&formats=0&quality=0', 'showMovies')
 MOVIE_ANNEES = (True, 'showYears')
 
 URL_SEARCH = (URL_MAIN + '/search?q=', 'showSeries')
@@ -602,10 +603,32 @@ def showHosters():
         VSlog('Following url: ' + str(murl))
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
-        #VSlog(str(sHtmlContent))
-            
-# ([^<]+) .+? (.+?)
-    sPattern =  '>Click here</span> to go for your link...</a>.*[\s]*<a href=\"(.+?)\"' 
+
+        sPattern =  "site_url = '([^']+)" 
+        aResult = oParser.parse(sHtmlContent,sPattern)    
+
+
+        if aResult[0]:
+            URL_MAIN =  aResult[1][0]
+
+        import requests
+        s = requests.Session() 
+
+        token = librecaptcha.get_token(api_key="6LdMb-QZAAAAAPpUMcYZSn9CpIgBqDVAfTx_SAao", site_url=sUrl, user_agent=UA,
+                                      gui=False, debug=False)
+        data = {'g-recaptcha-response':token}
+        url = URL_MAIN+'verify'
+        headers = {'User-Agent': UA,
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Referer': murl,
+                    'Content-Type': 'application/x-www-form-urlencoded'}
+        r = s.post(url,data=data,headers=headers)
+        rt = s.get(murl)
+        sHtmlContent = rt.text
+
+    sPattern =  '>Click here</span>.+?<a href="([^"]+)' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     
     if aResult[0]:

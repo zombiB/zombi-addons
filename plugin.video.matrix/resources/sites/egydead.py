@@ -175,7 +175,7 @@ def showMoviesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<li class="movieItem"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)">'
+    sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
 	
 
     oParser = cParser()
@@ -227,7 +227,7 @@ def showSearchSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<li class="movieItem"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)">'
+    sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
 	
 
     oParser = cParser()
@@ -311,7 +311,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<li class="movieItem"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)">'
+    sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -362,7 +362,7 @@ def showPack(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 
-    sPattern = '<li class="movieItem"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)">'
+    sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -412,7 +412,7 @@ def showPacks():
 	if aResult[0]:
 		sHtmlContent = aResult[1][0] 
  # ([^<]+) .+?
-		sPattern = '<li class="movieItem"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)">'
+		sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
 
 		oParser = cParser()
 		aResult = oParser.parse(sHtmlContent, sPattern)
@@ -454,7 +454,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 # ([^<]+) .+?
-    sPattern = '<li class="movieItem"><a href="([^<]+)" title="([^<]+)"><img src="([^<]+)">'
+    sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="([^<]+)">\s*<img src="([^<]+)">'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -532,7 +532,7 @@ def showSeasons():
     sEnd = '<div class="related-posts">'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     # .+? ([^<]+) (.+?)
-    sPattern = '<li class="movieItem"><a href="([^<]+)" title="(.+?)"><img src="(.+?)">'
+    sPattern = '<li class="movieItem">\s*<a href="([^<]+)" title="(.+?)">\s*<img src="(.+?)">'
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

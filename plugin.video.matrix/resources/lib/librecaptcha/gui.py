@@ -1,9 +1,7 @@
 import xbmcaddon
 import xbmcvfs
 import xbmcgui
-
-from resources.lib.comaddon import VSlog
-
+import six
 
 class cInputWindow(xbmcgui.WindowDialog):
 
@@ -16,14 +14,15 @@ class cInputWindow(xbmcgui.WindowDialog):
         self.DimTabTotal = DimTab[0] * DimTab[1]
 
         bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
-        check_image = 'special://home/addons/plugin.video.matrix/resources/art/trans_checked.png'
-        sel_image = 'special://home/addons/plugin.video.matrix/resources/art/sel.png'
+        check_image = 'special://home/addons/plugin.video.matrix/resources/art/sel.png'
+        button_fo = 'special://home/addons/plugin.video.matrix/resources/art/box_fi.png'
+        button_nofo = 'special://home/addons/plugin.video.matrix/resources/art/box_tr.png'       
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
         self.addControl(self.ctrlBackground)
-
-        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, 'The theme is : ' + kwargs.get('msg'), 'font40', '0xFFFF00FF')
+        
+        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, 'The theme is : ' + kwargs.get('msg'), 'font13', '0xFFFF00FF')
         self.addControl(self.strActionInfo)
 
         self.img = xbmcgui.ControlImage(250, 110, 780, 499, str(self.cptloc))
@@ -44,7 +43,7 @@ class cInputWindow(xbmcgui.WindowDialog):
             for x in range(DimTab[0]):
 
                 self.chk[c] = xbmcgui.ControlImage(ox + cx * x, oy + cy * y, cx, cy, check_image)
-                self.chkbutton[c] = xbmcgui.ControlButton(ox + cx * x, oy + cy * y, cx, cy, str(c + 1), sel_image)
+                self.chkbutton[c] = xbmcgui.ControlButton(ox + cx * x, oy + cy * y, cx, cy, str(c + 1), font='font1', focusTexture=button_fo, noFocusTexture=button_nofo)
                 c += 1
 
         for obj in self.chk:
@@ -53,8 +52,8 @@ class cInputWindow(xbmcgui.WindowDialog):
         for obj in self.chkbutton:
             self.addControl(obj)
 
-        self.cancelbutton = xbmcgui.ControlButton(250 + 260 - 70, 620, 140, 50, 'Cancel', alignment=2)
-        self.okbutton = xbmcgui.ControlButton(250 + 520 - 50, 620, 100, 50, 'OK', alignment=2)
+        self.cancelbutton = xbmcgui.ControlButton(250 + 260 - 70, 620, 140, 50, six.ensure_str('Cancel'), focusTexture=button_fo, noFocusTexture=button_nofo, alignment=4)
+        self.okbutton = xbmcgui.ControlButton(250 + 520 - 50, 620, 100, 50, six.ensure_str('OK'), focusTexture=button_fo, noFocusTexture=button_nofo, alignment=4)
         self.addControl(self.okbutton)
         self.addControl(self.cancelbutton)
 
@@ -146,21 +145,23 @@ class cInputWindow(xbmcgui.WindowDialog):
 class cInputWindowYesNo(xbmcgui.WindowDialog):
     def __init__(self, *args, **kwargs):
         self.cptloc = kwargs.get('captcha')
-
+        
         bg_image = 'special://home/addons/plugin.video.matrix/resources/art/background.png'
+        button_fo = 'special://home/addons/plugin.video.matrix/resources/art/box_fi.png'
+        button_nofo = 'special://home/addons/plugin.video.matrix/resources/art/box_tr.png'
 
         self.ctrlBackground = xbmcgui.ControlImage(0, 0, 1280, 720, bg_image)
         self.cancelled = False
         self.addControl(self.ctrlBackground)
-
-        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, kwargs.get('msg'), 'font40', '0xFFFF00FF')
+        
+        self.strActionInfo = xbmcgui.ControlLabel(250, 20, 724, 400, kwargs.get('msg'), 'font13', '0xFFFF00FF')
         self.addControl(self.strActionInfo)
 
         self.img = xbmcgui.ControlImage(500, 250, 280, 280, str(self.cptloc))
         self.addControl(self.img)
 
-        self.Yesbutton = xbmcgui.ControlButton(250 + 520 - 50, 620, 100, 50, 'Yes', alignment=2)
-        self.Nobutton = xbmcgui.ControlButton(250 + 260 - 70, 620, 140, 50, 'No', alignment=2)
+        self.Yesbutton = xbmcgui.ControlButton(250 + 520 - 50, 620, 100, 50, six.ensure_str('Yes'), focusTexture=button_fo, noFocusTexture=button_nofo, alignment=4)
+        self.Nobutton = xbmcgui.ControlButton(250 + 260 - 70, 620, 140, 50,  six.ensure_str('No'), focusTexture=button_fo, noFocusTexture=button_nofo, alignment=4)
         self.addControl(self.Yesbutton)
         self.addControl(self.Nobutton)
         self.setFocus(self.Yesbutton)

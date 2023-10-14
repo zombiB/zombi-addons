@@ -243,6 +243,12 @@ def showLive():
                       url = url.split('?src=')[1]
                    if 'href.li' in url:
                       url = url.replace("https://href.li/?","") 
+                   if 'realbit' in url:
+                      url = getHosterIframe(url,sUrl) 
+                   if 'sportsonline' in url:
+                      url = getHosterIframe(url,sUrl) 
+                   if 'dinnn' in url:
+                      url = getHosterIframe(url,sUrl)  
                    if ".php" or ".html" in url:
                        oRequestHandler = cRequestHandler(url)
                        data = oRequestHandler.request() 

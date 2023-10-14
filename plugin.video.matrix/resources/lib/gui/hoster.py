@@ -249,7 +249,9 @@ class cHosterGui:
         if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName):
             return self.getHoster('streamhide')
         if ('vidpro' in sHostName):
-            return self.getHoster('samashare')				
+            return self.getHoster('samashare')	
+        if ('ankrzkz' in sHostName):
+            return self.getHoster('ankrzkz')				
         if ('.aflam' in sHosterUrl):
             return self.getHoster('mixloads')			
         if ('mixloads' in sHosterUrl):
