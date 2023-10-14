@@ -95,6 +95,11 @@
             "active": "True",
             "url": "https://www.asia4arabs.com/"
         },
+        "asharq": {
+            "label": "asharq",
+            "active": "True",
+            "url": "https://now.asharq.com"
+        },
         "awaan": {
             "label": "Awaan",
             "active": "True",
@@ -318,7 +323,7 @@
         "tuktukcinema": {
             "label": "Tuktukcinema",
             "active": "True",
-            "url": "https://w.tuktukcinema.tv/"
+            "url": "https://ww.tuktukcima.com/"
         },
         "tvfun": {
             "label": "Tvfun",

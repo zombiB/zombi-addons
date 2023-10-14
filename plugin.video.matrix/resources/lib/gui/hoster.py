@@ -254,6 +254,10 @@ class cHosterGui:
             return self.getHoster('mixloads')			
         if ('mixloads' in sHosterUrl):
             return self.getHoster('mixloads')
+        if ('lumiawatch' in sHostName):
+            return self.getHoster('lumiawatch')
+        if ('volvovideo' in sHostName):
+            return self.getHoster('volvovideo')
         if ('filelions' in sHostName):
             return self.getHoster('filelions')
         if ('streamwish' in sHostName):

@@ -374,6 +374,27 @@ def showEpisodes():
         sNote = aResult[1][0]
 # ([^<]+) .+? 
     sPattern = "<div class='imagen'><a href='([^<]+)'><img src='([^<]+)'></a></div><div class='numerando'>([^<]+)</div><div class='episodiotitle'><a href='.+?'>([^<]+)</a> <span class='date'>"
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+   
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler() 
+        for aEntry in aResult[1]:
+ 
+            sTitle = sMovieTitle+' S'+aEntry[2].replace("- ","E")
+            siteUrl = aEntry[0]
+            s1Thumb = aEntry[1]#.replace("-185x278","").replace("-300x170","")
+            sThumb = re.sub(r'-\d*x\d*.','.', s1Thumb)
+            
+            sDesc =  sDesc
+
+            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+            oGui.addEpisode(SITE_IDENTIFIER, 'showServer', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+# ([^<]+) .+? 
+    sPattern = '<div class="imagen"><a href="([^<]+)"><img src="([^<]+)"></a></div><div class="numerando">([^<]+)</div><div class="episodiotitle"><a href=".+?">([^<]+)</a> <span class="date">'
 
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -453,7 +474,7 @@ def showServer():
 
             sPattern = "<iframe.+?src='(.+?)' frameborder"
             aResult = oParser.parse(sHtmlContent2, sPattern)
-            #VSlog(aResult)
+            VSlog(aResult)
             if aResult[0]:
                for aEntry in aResult[1]:            
                    url = aEntry.replace("%2F","/").replace("%3A",":").replace("https://show.alfajertv.com/jwplayer/?source=","").replace("&type=mp4","").split("&id")[0]

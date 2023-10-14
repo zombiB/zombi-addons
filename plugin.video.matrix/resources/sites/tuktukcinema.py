@@ -344,7 +344,7 @@ def showSeasons():
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
     # .+? ([^<]+)
-	sPattern = '<div class="Block--Item"><a href="([^<]+)" title=""><div class="Poster--Block"><img src=".+?/no.png" alt="([^<]+)" data-srccs="([^<]+)"></div>'
+	sPattern = '<div class="Block--Item"><a href="([^<]+)" title><div class="Poster--Block"><img src=".+?/no.png" alt="([^<]+)" data-srccs="([^<]+)"></div>'
 
 	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
@@ -377,10 +377,14 @@ def showEpisodes():
  
 	oRequestHandler = cRequestHandler(sUrl)
 	sHtmlContent = oRequestHandler.request()
+	oParser = cParser()
+
+	sStart = '<div class="row">'
+	sEnd = 'class="Block--Item">'
+	sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
     # .+? ([^<]+) (.+?)
 	sPattern = '<a href="(.+?)" title=.+?<div class="epnum"><span>الحلقة</span>(.+?)</div></a>'
 
-	oParser = cParser()
 	aResult = oParser.parse(sHtmlContent, sPattern)
 	
 	
@@ -391,6 +395,7 @@ def showEpisodes():
 			sTitle = "E"+aEntry[1].replace("E ","E")
 			sTitle = sMovieTitle+sTitle
 			siteUrl = aEntry[0]+'/watch/'
+			VSlog(siteUrl)
 			sThumb = ""
 			sDesc = ""
 			
@@ -434,6 +439,7 @@ def showHosters():
     sPattern = 'data-link="(.+?)" class='
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult)
 
     if aResult[0]:
         for aEntry in aResult[1]:           
