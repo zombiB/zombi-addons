@@ -20,7 +20,6 @@ class cHoster(iHoster):
         #lien embed obligatoire
         if not 'embed-' in self._url:
             self._url = self._url.rsplit('/', 1)[0] + '/embed-' + self._url.rsplit('/', 1)[1]
-            self._url = self._url+'-750x455.html'
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
