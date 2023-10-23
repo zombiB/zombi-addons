@@ -94,6 +94,7 @@ def showLive():
     if 'data-embed=' in sHtmlContent :
         sPattern = 'data-embed="(.+?)">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
     else :
         sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)

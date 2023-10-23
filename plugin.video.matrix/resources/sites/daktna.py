@@ -69,7 +69,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="thumb"><a href="(.+?)" title="(.+?)"><img src=".+?" alt=".+?" data-src="(.+?)" class='
+    sPattern = '<div class="thumb"><a href="(.+?)"><img src=.+?alt="(.+?)" data-src="(.+?)" class="'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -99,12 +99,32 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 
                 oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+        
+ 
+        sNextPage = __checkForNextPage(sHtmlContent)
+        if sNextPage:
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl', sNextPage)
+            oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
 
         
   # ([^<]+) .+? (.+?)
  
     if not sSearch:
         oGui.setEndOfDirectory()
+ 
+def __checkForNextPage(sHtmlContent):
+    sPattern = 'href="(.+?)"></a><div class="infinite'
+	 # .+? ([^<]+) (.+?)
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+ 
+    if aResult[0]:
+        
+        return URL_MAIN
+
+
+    return False
  
       # (.+?) ([^<]+) .+?
 	
@@ -120,7 +140,7 @@ def showEpisodes():
     sHtmlContent = oRequestHandler.request()
  # ([^<]+) .+? (.+?)
 
-    sPattern = '<a href="([^<]+)" rel="tag">'
+    sPattern = 'class="tags">.+?href="(.+?)" >'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -132,7 +152,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(m3url)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="thumb"><a href="(.+?)" title="(.+?)"><img src=".+?" alt=".+?" data-src="(.+?)" class='
+    sPattern = '<div class="thumb"><a href="(.+?)"><img src=.+?alt="(.+?)" data-src="(.+?)" class="'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -153,7 +173,7 @@ def showEpisodes():
             if m:
                 sEp = str(m.group(0))
                 sEp = ' E'+sEp
-                sTitle = sMovieTitle+sEp
+                sTitle = sEp+sMovieTitle
 
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -185,7 +205,7 @@ def showHosters():
     if (aResult[0]):
         sURL_MAIN = aResult[1][0]
             
-    sPattern =  '<a href="([^<]+)" target="_blank"'
+    sPattern =  'target="_blank" href="(.+?)" rel="nofollow">'
     aResult = oParser.parse(sHtmlContent,sPattern)
     m3url=''
     if aResult[0]:

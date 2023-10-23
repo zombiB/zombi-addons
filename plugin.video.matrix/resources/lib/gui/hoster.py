@@ -223,6 +223,9 @@ class cHosterGui:
         if ('avideo.host' in sHosterUrl):
             return self.getHoster('avideo')     
        
+        if ('hd-cdn' in sHosterUrl):
+            return self.getHoster('hdcdn')    
+       
         if ('vidhls' in sHosterUrl):
             return self.getHoster('vidhls')
 

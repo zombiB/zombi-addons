@@ -50,7 +50,7 @@ def showMovies():
     sEnd = '<div id="tommorw"'
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 	# (.+?) .+? 
-    sPattern = '<a class="AF_EvLink" href="(.+?)" target="_blank" title.+?class="AF_TeamLogo"><img alt="(.+?)" title.+?src="(.+?)" width=.+?<div class="AF_EvTime">(.+?)</div><div.+?<div class="AF_TeamLogo"><img alt="(.+?)" title='
+    sPattern = 'data-start="(.+?)">.+?<img alt="(.+?)" src="(.+?)" width.+?<img alt="(.+?)" src=.+?<a href="(.+?)" target='
 
 
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -60,10 +60,10 @@ def showMovies():
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
-            sTitle =  aEntry[1] +' - '+ aEntry[4]
+            sTitle =  aEntry[1] +' - '+ aEntry[3]
             sThumb = aEntry[2]
-            siteUrl =  aEntry[0]
-            sDesc = aEntry[3]+ " KSA"
+            siteUrl =  aEntry[4]
+            sDesc = aEntry[0]+ " KSA"
 			
 			
 

@@ -20,15 +20,15 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + '/category.php?cat=movieenglish', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category.php?cat=movieenglish', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2023', 'showSeries')
-MOVIE_AR = (URL_MAIN + '/category.php?cat=moviearabic', 'showMovies')
-SERIE_AR = (URL_MAIN + '/category.php?cat=mosalsalatarabia', 'showSeries')
-SERIE_TR = (URL_MAIN + '/category.php?cat=turkish-series', 'showSeries')
+MOVIE_AR = (URL_MAIN + 'category.php?cat=moviearabic', 'showMovies')
+SERIE_AR = (URL_MAIN + 'category.php?cat=mosalsalatarabia', 'showSeries')
+SERIE_TR = (URL_MAIN + 'category.php?cat=turkish-series', 'showSeries')
 
-URL_SEARCH = (URL_MAIN + '/search.php?keywords=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/search.php?keywords=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + '/search.php?keywords=', 'showSeries')
+URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
+URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + 'search.php?keywords=', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
  
 def load():
@@ -149,7 +149,7 @@ def showSeries(sSearch = ''):
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
     # (.+?) .+? ([^<]+)   
-    sPattern = '<div class="pm-video-thumb">.+?<a href="(.+?)" title="(.+?)">.+?data-echo="(.+?)" class'
+    sPattern = '<div class="pm-video-thumb">.+?<a href="(.+?)" title="(.+?)">.+?data-echo="(.+?)" style'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -274,7 +274,7 @@ def showHosters():
     # ([^<]+) .+?
                
 
-    sPattern = "data-embed-url='([^<]+)'>"
+    sPattern = 'data-embed-url="(.+?)">'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 
@@ -299,6 +299,30 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                
 
+    sPattern = "data-embed-url='([^<]+)'>"
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            sHosterUrl = aEntry
+            sTitle =  ""
+            if sHosterUrl.startswith('//'):
+                sHosterUrl = 'http:' + sHosterUrl
+            if 'userload' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+            if 'moshahda' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+            if 'mystream' in sHosterUrl:
+                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN   
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+               
     sPattern = "data-embed='([^<]+)' data"
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
