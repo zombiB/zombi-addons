@@ -2,7 +2,7 @@
     "sites": {
         "aflaam": {
             "label": "Aflaam",
-            "active": "True",
+            "active": "False",
             "url": "https://aflaam.com/"
         },
         "aflamfree": {
@@ -17,12 +17,12 @@
         },
         "akoam": {
             "label": "Akoam",
-            "active": "True",
+            "active": "False",
             "url": "https://akw.to/old/"
         },
         "akwam": {
             "label": "Akwam",
-            "active": "True",
+            "active": "False",
             "url": "https://akwam.cc/"
         },
         "alarab": {
@@ -89,6 +89,11 @@
             "label": "Arblionz",
             "active": "True",
             "url": "https://arlionztv.cam/"
+        },
+        "asia2tv": {
+            "label": "Asia2TV",
+            "active": "True",
+            "url": "https://ww1.asia2tv.pw/"
         },
         "asiaarabs": {
             "label": "Asia4arabs",

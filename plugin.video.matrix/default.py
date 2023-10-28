@@ -105,7 +105,10 @@ class main:
 
             if isFav(sSiteName, sFunction):
                 return
-
+            
+            if isWatched(sSiteName, sFunction):
+                return
+					
             if isViewing(sSiteName, sFunction):
                 return
 
@@ -233,6 +236,13 @@ def isFav(sSiteName, sFunction):
         return True
     return False
 
+def isWatched(sSiteName, sFunction):
+    if sSiteName == 'cWatched':
+        plugins = __import__('resources.lib.watched', fromlist=['cWatched']).cWatched()
+        function = getattr(plugins, sFunction)
+        function()
+        return True
+    return False
 
 def isViewing(sSiteName, sFunction):
     if sSiteName == 'cViewing':
@@ -269,6 +279,7 @@ def isHome(sSiteName, sFunction):
     return False
 
 
+
 def isTrakt(sSiteName, sFunction):
     if sSiteName == 'cTrakt':
         plugins = __import__('resources.lib.trakt', fromlist=['cTrakt']).cTrakt()
@@ -277,32 +288,15 @@ def isTrakt(sSiteName, sFunction):
         return True
     return False
 
-
 def isSearch(sSiteName, sFunction):
-    if sSiteName == 'globalSearch':
+    if sSiteName == 'cSearch' or sSiteName == 'globalSearch':
         oSearch = cSearch()
-        exec("oSearch.searchGlobal()")
+        if sSiteName == 'globalSearch':
+            exec("oSearch.searchGlobal()")
+        else:
+            exec("oSearch." + sFunction + "()")
         return True
     return False
-
-
-def _pluginSearch(plugin, sSearchText):
-
-    # Appeler la source en mode Recherche globale
-    window(10101).setProperty('search', 'true')
-
-    try:
-        plugins = __import__('resources.sites.%s' % plugin['identifier'], fromlist=[plugin['identifier']])
-        function = getattr(plugins, plugin['search'][1])
-        sUrl = plugin['search'][0] + str(sSearchText)
-
-        function(sUrl)
-
-        VSlog('Load Search: ' + str(plugin['identifier']))
-    except:
-        VSlog(plugin['identifier'] + ': search failed')
-
-    window(10101).setProperty('search', 'false')
 
 
 main()

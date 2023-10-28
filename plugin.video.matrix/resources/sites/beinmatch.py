@@ -138,7 +138,9 @@ def showLive():
                      sHosterUrl = url
                      sMovieTitle = sMovieTitle  
                      if 'vimeo' in sHosterUrl:
-                         sHosterUrl = sHosterUrl + "|Referer=" + mSite                  
+                         sHosterUrl = sHosterUrl + "|Referer=" + mSite   
+                     if 'vimeo' not in sHosterUrl:
+                         sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite               
 
                      oHoster = cHosterGui().checkHoster(sHosterUrl)
                      if oHoster:
@@ -152,6 +154,8 @@ def showLive():
             sMovieTitle = sMovieTitle
             if 'vimeo' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + mSite
+            if 'vimeo' not in sHosterUrl:
+                sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite  
 
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl            
@@ -250,7 +254,9 @@ def showLive():
             
                 sHosterUrl = aEntry
                 if sHosterUrl.startswith('//'):
-                    sHosterUrl = 'http:' + sHosterUrl            
+                    sHosterUrl = 'http:' + sHosterUrl 
+                if 'vimeo' not in sHosterUrl:
+                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false&Referer=' + mSite             
 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
                 if oHoster:

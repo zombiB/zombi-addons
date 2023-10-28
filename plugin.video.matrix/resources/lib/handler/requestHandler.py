@@ -3,13 +3,11 @@
 #
 from requests import post, Session, Request, RequestException, ConnectionError
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix
-from resources.lib.util import urlEncode, urlHostName
+from resources.lib.util import urlHostName
 
 import requests.packages.urllib3.util.connection as urllib3_cn
 import socket
-from resources.lib.SQLiteCache import SqliteCache
-import time
-db = SqliteCache()
+
 
 class cRequestHandler:
     REQUEST_TYPE_GET = 0
@@ -124,49 +122,7 @@ class cRequestHandler:
     def getRealUrl(self):
         return self.__sRealUrl
 
-    def request(self, jsonDecode=False, FetchNew=False):
-        ADDON = addon()
-        CacheStatus = ADDON.getSetting('RequestCache')
-        CacheDur = ADDON.getSetting('RequestCacheDuration')
-        
-        sTime = time.time()
-        # Supprimee car deconne si url contient ' ' et '+' en meme temps
-        url = self.__sUrl#.replace(' ', '+')
-        if FetchNew == True:
-            VSlog("New Request for: " + url)
-            VSlog("Finished request in {s}s".format(s=time.time()-sTime))
-            return self.__callRequest(jsonDecode)
-        else:
-            if CacheStatus == 'true':
-                if "themoviedb.org" or 'php' or 'ajax' or '/?s=' or 'search' or '/?q=' or 'mp4' or 'avi' or 'm3u' or '?query='or 'find' or 'githubusercontent' or 'github' in url:
-                    #VSlog("Cache Request is disabled for tmdb and search urls")
-                    return self.__callRequest(jsonDecode)
-                else:
-                    #VSlog("Not a search url")
-                    try:            
-                        Cached = db.get(url)
-                    except:
-                        Cached = None
-                            
-                    if Cached is None: ##if not in cache
-                        #VSlog('Matrix : No cache found for [%s]' % (url))
-                        resp = self.__callRequest(jsonDecode)
-                        forcaching = {"sUrl": url, "val": resp}
-                        #VSlog("New Request for: " + url)
-                        #VSlog("Finished request in {s}s".format(s=time.time()-sTime))
-                        db.set(forcaching, int(CacheDur)*60*60)
-                        #VSlog("Saving new cache")
-                        
-                    else:
-                        resp = Cached
-                        #VSlog("Cache Request for: " + url)
-                        #VSlog("Finished request in {s}s".format(s=time.time()-sTime))
-                    return resp
-            else:
-                #VSlog("Cache Request is disabled in settings")
-                return self.__callRequest(jsonDecode)
-        
-    def request2(self, jsonDecode=False):
+    def request(self, jsonDecode=False):
         # Supprimee car deconne si url contient ' ' et '+' en meme temps
         # self.__sUrl = self.__sUrl.replace(' ', '+')
         return self.__callRequest(jsonDecode)
@@ -297,42 +253,27 @@ class cRequestHandler:
         if self.oResponse is not None:
             if self.oResponse.status_code in [503, 403]:
                 if "Forbidden" not in sContent:
-                    # Default
+                    
+                    # Tenter par FlareSolverr
+                    
                     CLOUDPROXY_ENDPOINT = 'http://' + addon().getSetting('ipaddress') + ':8191/v1'
 
-                    json_session = False
-
+                    json_response = False
                     try:
-                        json_session = post(CLOUDPROXY_ENDPOINT, headers=self.__aHeaderEntries, json={'cmd': 'sessions.list'})
-                    except:
-                        dialog().VSerror("%s (%s)" % ("Page protegee par Cloudflare, essayez FlareSolverr.", urlHostName(self.__sUrl)))
-
-                    if json_session:
-                        # On regarde si une session existe deja.
-                        if json_session.json()['sessions']:
-                            cloudproxy_session = json_session.json()['sessions'][0]
-                        else:
-                            json_session = post(CLOUDPROXY_ENDPOINT, headers=self.__aHeaderEntries, json={
-                                'cmd': 'sessions.create'
-                            }).json()
-                            cloudproxy_session = json_session['session']
-
-                        self.__aHeaderEntries['Content-Type'] = 'application/x-www-form-urlencoded' if (method == 'post') else 'application/json'
-
-                        # Ont fait une requete.
+                        # On fait une requete.
                         json_response = post(CLOUDPROXY_ENDPOINT, headers=self.__aHeaderEntries, json={
                             'cmd': 'request.%s' % method.lower(),
-                            'url': self.__sUrl,
-                            'session': cloudproxy_session,
-                            'postData': '%s' % urlEncode(sParameters) if (method.lower() == 'post') else ''
+                            'url': self.__sUrl
                         })
+                    except:
+                        dialog().VSerror("%s (%s)" % ("  FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة  ", urlHostName(self.__sUrl)))
 
-                        http_code = json_response.status_code
+                    if json_response:
                         response = json_response.json()
                         if 'solution' in response:
                             if self.__sUrl != response['solution']['url']:
                                 self.__sRealUrl = response['solution']['url']
-
+    
                             sContent = response['solution']['response']
 
             if self.oResponse and not sContent:

@@ -173,8 +173,8 @@ class cClear:
             return
 
         elif (env == 'clean'):
-            liste = ['Historiques des recherches', 'Marque-Pages', 'En cours de lecture',
-                     'Niveau de lecture', 'Marqués vues', 'Téléchargements']
+            liste = ['Search history', 'bookmarks', 'Now Playing',
+                     'Readings', 'Tagged views', 'Downloads']
             ret = self.DIALOG.VSselect(liste, self.ADDON.VSlang(30110))
             cached_DB = "special://home/userdata/addon_data/plugin.video.matrix/matrix.db"
             # important seul xbmcvfs peux lire le special

@@ -43,7 +43,6 @@ icons = Addon.getSetting('defaultIcons')
 class cDownloadProgressBar(threading.Thread):
     DIALOG = dialog()
     ADDON = addon()
-    #icons = ADDON.getSetting('defaultIcons')
     def __init__(self, *args, **kwargs):
 
         self.__sTitle = ''
@@ -332,8 +331,7 @@ class cDownload:
         sPluginHandle = cPluginHandler().getPluginHandle()
         sPluginPath = cPluginHandler().getPluginPath()
         sItemUrl = '%s?site=%s&function=%s&title=%s' % (sPluginPath, SITE_IDENTIFIER, 'StartDownloadList', 'title')
-        item = xbmcgui.ListItem('Start Downloading')
-        
+        item = xbmcgui.ListItem('Start downloading from list')        
         item.setArt({'icon':'special://home/addons/plugin.video.matrix/resources/art/' + icons + '/DownloadStart.png'})
         xbmcplugin.addDirectoryItem(sPluginHandle, sItemUrl, item, isFolder=False)
 

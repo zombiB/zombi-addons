@@ -41,18 +41,31 @@ class cHoster(iHoster):
         if aResult[0]:
             sHtmlContent = cPacker().unpack(aResult[1][0])
         
-        VSlog(sHtmlContent)
-            # (.+?) .+?
-        sPattern = 'file:"(.+?)"'
-        aResult = oParser.parse(sHtmlContent, sPattern)
+
+        oParser = cParser()
+
+        sStart = 'manifest.mpd'
+        sEnd = 'image'
+        sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+        sPattern = 'file:"(.+?)",label:"([^"]+)'
+        aResult = oParser.parse(sHtmlContent0, sPattern)
         VSlog(aResult)
         url=[]
         qua=[]
         if aResult[0]:
             for aEntry in aResult[1]:
-                url.append(aEntry[0])
-                qua.append('Auto')
 
+                url.append(aEntry[0])
+
+                qua.append(aEntry[1])
+
+                api_call = dialog().VSselectqual(qua, url)
+                
+            if api_call:
+                sReferer  = 'https://asiatvplayer.com/'
+
+                return True, api_call  + '|AUTH=TLS&verifypeer=false' + '&Referer=' + sReferer 
         sPattern = '<source src="(.+?)" type='
         aResult = oParser.parse(sHtmlContent, sPattern)
         
@@ -61,23 +74,12 @@ class cHoster(iHoster):
                 url.append(aEntry[0])
                 qua.append('Auto')
 
-        sPattern = 'file:\"(.+?)\",label:\"(.+?)\"'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
-        api_call = False
 
-        if aResult[0]:
-            # url=[]
-            # qua=[]
-            
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
             api_call = dialog().VSselectqual(qua, url)
                 
             if api_call:
                 sReferer  = 'https://asiatvplayer.com/'
                 VSlog(api_call)
-                return True, api_call  + '|AUTH=TLS&verifypeer=false' + '|User-Agent=' + UA + '&Referer=' + sReferer + '&sec-ch-ua-mobile=' +'?0' + '&sec-ch-ua=' + '^\^"Not.A/Brand^\^";v=^\^"8^\^", ^\^"Chromium^\^";v=^\^"114^\^", ^\^"Google Chrome^\^";v=^\^"114^\^""'
 
+                return True, api_call  + '|AUTH=TLS&verifypeer=false' + '&Referer=' + sReferer 
         return False, False

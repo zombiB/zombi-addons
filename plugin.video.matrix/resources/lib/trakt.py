@@ -128,7 +128,7 @@ class cTrakt:
 
             if self.ADDON.getSetting('trakt_show_lists') == 'true':
                 oOutputParameterHandler.addParameter('type', 'custom-lists')
-                oGui.addDir(SITE_IDENTIFIER, 'menuList', "Listes", 'trakt.png', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'menuList', "Lists", 'trakt.png', oOutputParameterHandler)
 
             oOutputParameterHandler.addParameter('siteUrl', URL_API + 'users/me/history?page=1&limit=' + str(MAXRESULT))
             oGui.addDir(SITE_IDENTIFIER, 'getTrakt', self.ADDON.VSlang(30308), 'trakt.png', oOutputParameterHandler)
@@ -147,16 +147,16 @@ class cTrakt:
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'https://')
         oOutputParameterHandler.addParameter('type', 'lists-tendances')
-        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Listes tendances", 'trakt.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Trending lists", 'trakt.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('type', 'lists-pop')
-        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Listes populaires", 'trakt.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getLists', "Popular lists", 'trakt.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('type', 'custom-lists')
         oGui.addDir(SITE_IDENTIFIER, 'getLists', self.ADDON.VSlang(30360), 'trakt.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('type', 'liked-lists')
-        oGui.addDir(SITE_IDENTIFIER, 'getLists', 'Mes listes aimées', 'trakt.png', oOutputParameterHandler)  
+        oGui.addDir(SITE_IDENTIFIER, 'getLists', 'My Liked Lists', 'trakt.png', oOutputParameterHandler)  
 
         oGui.setEndOfDirectory() 
 
@@ -700,7 +700,7 @@ class cTrakt:
     def getLocalizedTitle(self, item, what):
         try:
             if 'episode' not in what:
-                oRequestHandler = cRequestHandler(URL_API + '%s/%s/translations/fr' % (what, item['ids']['slug']))
+                oRequestHandler = cRequestHandler(URL_API + '%s/%s/translations/ar' % (what, item['ids']['slug']))
                 oRequestHandler.addHeaderEntry('Content-Type', 'application/json')
                 oRequestHandler.addHeaderEntry('trakt-api-key', API_KEY)
                 oRequestHandler.addHeaderEntry('trakt-api-version', API_VERS)
@@ -710,14 +710,14 @@ class cTrakt:
                 show_title = self.getLocalizedTitle(item['show'], 'shows')
                 t_values = (item['show']['ids']['slug'], item['episode']['season'], item['episode']['number'])
 
-                oRequestHandler = cRequestHandler(URL_API + 'shows/%s/seasons/%s/episodes/%s/translations/fr' % t_values)
+                oRequestHandler = cRequestHandler(URL_API + 'shows/%s/seasons/%s/episodes/%s/translations/ar' % t_values)
                 oRequestHandler.addHeaderEntry('Content-Type', 'application/json')
                 oRequestHandler.addHeaderEntry('trakt-api-key', API_KEY)
                 oRequestHandler.addHeaderEntry('trakt-api-version', API_VERS)
                 oRequestHandler.addHeaderEntry('Authorization', 'Bearer %s' % self.ADDON.getSetting('bstoken'))
                 sHtmlContent = oRequestHandler.request(jsonDecode=True)
 
-            title = next((title for title in sHtmlContent if title['language'].lower() == 'fr'), item)['title']
+            title = next((title for title in sHtmlContent if title['language'].lower() == 'ar'), item)['title']
 
             if title is None:
                 return item['title']
@@ -1018,7 +1018,7 @@ class cTrakt:
 
         oRequestHandler = cRequestHandler('https://api.themoviedb.org/3/movie/' + str(sTmdb))
         oRequestHandler.addParameters('api_key', '92ab39516970ab9d86396866456ec9b6')
-        oRequestHandler.addParameters('language', 'fr')
+        oRequestHandler.addParameters('language', 'en')
 
         sHtmlContent = oRequestHandler.request(jsonDecode=True)
 

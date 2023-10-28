@@ -60,7 +60,7 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 
   # .+? ([^<]+) (.+?) .+?
-    sPattern = '<article.+?<img src="([^<]+)" alt="([^<]+)"><div.+?href="([^<]+)"><div.+?</article>'
+    sPattern = '<article.+?src="([^"]+)" alt="([^"]+)".+?href="([^"]+)'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -71,6 +71,10 @@ def showMovies(sSearch = ''):
  
             sTitle = aEntry[1].replace('"',"").replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
             siteUrl = aEntry[2]
+            if "movies/" not in siteUrl:
+                siteUrl =  f'{URL_MAIN}movies/{siteUrl}'
+            if '../../' in siteUrl:
+                siteUrl =  f'https://alwanzman.com/{siteUrl}'
             sDesc = ''
             sYear = ''
             sThumb = aEntry[0]
@@ -95,7 +99,7 @@ def showMovies(sSearch = ''):
             oGui.addMovie(SITE_IDENTIFIER, 'showServer', sDisplayTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
  
-        sNextPage = __checkForNextPage(sHtmlContent)
+        sNextPage = __checkForNextPage(sHtmlContent, sUrl)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
@@ -104,7 +108,7 @@ def showMovies(sSearch = ''):
     oGui.setEndOfDirectory()
 
   # .+? ([^<]+) 
-def __checkForNextPage(sHtmlContent):
+def __checkForNextPage(sHtmlContent, sUrl):
     sPattern = '<link rel="next" href="([^<]+)" />'
 	
     oParser = cParser()
@@ -112,7 +116,8 @@ def __checkForNextPage(sHtmlContent):
  
     if aResult[0]:
         
-        return aResult[1][0]
+        return sUrl+ aResult[1][0]
+
 
     return False
 
@@ -134,22 +139,9 @@ def showServer():
     oParser = cParser()
     
     #(.+?) 
-    sId = ''
-
-    sPattern = "data-post='(.+?)' data-nume='(.+?)'"
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:       
-            sId = aEntry[0]
-            sNO = aEntry[1]
-    sUrl = 'https://alwanfilm.com/wp-json/dooplayer/v2/'+sId+'/movie/'+sNO
-    oRequestHandler = cRequestHandler(sUrl)
-    sData = oRequestHandler.request()
-    sData = sData.replace('\\', '')
-    # (.+?) .+? ([^<]+)        	
-    sPattern = 'src="([^<]+)" frameborder'
+    sPattern = '"embed_url":["\']([^"\']+)["\']'
     oParser = cParser()
-    aResult = oParser.parse(sData, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
     if aResult[0]:
@@ -167,9 +159,9 @@ def showServer():
                oHoster.setDisplayName(sMovieTitle)
                oHoster.setFileName(sMovieTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)        	
-    sPattern = '"embed_url":"(.+?)",'
+    sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
     oParser = cParser()
-    aResult = oParser.parse(sData, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)
 
 	
     if aResult[0]:

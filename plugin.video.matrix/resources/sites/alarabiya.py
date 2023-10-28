@@ -20,7 +20,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-DOC_NEWS = ('https://www.alarabiya.net/programs/documentaries', 'showMovies')
+DOC_NEWS = (URL_MAIN + '/programs/documentaries', 'showMovies')
 
  
 def load():
@@ -39,6 +39,7 @@ def showMovies(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+    VSlog(sHtmlContent)
  
 # ([^<]+) .+? (.+?)
     sPattern = '<a class="list-item-link" href="(.+?)" title="(.+?)">.+?<img src="(.+?)" width='

@@ -105,6 +105,17 @@ class dialog:
             return list_url[ret]
         return ''
 
+    def VSselectsub(self, list_qual, list_url):
+
+        if len(list_url) == 0:
+            return ''
+        if len(list_url) == 1:
+            return list_url[0]
+
+        ret = self.DIALOG.select(addon().VSlang(70015), list_qual)
+        if ret > -1:
+            return list_url[ret]
+        return ''
     def VSinfo(self, desc, title='matrix', iseconds=0, sound=False):
         if (iseconds == 0):
             iseconds = 1000
@@ -449,9 +460,10 @@ class siteManager:
 
     SITES = 'sites'
     ACTIVE = 'active'
+    CLOUDFLARE = 'cloudflare'
     LABEL = 'label'
     URL_MAIN = 'url'
-
+    URL_MAIN2 = 'url2'
     def __init__(self):
         
         # Propriétés par défaut
@@ -473,18 +485,25 @@ class siteManager:
 
         # Chargement des properties
         try:
-            self.data = json.load(open(self.propertiesPath))
+
+            with open(self.propertiesPath, 'r') as f:
+                self.data = json.load(f)
         except IOError:
             # le fichier n'existe pas, on le crée à partir des settings par défaut
             xbmcvfs.copy(self.defaultPath, path)
-            self.data = json.load(open(self.propertiesPath))
+
+            with open(self.propertiesPath, 'r') as f:
+                self.data = json.load(f)
             
 
     # sites désactivé par la team
     def isEnable(self, sourceName):
         return self.getDefaultProperty(sourceName, self.ACTIVE) == 'True'
 
-    
+
+    # site identifié par la team comme étant protégé par Cloudflare, false par défaut si non renseigné
+    def isCloudFlare(self, sourceName):
+        return self.getDefaultProperty(sourceName, self.CLOUDFLARE) == 'True'
     # sites désactivé par l'utilisateur
     def isActive(self, sourceName):
         return self.getProperty(sourceName, self.ACTIVE) == 'True'
@@ -494,7 +513,9 @@ class siteManager:
 
     def getUrlMain(self, sourceName):
         return str(self.getDefaultProperty(sourceName, self.URL_MAIN))
-    
+
+    def getUrlMain2(self, sourceName):
+        return str(self.getDefaultProperty(sourceName, self.URL_MAIN2))
     def disableAll(self):
         for sourceName in self.data[self.SITES]:
             self.setActive(sourceName, False)
@@ -561,7 +582,8 @@ class siteManager:
 
         # Chargement des properties par défaut
         if not self.defaultData:
-            self.defaultData = json.load(open(self.defaultPath))
+            with open(self.defaultPath, 'r') as f:
+                self.defaultData = json.load(f)
 
         # Retrouver la prop par défaut
         sourceData = self.defaultData[self.SITES].get(sourceName) if self.defaultData and self.SITES in self.defaultData else None

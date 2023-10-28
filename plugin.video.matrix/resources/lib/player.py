@@ -1,14 +1,17 @@
-#-*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
-#
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
+
+import xbmcplugin
+import xbmc
+
+from resources.lib.comaddon import addon, dialog, isKrypton, VSlog, addonManager
+from resources.lib.db import cDb
+from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.pluginHandler import cPluginHandler
-from resources.lib.gui.gui import cGui
 from resources.lib.upnext import UpNext
-from resources.lib.comaddon import addon, dialog, xbmc, isKrypton, VSlog, addonManager, isMatrix
-from resources.lib.db import cDb
 from resources.lib.util import cUtil, Unquote
-import xbmcplugin
 
 try:  # Python 2
     from urlparse import urlparse
@@ -17,10 +20,10 @@ except ImportError:  # Python 3
 
 from os.path import splitext
 
-#pour les sous titres
-#https://github.com/amet/service.subtitles.demo/blob/master/service.subtitles.demo/service.py
-#player API
-#http://mirrors.xbmc.org/docs/python-docs/stable/xbmc.html#Player
+# pour les sous titres
+# https://github.com/amet/service.subtitles.demo/blob/master/service.subtitles.demo/service.py
+# player API
+# http://mirrors.xbmc.org/docs/python-docs/stable/xbmc.html#Player
 
 
 class cPlayer(xbmc.Player):
@@ -83,7 +86,7 @@ class cPlayer(xbmc.Player):
 
     def run(self, oGuiElement, sUrl):
 
-        # Lancement d'une vidéo sans avoir arreté la précedente
+        # Lancement d'une vidéo sans avoir arrêté la précédente
         if self.isPlaying():
             sEpisode = str(oGuiElement.getEpisode())
             if sEpisode:
@@ -140,19 +143,19 @@ class cPlayer(xbmc.Player):
             xbmcplugin.setResolvedUrl(sPluginHandle, True, item)
             VSlog('Player use setResolvedUrl() method')
 
-        #Attend que le lecteur demarre, avec un max de 20s
+        # Attend que le lecteur démarre, avec un max de 20s
         for _ in range(20):
             if self.playBackEventReceived:
                 break
             xbmc.sleep(1000)
 
-        #active/desactive les sous titres suivant l'option choisie dans la config
+        # active/désactive les sous-titres suivant l'option choisie dans la config
         if self.getAvailableSubtitleStreams():
             if self.ADDON.getSetting('srt-view') == 'true':
                 self.showSubtitles(True)
             else:
                 self.showSubtitles(False)
-                dialog().VSinfo('Des sous-titres sont disponibles', 'Sous-titres', 4)
+                dialog().VSinfo('الترجمة متوفرة', 'ترجمات', 4)
 
         waitingNext = 0
         
@@ -161,7 +164,7 @@ class cPlayer(xbmc.Player):
                 self.currentTime = self.getTime()
 
                 waitingNext += 1
-                if waitingNext == 8: # attendre un peu avant de chercher le prochain épisode d'une série
+                if waitingNext == 8:  # attendre un peu avant de chercher le prochain épisode d'une série
                     self.totalTime = self.getTotalTime()
                     self.infotag = self.getVideoInfoTag()
                     UpNext().nextEpisode(oGuiElement)
@@ -174,7 +177,7 @@ class cPlayer(xbmc.Player):
         if not self.playBackStoppedEventReceived:
             self.onPlayBackStopped()
 
-        #Uniquement avec la lecture avec play()
+        # Uniquement avec la lecture avec play()
         if player_conf == '0':
             r = xbmcplugin.addDirectoryItem(handle=sPluginHandle, url=sUrl, listitem=item, isFolder=False)
             return r
@@ -182,7 +185,7 @@ class cPlayer(xbmc.Player):
         VSlog('Closing player')
         return True
 
-    #fonction light servant par exemple pour visualiser les DL ou les chaines de TV
+    # fonction light servant par exemple pour visualiser les DL ou les chaines de TV
     def startPlayer(self, window=False):
         oPlayList = self.__getPlayList()
         self.play(oPlayList, windowed=window)
@@ -190,17 +193,15 @@ class cPlayer(xbmc.Player):
     def onPlayBackEnded(self):
         self.onPlayBackStopped()
 
-    #Attention pas de stop, si on lance une seconde video sans fermer la premiere
+    # Attention pas de stop, si on lance une seconde video sans fermer la premiere
     def onPlayBackStopped(self):
-        VSlog('player stopped')
-        
+        VSlog('player stopped')        
         # reçu deux fois, on n'en prend pas compte
         if self.playBackStoppedEventReceived:
             return
         self.playBackStoppedEventReceived = True
 
         self._setWatched(self.sEpisode)
-
 
     # MARQUER VU
     # utilise les informations de la vidéo qui vient d'etre lue

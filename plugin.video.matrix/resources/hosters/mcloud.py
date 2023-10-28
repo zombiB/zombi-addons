@@ -22,7 +22,7 @@ class cHoster(iHoster):
         self._url = str(url).replace('+', '%2B').split('#')[0]
         self._url0 = str(url)
 
-    def _getMediaLinkForGuest(self, autoPlay = False):
+    def _getMediaLinkForGuest(self):
         api_call = self._url
 
         if ('sub.info' in self._url0):
@@ -48,7 +48,7 @@ class cHoster(iHoster):
         else:
             SubTitle = ''
 
-        api_call = self._url.replace('\\','')+"|Referer=https://mcloud.to/"
+        api_call = self._url.replace('\\','')+"|Referer=https://mcloud.bz/"
 
         if api_call:
             if ('http' in SubTitle):

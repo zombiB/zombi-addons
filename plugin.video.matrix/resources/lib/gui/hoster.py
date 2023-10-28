@@ -158,6 +158,11 @@ class cHosterGui:
         sHosterUrl = sHosterUrl.split('|')[0]
         sHosterUrl = sHosterUrl.split('?')[0]
         sHosterUrl = sHosterUrl.lower()
+
+        # Fix for mcloud and vidstream m3u8 direct links
+        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
+            return self.getHoster('mcloud')
+				
         # Recuperation du host
         try:
             sHostName = sHosterUrl.split('/')[2]
@@ -166,9 +171,9 @@ class cHosterGui:
 
         if debrid:
             # L'user a active l'url resolver ?
-            if self.ADDON.getSetting('UserUrlResolver') == 'true':
-                import urlresolver
-                hmf = urlresolver.HostedMediaFile(url=sHosterUrl)
+            if self.ADDON.getSetting('Userresolveurl') == 'true':
+                import resolveurl
+                hmf = resolveurl.HostedMediaFile(url=sHosterUrl)
                 if hmf.valid_url():
                     tmp = self.getHoster('resolver')
                     RH = sHosterUrl.split('/')[2]
@@ -184,7 +189,7 @@ class cHosterGui:
                 return f
 					
             # L'user a activé realbrid ?
-            if self.ADDON.getSetting('hoster_realdebrid_premium')== 'true':
+            if self.ADDON.getSetting('hoster_realdebrid_premium') == 'true':
                 f = self.getHoster('realdebrid')
                 #mise a jour du nom
                 f.setRealHost(sHostName)
@@ -198,7 +203,7 @@ class cHosterGui:
                     return self.getHoster("lien_direct")
 
         supported_player = ['hdup', 'streamable', 'stardima', 'filescdn', 'vidgot', 'videott', 'vidlo', 'sendit', 'thevid', 'vidmoly', 'fastplay', 'cloudy', 'hibridvod', 'arabveturk', 'extremenow', 'yourupload', 'vidspeeds', 'voe', 'faselhd', 'streamz', 'streamax', 'gounlimited', 'xdrive', 'mixdrop', 'vidoza',
-                            'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'netu', 'letsupload',
+                            'rutube', 'megawatch', 'vidzi', 'filetrip', 'uptostream', 'speedvid', 'letsupload',
                             'onevideo', 'playreplay', 'prostream', 'vidfast', 'uqload', 'letwatch',
                             'filepup', 'vimple', 'wstream', 'watchvideo', 'vidwatch', 'up2stream', 'tune', 'playtube',
                             'vidup', 'vidbull', 'vidlox', 'megaup', '33player' 'easyload', 'ninjastream', 'cloudhost',
@@ -206,7 +211,7 @@ class cHosterGui:
                             'giga', 'megadrive', 'downace', 'clickopen', 'supervideo',
                             'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
-                            'upstream', 'pstream', 'vudeo', 'vidia', 'uptobox', 'uplea',
+                            'upstream', 'pstream', 'vudeo', 'vidia', 'uptobox', 'uplea', 'vido',
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'brightcove', 'detectiveconanar']
 
         val = next((x for x in supported_player if x in sHostName), None)
@@ -219,9 +224,50 @@ class cHosterGui:
             
         if ('gettyshare' in sHostName):
             return self.getHoster('gettyshare')
+
+        if ('.aflam' in sHosterUrl):
+            return self.getHoster('mixloads')
+
+        if ('sbfull' in sHostName):
+            return self.getHoster('viewsb')
+        if ('sbrapid' in sHostName):
+            return self.getHoster('viewsb')
+        if ('sbbrisk' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('sbbrisk')
+            return f
+        if ('videa' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f
+        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName):
+            return self.getHoster('streamwish')
+        if ('dooood' in sHostName):
+            return self.getHoster('dood')
+        if ('DoodStream' in sHostName) or ('flixeo' in sHostName):
+            return self.getHoster('dood')
+        if ('dood' in sHostName) or ('dood' in sHosterUrl):
+            return self.getHoster('dood')
             
+        if ('film77' in sHostName):
+            return self.getHoster('film77')
+        if ('vidguard' in sHostName) or ('fertoto' in sHostName) or ('vgembed' in sHostName) or ('vgfplay' in sHostName):
+            return self.getHoster('vidguard')
+        if ('filelions' in sHostName) or ('ajmidyadfihayh' in sHostName) or ('alhayabambi' in sHostName) or ('bazwatch' in sHostName) or ('cilootv' in sHostName) or ('motvy55' in sHostName):
+            return self.getHoster('filelions')
+        if ('vidello' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost(sHostName)
+            return f
+			
         if ('avideo.host' in sHosterUrl):
-            return self.getHoster('avideo')     
+            return self.getHoster('avideo') 
+
+        if ('tuktuk' in sHosterUrl) or ('volvovideo' in sHostName) or ('lumiawatch' in sHostName):
+            return self.getHoster('tuktuk')    
        
         if ('hd-cdn' in sHosterUrl):
             return self.getHoster('hdcdn')    
@@ -229,8 +275,14 @@ class cHosterGui:
         if ('vidhls' in sHosterUrl):
             return self.getHoster('vidhls')
 
+        if ('eeggyy' in sHosterUrl):
+            return self.getHoster('egybest')
+
         if ('play.imovietime' in sHosterUrl):
             return self.getHoster('moviztime')
+
+        if ('send.cm' in sHosterUrl):
+            return self.getHoster('sendme')
 	    
         if ('shoffree' in sHostName) or ('egy-best' in sHostName):
             return self.getHoster('shoffree')
@@ -238,35 +290,32 @@ class cHosterGui:
         if ('egybist.' in sHostName):
             return self.getHoster('egybest')
 
-        if ('sbfull' in sHostName):
-            return self.getHoster('viewsb')
-        if ('sbrapid' in sHostName):
-            return self.getHoster('viewsb')
         if ('lvturbo' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
             f.setRealHost('lvturbo')
             return f
+
+        if ('vidtube' in sHostName) or ('vtbe' in sHostName):
+            return self.getHoster('vidtube')
+
+        if ('updown' in sHostName):
+            return self.getHoster('updown')
+				
         if ('vanfem' in sHostName):
             return self.getHoster('fembed')
-        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName):
+        if ('guccihide' in sHostName) or ('streamhide' in sHostName) or ('fanakishtuna' in sHostName) or ('ahvsh' in sHostName) or ('animezd' in sHostName) or ('anime7u' in sHostName):
             return self.getHoster('streamhide')
         if ('vidpro' in sHostName):
             return self.getHoster('samashare')	
         if ('ankrzkz' in sHostName):
-            return self.getHoster('ankrzkz')				
-        if ('.aflam' in sHosterUrl):
-            return self.getHoster('mixloads')			
+            return self.getHoster('ankrzkz')						
         if ('mixloads' in sHosterUrl):
             return self.getHoster('mixloads')
         if ('lumiawatch' in sHostName):
             return self.getHoster('lumiawatch')
         if ('volvovideo' in sHostName):
             return self.getHoster('volvovideo')
-        if ('filelions' in sHostName):
-            return self.getHoster('filelions')
-        if ('streamwish' in sHostName):
-            return self.getHoster('streamwish')
         if ('streamvid' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -287,11 +336,7 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost('sbthe')
             return f
-        if ('sbbrisk' in sHostName):
-            f = self.getHoster('resolver')
-            #mise a jour du nom
-            f.setRealHost('sbbrisk')
-            return f
+
         if ('sbanh' in sHostName):
             f = self.getHoster('resolver')
             #mise a jour du nom
@@ -312,10 +357,6 @@ class cHosterGui:
             return self.getHoster('vimeo')
         if ('rrsrrs' in sHostName):
             return self.getHoster('cimanow')
-        if ('dooood' in sHostName):
-            return self.getHoster('dood')
-        if ('dood' in sHostName):
-            return self.getHoster('dood')
         if ('embed.scdn.' in sHostName):
             return self.getHoster('faselhd')
         if ('/run/' in sHosterUrl):
@@ -360,6 +401,18 @@ class cHosterGui:
         if ('alarabiya' in sHostName):
             return self.getHoster('lien_direct')
 
+        if ('clientsportals' in sHosterUrl):
+            return self.getHoster('lien_direct')
+
+        if ('file-upload' in sHostName):
+            return self.getHoster('fileupload')
+        
+        if ('ugeen' in sHostName):
+            return self.getHoster('lien_direct')
+
+        if ('kingfoot' in sHostName):
+            return self.getHoster('lien_direct')
+
         if ('asiawiki' in sHostName):
             return self.getHoster('asiadtv')
 
@@ -377,6 +430,9 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost('mail.ru')
             return f
+
+        if ('lanesh' in sHosterUrl):
+            return self.getHoster('lanesh')
 				
         if ('streamcherry' in sHostName):
             f = self.getHoster('resolver')
@@ -407,6 +463,18 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost('streamtape')
             return f
+
+        if ('hexupload' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('hexupload')
+            return f
+
+        if ('movembed' in sHostName) or ('sbnet' in sHosterUrl):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('sbnet')
+            return f
 				
         if ('megaup.' in sHostName):
             return self.getHoster('megaup')
@@ -422,9 +490,15 @@ class cHosterGui:
             
         if ('mediafire' in sHostName):
             return self.getHoster('mediafire')
+
+        if ('workupload' in sHostName):
+            return self.getHoster('workupload')
             
         if ('upbaam' in sHostName) or ('upbam' in sHostName) or ('uppom' in sHostName) or ('uppboom' in sHostName):
             return self.getHoster('uppom')
+
+        if ('rabbitstream' in sHostName) or ('dokicloud' in sHostName):
+            return self.getHoster('streamrapid')
             
         if ('allviid' in sHostName):
             return self.getHoster('filemoon')
@@ -434,9 +508,6 @@ class cHosterGui:
             
         if ('veehd.' in sHostName):
             return self.getHoster('veehd')
-            
-        if ('film77' in sHostName):
-            return self.getHoster('film77')
 				
         if ('streamsforu' in sHostName or 'ylass' in sHostName or 'rsc.cdn' in sHostName or 'btolat' in sHostName):
             return self.getHoster('streamz')
@@ -461,6 +532,12 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost('streamwire')
             return f
+			
+        if ('twitch' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('twitch')
+            return f
             
         if ('vidhd' in sHostName) or ('oktube' in sHostName):
             return self.getHoster('vidhd')
@@ -482,6 +559,9 @@ class cHosterGui:
             
         if ('4shared' in sHostName):
             return self.getHoster('shared')
+
+        if ('techradar' in sHostName) or ('albrq' in sHostName):
+            return self.getHoster('filemoon')
 				
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')
@@ -502,7 +582,27 @@ class cHosterGui:
             return self.getHoster('fajer')
         
         if ('hadara.ps' in sHostName):
-            return self.getHoster('lien_direct')
+            return self.getHoster('lien_direct')        
+        if ('highload' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('highload')
+            return f
+        
+        if ('embedsito' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('embedsito')
+            return f
+
+        if ('vidsrc' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('vidsrc')
+            return f
+
+        if ('segavid' in sHostName):
+            return self.getHoster('arabveturk')
 
         if ('vod540' in sHostName):
             return self.getHoster('vod540')
@@ -519,6 +619,12 @@ class cHosterGui:
         if ('myvi.' in sHostName):
             return self.getHoster('myvi')
 
+        if ('live7' in sHostName):
+            return self.getHoster('live7')
+
+        if ('sharecast' in sHostName):
+            return self.getHoster('sharecast')
+
         if ('yodbox' in sHostName) or ('youdboox' in sHostName) or ('youdbox' in sHostName):
             return self.getHoster('youdbox')
 
@@ -530,6 +636,9 @@ class cHosterGui:
 
         if ('vedpom' in sHostName) or ('vidbem' in sHostName):
             return self.getHoster('vidbem')
+
+        if ('voodc' in sHostName):
+            return self.getHoster('voodc')
 
         if ('vk.com' in sHostName) or ('vkontakte' in sHostName) or ('vkcom' in sHostName):
             return self.getHoster('vk')
@@ -545,6 +654,12 @@ class cHosterGui:
 
         if ('livestream' in sHostName):
             return self.getHoster('lien_direct')
+
+        if ('embedo' in sHostName):
+            f = self.getHoster('resolver')
+            #mise a jour du nom
+            f.setRealHost('embedo')
+            return f
 
         # vidtodo et clone
         val = next((x for x in ['vidtodo', 'vixtodo', 'viddoto', 'vidstodo'] if x in sHostName), None)
@@ -598,6 +713,9 @@ class cHosterGui:
         if ('upvid.' in sHostName):
             return self.getHoster('upvid')
 
+        if ('dynamicrevival' in sHostName):
+            return self.getHoster('dynamic')
+
         if ('upvideo' in sHostName) or ('streamon' in sHostName):
             return self.getHoster('upvideo')
 
@@ -609,6 +727,9 @@ class cHosterGui:
 
         if ('goo.gl' in sHostName) or ('bit.ly' in sHostName) or ('streamcrypt' in sHostName) or ('opsktp' in sHosterUrl):
             return self.getHoster('allow_redirects')
+
+        if ('netu' in sHostName) or ('waaw' in sHostName) or ('hqq' in sHostName) or ('doplay' in sHostName) or ('vizplay' in sHostName):
+            return self.getHoster('netu')
 
         # frenchvid et clone
         val = next((x for x in ['french-vid', 'diasfem', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',

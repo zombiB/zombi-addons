@@ -725,7 +725,7 @@ class cTMDb:
                 cert = meta['release_dates']
                 if len(cert['results']) >0:
                     for data in cert['results']:
-                        if 'fr' in data['iso_3166_1']:
+                        if 'en' in data['iso_3166_1']:
                             _meta['mpaa'] = data['release_dates'][0]['certification']
                             break
                     if not _meta['mpaa']:
