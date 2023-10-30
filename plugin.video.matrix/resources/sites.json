@@ -17,12 +17,12 @@
         },
         "akoam": {
             "label": "Akoam",
-            "active": "False",
+            "active": "True",
             "url": "https://akw.to/old/"
         },
         "akwam": {
             "label": "Akwam",
-            "active": "False",
+            "active": "True",
             "url": "https://akwam.cc/"
         },
         "alarab": {
