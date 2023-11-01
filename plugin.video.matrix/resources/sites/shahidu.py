@@ -25,7 +25,7 @@ URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 RAMADAN_SERIES = (URL_MAIN + '/category/مسلسلات-رمضان-2023', 'showSeries')
 
 
-MOVIE_EN = (URL_MAIN + '/category/افلام-اجنبي', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category/%D8%A7%D9%81%D9%84%D8%A7%D9%85-%D8%A7%D8%AC%D9%86%D8%A8%D9%8A', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/category/افلام-عربي', 'showMovies')
 MOVIE_HI = (URL_MAIN + '/category/افلام-هندي', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + '/category/افلام-اسيوية', 'showMovies')
@@ -208,14 +208,12 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
  
     oRequestHandler = cRequestHandler(sUrl)
-    try:
-        sHtmlContent = oRequestHandler.request()
-    except:
-        sHtmlContent = CloudflareBypass().GetHtml(sUrl)
- # ([^<]+) .+? (.+?)
+    sHtmlContent = oRequestHandler.request()
+      # (.+?) ([^<]+) .+?
 
-    sPattern = '<a href="([^"]+)".+?class="fullClick">.+?data-src="([^"]+)".+?<a href="([^"]+)"><h3>(.+?)</h3></a>'
+    sPattern = '<a href="(.+?)" class="show-card".+?style="background-image: url((.+?)); --br: 10px;">.+?<h4 class="title">(.+?)</h4>'
 
+                              
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
 	
@@ -224,14 +222,19 @@ def showMovies(sSearch = ''):
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
  
-            if "episode" in aEntry[2] or "season" in aEntry[2]or "series" in aEntry[2]:
+            if "episode" in aEntry[0] or "season" in aEntry[0]or "series" in aEntry[0]:
                 continue
-            if "مسلسل" in aEntry[3]:
+            if "مسلسل" in aEntry[2]:
                 continue
 
             sTitle = aEntry[3].replace("مشاهدة","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("اون لاين","").replace("برنامج","").replace("WEB-DL","").replace("BRRip","").replace("720p","").replace("HD-TC","").replace("HDRip","").replace("HD-CAM","").replace("DVDRip","").replace("BluRay","").replace("1080p","").replace("WEBRip","").replace("WEB-dl","").replace("مترجم ","").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("HD","").replace("كامل","")
             sThumb = aEntry[1]
-            siteUrl = aEntry[2].replace('film/','download/')
+            if 'http' not in aEntry[1]:
+                sThumb = URL_MAIN+aEntry[1]
+            if 'http' not in aEntry[0]:
+                siteUrl = URL_MAIN+aEntry[0].replace('film/','download/').replace('post/','download/')
+            else:
+                siteUrl = aEntry[0].replace('film/','download/').replace('post/','download/')
             sDesc = ''
             sYear = ''
             m = re.search('([0-9]{4})', sTitle)

@@ -17,6 +17,7 @@ class cHoster(iHoster):
         return True
 
     def _getMediaLinkForGuest(self):
+        self._url = self._url.replace('embed-','')
         
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
@@ -34,7 +35,7 @@ class cHoster(iHoster):
             url2 = aResult[1][0]
             oRequestHandler = cRequestHandler(url2)
             sHtmlContent2 = oRequestHandler.request()
-            sPattern = 'PROGRAM-ID.+?RESOLUTION=(\w+).+?(https.+?m3u8)'
+            sPattern = 'PROGRAM-ID.+?RESOLUTION=(\d+x\d{0,3}).+?(https.+?m3u8)'
             aResult = oParser.parse(sHtmlContent2, sPattern)
             for aEntry in aResult[1]:
                 list_q.append(aEntry[0].split('x')[1]+"p") 

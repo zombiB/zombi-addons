@@ -45,8 +45,9 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<div class="match-container"> <a href="(.+?)" target="_blank".+?<img alt="(.+?)" src="(.+?)" title.+?id="result">(.+?)</div>.+?<div class="team-logo"> <img alt="(.+?)" src'
+    sPattern = '<div class="match-container"><a href="(.+?)" target="_blank" title=.+?<img alt="(.+?)" data-img="(.+?)" loading.+?<div id="result">(.+?)</div>.+?img alt="(.+?)" data-img='
     aResult = oParser.parse(sHtmlContent, sPattern)
+
 
 
     if aResult[0]:
@@ -287,32 +288,6 @@ def showHosters():
                             if aResult:
                                 url = f'{base64.b64decode(aResult[1]).decode("utf8",errors="ignore")}|Referer={url}'
 
-                    else:
-                            
-                            oRequestHandler = cRequestHandler(url)
-                            oRequestHandler.addHeaderEntry('Referer', url)
-                            data3 = oRequestHandler.request()
-                        
-                            sPatternUrl = "source: 'https:\/\/' \+ serv \+ '([^']+)'"
-                            sPatternPK = 'var servs = .+?, "([^"]+)"'
-                            aResultUrl = re.findall(sPatternUrl, data3)
-                            aResultPK = re.findall(sPatternPK, data3)
-
-                            if aResultUrl and aResultPK:
-                                url3 = 'http://'+aResultPK[0]+aResultUrl[0]
-                                url = url3 + "|Referer=" + url
-
-                    sHosterUrl = url
-                    sDisplayTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-
-                    if sHosterUrl.startswith('//'):
-                        sHosterUrl = 'http:' + sHosterUrl            
-
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    if oHoster:
-                        oHoster.setDisplayName(sDisplayTitle)
-                        oHoster.setFileName(sMovieTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
 
     oGui.setEndOfDirectory()    

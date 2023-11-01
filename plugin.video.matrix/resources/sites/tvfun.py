@@ -21,18 +21,17 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2023/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia,3/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + '/ts,mosalsalat--modablaja/', 'showSeries')
-SERIE_SUBED = (URL_MAIN + 'ts/mosalsalat-motarjama/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/cat/mosalsalat-hindia/', 'showSeries')
-SERIE_AR = (URL_MAIN + '/cat/mosalsalat-3arabia,3/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/mosalsalat-modablaja/', 'showSeries')
+SERIE_SUBED = (URL_MAIN + '/mosalsalat-motarjama/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/mosalsalat-hindia/', 'showSeries')
+SERIE_AR = (URL_MAIN + '/cat/mosalsalat-3arabia/', 'showSeries')
 
-SERIE_KR = (URL_MAIN + '/cat/mosalsalat-korea/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + '/cat/mosalsalat-latinia/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + '/cat/programme-tv/', 'showSeries')
+SERIE_KR = (URL_MAIN + '/mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + '/mosalsalat-latinia/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + '/zee-alwan/', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
-URL_SEARCH_SERIES = (URL_MAIN + '/q/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeriesSearch'
  
 def load():
@@ -97,7 +96,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="serie-thumb"> <a href="(.+?)" title="(.+?)"> <img loading=".+?" src="(.+?)" alt'
+    sPattern = '<div class="serie-thumb"><a href="(.+?)" title="(.+?)"><img.+?src="(.+?)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -144,8 +143,9 @@ def showSeriesSearch(sSearch = ''):
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
+      # (.+?) ([^<]+) .+?
 	
-    sPattern = '<div class="thumb"><div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt='  
+    sPattern = '<div class="thumb"><div class="video-thumb"><a href="(.+?)" title="(.+?)"><img.+?src="(.+?)" alt'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -217,7 +217,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="thumb"><div class="video-thumb"> <a href="(.+?)" title="(.+?)"> <img loading="lazy" src="(.+?)" alt='
+    sPattern = '<div class="thumb"><div class="video-thumb"><a href="(.+?)" title="(.+?)"><img loading="lazy" src="(.+?)" alt'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

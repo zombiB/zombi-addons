@@ -20,11 +20,11 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_EN = (URL_MAIN + 'category.php?cat=movieenglish', 'showMovies')
+MOVIE_EN = (URL_MAIN + '/category102.php?cat=movies2023', 'showMovies')
 RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2023', 'showSeries')
 MOVIE_AR = (URL_MAIN + 'category.php?cat=moviearabic', 'showMovies')
-SERIE_AR = (URL_MAIN + 'category.php?cat=mosalsalatarabia', 'showSeries')
-SERIE_TR = (URL_MAIN + 'category.php?cat=turkish-series', 'showSeries')
+SERIE_AR = (URL_MAIN + '/category102.php?cat=arab2023', 'showSeries')
+SERIE_TR = (URL_MAIN + '/category102.php?cat=ty-2023', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + 'search.php?keywords=', 'showSeries')
 URL_SEARCH_MOVIES = (URL_MAIN + 'search.php?keywords=', 'showMovies')
@@ -195,14 +195,13 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class=""><a href="(.+?)">.+?</a></li></ul>'
+    sPattern = '<li class><a href="(.+?)">&raquo;</a>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     #VSlog(aResult)
  
     if aResult[0]:
-        
         return URL_MAIN+aResult[1][0]
 
     return False

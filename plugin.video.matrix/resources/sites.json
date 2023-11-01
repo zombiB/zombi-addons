@@ -243,7 +243,7 @@
         "koralive": {
             "label": "Koralive",
             "active": "True",
-            "url": "https://online.360kora-live.com/"
+            "url": "https://lives.360kora-live.com/"
         },
         "linkbox": {
             "label": "Telebox",
@@ -275,6 +275,11 @@
             "active": "True",
             "url": "https://wws.brstej.com/"
         },
+        "qfilm": {
+            "label": "QFilm",
+            "active": "False",
+            "url": "https://h.qfilm.tv/"
+        },
         "s3uditv": {
             "label": "S3uditv",
             "active": "False",
@@ -283,7 +288,7 @@
         "shahidu": {
             "label": "Shahid4u",
             "active": "True",
-            "url": "https://shahhed4u.cam/"
+            "url": "https://shahed1.cam/"
         },
         "shoffree": {
             "label": "Shoffree",
@@ -320,6 +325,11 @@
             "active": "False",
             "url": "https://www.toonsland.site/"
         },
+        "topcinema": {
+            "label": "TopCinema",
+            "active": "True",
+            "url": "https://web3.topcinema.top/"
+        },
         "topimdb": {
             "label": "Top IMDB",
             "active": "True",
@@ -331,8 +341,8 @@
             "url": "https://ww.tuktukcima.com/"
         },
         "tvfun": {
-            "label": "Tvfun",
-            "active": "False",
+            "label": "tvfun",
+            "active": "True",
             "url": "https://www.tv-f.com/"
         },
         "tvnine": {
@@ -353,7 +363,12 @@
         "mycima": {
             "label": "Wecima",
             "active": "True",
-            "url": "https://weecima.store/"
+            "url": "https://weciimaa.online/"
+        },
+        "yalladrama": {
+            "label": "Yalladrama",
+            "active": "True",
+            "url": "https://ww2.yalladrama.co/"
         },
         "xsanime": {
             "label": "Xsanime",

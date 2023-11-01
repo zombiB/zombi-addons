@@ -20,7 +20,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = ('https://www.tv96.tv', 'showMovies')
+SPORT_LIVE = (URL_MAIN, 'showMovies')
 
 FUNCTION_SEARCH = 'showMovies'
  
@@ -47,9 +47,7 @@ def showMovies(sSearch = ''):
  
 # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="containerMatch"><a href="(.+?)"><div class="row">.+?<img alt="Image" src="(.+?)" style.+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
-
-
+    sPattern = '<div class="containerMatch"><a href="(.+?)".+?<img alt="Image" src="(.+?)" style.+?<div style="font-weight: bold">(.+?)</div>.+?<div class="matchTime">(.+?)</div>.+?<div style="font-weight: bold">(.+?)</div>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -88,10 +86,11 @@ def showLive():
  
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
-    oParser = cParser()                   
+    oParser = cParser() 
+    VSlog(sUrl)                  
     UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
     # (.+?) # ([^<]+) .+? 
-    if 'data-embed=' in sHtmlContent :
+    if 'data-embed' in sHtmlContent :
         sPattern = 'data-embed="(.+?)">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         VSlog(aResult)
@@ -102,7 +101,7 @@ def showLive():
     if aResult[0]:
         for aEntry in aResult[1]:
             sTitle = aEntry[1]
-            siteUrl = aEntry[0].replace("'","")
+            siteUrl = aEntry[0].replace("'","") 
             oRequestHandler = cRequestHandler(siteUrl)
             oRequestHandler.addHeaderEntry('Referer', sUrl)
             oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
