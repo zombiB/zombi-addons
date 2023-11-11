@@ -3,23 +3,15 @@
 
 import re
 	
+import requests
+from resources.lib import recaptcha_v2
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog, siteManager, dialog, addon
-from resources.lib.util import cUtil, Unquote, urlEncode, Quote
-from resources.lib import librecaptcha
-
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
+from resources.lib.comaddon import VSlog, siteManager, addon
 
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
@@ -79,83 +71,66 @@ def load():
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchAll', 'Search All', icons + '/Search.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
+
     oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', icons + '/Ramadan.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
+
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية', icons + '/MoviesEnglish.png', oOutputParameterHandler)
    
-    oOutputParameterHandler = cOutputParameterHandler()
+
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام عربية', icons + '/Arabic.png', oOutputParameterHandler)
  
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_ASIAN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أسيوية', icons + '/Asian.png', oOutputParameterHandler)
    
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_TURK[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام تركية', icons + '/Turkish.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_HI[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام هندية', icons + '/Hindi.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', KID_MOVIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام كرتون', icons + '/Cartoon.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', icons + '/Documentary.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أجنبية', icons + '/TVShowsEnglish.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_ASIA[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات أسيوية', icons + '/Asian.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية', icons + '/Hindi.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', ANIM_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات إنمي', icons + '/Anime.png', oOutputParameterHandler)
   
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_DUBBED[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات مدبلجة', icons + '/Dubbed.png', oOutputParameterHandler)  
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية مدبلجة', icons + '/TVShowsTurkish-Dubbed.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', SERIE_HEND_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات هندية مدبلجة', icons + '/TVShowsHindi-Dubbed.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_SERIES[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات وثائقية', icons + '/Documentary.png', oOutputParameterHandler)
 
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', REPLAYTV_NEWS[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'برامج تلفزيونية',icons + '/Programs.png', oOutputParameterHandler)
 	
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', THEATER[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'مسرحيات', icons + '/Theater.png', oOutputParameterHandler)
 
@@ -492,7 +467,7 @@ def showEpisodes():
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
   
      # (.+?) ([^<]+) .+?
-    sPattern = 'class="text-white">([^<]+)</a>.+?<a href="([^<]+)">.+?<img src="([^<]+)" class="img-fluid" alt='
+    sPattern = 'class="text-white">([^<]+)</a>.+?href="([^"]+)".+?img src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
 
     # VSlog(idResult)
@@ -501,8 +476,8 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sEp = aEntry[0].split(':')[0]
-            sEp = sEp.replace("الحلقة "," E").replace("حلقة "," E")
-            sTitle = sMovieTitle+''+sEp
+            sEp = sEp.replace("الحلقة ","").replace("حلقة ","")
+            sTitle =  '{}E{:02d}'.format(sMovieTitle, int(sEp))
             siteUrl = aEntry[1]
             s1Thumb = aEntry[2]
             sThumb = re.sub(r'thumb\/\d*x\d*\/','',s1Thumb)
@@ -575,6 +550,7 @@ def __checkForNextPage(sHtmlContent):
 
 def showHosters():
     oGui = cGui()
+    oHosterGui = cHosterGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -586,7 +562,7 @@ def showHosters():
     oParser = cParser()
             
 # ([^<]+) .+? (.+?)<a href="http://noon.khsm.io/link/126002"
-    sPattern =  'href=\"(http[^<]+/watch/.+?)\"' 
+    sPattern =  'href="(http[^<]+/watch/.+?)"'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         murl =  aResult[1][0]
@@ -594,7 +570,7 @@ def showHosters():
         oRequest = cRequestHandler(murl)
         sHtmlContent = oRequest.request()
 # ([^<]+) .+? (.+?)
-    sPattern =  'href=\"(http[^<]+/watch/.+?)\"' 
+    sPattern =  'href="(http[^<]+/watch/.+?)"'  
     aResult = oParser.parse(sHtmlContent,sPattern)
     
     if aResult[0]:
@@ -614,8 +590,7 @@ def showHosters():
         import requests
         s = requests.Session() 
 
-        token = librecaptcha.get_token(api_key="6LdMb-QZAAAAAPpUMcYZSn9CpIgBqDVAfTx_SAao", site_url=sUrl, user_agent=UA,
-                                      gui=False, debug=False)
+        token = recaptcha_v2.UnCaptchaReCaptcha().processCaptcha("6LdMb-QZAAAAAPpUMcYZSn9CpIgBqDVAfTx_SAao", lang='en', Referer=URL_MAIN)
         data = {'g-recaptcha-response':token}
         url = URL_MAIN+'verify'
         headers = {'User-Agent': UA,
@@ -633,100 +608,48 @@ def showHosters():
     
     if aResult[0]:
         murl =  aResult[1][0]
-        VSlog('Following url: ' + str(murl))
         oRequest = cRequestHandler(murl)
+        oRequest.disableSSL()
         sHtmlContent = oRequest.request()
         
         oParser = cParser()           
-        sPattern =  '<source src="(.*?)" type="video/mp4" size="(.*?)" />' 
+    sPattern =  '<source\s*src="([^"]+)" type="video/mp4" size="([^"]+)'                                                                      
         
                                                                      
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        VSlog('Results: ' + str(aResult))
+    aResult = oParser.parse(sHtmlContent,sPattern)       
+
         
-        url, qua = [], []
-        
-        if aResult[0]:
+    if aResult[0]:
+            oOutputParameterHandler = cOutputParameterHandler()
+
             for aEntry1 in aResult[1]:
                 sHosterUrl = aEntry1[0] 
                 sHost = aEntry1[1]  
-                VSlog('Found host url: ' + str(sHosterUrl))
                 sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-
-                # url.append(str(sHosterUrl))
-                # qua.append(str(sHost))
-            
-            # api_call = dialog().VSselectqual(qua, url)
-            
-                if oHoster:
-                    oHoster.setDisplayName(sTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-            oGui.setEndOfDirectory()
-    else:
-        sPattern = '<source src="(.*?)" type="video/mp4" size="(.*?)" />'
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        
-        url, qua = [], []
-        if aResult[0]:
-            for aEntry1 in aResult[1]:
-                sHosterUrl = aEntry1[0] 
-                sHost = aEntry1[1]  
-                VSlog('Found host url: ' + str(sHosterUrl))
-                sTitle = ('%s  [COLOR coral](%sp)[/COLOR]') % (sMovieTitle, sHost)  
-                oHoster = cHosterGui().checkHoster(sHosterUrl)
-                
-                # url.append(str(sHosterUrl))
-                # qua.append(str(sHost))
-            
-            # api_call = dialog().VSselectqual(qua, url)
-                if oHoster:
-                    oHoster.setDisplayName(sTitle)
-                    oHoster.setFileName(sMovieTitle)
-                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                oOutputParameterHandler.addParameter('sTitle', sTitle)
+                oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+                oOutputParameterHandler.addParameter('sHost', sHost)
+                oGui.addLink(SITE_IDENTIFIER, 'showLinks', sTitle, sThumb, '', oOutputParameterHandler)
                     
             oGui.setEndOfDirectory()
 
-def showHosters2():
+def showLinks():
     oGui = cGui()
+    oHosterGui = cHosterGui()
     oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
+        
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sTitle = oInputParameterHandler.getValue('sTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
     
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
-            
-    sPattern =  '<a href="([^<]+)" class="download-link"' 
-    aResult = oParser.parse(sHtmlContent,sPattern)
-    if aResult[0]:
-        murl =  aResult[1][0]
-        oRequest = cRequestHandler(murl)
-        sHtmlContent2 = oRequest.request()
-
-
-    # (.+?) .+? ([^<]+)
-               
-    sPattern = 'href="([^<]+)" download.+?style=".+?">(.+?)</a>'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent2, sPattern)
-
-	
-    if aResult[0]: 
-       for aEntry in aResult[1]:      
-           url = aEntry[0]
-           sHost = aEntry[1]				
-           sTitle = ('%s  [COLOR coral]%sp[/COLOR]') % (sMovieTitle, sHost)
-				
-       sHosterUrl = url
-       oHoster = cHosterGui().checkHoster(sHosterUrl)
-       if oHoster:
-          oHoster.setDisplayName(sTitle)
-          oHoster.setFileName(sMovieTitle)
-          cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    sHosterUrl = sHosterUrl
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+           
+    if oHoster:
+        oHoster.setDisplayName(sTitle)
+        oHoster.setFileName(sMovieTitle)
+        oHosterGui.showHoster(oGui, oHoster, sHosterUrl + "|verifypeer=false", sThumb)
                 
     oGui.setEndOfDirectory()

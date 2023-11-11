@@ -9,12 +9,12 @@ import re
 from resources.hosters.hoster import iHoster
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from urllib.parse import urlencode, Quote
 from resources.lib.comaddon import VSlog
 
 import codecs
 
 from base64 import b64decode
-from urllib.parse import urlencode, quote
 from random import choice
 
 from resources.lib.waaw import captcha_window
@@ -146,7 +146,7 @@ class cHoster(iHoster):
                 oRequestHandler.addJSONEntry('embed_from', '0')
                 oRequestHandler.addJSONEntry('wasmcheck', 1)
                 oRequestHandler.addJSONEntry('adscore', '')
-                oRequestHandler.addJSONEntry('click_hash', quote(hash_image))
+                oRequestHandler.addJSONEntry('click_hash', Quote(hash_image))
                 oRequestHandler.addJSONEntry('clickx', x)
                 oRequestHandler.addJSONEntry('clicky', y)
 
@@ -154,7 +154,9 @@ class cHoster(iHoster):
                 _json = oRequestHandler.request(jsonDecode=True)
                 
                 if 'try_again' in _json and _json['try_again'] == '1':
-                    VSlog("A refaire")
+                    VSlog("NETU : Captcha error")
+                    if dialog().VSyesno("try again?"):
+                        return self._getMediaLinkForGuest()
                 
                 link = ''
                 if 'obf_link' in _json and _json['obf_link'] != '#':
@@ -167,6 +169,6 @@ class cHoster(iHoster):
                         'Origin': self.__getHost(self._url)
                         #'accept-language': 'en-US,en;q=0.9'
                         }
-            return True, api_call + '|' + urlencode(headers4)
+            return True, api_call + '|' + urlEncode(headers4)
 
         return False, False

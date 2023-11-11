@@ -242,20 +242,22 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-        if ('streamwish' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName):
+        if ('streamwish' in sHostName) or ('egtpgrvh' in sHostName) or ('khadhnayad' in sHostName) or ('ajmidyad' in sHostName) or ('yadmalik' in sHostName) or ('kharabnah' in sHostName) or ('hayaatieadhab' in sHostName):
             return self.getHoster('streamwish')
         if ('dooood' in sHostName):
             return self.getHoster('dood')
         if ('DoodStream' in sHostName) or ('flixeo' in sHostName):
             return self.getHoster('dood')
-        if ('dood' in sHostName) or ('dood' in sHosterUrl):
+        if ('dood' in sHostName) or ('ds2play' in sHosterUrl) or ('dood' in sHosterUrl):
             return self.getHoster('dood')
+        if ('filemoon' in sHostName) or ('moonmov' in sHosterUrl):
+            return self.getHoster('filemoon')
             
         if ('film77' in sHostName):
             return self.getHoster('film77')
         if ('vidguard' in sHostName) or ('fertoto' in sHostName) or ('vgembed' in sHostName) or ('vgfplay' in sHostName):
             return self.getHoster('vidguard')
-        if ('filelions' in sHostName) or ('ajmidyadfihayh' in sHostName) or ('alhayabambi' in sHostName) or ('bazwatch' in sHostName) or ('cilootv' in sHostName) or ('motvy55' in sHostName):
+        if ('filelions' in sHostName) or ('fviplions' in sHostName) or ('ajmidyadfihayh' in sHostName) or ('alhayabambi' in sHostName) or ('bazwatch' in sHostName) or ('cilootv' in sHostName) or ('motvy55' in sHostName):
             return self.getHoster('filelions')
         if ('vidello' in sHostName):
             f = self.getHoster('resolver')
@@ -503,9 +505,6 @@ class cHosterGui:
         if ('allviid' in sHostName):
             return self.getHoster('filemoon')
             
-        if ('filemoon' in sHostName):
-            return self.getHoster('filemoon')
-            
         if ('veehd.' in sHostName):
             return self.getHoster('veehd')
 				
@@ -604,8 +603,8 @@ class cHosterGui:
         if ('segavid' in sHostName):
             return self.getHoster('arabveturk')
 
-        if ('vod540' in sHostName):
-            return self.getHoster('vod540')
+        if ('vod540' in sHostName) or ('anyvid' in sHostName) or ('vod7' in sHostName):
+            return self.getHoster('xvideo')
             
         if ('youtube' in sHostName) or ('youtu.be' in sHostName):
             return self.getHoster('youtube')

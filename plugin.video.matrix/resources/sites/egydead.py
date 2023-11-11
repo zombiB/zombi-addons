@@ -718,6 +718,7 @@ def showHosters():
     r = s.post(sUrl, data = data)
     sHtmlContent = r.content
     sHtmlContent = sHtmlContent.decode('utf8',errors='ignore')
+    VSlog(sHtmlContent)
     
 
    

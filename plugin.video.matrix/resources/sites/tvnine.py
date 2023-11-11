@@ -696,7 +696,7 @@ def showLive():
                         url = aResult[0]
                         sMovieTitle = sTitle
                         if '.m3u8' in url:
-                            sHosterUrl = url
+                            sHosterUrl = url + '|referer=' + sUrl
             
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
                    if oHoster:
@@ -722,6 +722,7 @@ def getHosterIframe(url, referer):
 
     sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
     aResult = re.findall(sPattern, sHtmlContent)
+    from resources.lib.packer import cPacker
     if aResult:
         sstr = aResult[0]
         if not sstr.endswith(';'):
@@ -789,7 +790,7 @@ def getHosterIframe(url, referer):
     if aResult:
         sHosterUrl = aResult[0]
         if '.m3u8' in sHosterUrl:
-            return True, sHosterUrl 
+            return True, sHosterUrl + '|referer=' + referer
 
     sPattern = '[^/]source.+?["\'](https.+?)["\']'
     aResult = re.findall(sPattern, sHtmlContent)

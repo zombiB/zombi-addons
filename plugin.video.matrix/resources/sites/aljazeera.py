@@ -138,7 +138,7 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
     oParser = cParser()
       # (.+?) ([^<]+) .+?
-    sPattern =  '"embedUrl": "(.+?)"' 
+    sPattern =  ',"embedUrl":"(.+?)",' 
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
        for aEntry in aResult[1]:

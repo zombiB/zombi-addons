@@ -23,7 +23,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'streamrapid', 'Rabbitstream/Dokicloud')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         mainurl = self._url
 
@@ -48,8 +48,9 @@ class cHoster(iHoster):
             surl = referer + surl
 
         import requests
-        response = requests.get("https://raw.githubusercontent.com/enimax-anime/key/e4/key.txt")
-        key = response.text
+        scriptJs = requests.get("https://rabbitstream.net/js/player/prod/e4-player.min.js").text
+
+        decryptionKey = extractKey(scriptJs)
 
         host = mainurl.split("/e")[0]
         host = host.split("//")[1]
@@ -73,21 +74,21 @@ class cHoster(iHoster):
             sources = aResult[1][0]
             
         # Working?
-        table = json.loads(key)
-        decrypted_key = ""
-        offset = 0
-        encrypted_string = sources
-        for start, end in table:
-            decrypted_key += encrypted_string[start - offset:end - offset]
-            encrypted_string = encrypted_string[:start - offset] + encrypted_string[end - offset:]
-            offset += end - start
+        extractedKey = ""
+        strippedSources = sources
+        totalledOffset = 0
+        for a, b in decryptionKey:
+            start = a + totalledOffset
+            end = start + b
+            extractedKey += sources[start:end]
+            strippedSources = strippedSources.replace(sources[start:end], "")
+            totalledOffset += b
 
         OpenSSL_AES = openssl_aes.AESCipher()
-        sources = json.loads(OpenSSL_AES.decrypt(encrypted_string, decrypted_key))
+        sources = json.loads(OpenSSL_AES.decrypt(strippedSources, extractedKey))
 
         sPattern = "'file': '(.+?)',"
         aResult = oParser.parse(sources, sPattern)
-
         if aResult[0]:
             source = aResult[1][0]
 
@@ -97,7 +98,6 @@ class cHoster(iHoster):
         sPattern = '"file":"([^"]+)".+?"label":"(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
-                # initialisation des tableaux
             url = []
             qua = []
             for i in aResult[1]:
@@ -111,17 +111,23 @@ class cHoster(iHoster):
             else:
                 return True, url_stream
 
-
         return False, False
 
-def extract_real_key(sources, key):
-    table = json.loads(key)
-    decrypted_key = ""
-    offset = 0
-    encrypted_string = sources
-    for start, end in table:
-        decrypted_key += encrypted_string[start - offset:end - offset]
-        encrypted_string = encrypted_string[:start - offset] + encrypted_string[end - offset:]
-        offset += end - start
-        VSlog(decrypted_key)
-    return decrypted_key, encrypted_string
+def extractKey(script):
+    startOfSwitch = script.rfind("switch")
+    endOfCases = script.find("partKeyStartPosition")
+    switchBody = script[startOfSwitch:endOfCases]
+    nums = []
+    matches = re.findall(r":[a-zA-Z0-9]+=([a-zA-Z0-9]+),[a-zA-Z0-9]+=([a-zA-Z0-9]+);", switchBody)
+    for match in matches:
+        innerNumbers = []
+        for varMatch in match:
+            regex = re.compile(f"{varMatch}=0x([a-zA-Z0-9]+)")
+            varMatches = re.findall(regex, script)
+            lastMatch = varMatches[-1]
+            if not lastMatch:
+                return None
+            number = int(lastMatch, 16)
+            innerNumbers.append(number)
+        nums.append([innerNumbers[0], innerNumbers[1]])
+    return nums

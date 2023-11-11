@@ -47,7 +47,7 @@ def showMovies(sSearch = ''):
     if aResult[0]:
         mSite = aResult[1][0] 
 
-    sPattern = '<button class="btn" onclick="goToMatch(.+?),([^<]+);">(.+?)</button>'
+    sPattern = 'id="cardMatch" onclick="goToMatch(.+?),(.+?);">.+?<span class="matchTime">(.+?)</span>'
 
 
 

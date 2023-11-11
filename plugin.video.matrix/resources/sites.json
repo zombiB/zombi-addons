@@ -2,7 +2,7 @@
     "sites": {
         "aflaam": {
             "label": "Aflaam",
-            "active": "False",
+            "active": "True",
             "url": "https://aflaam.com/"
         },
         "aflamfree": {
@@ -173,7 +173,7 @@
         "egydead": {
             "label": "Egydead",
             "active": "True",
-            "url": "https://a62.egydead.live/"
+            "url": "https://egydead.space/"
         },
         "aflamtop": {
             "label": "Aflamtop",

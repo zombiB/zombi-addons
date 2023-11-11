@@ -45,7 +45,7 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
 	# (.+?) .+? 
-    sPattern = '<div class="match-container"><a href="(.+?)" target="_blank" title=.+?<img alt="(.+?)" data-img="(.+?)" loading.+?<div id="result">(.+?)</div>.+?img alt="(.+?)" data-img='
+    sPattern = '<div class="match-container"><a href="(.+?)" target="_blank" title=".+?"><div class="right-team"><div class="team-logo"><img alt="(.+?)" src="(.+?)" title=.+?<img alt="(.+?)" src='
     aResult = oParser.parse(sHtmlContent, sPattern)
 
 
@@ -58,7 +58,7 @@ def showMovies():
             else:
                 sCondition = "الروابط متاحة \n \n"
  
-            sTitle =  aEntry[1]+'-'+aEntry[4]
+            sTitle =  aEntry[1]+'-'+aEntry[3]
 
             if 'مباراة' in sTitle:
                 sTitle = sTitle.split('مباراة')[1]
@@ -67,7 +67,7 @@ def showMovies():
             sThumb = aEntry[2]
             siteUrl =  aEntry[0]
 
-            sDesc = sCondition + aEntry[3]
+            sDesc = sCondition 
 			
 			
 

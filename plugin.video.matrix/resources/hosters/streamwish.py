@@ -1,4 +1,5 @@
-﻿from resources.lib.handler.requestHandler import cRequestHandler
+﻿#-*- coding: utf-8 -*-
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
@@ -21,6 +22,24 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
         oParser = cParser()
+
+        sPattern = 'file:"(https.+?)"'
+        aResult = re.findall(sPattern, sHtmlContent)
+        if aResult:
+           api_call = aResult[0]  # fichier master valide pour la lecture
+           oRequestHandler = cRequestHandler(api_call)
+           sHtmlContent2 = oRequestHandler.request()
+           list_url = []
+           list_q = []
+           oParser = cParser()
+           sPattern = 'PROGRAM.*?BANDWIDTH.*?RESOLUTION=(\d+x\d+).*?(https.*?m3u8)'
+           aResult = oParser.parse(sHtmlContent2, sPattern)
+           if aResult[0]:
+              for aEntry in aResult[1]:
+                  list_url.append(aEntry[1])
+                  list_q.append(aEntry[0])
+              if list_url:
+                 api_call = dialog().VSselectqual(list_q, list_url)
        
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'

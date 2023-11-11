@@ -663,8 +663,6 @@ def showHosters():
                    sTitle = sMovieTitle
             
                    sHosterUrl = url.strip()
-                   if 'moshahda' in sHosterUrl:
-                      sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    if 'mystream' in sHosterUrl:
                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                    oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -702,8 +700,6 @@ def showHosters():
             if '?download_' in sHosterUrl:
                 sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            if 'moshahda' in sHosterUrl:
-                sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             if 'mystream' in sHosterUrl:
                 sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -715,14 +711,3 @@ def showHosters():
 				
                 
     oGui.setEndOfDirectory()  
-# (.+?) .+? 
-# def __checkForNextPage(sHtmlContent):
-    # sPattern = '<a class="page-link current".+?</a><a class="page-link" href="(.+?)">'
-	
-    # oParser = cParser()
-    # aResult = oParser.parse(sHtmlContent, sPattern)
- 
-    # if aResult[0]:
-        # return URL_MAIN+aResult[1][0]
-
-    # return False

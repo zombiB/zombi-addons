@@ -20,7 +20,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
  
-DOC_NEWS = (URL_MAIN + '/programs/documentaries', 'showMovies')
+DOC_NEWS = (URL_MAIN + 'programs/documentaries', 'showMovies')
 
  
 def load():
