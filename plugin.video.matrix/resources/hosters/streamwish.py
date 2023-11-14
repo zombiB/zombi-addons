@@ -1,10 +1,9 @@
 ﻿#-*- coding: utf-8 -*-
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog, dialog
 import re
 
 class cHoster(iHoster):

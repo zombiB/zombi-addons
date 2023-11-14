@@ -2,12 +2,9 @@
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import xbmcgui
-from resources.lib.comaddon import VSlog
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0'
-
 
 class cHoster(iHoster):
 

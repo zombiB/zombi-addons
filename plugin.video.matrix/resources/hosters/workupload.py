@@ -2,12 +2,8 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog, xbmcgui
+from resources.lib.comaddon import VSlog, dialog
 from resources.hosters.hoster import iHoster
-from resources.lib.packer import cPacker
-from resources.lib.comaddon import dialog
-from resources.lib.comaddon import VSlog
-import re,xbmcgui
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:53.0) Gecko/20100101 Firefox/53.0'
 

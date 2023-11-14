@@ -248,32 +248,40 @@ class cGuiElement:
 
         # Recherche saisons et episodes
         sa = ep = ''
-        m = re.search('(|S|season)(\s?|\.)(\d+)(\s?|\.)(E|Ep|x|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
-        if m:
-            sTitle = sTitle.replace(m.group(0), '')
-            sa = m.group(3)
-            ep = m.group(7)
-        else:  # Juste l'épisode
-            m = re.search('(^|\s|\.)(E|Ep|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
+
+        if self.__sCat in (2, 3, 4, 8, 9):
+            m = re.search('(|S|season)(\s?|\.)(\d+)(\s?|\.)(E|Ep|x|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
             if m:
-                sTitle = sTitle.replace(m.group(0), '')
-                ep = m.group(4)
-            else:  # juste la saison
-                m = re.search('( S|season)(\s?|\.)(\d+)', sTitle, re.UNICODE)
+                sa = m.group(3)
+                ep = m.group(7)
+                if ep=='264' or ep=='265':  # echape les codecs X264 et x265
+                    sa = ep = ''
+                else:
+                    sTitle = sTitle.replace(m.group(0), '')
+
+            else:  # Juste l'épisode
+                m = re.search('(^|\s|\.)(E|Ep|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
                 if m:
                     sTitle = sTitle.replace(m.group(0), '')
-                    sa = m.group(3)
+                    ep = m.group(4)
+                else:  # juste la saison
+                    m = re.search('( S|season)(\s?|\.)(\d+)', sTitle, re.UNICODE)
+                    if m:
+                        sTitle = sTitle.replace(m.group(0), '')
+                        sa = m.group(3)
 
-        # enleve les crochets et les parentheses si elles sont vides
-        if sa or ep:
-            sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
+            # enleve les crochets et les parentheses si elles sont vides
+            if sa or ep:
+                sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
+                # vire espace et - a la fin
+                sTitle = re.sub('[- –_\.\[]+$', '', sTitle)
 
-        if sa:
-            self.__Season = sa
-            self.addItemValues('Season', self.__Season)
-        if ep:
-            self.__Episode = ep
-            self.addItemValues('Episode', self.__Episode)
+            if sa:
+                self.__Season = sa
+                self.addItemValues('Season', self.__Season)
+            if ep:
+                self.__Episode = ep
+                self.addItemValues('Episode', self.__Episode)
 			
         # on repasse en utf-8
         if not isMatrix():

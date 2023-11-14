@@ -1,10 +1,10 @@
 ﻿#-*- coding: utf-8 -*-
-#
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
-import requests
+UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 
 class cHoster(iHoster):
@@ -32,7 +32,8 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        oParser = cParser() 
+        oParser = cParser()
+        import requests 
         
 
         sPattern = '<source src="([^<]+)" type="video/mp4"'
@@ -70,5 +71,5 @@ class cHoster(iHoster):
         if aResult[0]:
         	api_call = aResult[1][0] 
         if api_call:
-        	return True, api_call 
+        	return True, api_call + '|AUTH=TLS&verifypeer=false'
         return False, False

@@ -3,12 +3,8 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
-
-import re
-
 
 class cHoster(iHoster):
 

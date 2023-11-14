@@ -7,7 +7,6 @@ from resources.hosters.hoster import iHoster
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
-
 class cHoster(iHoster):
 
     def __init__(self):

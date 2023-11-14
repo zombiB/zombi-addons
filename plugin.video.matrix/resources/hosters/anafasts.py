@@ -27,6 +27,7 @@ class cHoster(iHoster):
 
         list_q = []
         list_url = []
+        api_call = False
         
             # (.+?) .+?
         sPattern = 'file:"(.+?)"'

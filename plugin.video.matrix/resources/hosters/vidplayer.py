@@ -5,8 +5,7 @@ import json
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import dialog, VSlog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'
 

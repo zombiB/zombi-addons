@@ -1,7 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
-
-import base64
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
@@ -21,15 +19,15 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2023/', 'showSeries')
-SERIE_TR = (URL_MAIN + '/mosalsalat-torkia/', 'showSeries')
-SERIE_DUBBED = (URL_MAIN + '/mosalsalat-modablaja/', 'showSeries')
-SERIE_SUBED = (URL_MAIN + '/mosalsalat-motarjama/', 'showSeries')
-SERIE_HEND = (URL_MAIN + '/mosalsalat-hindia/', 'showSeries')
+SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia/', 'showSeries')
+SERIE_DUBBED = (URL_MAIN + '/cat//mosalsalat-modablaja/', 'showSeries')
+SERIE_SUBED = (URL_MAIN + '/cat//mosalsalat-motarjama/', 'showSeries')
+SERIE_HEND = (URL_MAIN + '/cat//mosalsalat-hindia/', 'showSeries')
 SERIE_AR = (URL_MAIN + '/cat/mosalsalat-3arabia/', 'showSeries')
 
-SERIE_KR = (URL_MAIN + '/mosalsalat-korea/', 'showSeries')
-SERIE_LATIN = (URL_MAIN + '/mosalsalat-latinia/', 'showSeries')
-REPLAYTV_NEWS = (URL_MAIN + '/zee-alwan/', 'showSeries')
+SERIE_KR = (URL_MAIN + '/cat//mosalsalat-korea/', 'showSeries')
+SERIE_LATIN = (URL_MAIN + '/cat//mosalsalat-latinia/', 'showSeries')
+REPLAYTV_NEWS = (URL_MAIN + '/cat//zee-alwan/', 'showSeries')
 
 URL_SEARCH = (URL_MAIN + '/q/', 'showSeriesSearch')
 FUNCTION_SEARCH = 'showSeriesSearch'
@@ -96,7 +94,7 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="serie-thumb"><a href="(.+?)" title="(.+?)"><img.+?src="(.+?)" alt='
+    sPattern = '<div class="thumb"><div class="serie-thumb"><a href="(.+?)" title="(.+?)"><img.+?src="(.+?)" alt='
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -269,7 +267,7 @@ def showEpisodes():
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
 
-    sPattern = '<ul class="pagination">(.+?)class="headline">'  
+    sPattern = '<ul class="pagination">(.+?)id="footer">'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -293,6 +291,8 @@ def showEpisodes():
                 sTitle =  "PAGE " + sTitle
                 sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
                 siteUrl = aEntry[0]
+                if URL_MAIN not in siteUrl:
+                    siteUrl = URL_MAIN + siteUrl
                 sThumb = ""
                 sDesc = ""
 
@@ -316,6 +316,7 @@ def showHosters():
     sHtmlContent = oRequestHandler.request();
 
     oParser = cParser()
+    import base64
 
     sPattern =  "PGlmcmFt(.+?)'"
     aResult = oParser.parse(sHtmlContent,sPattern)

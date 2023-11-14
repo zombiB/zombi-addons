@@ -5,8 +5,6 @@ from resources.lib.parser import cParser
 from resources.lib.gui.gui import cGui
 from resources.lib.comaddon import VSlog
 from resources.hosters.hoster import iHoster
-from resources.lib.packer import cPacker
-
 
 class cHoster(iHoster):
 

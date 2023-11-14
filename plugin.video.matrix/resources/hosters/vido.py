@@ -4,7 +4,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-
+from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
     def __init__(self):
@@ -12,6 +12,7 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         api_call = False
+        VSlog(self._url)
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()

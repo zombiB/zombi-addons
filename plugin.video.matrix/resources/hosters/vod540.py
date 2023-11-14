@@ -1,5 +1,4 @@
 #-*- coding: utf-8 -*- 
-import re
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster

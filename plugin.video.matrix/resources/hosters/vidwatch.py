@@ -3,7 +3,7 @@
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-#from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog
 
 
 class cHoster(iHoster):
@@ -15,8 +15,6 @@ class cHoster(iHoster):
         VSlog(self._url)
         api_call =''
 
-        #VSlog(self._url)
-
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 
@@ -24,11 +22,8 @@ class cHoster(iHoster):
         sPattern = 'file:"([^"]+.mp4)",label:"([0-9]+)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        #VSlog(str(aResult))
         if aResult[0]:
             api_call = aResult[1][0][0]
-
-        #VSlog(api_call)
 
         if api_call:
             return True, api_call

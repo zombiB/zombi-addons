@@ -10,7 +10,6 @@ from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import VSlog, siteManager, addon
 from resources.lib.parser import cParser
-from resources.lib.util import cUtil
 from resources.lib.util import Quote
 
 ADDON = addon()
@@ -23,8 +22,6 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 SPORT_LIVE = (URL_MAIN, 'showMovies')
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
-
  
 def load():
     oGui = cGui()
@@ -34,8 +31,7 @@ def load():
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', icons + '/Live.png', oOutputParameterHandler)
    
     oGui.setEndOfDirectory()
-	
-    
+	    
 def showMovies():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
@@ -51,11 +47,8 @@ def showMovies():
     sHtmlContent = oParser.abParse(sHtmlContent, sStart, sEnd)
 	# (.+?) .+? 
     sPattern = 'data-start="(.+?)">.+?<img alt="(.+?)" src="(.+?)" width.+?<img alt="(.+?)" src=.+?<a href="(.+?)" target='
-
-
     aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+		
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
@@ -66,7 +59,6 @@ def showMovies():
             sDesc = aEntry[0]+ " KSA"
 			
 			
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
@@ -96,7 +88,6 @@ def showHosters():
     if (aResult[0]):
         sUrl = aResult[1][0]
 
-
     oRequestHandler = cRequestHandler(sUrl)
     hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'yallalive.id','Referer' : 'https://yallalive.id/'}
     St=requests.Session()              
@@ -111,7 +102,6 @@ def showHosters():
             url = aEntry[0]
             if '.m3u8' in url:           
                 sHosterUrl = url.split('=')[1] 
-
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent2 = St.get(url).content.decode('utf-8') 
