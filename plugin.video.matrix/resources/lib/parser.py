@@ -30,7 +30,7 @@ class cParser:
                       .replace('&rsquo;', "'").replace('&lsquo;', '\'').replace('&nbsp;', '').replace('&#8217;', "'")\
                       .replace('&#8230;', '...').replace('&#8242;', "'").replace('&#884;', '\'').replace('&#39;', '\'')\
                       .replace('&#038;', '&').replace('&iuml;', 'ï').replace('&#8220;', '"').replace('&#8221;', '"')\
-                      .replace('–', '-').replace('—', '-').replace('&#58;', ':')
+                      .replace('–', '-').replace('—', '-').replace('&#58;', ':').replace('&#233;', 'é')
 
     def parse(self, sHtmlContent, sPattern, iMinFoundValue=1):
         sHtmlContent = self.__replaceSpecialCharacters(str(sHtmlContent))
@@ -76,11 +76,12 @@ class cParser:
         # ex youtube.py
 
         startIdx = sHtmlContent.find(start)
-        if startIdx == -1:  # rien trouvé, retourner le texte complet
-            return sHtmlContent
+        if startIdx == -1:  # rien trouvé, on prend depuis le début
+
+            startIdx = 0
 
         if end:
-            endIdx = sHtmlContent[startoffset + startIdx:].find(end)
+            endIdx = sHtmlContent[startoffset + startIdx + len(start):].find(end)
             if endIdx > 0:
-                return sHtmlContent[startoffset + startIdx: startoffset + startIdx + endIdx]
+                return sHtmlContent[startoffset + startIdx: startoffset + startIdx + endIdx + len(start)]
         return sHtmlContent[startoffset + startIdx:]

@@ -613,7 +613,6 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0] is True:
         murl = aResult[1][0] 
-        VSlog(murl)
         oRequest = cRequestHandler(murl)
         oRequest.addHeaderEntry('User-Agent', 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1')
         oRequest.addHeaderEntry('Referer', Quote(URL_MAIN))
@@ -633,12 +632,10 @@ def showHosters():
                 oHtmlContent = oParser.abParse(str(sHtmlContent), sStart, sEnd)
                 sectionlist.append(oHtmlContent)
                 quality = sections[i].text.replace("مشاهدة ","")+'p'
-                VSlog(quality)
 
                 sPattern = 'data-link=\"(.+?)\">.*?\s*?<i class'
 
                 aResult = [True, re.findall(sPattern, str(oHtmlContent))]
-                VSlog(aResult)
                 if aResult[0] is True:
                    for aEntry in aResult[1]:
                 

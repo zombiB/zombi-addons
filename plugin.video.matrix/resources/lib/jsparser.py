@@ -453,9 +453,9 @@ class JSBuffer(object):
             return str(value)
         if value is None:
             return 'undefined'
-        if value :
+        if value is True:
             return 'true'
-        if not value:
+        if value is False:
             return 'false'
         if type(value) in [list]:
             convert_first_to_generator = (str(w) for w in value)
@@ -836,7 +836,7 @@ class JsParser(object):
             # out('> Check True or false : ' + str(string))
 
         if isinstance(string, bool):
-            if string :
+            if string is True:
                 return True
         elif isinstance(string, types.StringTypes):
             if not string == '':

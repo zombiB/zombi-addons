@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
-# Venom.
-from resources.lib.comaddon import dialog, addon, xbmc, isMatrix
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+import xbmc
+from resources.lib.comaddon import dialog, addon, isMatrix
 from resources.lib.db import cDb
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
@@ -128,7 +128,7 @@ class cViewing:
 
                     # pourcentage de lecture
                     meta = {}
-                    meta['title'] = sTitleWatched
+                    meta['titleWatched'] = sTitleWatched
                     resumetime, totaltime = DB.get_resume(meta)
                     oOutputParameterHandler.addParameter('ResumeTime', resumetime)
                     oOutputParameterHandler.addParameter('TotalTime', totaltime)

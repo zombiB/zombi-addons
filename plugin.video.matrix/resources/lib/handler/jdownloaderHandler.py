@@ -10,16 +10,16 @@ class cJDownloaderHandler:
     DIALOG = dialog()
 
     def sendToJDownloader(self, sUrl):
-        if not self.__checkConfig():
+        if self.__checkConfig() is False:
             VSlog('Settings ueberpruefen (XBMC)')
             return False
 
-        if not self.__checkConnection():
+        if self.__checkConnection() is False:
             VSlog('Verbindung fehlgeschlagen (JD aus?)')
             return False
 
         bDownload = self.__download(sUrl)
-        if bDownload :
+        if bDownload is True:
             self.DIALOG.VSinfo('Link gesendet', 'JDownloader')
 
     def __checkConfig(self):
@@ -61,11 +61,11 @@ class cJDownloaderHandler:
 
     def __createJDUrl(self, sFileUrl, sHost, sPort, bAutomaticDownload, bLinkGrabber):
         sGrabber = '0'
-        if bLinkGrabber :
+        if bLinkGrabber is True:
             sGrabber = '1'
 
         sAutomaticStart = '0'
-        if bAutomaticDownload :
+        if bAutomaticDownload is True:
             sAutomaticStart = '1'
 
         sUrl = 'http://' + str(sHost) + ':' + str(sPort) + '/action/add/links/grabber' + str(sGrabber) + '/start' + str(sAutomaticStart) + '/' + sFileUrl

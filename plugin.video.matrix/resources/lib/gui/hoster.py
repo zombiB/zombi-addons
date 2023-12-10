@@ -13,8 +13,6 @@ icons = ADDON.getSetting('defaultIcons')
 class cHosterGui:
     SITE_NAME = 'cHosterGui'
     ADDON = addon()
-    
-    # step 1 - bGetRedirectUrl in ein extra optionsObject verpacken
     def showHoster(self, oGui, oHoster, sMediaUrl, sThumbnail, bGetRedirectUrl=False):
         oHoster.setUrl(sMediaUrl)
         oOutputParameterHandler = cOutputParameterHandler()
@@ -52,7 +50,7 @@ class cHosterGui:
 
         if (oInputParameterHandler.exist('sMeta')):
             sMeta = oInputParameterHandler.getValue('sMeta')
-            oGuiElement.setMeta(int(sMeta))
+            oGuiElement.setMeta(sMeta)
 
         oGuiElement.setFileName(oHoster.getFileName())
         oGuiElement.getInfoLabel()
@@ -68,7 +66,7 @@ class cHosterGui:
             if self.ADDON.getSetting('display_info_file') == 'true':
                 oHoster.setDisplayName(sMediaFile)
                 oGuiElement.setTitle(oHoster.getFileName())  # permet de calculer le cleanTitle
-                oGuiElement.setRawTitle(oHoster.getDisplayName())   # remplace le titre par le lien
+                oGuiElement.setRawTitle(oHoster.getDisplayName())  # remplace le titre par le lien
             else:
                 oGuiElement.setTitle(oHoster.getDisplayName())
         else:
@@ -93,10 +91,11 @@ class cHosterGui:
         oOutputParameterHandler.addParameter('sTmdbId', sTmdbId)
 
         # gestion NextUp
-        oOutputParameterHandler.addParameter('sourceName', site)    # source d'origine
-        oOutputParameterHandler.addParameter('sourceFav', sFav)    # source d'origine
+        oOutputParameterHandler.addParameter('sourceName', site)  # source d'origine
+        oOutputParameterHandler.addParameter('sourceFav', sFav)  # source d'origine
         oOutputParameterHandler.addParameter('nextSaisonFunc', nextSaisonFunc)
         oOutputParameterHandler.addParameter('saisonUrl', saisonUrl)
+        oOutputParameterHandler.addParameter('realHoster', oHoster.getRealHost())
 
         # gestion Lecture en cours
         oOutputParameterHandler.addParameter('movieUrl', movieUrl)
@@ -163,6 +162,10 @@ class cHosterGui:
         if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
             return self.getHoster('mcloud')
 				
+        # lien direct ?
+        if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
+            return self.getHoster('lien_direct')
+				
         # Recuperation du host
         try:
             sHostName = sHosterUrl.split('/')[2]
@@ -185,6 +188,9 @@ class cHosterGui:
             if self.ADDON.getSetting('hoster_alldebrid_premium') == 'true':
                 f = self.getHoster('alldebrid')
                 #mise a jour du nom
+                sRealHost = self.checkHoster(sHosterUrl, False)
+                if sRealHost:
+                    sHostName = sRealHost.getPluginIdentifier()
                 f.setRealHost(sHostName)
                 return f
 					
@@ -192,6 +198,9 @@ class cHosterGui:
             if self.ADDON.getSetting('hoster_realdebrid_premium') == 'true':
                 f = self.getHoster('realdebrid')
                 #mise a jour du nom
+                sRealHost = self.checkHoster(sHosterUrl, False)
+                if sRealHost:
+                    sHostName = sRealHost.getPluginIdentifier()
                 f.setRealHost(sHostName)
                 return f
 					
@@ -757,9 +766,6 @@ class cHosterGui:
         if ('.mp4' in sHosterUrl):
             return self.getHoster('lien_direct')
 
-        # lien direct ?
-        if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
-            return self.getHoster('lien_direct')
 				
         if ('nitroflare' in sHostName or 'tubeload.' in sHostName or 'Facebook' in sHostName  or 'fastdrive' in sHostName or 'megaup.net' in sHostName  or 'openload' in sHostName):
             return False
@@ -824,9 +830,9 @@ class cHosterGui:
                     oGuiElement.setSiteUrl(siteUrl)
                     oGuiElement.setMediaUrl(aLink[1])
                     oGuiElement.setFileName(sFileName)
-                    oGuiElement.setTitle(sTitle)
                     oGuiElement.setCat(sCat)
-                    oGuiElement.setMeta(int(sMeta))
+                    oGuiElement.setMeta(sMeta)
+                    oGuiElement.setTitle(sTitle)
                     oGuiElement.getInfoLabel()
 
                     from resources.lib.player import cPlayer

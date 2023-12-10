@@ -9,8 +9,6 @@ import xbmcvfs
 import xbmc
 import xbmcgui
 import sys
-import xbmcaddon
-import os
 
 try:  # Python 2
     import urllib2
@@ -32,7 +30,6 @@ except:
 
 SITE_IDENTIFIER = 'runscript'
 SITE_NAME = 'runscript'
-ADDON = xbmcaddon.Addon(id='plugin.video.matrix')
 
 class cClear:
 

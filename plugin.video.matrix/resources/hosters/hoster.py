@@ -9,6 +9,7 @@ class iHoster:
         self._displayName = self._defaultDisplayName
         self._fileName = displayName
         self._pluginIdentifier = pluginIdentifier
+        self.__sRealHost = pluginIdentifier
         self.color = color
         self._url = None
         self._mediaFile = None
@@ -16,6 +17,12 @@ class iHoster:
     def getPluginIdentifier(self):
         return self._pluginIdentifier
 
+    # peut être différent lorsque surchargé par un debrideur
+    def setRealHost(self, host):
+        self.__sRealHost = host
+
+    def getRealHost(self):
+        return self.__sRealHost
     def setFileName(self, fileName):
         self._fileName = fileName
 

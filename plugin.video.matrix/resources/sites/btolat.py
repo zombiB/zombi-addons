@@ -124,15 +124,16 @@ def showMovies(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
 	 # .+? ([^<]+) 
 
-    sPattern = '<div class="categoryNewsCard">.+?<a href=([^<]+)>.+?data-original="([^<]+)" alt="([^<]+)" />'
+    sPattern = '<img class="userImage".+?<a href="([^<]+)">.+?data-original="([^<]+)" alt="([^<]+)" />'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()  
         for aEntry in aResult[1]:
-            sUrl = aEntry[0].replace("'","")
+            sUrl = aEntry[0]
             sUrl = URL_MAIN+sUrl
+            VSlog(sUrl)
             sTitle = aEntry[2]
             sDesc = ""
             sThumb = aEntry[1]
@@ -198,7 +199,7 @@ def __checkForNextPage(sHtmlContent):
         return nPage
 
 
-    sPattern = '<li class="active"><a>.+?<a href="(.+?)"'
+    sPattern = '<li class="active">.+?<a href="(.+?)"'
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     

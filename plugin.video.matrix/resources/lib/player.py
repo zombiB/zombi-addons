@@ -229,8 +229,9 @@ class cPlayer(xbmc.Player):
                         # Marquer VU dans la BDD matrix
                         sTitleWatched = self.infotag.getOriginalTitle()
                         if sTitleWatched:
-                            if sEpisode :   # changement d'épisode suite à un enchainement automatique
-                                sTitle = sTitleWatched  # l'épisode vu et non pas le nouveau qui vient de démarrer
+                            if sEpisode :   # changement d'épisode suite à un enchainement automatique, fin de l'épisode précédent
+								
+                                sTitle = '%s S%sE%s' % (self.tvShowTitle, self.sSaison, sEpisode)
                             else:
                                 sTitle = self.sTitle
                             meta = {}
@@ -258,7 +259,7 @@ class cPlayer(xbmc.Player):
                             db.del_resume(meta)
 
 
-                            # Sortie des LECTURE EN COURS pour les films, pour les séries la suppression est manuelle
+                            # Sortie des LECTURES EN COURS pour les films, pour les séries la suppression est manuelle
                             if self.sCat == '1':
                                 db.del_viewing(meta)
                             elif self.sCat == '8':  # A la fin de la lecture d'un episode, on met la saison en "Lecture en cours"
@@ -282,7 +283,7 @@ class cPlayer(xbmc.Player):
                             meta['site'] = self.sSource
                             meta['sTmdbId'] = self.sTmdbId
                             
-                            # Lecture d'un épisode, on sauvegarde la saison 
+                            # Lecture d'un épisode, on sauvegarde la saison
                             if self.sCat == '8':
                                 saisonViewing = True
                             else:   # Lecture d'un film
@@ -319,11 +320,11 @@ class cPlayer(xbmc.Player):
         except Exception as err:
             VSlog("ERROR Player_setWatched : {0}".format(err))
 
-    #def onPlayBackStarted(self):
+    # def onPlayBackStarted(self):
     def onAVStarted(self):
         VSlog('player started')
 
-        #Si on recoit une nouvelle fois l'event, c'est que ca buggue, on stope tout
+        # Si on recoit une nouvelle fois l'event, c'est que ca buggue, on stope tout
         if self.playBackEventReceived:
             self.forcestop = True
             return

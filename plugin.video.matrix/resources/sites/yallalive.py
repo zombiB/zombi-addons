@@ -89,7 +89,7 @@ def showHosters():
         sUrl = aResult[1][0]
 
     oRequestHandler = cRequestHandler(sUrl)
-    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'yallalive.id','Referer' : 'https://yallalive.id/'}
+    hdr = {'User-Agent' : 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Mobile Safari/537.36','Origin' : 'yallalive.sx','Referer' : 'https://yallalive.sx/'}
     St=requests.Session()              
     sHtmlContent = St.get(sUrl,headers=hdr).content.decode('utf-8')  
 
@@ -100,8 +100,9 @@ def showHosters():
         for aEntry in aResult[1]:
             sTitle = sMovieTitle+' '+aEntry[1]
             url = aEntry[0]
-            if '.m3u8' in url:           
-                sHosterUrl = url.split('=')[1] 
+            if 'm3u8' in url:           
+                sHosterUrl = url.split('=')[1]
+                VSlog(sHosterUrl) 
             if 'embed' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent2 = St.get(url).content.decode('utf-8') 
@@ -155,6 +156,9 @@ def showHosters():
         for aEntry in aResult[1]:
             
             url = aEntry
+            if '.m3u8' in url:           
+                sHosterUrl = url.split('=')[1]
+                VSlog(sHosterUrl)
             if '.php?' in url:
                 oRequestHandler = cRequestHandler(url)
                 sHtmlContent2 = St.get(url).content.decode('utf-8') 

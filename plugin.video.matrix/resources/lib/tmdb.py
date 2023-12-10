@@ -67,13 +67,15 @@ class cTMDb:
     else:
         REALCACHE = VSPath(CACHE)
 
-    def __init__(self, api_key='', debug=False, lang='en'):
+    def __init__(self, api_key='', debug=False):
 
         self.ADDON = addon()
 
         self.api_key = self.ADDON.getSetting('api_tmdb')
         self.debug = debug
-        self.lang = lang
+        self.lang = self.ADDON.getSetting('tmdb_lang')
+        if not self.lang:
+            self.lang = 'en'
         self.poster = 'https://image.tmdb.org/t/p/%s' % self.ADDON.getSetting('poster_tmdb')
         self.fanart = 'https://image.tmdb.org/t/p/%s' % self.ADDON.getSetting('backdrop_tmdb')
 
@@ -562,7 +564,7 @@ class cTMDb:
             'trailer': '',
             'tagline': meta.get('name') if media_type == "episode" else meta.get('tagline'),
             'genre': '',
-            'studio': "",
+            'studio': '',
             'status': meta.get('status', ""),
             'cast': '',
             'crew': '',
@@ -725,7 +727,7 @@ class cTMDb:
                 cert = meta['release_dates']
                 if len(cert['results']) >0:
                     for data in cert['results']:
-                        if 'en' in data['iso_3166_1']:
+                        if 'ar' in data['iso_3166_1']:
                             _meta['mpaa'] = data['release_dates'][0]['certification']
                             break
                     if not _meta['mpaa']:
