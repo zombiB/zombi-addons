@@ -613,7 +613,7 @@ def showHosters():
         sHtmlContent = oRequest.request()
         
         oParser = cParser()           
-    sPattern =  '<source\s*src="([^"]+)" type="video/mp4" size="([^"]+)'                                                                      
+    sPattern =  '<source.+?src="([^"]+)".+?type="video/mp4".+?size="([^"]+)'                                                                      
         
                                                                      
     aResult = oParser.parse(sHtmlContent,sPattern)       
