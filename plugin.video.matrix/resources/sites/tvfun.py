@@ -193,13 +193,13 @@ def __checkForNextPage(sHtmlContent):
                     
                     if int(aEntry[1]) - int(CurrentPage[1][0][1]) ==1:
                         VSlog('Next Page: ' + aEntry[0])
-                        return aEntry[0]
+                        return URL_MAIN + aEntry[0]
         else:
             sPattern = '<li><a href="([^<]+)">2</a></li>'
             oParser = cParser()
             aResult = oParser.parse(sHtmlContent3, sPattern)
             VSlog('Next Page: ' + aResult[1][0])
-            return aResult[1][0]
+            return URL_MAIN + aResult[1][0]
         
     return False
             
