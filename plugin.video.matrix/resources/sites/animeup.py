@@ -249,63 +249,42 @@ def showHosters():
     sHtmlContent = oRequestHandler.request()
 
     oParser = cParser()       
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+     
+    sPattern = '<a href="(.+?)" target="_blank"><i class="fa fa-star"></i><span>(.+?)</span><span>(.+?)</span></a>' 
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        oOutputParameterHandler = cOutputParameterHandler()
+        for aEntry in aResult:
+            if 'leech' in aEntry[0]:
+                continue
+            
+            url = aEntry[0].replace('/d/','/f/')
+            sHosterUrl = url
+            if 'megamax' in sHosterUrl:
+                data = cMegamax().GetUrls(sHosterUrl)
+                for item in data:
+                    sHosterUrl = item.split(',')[0].split('=')[1]
+                    sQual = item.split(',')[1].split('=')[1]
+                    sLabel = item.split(',')[2].split('=')[1]
+
+                    sDisplayTitle = ('%s [COLOR coral] [%s][/COLOR][COLOR orange] - %s[/COLOR]') % (sMovieTitle, sQual, sLabel)      
+                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                    oOutputParameterHandler.addParameter('sQual', sQual)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                    oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, '', oOutputParameterHandler, oInputParameterHandler)
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)    
 
 
     # (.+?) .+? ([^<]+)
-               
-
-    # sPattern = 'data-ep-url="([^<]+)">'
-    # oParser = cParser()
-    # aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    # if aResult[0]:
-            # oOutputParameterHandler = cOutputParameterHandler() 
-            # for aEntry in aResult[1]:
-        
-                # url = aEntry
-                # if url.startswith('//'):
-                    # url = 'https:' + url
-				
-					
-            
-                # sHosterUrl = url 
-                # if 'userload' in sHosterUrl:
-                    # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                # if 'moshahda' in sHosterUrl:
-                    # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
-                # if 'mystream' in sHosterUrl:
-                    # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                # oHoster = cHosterGui().checkHoster(sHosterUrl)
-                # if oHoster:
-                    # sDisplayTitle = sMovieTitle
-                    # oHoster.setDisplayName(sDisplayTitle)
-                    # oHoster.setFileName(sMovieTitle)
-                    # cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-    # sPattern = '<a href="(.+?)" target="_blank"><i class="fa fa-star"></i><span>.+?</span><span>(.+?)</span></a>' 
-    # aResult = re.findall(sPattern, sHtmlContent)
-    # VSlog(aResult)
-    
-    # if aResult:
-        # for aEntry in aResult:
-            
-            # url = aEntry[0]
-            # sTitle = sMovieTitle+'('+aEntry[1]+')'
-            
-            # sHosterUrl = url
-            # if '?download_' in sHosterUrl:
-                # sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-                # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            # if 'moshahda' in sHosterUrl:
-                # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            # if 'mystream' in sHosterUrl:
-                # sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-            # oHoster = cHosterGui().checkHoster(sHosterUrl)
-            # if oHoster:
-                # oHoster.setDisplayName(sTitle)
-                # oHoster.setFileName(sMovieTitle)
-                # cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
                 
     soup = BeautifulSoup(sHtmlContent, "html.parser")
     Qualities = soup.findAll("ul",{"class":"quality-list"})
@@ -323,7 +302,9 @@ def showHosters():
         #VSlog(aResult)     
 	
         if aResult:
-            for aEntry in aResult:
+            for aEntry in aResult:  
+                if 'mega.nz' in aEntry:
+                    continue   
                 
                 url = aEntry[0]
                 sTitle = '('+aEntry[1]+')'
@@ -332,9 +313,7 @@ def showHosters():
                 sHosterUrl = url
                 if '?download_' in sHosterUrl:
                     sHosterUrl = sHosterUrl.replace("moshahda","ffsff")
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
-                if 'moshahda' in sHosterUrl:
-                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
+                    sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
                 if 'mystream' in sHosterUrl:
                     sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN 
                 oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -343,4 +322,22 @@ def showHosters():
                     oHoster.setFileName(sTitle)
                     cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icons + '/resolution/' + QualityDict[QL] + ".png")
                 
+    oGui.setEndOfDirectory()	
+
+def showLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sQual = oInputParameterHandler.getValue('sQual')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    sDisplayTitle = ('%s [COLOR coral] [%s] [/COLOR]') % (sMovieTitle, sQual)   
+    oHoster = cHosterGui().checkHoster(sHosterUrl)
+    if oHoster != False:
+        oHoster.setDisplayName(sDisplayTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oInputParameterHandler=oInputParameterHandler)
+
     oGui.setEndOfDirectory()	

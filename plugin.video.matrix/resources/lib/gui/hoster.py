@@ -157,10 +157,6 @@ class cHosterGui:
         sHosterUrl = sHosterUrl.split('|')[0]
         sHosterUrl = sHosterUrl.split('?')[0]
         sHosterUrl = sHosterUrl.lower()
-
-        # Fix for mcloud and vidstream m3u8 direct links
-        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
-            return self.getHoster('mcloud')
 				
         # lien direct ?
         if any(sHosterUrl.endswith(x) for x in ['.mp4', '.avi', '.flv', '.m3u8', '.webm', '.mkv', '.mpd']):
@@ -235,26 +231,28 @@ class cHosterGui:
         # Vidbom Clone
         vidbom = next((x for x in ['vidbom', 'vidbm', 'vadbam', 'vedbom', 'vadbom', 'vidbam', 'vedbam', 'viboom', 'vid1bom', 'vdbt3om', 'viid2beem', 'viid1boom', 
                             'ved2om', 'vid2bom', 'viidboom', 'vig1bm', 'v3db1oom', 'ved1om', 'vvid1om', 'vigom', 've1dp3m', 'vdp1em', 'viid1bem', 'vuidbeaam',
-                            'v2ddb3m', '2vbiim', 'vdb123m', 'vd123bm', 'v3dbeam', 'v3dbtom', 'v7d20bm', 'v7d20bm'] if x in sHostName), None)
+                            'v2ddb3m', '2vbiim', 'vdb123m', 'vd123bm', 'v3dbeam', 'v3dbtom', 'v7d20bm', 'vdtom', 'vendm', 'vandbm', 'vand1bm', 'vrdb2m', 
+                            'vdbt3om', 'vd22tom', 'ven1dm'] if x in sHostName), None)
         if vidbom:
             return self.getHoster('vidbom')
 
         # Uppom Clone
         uppom = next((x for x in ['upbaam', 'upbam', 'uppom', 'uppboom', 'uupbom', 'upgobom', 'upptobom', 'up2b9om', 'up1bom', 'up3bom', 'u1pb3m', 
-                            'u2pbemm', 'up1beem', 'bmbm.shop', '4bmto', '2bm.shop', 't0bm4.shop', '4bem2022', 'bm025', 'bm2024'] if x in sHostName), None)
+                            'u2pbemm', 'up1beem', 'bmbm.shop', '4bmto', '2bm.shop', 't0bm4.shop', '4bem2022', 'bm025', 'bm2024', 'b245m.shop', 'b2m1.shop'] if x in sHostName), None)
         if uppom:
             return self.getHoster('uppom')
 
         # Govidme Clone
         govidme = next((x for x in ['govad', 'govid.me', 'goveed', 'go2ved', 'go1ved', 'go-veid', 'g1v3d', 'goo1vd', 'g2ev4d', 'goved', 'ge1verd', 'g1oov1d', 
-                            'ga1ov3d', '1gafv3d', 'go12d', 'go1v2d', 'gonvd1', 'gaonv3d', 'gonv20d'] if x in sHostName), None)
+                            'ga1ov3d', '1gafv3d', 'go12d', 'go1v2d', 'gonvd1', 'gaonv3d', 'gonv20d', 'goevd', 'goanvd', 'goanv1d', 'gonvnd', 'gvnd', 
+                            'gaonvd', 'go1evd'] if x in sHostName), None)
         if govidme:
             return self.getHoster('govidme')
   
         # Streamwish Clone
         streamwish = next((x for x in ['streamwish', 'khadhnayad', 'ajmidyad', 'yadmalik', 'kharabnah', 'hayaatieadhab', 'sfastwish', 'eghjrutf', 'eghzrutw',
                             'wishfast', 'fviplions', 'egtpgrvh', 'mdy48tn97', 'embedwish', 'fsdcmo.sbs', 'anime4low', 'cdnwish-down', 'heavenlyvideo',
-                            'flaswish', 'streamzid'] if x in sHostName), None)
+                            'flaswish', 'streamzid', 'cimawish', 'egopxutd', 'obeywish'] if x in sHostName), None)
         if streamwish:
             return self.getHoster('streamwish')
 				
@@ -266,7 +264,7 @@ class cHosterGui:
 
         # Filelions Clone
         filelions = next((x for x in ['filelions', 'ajmidyadfihayh', 'alhayabambi', 'bazwatch', 'cilootv', 'motvy55', 'bazlions', 'lylxan',
-                                'fdewsdc.sbs', '5drama.vip', 'cdnlion-down', 'demonvideo', 'zidlions', 'vidhide'] if x in sHostName), None)
+                                'fdewsdc.sbs', '5drama.vip', 'cdnlion-down', 'demonvideo', 'zidlions', 'vidhide', 'streamfile', 'vidnow', 'tuktukcinema29.buzz'] if x in sHostName), None)
         if filelions:
             return self.getHoster("filelions")
 
@@ -288,7 +286,27 @@ class cHosterGui:
         # Voe Clone
         voe = next((x for x in ['voe', 'kathleenmemberhistory', 'timberwoodanotia', 'stevenimaginelittle', 'availedsmallest'] if x in sHostName), None)
         if voe:
-            return self.getHoster("voe")				
+            return self.getHoster("voe")
+
+        #vidlo CLone
+        vidlo = next((x for x in ['vidlo', 'c13-look', '7c3-look'] if x in sHostName), None)
+        if vidlo:    
+            return self.getHoster('vidlo')
+
+        if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
+            return self.getHoster('mcloud')
+
+        if ('vidsrc.stream' in sHostName):
+            return self.getHoster('vidsrcstream')
+
+        if ('multiembed' in sHostName):
+            return self.getHoster('multiembed')
+
+        if ('2embed.me' in sHostName):
+            return self.getHoster('2embedme')
+
+        if ('remotestre.am' in sHostName):
+            return self.getHoster('remotestream')				
         # Gestion classique
             
         if ('gettyshare' in sHostName):

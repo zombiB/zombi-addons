@@ -206,6 +206,53 @@ def showHosters():
 
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request() 
+
+    #print sUrl
+    
+
+
+    sPage='0'
+
+    sPattern = 'data-i="(.+?)" data-id="(.+?)" class='
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+   
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            sPage = aEntry[0]
+            sID = aEntry[1]
+            siteUrl = URL_MAIN+'/wp-content/themes/Elshaikh/Inc/Ajax/Single/Server.php?id='+sID+'&i='+sPage
+
+            oRequestHandler = cRequestHandler(siteUrl)
+            sData = oRequestHandler.request();
+    # (.+?)
+            sPattern = '<iframe.+?src="(.+?)"'
+            oParser = cParser()
+            aResult = oParser.parse(sData, sPattern)
+
+
+
+	
+            if aResult[0]:
+                for aEntry in aResult[1]:
+        
+                    url = aEntry
+                    if url.startswith('//'):
+                       url = 'http:' + url
+            
+                    sHosterUrl = url 
+                    if 'userload' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN
+                    if 'streamtape' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN  
+                    if 'mystream' in sHosterUrl:
+                        sHosterUrl = sHosterUrl + "|Referer=" + URL_MAIN                           
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    if oHoster:
+                       oHoster.setDisplayName(sMovieTitle)
+                       oHoster.setFileName(sMovieTitle)
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
     
     # (.+?) .+? ([^<]+)        	
     sPattern = 'href="([^<]+)" class="download--item">'
