@@ -52,9 +52,15 @@ class cHoster(iHoster):
             sHtmlContent2 = cPacker().unpack(data)
       # (.+?) ([^<]+) .+?
 
+            sPattern = 'wurl="(.+?)";'
+            aResult = oParser.parse(sHtmlContent2, sPattern)
+            if aResult[0]:
+                api_call = aResult[1][0] 
+                if api_call.startswith('//'):
+                   api_call = 'http:' + api_call
+
             sPattern = 'file:"(.+?)"'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-            VSlog(aResult)
             if aResult[0]:
                 api_call = aResult[1][0] 
 
