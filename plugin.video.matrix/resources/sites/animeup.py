@@ -297,7 +297,7 @@ def showHosters():
         
         QL = link.li.text.replace("الجودة المتوسطة","").replace("الجودة العالية","").replace("الجودة الخارقة","").strip()
         #VSlog(QL)
-        sPattern = 'class=\"btn btn-default\" href=\"([^<]+)\" target.+?>([^<]+)</a>' 
+        sPattern = '<a class="btn btn-default" href="(.+?)">(.+?)</a>' 
         aResult = re.findall(sPattern, str(link))
         #VSlog(aResult)     
 	
