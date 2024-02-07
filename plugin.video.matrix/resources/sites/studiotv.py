@@ -2,7 +2,8 @@
 # zombi https://github.com/zombiB/zombi-addons/
 
 import re
-
+import base64
+import requests
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -45,24 +46,20 @@ def showMovies():
     sHtmlContent = oRequestHandler.request()
     oParser = cParser()
             
-
 	# (.+?) .+? ([^<]+)
-    sPattern = '<div class="match-container"><a href="(.+?)" title="(.+?)">.+?data-img="(.+?)" title.+?data-start="(.+?)" data-gameends'
+    sPattern = '<div class="match-container.+?href="([^"]+)" title="([^"]+)".+?data-img="([^"]+)".+?data-start=["\']([^"\']+)["\']'
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-
 
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
  
             sTitle =  aEntry[1]
+            if 'مشاهد' in sTitle:
+                sTitle = sTitle.split("مباراة")[1].split("اليوم")[0]
             sThumb = aEntry[2]
             siteUrl =  aEntry[0]
-
-            sDesc = aEntry[3] 
-			
-			
+            sDesc = f'وقت المباراة \n {aEntry[3].split("T")[1].split("+")[0]}(GMT+2)'
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -70,12 +67,10 @@ def showMovies():
 
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
  
- 
     oGui.setEndOfDirectory()
-	
 def showHosters():
     oGui = cGui()
-    import requests
+    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
@@ -96,7 +91,7 @@ def showHosters():
         if oHoster:
            oHoster.setDisplayName(sTitle)
            oHoster.setFileName(sTitle)
-           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     murl = ''
     sPattern = 'iframe.src = ["\']([^"\']+)["\']'
@@ -107,6 +102,7 @@ def showHosters():
     else:
         sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
+        VSlog(aResult)
         if aResult[0]:
             for aEntry in aResult[1]:
                 murl = aEntry
@@ -114,12 +110,24 @@ def showHosters():
     oRequestHandler = cRequestHandler(murl)
     sHtmlContent = oRequestHandler.request()
 
+    sPattern = 'file: ["\']([^"\']+)["\']'
+    aResult = re.findall(sPattern, sHtmlContent)
+    if aResult:
+        oOutputParameterHandler = cOutputParameterHandler()
+        sHosterUrl = aResult[0]
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        sHosterUrl = sHosterUrl + '|referer=' + murl
+        if oHoster:
+            oHoster.setDisplayName(sMovieTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
     if 'class="albaplayer_name' not in sHtmlContent:
-        sPattern = '<iframe src=["\']([^"\']+)["\']'
+        sPattern = '<iframe.+?id=["\']iframe["\'].+?src=["\']([^"\']+)["\']'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             for aEntry in aResult[1]:
-                murl = aEntry       
+                murl = aEntry    
 
                 oRequestHandler = cRequestHandler(murl)
                 sHtmlContent = oRequestHandler.request()
@@ -132,7 +140,6 @@ def showHosters():
     oParser = cParser()
     sPattern = 'href="([^"]+)">(.+?)</a>'
     aResult = oParser.parse(sHtmlContent0, sPattern)
-    VSlog(aResult)
     if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
         for aEntry in aResult[1]:
@@ -170,7 +177,7 @@ def showHosters():
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
             sPattern = 'loadSource(.+?);'
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -182,14 +189,13 @@ def showHosters():
                     if url.startswith('//'):
                         url = 'https:' + url
             
-                
                     sHosterUrl = url
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)   	
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)   	
 
             sPattern = 'embeds =(.+?)",'
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -199,7 +205,6 @@ def showHosters():
                     if 'm3u8' in url:           
                         sHosterUrl = url.split('=')[1]
                     if '.php' in url:
-                        import requests    
                         oRequestHandler = cRequestHandler(url)
                         St=requests.Session()
                         oRequestHandler = cRequestHandler(url)
@@ -218,7 +223,7 @@ def showHosters():
                                if oHoster:
                                    oHoster.setDisplayName(sTitle)
                                    oHoster.setFileName(sMovieTitle)
-                                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+                                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
             sPattern = '<iframe src="(.+?)" allowfullscreen'
             aResult = oParser.parse(sHtmlContent, sPattern)
@@ -229,22 +234,37 @@ def showHosters():
                     sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
                     if url.startswith('//'):
                         url = 'https:' + url
-            
-                
+
                     sHosterUrl = url
                     oHoster = cHosterGui().checkHoster(sHosterUrl)
                     sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
                     if oHoster:
                         oHoster.setDisplayName(sTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
-            sPattern = "<script>AlbaPlayerControl([^<]+)',"
+            sPattern = 'var file = ["\']([^"\']+)["\']'
+            aResult = oParser.parse(sHtmlContent, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    url = aEntry
+                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
+                    if url.startswith('//'):
+                        url = 'https:' + url
+
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sHosterUrl = sHosterUrl + "|Referer=" + murl
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+            sPattern = "<script>AlbaPlayerControl\((.+?)\,"
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]: 
-               import base64
                for aEntry in aResult[1]:
-                   url_tmp = aEntry
+                   url_tmp = aEntry.replace("'","").replace('"','')
                    url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
                    sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ murl
@@ -270,15 +290,18 @@ def showHosters():
                    if oHoster:
                        oHoster.setDisplayName(sMovieTitle+' '+sTitle)
                        oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
-               
+                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
             sPattern = '<iframe.+?src="([^"]+)'
             aResult = oParser.parse(sHtmlContent, sPattern)
-
             if aResult[0]:
                 for aEntry in aResult[1]:
+                    if 'http' not in aEntry:
+                        continue
+                    if 'javascript' in aEntry:
+                        continue
                     url = aEntry
+                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
 
                     if 'sharecast' in url:
                             Referer =  "https://sharecast.ws/"
@@ -304,6 +327,10 @@ def showHosters():
                             url2 = getHosterIframe(url,url) 
                             url = url2   
 
+                    if 'abolishstand' in url:
+                            url2 = getHosterIframe(url,url) 
+                            url = url2 + "|Referer=" + url
+
                     if 'realbitsport' in url:
                             url2 = getHosterIframe(url,url) 
                             url = url2   
@@ -311,10 +338,12 @@ def showHosters():
                     if 'youtube' in url:
                             url = url  
 
+                    if 'ok.ru' in aEntry:
+                            url = aEntry 
+
                     if 'javascript' in url:
                             url = ''
                     if '/albaplayer/ch' in url:
-                            import base64
                             if 'ch2cdn/' in url:
                                 url = 'https://ninecdn.online/albaplayer/ch2cdn/'
                             if 'ch3cdn/' in url:
@@ -329,8 +358,24 @@ def showHosters():
                             aResult = re.findall(sPattern, data3)
                             if aResult:
                                 url = f'{base64.b64decode(aResult[1]).decode("utf8",errors="ignore")}|Referer={url}'
+                                sHosterUrl = url
+                                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                                sHosterUrl = sHosterUrl
+                                if oHoster:
+                                    oHoster.setDisplayName(sTitle)
+                                    oHoster.setFileName(sTitle)
+                                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+                    elif '.php' in url or 'stream' in url:
+                        url2 = getHosterIframe(url,url) 
+                        url = url2   
 
-
+                    sHosterUrl = url
+                    oHoster = cHosterGui().checkHoster(sHosterUrl)
+                    sHosterUrl = sHosterUrl
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     oGui.setEndOfDirectory()    
 
@@ -342,7 +387,6 @@ def Hoster_ShareCast(url, referer):
 
     sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"
     aResult = re.findall(sPattern, sHtmlContent)
-
     if aResult:
         site = 'https://' + aResult[0][1]
         url = (site + '/hls/' + aResult[0][0]  + '/live.m3u8')
@@ -408,10 +452,9 @@ def getHosterIframe(url, referer):
 
     sPattern = 'src=["\']([^"\']+)["\']'
     aResult = re.findall(sPattern, sHtmlContent)
-
     if aResult:
         url = aResult[0]
-        if '.m3u8' in url:
+        if '.m3u8' in url or '.ts' in url or '.mp4' in url:
             return url
 
     sPattern = 'player.load\({source: (.+?)\('
@@ -429,7 +472,7 @@ def getHosterIframe(url, referer):
     aResult = re.findall(sPattern, sHtmlContent)
     if aResult:
         sHosterUrl = aResult[0]
-        if '.m3u8' in sHosterUrl:
+        if '.m3u8' in sHosterUrl or '.ts' in sHosterUrl or '.mp4' in sHosterUrl:
             return True, sHosterUrl 
 
     sPattern = '[^/]source.+?["\'](https.+?)["\']'
@@ -461,281 +504,3 @@ def getHosterIframe(url, referer):
         return aResult[0] + '|referer=' + referer
 
     return False
-	
-def showLive():
-    oGui = cGui()
-   
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-    URLMAIN = sUrl.split('/')[2]
-    URLMAIN = 'https://' + URLMAIN
-    if "?src=" in sUrl:
-       slink = sUrl.split('?src=')[1]
-       VSlog(slink)
-    sHtmlContent2 =""
-    sHtmlContent1 =""
-    sHtmlContent3 =""
-      # (.+?) ([^<]+) .+?
-    sPattern = "iframe.src = ([^<]+)+link"
-    aResult = oParser.parse(sHtmlContent, sPattern)   
-    if (aResult[0]):
-        sUrl = aResult[1][0].replace("'","")
-        VSlog(sUrl)
-        sUrl = sUrl+slink
-        VSlog(sUrl)
-        oRequestHandler = cRequestHandler(sUrl)
-        sHtmlContent3 = oRequestHandler.request()
-      # (.+?) ([^<]+) .+?
-    sPattern = 'iframe" src="(.+?)" width'
-    aResult = oParser.parse(sHtmlContent, sPattern)   
-    if (aResult[0]):
-        sUrl = aResult[1][0]
-        if sUrl.startswith('/'):
-           sUrl = URLMAIN + sUrl
-        VSlog(sUrl)
-        oRequestHandler = cRequestHandler(sUrl)
-        sHtmlContent = oRequestHandler.request()
-    # (.+?) # ([^<]+) .+? 
-    if 'no_mobile_iframe' in sHtmlContent:
-       sPattern = 'no_mobile_iframe = "(.+?)";'
-       aResult = oParser.parse(sHtmlContent, sPattern)
-       if (aResult[0]):
-           siteUrl = aResult[1][0]
-           if siteUrl.startswith('/'):
-               siteUrl = URLMAIN + siteUrl
-           import requests    
-           oRequestHandler = cRequestHandler(siteUrl)
-           hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-           St=requests.Session()
-           sHtmlContent2 = St.get(siteUrl,headers=hdr)
-           sHtmlContent2 = sHtmlContent2.content.decode('utf-8')
-    if 'mobile' in sHtmlContent:
-       sPattern = '_iframe = "(.+?)";'
-       aResult = oParser.parse(sHtmlContent, sPattern)
-       if (aResult[0]):
-           siteUrl = aResult[1][0]
-           if siteUrl.startswith('/'):
-               siteUrl = URL_MAIN + siteUrl
-           import requests    
-           oRequestHandler = cRequestHandler(siteUrl)
-           hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-           St=requests.Session()
-           sHtmlContent1 = St.get(siteUrl,headers=hdr)
-           sHtmlContent1 = sHtmlContent1.content.decode('utf-8')
-    sHtmlContent = sHtmlContent3+sHtmlContent2+sHtmlContent1
-
-    sPattern = 'href="(.+?)">(.+?)</a>'   
-    aResult = oParser.parse(sHtmlContent, sPattern) 
-   
-
-
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
- 
-            sTitle = aEntry[1]
-            siteUrl = aEntry[0].replace("('","").replace("')","")
-            if siteUrl.startswith('/'):
-               siteUrl = URL_MAIN + siteUrl
-            sDesc = ""
-            import requests    
-            oRequestHandler = cRequestHandler(siteUrl)
-            hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-            St=requests.Session()
-            sHtmlContent = St.get(siteUrl,headers=hdr)
-            sHtmlContent = sHtmlContent.content.decode('utf-8')
-            oParser = cParser()
-    # (.+?) # ([^<]+) .+? 		
-
-
-            sPattern = "<script>AlbaPlayerControl([^<]+)',"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]: 
-               import base64
-               for aEntry in aResult[1]:
-                   url_tmp = aEntry
-                   url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
-
-
-            sPattern = "source: '(.+?)',"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"+'&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-            sPattern = "hls.loadSource(.+?);"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-            sPattern = "<source src='(.+?)' type='application/x-mpegURL'"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl 
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-            sPattern = 'source:"(.+?)",'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-    # (.+?) # ([^<]+) .+? 
-            sPattern = 'src="(.+?)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
-                   sMovieTitle = sMovieTitle
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    # (.+?) # ([^<]+) .+? 
-            sPattern = 'file:"(.+?)",'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
-                   sMovieTitle = sMovieTitle
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
- # (.+?) # ([^<]+) .+? 
-
-            sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry[0].replace("('",'').replace("')","").replace("update_frame","")
-                   url = url.split('?link=', 1)[1]
-                   if url.startswith('//'):
-                      url = 'http:' + url
-                   if '/embed/' in url:
-                      oRequestHandler = cRequestHandler(url)
-                      oParser = cParser()
-                      sPattern =  'src="(.+?)" scrolling="no">'
-                      aResult = oParser.parse(url,sPattern)
-                      if aResult[0]:
-                          url = aResult[1][0]
-                          sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
-                          sMovieTitle = str(aEntry[1])
-                          if 'vimeo' in sHosterUrl:
-                              sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                          oHoster = cHosterGui().checkHoster(sHosterUrl)
-                          if oHoster:
-                              oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                              oHoster.setFileName(sMovieTitle)
-                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
- # (.+?) # ([^<]+) .+? 
-
-            sPattern = 'src="(.+?)" width="(.+?)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry[0]
-                   if url.startswith('//'):
-                      url = 'http:' + url
-                   if 'xyz' in url:
-                       oRequestHandler = cRequestHandler(url)
-                       oRequestHandler.setRequestType(1)
-                       oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0')
-                       oRequestHandler.addHeaderEntry('referer', 'https://msdee.xyz/')
-                       data = oRequestHandler.request();
-                       sPattern =  '(http[^<]+m3u8)'
-                       aResult = oParser.parse(data,sPattern)
-                       if aResult[0]:
-                           url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
- 
-                           sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","") 
-                           sMovieTitle = sMovieTitle
-                           if 'vimeo' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-            
-
-
-                           oHoster = cHosterGui().checkHoster(sHosterUrl)
-                           if oHoster:
-                               oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                               oHoster.setFileName(sMovieTitle)
-                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    
-    if 'streamable' in sUrl:
-        sHosterUrl = sUrl.split('?src=')[1]
-        oHoster = cHosterGui().checkHoster(sHosterUrl)
-        if oHoster:
-           oHoster.setDisplayName(sMovieTitle)
-           oHoster.setFileName(sMovieTitle)
-           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-                
-    oGui.setEndOfDirectory()

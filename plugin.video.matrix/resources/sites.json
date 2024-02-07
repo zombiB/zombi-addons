@@ -298,7 +298,7 @@
         "shooflive": {
             "label": "Shooflive",
             "active": "True",
-            "url": "https://r.shooflive.co/"
+            "url": "https://tv.shooflive.art/"
         },
         "shoofvod": {
             "label": "Shoofvod",
@@ -314,6 +314,11 @@
             "label": "Stardima",
             "active": "True",
             "url": "https://w1.stardima.sbs/watch/"
+        },
+        "studiotv": {
+            "label": "studio2tv",
+            "active": "True",
+            "url": "https://www.studio2tv.tn/"
         },
         "themoviedb_org": {
             "label": "The Movie Database",
