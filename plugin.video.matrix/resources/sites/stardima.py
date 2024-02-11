@@ -387,6 +387,7 @@ def showHosters():
     sPattern =  'data-type="(.+?)" data-post="(.+?)" data-nume="(.+?)">'
 	
     aResult = oParser.parse(sHtmlContent,sPattern)
+    VSlog(aResult)
     if aResult[0]:
        total = len(aResult[1])
        for aEntry in aResult[1]: 
@@ -401,6 +402,7 @@ def showHosters():
 							'origin': 'https://w1.stardima.sbs',
 							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
+           VSlog(data)
            r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
            sHtmlContent = r.content.decode('utf8')
     # (.+?) .+? ([^<]+)

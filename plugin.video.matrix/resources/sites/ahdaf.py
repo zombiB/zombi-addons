@@ -151,8 +151,8 @@ def showHosters():
             sHosterUrl = aEntry[0]
             if sHosterUrl.startswith('//'):
                 sHosterUrl = 'http:' + sHosterUrl
-                           
-            if 'goo.gl' in sHosterUrl or 'bit.ly' in sHosterUrl:
+                          
+            if 'goo.gl' in sHosterUrl or 'shorturl' in sHosterUrl or 'bit.ly' in sHosterUrl:
                 try:
                     import requests
                     url = sHosterUrl

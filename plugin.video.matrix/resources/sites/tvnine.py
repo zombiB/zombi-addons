@@ -93,7 +93,6 @@ def showLive():
     if 'data-embed' in sHtmlContent :
         sPattern = 'data-embed="(.+?)">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
     else :
         sPattern = 'onclick="location.href=(.+?);">(.+?)</li>'
         aResult = oParser.parse(sHtmlContent, sPattern)
@@ -138,7 +137,7 @@ def showLive():
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
     # (.+?) # ([^<]+) .+? 
             sPattern = 'hls.loadSource(.+?);'
-            aResult = oParser.parse(data, sPattern)
+            aResult = oParser.parse(data, sPattern) 
             if aResult[0]:
                for aEntry in aResult[1]:
                    url = aEntry
@@ -315,7 +314,7 @@ def showLive():
                                   oHoster.setDisplayName(sMovieTitle)
                                   oHoster.setFileName(sMovieTitle)
                                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb) 
-                   sHosterUrl = url.replace("https://tv.hd44.net/p/phone.html?src=","") 
+                   sHosterUrl = str(url)  
  
                    UA = 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1' 
                    sHosterUrl = sHosterUrl   

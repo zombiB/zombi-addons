@@ -292,9 +292,17 @@ class cHosterGui:
         vidlo = next((x for x in ['vidlo', 'c13-look', '7c3-look'] if x in sHostName), None)
         if vidlo:    
             return self.getHoster('vidlo')
+				
+        # dood Clone
+        dood = next((x for x in ['dooood', 'DoodStream', 'flixeo', 'd0o0d', 'dood', 'ds2play'] if x in sHostName), None)
+        if dood:
+            return self.getHoster("dood")
 
         if ('mcloud' in sHosterUrl) or ('vizcloud' in sHosterUrl) or ('vidstream' in sHosterUrl) or ('vidplay' in sHosterUrl):
             return self.getHoster('mcloud')
+
+        if ('demonvid' in sHostName):
+            return self.getHoster('demonvid')
 
         if ('mixdrop' in sHostName):
             return self.getHoster('mixdrop')
@@ -332,13 +340,6 @@ class cHosterGui:
             #mise a jour du nom
             f.setRealHost(sHostName)
             return f
-
-        if ('dooood' in sHostName):
-            return self.getHoster('dood')
-        if ('DoodStream' in sHostName) or ('flixeo' in sHostName):
-            return self.getHoster('dood')
-        if ('dood' in sHostName) or ('ds2play' in sHosterUrl) or ('dood' in sHosterUrl):
-            return self.getHoster('dood')
             
         if ('film77' in sHostName):
             return self.getHoster('film77')
@@ -628,6 +629,9 @@ class cHosterGui:
         if ('skyvid' in sHostName) or ('gvadz' in sHostName):
             return self.getHoster('skyvid')
             
+        if ('techinsider' in sHostName):
+            return self.getHoster('arabseed')
+            
         if ('seeeed' in sHostName):
             return self.getHoster('arabseed')
             
@@ -643,7 +647,7 @@ class cHosterGui:
         if ('fajer.live' in sHostName):
             return self.getHoster('fajerlive')            
             
-        if ('govid' in sHostName) or ('drkvid' in sHosterUrl)  or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('downvol' in sHosterUrl) or ('telvod' in sHosterUrl):
+        if ('govid' in sHostName) or ('g1ovd' in sHosterUrl) or ('drkvid' in sHosterUrl)  or ('gvid.' in sHosterUrl) or ('govid.' in sHostName) or ('kopatube' in sHostName) or ('kobatube' in sHostName) or ('downvol' in sHosterUrl) or ('telvod' in sHosterUrl):
             return self.getHoster('govid')
             
         if ('vid4up' in sHostName):

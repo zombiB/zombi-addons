@@ -14,6 +14,7 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         self._url = self._url.replace('/f','/e')
+        VSlog(self._url)
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
 

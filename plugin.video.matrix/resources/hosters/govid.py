@@ -69,6 +69,17 @@ class cHoster(iHoster):
                 if api_call:
                    return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
 
+        sPattern =  'file:"(.+?)",label' 
+        aResult = oParser.parse(sHtmlContent,sPattern)
+        if aResult[0]:
+            for aEntry in aResult[1]:
+            
+                api_call = aEntry.replace('["','').replace('"]','')
+
+
+                if api_call:
+                   return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
+
         sPattern =  'sources: (.+?),' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if aResult[0]:
