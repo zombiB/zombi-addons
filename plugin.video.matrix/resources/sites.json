@@ -148,7 +148,7 @@
         "cimau": {
             "label": "Cima4u",
             "active": "True",
-            "url": "https://w5.cima4u16.shop/"
+            "url": "https://www.cima-4u.today/"
         },
         "detectiveconanar": {
             "label": "Detectiveconanar",
@@ -372,13 +372,13 @@
         },
         "yalladrama": {
             "label": "Yalladrama",
-            "active": "True",
+            "active": "False",
             "url": "https://ww2.yalladrama.co/"
         },
         "xsanime": {
             "label": "Xsanime",
             "active": "True",
-            "url": "https://v.xsanime.com/"
+            "url": "https://xsaniime.com/"
         },
         "yallalive": {
             "label": "Yallalive",
