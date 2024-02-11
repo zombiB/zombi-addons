@@ -384,22 +384,7 @@ def showSeries(sSearch = ''):
        sHtmlContent = r.content.decode('utf8',errors='ignore')
        sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
 
-    else:
-     # (.+?) ([^<]+) .+?
-       import requests
-       s = requests.Session()            
-       headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0'}
-       if 'category/' in sUrl:
-           psearch = sUrl.rsplit('category/', 1)[1].replace('/','')
-       if 'index.php' in sUrl:
-           psearch = sUrl.rsplit('/index.php?cat=', 1)[1].replace('/','')
-       data = {'category':psearch,'currentTermID':psearch}
-       r = s.post(URL_MAIN + '/wp-content/themes/Elshaikh2021/Ajaxat/Home/FilteringShows.php', headers=headers,data = data)
-       sHtmlContent = r.content.decode('utf8',errors='ignore')
-       sHtmlContentfull = r.content.decode('utf8')
-       sPattern = '<div class="Movie.+?">.+?<a href="([^<]+)">.+?data-image="([^<]+)" alt="([^<]+)">'
-
-    sPattern = 'class=\"PlayButton\">.*\s*<a href=\"(.+?)\">.*\s*<div class=\"Poster\">.*\s*<img.class=\".*\".data-image=\"(.+?)\".*alt=\"(.+?)\">.*\s*</div>'
+    sPattern = '<div class=\"PlayButton\">.*\s*<a href=\"(.+?)\">.*\s*<div class=\"Poster\">.*\s*<img src=\".*\".data-src=\"(.+?)\".*alt=\"(.+?)\">.*\s*</div>'
     matches = re.findall(sPattern, sHtmlContent)
     aResult = [True,matches]
     ##VSlog(aResult)
@@ -430,14 +415,13 @@ def showSeries(sSearch = ''):
                     oGui.addTV(SITE_IDENTIFIER, 'showSeasons', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
  
-        
- 
-    if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage != False:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
+ 
+    if not sSearch:
         oGui.setEndOfDirectory()
  
 def showSeasons():
@@ -579,11 +563,8 @@ def showEps():
 
  
 def __checkForNextPage(sHtmlContent):
-
-    soup = BeautifulSoup(sHtmlContent, "html.parser")
-    sHtmlContent = str(soup.find("div",{"class":"pagination"}))
     
-    sPattern = '<li><a class=\"next.page-numbers\" href=\"(.+?)\">»<'
+    sPattern = '<li><a class="next page-numbers" href="(.+?)">'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
