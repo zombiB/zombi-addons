@@ -36,7 +36,6 @@ SERIE_ASIA = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-ا
 SERIE_TR = (URL_MAIN + '/category/مسلسلات/?sercat=المسلسلات-التركية', 'showSeries')
 DOC_NEWS = (URL_MAIN + '/advsearch/?gnr=وثائقي', 'showMovies')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showSeries')
-URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMovies')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeries')
 FUNCTION_SEARCH = 'showSearch'
  

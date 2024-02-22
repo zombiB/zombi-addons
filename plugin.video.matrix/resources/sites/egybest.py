@@ -40,8 +40,7 @@ ANIM_NEWS = (URL_MAIN + 'series?genre=40', 'showSeries')
 ANIM_MOVIES = (URL_MAIN + 'movies?genre=40', 'showMovies')
 
 URL_SEARCH = (URL_MAIN + 'search?query=', 'showMovies')
-URL_SEARCH_MOVIES = (URL_MAIN + 'search?query=', 'showMovies')
-URL_SEARCH_SERIES = (URL_MAIN + 'search?query=', 'showSeries')
+
 FUNCTION_SEARCH = 'showMovies'
 
 def load():
