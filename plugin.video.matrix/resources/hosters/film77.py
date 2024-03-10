@@ -48,6 +48,6 @@ class cHoster(iHoster):
                 api_call = dialog().VSselectqual(qua, url)
 
         if api_call:
-            return True, api_call+ '|User-Agent=' + UA + '&Referer=' + self._url
+            return True, api_call+'|AUTH=TLS&verifypeer=false'  + '&User-Agent=' + UA + '&Referer=' + self._url
 
         return False, False

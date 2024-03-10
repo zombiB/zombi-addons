@@ -19,6 +19,7 @@ class cHoster(iHoster):
         self._url = str(url)
 
     def _getMediaLinkForGuest(self):
+        VSlog(self._url)
         # Get Redirection
         if 'fembed' in self._url:
             oRequest = cRequestHandler(self._url)

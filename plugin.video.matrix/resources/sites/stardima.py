@@ -387,7 +387,6 @@ def showHosters():
     sPattern =  'data-type="(.+?)" data-post="(.+?)" data-nume="(.+?)">'
 	
     aResult = oParser.parse(sHtmlContent,sPattern)
-    VSlog(aResult)
     if aResult[0]:
        total = len(aResult[1])
        for aEntry in aResult[1]: 
@@ -398,11 +397,10 @@ def showHosters():
            s = requests.Session()            
            headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'cookie': cook,
-							'host': 'w1.stardima.sbs',
-							'origin': 'https://w1.stardima.sbs',
+							'host': 'stardima.vip',
+							'origin': 'https://stardima.vip',
 							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
-           VSlog(data)
            r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)
            sHtmlContent = r.content.decode('utf8')
     # (.+?) .+? ([^<]+)
@@ -447,8 +445,8 @@ def showHosters():
            s = requests.Session()            
            headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1',
 							'cookie': cook,
-							'host': 'w1.stardima.sbs',
-							'origin': 'https://w1.stardima.sbs',
+							'host': 'stardima.vip',
+							'origin': 'https://stardima.vip',
 							'Referer': Quote(sUrl)}
            data = {'post':m3url,'action':'doo_player_ajax','nume':mnume,'type':mtype}
            r = s.post(URL_MAIN + '/wp-admin/admin-ajax.php', headers=headers,data = data)

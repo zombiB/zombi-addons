@@ -24,7 +24,7 @@ URL_SERIE = URL_MAIN+'/show/allprograms/30348/%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%
 
 MOVIE_AR = (URL_MAIN+'/movies?page=1', 'showMovies')
 SERIE_AR = (URL_MAIN+'/series', 'showSeries')
-
+RAMADAN_SERIES = (URL_MAIN + 'ramadan', 'showSeries')
 REPLAYTV_PLAY = (URL_MAIN+'/show/205952/%D9%85%D8%B3%D8%B1%D8%AD%D9%8A%D8%A7%D8%AA-%D8%B2%D9%85%D8%A7%D9%86', 'showEps')
 ISLAM_SHOWS = (URL_MAIN+'/programs/30349/إسلاميات', 'showSeries')
 
@@ -271,10 +271,11 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
-			
-            oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
-
+            if '/show' in siteUrl:
+                oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+            else:
+                oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             sPage = int(sPage) +1
@@ -282,7 +283,30 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sPage', sPage)
             oOutputParameterHandler.addParameter('siteUrl', sUrl.split('?')[0])
             oGui.addDir(SITE_IDENTIFIER, 'showSeries', '[COLOR teal]More >>>[/COLOR]', 'next.png', oOutputParameterHandler)
- 
+
+    sStart = '<div class="ContainerEpisodesList"'
+    sEnd = '<div style="clear: both;"></div>'
+    sHtmlContent1 = oParser.abParse(sHtmlContent, sStart, sEnd)
+
+    sPattern = 'href="([^"]+)".+?img src="([^"]+)" alt="([^"]+)'
+    aResult = oParser.parse(sHtmlContent1, sPattern)
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()  
+        for aEntry in aResult[1]:
+
+            sTitle = aEntry[2].replace("مشاهدة","").replace("مسلسل","").replace("انمي","").replace("مترجمة","").replace("مترجم","").replace("فيلم","").replace("والأخيرة","").replace("مدبلج للعربية","مدبلج").replace("برنامج","").replace("والاخيرة","").replace("كاملة","").replace("حلقات كاملة","").replace("اونلاين","").replace("مباشرة","").replace("انتاج ","").replace("جودة عالية","").replace("كامل","").replace("HD","").replace("السلسلة الوثائقية","").replace("الفيلم الوثائقي","").replace("اون لاين","")
+            if 'الموسم' not in aEntry[2]:
+                sTitle = sTitle + ' S1'
+            siteUrl = aEntry[0]
+            sThumb = aEntry[1]
+            sDesc = ''
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            if '/show' in siteUrl:
+                oGui.addTV(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
     if not sSearch:
         oGui.setEndOfDirectory()
    
@@ -303,6 +327,22 @@ def showEps():
     sHtmlContent = oRequestHandler.request()
     cook = oRequestHandler.GetCookies()
 
+    sPattern = '<a class=" select-category "\s*href="([^"]+)">(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    if aResult[0]:
+        oOutputParameterHandler = cOutputParameterHandler()  
+        for aEntry in aResult[1]:
+            sMovieTitle = re.sub(r"S\d{2}|S\d", "", sMovieTitle)
+            sTitle = sMovieTitle.replace('S1','') + ' S' + aEntry[1]
+            siteUrl = aEntry[0]
+            sThumb = sThumb
+            sDesc = ''
+
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+            if '/show' in siteUrl:
+                oGui.addSeason(SITE_IDENTIFIER, 'showEps', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
     if sPage is False:
         sPage = '1'
     else:
@@ -354,7 +394,7 @@ def showEps():
     sPattern = '<div class="item info">.+?<a href="([^"]+)".+?data-src="([^"]+)".+?<h3>(.+?)</h3>'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+    aResult = oParser.parse(sHtmlContent, sPattern)	
 	
 	
     if aResult[0]:
@@ -369,9 +409,9 @@ def showEps():
             if sMovieTitle is False:
                 sMovieTitle = sTitle
             if ':' in aEntry[2]:
-                sTitle = sTitle.split(':')[1]+' '+sMovieTitle
+                sTitle = sMovieTitle+' '+sTitle.split(':')[1]
             else:
-                sTitle = sTitle+' '+sMovieTitle
+                sTitle = sMovieTitle+' '+sTitle 
             
 
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
@@ -390,7 +430,7 @@ def showEps():
 
 
     else:
-        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('white', ' الموقع لم يرفع حلقات هذا المسلسل'), 'none.png')
+        oGui.addText(SITE_IDENTIFIER, '[COLOR %s]%s[/COLOR]' % ('white', ' الموقع لم يرفع حلقات هذا الموسم من المسلسل'), 'none.png')
 
     oGui.setEndOfDirectory() 
 

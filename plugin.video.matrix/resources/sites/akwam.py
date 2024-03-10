@@ -476,8 +476,8 @@ def showEpisodes():
         for aEntry in aResult[1]:
  
             sEp = aEntry[0].split(':')[0]
-            sEp = sEp.replace("الحلقة ","").replace("حلقة ","")
-            sTitle =  '{}E{:02d}'.format(sMovieTitle, int(sEp))
+            sEp = sEp.replace("الحلقة","").replace("حلقة","")
+            sTitle =  '{} E{:02d}'.format(sMovieTitle, int(sEp))
             siteUrl = aEntry[1]
             s1Thumb = aEntry[2]
             sThumb = re.sub(r'thumb\/\d*x\d*\/','',s1Thumb)

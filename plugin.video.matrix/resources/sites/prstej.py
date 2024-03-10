@@ -21,7 +21,7 @@ SITE_DESC = 'arabic vod'
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + '/category102.php?cat=movies2023', 'showMovies')
-RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2023', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/category.php?cat=ramdan2024', 'showSeries')
 MOVIE_AR = (URL_MAIN + 'category.php?cat=moviearabic', 'showMovies')
 SERIE_AR = (URL_MAIN + '/category102.php?cat=arab2023', 'showSeries')
 SERIE_TR = (URL_MAIN + '/category102.php?cat=ty-2023', 'showSeries')

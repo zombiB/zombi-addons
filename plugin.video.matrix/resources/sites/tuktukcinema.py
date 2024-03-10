@@ -34,7 +34,7 @@ if (aResult[0]):
     VSlog(URL_MAIN)
  
 MOVIE_PACK = (URL_MAIN , 'showPack')
-MOVIE_EN = (URL_MAIN + 'category/movies-33/افلام-اجنبي/', 'showMovies')
+MOVIE_EN = (URL_MAIN + 'category/movies-1/افلام-اجنبي/', 'showMovies')
 MOVIE_HI = (URL_MAIN + 'category/movies-33/افلام-هندى/', 'showMovies')
 MOVIE_ASIAN = (URL_MAIN + 'category/movies-33/افلام-اسيوي/', 'showMovies')
 MOVIE_TURK = (URL_MAIN + 'category/movies-33/افلام-تركي/', 'showMovies')

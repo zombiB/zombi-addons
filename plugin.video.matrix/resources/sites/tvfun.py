@@ -18,7 +18,7 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2023/', 'showSeries')
+RAMADAN_SERIES = (URL_MAIN + '/ts/mosalsalat-ramadan-2024/', 'showSeries')
 SERIE_TR = (URL_MAIN + '/cat/mosalsalat-torkia/', 'showSeries')
 SERIE_DUBBED = (URL_MAIN + '/cat//mosalsalat-modablaja/', 'showSeries')
 SERIE_SUBED = (URL_MAIN + '/cat//mosalsalat-motarjama/', 'showSeries')
@@ -215,7 +215,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="thumb"><div class="video-thumb"><a href="(.+?)" title="(.+?)"><img loading="lazy" src="(.+?)" alt'
+    sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)"><img loading="lazy" src="(.+?)" alt'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

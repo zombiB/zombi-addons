@@ -256,11 +256,11 @@ class cHosterGui:
         if streamwish:
             return self.getHoster('streamwish')
 				
-        # Frenchvid Clone
-        frenchvid = next((x for x in ['french-vid', 'diasfem', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
+        # fembed Clone
+        fembed = next((x for x in ['french-vid', 'diasfem', 'yggseries', 'fembed', 'fem.tohds', 'feurl', 'fsimg', 'core1player',
                                 'vfsplayer', 'gotochus', 'suzihaza', 'sendvid', "femax"] if x in sHostName), None)
-        if frenchvid:
-            return self.getHoster("frenchvid")
+        if fembed:
+            return self.getHoster("fembed")
 
         # Filelions Clone
         filelions = next((x for x in ['filelions', 'ajmidyadfihayh', 'alhayabambi', 'bazwatch', 'cilootv', 'motvy55', 'bazlions', 'lylxan',
