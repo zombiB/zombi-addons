@@ -19,7 +19,7 @@ SITE_NAME = 'FajerShow'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
-
+RAMADAN_SERIES = (URL_MAIN + '/genre/ramadan2024', 'showSeries')
 MOVIE_EN = (URL_MAIN + '/genre/english-movies/', 'showMovies')
 MOVIE_AR = (URL_MAIN + '/genre/arabic-movies/', 'showMovies')
 
@@ -35,7 +35,6 @@ SERIE_AR = (URL_MAIN + '/genre/arabic-series/', 'showSeries')
 SERIE_HE = (URL_MAIN + '/genre/indian-series/', 'showSeries')
 THEATER = (URL_MAIN + '/genre/plays/', 'showMovies')
 
-RAMADAN_SERIES = (URL_MAIN + '/genre/ramadan2023/', 'showSeries')
 URL_SEARCH = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_MOVIES = (URL_MAIN + '/?s=', 'showMoviesSearch')
 URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSeriesSearch')
@@ -71,7 +70,10 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', SERIE_AR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات عربية', icons + '/Arabic.png', oOutputParameterHandler)
-    
+
+    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'رمضان', icons + '/Ramadan.png', oOutputParameterHandler) 
+	
     oOutputParameterHandler.addParameter('siteUrl', SERIE_TR[0])
     oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات تركية', icons + '/Turkish.png', oOutputParameterHandler) 
     

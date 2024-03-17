@@ -94,7 +94,8 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="thumb"><div class="serie-thumb"><a href="(.+?)" title="(.+?)"><img.+?src="(.+?)" alt='
+    sPattern = '<div class="serie-thumb"><a href="(.+?)">.+?src="(.+?)" alt="(.+?)" width='
+
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -103,13 +104,13 @@ def showSeries(sSearch = ''):
     if aResult[0]:
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1].replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مترجمة","").replace("مترجم","")
+            sTitle = aEntry[2].replace("مشاهدة وتحميل","").replace("اون لاين","").replace("مترجمة","").replace("مترجم","")
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if URL_MAIN not in siteUrl:
                 siteUrl = URL_MAIN + siteUrl
-            sThumb = aEntry[2]
+            sThumb = aEntry[1]
             sDesc = ''
             sYear = ''
 
@@ -122,6 +123,43 @@ def showSeries(sSearch = ''):
             oOutputParameterHandler.addParameter('sDesc', sDesc)
 			
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+
+    sPattern = '<ul class="pagination">(.+?)id="footer">'  
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern) 
+     
+
+    if aResult[0]:
+        sHtmlContent3 = aResult[1][0]
+  # ([^<]+) .+?
+
+        sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent3, sPattern)
+	
+	
+        if aResult[0]:
+            for aEntry in aResult[1]:
+ 
+                sTitle = aEntry[1]
+            
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+                if URL_MAIN not in siteUrl:
+                    siteUrl = URL_MAIN + siteUrl
+                sThumb = ""
+                sDesc = ""
+
+
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
+
         
     if not sSearch:
         sNextPage = __checkForNextPage(sHtmlContent)
@@ -143,17 +181,17 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 	
-    sPattern = '<div class="thumb"><div class="video-thumb"><a href="(.+?)" title="(.+?)"><img.+?src="(.+?)" alt'  
-    
+    sPattern = '<div class="video[^<]+"><a href="(.+?)"><img loading=".+?" src="(.+?)" alt="(.+?)" width'  
+
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
      	
     if aResult[0]:
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والاخيرة","")
+            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والاخيرة","")
             siteUrl = aEntry[0]
-            sThumb = aEntry[2]
+            sThumb = aEntry[1]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
             if URL_MAIN not in siteUrl:
@@ -164,6 +202,42 @@ def showSeriesSearch(sSearch = ''):
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
+
+
+    sPattern = '<ul class="pagination">(.+?)id="footer">'  
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern) 
+     
+
+    if aResult[0]:
+        sHtmlContent3 = aResult[1][0]
+  # ([^<]+) .+?
+
+        sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent3, sPattern)
+	
+	
+        if aResult[0]:
+            for aEntry in aResult[1]:
+ 
+                sTitle = aEntry[1]
+            
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+                if URL_MAIN not in siteUrl:
+                    siteUrl = URL_MAIN + siteUrl
+                sThumb = ""
+                sDesc = ""
+
+
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			
+                oGui.addDir(SITE_IDENTIFIER, 'showSeriesSearch', sTitle, '', oOutputParameterHandler)
         
 
     oGui.setEndOfDirectory()
@@ -215,7 +289,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="video-thumb"><a href="(.+?)" title="(.+?)"><img loading="lazy" src="(.+?)" alt'
+    sPattern = '<div class="video[^<]+"><a href="(.+?)"><img loading=".+?" src="(.+?)" alt="(.+?)" width'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -224,7 +298,7 @@ def showEpisodes():
     if aResult[0]:
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
@@ -314,6 +388,7 @@ def showHosters():
     
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request();
+
 
     oParser = cParser()
     import base64

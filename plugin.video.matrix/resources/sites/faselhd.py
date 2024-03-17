@@ -11,13 +11,14 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import VSlog, isMatrix, siteManager, addon
 from resources.lib.parser import cParser
 from bs4 import BeautifulSoup
+from resources.lib import random_ua
 ADDON = addon()
 icons = ADDON.getSetting('defaultIcons')
 
 SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'Faselhd'
 SITE_DESC = 'arabic vod'
- 
+UA = random_ua.get_phone_ua() 
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + '/movies', 'showMovies')
@@ -397,7 +398,7 @@ def showEpisodes():
     postdata = {'seasonID':postid}
     link = URL_MAIN + '/series-ajax/?_action=get_season_list&_post_id='+postid
     headers = {'Host': 'www.faselhd.ac',
-							'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Mobile Safari/537.36',
+							'User-Agent': UA,
 							'Referer': sUrl,
 							'origin': URL_MAIN}
     s = requests.Session() 	

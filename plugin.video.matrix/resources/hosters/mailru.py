@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
-# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
+# Adopted from ResolveURL
 
 from resources.hosters.hoster import iHoster
-from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
+from resources.lib import helpers
+import requests, re
+import json
 
 
 class cHoster(iHoster):
@@ -22,61 +15,37 @@ class cHoster(iHoster):
 
     def _getMediaLinkForGuest(self):
         VSlog(self._url)
-        api_call = False
+        
+        media_id = self.get_host_and_id(self._url)
 
-        UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'
+        location, user, media_id = media_id.split('|')
+        if user == 'None':
+            web_url = 'http://my.mail.ru/+/video/meta/%s' % (media_id)
+        else:
+            web_url = 'http://my.mail.ru/+/video/meta/%s/%s/%s?ver=0.2.60' % (location, user, media_id)
 
-        headers = {"User-Agent": UA}
 
-        req1 = urllib2.Request(self._url, None, headers)
-        resp1 = urllib2.urlopen(req1)
-        sHtmlContent = resp1.read()
-        resp1.close()
+        s = requests.session()
+        response = s.get(web_url)
+        html = response.content
 
-        sPattern = '{"metadataUrl":"([^"]+)",'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, sPattern)
+        if html:
+            js_data = json.loads(html)
+            sources = [(video['key'], video['url']) for video in js_data['videos']]
+            sorted(sources)
+            source = helpers.pick_source(sources)
 
-        vurl = 'http://my.mail.ru/' + aResult[1][0]
+            if source.startswith("//"):
+                source = 'http:%s' % source
 
-        req = urllib2.Request(vurl, None, headers)
-
-        try:
-            response = urllib2.urlopen(req)
-        except UrlError as e:
-            print(e.read())
-            print(e.reason)
-
-        data = response.read()
-        head = response.headers
-        response.close()
-
-        # get cookie
-        cookies = ''
-        if 'Set-Cookie' in head:
-            oParser = cParser()
-            sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
-            aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
-            # print(aResult)
-            if aResult[0]:
-                for cook in aResult[1]:
-                    cookies = cookies + cook[0] + '=' + cook[1] + ';'
-
-        sPattern = '{"url":"([^"]+)",.+?"key":"(\d+p)"}'
-        aResult = oParser.parse(data, sPattern)
-        if aResult[0]:
-            # initialisation des tableaux
-            url = []
-            qua = []
-            # Remplissage des tableaux
-            for i in aResult[1]:
-                url.append(str(i[0]))
-                qua.append(str(i[1]))
-
-            # Affichage du tableau
-            api_call = dialog().VSselectqual(qua, url)
-
-        if api_call:
-            return True, 'http:' + api_call + '|User-Agent=' + UA + '&Cookie=' + cookies
+            return True, source + helpers.append_headers({'Cookie': response.headers.get('Set-Cookie', '')})
 
         return False, False
+
+    def get_host_and_id(self, url):
+        pattern = r'(?://|\.)(mail\.ru)/(?:\w+/)?(?:videos/embed/)?(inbox|mail|embed|mailua|list|bk|v)/(?:([^/]+)/[^.]+/)?(\d+)'
+        r = re.search(pattern, url)
+        if r:
+            return ('%s|%s|%s' % (r.group(2), r.group(3), r.group(4)))
+        else:
+            return False

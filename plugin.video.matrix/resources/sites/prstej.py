@@ -179,6 +179,43 @@ def showSeries(sSearch = ''):
                 oOutputParameterHandler.addParameter('sThumb', sThumb)
 
                 oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
+
+
+    sPattern = '<ul class="pagination(.+?)<div class="col-md-3">'  
+    
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+    VSlog(aResult) 
+     
+
+    if aResult[0]:
+        sHtmlContent3 = aResult[1][0]
+  # ([^<]+) .+?
+
+        sPattern = '<li class><a href="([^<]+)">([^<]+)</a></li>'
+
+        oParser = cParser()
+        aResult = oParser.parse(sHtmlContent3, sPattern)
+	
+	
+        if aResult[0]:
+            for aEntry in aResult[1]:
+ 
+                sTitle = aEntry[1]
+            
+                sTitle =  "PAGE " + sTitle
+                sTitle =   '[COLOR red]'+sTitle+'[/COLOR]'
+                siteUrl = aEntry[0]
+                if URL_MAIN not in siteUrl:
+                    siteUrl = URL_MAIN + siteUrl
+                sThumb = ""
+                sDesc = ""
+
+
+                oOutputParameterHandler = cOutputParameterHandler()
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+			
+                oGui.addDir(SITE_IDENTIFIER, 'showSeries', sTitle, '', oOutputParameterHandler)
  
        
         
@@ -195,7 +232,7 @@ def showSeries(sSearch = ''):
       # (.+?) ([^<]+) .+?
 	
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<li class><a href="(.+?)">&raquo;</a>'
+    sPattern = '<a href="(.+?)">&raquo;</a>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

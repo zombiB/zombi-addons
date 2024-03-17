@@ -1,8 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # zombi https://github.com/zombiB/zombi-addons/
 
-import re
-	
+import re	
 import requests
 from resources.lib import recaptcha_v2
 from resources.lib.gui.hoster import cHosterGui
@@ -318,8 +317,7 @@ def showSeasons():
     oParser = cParser()
     
      # (.+?) .+?  ([^<]+)
-    sPattern = '<meta property="og:title" content="([^<]+)" />.+?<meta property="og:image" content="([^<]+)" />.+?<meta property="og:url" content="([^<]+)" />'
-    
+    sPattern = '<meta property="og:title" content="([^"]+)".+?<meta property="og:image" content="([^"]+)".+?<meta property="og:url" content="([^"]+)'    
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
     

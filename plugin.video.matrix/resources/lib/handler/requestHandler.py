@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 #
-from requests import post, Session, Request, RequestException, ConnectionError
+from requests import post, get, Session, Request, RequestException, ConnectionError
 from resources.lib.comaddon import addon, dialog, VSlog, VSPath, isMatrix
 from resources.lib.util import urlHostName
+from resources.lib import random_ua
 
 import requests.packages.urllib3.util.connection as urllib3_cn
+from six.moves import (http_cookiejar)
 import socket
 
+UA = random_ua.get_ua()
 
 class cRequestHandler:
     REQUEST_TYPE_GET = 0
@@ -147,7 +150,7 @@ class cRequestHandler:
         return ''
 
     def __setDefaultHeader(self):
-        self.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0')
+        self.addHeaderEntry('User-Agent', UA)
         self.addHeaderEntry('Accept-Language', 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3')
         self.addHeaderEntry('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
 
@@ -254,27 +257,90 @@ class cRequestHandler:
             if self.oResponse.status_code in [503, 403]:
                 if "Forbidden" not in sContent:
                     
-                    # Tenter par FlareSolverr
+                    bypass = addon().getSetting('cloudbypass')
+                    RapidApi_Key = addon().getSetting('rapidapi')
                     
-                    CLOUDPROXY_ENDPOINT = 'http://' + addon().getSetting('ipaddress') + ':8191/v1'
-
-                    json_response = False
-                    try:
-                        # On fait une requete.
-                        json_response = post(CLOUDPROXY_ENDPOINT, headers=self.__aHeaderEntries, json={
-                            'cmd': 'request.%s' % method.lower(),
-                            'url': self.__sUrl
-                        })
-                    except:
-                        dialog().VSerror("%s (%s)" % ("  FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة  ", urlHostName(self.__sUrl)))
-
-                    if json_response:
-                        response = json_response.json()
-                        if 'solution' in response:
-                            if self.__sUrl != response['solution']['url']:
-                                self.__sRealUrl = response['solution']['url']
+                    # Try by FlareSolverr
+                    if bypass == '0':
+                    
+                        json_response = False
+                        CLOUDPROXY_ENDPOINT='http://' + addon().getSetting('ipaddress') + ':8191/v1'
+                        if addon().getSetting('Public_Flaresolverr') == "true":
+                            CLOUDPROXY_ENDPOINT="https://cf.jmdkh.eu.org/v1"
+                        if method == 'GET':
+                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "maxTimeout": 60000}
+                        else:    
+                            data = {"cmd": 'request.%s' % method.lower(), "url": self.__sUrl, "postData": _request.data, "maxTimeout": 60000}
+                        json_response = False
+                        try:
+                            json_response = post(CLOUDPROXY_ENDPOINT, headers={"Content-Type": "application/json"}, json=data)
+                                
+                            if json_response:
+                                response = json_response.json()
+                                if 'solution' in response:
+                                    if self.__sUrl != response['solution']['url']:
+                                        self.__sRealUrl = response['solution']['url']
     
-                            sContent = response['solution']['response']
+                                    sContent = response['solution']['response']
+                                    UA = response['solution']['userAgent']
+                                    random_ua.set_ua(UA)
+                                        
+                        except:
+                            dialog().VSerror("%s (%s)" % ("ScrapeNinja جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
+
+                    # Try by ScrapeNinja (limited)
+                    if bypass == '1':
+                                            
+                        json_response = False
+                        try:
+                            # We make a request.
+                            url = "https://scrapeninja.p.rapidapi.com/scrape"
+
+                            payload = {
+	                            "url": self.__sUrl,
+                                "geo": "us"
+                            }
+                            headers = {
+	                            "content-type": "application/json",
+	                            "X-RapidAPI-Key": RapidApi_Key,
+	                            "X-RapidAPI-Host": "scrapeninja.p.rapidapi.com"
+                            }
+
+                            json_response = post(url, json=payload, headers=headers)
+                        except:
+                            dialog().VSerror("%s (%s)" % ("FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
+
+                        if json_response:
+                            response = json_response.json()
+                            if 'body' in response: 
+                                sContent = response['body']
+
+                    # Try by Puffy (limited))
+                    if bypass == '2':
+                                            
+                        json_response = False
+                        try:
+                            # We make a request.
+                            url = "https://pulffy-cloudflare-bypass1.p.rapidapi.com/scrape"
+
+                            querystring = {"url":self.__sUrl}
+
+                            headers = {
+	                            "Cookie": "cookie1=value;cookie2=value",
+	                            "X-RapidAPI-Key": RapidApi_Key,
+	                            "X-RapidAPI-Host": "pulffy-cloudflare-bypass1.p.rapidapi.com"
+	                            }
+
+                            json_response = get(url, headers=headers, params=querystring)
+                            json_response = json_response.text
+                            if 'exceeded' in json_response:
+                                dialog().VSerror("%s (%s)" % ("You have exceeded the 10 MONTHLY quota for Requests on your free plan", "Pulffy"))                                
+
+                        except:
+                            dialog().VSerror("%s (%s)" % ("FlareSolverr جرب استخدام ، (Cloudflare) الصفحة ربما محمية بواسطة ", urlHostName(self.__sUrl)))
+
+                        if json_response:
+                            sContent = json_response
 
             if self.oResponse and not sContent:
                 # Ignorer ces deux codes erreurs.

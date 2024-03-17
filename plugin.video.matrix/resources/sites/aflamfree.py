@@ -70,7 +70,7 @@ def load():
 def showYears():
     oGui = cGui()
     oOutputParameterHandler = cOutputParameterHandler()
-    for i in reversed(range(1921, 2022)):
+    for i in reversed(range(1921, 2024)):
         sYear = str(i)
         oOutputParameterHandler.addParameter('siteUrl', URL_MAIN + '/release-year/' + sYear)  # / inutile
         oGui.addDir(SITE_IDENTIFIER, 'showLive', sYear, icons + '/Calendar.png', oOutputParameterHandler)

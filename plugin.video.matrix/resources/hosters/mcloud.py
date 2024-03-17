@@ -64,17 +64,16 @@ def decodeVidstream(query):
 	ref = query
 	hd ={'user-agent':  UA,'Referer': ref}
 	domain = urlparse(query).netloc
-	domain = 'vidplay.site' if 'vidplay' in domain else domain
+	domain = 'vidplay.online' if 'vidplay' in domain else domain
 	futokenurl = 'https://'+domain+'/futoken'
 	futoken = requests.get(futokenurl, verify=False).text
 
 	k=re.findall("k='([^']+)'",futoken,re.DOTALL)[0]
-	if 'vidplay' in query:
+	if 'vidplay' in query or '55a0716b8c' in query:
 		query = query.split('/e/')[1].split('?')
-
 	else:
 		query = query.split('e/')[1].split('?')
-          
+    
 	v = encode_id(query[0])
 	a = [k];
 	for i in range(len(v)):
@@ -138,10 +137,12 @@ def encode_id(id_):
 
 		return h
 		
-	
-	klucze = requests.get('https://raw.githubusercontent.com/matecky/bac/keys/keys.json', verify=False).json()
-	k1 = klucze[0]
-	k2 = klucze[1]
+	# Credits to @matecky for providing key - Thanks
+	klucze = requests.get('https://github.com/matecky/bac/blob/keys/keys.json')
+					   
+	matches = re.search(r"\"rawLines\":\s*\[\"(.+)\"\]", klucze.text)
+	k1, k2 = json.loads(matches.group(1).replace("\\", ""))
+
 	cbn = dec2(k1,id_)
 	cbn = cbn.encode('Latin_1')
 	cbn = dec2(k2,cbn)

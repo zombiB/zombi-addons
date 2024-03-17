@@ -43,7 +43,7 @@ ANIM_MOVIES = (URL_MAIN + '/category/افلام-انمي', 'showMovies')
 ANIM_NEWS = (URL_MAIN+'/category/مسلسلات-انمي' , 'showSeries')
 
 REPLAYTV_NEWS = (URL_MAIN + '/category/برامج-تلفزيونية', 'showSeries')
-
+RAMADAN_SERIES = (URL_MAIN + '/category/%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA-%D8%B1%D9%85%D8%B6%D8%A7%D9%86-2024', 'showSeries')
 DOC_NEWS = (URL_MAIN + '/genre/وثائقي', 'showMovies')
 DOC_SERIES = (URL_MAIN + '/genre/وثائقي', 'showSeries')
 
@@ -58,6 +58,9 @@ def load():
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
     oGui.addDir(SITE_IDENTIFIER, 'showSearchSeries', 'Search Series', icons + '/Search.png', oOutputParameterHandler)
+    
+    oOutputParameterHandler.addParameter('siteUrl', RAMADAN_SERIES[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showSeries', 'مسلسلات رمضان', icons + '/Ramadan.png', oOutputParameterHandler)
  
     oOutputParameterHandler.addParameter('siteUrl', MOVIE_EN[0])
     oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام أجنبية',icons + '/MoviesEnglish.png', oOutputParameterHandler)
