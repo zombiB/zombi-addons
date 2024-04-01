@@ -3,6 +3,7 @@
 
 import re
 	
+import base64
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
@@ -18,7 +19,8 @@ icons = ADDON.getSetting('defaultIcons')
 SITE_IDENTIFIER = 'faselhd'
 SITE_NAME = 'Faselhd'
 SITE_DESC = 'arabic vod'
-UA = random_ua.get_phone_ua() 
+
+UA = random_ua.get_phone_ua()
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
 MOVIE_EN = (URL_MAIN + '/movies', 'showMovies')
@@ -519,206 +521,78 @@ def showEpisodes1():
 	
 def showLink():
     oGui = cGui()
-   
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
 
-    oParser = cParser()
-    
-    #Recuperation infos
-    sNote = ''
-
-    sPattern = '<div class="singleDesc">.+?<p>([^<]+)</p>'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    
-    if (aResult[0]):
-        sNote = aResult[1][0]
-			
-     # (.+?) ([^<]+) .+?
-    sPattern = 'onclick="player_iframe.location.href = ([^<]+)"><a.+?href="javascript:;"><i.+?class="fa fa-play-circle"></i>([^<]+)</a></li>'
-
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog("Link Pattern :" +sPattern)
-    #VSlog(aResult)
-   
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()    
-        for aEntry in aResult[1]:
- 
-            if "01#" not in aEntry[1]:
-                continue
- 
-            sTitle = aEntry[1].replace("&#8217;", "'") 
-            siteUrl = aEntry[0].replace("'", "") 
-
-
- 
-
-            oOutputParameterHandler.addParameter('siteUrl', siteUrl)
-            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
-            oOutputParameterHandler.addParameter('sThumb', sThumb)
-
-            
-
- 
-            oGui.addLink(SITE_IDENTIFIER, 'showHosters', sTitle, sThumb, sNote, oOutputParameterHandler)
-
-    # (.+?)
-
-    sPattern = 'onclick="player_iframe.location.href = ([^<]+)">'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    #VSlog("Link Pattern :" +sPattern)
-    #VSlog(aResult)
-	
+    sPattern = 'player_iframe.location.href = ["\']([^"\']+)["\']'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
- 
-            if "embed.php?url=" in aEntry:
-               continue
             
-            url = aEntry.replace("'", "")
+            oRequest = cRequestHandler(aEntry)
+            oRequest.addHeaderEntry('user-agent',UA)
+            oRequest.addHeaderEntry('referer',URL_MAIN)
+            data = oRequest.request()
+            if 'adilbo' in data:
+                data = decode_page(data)
+            
+            sPattern =  'data-url="([^<]+)">([^<]+)</button>' 
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    sHosterUrl = aEntry[0]
+                    sHost = aEntry[1].upper()
+                    sTitle = ('%s  (%s)') % (sMovieTitle, sHost)  
+                    oHoster = cHosterGui().getHoster('faselhd') 
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)            
 
-            if url.startswith('//'):
-               url = 'http:' + url
-            
-            sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               oHoster.setDisplayName(sMovieTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
+            sPattern =  'videoSrc = ["\']([^"\']+)["\']' 
+            aResult = oParser.parse(data, sPattern)
+            if aResult[0]:
+                for aEntry in aResult[1]:
+                    sHosterUrl = aEntry
+                    sHost = 'Server 2'
+                    sTitle = ('%s  (%s)') % (sMovieTitle, sHost)  
+                    oHoster = cHosterGui().getHoster('faselhd') 
+                    if oHoster:
+                        oHoster.setDisplayName(sTitle)
+                        oHoster.setFileName(sMovieTitle)
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)    
 
     oGui.setEndOfDirectory()       
   
 def __checkForNextPage(sHtmlContent):
-    sPattern = "<li class=\"page-item disabled active\"><span class=\"page-link\">(.+?)</span>"
-	
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
- 
+    sPattern = "href='([^']+)'>&rsaquo;</a>"
+    aResult = oParser.parse(sHtmlContent, sPattern) 
     if aResult[0]:
-        currentPage = aResult[1][0]
-        #VSlog('currentPage : ' + currentPage)
-        AllPagesPattern = '<li class=\"page-item\"><a class=\"page-link\" href=\"(.+?)\">(.+?)</a></li>'
-        oParser = cParser()
-        aResult = oParser.parse(sHtmlContent, AllPagesPattern)
-        #VSlog(aResult)
-        if aResult[0]:
-            for res in aResult[1]:
-                #VSlog('PAGE : ' + str(res))
-                if res[1] > currentPage or res[1] == '›':
-                    return res[0]
-    else:
-        return aResult[0]
+        return aResult[1][0]
 
-def showHosters():
-    oGui = cGui()
-    oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
-    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
-    sThumb = oInputParameterHandler.getValue('sThumb')
-    
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    # (.+?)
-               
+    return False
 
-    sPattern = 'name="iframe" src="([^<]+)" frameborde'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
+def decode_page(data):
+    t_script = re.findall('<script.*?;.*?\'(.*?);', data, re.S)
+    t_int = re.findall('/g.....(.*?)\)', data, re.S)
+    if t_script and t_int:
+        script = t_script[2].replace("'",'')
+        script = script.replace("+",'')
+        script = script.replace("\n",'')
+        sc = script.split('.')
+        page = ''
+        for elm in sc:
+            c_elm = base64.b64decode(elm+'==').decode()
+            t_ch = re.findall('\d+', c_elm, re.S)
+            if t_ch:
+                nb = int(t_ch[0])+int(t_int[1])
+                page = page + chr(nb)
 
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sTitle = " " 
-            if url.startswith('//'):
-               url = 'http:' + url
-            
-            sHosterUrl = url 
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-               
-        
-    sPattern = 'file: "(.+?)",type: "hls",'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sTitle = " " 
-            if url.startswith('//'):
-               url = 'http:' + url
-            
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-               
-        
-    sPattern = 'file: "(.+?)",.+?"type": "hls",'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sTitle = " "
-            if url.startswith('//'):
-               url = 'http:' + url
-            
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-                sDisplayTitle = sMovieTitle+sTitle
-                oHoster.setDisplayName(sDisplayTitle)
-                oHoster.setFileName(sMovieTitle)
-                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				                        
-    sPattern = '<a href="(.+?)" class="download-btn" '
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            
-            url = aEntry
-            sTitle = " " 
-            if url.startswith('//'):
-               url = 'http:' + url
-            
-            sHosterUrl = url
-            oHoster = cHosterGui().checkHoster(sHosterUrl)
-            if oHoster:
-               sDisplayTitle = sMovieTitle+sTitle
-               oHoster.setDisplayName(sDisplayTitle)
-               oHoster.setFileName(sMovieTitle)
-               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
-                
-    oGui.setEndOfDirectory()
+    return page

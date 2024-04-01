@@ -22,10 +22,10 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-MOVIE_ASIAN = ('https://aradramtv.com/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
-SERIE_ASIA = ('https://aradramtv.com/category/serie/', 'showSerie')
-URL_SEARCH = ('http://aracinema.co/?s=', 'showMovies')
-URL_SEARCH_SERIES = ('https://aradramatv.co/?s=', 'showSerie')
+MOVIE_ASIAN = (URL_MAIN + '/category/%d8%a7%d9%84%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%a7%d9%84%d8%a2%d8%b3%d9%8a%d9%88%d9%8a%d8%a9/', 'showMovies')
+SERIE_ASIA = (URL_MAIN + '/category/serie/', 'showSerie')
+URL_SEARCH = (URL_MAIN + '/?s=', 'showMovies')
+URL_SEARCH_SERIES = (URL_MAIN + '/?s=', 'showSerie')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
@@ -54,7 +54,7 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://aradramatv.co/?s='+sSearchText
+        sUrl = URL_MAIN + '/?s='+sSearchText
         showSerie(sUrl)
         oGui.setEndOfDirectory()
         return

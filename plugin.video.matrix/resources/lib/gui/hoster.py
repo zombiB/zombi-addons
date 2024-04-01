@@ -238,7 +238,9 @@ class cHosterGui:
 
         # Uppom Clone
         uppom = next((x for x in ['upbaam', 'upbam', 'uppom', 'uppboom', 'uupbom', 'upgobom', 'upptobom', 'up2b9om', 'up1bom', 'up3bom', 'u1pb3m', 
-                            'u2pbemm', 'up1beem', 'bmbm.shop', '4bmto', '2bm.shop', 't0bm4.shop', '4bem2022', 'bm025', 'bm2024', 'b245m.shop', 'b2m1.shop'] if x in sHostName), None)
+                            'u2pbemm', 'up1beem', 'bmbm.shop', '4bmto', '2bm.shop', 't0bm4.shop', '4bem2022', 'bm025', 'bm2024', 'b245m.shop', 'b2m1.shop',
+                            'online20.shop', 'line50.shop', 'fo0.shop', 'online20stream', '4view.shop', 'team20.shop', 'travel15.shop', 'sigh15.shop', 
+                            'video15.shop', 'streaming15.shop', 'onlin12estream', 'tostream20', 'streaming200', 'top15top', 'uppbom'] if x in sHostName), None)
         if uppom:
             return self.getHoster('uppom')
 

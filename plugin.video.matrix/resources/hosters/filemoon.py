@@ -34,7 +34,7 @@ class cHoster(iHoster):
                list_url = []
                list_q = []
                oParser = cParser()
-               sPattern = 'PROGRAM.*?BANDWIDTH.*?RESOLUTION=(\d+x\d+).*?(https.*?m3u8)'
+               sPattern = 'BANDWIDTH.*?RESOLUTION=(\d+x\d+).*?(https.*?m3u8.*?)"'
                aResult = oParser.parse(sHtmlContent2, sPattern)
                if aResult[0]:
                   for aEntry in aResult[1]:
@@ -58,6 +58,6 @@ class cHoster(iHoster):
 
 
         if api_call:
-            return True, api_call
+            return True, api_call+ '|Referer=' + self._url+ '&User-Agent=' + UA
 
         return False, False

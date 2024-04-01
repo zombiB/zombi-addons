@@ -18,7 +18,7 @@
         "akoam": {
             "label": "Akoam",
             "active": "True",
-            "url": "https://akw.to/old/"
+            "url": "https://ak.sv/old/"
         },
         "akwam": {
             "label": "Akwam",
@@ -78,7 +78,7 @@
         "aracinema_co": {
             "label": "Aramosalsal",
             "active": "True",
-            "url": "https://aradramtv.com/"
+            "url": "https://aradramatv.com/"
         },
         "arbcinema": {
             "label": "Arbcinema",
@@ -168,7 +168,7 @@
         "egyclub": {
             "label": "Egyclub",
             "active": "True",
-            "url": "https://www.egy-club.com/"
+            "url": "https://my.egy-club.com/"
         },
         "egydead": {
             "label": "Egydead",
@@ -253,7 +253,7 @@
         "lodynet": {
             "label": "Lodynet",
             "active": "True",
-            "url": "https://lodynet.link/"
+            "url": "https://lodynet.cfd/"
         },
         "MatrixTV": {
             "label": "MatrixTV",
