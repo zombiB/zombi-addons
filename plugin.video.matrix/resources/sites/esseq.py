@@ -248,7 +248,7 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
    #VSlog(sMovieTitle)
-   #VSlog(sUrl)
+    #VSlog(sUrl)
     sThumb = oInputParameterHandler.getValue('sThumb')
     import base64
     if '?url=' in sUrl:
@@ -266,16 +266,16 @@ def showHosters():
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         m3url = aResult[1][0]
-       #VSlog(m3url)
-        oRequestHandler = cRequestHandler(m3url)
-        oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0')
-        oRequestHandler.addHeaderEntry('referer', URL_MAIN)
-        sHtmlContent = oRequestHandler.request() 
+        #VSlog(m3url)
+        import base64
+        if '?post=' in m3url:
+           url_tmp = m3url.split('?post=')[-1].replace('%3D','=')
+           sHtmlContent = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
         #VSlog(sHtmlContent)
 
 
     # (.+?) .+? ([^<]+)        	
-    sPattern = 'data-name="(.+?)" data-server="(.+?)">' 
+    sPattern = '"name":"(.+?)","id":"(.+?)"' 
     aResult = re.findall(sPattern, sHtmlContent)
     sPattern = 'href="(.+?)"><img' 
     aResult2 = re.findall(sPattern, sHtmlContent)
@@ -287,6 +287,8 @@ def showHosters():
             url = aEntry[1]
             host  = aEntry[0]
             sTitle = sMovieTitle
+            if 'dailymotion' in host:
+               url =  'https://www.dailymotion.com/embed/video/'+ url
             if 'ok' in host:
                url =  'https://www.ok.ru/videoembed/'+ url
             if 'tune' in host:

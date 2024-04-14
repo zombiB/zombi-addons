@@ -94,7 +94,8 @@ def showSeries(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
   # ([^<]+) .+? (.+?)
 
-    sPattern = '<div class="serie-thumb"><a href="(.+?)">.+?src="(.+?)" alt="(.+?)" width='
+    sPattern = '<div class="thumb series-.+?">.+?<a href="(.+?)">.+?src="(.+?)" alt.+?<br>(.+?)</a>'
+
 
 
     oParser = cParser()
@@ -125,7 +126,7 @@ def showSeries(sSearch = ''):
             oGui.addTV(SITE_IDENTIFIER, 'showEpisodes', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
 
 
-    sPattern = '<ul class="pagination">(.+?)id="footer">'  
+    sPattern = 'class="pagination.+?">(.+?)id="footer">'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -135,7 +136,7 @@ def showSeries(sSearch = ''):
         sHtmlContent3 = aResult[1][0]
   # ([^<]+) .+?
 
-        sPattern = '<li><a href="([^<]+)">([^<]+)</a></li>'
+        sPattern = '<a href="([^<]+)">([^<]+)</a>'
 
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent3, sPattern)
@@ -181,7 +182,7 @@ def showSeriesSearch(sSearch = ''):
     sHtmlContent = oRequestHandler.request()
       # (.+?) ([^<]+) .+?
 	
-    sPattern = '<div class="video[^<]+"><a href="(.+?)"><img loading=".+?" src="(.+?)" alt="(.+?)" width'  
+    sPattern = '<span class="video.+?">.+?<a href="(.+?)">.+?src="(.+?)" alt.+?>(.+?)<br>(.+?)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -189,7 +190,8 @@ def showSeriesSearch(sSearch = ''):
     if aResult[0]:
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والاخيرة","")
+            sTitle = aEntry[2]+aEntry[3]
+            sTitle = sTitle.replace("الحلقة "," E").replace("حلقة "," E").replace("مشاهدة وتحميل","").replace("اون لاين","").replace("والاخيرة","")
             siteUrl = aEntry[0]
             sThumb = aEntry[1]
             if siteUrl.startswith('//'):
@@ -204,7 +206,7 @@ def showSeriesSearch(sSearch = ''):
             oGui.addEpisode(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, '', oOutputParameterHandler)
 
 
-    sPattern = '<ul class="pagination">(.+?)id="footer">'  
+    sPattern = '<ul class="pagination.+?">(.+?)id="footer">'  
     
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern) 
@@ -289,7 +291,7 @@ def showEpisodes():
     oRequestHandler = cRequestHandler(sUrl)
     sHtmlContent = oRequestHandler.request()
    # ([^<]+) .+? (.+?)
-    sPattern = '<div class="video[^<]+"><a href="(.+?)"><img loading=".+?" src="(.+?)" alt="(.+?)" width'
+    sPattern = '<div class="episode video-.+?"><a href="(.+?)" title=.+?<br>(.+?)</a>'
 	
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
@@ -298,7 +300,8 @@ def showEpisodes():
     if aResult[0]:
         for aEntry in aResult[1]:
  
-            sTitle = aEntry[2].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = " E"+aEntry[1].replace("الحلقة "," E").replace("حلقة "," E").replace("مدبلج للعربية","مدبلج").replace("مشاهدة وتحميل","").replace("اون لاين","")
+            sTitle = sMovieTitle+sTitle
             siteUrl = aEntry[0]
             if siteUrl.startswith('//'):
                 siteUrl = 'http:' + siteUrl
@@ -380,29 +383,31 @@ def showEpisodes():
     oGui.setEndOfDirectory()
 
 def showHosters():
+    import base64
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+    if '/video/' in sUrl:
+        sUrl = sUrl.replace("/video/","/watch/")
+        VSlog(sUrl)
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
+    sHtmlContent = oRequestHandler.request()
 
-
-    oParser = cParser()
-    import base64
-
-    sPattern =  "PGlmcmFt(.+?)'"
+    sPattern =  'onclick="setVideo(.+?);'
     aResult = oParser.parse(sHtmlContent,sPattern)
     if aResult[0]:
         for aEntry in aResult[1]:
-            m3url = "PGlmcmFt" + aEntry
-            sHtmlContent2 = base64.b64decode(m3url)
-    # (.+?)    .+?    
+            m3url = aEntry.replace("('","").replace("')","")
+            # Try to fix string to make it decodable:
+            m3url = m3url[2:]
+
+            sHtmlContent2 = base64.b64decode(m3url).decode('ascii',errors='ignore')
+   
             sPattern = 'src="(.+?)".+?allowfullscreen'
             aResult = oParser.parse(sHtmlContent2, sPattern)
-
             if aResult[0]:
                for aEntry in aResult[1]:
         
@@ -418,7 +423,5 @@ def showHosters():
                        oHoster.setDisplayName(sDisplayTitle)
                        oHoster.setFileName(sDisplayTitle)
                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-				
-
                 
     oGui.setEndOfDirectory()

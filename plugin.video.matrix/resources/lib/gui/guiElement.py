@@ -204,7 +204,7 @@ class cGuiElement:
             sTitle = sTitle.replace('Season', 'season').replace('Saison', 'season').replace('SEASON', 'season')
             sTitle = sTitle.replace(' - saison', ' season').replace(' – saison', ' season')\
                            .replace(' — saison', ' season')
-            sTitle = sTitle.replace("مدبلج بالعربية","مدبلج").replace("مدبلج بالعربي","[COLOR yellow]مدبلج[/COLOR]").replace("مدبلج عربي","[COLOR yellow]مدبلج[/COLOR]").replace("مدبلجة","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلجه","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلج بالمصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج مصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[COLOR yellow]مدبلج[/COLOR]")
+            sTitle = sTitle.replace("مدبلج بالعربية","(مدبلج)").replace("مدبلج بالعربي","(مدبلج)").replace("مدبلج عربي","(مدبلج)").replace("مدبلجة","(مدبلج)").replace("مدبلجه","(مدبلج)").replace("مدبلج بالمصري","(مدبلج)").replace("مدبلج مصري","(مدبلج)").replace("مدبلج للعربية","(مدبلج)").replace("مدبلج","(مدبلج)")
 
             if not bMatrix:
                 sTitle = sTitle.decode('utf-8')
