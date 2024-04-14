@@ -234,6 +234,30 @@ def showEpisodes():
         VSlog(m3url)
   # ([^<]+) .+? (.+?)
 
+    sPattern = '<a class="button" href="([^<]+)" id=".+?">(.+?)</a>'
+
+    oParser = cParser()
+    aResult = oParser.parse(sHtmlContent, sPattern)
+
+	
+    if aResult[0]:
+        for aEntry in aResult[1]:
+            
+            url = aEntry[1]
+            sTitle = aEntry[0]
+            if url.startswith('//'):
+               url = 'http:' + url
+            
+            sHosterUrl = url
+            if "youtube" in sHosterUrl:
+                continue
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+               sTitle = sTitle+sMovieTitle
+               oHoster.setDisplayName(sTitle)
+               oHoster.setFileName(sTitle)
+               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
     sPattern = 'iframes([^<]+)=.+?width="100%" height="400" src="(.+?)" frameborder='
 
     oParser = cParser()
@@ -264,7 +288,7 @@ def showEpisodes():
                oHoster.setFileName(sTitle)
                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
-    sPattern = '<a href="([^<]+)" target="_blank">(.+?)</a>'
+    sPattern = '<a href="([^<]+)" target=".+?">(.+?)</a>'
 
     oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)

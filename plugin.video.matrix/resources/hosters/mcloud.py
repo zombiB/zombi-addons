@@ -48,7 +48,7 @@ class cHoster(iHoster):
             SubTitle = ''
 
         api_call = decodeVidstream(self._url)
-        api_call = api_call.replace('\\','')+"|Referer=https://mcloud.bz/"
+        api_call = api_call.replace('\\','')
 
         if api_call:
             if ('http' in SubTitle):
@@ -66,10 +66,10 @@ def decodeVidstream(query):
 	domain = urlparse(query).netloc
 	domain = 'vidplay.online' if 'vidplay' in domain else domain
 	futokenurl = 'https://'+domain+'/futoken'
-	futoken = requests.get(futokenurl, verify=False).text
+	futoken = requests.get(futokenurl,  headers={"Referer": query},verify=False).text
 
 	k=re.findall("k='([^']+)'",futoken,re.DOTALL)[0]
-	if 'vidplay' in query or '55a0716b8c' in query:
+	if 'vidplay' in query or '55a0716b8c' in query or 'e69975b881' in query or 'c8365730d4' in query:
 		query = query.split('/e/')[1].split('?')
 	else:
 		query = query.split('e/')[1].split('?')
@@ -137,8 +137,8 @@ def encode_id(id_):
 
 		return h
 		
-	# Credits to @matecky for providing key - Thanks
-	klucze = requests.get('https://github.com/matecky/bac/blob/keys/keys.json')
+	# Credits to @Ciarands for providing key - Thanks
+	klucze = requests.get('https://github.com/Ciarands/vidsrc-keys/blob/main/keys.json')
 					   
 	matches = re.search(r"\"rawLines\":\s*\[\"(.+)\"\]", klucze.text)
 	k1, k2 = json.loads(matches.group(1).replace("\\", ""))

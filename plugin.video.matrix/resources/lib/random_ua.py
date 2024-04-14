@@ -5,6 +5,8 @@ import random
 import time
 import six
 from kodi_six import xbmcaddon
+from resources.lib.comaddon import VSlog
+from six.moves import (http_cookiejar)
 
 addon = xbmcaddon.Addon()
 
@@ -19,15 +21,15 @@ def get_random_ua():
     first_num = random.randint(90, 122)
     third_num = random.randint(3221, 4235)
     fourth_num = random.randint(0, 95)
-    os_type = [
-        '(Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        '(X11; Linux x86_64) AppleWebKit/537.36',
-        '(X11; Linux i686) AppleWebKit/537.36',
-        '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 
-        '(iPhone; CPU OS 16_3 like Mac OS X) AppleWebKit/605.1.15s',
-        '(iPad; CPU OS 15_6 like Mac OS X) AppleWebKit/604.1.34', 
-        '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36',  
-    ]
+    os_type =   [
+                '(Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                '(X11; Linux x86_64) AppleWebKit/537.36',
+                '(X11; Linux i686) AppleWebKit/537.36',
+                '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 
+                '(iPhone; CPU OS 16_3 like Mac OS X) AppleWebKit/605.1.15s',
+                '(iPad; CPU OS 15_6 like Mac OS X) AppleWebKit/604.1.34', 
+                '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36'
+                ]
     chrome_version = 'Chrome/{}.0.{}.{}'.format(
         first_num, third_num, fourth_num)
 
@@ -40,13 +42,13 @@ def get_pc_ua():
     first_num = random.randint(90, 122) 
     third_num = random.randint(3221, 4235)
     fourth_num = random.randint(0, 95)
-    os_type = [
-        '(Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36', 
-        '(X11; Linux x86_64) AppleWebKit/537.36',
-        '(X11; Linux i686) AppleWebKit/537.36',
-        '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36', 
-    ]
+    os_type =   [
+                '(Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                '(Windows NT 11.0; Win64; x64) AppleWebKit/537.36', 
+                '(X11; Linux x86_64) AppleWebKit/537.36',
+                '(X11; Linux i686) AppleWebKit/537.36',
+                '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+                ]
     chrome_version = 'Chrome/{}.0.{}.{}'.format(
         first_num, third_num, fourth_num)
 
@@ -59,12 +61,12 @@ def get_phone_ua():
   first_num = random.randint(90, 122) 
   third_num = random.randint(0, 4000) 
   fourth_num = random.randint(0, 140)
-  os_type = [
-      '(iPhone; CPU OS 16_3 like Mac OS X) AppleWebKit/605.1.15s',
-      '(iPad; CPU OS 15_6 like Mac OS X) AppleWebKit/604.1.34',
-      '(Linux; U; Android 13; en-us; Pixel 6 Pro Build/TPP1.220621.005)', 
-      '(Linux; U; Android 12; en-us; SM-G998B Build/SP1A.210812.016)', 
-  ]
+  os_type =     [
+                '(iPhone; CPU OS 16_3 like Mac OS X) AppleWebKit/605.1.15s',
+                '(iPad; CPU OS 15_6 like Mac OS X) AppleWebKit/604.1.34',
+                '(Linux; U; Android 13; en-us; Pixel 6 Pro Build/TPP1.220621.005)', 
+                '(Linux; U; Android 12; en-us; SM-G998B Build/SP1A.210812.016)'
+                ]
   chrome_version = 'Chrome/{}.0.{}.{}'.format(
       first_num, third_num, fourth_num)
 
@@ -92,3 +94,8 @@ def force_ua():
 def set_ua(ua):
     set_setting('current_ua', ua)
     set_setting('last_ua_create', str(int(time.time())))
+
+def savecookies(flarejson):
+    clean_cookies_dict = {cookie['name']: cookie['value'] for cookie in flarejson}
+
+    set_setting('current_cook', clean_cookies_dict)
