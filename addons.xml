@@ -6,7 +6,7 @@
             <import addon="repository.zombi" />
             <import addon="script.module.pyqrcode" />
             <import addon="script.kodi.loguploader" />
-             <import addon="script.module.cloudscraper" />
+            
             <import addon="script.module.requests" />
             <import addon="script.module.beautifulsoup4" version="4.9.3" />
             <import addon="script.module.resolveurl" version="5.1.00" />
