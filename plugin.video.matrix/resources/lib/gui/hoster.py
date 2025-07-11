@@ -216,7 +216,7 @@ class cHosterGui:
                             'giga', 'megadrive', 'downace', 'clickopen', 'supervideo',
                             'jawcloud', 'soundcloud', 'mixcloud', 'ddlfr', 'vupload', 'dwfull', 'vidzstore',
                             'pdj', 'rapidstream', 'jetload', 'dustreaming', 'viki', 'flix555', 'onlystream',
-                            'upstream', 'pstream', 'vudeo', 'vidia', 'uptobox', 'uplea', 'vido',
+                            'upstream', 'pstream', 'vudeo', 'vidia', 'uptobox', 'uplea', 
                             'sibnet', 'vidplayer', 'userload', 'aparat', 'evoload', 'abcvideo', 'plynow', '33player', 'filerio', 'videoraj', 'brightcove', 'detectiveconanar']
 
         val = next((x for x in supported_player if x in sHostName), None)
@@ -282,12 +282,22 @@ class cHosterGui:
         vidtodo = next((x for x in ['vidtodo', 'vixtodo', 'viddoto', 'vidstodo'] if x in sHostName), None)
         if vidtodo:
             return self.getHoster('vidtodo')
+        
 
         # Filemoon Clone
         filemoon = next((x for x in ['filemoon', 'moonmov', 'allviid', 'all-vid', 'techradar', 'albrq', 'kerapoxy', 'kinoger', 'smdfs40r', '81u6xl9d',
                                      '1azayf9w'] if x in sHostName), None)
         if filemoon:
             return self.getHoster("filemoon")
+        #mp4Play
+        mp4Play= next((x for x in ['mp4plus'] if x in sHostName), None)
+        if mp4Play:
+            return self.getHoster("mp4Play")
+         #bigwarp
+        bigwarp= next((x for x in ['bigwarp', 'bgwp'] if x in sHostName), None)
+        if bigwarp:
+            return self.getHoster("bigwarp")
+
 
         # Voe Clone
         voe = next((x for x in ['voe', 'kathleenmemberhistory', 'timberwoodanotia', 'stevenimaginelittle', 'availedsmallest'] if x in sHostName), None)

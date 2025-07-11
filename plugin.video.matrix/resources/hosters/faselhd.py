@@ -6,7 +6,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.sites.faselhd import decode_page
-from resources.lib.comaddon import dialog, VSlog
+from resources.lib.comaddon import dialog, VSlog, addon, siteManager
 from resources.lib import random_ua
 import xbmcgui
 UA = random_ua.get_phone_ua()
@@ -22,9 +22,12 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = self._url
         VSlog(self._url)
-        oParser = cParser()  
+        oParser = cParser()
+     #   xbmcgui.Dialog().ok("sHtmlContent",str(self._url )) 
+  
      #   xbmcgui.Dialog().ok("","") 
-        
+       
+
 
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('user-agent',UA)
