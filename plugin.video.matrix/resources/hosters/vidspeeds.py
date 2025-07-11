@@ -45,7 +45,7 @@ class cHoster(iHoster):
         api_call = False
 
         if (aResult[0] == True):
-            xbmcgui.Dialog().ok("aResult",  aResult[1][0])
+        #    xbmcgui.Dialog().ok("aResult",  aResult[1][0])
             api_call = aResult[1][0]
             VSlog(api_call)
 

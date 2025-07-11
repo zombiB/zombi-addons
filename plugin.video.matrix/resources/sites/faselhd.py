@@ -785,7 +785,7 @@ def decode_page(data):
                 c_elm = base64.b64decode(elm + "==").decode('utf-8')
                 t_ch = re.findall(r"(\d+)", c_elm)
                 if t_ch:
-                    nb = int(t_ch[0]) + int(t_int[0])
+                    nb = int(t_ch[0]) + int(t_int[0] if t_int[0] != '' else t_int[1])
                     page += chr(nb)
             except Exception:
                 continue
