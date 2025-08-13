@@ -1,22 +1,12 @@
 ﻿# -*- coding: utf-8 -*-
-#############################################################
-# Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
-# Thanks to TSIPlayer Creators
 
-import re
-	
+import re,base64, json
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
-from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog, siteManager, dialog, addon
-
-import json
-import requests
-
+from resources.lib.comaddon import VSlog, siteManager, addon
 
 SITE_IDENTIFIER = 'linkbox'
 SITE_NAME = 'Telebox [COLOR orange]- Linkbox -[/COLOR]'
@@ -29,90 +19,49 @@ FUNCTION_SEARCH = 'GetSearch'
 
 def load():
     oGui = cGui()
+    addons = addon()
 
     oOutputParameterHandler = cOutputParameterHandler()
 
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', 'search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30330), '1/Search.png', oOutputParameterHandler)
 
     sList = [
-            ('AflamHQ','bNA04cJ','sites/aflaam.png'),
-            ('مكتبة المسلسلات والأفلام Movies and Series Library with 4k','_ig_gOEnWNM_2543983_3648','sites/linkbox.png'),
+            ('2024 اشهر واقوى المسلسلات والافلام','nLw3cuO','sites/linkbox.png'),
             ('Anime Box','app01e2f1adf1aca0a1a1a4a7a2a0adf2aca0a1a1a4a7a2a0','sites/linkbox.png'),
-            ('Htm.Animes','app01e2f1adf2acaeafa1a3a1a0a0adf1acaeafa1a3a1a0a0','sites/linkbox.png'),
-            ('Bein Movies','app01e2f1adf1aca5a4a7aea7a0a4adf2aca5a4a7aea7a0a4','sites/linkbox.png'),
+            ('HTM Animes','app01e2f1adf2acaeafa1a3a1a0a0adf1acaeafa1a3a1a0a0','sites/linkbox.png'),
             ('Cinema Baghdad','UiLE7sU','sites/linkbox.png'),
-            ('Cinema-Club (أفلام)','app01e2f1adf1aca4a3a2a1a7aea4adf2aca4a3a2a1a7aea4','sites/cimaclub.png'),
-            ('Cinema-Club (مسلسلات)','app01e2f1adf1aca4a1afaea4a5a1adf2aca4a1afaea4a5a1','sites/cimaclub.png'),
             ('Cinema-Club (أفلام و مسلسلات الأنمي)','app01e2f1adf1aca4a3a5aea3aea0adf2aca4a3a5aea3aea0','sites/cimaclub.png'),
             ('Cinema Crown','app01e2f1adf1aca7a4a5a3a1a3aeadf2aca7a4a5a3a1a3ae','sites/linkbox.png'),
-            ('Cinema Dose','_ig_app01e2f1adf0f2acf0e6a5e7e5e1a6a6a4a1eefe_10100689_6184','sites/linkbox.png'),
-            ('Cinema mix','app01e2f1adf1aca5aea7afa0a6a5adf2aca5aea7afa0a6a5','sites/linkbox.png'),
-            ('Cinema sold','app01e2f1adf1aca0a3a1a1a0a0adf2aca0a3a1a1a0a0','sites/linkbox.png'),
-            ('cimaabdo','_ig_esEuECt_609855_299a','sites/linkbox.png'),
-            ('CiMA Now TV','app01e2f1adf1aca5a3a3a5a3a7adf2aca5a3a3a5a3a7','sites/cimanow.png'),
-            ('Dopanime Movies','_ig_app01e2f1adf0f2acf0e6a5e6faf9a6a6a7afa5e2_9389145_6e86','sites/linkbox.png'),
-            ('Egybest','xgLMOew','sites/egybest.png'),
-            ('EGY-BEST','app01e2f1adf2aca7a3a6a0a1a1a5adf1aca7a3a6a0a1a1a5','sites/egybest.png'),
-            ('ايجي بست EgyBest','_ig_app01e2f1adf0f2acf0e6a5fbf9e5a6a6a6eefdf8_3589656_8ed8','sites/egybest.png'),
-            ('|| For You','ho3FrEE','sites/linkbox.png'),
-            ('Kowaya Cinema','_ig_app01e2f1adf0f2acf0e6a5f9e4f1a6a6a5fcfba2_4250624_a55c','sites/linkbox.png'),
-            ('MARVEL MOROCCO','SD9p5bO','sites/linkbox.png'),
-            ('Movies Plus - أفلام','app01e2f1adf1aca0a2a3a1a0a6adf2aca0a2a3a1a0a6','sites/linkbox.png'),
-            ('Movies Time','U9eySIc','sites/moviztime.png'),
+            ('Egybest 1','xgLMOew','sites/egybest.png'),
+            ('Egybest 2','app01e2f1adf2aca7a3a6a0a1a1a5adf1aca7a3a6a0a1a1a5','sites/egybest.png'),
+            ('Marvel Morocco','SD9p5bO','sites/linkbox.png'),
+            ('Movies Plus','app01e2f1adf1aca0a2a3a1a0a6adf2aca0a2a3a1a0a6','sites/linkbox.png'),
             ('Netflix','_ig_app01e2f1adf0f2acf0e6a5fda0aea6a6a6f3afe0_2674587_0ddd','sites/netflix.png'),
-            ('Netflix','46Qaojv','sites/netflix.png'),
-            ('افلام و مسلسلات netflix','_ig_2z1IFpK_4702801_f98c','sites/netflix.png'),
-            ('Netfilx (2022) أفلام ومسلسلات متنوعة','app01e2f1adf2acaea1aea1afa0adf1acaea1aea1afa0','sites/netflix.png'),
-            ('New Q','_ig_app01e2f1adf0f2acf0e6a5fafae5a6a6f4f2aff4_4606358_e7ba','sites/linkbox.png'),
-            ('ONE Cima TV','app01e2f1adf1aca7a5a2a5a5a4a2adf2aca7a5a2a5a5a4a2','sites/linkbox.png'),
+            ('NewQ','_ig_app01e2f1adf0f2acf0e6a5fafae5a6a6f4f2aff4_4606358_e7ba','sites/linkbox.png'),
+            ('OneCima TV','app01e2f1adf1aca7a5a2a5a5a4a2adf2aca7a5a2a5a5a4a2','sites/linkbox.png'),
             ('Star Cinema','app01e2f1adf1aca1afaea6a7adf2aca1afaea6a7','sites/linkbox.png'),
             ('Showtime Movies','app01e2f1adf1aca2a4a7afa5afa7adf2aca2a4a7afa5afa7','sites/linkbox.png'),
-            ('The Movie Night','app01e2f1adf2acaeafa3a3afa3adf1acaeafa3a3afa3','sites/linkbox.png'),
-            ('English Films - افلام اجنبي','_ig_app01e2f1adf0f2acf0e6a5f1e2a6a6a6a5a6efe3_752951_b7af','sites/linkbox.png'),
-            ('The Movies','app01e2f1adf2aca5a5a2a3a3a4aeadf1aca5a5a2a3a3a4ae','sites/linkbox.png'),
-            ('THROW LOB (رياضة)','NZKr9gl','sites/linkbox.png'),
+            ('English Films | افلام اجنبي','_ig_app01e2f1adf0f2acf0e6a5f1e2a6a6a6a5a6efe3_752951_b7af','sites/linkbox.png'),
+            ('(رياضة) ThrowLob','NZKr9gl','sites/linkbox.png'),
             ('The Movie Muse','ZmM9DaP','sites/linkbox.png'),
             ('Yalla Anime','app01e2f1adf2aca4afa3a5a1a5aeadf1aca4afa3a5a1a5ae','sites/linkbox.png'),
-            ('World1Movies','app01e2f1adf2aca0a6a7a5aea3adf1aca0a6a7a5aea3','sites/linkbox.png'),
-            ('افلام ومسلسلات عربيه واجنبيه مترجمه Various Movies','app01e2f1adf2aca7a2aea3a1a6aeadf1aca7a2aea3a1a6ae','sites/linkbox.png'),
             ('مجتمع الأفلام والمسلسلات | Documentary Films','app01e2f1adf2acaea7a5a2a3a5a4adf1acaea7a5a2a3a5a4','sites/linkbox.png'),
-            ('فرجني شكرا - Faragny','_ig_app01e2f1adf0f2acf0e6a5fcaff5a6a6a6afa7fe_2609502_fdae','sites/linkbox.png'),
-            ('Marvel Movies أفلام و مسلسلات','_ig_app01e2f1adf0f2acf0e6a5fbf1fda6a6a2f7a6fa_935938_2c28','sites/linkbox.png'),
-            ('Shof_Ha افلام','app01e2f1adf2aca4afa5a5a6a2aeadf1aca4afa5a5a6a2ae','sites/linkbox.png'),
-            ('يلا Movies','app01e2f1adf2aca3a5afa1aea4a4adf1aca3a5afa1aea4a4','sites/linkbox.png'),
-            ('سيما هاوس & Cima House','app01e2f1adf1aca7a2a0a2a3a0a2adf2aca7a2a0a2a3a0a2','sites/linkbox.png'),
+            ('فرجني | Faragny','_ig_app01e2f1adf0f2acf0e6a5fcaff5a6a6a6afa7fe_2609502_fdae','sites/linkbox.png'),
+            ('افلام شوفها','app01e2f1adf2aca4afa5a5a6a2aeadf1aca4afa5a5a6a2ae','sites/linkbox.png'),
             ('موطن المفيز Movies المدبلج','app01e2f1adf2aca0aea6a2a5a3adf1aca0aea6a2a5a3','sites/linkbox.png'),
-            ('سينما موفيز | Cinema Movies','app01e2f1adf1aca7a6a2a6a0a0a3adf2aca7a6a2a6a0a0a3','sites/linkbox.png'),
             ('سينما أونلاين','app01e2f1adf1aca5a2aea1a2a6a3adf2aca5a2aea1a2a6a3','sites/linkbox.png'),
-            ('عشاق الافلام','app01e2f1adf2acafafa4a2a3a2adf1acafafa4a2a3a2','sites/linkbox.png'),
-            ('إجي بيست','DERRaVk','sites/egybest.png'),
-            ('اجي بيست','_ig_app01e2f1adf0f2acf0e6a5f9faa2a6a6a2e6f4e2_2751140_2b6c','sites/egybest.png'),
-            ('مسلسلات: دراما نيوز','_ig_app01e2f1adf0f2acf0e6a5fde3aea6a6a6aff7f2_3576258_c91a','sites/linkbox.png'),
-            ('⏎مــــــسلســــــلات ⇍ كل المسلــسلات والافـلام','app01e2f1adf1aca3a7afa4a0a0a0adf2aca3a7afa4a0a0a0','sites/linkbox.png'),
-            ('أفلام ومسلسلات أجنبية','_ig_app01e2f1adf0f2acf0e6a5fae2fda6a6a6f1a3ae_1077534_cc7b','sites/linkbox.png'),
             ('مسلسلات أجنبية أكشن إثارة','_ig_app01e2f1adf0f2acf0e6a5fbe6fda6a6a6eef4ff_6032611_496c','sites/linkbox.png'),
-            ('تلفازك المتنقل','_ig_app01e2f1adf0f2acf0e6a5fdf3aea6a6a5e6f8af_3519730_d7ac','sites/linkbox.png'),
-            ('جميع الاقسام دراماتك','_ig_app01e2f1adf0f2acf0e6a5faf1a6a6a6a5a3ecf8_4462318_8a7c','sites/linkbox.png'),
-            ('الربيعي موفيز','app01e2f1adf2aca3a5a5a4a1a0a1adf1aca3a5a5a4a1a0a1','sites/linkbox.png'),
             ('أفلام مجان نت','app01e2f1adf2aca4a7a5a7a0aeafadf1aca4a7a5a7a0aeaf','sites/linkbox.png'),
-            ('مسلسلات وأفلام (2023)','app01e2f1adf2aca5aea1a5aea0a2adf1aca5aea1a5aea0a2','sites/linkbox.png'),
-            ('أفلام ومسلسلات نتفليكس','vhOWCrx','sites/netflix.png'),
             ('كيدراما (الأسيوية)','app01e2f1adf1aca4a3a6afa0a6adf2aca4a3a6afa0a6','sites/linkbox.png'),
             ('مسلسلات وأفلام أسيوية','app01e2f1adf2aca0a0a0afa0aeadf1aca0a0a0afa0ae','sites/linkbox.png'),
-            ('إستراحة المنوعات','app01e2f1adf2aca5a4afa7a7aea6adf1aca5a4afa7a7aea6','sites/linkbox.png'),
-            ('عرب سينما','app01e2f1adf2aca5a5a3a4aea0adf1aca5a5a3a4aea0','sites/linkbox.png'),
             ('سلاسل أفلام','_ig_app01e2f1adf0f2acf0e6a5fbefe1a6a6fca0fff2_728149_b0d7','sites/linkbox.png'),
             ('تسس موفيز','app01e2f1adf2aca5a2a6afafa7adf1aca5a2a6afafa7','sites/linkbox.png'),
-            ('موفيز لاند | SA','app01e2f1adf1aca1afafa4a7a7adf2aca1afafa4a7a7','sites/linkbox.png'),
-            ('اكوام افلام ومسلسلات','app01e2f1adf2acafa3a4a6a3adf1acafa3a4a6a3','sites/akwam.png'),
-            ('جميع المسلسلات والافلام','app01e2f1adf2aca5a0a3a3a2a6aeadf1aca5a0a3a3a2a6ae','sites/linkbox.png'),
-            ('مسلسلات اجنبية وافلام اجنبية','ypev9W9','sites/linkbox.png'),
-            ('أنميات','app01e2f1adf2acaeaea5a2aea4afadf1acaeaea5a2aea4af','sites/linkbox.png'),
-            ('شانكس ساما ( إنمي)','app01e2f1adf2aca0aeaeafa2a1adf1aca0aeaeafa2a1','sites/linkbox.png'),
-            ('تارو ساما ( إنمي)','app01e2f1adf2aca0a5a5a3a0adf1aca0a5a5a3a0','sites/linkbox.png'),
-            ('؏عـ()ـالم اݪانــٓـــٓـمــــٴ͜ـــي','app01e2f1adf2aca4aea5a4a6a1a3adf1aca4aea5a4a6a1a3','sites/linkbox.png'),
-            ('لوفي ساما ( (إنمي','lUprnhl','sites/linkbox.png')]
+            ('أنميات (انمي)','app01e2f1adf2acaeaea5a2aea4afadf1acaeaea5a2aea4af','sites/linkbox.png'),
+            ('شانكس ساما (انمي)','app01e2f1adf2aca0aeaeafa2a1adf1aca0aeaeafa2a1','sites/linkbox.png'),
+            ('تارو ساما (انمي)','app01e2f1adf2aca0a5a5a3a0adf1aca0a5a5a3a0','sites/linkbox.png'),
+            ('(انمي) عالم الأنمي','app01e2f1adf2aca4aea5a4a6a1a3adf1aca4aea5a4a6a1a3','sites/linkbox.png'),
+            ('لوفي ساما (انمي)','lUprnhl','sites/linkbox.png')]
     
     for sServer in sList:
             icon = sServer[2]
@@ -131,290 +80,433 @@ def showSearch():
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://www.zain3.com/api/search?kw='+sSearchText+'&pageSize=50&pageNo=1'
+        sUrl = f'https://www.zain3.com/api/search?kw={sSearchText}&pageSize=50&pageNo=1'
         GetSearch(sUrl)
         oGui.setEndOfDirectory()
         return
 
-def showContent(sSearch = ''):
-    import requests
+def showContent():
     oGui = cGui()
-    oOutputParameterHandler = cOutputParameterHandler()
 
+    oOutputParameterHandler = cOutputParameterHandler()
     oInputParameterHandler = cInputParameterHandler()
+
     sUrl = oInputParameterHandler.getValue('siteUrl')
     spage = int(oInputParameterHandler.getValue('page'))   
     spid = oInputParameterHandler.getValue('spid')
-    
-    
-    nb_elm = 50
+ 
+    ListCount = 50
     shareToken = sUrl
 
     page = 1
     pid = spid
 
+    page = spage if spage > 1 else 1
 
-    if spage > 1:
-        page = spage
+    sUrl = f'{URL_MAIN}api/file/share_out_list/?sortField=name&sortAsc=1&pageNo={str(page)}&pageSize={str(ListCount)}&shareToken={shareToken}&pid={str(pid)}&needTpInfo=1&scene=singleGroup&name=&platform=web&pf=web&lan=en'
+
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('connection', 'Keep-Alive')
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+    sCount = 0
+    data = sHtmlContent.get("data")
+    if data and isinstance(data, dict):
+        data = data.get("list", [])
     else:
-        page = 1
+        data = []
 
-    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid='+str(pid)+'&needTpInfo=1&scene=singleGroup&name=&platform=web&pf=web&lan=en'
+    if not data:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR orange]لم يتم العثور على نتائج ، ربما تم حظره بسبب شكوى انتهاك حقوق النشر[/COLOR]')
 
-    data = requests.get(sUrl).json()
-    data = data.get('data',{})
-    data = data.get('list',[])
-    if not data: data = []
-    elm_count = 0
+    else:
+        oOutputParameterHandler.addParameter('spid', pid) 
+        oOutputParameterHandler.addParameter('siteUrl',shareToken)
+        oGui.addDir(SITE_IDENTIFIER, 'showGroupSearch', '[COLOR yellow] Search Files within Group [/COLOR]', '1/Search.png', oOutputParameterHandler) 
 
-    oOutputParameterHandler.addParameter('siteUrl',shareToken)
-    oGui.addDir(SITE_IDENTIFIER, 'showGroupSearch', '[COLOR yellow] Search Files within Group [/COLOR]', 'search.png', oOutputParameterHandler) 
+        for aEntry in data:
 
-    for elm in data:
-                sTitle = elm.get('name','')
-                type_ = elm.get('type','')
+            sTitle = re.sub(r"[^\w\s]", " ", clean_html_tags(aEntry.get('name', ''))).replace('mp4', '')
+            sType = aEntry.get('type', '')
+            pid = aEntry.get('id', '')
+            spid = aEntry.get('pid', '')
+            item_id = aEntry.get('item_id', '')
+            sThumb = 'host.png'
+            link = aEntry.get('url', '')
+            sSize = int(aEntry.get('size', 0) / 1024**2)
+            sCount += 1
 
-                pid   = elm.get('id','')
-                spid = elm.get('pid','')
-
-                desc  = ''
-                elm_count = elm_count + 1
+            oOutputParameterHandler.addParameter('spid', pid) 
+            oOutputParameterHandler.addParameter('sTitle', sTitle)            
+            oOutputParameterHandler.addParameter('sThumb', sThumb) 
+            oOutputParameterHandler.addParameter('siteUrl',shareToken)
+            
+            if sType =='dir':
+                oGui.addDir(SITE_IDENTIFIER, 'showContent', sTitle, sThumb, oOutputParameterHandler)
                 
-                icon  = 'host.png'
-
-                link  = elm.get('url','')
-                size = elm.get('size','')
-                size = size/1024 
-                size = size/1024
-                size = int(size)
-
-                oOutputParameterHandler.addParameter('spid', pid) 
-                oOutputParameterHandler.addParameter('sTitle', sTitle)            
-                oOutputParameterHandler.addParameter('sThumb', '') 
+            if sCount + 1 > ListCount:
+                page = page + 1
+                oOutputParameterHandler.addParameter('page', page)
                 oOutputParameterHandler.addParameter('siteUrl',shareToken)
-               
-                if type_=='dir':
-                    oGui.addDir(SITE_IDENTIFIER, 'showContent', sTitle, icon, oOutputParameterHandler)
-                    
-                if elm_count + 1 > nb_elm:
-                    page = page + 1
-                    oOutputParameterHandler.addParameter('page',page)
-                    oOutputParameterHandler.addParameter('siteUrl',shareToken)
-                    oOutputParameterHandler.addParameter('spid', spid) 
-                    oGui.addDir(SITE_IDENTIFIER, 'showContent', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+                oOutputParameterHandler.addParameter('spid', spid) 
+                oGui.addDir(SITE_IDENTIFIER, 'showContent', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-                elif (type_=='video') or (type_=='audio'):
-                    icon  = elm.get('cover','')
-                    if '&x-image-process' in icon: 
-                         icon = icon.split('&x-image-process',1)[0]
-                    sHosterUrl = link
-                    sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
-                    oHoster = cHosterGui().getHoster('lien_direct')        
+            if sType in ['video', 'audio']:
+                icon = aEntry.get('cover', '').split('&x-image-process', 1)[0] if '&x-image-process' in aEntry.get('cover', '') else aEntry.get('cover', '')
+                sHosterUrl = link.replace('<nil>', '')
+                if sHosterUrl == '':
+                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                    oOutputParameterHandler.addParameter('siteUrl', sUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    oOutputParameterHandler.addParameter('item_id', item_id)
+
+                    oGui.addLink(SITE_IDENTIFIER, 'showGroupLinks', sTitle, sThumb, sTitle, oOutputParameterHandler)
+                else:
+                    sDisplayTitle = f'{sTitle} [COLOR yellow]({str(sSize)}MB)[/COLOR]'
+                    oHoster = cHosterGui().getHoster('direct_link')        
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)                
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)              
 
     oGui.setEndOfDirectory()
 
 
 def GetSearch(sSearch = ''):
-    import requests
     oGui = cGui()
-    sUrl = sSearch
 
     oOutputParameterHandler = cOutputParameterHandler()  
-    oInputParameterHandler = cInputParameterHandler()
-    spage = int(oInputParameterHandler.getValue('page'))     
-    nb_elm = 50
-    shareToken = sUrl
+    oInputParameterHandler = cInputParameterHandler() 
 
-    if spage > 1:
-        page = spage
+    ListCount = 50
+    shareToken = sSearch
+
+    spage = int(oInputParameterHandler.getValue('page'))  
+    page = spage if spage > 1 else 1
+
+    oRequestHandler = cRequestHandler(sSearch)
+    oRequestHandler.addHeaderEntry('connection', 'Keep-Alive')
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+    sCount = 0
+    data = sHtmlContent.get("data")
+    if data and isinstance(data, dict):
+        data = data.get("list", [])
     else:
-        page = 1
+        data = []
 
-    data = requests.get(sUrl).json()
-    data = data.get('data',{})
-    data = data.get('list',[])
-    if not data: data = []
-    elm_count = 0
-    for elm in data:
-                sTitle = 'Search Result for: ' + elm.get('name','').replace('<em>','').replace('</em>','')
-                type_ = elm.get('type','')
+    if not data:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR orange]لم يتم العثور على نتائج[/COLOR]')
 
-                pid   = elm.get('id','')
-                elm_count = elm_count + 1
-                
-                icon  = 'host.png'
+    else:
+        for aEntry in data:
+            
+            sCount += 1
+            sTitle = re.sub(r"[^\w\s]", " ", clean_html_tags(aEntry.get('name', ''))).replace('mp4', '')
+            sThumb = 'host.png'
+            siteUrl = aEntry.get('url', '').replace('/f/', '/s/')
+            if '/s/' in siteUrl:
+                shareToken, pid = (siteUrl.split('/s/')[1].split('?pid=') + ['0'])[:2]
+            elif '?pid=' in siteUrl:
+                pid = siteUrl.split('?pid=')[0] or '0'
+            else:
+                pid = aEntry.get('id', '0')
 
-                url  = elm.get('url','')
-                if '/f/' in url: url = url.replace('/f/','/s/')
-                if ('/s/' in url):
-                    shareToken = url.split('/s/')[1]
-                    if '?pid=' in shareToken:
-                        shareToken,pid = shareToken.split('?pid=')
-                    else:
-                        pid = ''
-                if elm_count + 1 > nb_elm:
-                    page = page + 1
-                    oOutputParameterHandler.addParameter('page',page)
-                oOutputParameterHandler.addParameter('spid', pid) 
-                oOutputParameterHandler.addParameter('sTitle', sTitle)            
-                oOutputParameterHandler.addParameter('sThumb', '') 
-                oOutputParameterHandler.addParameter('siteUrl',shareToken)
-                oGui.addDir(SITE_IDENTIFIER, 'showContent', sTitle, icon, oOutputParameterHandler)            
+            if sCount > ListCount:
+                page += 1
+
+            oOutputParameterHandler.addParameter('page',page)
+            oOutputParameterHandler.addParameter('spid', pid) 
+            oOutputParameterHandler.addParameter('sTitle', sTitle)            
+            oOutputParameterHandler.addParameter('sThumb', sThumb) 
+            oOutputParameterHandler.addParameter('siteUrl',shareToken)
+
+            oGui.addDir(SITE_IDENTIFIER, 'showContent', sTitle, sThumb, oOutputParameterHandler)            
  
     oGui.setEndOfDirectory()
 
 def showGroupSearch(sSearchText = ''):
-    import requests
     oGui = cGui()
     sSearchText = oGui.showKeyBoard()
 
     oOutputParameterHandler = cOutputParameterHandler()  
     oInputParameterHandler = cInputParameterHandler()
-    sUrl = oInputParameterHandler.getValue('siteUrl')
 
+    sUrl = oInputParameterHandler.getValue('siteUrl')
     spage = int(oInputParameterHandler.getValue('page'))   
     spid = oInputParameterHandler.getValue('spid')
 
-    nb_elm = 50
+    ListCount = 50
     shareToken = sUrl
 
-    page = 1
     pid = spid
+    page = spage if spage > 1 else 1
 
+    sUrl = f'{URL_MAIN}api/file/share_out_list/?sortField=name&sortAsc=1&pageNo={str(page)}&pageSize={str(ListCount)}&shareToken={shareToken}&pid={str(pid)}&needTpInfo=1&scene=singleGroup&name={sSearchText}&platform=web&pf=web&lan=en'
 
-    if spage > 1:
-        page = spage
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('connection', 'Keep-Alive')
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+    sCount = 0
+    data = sHtmlContent.get("data")
+    if data and isinstance(data, dict):
+        data = data.get("list", [])
     else:
-        page = 1
+        data = []
 
-    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid='+str(pid)+'&needTpInfo=1&scene=singleGroup&name='+sSearchText+'&platform=web&pf=web&lan=en'
+    if not data:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR orange]لم يتم العثور على نتائج[/COLOR]')
 
-    data = requests.get(sUrl).json()
-    data = data.get('data',{})
-    data = data.get('list',[])
-    if not data: data = []
-    elm_count = 0
-    for elm in data:
-                sTitle = elm.get('name','')
-                type_ = elm.get('type','')
+    else:
+        for aEntry in data:
 
-                pid   = elm.get('id','')
-                spid = 0
+            sCount += 1
+            pid = aEntry.get('id', '')
+            spid = 0
+            sTitle = re.sub(r"[^\w\s]", " ", clean_html_tags(aEntry.get('name', ''))).replace('mp4', '')
+            sType = aEntry.get('type', '')
+            sThumb = 'host.png'
+            siteUrl = aEntry.get('url', '')
+            sSize = int(aEntry.get('size', 0) / 1024**2)
+            shareToken = shareToken
+            item_id = aEntry.get('item_id', '')
 
-                desc  = ''
-                elm_count = elm_count + 1
+            oOutputParameterHandler.addParameter('spid', pid) 
+            oOutputParameterHandler.addParameter('sTitle', sTitle)            
+            oOutputParameterHandler.addParameter('sThumb', sThumb) 
+            oOutputParameterHandler.addParameter('siteUrl', shareToken)
                 
-                icon  = 'host.png'
+            if sCount + 1 > ListCount:
+                page = page + 1
+                oOutputParameterHandler.addParameter('page', page)
+                oOutputParameterHandler.addParameter('siteUrl', shareToken)
+                oOutputParameterHandler.addParameter('spid', spid) 
+                oOutputParameterHandler.addParameter('sSearchText', sSearchText) 
+                
+                oGui.addDir(SITE_IDENTIFIER, 'showGroupSearchNext', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-                url  = elm.get('url','')
-                size = elm.get('size','')
-                size = size/1024 
-                size = size/1024
-                size = int(size)
+            elif sType in ['video', 'audio']:
+                sThumb = aEntry.get('cover', '').split('&x-image-process', 1)[0] if '&x-image-process' in aEntry.get('cover', '') else aEntry.get('cover', '')
 
-                shareToken = shareToken
+                sHosterUrl = clean_html_tags(siteUrl)
+                if sHosterUrl == '':
+                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                    oOutputParameterHandler.addParameter('siteUrl', sUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    oOutputParameterHandler.addParameter('item_id', item_id)
 
-
-                oOutputParameterHandler.addParameter('spid', pid) 
-                oOutputParameterHandler.addParameter('sTitle', sTitle)            
-                oOutputParameterHandler.addParameter('sThumb', '') 
-                oOutputParameterHandler.addParameter('siteUrl',shareToken)
-                    
-                if elm_count + 1 > nb_elm:
-                    page = page + 1
-                    oOutputParameterHandler.addParameter('page',page)
-                    oOutputParameterHandler.addParameter('siteUrl',shareToken)
-                    oOutputParameterHandler.addParameter('spid', spid) 
-                    oOutputParameterHandler.addParameter('sSearchText', sSearchText) 
-                    oGui.addDir(SITE_IDENTIFIER, 'showGroupSearchNext', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
-
-                elif (type_=='video') or (type_=='audio'):
-                    icon  = elm.get('cover','')
-                    if '&x-image-process' in icon: 
-                         icon = icon.split('&x-image-process',1)[0]
-
-                    sHosterUrl = url
-                    sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
-                    oHoster = cHosterGui().getHoster('lien_direct')        
+                    oGui.addLink(SITE_IDENTIFIER, 'showGroupLinks', sTitle, sThumb, sTitle, oOutputParameterHandler)
+                else:
+                    sDisplayTitle = f'{sTitle} [COLOR yellow]({str(sSize)}MB)[/COLOR]'
+                    oHoster = cHosterGui().getHoster('direct_link')        
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)          
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)         
  
     oGui.setEndOfDirectory()
 
 def showGroupSearchNext(sSearchText = ''):
-    import requests
     oGui = cGui()
 
     oOutputParameterHandler = cOutputParameterHandler()  
     oInputParameterHandler = cInputParameterHandler()
+
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sSearchText = oInputParameterHandler.getValue('sSearchText')
     spage = int(oInputParameterHandler.getValue('page'))   
     spid = oInputParameterHandler.getValue('spid')
 
-    nb_elm = 50
+    ListCount = 50
     shareToken = sUrl
 
-    page = 1
-    pid = spid
+    page = spage if spage > 1 else 1
 
+    sUrl = f'{URL_MAIN}api/file/share_out_list/?sortField=name&sortAsc=1&pageNo={str(page)}&pageSize={str(ListCount)}&shareToken={shareToken}&pid=0&needTpInfo=1&scene=singleGroup&name={sSearchText}&platform=web&pf=web&lan=en'
 
-    if spage > 1:
-        page = spage
+    oRequestHandler = cRequestHandler(sUrl)
+    oRequestHandler.addHeaderEntry('connection', 'Keep-Alive')
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+    sCount = 0
+    data = sHtmlContent.get("data")
+    if data and isinstance(data, dict):
+        data = data.get("list", [])
     else:
-        page = 1
-    VSlog(page)
+        data = []
 
-    sUrl = URL_MAIN + '/api/file/share_out_list/?sortField=name&sortAsc=1&pageNo='+str(page)+'&pageSize='+str(nb_elm)+'&'+'shareToken='+shareToken+'&pid=0&needTpInfo=1&scene=singleGroup&name='+sSearchText+'&platform=web&pf=web&lan=en'
+    if not data:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR orange]لم يتم العثور على نتائج[/COLOR]')
 
-    data = requests.get(sUrl).json()
-    data = data.get('data',{})
-    data = data.get('list',[])
-    if not data: data = []
-    elm_count = 0
-    for elm in data:
-                sTitle = elm.get('name','')
-                type_ = elm.get('type','')
+    else:    
+        for aEntry in data:
 
-                spid = 0
+            sCount += 1
+            sTitle = re.sub(r"[^\w\s]", " ", clean_html_tags(aEntry.get('name', ''))).replace('mp4', '')
+            sType = aEntry.get('type','')
+            item_id = aEntry.get('item_id', '')
+            sThumb  = 'host.png'
+            spid = 0       
 
-                elm_count = elm_count + 1
-                
-                icon  = 'host.png'
+            siteUrl  = aEntry.get('url','')
+            sSize = int(aEntry.get('size', 0) / 1024**2)
+            shareToken = shareToken
 
-                url  = elm.get('url','')
-                size = elm.get('size','')
-                size = size/1024 
-                size = size/1024
-                size = int(size)
-                shareToken = shareToken
+            if sCount + 1 > ListCount:
+                page = page + 1
+                oOutputParameterHandler.addParameter('page', page)
+                oOutputParameterHandler.addParameter('siteUrl', shareToken)
+                oOutputParameterHandler.addParameter('spid', spid) 
+                oOutputParameterHandler.addParameter('sSearchText', sSearchText) 
 
-                   
-                if elm_count + 1 > nb_elm:
-                    page = page + 1
-                    oOutputParameterHandler.addParameter('page',page)
-                    oOutputParameterHandler.addParameter('siteUrl',shareToken)
-                    oOutputParameterHandler.addParameter('spid', spid) 
-                    oOutputParameterHandler.addParameter('sSearchText', sSearchText) 
-                    oGui.addDir(SITE_IDENTIFIER, 'showGroupSearchNext', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'showGroupSearchNext', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
 
-                elif (type_=='video') or (type_=='audio'):
-                    icon  = elm.get('cover','')
-                    if '&x-image-process' in icon: 
-                         icon = icon.split('&x-image-process',1)[0]
+            elif sType in ['video', 'audio']:
+                sThumb = aEntry.get('cover', '').split('&x-image-process', 1)[0] if '&x-image-process' in aEntry.get('cover', '') else aEntry.get('cover', '')
 
-                    sHosterUrl = url
-                    sDisplayTitle = sTitle + '  [COLOR yellow]('+str(size) + 'MB)[/COLOR]'
-                    oHoster = cHosterGui().getHoster('lien_direct')        
+                sHosterUrl = clean_html_tags(siteUrl)
+                if sHosterUrl == '':
+                    oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+                    oOutputParameterHandler.addParameter('siteUrl', sUrl)
+                    oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                    oOutputParameterHandler.addParameter('sThumb', sThumb)
+                    oOutputParameterHandler.addParameter('item_id', item_id)
+
+                    oGui.addLink(SITE_IDENTIFIER, 'showGroupLinks', sTitle, sThumb, sTitle, oOutputParameterHandler)
+                else:
+                    sDisplayTitle = f'{sTitle} [COLOR yellow]({str(sSize)}MB)[/COLOR]'
+                    oHoster = cHosterGui().getHoster('direct_link')        
                     if oHoster:
                         oHoster.setDisplayName(sDisplayTitle)
                         oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, icon)          
+                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)         
  
+    oGui.setEndOfDirectory()
+
+def clean_html_tags(text):
+    clean_text = re.sub(r'<.*?>', '', text)
+    return clean_text
+
+def get_token():
+    addons = addon()
+    aUser = addons.getSetting('hoster_linkbox_username')
+    aPass = addons.getSetting('hoster_linkbox_password')
+
+    oRequestHandler = cRequestHandler(f"{URL_MAIN}api/user/login_email?email={aUser}&pwd={aPass}&platform=web&pf=web&lan=en")
+    oRequestHandler.addHeaderEntry("connection", "Keep-Alive")
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+    addons.setSetting('LBtoken', sHtmlContent.get("data", {}).get("token", None))
+
+def format_size(size_bytes):
+    size_mb = size_bytes / 1024**2
+    if size_mb >= 1024:
+        size_gb = size_mb / 1024
+        return f"{size_gb:.2f} GB"
+    return f"{size_mb:.2f} MB"
+
+def get_mylink(item_id):
+    addons = addon()
+
+    try:
+        tHost = base64.b64decode('bW9jLnhvYnNuZXQuaXBh').decode("utf-8")[::-1]
+        oRequestHandler = cRequestHandler(f"https://{tHost}/api/disk/file/detail/?itemId={item_id}")
+        oRequestHandler.addHeaderEntry("connection", "Keep-Alive")
+        file_detail_response = oRequestHandler.request(jsonDecode=True)
+        
+        fixed_json = json.loads(file_detail_response["data"])
+        resolution_list = fixed_json.get("itemInfo", {}).get("resolutionList", [])
+
+        if not resolution_list:
+            raise ValueError("No resolutionList found")
+
+        url_list = []
+        for res in resolution_list:
+            url_list.append(f"url={res.get('url')}, qual= {res.get('resolution')}, label={format_size(res.get('size'))}")
+
+        return url_list
+
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+        token = addons.getSetting('LBtoken')
+        if token == '':
+            get_token()
+            token = addons.getSetting('LBtoken')
+
+        oRequestHandler = cRequestHandler(f"{URL_MAIN}api/file/repost?isImport=1&pid=0&itemIds={item_id}&shareToken=&token={token}&platform=web&pf=web&lan=en")
+        oRequestHandler.addHeaderEntry("connection", "Keep-Alive")
+        sHtmlContent = oRequestHandler.request(jsonDecode=True)
+        if sHtmlContent.get("msg") == "suc" and sHtmlContent.get("status") == 1:
+
+            oRequestHandler = cRequestHandler(f"{URL_MAIN}api/file/my_file_list/web?sortField=utime&sortAsc=0&pageNo=1&pageSize=50&pid=0&token={token}&platform=web&pf=web&lan=en")
+            oRequestHandler.addHeaderEntry("connection", "Keep-Alive")
+            file_list_response = oRequestHandler.request(jsonDecode=True)
+            for item in file_list_response.get("data", {}).get("list", []):
+                if item.get("item_rid") == item_id:
+                    my_item_id = item.get("item_id")
+
+                    oRequestHandler = cRequestHandler(f"{URL_MAIN}api/file/detail?itemId={my_item_id}&needUser=1&needTpInfo=1&token={token}&platform=web&pf=web&lan=en")
+                    oRequestHandler.addHeaderEntry("connection", "Keep-Alive")
+                    file_detail_response = oRequestHandler.request(jsonDecode=True)
+
+                    resolution_list = file_detail_response.get("data", {}).get("itemInfo", {}).get("resolutionList", [])
+                    if resolution_list:
+                        url_list = []
+                        for res in resolution_list:
+                            url_list.append(f"url={res.get('url')}, qual= {res.get('resolution')}, label={format_size(res.get('size'))}")
+
+                        oRequestHandler = cRequestHandler(f"{URL_MAIN}api/file/delete?dirIds=&itemIds={my_item_id}&token={token}&platform=web&pf=web&lan=en")
+                        oRequestHandler.addHeaderEntry("connection", "Keep-Alive")
+                        sHtmlContent = oRequestHandler.request(jsonDecode=True)
+                        if sHtmlContent.get("msg") == "suc" and sHtmlContent.get("status") == 1:
+                            VSlog(f'File with {my_item_id} was successfully deleted')
+
+                        return url_list
+                    else:
+                        return []
+
+def showLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    oHoster = cHosterGui().getHoster('direct_link') 
+    if oHoster:
+        oHoster.setDisplayName(sMovieTitle)
+        oHoster.setFileName(sMovieTitle)
+        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+
+    oGui.setEndOfDirectory()
+
+def showGroupLinks():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sHosterUrl = oInputParameterHandler.getValue('sHosterUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+    item_id = oInputParameterHandler.getValue('item_id')
+
+    data = get_mylink(item_id)
+    if data is not False or data != 'None':
+        oOutputParameterHandler = cOutputParameterHandler()
+        pattern = r"url=(.*?),\squal=\s(.*?),\slabel=(.*)"
+        match = re.search(pattern, data[0])
+        if match:
+            sHosterUrl, sQual, sLabel = match.groups()
+
+            sDisplayTitle = f'{sMovieTitle} [COLOR coral] [{sQual.strip()}][/COLOR][COLOR orange] - {sLabel.strip()}[/COLOR]'      
+            oOutputParameterHandler.addParameter('sHosterUrl', sHosterUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sMovieTitle)
+            oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+            oGui.addLink(SITE_IDENTIFIER, 'showLinks', sDisplayTitle, sThumb, sDisplayTitle, oOutputParameterHandler)
+
     oGui.setEndOfDirectory()

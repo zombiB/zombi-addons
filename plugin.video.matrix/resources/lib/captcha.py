@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-# Pour l'utiliser
-# from resources.lib.captcha import Captcha_Get_Reponse
-
-try:
-    import urllib2
-except ImportError:
-    import urllib.request as urllib2
-
+import urllib.request as urllib2
 import xbmcvfs
 import xbmc
 import xbmcgui
@@ -21,9 +14,6 @@ dialogs = dialog()
 
 def Captcha_Get_Reponse(img, cookie):
 
-    # on telecharge l'image
-    # PathCache = xbmc.translatePath(xbmcaddon.Addon("plugin.video.matrix").getAddonInfo("profile"))
-    # filename  = os.path.join(PathCache, "Captcha.raw").decode("utf-8")
     filename = "special://home/userdata/addon_data/plugin.video.matrix/Captcha.raw"
 
     headers2 = {

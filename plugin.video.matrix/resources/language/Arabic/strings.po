@@ -1,6 +1,6 @@
 ﻿# Addon Name: matrix
 # Addon id: plugin.video.matrix
-# Addon Provider: matrix
+# Addon Provider: matrix Media
 msgid ""
 msgstr ""
 
@@ -26,11 +26,11 @@ msgstr "توقف التحميل"
 
 msgctxt "#30005"
 msgid "Media informations"
-msgstr "Media informations"
+msgstr "معلومات الوسائط"
 
 msgctxt "#30006"
 msgid "Search Metadata"
-msgstr "Search Metadata"
+msgstr "Metadata البجث في الـ"
 
 msgctxt "#30007"
 msgid "Posters Size"
@@ -42,7 +42,7 @@ msgstr "حجم  الFanarts"
 
 msgctxt "#30009"
 msgid "Use extendedinfo for the information windows"
-msgstr "استخدم extendedinfo"
+msgstr "استخدام extendedinfo"
 
 msgctxt "#30010"
 msgid "Color Text note"
@@ -58,7 +58,7 @@ msgstr "عملية التنزيل بدأت بالفعل"
 
 msgctxt "#30013"
 msgid "matrix update"
-msgstr "تحديث ماتريكس"
+msgstr "تحديث ماتريكس فلكس"
 
 msgctxt "#30014"
 msgid "Update complete"
@@ -74,15 +74,15 @@ msgstr "تمكين سجل البحث"
 
 msgctxt "#30017"
 msgid "[COLOR azure]Select page[/COLOR]"
-msgstr "[COLOR azure]Sélectionner page[/COLOR]"
+msgstr "[COLOR azure]اختر الصفحة[/COLOR]"
 
 msgctxt "#30018"
 msgid "[COLOR azure]Back to site[/COLOR]"
-msgstr "[COLOR azure]Retour Site[/COLOR]"
+msgstr "[COLOR azure]العودة للموقع[/COLOR]"
 
 msgctxt "#30019"
 msgid "Enter the page"
-msgstr "Entrer la page"
+msgstr "أدخل الصفحة"
 
 msgctxt "#30020"
 msgid "File not found"
@@ -229,8 +229,8 @@ msgid "Import/Export the BDD (Bookmark, History, etc.)"
 msgstr "استيراد / تصدير BDD (المفضلة ، محفوظات ، إلخ.)"
 
 msgctxt "#30056"
-msgid "Remove BDD from Matrix"
-msgstr "إزالة BDD من Matrix"
+msgid "Remove BDD from matrix"
+msgstr "إزالة BDD من matrix"
 
 msgctxt "#30057"
 msgid "Delete a database"
@@ -277,16 +277,16 @@ msgid "Configure ResolverUrl"
 msgstr "إعدادات ResolverUrl"
 
 msgctxt "#30068"
-msgid "WARNING: Matrix does not manage this part,[CR] remember to deactivate it if the videos no longer work."
-msgstr "تحذير: لا تدير ماتريكس هذا الجزء ، [CR]  قم بإلغاء تنشيطها إذا لم تعد مقاطع الفيديو تعمل."
+msgid "matrix Addon divert unknown links to ResolverUrl to resolve them,"
+msgstr "تقوم إضافة ماتريكس فلكس فلكس بتحويل الروابط غير المعروفة إلى اضافة ResolverUrl لحلها،"
 
 msgctxt "#30069"
-msgid "Unless you have a premium link generator,[CR] checking this box will bring you more problems than advantages."
-msgstr "ما لم يكن لديك اشتراك برميوم ، [CR] تحديد هذا المربع سيجلب لك مشاكل أكثر من المزايا."
+msgid "Enable only if you want to divert all links to ResolverUrl."
+msgstr "قم بتمكين هذا فقط إذا كنت تريد تحويل كافة الروابط إلى ResolverUrl."
 
 msgctxt "#30070"
-msgid "Choose your sources click OK[CR]- To validate the modifications click again on OK"
-msgstr "اختر مصادرك ، انقر فوق موافق [CR] - للتحقق من صحة التعديلات ، انقر مرة أخرى على موافق"
+msgid "Language"
+msgstr "اللغة"
 
 msgctxt "#30071"
 msgid "Updated list"
@@ -321,8 +321,8 @@ msgid "Search (Movie)"
 msgstr " البحث في ( الأفلام ) "
 
 msgctxt "#30079"
-msgid "Search (Tvshow)"
-msgstr "البحث في ( المسلسلات و الأنمي )"
+msgid "Search (TV Shows)"
+msgstr "البحث في ( المسلسلات )"
 
 msgctxt "#30080"
 msgid "Search (Other category)"
@@ -357,7 +357,7 @@ msgid "Clear Cache matrix, Error"
 msgstr "مسح  ذاكرة التخزين المؤقت ، خطأ"
 
 msgctxt "#30088"
-msgid "TMDB"
+msgid "Search [COLOR orange](Visual Search)[/COLOR]"
 msgstr "TMDB"
 
 msgctxt "#30089"
@@ -432,7 +432,39 @@ msgctxt "#30104"
 msgid "Asian"
 msgstr "اسيوية"
 
-msgctxt "#30111"
+msgctxt "#301041"
+msgid "Korean"
+msgstr "كورية"
+
+msgctxt "#301042"
+msgid "Korean - Dubbed"
+msgstr "كورية - مدبلجة"
+
+msgctxt "#301043"
+msgid "Chinese"
+msgstr "صينية"
+
+msgctxt "#301044"
+msgid "Japanese"
+msgstr "يابانية"
+
+msgctxt "#301045"
+msgid "Thai"
+msgstr "تايلاندية"
+
+msgctxt "#301046"
+msgid "Vietnamese"
+msgstr "فيتنامية"
+
+msgctxt "#301047"
+msgid "Taiwanese"
+msgstr "تايوانية"
+
+msgctxt "#301048"
+msgid "Iranian"
+msgstr "إيرانية"
+
+msgctxt "#301111"
 msgid "Pakistani"
 msgstr "باكستانية"
 
@@ -466,15 +498,15 @@ msgstr "تركية"
 
 msgctxt "#31110"
 msgid "Turkish dubbed"
-msgstr "Turkish dubbed"
+msgstr "تركية مدبلجة"
 
 msgctxt "#30110"
 msgid "Database to delete"
-msgstr "Base de données à supprimer"
+msgstr "قاعدة البيانات المراد حذفها"
 
 msgctxt "#30111"
 msgid "List"
-msgstr "Liste"
+msgstr "قائمة"
 
 msgctxt "#30112"
 msgid "Documentary"
@@ -501,12 +533,13 @@ msgid "Programs"
 msgstr "برامج"
 
 msgctxt "#30118"
-msgid "Search (Anim)"
-msgstr "Recherche (Animés)"
+msgid "Search (Anime)"
+msgstr "البحث في (الانمي)"
 
 msgctxt "#30119"
 msgid "Live"
-msgstr "En direct"
+msgstr "مباشر"
+
 msgctxt "#30120"
 msgid "Movies"
 msgstr "أفلام"
@@ -525,11 +558,11 @@ msgstr "Recherche (Dramas)"
 
 msgctxt "#30124"
 msgid "Dramas"
-msgstr "Dramas"
+msgstr "الدراما"
 
 msgctxt "#30125"
-msgid "Continue watching"
-msgstr "تابع المشاهدة"
+msgid "Continue Watching"
+msgstr "مواصلة المشاهدة"
 
 msgctxt "#30126"
 msgid "All categories"
@@ -548,8 +581,20 @@ msgid "Clear Cache Kodi"
 msgstr "امسح ذاكرة التخزين المؤقت لكودي"
 
 msgctxt "#30130"
-msgid "Lists"
-msgstr "القوائم"
+msgid "My Videos"
+msgstr "قائمة فيديواتي"
+
+msgctxt "#30131"
+msgid "Streaming"
+msgstr "البث"
+
+msgctxt "#30132"
+msgid "Live"
+msgstr "مباشر"
+
+msgctxt "#30133"
+msgid "Movies"
+msgstr "الأفلام"
 
 msgctxt "#30134"
 msgid "Football"
@@ -570,6 +615,10 @@ msgstr "مجلد التحميل"
 msgctxt "#30160"
 msgid "Quality HD"
 msgstr "جودة HD"
+
+msgctxt "#30200"
+msgid "Channels"
+msgstr "القنوات"
 
 msgctxt "#30201"
 msgid "Playlist"
@@ -596,7 +645,7 @@ msgid "Marked seen/Not seen"
 msgstr "وضع علامة مشاهد / غير مشاهد"
 
 msgctxt "#30207"
-msgid "Bookmarks"
+msgid "My Bookmarks"
 msgstr "المفضلة"
 
 msgctxt "#30208"
@@ -747,13 +796,17 @@ msgctxt "#30320"
 msgid "You have successfully logged out"
 msgstr "لقد قمت بتسجيل الخروج بنجاح"
 
+msgctxt "#30321"
+msgid "My Viewing History"
+msgstr "سجل المشاهدة الخاص بي"
+
 msgctxt "#30324"
-msgid "Library"
+msgid "Media Folders"
 msgstr "المكتبة"
 
 msgctxt "#30325"
 msgid "Add to UpToBox"
-msgstr "Add to UpToBox"
+msgstr "UpToBox إضافة إلى"
 
 msgctxt "#30326"
 msgid "Download and Play"
@@ -780,16 +833,21 @@ msgid "Calendar"
 msgstr "التقويم"
 
 msgctxt "#30332"
-msgid "TV (Official)"
-msgstr "ويب تي في"
+msgid "Sports TV (Official)"
+msgstr "الرياضة ويب تي في"
 
 msgctxt "#30333"
 msgid "Activate Premium"
 msgstr "Activer Premium"
 
 msgctxt "#30334"
-msgid "Free or Premium Token"
-msgstr "Token Premium ou gratuit"
+msgid "Premium Token"
+msgstr "توكن بريميوم"
+
+msgctxt "#30339"
+msgid "Test"
+msgstr "Tester le token"
+
 msgctxt "#30340"
 msgid "Trakt integration"
 msgstr "Trakt integration"
@@ -877,17 +935,61 @@ msgctxt "#30361"
 msgid "Activate scrobbling"
 msgstr "تتبع القراءة"
 
+msgctxt "#30362"
+msgid "Torrent"
+msgstr "التورنت"
+
+msgctxt "#30363"
+msgid "Max Video Size in GB"
+msgstr "الحد الأقصى لحجم الفيديو بالجيجابايت"
+
+msgctxt "#30364"
+msgid "Install Torrest Repository"
+msgstr "تثبيت مستودع Torrest"
+
+msgctxt "#30365"
+msgid "Install Torrest Addon"
+msgstr "تثبيت اضافة Torrest"
+
+msgctxt "#30366"
+msgid "You'll need to install the Torrest Addon from the Torrest Repository.\nThis add-on will allow you to play/download torrents directly on your device."
+msgstr "سوف تحتاج إلى تثبيت Torrest Addon من Torrest Repository.\nستتيح لك هذه الإضافة تشغيل / تنـزيل الـتورنت مباشرة على جهازك."
+
 msgctxt "#31210"
 msgid "Add to new list"
-msgstr "Add to new list"
+msgstr "أضف إلى قائمة جديدة"
 
 msgctxt "#31211"
 msgid "Add to existing list"
-msgstr "Add to existing list"
+msgstr "أضف إلى القائمة الموجودة"
 
 msgctxt "#31212"
 msgid "Select a list"
-msgstr "Select a list"
+msgstr "حدد قائمة"
+
+msgctxt "#31213"
+msgid "Use Trakt addon for sync and notation"
+msgstr "استخدم إضافة Trakt للمزامنة والتدوين"
+
+msgctxt "#31214"
+msgid "Trakt addon support"
+msgstr "دعم إضافة Trakt"
+
+msgctxt "#31215"
+msgid "Install Trakt addon"
+msgstr "تثبيت إضافة Trakt"
+
+msgctxt "#31216"
+msgid "Trakt source"
+msgstr "مصدر Trakt"
+
+msgctxt "#31217"
+msgid "Activate scrobbling - Movies"
+msgstr "تفعيل التمرير - الأفلام"
+
+msgctxt "#31218"
+msgid "Activate scrobbling - TV Shows"
+msgstr "تفعيل التمرير - المسلسلات"
 
 msgctxt "#30400"
 msgid "Premium/Login"
@@ -897,9 +999,17 @@ msgctxt "#30401"
 msgid "Username"
 msgstr "اسم المستخدم"
 
+msgctxt "#304011"
+msgid "Website E-Mail"
+msgstr "البريد الإلكتروني للموقع"
+
 msgctxt "#30402"
 msgid "Password"
 msgstr "كلمة المرور"
+
+msgctxt "#304022"
+msgid "Website Password"
+msgstr "كلمة مرور الموقع"
 
 msgctxt "#30403"
 msgid "Enable"
@@ -974,12 +1084,12 @@ msgid "Enable/Disable sources"
 msgstr "Enable/Disable sources"
 
 msgctxt "#30421"
-msgid "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid Matrix, only then click YES"
-msgstr "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid Matrix, only then click YES"
+msgid "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid matrix, only then click YES"
+msgstr "Go to [COLOR teal]%s[CR]%s[/COLOR][CR],Valid matrix, only then click YES"
 
 msgctxt "#30422"
 msgid "Enable log records"
-msgstr "Enable log records"
+msgstr "تمكين سجلات الـ log"
 
 msgctxt "#30423"
 msgid "Search a Movie"
@@ -1161,27 +1271,55 @@ msgctxt "#30470"
 msgid "Internet connection failed"
 msgstr "فشل الاتصال بالإنترنت"
 
+msgctxt "#30471"
+msgid "Edit sites links"
+msgstr "تعديل روابط المواقع يدويا"
+
+msgctxt "#30472"
+msgid "Set which site protected by Cloudflare"
+msgstr "تعيين المواقع المحمية بواسطة Cloudflare"
+
+msgctxt "#30473"
+msgid "Are you sure? You will overwrite any manually modified changes."
+msgstr "هل أنت متأكد؟ سيتم استبدال أي تغييرات تم تعديلها يدويًا."
+
+msgctxt "#30474"
+msgid "Auto update links from repository (Overwrite)"
+msgstr "تحديث الروابط تلقائيا من المستودع"
+
+msgctxt "#30475"
+msgid "Sources Links"
+msgstr "روابط المصادر"
+
+msgctxt "#30476"
+msgid "[COLOR red]Updating to repository links will replace any manual edits[/COLOR]"
+msgstr "[COLOR red]سيؤدي التحديث لروابط المستودع إلى استبدال أي تعديلات يدوية[/COLOR]"
+
 msgctxt "#30480"
 msgid "Small loading spinner"
 msgstr "Small loading spinner"
 
 msgctxt "#30481"
 msgid "Interface"
-msgstr "Interface"
+msgstr "واجهه المستخدم"
 
 # upnext
 msgctxt "#30505"
 msgid "Would you like to automatically play the next episode?"
-msgstr "Voulez-vous activer l'enchainement des épisodes ?"
+msgstr "هل تريد تفعيل تسلسل الحلقات؟"
 
 msgctxt "#30506"
 msgid "Automatically play the next episode"
-msgstr "Activer l'enchainement des épisodes"
+msgstr "تفعيل تسلسل الحلقة"
 
 # Alldebrid
 msgctxt "#31000"
 msgid "Multimedia folder URL (Optional)"
-msgstr "URL du dossier multimedia (Optionnel)"
+msgstr "مجلد الوسائط المتعددة (اختياري)"
+
+msgctxt "#31004"
+msgid "Cloudflare Bypass"
+msgstr "تجاوز Cloudflare"
 
 msgctxt "#31101"
 msgid "Url"
@@ -1189,75 +1327,83 @@ msgstr "Url"
 
 msgctxt "#31102"
 msgid "Use the skin display for the information windows"
-msgstr "Utiliser la fenetre d'information du skin"
+msgstr " skinاستخدم نافذة معلومات الـ"
 
 msgctxt "#31103"
 msgid "Allow adult content"
-msgstr "Autoriser le contenu pour adultes"
+msgstr "السماح بالمحتوى للبالغين"
 
 msgctxt "#31104"
 msgid "Enable all sources"
-msgstr "Activer toutes les sources"
+msgstr "تفعيل جميع المصادر"
 
 msgctxt "#31105"
 msgid "Disable all sources"
-msgstr "Désactiver toutes les sources"
+msgstr "تعطيل كافة المصادر"
 
 msgctxt "#31200"
 msgid "Choose the number of items to display"
-msgstr "Choisir le nombre d'elements a afficher"
+msgstr "اختر عدد العناصر المراد عرضها"
 
 msgctxt "#31201"
 msgid "View: Seasons (recommended 50-51-500-501-508)"
-msgstr "Vue: Saisons (recommandé 50-51-500-501-508)"
+msgstr "طريقة العرض: الفصول (موصى به 50-51-500-501-508)"
 
 msgctxt "#31202"
 msgid "View: Episodes (recommended 50-51-500-501-508)"
-msgstr "Vue: Episodes (recommandé 50-51-500-501-508)"
+msgstr "عرض: الحلقات (مستحسن 50-51-500-501-508)"
 
 msgctxt "#31203"
 msgid "IP address for Flaresolverr"
-msgstr "Adresse IP pour Flaresolverr"
+msgstr "Flaresolverr الخاص بـ IP عنوان الـ "
 
 msgctxt "#31204"
 msgid "Display season and episode in title"
-msgstr "Afficher la saison et l'épisode dans le titre"
+msgstr "عرض الموسم والحلقة في العنوان"
 
 msgctxt "#31205"
 msgid "Display"
-msgstr "Affichage"
+msgstr "عرض"
+
+msgctxt "#31206"
+msgid "Use Cloudbypass during Search"
+msgstr "حاول تخطي الحماية اثناء البحث"
+
+msgctxt "#31207"
+msgid "Display file infos"
+msgstr "عرض معلومات الملف"
 
 msgctxt "#31208"
 msgid "Remaining sites: %s"
-msgstr "Sites restants : %s"
+msgstr "المواقع المتبقية : %s"
 
 msgctxt "#31209"
-msgid "Results: %s"
-msgstr "Résultats : [COLOR deepskyblue]%s[/COLOR]"
+msgid "Results: [COLOR deepskyblue]%s[/COLOR]"
+msgstr "النتائج : [COLOR deepskyblue]%s[/COLOR]"
 
 msgctxt "#30224"
 msgid "Downloads"
-msgstr "Téléchargements"
+msgstr "التحميلات"
 
 msgctxt "#30225"
 msgid "Records"
-msgstr "Enregistrements TV"
+msgstr "التسجيلات التلفزيونية"
 
 msgctxt "#30226"
 msgid "Records"
-msgstr "Enregistrement du direct"
+msgstr "تسجيل مباشر"
 
 msgctxt "#30227"
-msgid "Open settings"
-msgstr "Ouvrir les paramètres"
+msgid "Open Settings"
+msgstr "الإعدادات"
 
 msgctxt "#30228"
 msgid "Request registered"
-msgstr "Demande enregistrée"
+msgstr "تم تسجيل الطلب"
 
 msgctxt "#30229"
-msgid "My downloads"
-msgstr "Mes téléchargements"
+msgid "My Downloads"
+msgstr "ملفاتي المحملة"
 
 msgctxt "#30140"
 msgid "Loading"
@@ -1266,6 +1412,14 @@ msgstr "جاري التحميل"
 msgctxt "#30141"
 msgid "Loading infos"
 msgstr "جاري التحميل"
+
+msgctxt "#30230"
+msgid "Daily List"
+msgstr "قائمة يومية"
+
+msgctxt "#30231"
+msgid "Get Subtitle from OpenSubtitles [COLOR red](Experimental)[/COLOR]"
+msgstr "الحصول على الترجمة من OpenSubtitles [COLOR red](تجريبي)[/COLOR]"
 
 msgctxt "#70001"
 msgid "TOP"
@@ -1322,3 +1476,87 @@ msgstr "كلاسيكية"
 msgctxt "#70013"
 msgid "Pack"
 msgstr "سلسلة"
+
+msgctxt "#70014"
+msgid "TV (Premium)"
+msgstr "بريميم ويب تي في"
+
+msgctxt "#70015"
+msgid "Select a subtitle"
+msgstr "اختر الترجمة"
+
+msgctxt "#70016"
+msgid "Live TV (By Genre)"
+msgstr "البث التلفزيوني المباشر (حسب النوع)"
+
+msgctxt "#70017"
+msgid "Live TV Channels"
+msgstr "البث التلفزيوني المباشر"
+
+msgctxt "#70018"
+msgid "Live TV Channels Language"
+msgstr "لغة قنوات البث التلفزيوني المباشر"
+
+msgctxt "#70019"
+msgid "Update site links from the repository now"
+msgstr "تحديث روابط المواقع من المستودع الآن"
+
+msgctxt "#70020"
+msgid "Update Hosters"
+msgstr "تحديث ملف معلومات الهوست"
+
+msgctxt "#70021"
+msgid "Update complete.. In case of error, update matrix from repository"
+msgstr "اكتمل التحديث.. في حالة حدوث خطأ، قم بتحديث الاضافة من المستودع"
+
+msgctxt "#70022"
+msgid "Use alternative site link"
+msgstr "الرابط البديل للموقع"
+
+msgctxt "#70023"
+msgid "Cache Settings"
+msgstr "إعدادات ذاكرة التخزين المؤقت لمكتبة الـ Requests"
+
+msgctxt "#70024"
+msgid "Cache Expiration Time Unit"
+msgstr "وحدة الزمن للتخزين المؤقت"
+
+msgctxt "#70025"
+msgid "Cache Expiration Value"
+msgstr "مقدار الزمن لانتهاء التخزين المؤقت"
+
+msgctxt "#70026"
+msgid "Clear Requests Cache"
+msgstr "امسح ذاكرة التخزين المؤقت لمكتبة الـ Requests"
+
+msgctxt "#70027"
+msgid "Enable Requests Cache"
+msgstr "تمكين ذاكرة التخزين المؤقت لـ Requests"
+
+msgctxt "#70028"
+msgid "Youtube Player"
+msgstr "تشغيل اليوتيوب"
+
+msgctxt "#70029"
+msgid "Because you watched"
+msgstr "لأنك شاهدت"
+
+msgctxt "#70030"
+msgid "My Recommendations"
+msgstr "توصياتي"
+
+msgctxt "#70031"
+msgid "TMDB"
+msgstr "TMDB"
+
+msgctxt "#70032"
+msgid "Networks"
+msgstr "الشبكات"
+
+msgctxt "#70033"
+msgid "Use OMDB API for IMDB"
+msgstr "استخدم OMDB لـ IMDB"
+
+msgctxt "#70034"
+msgid "Auto-Select Video Quality"
+msgstr "اختيار جودة الفيديو تلقائيًا"

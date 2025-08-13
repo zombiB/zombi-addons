@@ -14,6 +14,23 @@
          <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
          <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
     </dir>
+	 <dir>
+      <info compressed="false">https://raw.githubusercontent.com/nidaltiti/script.module.cloudscraper/master/addons.xml</info>
+      <checksum>https://github.com/nidaltiti/script.module.cloudscraper/raw/master/addons.xml.md5</checksum>
+      <datadir zip="true">https://raw.githubusercontent.com/nidaltiti/script.module.cloudscraper/master/repo</datadir>
+    </dir>
+   <dir>
+                <info compressed="false">https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons.xml</info>
+                <checksum>https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons.xml.md5</checksum>
+               <datadir zip="true">https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons/zips</datadir>  
+               <datadir zip="true">https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons/zips</datadir>
+           
+            </dir>
+			 <dir>
+            <info compressed="false">https://raw.githubusercontent.com/MatrixFlix/Dist/master/repo/zips/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/MatrixFlix/Dist/master/repo/zips/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/MatrixFlix/Dist/master/repo/zips/</datadir>
+        </dir>
    </extension>
 
     <extension point="xbmc.addon.metadata">

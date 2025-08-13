@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from operator import itemgetter
 import re
-
 
 class cParser:
 
@@ -77,7 +77,6 @@ class cParser:
 
         startIdx = sHtmlContent.find(start)
         if startIdx == -1:  # rien trouvé, on prend depuis le début
-
             startIdx = 0
 
         if end:

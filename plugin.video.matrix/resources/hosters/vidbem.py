@@ -1,6 +1,5 @@
-#-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-#https://www.vidbem.com/embed-xxx.html
+# -*- coding: utf-8 -*-
+# Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
@@ -18,7 +17,7 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return False
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 
@@ -26,8 +25,7 @@ class cHoster(iHoster):
         oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('Referer', self._url)
         oRequest.addHeaderEntry('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
-
-        oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         list_url = []
@@ -37,13 +35,13 @@ class cHoster(iHoster):
         sPattern = '(?:[>;]\s*)(ﾟωﾟ.+?\(\'_\'\);)'
         aResult = oParser.parse(sHtmlContent, sPattern)
 
-        if aResult[0]: # 1 seul à vérifier ici ?
+        if aResult[0]:
             sdec = AADecoder(aResult[1][0]).decode()
             sPattern =  'file:"([^"]+).+?label:"([^"]+)'
             aResult = oParser.parse(sdec, sPattern)
 
             if aResult[0]:
-                for aentry in aResult[1]:  # ou là
+                for aentry in aResult[1]:
                     list_url.append(aentry[0])
                     list_q.append(aentry[1])
 

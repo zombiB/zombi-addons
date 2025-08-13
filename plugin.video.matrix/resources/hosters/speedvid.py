@@ -1,19 +1,15 @@
 # coding: utf-8
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-import re
 
+import re
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-# from resources.lib.aadecode import AADecoder
-from resources.lib.jjdecode import JJDecoder
 from resources.lib.packer import cPacker
 from resources.lib.jsparser import JsParser
 from resources.lib.comaddon import VSlog
 
-
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
-
 
 class cHoster(iHoster):
     def __init__(self):
@@ -24,30 +20,22 @@ class cHoster(iHoster):
         host = parts[0] + '//' + parts[1].split('/', 1)[0]
         return host
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         oRequest = cRequestHandler(self._url.replace('sn', 'embed'))
         oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('Host', 'www.speedvid.net')
         sHtmlContent = oRequest.request()
 
-        # suppression commentaires
         sHtmlContent = re.sub( r'<!--.*?-->', '', sHtmlContent )
 
         oParser = cParser()
-
-        # fh = open('c:\\test0.txt', "w")
-        # fh.write(sHtmlContent)
-        # fh.close()
-
-        # decodage de la pahe html
         sHtmlContent3 = sHtmlContent
         code = ''
         maxboucle = 10
         while (maxboucle > 0):
             VSlog('loop : ' + str(maxboucle))
             sHtmlContent3 = checkCpacker(sHtmlContent3)
-            # sHtmlContent3 = CheckJJDecoder(sHtmlContent3)
             sHtmlContent3 = checkAADecoder(sHtmlContent3)
 
             maxboucle = maxboucle - 1
@@ -55,10 +43,6 @@ class cHoster(iHoster):
         sHtmlContent = sHtmlContent3
 
         VSlog('fini')
-
-        # fh = open('c:\\test.txt', "w")
-        # fh.write(sHtmlContent)
-        # fh.close()
 
         realurl = ''
 
@@ -89,10 +73,6 @@ class cHoster(iHoster):
 
         sHtmlContent = oRequest.request()
 
-        # fh = open('c:\\test.txt', "w")
-        # fh.write(sHtmlContent)
-        # fh.close()
-
         api_call = ''
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\)\))<'
@@ -117,62 +97,35 @@ class cHoster(iHoster):
         VSlog('API_CALL: ' + api_call )
 
         if api_call:
-            api_call = api_call + '|User-Agent=' + UA  #+ #'|Host=' + api_call.replace('http://','').rsplit('/', 2)[0]
+            api_call = api_call + '|User-Agent=' + UA 
 
             return True, api_call
 
         return False, False
-# *********************************************************************************************************************
 
 
 def checkCpacker(strToPack):
     sPattern = '>([^>]+\(p,a,c,k,e(?:.|\s)+?\)\)\s*)<'
     aResult = re.search(sPattern, strToPack, re.DOTALL | re.UNICODE)
     if (aResult):
-        # VSlog('Cpacker encryption')
         str2 = aResult.group(1)
 
         if not str2.endswith(';'):
             str2 = str2 + ';'
 
-        # if not str2.startswith('eval'):
-           # str2 = 'eval(function' + str2[4:]
-
-        # Me demandez pas pourquoi mais si je l'affiche pas en log, ca freeze ?????
-        # VSlog(str2)
-
         try:
             tmp = cPacker().unpack(str2)
-            # tmp = tmp.replace("\\'", "'")
         except:
             tmp = ''
-
-        # VSlog(tmp)
 
         return strToPack[:(aResult.start() + 1)] + tmp + strToPack[(aResult.end()-1):]
 
     return strToPack
 
-
-# def checkJJDecoder(str):
-
-#     sPattern = '([a-z]=.+?\(\)\)\(\);)'
-#     aResult = re.search(sPattern, str, re.DOTALL | re.UNICODE)
-#     if (aResult):
-#         VSlog('JJ encryption')
-#         tmp = JJDecoder(aResult.group(0)).decode()
-
-#         return str[:aResult.start()] + tmp + str[aResult.end():]
-
-#     return str
-
-
 def checkAADecoder(stringToDecode):
     aResult = re.search('([>;]\s*)(ﾟωﾟ.+?\(\'_\'\);)', str, re.DOTALL | re.UNICODE)
     if (aResult):
         VSlog('AA encryption')
-
-        # tmp = aResult.group(1) + AADecoder(aResult.group(2)).decode()
 
         JP = JsParser()
         liste_var = []

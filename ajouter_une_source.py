@@ -57,7 +57,7 @@ def load(): #fonction chargee automatiquement par l'addon l'index de votre navig
 
     oOutputParameterHandler = cOutputParameterHandler() #apelle la function pour sortir un parametre
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/') # sortie du parametres siteUrl n'oubliez pas la Majuscule
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler) 
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', '1/Search.png', oOutputParameterHandler) 
     #Ajoute lien dossier (identifant, function a attendre, nom, icone, parametre de sortie)
     #Puisque nous ne voulons pas atteindre une url on peut mettre ce qu'on veut dans le parametre siteUrl
     

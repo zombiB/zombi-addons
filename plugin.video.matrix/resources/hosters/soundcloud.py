@@ -5,11 +5,7 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
-
-try:
-    import json
-except:
-    import simplejson as json
+import json
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
 
@@ -18,7 +14,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'soundcloud', 'Soundcloud')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         url2 = ''
         VSlog(self._url)
 
@@ -27,8 +23,6 @@ class cHoster(iHoster):
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
-
-        # Magic number
         sPattern = 'soundcloud:\/\/sounds:([0-9]+)">'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
@@ -37,12 +31,10 @@ class cHoster(iHoster):
             VSlog('err magic number')
             return False
 
-        # First need client id
         sPattern = '<script crossorigin src="([^"]+)"></script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             for i in aResult[1]:
-                # Bon evidement la jai pris "48-" mais ca change surement
                 if '48-' in i:
                     url2 = i
                     break
@@ -66,9 +58,8 @@ class cHoster(iHoster):
             VSlog('err id2')
             return False
 
-        # Need track
         TrackUrl = 'https://api-v2.soundcloud.com/tracks?ids=' + n + '&client_id=' + sId
-        VSlog('TrackUrl : ' + TrackUrl)
+
         oRequest = cRequestHandler(TrackUrl)
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
@@ -86,10 +77,6 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(jsonurl)
         oRequest.addHeaderEntry('User-Agent', UA)
         sHtmlContent = oRequest.request()
-
-        # fh = open('c:\\test.txt', 'w')
-        # fh.write(sHtmlContent)
-        # fh.close()
 
         json_string = json.loads(sHtmlContent)
         api_call = json_string['url']

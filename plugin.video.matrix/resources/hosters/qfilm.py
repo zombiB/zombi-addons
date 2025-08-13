@@ -1,10 +1,13 @@
-﻿# -*- coding: utf-8 -*-
+﻿# coding: utf-8
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-#from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog
 from resources.lib.packer import cPacker
+from resources.lib import random_ua
+
+UA = random_ua.get_ua()
 
 TimeOut = 60 
 class cHoster(iHoster):
@@ -12,9 +15,10 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'qfilm', 'qFilmXvideo')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         oRequest = cRequestHandler(self._url)
         oRequest.setTimeout(TimeOut)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         api_call = ''
@@ -33,7 +37,20 @@ class cHoster(iHoster):
         if aResult[0]:
             api_call = aResult[1][0]
 
+        sPattern = 'src:\s*["\']([^"\']+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+
+        if aResult[0]:
+            api_call = aResult[1][0]
+
+
+        sPattern = 'file:\s*["\']([^"\']+)'
+        aResult = oParser.parse(sHtmlContent, sPattern)
+
+        if aResult[0]:
+            api_call = aResult[1][0]
+
         if api_call:
-            return True, api_call +'|AUTH=TLS&verifypeer=false'
+            return True, f'{api_call}|User-Agent={UA}'
 
         return False, False

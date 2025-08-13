@@ -11,7 +11,7 @@ UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'arabseed', 'arabseed')
+        iHoster.__init__(self, 'arabseed', 'Arabseed')
 
     def isDownloadable(self):
         return True
@@ -19,14 +19,24 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
-        sUrl = self._url
+        
+        if 'embed' not in self._url:
+            import re
+            match = re.search(r"(\/[^\/]+)$", self._url)
 
+            if match:
+                to_replace = match.group(1)[1:]
+                self._url = self._url.replace(match.group(1), "/embed-embed-" + to_replace)
+
+        sReferer = self._url
         oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('referer', sReferer)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
+
         oParser = cParser()
-            # (.+?) .+?
         sPattern = '<source src="(.+?)" type="video/mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         

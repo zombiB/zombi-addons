@@ -1,11 +1,10 @@
-﻿#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog, dialog
 from resources.lib.hunter import hunter
 import re
 import requests
-
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0'
 

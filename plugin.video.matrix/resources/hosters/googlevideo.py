@@ -1,28 +1,22 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
-
+import urllib.request as urllib2
+from urllib.error import URLError as UrlError
 import re
 import requests
 import xbmcgui
-
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
+from resources.lib.comaddon import VSlog, dialog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:62.0) Gecko/20100101 Firefox/62.0'
-
 
 class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'googlevideo', 'GoogleVideo')
 
+    def isDownloadable(self):
+        return True
 
     def get_host_and_id(self, url):
         sPattern = 'http[s]*:\/\/(.*?(?:\.googlevideo|picasaweb\.google)\.com)' + \
@@ -36,41 +30,27 @@ class cHoster(iHoster):
     def getFormatedUrl(self, host, media_id):
         return 'https://%s/%s' % (host, media_id)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         r = self.get_host_and_id(self._url)
 
-        # si lien deja decode
         if not r :
             if '//lh3.googleusercontent.com' in self._url:
-                # Nouveaute, avec cookie now
-
                 VSlog(self._url)
-
                 h = {'User-Agent': UA}
                 r = requests.get(self._url, headers=h, allow_redirects=False)
                 url = r.headers['Location']
-                # VSlog(url)
 
                 url = url + '|User-Agent=' + UA
 
                 if 'set-cookie' in r.headers:
                     cookies = r.headers['set-cookie']
                     url = url + '&Cookie=' + cookies
-                    # VSlog(cookies)
-
-                # Impossible a faire fonctionner, si quelqu'un y arrive .....
-                # class NoRedirect(urllib2.HTTPRedirectHandler):
-                    # def redirect_request(self, req, fp, code, msg, hdrs, newurl):
-                        # return newurl
-                # opener = urllib2.build_opener(NoRedirect)
-                # HttpReponse = opener.open(self._url)
-                # htmlcontent = HttpReponse.read()
-                # head = HttpReponse.headers
 
                 return True, url
-            # Peut etre un peu brutal, peut provoquer des bugs
-            if 'lh3.googleusercontent.com' in self._url:
+
+            if 'lh3.googleusercontent.com' in self._url or 'video-downloads' in self._url:
+                dialog().VSinfo(f'قد لا يقبل التشغيل المباشر ، جرب تحميل وتشغيل')
                 VSlog('Attention: lien sans cookies')
                 return True, self._url
 
@@ -94,10 +74,6 @@ class cHoster(iHoster):
 
                 resp = reponse.read()
 
-                # fh = open('c:\\test.txt', "w")
-                # fh.write(resp)
-                # fh.close()
-
                 vid_sel = ''
                 vid_id = re.search('.*?#(.+?)$', web_url)
 
@@ -106,7 +82,6 @@ class cHoster(iHoster):
                     html = re.search('\["shared_group_' + re.escape(vid_id) + '"\](.+?),"ccOverride":"false"}',
                         resp, re.DOTALL)
                 else:
-                    # Methode brute en test
                     html = re.search('(?:,|\[)"shared_group_[0-9]+"\](.+?),"ccOverride":"false"}', resp, re.DOTALL)
 
                 if html:

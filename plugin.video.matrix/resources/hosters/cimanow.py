@@ -1,4 +1,4 @@
-﻿#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser

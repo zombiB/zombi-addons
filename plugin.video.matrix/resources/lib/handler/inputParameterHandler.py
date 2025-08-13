@@ -2,9 +2,7 @@
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
 import sys
-
 from resources.lib.util import UnquotePlus, Unquote
-
 
 class cInputParameterHandler:
     def __init__(self):

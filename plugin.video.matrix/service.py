@@ -19,29 +19,23 @@ if isMatrix():
 
 
 def service():
-    
-    # mise à jour des setting si nécessaire
     cUpdate().getUpdateSetting()
     
-    # gestion des enregistrements en cours
     ADDON = addon()
     recordIsActivate = ADDON.getSetting('enregistrement_activer')
     if recordIsActivate == 'false':
         return
 
-    # les flux TV ne permettent plus d'être enregistrés
     return
 
     pathRecording = 'special://userdata/addon_data/plugin.video.matrix/Enregistrement'
-#    pathRecording = ADDON.getSetting('path_enregistrement_programmation')
     path = ''.join([pathRecording])
     if not xbmcvfs.exists(path):
         xbmcvfs.mkdir(path)
 
 
-    # enregistrement TV
     recordList = xbmcvfs.listdir(path)
-    interval = 55 # Vérifier toutes les minutes si un enregistrement est programmé
+    interval = 55
     ADDON.setSetting('path_enregistrement_programmation', path)
     recordInProgress = False
     monitor = xbmc.Monitor()
@@ -61,9 +55,6 @@ def service():
             command = 'python ' + hour
             proc = subprocess.Popen(command, stdout=subprocess.PIPE)
             p_status = proc.wait()
-
-    # server_thread.join()
-
 
 if __name__ == '__main__':
     service()

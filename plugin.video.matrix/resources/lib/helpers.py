@@ -147,14 +147,20 @@ def scrape_sources(html, result_blacklist=None, scheme='http', patterns=None, ge
         labels = []
         for r in re.finditer(regex, _html, re.DOTALL):
             match = r.groupdict()
-            stream_url = match['url'].replace('&amp;', '&')
+            stream_url = match['url']
+            if not (stream_url.startswith('http') or stream_url.startswith('//')):
+                try:
+                    stream_url = b64decode(stream_url)
+                except:
+                    continue
+            if stream_url.startswith('//'):
+                stream_url = scheme + ':' + stream_url
+            stream_url = stream_url.replace('&amp;', '&')
             file_name = urllib_parse.urlparse(stream_url[:-1]).path.split('/')[-1] if stream_url.endswith("/") else urllib_parse.urlparse(stream_url).path.split('/')[-1]
             label = match.get('label', file_name)
             if label is None:
                 label = file_name
             blocked = not file_name or any(item in file_name.lower() for item in _blacklist) or any(item in label for item in _blacklist)
-            if stream_url.startswith('//'):
-                stream_url = scheme + ':' + stream_url
             if '://' not in stream_url or blocked or (stream_url in streams) or any(stream_url == t[1] for t in source_list):
                 continue
             labels.append(label)
@@ -229,6 +235,8 @@ def get_media_url(
         subtitles = scrape_subtitles(html, rurl, scheme, subs_patterns, generic_subs_patterns)
         return source, subtitles
     return source
+
+
 
 def pick_source(sources, auto_pick=None):
     auto_pick = 'False'
@@ -369,7 +377,6 @@ def fun_decode(vu, lc, hr='16'):
             vup[7] = uhash + nchash
         vu = '/'.join(vup[2:]) + '&rnd={}'.format(int(time.time() * 1000))
     return vu
-
 
 def get_redirect_url(url, headers={}, form_data=None):
     class NoRedirection(urllib_request.HTTPRedirectHandler):
@@ -701,7 +708,7 @@ def duboku_decode(encurl):
 
 
 def base164(e):
-    t = '???D?FGHIJKL?NOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,~'
+    t = 'АВСDЕFGHIJKLМNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,~'
     n = ''
     o = 0
     while o < len(e):
@@ -735,6 +742,8 @@ def Tdecode(vidurl):
 
 
 def b64decode(t, binary=False):
+    if len(t) % 4 != 0:
+         t += '=' * (-len(t) % 4)
     r = base64.b64decode(t)
     return r if binary else six.ensure_str(r)
 

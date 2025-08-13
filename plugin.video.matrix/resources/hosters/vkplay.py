@@ -1,9 +1,9 @@
-﻿#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
 
 class cHoster(iHoster):
@@ -29,6 +29,7 @@ class cHoster(iHoster):
 
         oParser = cParser()
         oRequest = cRequestHandler(url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         sPattern =  '"url":"([^"]+)'
@@ -37,17 +38,19 @@ class cHoster(iHoster):
 
         if aResult[0]:
             for aEntry in aResult[1]:
+                if '.m3u8' not in aEntry:
+                    continue
+                if 'hls' not in aEntry:
+                    continue
+                if 'http' not in aEntry:
+                    continue
                 url = aEntry
-                if 'm3u8' not in url:
-                    continue
-                if 'hls' not in url:
-                    continue
-                if 'http' not in url:
-                    continue
+
             # Need proper work 
+            VSlog(url)
             api_call = url
 
             if api_call:
-                return True, api_call+ '|Referer='+sReferer
+                return True, api_call
 
             return False, False

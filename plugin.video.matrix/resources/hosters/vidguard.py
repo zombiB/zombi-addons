@@ -1,97 +1,79 @@
-# -*- coding: utf-8 -*-
-# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+# coding: utf-8
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
 from resources.lib.aadecode import decodeAA
-from resources.lib.util import cUtil
+from resources.lib import random_ua
 
+UA = random_ua.get_pc_ua()
 
+import re
 import binascii
 import base64
-
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'
 
 class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'vidguard', 'Vidguard')
 
-    def __getHost(self):
-        parts = self._url.split('//', 1)
-        host = parts[0] + '//' + parts[1].split('/', 1)[0]
-        return host
-
-    def _getMediaLinkForGuest(self):
-        oRequest = cRequestHandler(self._url)
+    def _getMediaLinkForGuest(self, autoPlay = False):
+        sURL = getHost(self._url)
+        oRequest = cRequestHandler(sURL)
         oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         api_call = ''
 
         oParser = cParser()
         
-        sPattern = '<script\s*src="(/assets/videojs/ad/[^"]+)'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        #Surement inutile mais je laisse pour compatibilité
-        if aResult[0] is True:
-            url = self.__getHost() + aResult[1][0]
-            
-            oRequest = cRequestHandler(url)
-            oRequest.addHeaderEntry('User-Agent', UA)
-            oRequest.addHeaderEntry('Referer', self._url)
-            sHtmlContent = oRequest.request()
+        r = re.search(r'eval\("window\.ADBLOCKER\s*=\s*false;\\n(.+?);"\);</script', sHtmlContent)
+        if r:
+            r = r.group(1).replace('\\u002b', '+')
+            r = r.replace('\\u0027', "'")
+            r = r.replace('\\u0022', '"')
+            r = r.replace('\\/', '/')
+            r = r.replace('\\\\', '\\')
+            r = r.replace('\\"', '"')
+            sHtmlContent = decodeAA(r, True)
 
-        #with open('c:\\test.txt', 'w', encoding='utf-8') as f:
-        #    f.write(sHtmlContent)
-
-        sPattern = 'n(ﾟωﾟ.+?);"\);<\/script'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-
-        if aResult[0]:
-            
-            code = aResult[1][0]
-            code = code.replace('\\u002b', '+')
-            code = code.replace('\\u0027', "'")
-            code = code.replace('\\u0022', '"')
-            code = code.replace('\\/', '/')
-            code = code.replace('\\\\', '\\')
-            code = code.replace('\\"', '"')
-            sHtmlContent = decodeAA(code, True)
-            
-            sPattern = 'Label":"([^"]+)","URL":"([^"]+)"'
+            sPattern = '"Label":"([^"]+)","URL":"([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            
-            #Plusieurs liens
             if aResult[0]:
-                # initialisation des tableaux
                 url = []
                 qua = []
                 for i in aResult[1]:
                     url2 = str(i[1])
+                    if not  url2 .startswith('https://'):
+                        url2 = re.sub(':/*', '://', url2)
                     url2 = url2.encode().decode('unicode-escape')
                     url.append(sig_decode(url2))
                     qua.append(str(i[0]))
 
-                api_call = dialog().VSselectqual(qua, url) + '|Referer=' + self._url
- 
-            #1 seul lien
+                api_call = dialog().VSselectqual(qua, url) + '|Referer=' + sURL
+                
             sPattern = '"stream":"([^"]+)".+?"hash":"([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:
                 url2 = str(aResult[1][0][0])
+                if not url2.startswith('https://'):
+                    url2= re.sub(':/*', '://', url2)
                 url2 = url2.encode().decode('unicode-escape')
 
-                api_call = sig_decode(url2) + '|Referer=' + self._url
+                api_call = sig_decode(url2) + '|Referer=' + sURL
 
         if api_call:
             return True, api_call
 
         return False, False
 
+def getHost(self):
+    parts = self.rsplit("/", 2)
+    host = parts[0] 
+    media_id = parts[2] 
+    return f'{host}/e/{media_id}'
 
 # Adapted from PHP code by vb6rocod
 # Copyright (c) 2019 vb6rocod

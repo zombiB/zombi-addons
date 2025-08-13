@@ -1,9 +1,10 @@
-﻿#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
 from resources.lib import helpers
+from resources.lib.util import urlHostName
 import re
 import requests
 
@@ -33,6 +34,22 @@ class cHoster(iHoster):
         aResult = re.search(r'sources:\s*\[{file:\s*["\']([^"\']+)', sHtmlContent)
         if aResult:
             api_call = aResult.group(1)
+
+        else:
+            file_code = self._url.split("/")[-1]
+            post_url = f'https://{urlHostName(self._url)}/dl'
+
+            post_data = {
+                "op": "embed",
+                "file_code": file_code,
+                "auto": "1",
+                "referer": self._url or ""
+            }
+
+            sHtmlContent = s.post(post_url, data=post_data).text
+            aResult = re.search(r'file:\s*["\']([^"\']+)', sHtmlContent)
+            if aResult:
+                api_call = aResult.group(1)
 
         if api_call:
             return True, api_call + helpers.append_headers(headers)
