@@ -26,7 +26,7 @@ class cHome:
         
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-        oGui.addDir(SITE_IDENTIFIER, 'showMenuSearch', self.addons.VSlang(30076),iconsfolder+"1/Search.png", oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'showMenuSearch', self.addons.VSlang(30076),iconsfolder+"Search.png", oOutputParameterHandler)
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oGui.addDir(SITE_IDENTIFIER, 'showMovies', self.addons.VSlang(30120),  iconsfolder+'Movies.png', oOutputParameterHandler)
 
@@ -40,7 +40,7 @@ class cHome:
         oGui.addDir(SITE_IDENTIFIER, 'showIslam', self.addons.VSlang(70009), iconsfolder+'Islamic.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
-        oGui.addDir(SITE_IDENTIFIER, 'showAnimes', self.addons.VSlang(30122), iconsfolder+'1/Anime.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'showAnimes', self.addons.VSlang(30122), iconsfolder+'Anime.png', oOutputParameterHandler)
 
         oOutputParameterHandler.addParameter('siteUrl', 'http://venom')
         oGui.addDir(SITE_IDENTIFIER, 'showSport', self.addons.VSlang(30113), iconsfolder+'Sport.png', oOutputParameterHandler)
