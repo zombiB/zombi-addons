@@ -2,11 +2,10 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-import re
+
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
@@ -17,7 +16,7 @@ class cHoster(iHoster):
     def setUrl(self, url):
         self._url = str(url)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         sReferer = self._url
         url = self._url
@@ -30,16 +29,13 @@ class cHoster(iHoster):
         
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        VSlog(aResult)
         if (aResult[0] == True):
             data = aResult[1][0]
             data = unicodedata.normalize('NFD', data).encode('ascii', 'ignore').decode('unicode_escape')
             sHtmlContent = cPacker().unpack(data)
-            VSlog(sHtmlContent)
-            # (.+?) .+?
+
             sPattern = 'file:"(.+?)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
-            VSlog(aResult)
             if aResult[0]:
                api_call = aResult[1][0] 
  

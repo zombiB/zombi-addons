@@ -1,12 +1,11 @@
 #-*- coding: utf-8 -*-
-import json
 
+import json
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
 from resources.lib.util import cUtil
-from resources.lib.comaddon import VSlog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'
 
@@ -15,7 +14,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'tune', 'Tune')
 
-    def __getIdFromUrl(self, sUrl):#correction ancienne url >> embed depreciated
+    def __getIdFromUrl(self, sUrl):
         sPattern = '(?:play/|video/|embed\?videoid=|vid=)([0-9]+)'
         oParser = cParser()
         aResult = oParser.parse(sUrl, sPattern)
@@ -24,7 +23,7 @@ class cHoster(iHoster):
 
         return ''
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = ''
         url = []
@@ -36,8 +35,8 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(sUrl)
         oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('X-KEY', '777750fea4d3bd585bf47dc1873619fc')
-        oRequest.addHeaderEntry('X-REQ-APP', 'web') #pour les mp4
-        oRequest.addHeaderEntry('Referer', self._url) #au cas ou
+        oRequest.addHeaderEntry('X-REQ-APP', 'web')
+        oRequest.addHeaderEntry('Referer', self._url)
         sHtmlContent1 = oRequest.request()
 
         if (sHtmlContent1):

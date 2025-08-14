@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-from resources.lib.handler.requestHandler import cRequestHandler
 
+from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import addon, dialog, VSlog
 from resources.lib.config import GestionCookie
 from resources.lib.parser import cParser
@@ -20,17 +20,16 @@ class cPremiumHandler:
         self.__LoginTry = False
         self.__ssl = False
 
-        # hack pour garder la compatiblité avec ceux qui ont déjà reglé les settings
         if self.__sHosterIdentifier == '1fichier':
             self.__sHosterIdentifier = 'onefichier'
 
         self.__Ispremium = False
         bIsPremium = self.ADDON.getSetting('hoster_' + str(self.__sHosterIdentifier) + '_premium')
         if (bIsPremium == 'true'):
-            VSlog("Utilise compte premium pour hoster " + str(self.__sHosterIdentifier))
+            VSlog("Use premium account to host " + str(self.__sHosterIdentifier))
             self.__Ispremium = True
         else:
-            VSlog("Utilise compte gratuit pour hoster " + str(self.__sHosterIdentifier))
+            VSlog("Use free account to host " + str(self.__sHosterIdentifier))
 
     def isPremiumModeAvailable(self):
         return self.__Ispremium
@@ -53,7 +52,7 @@ class cPremiumHandler:
                 return True
 
         if 'onefichier' in self.__sHosterIdentifier:
-            if 'premium' in code or 'jqueryFileTree' in code or '1fichier.com/logout' in code:  # test ok mais pas convaincu....
+            if 'premium' in code or 'jqueryFileTree' in code or '1fichier.com/logout' in code:
                 return True
 
         return False
@@ -65,8 +64,6 @@ class cPremiumHandler:
         return False
 
     def Authentificate(self):
-
-        # un seul essais par session, pas besoin de bombarder le serveur
         if self.__LoginTry:
             return False
         self.__LoginTry = True
@@ -94,7 +91,6 @@ class cPremiumHandler:
             post_data['id'] = self.getUsername()
             post_data['pw'] = self.getPassword()
 
-        # si aucun de trouve on retourne
         else:
             return False
 
@@ -135,24 +131,21 @@ class cPremiumHandler:
         else:
             return False
 
-        # get cookie
         cookies = ''
         if 'Set-Cookie' in head:
             oParser = cParser()
             sPattern = '(?:^|,) *([^;,]+?)=([^;,\/]+?);'
             aResult = oParser.parse(str(head['Set-Cookie']), sPattern)
-            # print(aResult)
             if (aResult[0] == True):
                 for cook in aResult[1]:
                     if 'deleted' in cook[1]:
                         continue
                     cookies = cookies + cook[0] + '=' + cook[1] + ';'
 
-        # save cookie
         GestionCookie().SaveCookie(self.__sHosterIdentifier, cookies)
 
-        self.DIALOG.VSinfo('Authentification reussie', self.__sDisplayName)
-        VSlog('Auhentification reussie')
+        self.DIALOG.VSinfo('Authentication successful', self.__sDisplayName)
+        VSlog('Authentication successful')
 
         return True
 
@@ -170,7 +163,6 @@ class cPremiumHandler:
 
     def GetHtml(self, url, data=None):
         cookies = GestionCookie().Readcookie(self.__sHosterIdentifier)
-        # aucun ne marche sans cookies
         if (cookies == '') and not self.__LoginTry and self.__Ispremium:
             self.Authentificate()
             if not self.isLogin:
@@ -179,7 +171,6 @@ class cPremiumHandler:
 
         sHtmlContent = self.GetHtmlwithcookies(url, data, cookies)
 
-        # Les cookies ne sont plus valables, mais on teste QUE si la personne n'a pas essaye de s'authentifier
         if not self.Checklogged(sHtmlContent) and not self.__LoginTry and self.__Ispremium:
             VSlog('Cookies non valables')
             self.Authentificate()
@@ -196,29 +187,24 @@ class cPremiumHandler:
 
     def getToken(self):
 
-        # pas de premium, pas de token
         if not self.__Ispremium:
             return None
 
-        # le token est connu, on le retourne
         sToken = self.ADDON.getSetting('hoster_' + str(self.__sHosterIdentifier) + '_token')
         if sToken:
             return sToken
 
-        # token alldebrid était connu avec un aute setting
         if 'alldebrid' in self.__sHosterIdentifier:
-            sToken = self.ADDON.getSetting('token_alldebrid')  # ancien nom, à supprimer après quelques temps
+            sToken = self.ADDON.getSetting('token_alldebrid')
             if sToken:
                 self.ADDON.setSetting('hoster_' + str(self.__sHosterIdentifier) + '_token', sToken)
             return sToken
 
-        # Si pas de token pour uptobox, on le récupère depuis le compte
         if 'uptobox' in self.__sHosterIdentifier:
 
             if not self.isLogin:
                 self.Authentificate()
 
-            # on retrouve le token et on le sauvegarde
             if self.isLogin:
                 sHtmlContent = self.GetHtml('https://uptobox.com/my_account')
                 sPattern = 'data-clipboard-text="(.+?)" data-tippy-content="Token'

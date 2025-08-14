@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# https://streamz.cc/xxx
-import re
 
+import re
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
@@ -25,7 +24,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'streamz', 'Streamz')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 
@@ -33,15 +32,13 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         urlDownload = oRequest.getRealUrl()
         host = 'https://' + urlDownload.split('/')[2]
 
         cookie = oRequest.GetCookies()
-
-        # By-pass fake video
-        # Get url
         urlJS = host + '/js/count.js'
         oRequest = cRequestHandler(urlJS)
         oRequest.addHeaderEntry('User-Agent', UA)
@@ -58,7 +55,6 @@ class cHoster(iHoster):
         data = aResult[1][0][1].split(':')
         Fakeurl = aResult[1][0][0] + '?' + data[0] + '=' + data[1].replace("'", "")
 
-        # Request URL
         oRequest = cRequestHandler(Fakeurl)
         oRequest.addHeaderEntry('User-Agent', UA)
         try:
@@ -78,12 +74,9 @@ class cHoster(iHoster):
                     if r:
                         url = r.group(1)
 
-            VSlog(url)
             url = url.replace("getlink-", "getmp4-")
 
             api_call = getheader(url, cookie)
-
-        VSlog(api_call)
 
         if api_call:
             return True, api_call + '|User-Agent=' + UA + '&Referer=' + self._url

@@ -3,15 +3,9 @@
 
 import base64
 import requests
-
 from resources.lib.comaddon import isMatrix
-
-try:  # Python 2
-    from BaseHTTPServer import BaseHTTPRequestHandler
-    from urlparse import urlparse, parse_qsl
-except ImportError:  # Python 3
-    from http.server import BaseHTTPRequestHandler
-    from urllib.parse import urlparse, parse_qsl
+from http.server import BaseHTTPRequestHandler
+from urllib.parse import urlparse, parse_qsl
 
 class ProxyHTTPRequestHandler(BaseHTTPRequestHandler):
     protocol_version = 'HTTP/1.0'

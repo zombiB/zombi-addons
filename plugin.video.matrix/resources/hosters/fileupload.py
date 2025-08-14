@@ -1,12 +1,11 @@
-﻿#-*- coding: utf-8 -*-
-
-from resources.lib.handler.requestHandler import cRequestHandler
+﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog, xbmcgui
 from resources.hosters.hoster import iHoster
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-import re
+import unicodedata
+
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0"
 
 class cHoster(iHoster):
 
@@ -16,7 +15,7 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return True
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         if 'embed' not in self._url:
             Vid = self._url.split("/")[3]
@@ -24,15 +23,14 @@ class cHoster(iHoster):
 
         api_call = ''
 
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
         oParser = cParser()
-       
+        oRequest = cRequestHandler(self._url)
+        oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.addHeaderEntry("host", "file-upload.org")
+        sHtmlContent = oRequest.request()
 
         sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-
-        import unicodedata
 
         if aResult[0]:
             data = aResult[1][0]

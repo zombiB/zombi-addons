@@ -6,7 +6,6 @@ import xbmcvfs
 import json
 
 from resources.lib.comaddon import addon, VSlog, VSPath, siteManager
-ADDON = addon()
 
 class cPluginHandler:
 
@@ -34,17 +33,12 @@ class cPluginHandler:
 
             sFilePath = "/".join([sFolder, sItemName])
 
-            # xbox hack
             sFilePath = sFilePath.replace('\\', '/')
 
             if (xbmcvfs.exists(sFilePath) == True):
                 if (sFilePath.lower().endswith('py')):
                     sItemName = sItemName.replace('.py', '')
-                    if 'MatrixTV' in sItemName:
-                        if ADDON.getSetting('testingfeatures')=='true':
-                            aNameList.append(sItemName)
-                    else:
-                        aNameList.append(sItemName)
+                    aNameList.append(sItemName)
         return aNameList
 
     def __importPlugin(self, sName, sLabel=""):
@@ -59,7 +53,7 @@ class cPluginHandler:
                 return sSiteName, sSiteDesc
         except Exception as e:
             VSlog("Cannot import plugin " + str(sName))
-            VSlog("Detail de l\'erreur " + str(e))
+            VSlog("Error details " + str(e))
             return False, False
 
     def getAvailablePlugins(self, sLabel="", force=False):
@@ -74,10 +68,9 @@ class cPluginHandler:
 
         aPlugins = []
         for sFileName in aFileNames:
-            if not sitesManager.isEnable(sFileName):    # Site désactivé par la team
+            if not sitesManager.isEnable(sFileName):
                 continue
             if force or sitesManager.isActive(sFileName):
-                # wir versuchen das plugin zu importieren
                 if sLabel:
                     aPlugin = self.__importPlugin(sFileName, sLabel)
                 else:
@@ -106,15 +99,14 @@ class cPluginHandler:
 
         aPlugins = []
         for sFileName in aFileNames:
-            if not sitesManager.isEnable(sFileName):    # Site désactivé par la team
+            if not sitesManager.isEnable(sFileName):
                 continue
-            # wir versuchen das plugin zu importieren
+
             aPlugin = self.__importPlugin(sFileName)
             if (aPlugin[0] != False):
                 sSiteName = aPlugin[0]
                 sSiteDesc = aPlugin[1]
 
-                # settings nicht gefunden, also schalten wir es trotzdem sichtbar
                 aPlugins.append(self.__createAvailablePluginsItem("", sSiteName, sFileName, sSiteDesc))
 
         return aPlugins

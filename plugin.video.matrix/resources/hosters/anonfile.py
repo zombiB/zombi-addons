@@ -16,28 +16,22 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return True
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
         VSlog(self._url)
 
-        
         oParser = cParser()
         
-            # (.+?) .+?
         sPattern = 'class="btn btn-primary btn-block btn-download-quality" href="(.+?)">(.+?)</a>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         
         api_call = False
-
         if aResult[0]:
-            
-            #initialisation des tableaux
             url=[]
             qua=[]
-            
-            #Replissage des tableaux
             for i in aResult[1]:
                 url.append(str(i[0]))
                 qua.append(str(i[1]))
@@ -47,7 +41,6 @@ class cHoster(iHoster):
             if api_call:
                 return True, api_call
         
-            # (.+?) .+?
         sPattern = 'class="btn btn-.+?".+?href="([^<]+)">'
         aResult = oParser.parse(sHtmlContent, sPattern)
         
@@ -59,7 +52,6 @@ class cHoster(iHoster):
             if api_call:
                 return True, api_call + '|User-Agent=' + UA
         
-            # (.+?) .+?
         sPattern = "class='btn btn-.+?' href='(.+?)'>"
         aResult = oParser.parse(sHtmlContent, sPattern)
         
@@ -71,7 +63,6 @@ class cHoster(iHoster):
             if api_call:
                 return True, api_call + '|User-Agent=' + UA
         
-            # (.+?) .+?
         sPattern = 'href="([^<]+)"><img'
         aResult = oParser.parse(sHtmlContent, sPattern)
         
@@ -83,7 +74,6 @@ class cHoster(iHoster):
             if api_call:
                 return True, api_call + '&Referer=' + self._url
         
-            # (.+?) .+?
         sPattern = '<meta property="og:video" content="(.+?)">'
         aResult = oParser.parse(sHtmlContent, sPattern)
         

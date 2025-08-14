@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
@@ -11,7 +12,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'facebook', 'Facebook')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
 
         qua =[]
@@ -29,7 +30,6 @@ class cHoster(iHoster):
                 qua.append(str(aEntry[0]))
                 url.append(str(aEntry[1]))
 
-            #dialogue qualité
             api_call = dialog().VSselectqual(qua, url)
 
         if api_call:

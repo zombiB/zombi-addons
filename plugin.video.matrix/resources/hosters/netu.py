@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
-#
-# Code from https://github.com/movieshark/waaw
-#
-
-import re
 
 from resources.hosters.hoster import iHoster
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from urllib.parse import urlencode, Quote
-from resources.lib.comaddon import VSlog
+from resources.lib.util import urlEncode, Quote
+from resources.lib.comaddon import dialog, VSlog
 
 import codecs
-
 from base64 import b64decode
 from random import choice
 
@@ -46,7 +40,7 @@ class cHoster(iHoster):
 
         if '&autoplay=' in url:
             url=url.split('&')[:-1][0]
-            
+        
         if '=' in url:
             id  = url.split('=')[-1]
         else:
@@ -66,14 +60,14 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return False
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         
-        #VSlog(self._url)
         api_call = ''
         
         oRequestHandler = cRequestHandler(self._url)
         oRequestHandler.addHeaderEntry('User-Agent', UA)
         oRequestHandler.addHeaderEntry('accept-language', 'en-US,en;q=0.9')
+        oRequestHandler.enableCache(False)
         sHtmlContent = oRequestHandler.request()
 
         videoid = videokey = adbn = ''
@@ -154,9 +148,10 @@ class cHoster(iHoster):
                 _json = oRequestHandler.request(jsonDecode=True)
                 
                 if 'try_again' in _json and _json['try_again'] == '1':
-                    VSlog("NETU : Captcha error")
-                    if dialog().VSyesno("try again?"):
+                    VSlog("NETU : Captcha a refaire")
+                    if dialog().VSyesno("La sélection n'est pas valide. Recommencer ?"):
                         return self._getMediaLinkForGuest()
+
                 
                 link = ''
                 if 'obf_link' in _json and _json['obf_link'] != '#':
@@ -164,10 +159,8 @@ class cHoster(iHoster):
 
         if api_call:
             headers4 = {'user-agent': UA,
-                        #'accept': '*/*',
                         'Referer': self._url,
                         'Origin': self.__getHost(self._url)
-                        #'accept-language': 'en-US,en;q=0.9'
                         }
             return True, api_call + '|' + urlEncode(headers4)
 

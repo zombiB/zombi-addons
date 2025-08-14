@@ -5,16 +5,16 @@ from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 
-
 class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'yourvid', 'Yourvid')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = False
 
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()

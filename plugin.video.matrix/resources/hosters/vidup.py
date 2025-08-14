@@ -1,18 +1,7 @@
 # -*- coding: utf-8 -*-
 # Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-# Meme code que thevideo
-# https://vidup.me/embed-xxx-703x405.html
-# https://vidup.me/embed/xxx-703x405.html
-# https://vidup.me/xxx-703x405.html
-# https://vidup.io/embed/xxx
-# https://vidup.io/xxx
 
-try:  # Python 2
-    import urllib2
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-
+import urllib.request as urllib2
 import json
 import ssl
 
@@ -21,7 +10,6 @@ from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
 
 UA = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"
-
 
 class cHoster(iHoster):
     def __init__(self):
@@ -36,7 +24,7 @@ class cHoster(iHoster):
 
         return ''
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 

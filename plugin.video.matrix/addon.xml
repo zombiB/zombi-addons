@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.matrix" name="Matrix" version="6.4.0" provider-name="zombi">
+<addon id="plugin.video.matrix" name="matrix" version="6.5.4" provider-name="Media">
     <requires>
-    
+
         <trycatch>
             <try>
                 <import addon="xbmc.python" version="3.0.0"/>
@@ -11,15 +11,21 @@
                 <import addon="xbmc.python" version="2.24.0"/>
             </catch>
         </trycatch>
-        <import addon="repository.zombi"/>
+        
         <import addon="script.module.pyqrcode"/>
         <import addon="script.kodi.loguploader"/>
         <import addon="script.module.requests"/>
-        <import addon="script.module.beautifulsoup4" version="4.9.3"/>
-        <import addon="script.module.resolveurl" version="5.1.00"/>
+        <import addon="script.module.requests-toolbelt" />
+        <import addon="script.module.cloudscraper" version="0.0.0" />
+        <import addon="plugin.video.youtube" version="2.0.0" />
+        <import addon="script.module.resolveurl" version="5.1.0"/>
+        <import addon="script.module.requests-cache" version="0.5.2"/>
+        <import addon="script.module.six" version="0.0.1"/>
         <import addon="script.module.dnspython" optional="true"/>
-        <import addon="script.module.selenium" optional="true"/>
-        <!-- Pour le DEBUG        <import addon="script.module.pydevd" version="4.4.0"/> -->
+        <import addon="plugin.video.torrest" optional="true"/>
+        <import addon="repository.github" optional="true"/>
+        <import addon="script.module.pycryptodome" version="3.4.3"/>
+        <!-- DEBUG        <import addon="script.module.pydevd" version="4.4.0"/> -->
     </requires>
 
     <extension point="xbmc.python.pluginsource" library="default.py">
@@ -57,21 +63,12 @@
 
     <extension point="xbmc.service" library="service.py"/>
     <extension point="xbmc.addon.metadata">
-        <summary lang="fr_FR">Matrix is an arabic addon</summary>
-        <description lang="fr_FR">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="fr_FR">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
-        <summary lang="fr_CA">Matrix is an arabic addon</summary>
-        <description lang="fr_CA">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="fr_CA">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
-        <summary lang="en_GB">Matrix is an arabic addon</summary>
-        <description lang="en_GB">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="en_GB">Matrix is an arabic addon</disclaimer>
-        <summary lang="en_NZ">Matrix lets u access arabic video websites in a beautiful and easy way</summary>
-        <description lang="en_NZ">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="en_NZ">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
-        <summary lang="en_US">Matrix is an arabic addon</summary>
-        <description lang="en_US">Matrix lets u access arabic video websites in a beautiful and easy way</description>
-        <disclaimer lang="en_US">This add-on doesn’t host any content of any kind. It only shows content from websites available online. All this add-on does is make simple HTTP requests to retrieve and display content just like any web browser would do!</disclaimer>
+        <summary lang="ar_SA">matrix هو إضافة عربية لـ Kodi</summary>
+        <description lang="ar_SA">يوفر matrix وصولاً سلسًا وجذابًا إلى مواقع الفيديو العربية.</description>
+        <disclaimer lang="ar_SA">هذه الإضافة لا تستضيف أي محتوى. إنها تعرض فقط المحتوى من المواقع المتاحة للجمهور. من خلال إجراء طلبات HTTP بسيطة، تسترجع وتعرض المحتوى تمامًا مثل أي متصفح ويب عادي.</disclaimer>
+        <summary lang="en_US">matrix is an Arabic Kodi add-on</summary>
+        <description lang="en_US">matrix provides seamless and visually appealing access to Arabic video websites.</description>
+        <disclaimer lang="en_US">This add-on does not host any content. It simply displays content from publicly available websites. By making straightforward HTTP requests, it retrieves and presents content just like a standard web browser.</disclaimer>
         <platform>all</platform>
         <license>GNU GENERAL PUBLIC LICENSE</license>
         <forum>https://github.com/zombiB/zombi-addons/issues</forum>
@@ -81,8 +78,6 @@
             <fanart>fanart.jpg</fanart>
             <screenshot>screenshot-01.jpg</screenshot>
             <screenshot>screenshot-02.jpg</screenshot>
-            <screenshot>screenshot-03.jpg</screenshot>
-            <screenshot>screenshot-04.jpg</screenshot>
         </assets>
     </extension>
 </addon>

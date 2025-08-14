@@ -13,12 +13,14 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'vidia', 'Vidia')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
+        
         sPattern = "(\s*eval\s*\(\s*function(?:.|\s)+?)<\/script>"
         oParser = cParser()
         aResult = oParser.parse(sHtmlContent, sPattern)

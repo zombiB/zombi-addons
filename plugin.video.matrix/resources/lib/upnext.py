@@ -53,7 +53,13 @@ class UpNext:
         if not tvShowTitle:
             tvShowTitle = re.search('\[\/COLOR\](.+?)\[COLOR', guiElement.getItemValue('title')).group(1)
 
-        sMovieTitle = tvShowTitle
+        # Temp fix to support seasons > 1
+        normalized_title = tvShowTitle.strip()
+        sPattern = re.compile(r'(?<!\w)(?:S|s|season)[\s\-]?0*(\d+)(?!\w)', re.IGNORECASE)
+        if not sPattern.search(normalized_title):
+            sMovieTitle = f"{normalized_title} S{sSaison}"
+        else:
+            sMovieTitle = normalized_title
 
         numEpisode = int(sEpisode)
         nextEpisode = numEpisode + 1
@@ -174,7 +180,6 @@ class UpNext:
             VSlog('UpNext : %s' % e)
 
     def getMediaUrl(self, sSiteName, sFunction, sParams, sSaison, iEpisode, sLang, sRes, sHosterIdentifier, sTitle='', sDesc='', sThumb=''):
-
         try:
             sys.argv[2] = '?%s' % sParams
             plugins = __import__('resources.sites.%s' % sSiteName, fromlist=[sSiteName])
@@ -186,11 +191,11 @@ class UpNext:
 
         sMediaUrl = ''
         
-        # cloner la liste qui est effacé ensuite
+        # cloner la liste qui est effacée ensuite
         episodesLinks = []
         for sUrl, listItem, isFolder in cGui().getEpisodeListing():
             episodesLinks.append([sUrl, listItem])
-            
+
         for sUrl, listItem in episodesLinks:
             sParams = sUrl.split('?', 1)[1]
             aParams = dict(param.split('=') for param in sParams.split('&'))
@@ -231,11 +236,13 @@ class UpNext:
                 if hostName != sHosterIdentifier:
                     continue
 
-            hostName = sHosterIdentifier
+            realHost = hostName = sHosterIdentifier
+            if 'realHoster' in aParams:
+                realHost = hostName = aParams['realHoster']
             if 'sHosterIdentifier' in aParams:
                 hostName = aParams['sHosterIdentifier']
-                if hostName != sHosterIdentifier:
-                    continue
+            if realHost != sHosterIdentifier:
+                continue
 
             sThumb = listItem.getArt('thumb')
             if 'sThumb' in aParams and aParams['sThumb']:

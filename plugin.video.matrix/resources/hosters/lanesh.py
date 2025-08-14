@@ -1,11 +1,7 @@
-﻿#-*- coding: utf-8 -*-
-
-from resources.lib.handler.requestHandler import cRequestHandler
+﻿from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
-
 
 class cHoster(iHoster):
 
@@ -15,9 +11,8 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return True
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = ''
-        VSlog(self._url)
 
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()

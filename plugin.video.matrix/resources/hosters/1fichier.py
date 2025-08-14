@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-#
+
 import sys
 import random
 import re
@@ -20,8 +20,6 @@ class cHoster(iHoster):
         iHoster.__init__(self, '1fichier', '1FIchier', 'violet')
 
     def __getIdFromUrl(self, url):
-        # http://kzu0y3.1fichier.com/
-        # https://1fichier.com/?s6gdceia9y
         sId = url.replace('https://', '')
         sId = sId.replace('http://', '')
         sId = sId.replace('1fichier.com/?', '')
@@ -30,21 +28,22 @@ class cHoster(iHoster):
 
         return sId
 
-    def getMediaLink(self):
+    def getMediaLink(self ,autoPlay = False):
         self.oPremiumHandler = cPremiumHandler(self.getPluginIdentifier())
         print(self.oPremiumHandler.isPremiumModeAvailable())
 
         if ('site=cDownload&function' not in sys.argv[2]) and not (self.oPremiumHandler.isPremiumModeAvailable()):
-            oDialog = dialog().VSok("Pas de streaming sans premium.\n" + \
+            if not autoPlay:
+                oDialog = dialog().VSok("Pas de streaming sans premium.\n" +
                     "Pour voir le film passer par l'option 'Télécharger et Lire' du menu contextuel.")
             return False, False
 
         if self.oPremiumHandler.isPremiumModeAvailable():
             return self._getMediaLinkByPremiumUser()
         else:
-            return self._getMediaLinkForGuest()
+            return self._getMediaLinkForGuest(autoPlay)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
 
         api_call = False
         url = 'https://1fichier.com/?' + self.__getIdFromUrl(self._url)
@@ -63,10 +62,6 @@ class cHoster(iHoster):
         oRequestHandler.addParameters('dl_no_ssl', 'on')
         oRequestHandler.addParameters('adz', adcode)
         sHtmlContent = oRequestHandler.request()
-
-        # fh = open('c:\\test.txt', "w")
-        # fh.write(sHtmlContent)
-        # fh.close
 
         api_call = self.getMedialinkDL(sHtmlContent)
 
@@ -91,9 +86,7 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
 
         if aResult[0]:
-            # xbmc.sleep(1*1000)
-            # VSlog(  aResult[1][0] )
-            api_call = aResult[1][0] + '|User-Agent=' + UA  # + '&Referer=' + self._url
+            api_call = aResult[1][0] + '|User-Agent=' + UA
             return api_call
 
         return False
@@ -107,27 +100,18 @@ class cHoster(iHoster):
 
         url = 'https://1fichier.com/?' + self.__getIdFromUrl(self._url)
 
-        '''
-        La partie ci-dessous permet d'utiliser l'option "Forcer l'affichage du menu pour les téléchargements" permettant
-        notamment de choisir depuis l'interface web de télécharger ou d'ajouter un fichier.
-        Pour cela, on va ajouter le paramètre e=1 (cf. https://1fichier.com/hlp.html#dev ) à la requête permettant
-        d'obtenir le lien direct
-        '''
-
         sHtmlContent = self.oPremiumHandler.GetHtml('%s&e=1' % url)
         if sHtmlContent:
-            # L'option est désactivée : la réponse sera de type "text/plain; charset=utf-8", exemple :
-            # https://serveur-2b.1fichier.com/lelienactif;Film.de.Jacquie.et.Michel.a.la.montagne.mkv;1234567890;0
             m = re.search('^(.*);.*;.*;.*$', sHtmlContent)
             if (m):
                 url = m.group(1)
-            # L'option est activée : pour récupérer le lien direct il faut POSTer le formulaire demandant le download
+
             else:
                 cookie = self.oPremiumHandler.AddCookies().replace('Cookie=', '', 1)
                 data = {
                     'submit': 'download'
                 }
-                # Seul le Cookie est nécessaire, néanmoins autant rendre les headers cohérents
+
                 headers = {'User-Agent': UA,
                            'Host': '1fichier.com',
                            'Referer': url,
@@ -143,30 +127,13 @@ class cHoster(iHoster):
                 except urllib3.exceptions.HTTPError as e:
                     VSlog(e.read())
                     VSlog(e.reason)
-                # Par défaut on suit la redirection (code: 302 + entête 'Location') dans la réponse
-                # on peut ainsi récupérer le lien direct
+
                 url = response.geturl()
                 response.release_conn()
         else:
             return False, False
 
-        # Mode = ''
-        # Mode = {'dl_no_ssl': 'on' , 'dlinline': 'on'}
-        # Mode = {'dl_no_ssl': 'on'}
-        # postdata = urlEncode(Mode)
-
-        # Pas de page html mais lien direct
-        # sHtmlContent = self.oPremiumHandler.GetHtml(url, postdata)
-        # fh = open('c:\\test.txt', "w")
-        # fh.write(sHtmlContent)
-        # fh.close()
-
-        # mode inline
-        # url = url + '&inline'
-
         api_call = url + '|' + self.oPremiumHandler.AddCookies()
-
-        VSlog(api_call)
 
         if api_call:
             return True, api_call

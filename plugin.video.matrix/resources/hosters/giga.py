@@ -1,20 +1,11 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# 2 hoster giga & 2gigalink
-# from resources.lib.handler.requestHandler import cRequestHandler
 
-try:  # Python 2
-    import urllib2
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-
+import urllib.request as urllib2
 import ssl
-
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.comaddon import VSlog
-
 
 class cHoster(iHoster):
 
@@ -24,7 +15,7 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return False
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         myContext = ssl._create_unverified_context()
 
@@ -38,8 +29,8 @@ class cHoster(iHoster):
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             return True, aResult[1][0]
+        
         else:
-            # streamgk
             sPattern = '<a id="downloadb" class="btn btn-default.+?href="([^"]+)"'
             aResult = oParser.parse(sHtmlContent, sPattern)
             if aResult[0]:

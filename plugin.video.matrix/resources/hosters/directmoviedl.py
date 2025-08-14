@@ -6,13 +6,12 @@ from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
 
-
 class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'directmoviedl', 'DirectMovieDl')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 

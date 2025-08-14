@@ -1,85 +1,79 @@
 ﻿# -*- coding: utf-8 -*-
-# zombi https://github.com/zombiB/zombi-addons/
-
-import re	
 	
 from resources.lib.gui.hoster import cHosterGui
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import VSlog, siteManager, addon
+from resources.lib.comaddon import progress, VSlog, siteManager, addon
 from resources.lib.parser import cParser
 from resources.lib.util import cUtil
  
-ADDON = addon()
-icons = ADDON.getSetting('defaultIcons')
-
 SITE_IDENTIFIER = 'arabsciences'
-SITE_NAME = 'Arabsciences'
+SITE_NAME = 'ArabSciences'
 SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-DOC_NEWS = ('https://arabsciences.com/category/tv-channels/', 'showMovies')
-DOC_GENRES = (True, 'showGenres')
+DOC_NEWS = (f'{URL_MAIN}category/tv-channels/', 'showMovies')
+DOC_GENRES = (URL_MAIN, 'showGenres')
 
-URL_SEARCH = ('https://arabsciences.com/?s=', 'showMovies')
-URL_SEARCH_MOVIES = ('https://arabsciences.com/?s=', 'showMovies')
-URL_SEARCH_MISC = ('https://arabsciences.com/?s=', 'showMovies')
+URL_SEARCH = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MOVIES = (f'{URL_MAIN}?s=', 'showMovies')
+URL_SEARCH_MISC = (f'{URL_MAIN}?s=', 'showMovies')
 FUNCTION_SEARCH = 'showMovies'
  
 def load():
     oGui = cGui()
+    addons = addon()
 
     oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/')
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Search', icons + '/Search.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', addons.VSlang(30330), '1/Search.png', oOutputParameterHandler)
     
-    oOutputParameterHandler = cOutputParameterHandler()
     oOutputParameterHandler.addParameter('siteUrl', DOC_NEWS[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', icons + '/Documentary.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'أفلام وثائقية', '1/Documentary.png', oOutputParameterHandler)
     
-
+    oOutputParameterHandler.addParameter('siteUrl', DOC_GENRES[0])
+    oGui.addDir(SITE_IDENTIFIER, DOC_GENRES[1], 'التصنيفات', 'genres.png', oOutputParameterHandler)
             
     oGui.setEndOfDirectory()
 
 def showGenres():
     oGui = cGui()
+    
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
-    liste = []
-    liste.append( ["natgeoad","https://arabsciences.com/category/tv-channels/natgeoad/"] )
-    liste.append( ["quest-arabiya","https://arabsciences.com/category/tv-channels/quest-arabiya/"] )
-    liste.append( ["jazeeradoc-tv-channels","https://arabsciences.com/category/tv-channels/jazeeradoc-tv-channels/"] )
-    liste.append( ["alarabyatv","https://arabsciences.com/category/tv-channels/alarabyatv/"] )
-    liste.append( ["bbc-arabic","https://arabsciences.com/category/tv-channels/bbc-arabic/"] )
-    liste.append( ["natgeowild","https://arabsciences.com/category/tv-channels/natgeowild/"] )
-    liste.append( ["dw-arabic","https://arabsciences.com/category/tv-channels/dw-arabic/"] )
-    liste.append( ["arabi-tv","https://arabsciences.com/category/tv-channels/arabi-tv-channels/"] )
-    liste.append( ["russia-today","https://arabsciences.com/category/tv-channels/russia-today/"] )
-    liste.append( ["قناة صانعوا القرار","https://arabsciences.com/category/tv-channels/%D9%82%D9%86%D8%A7%D8%A9-%D8%B5%D8%A7%D9%86%D8%B9%D9%88%D8%A7-%D8%A7%D9%84%D9%82%D8%B1%D8%A7%D8%B1/"] )
-    liste.append( ["othertv","https://arabsciences.com/category/tv-channels/othertv/"] )
 
-    
-	            
-    for sTitle,sUrl in liste:
-        
+    oParser = cParser() 
+    oRequestHandler = cRequestHandler(sUrl)
+    sHtmlContent = oRequestHandler.request()
+
+    sPattern = '<a href="([^"]+)"> <span aria-hidden="true" class="mega-links-default-icon"></span>(.+?)</a>'
+    aResult = oParser.parse(sHtmlContent, sPattern)	
+    if aResult[0]:
         oOutputParameterHandler = cOutputParameterHandler()
-        oOutputParameterHandler.addParameter('siteUrl', sUrl)
-        oGui.addDir(SITE_IDENTIFIER, 'showMovies', sTitle, icons + '/Genres.png', oOutputParameterHandler)
-       
-    oGui.setEndOfDirectory() 
-	
-	
+        for aEntry in aResult[1]:
+            if '#' in aEntry[0]:
+                continue 
+
+            sTitle = cUtil().unescape(aEntry[1])
+            siteUrl = aEntry[0]
+			
+            oOutputParameterHandler = cOutputParameterHandler()
+            oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+            oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+
+            oGui.addMisc(SITE_IDENTIFIER, 'showMovies', sTitle, '1/Documentary.png', '', '', oOutputParameterHandler)
+ 
+    oGui.setEndOfDirectory()
 	
 def showSearch():
     oGui = cGui()
  
     sSearchText = oGui.showKeyBoard()
     if sSearchText:
-        sUrl = 'https://arabsciences.com/?s='+sSearchText
+        sUrl = f'{URL_MAIN}?s={sSearchText}'
         showMovies(sUrl)
         oGui.setEndOfDirectory()
         return
@@ -97,20 +91,18 @@ def showMovies(sSearch = ''):
         sUrl = oInputParameterHandler.getValue('siteUrl')
         oRequestHandler = cRequestHandler(sUrl)
         sHtmlContent = oRequestHandler.request()
- 
-# ([^<]+) .+? (.+?)
-        sPattern = '<a aria-label="(.+?)" href="(.+?)" class="post-thumb">.+?data-breeze="(.+?)" src.+?class="post-excerpt">([^<]+)</p>'
+        sPattern = '<a aria-label="(.+?)" href="(.+?)" class="post-thumb">.+?data-breeze="(.+?)" width=.+?src.+?class="post-excerpt">([^<]+)</p>'
 
     oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-	
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
+        total = len(aResult[1])
+        progress_ = progress().VScreate(SITE_NAME)
         oOutputParameterHandler = cOutputParameterHandler() 
         for aEntry in aResult[1]:
- 
-            if "مقال" in aEntry[0]:
-                continue
+            progress_.VSupdate(progress_, total)
+            if progress_.iscanceled():
+                break
  
             if "مقال" in aEntry[0]:
                 continue
@@ -120,8 +112,7 @@ def showMovies(sSearch = ''):
             sThumb = aEntry[2]
             siteUrl = aEntry[1]
             sDesc = aEntry[3]
-            sDesc = cUtil().unescape(sDesc)
-			
+            sDesc = cUtil().unescape(sDesc)			
 			
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
@@ -129,27 +120,25 @@ def showMovies(sSearch = ''):
 
             oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
         
+        progress_.VSclose(progress_)
  
         sNextPage = __checkForNextPage(sHtmlContent)
         if sNextPage:
             oOutputParameterHandler = cOutputParameterHandler()
             oOutputParameterHandler.addParameter('siteUrl', sNextPage)
-            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', icons + '/Next.png', oOutputParameterHandler)
+            oGui.addDir(SITE_IDENTIFIER, 'showMovies', '[COLOR teal]Next >>>[/COLOR]', 'next.png', oOutputParameterHandler)
  
     if not sSearch:
         oGui.setEndOfDirectory()
  
 def __checkForNextPage(sHtmlContent):
-    sPattern = '<a href="([^<]+)"><span class="pagination-icon" aria-hidden="true">'
-	 #.+? ([^<]+)
     oParser = cParser()
+    sPattern = '<link rel="next" href="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
- 
     if aResult[0]:
         return aResult[1][0]
 
     return False
-
 
 def showHosters():
     oGui = cGui()
@@ -157,24 +146,20 @@ def showHosters():
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    
+
+    oParser = cParser()    
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request();
-    # ([^<]+)          
+    sHtmlContent = oRequestHandler.request();      
 
     sPattern = 'src=(.+?) frameborder'
-    oParser = cParser()
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0]:
         for aEntry in aResult[1]:
-            
+            if ".api"  in aEntry or "image"  in aEntry:
+                continue            
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
-                url = 'http:' + url
-				
-					
+                url = f'http:{url}'				
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
@@ -184,17 +169,13 @@ def showHosters():
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 
     sPattern = 'https://www.youtube.com/embed/(.+?)"'
-    oParser = cParser()
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
+    aResult = oParser.parse(sHtmlContent, sPattern)	
     if aResult[0]:
         for aEntry in aResult[1]:
-            
-            url = 'https://www.youtube.com/embed/'+aEntry
-				
-					
-            
+            if ".api"  in aEntry or "image"  in aEntry:
+                continue                  
+            url = f'https://www.youtube.com/embed/{aEntry}'
+				           
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)
             if oHoster:
@@ -202,21 +183,13 @@ def showHosters():
                 oHoster.setFileName(sMovieTitle)
                 cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
 				          
-           
-
-    sPattern = '<iframe src=([^<]+) width='
-    oParser = cParser()
+    sPattern = '<iframe.+?src="([^"]+)'
     aResult = oParser.parse(sHtmlContent, sPattern)
-
-	
     if aResult[0]:
         for aEntry in aResult[1]:
-            
             url = aEntry.replace('?rel=0','').replace('"','')
             if url.startswith('//'):
-               url = 'http:' + url
-				
-					
+               url = f'http:{url}'					
             
             sHosterUrl = url 
             oHoster = cHosterGui().checkHoster(sHosterUrl)

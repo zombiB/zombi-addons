@@ -1,24 +1,15 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-# vstream = xbmcaddon.Addon('plugin.video.vstream')
-# sLibrary = VSPath(vstream.getAddonInfo("path")).decode("utf-8")
-# sys.path.append (sLibrary)
 import json
 import xbmcvfs
 import xbmc
 import xbmcgui
 import sys
 
-try:  # Python 2
-    import urllib2
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-
+import urllib.request as urllib2
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.comaddon import addon, dialog, VSlog, window, VSPath, siteManager
-# from resources.lib.util import urlEncode
 
 try:
     from sqlite3 import dbapi2 as sqlite
@@ -26,7 +17,6 @@ try:
 except:
     from pysqlite2 import dbapi2 as sqlite
     VSlog('SQLITE 2 as DB engine')
-
 
 SITE_IDENTIFIER = 'runscript'
 SITE_NAME = 'runscript'
@@ -50,7 +40,7 @@ class cClear:
             return
 
         elif (env == 'changelog_old'):
-            sUrl = 'https://raw.githubusercontent.com/zombiB/zombi-addons/master/plugin.video.matrix/changelog.txt'
+            sUrl = 'https://raw.githubusercontent.com/matrix/Dist/master/repo/plugin.video.matrix/changelog.txt'
             try:
                 oRequest = urllib2.Request(sUrl)
                 oResponse = urllib2.urlopen(oRequest)
@@ -68,68 +58,35 @@ class cClear:
 
         elif (env == 'changelog'):
 
-            class XMLDialog(xbmcgui.WindowXMLDialog):
+            sUrl = 'https://api.github.com/repos/matrix/Dist/commits'
+            try:
+                oRequest = urllib2.Request(sUrl)
+                oResponse = urllib2.urlopen(oRequest)
 
-                def __init__(self, *args, **kwargs):
-                    xbmcgui.WindowXMLDialog.__init__(self)
-                    pass
+                if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
+                    sContent = oResponse.read().decode('utf-8')
+                else:
+                    sContent = oResponse.read()
 
-                def onInit(self):
+                result = json.loads(sContent)
+                detailitems = []
 
-                    self.container = self.getControl(6)
-                    self.button = self.getControl(5)
-                    self.getControl(3).setVisible(False)
-                    self.getControl(1).setLabel('ChangeLog')
-                    self.button.setLabel('OK')
+                for item in result:
+                    login = item['author']['login']
+                    try:
+                        desc = item['commit']['message']
+                    except:
+                        desc = 'None'
+            
+                    detailitems.append(desc)
 
-                    sUrl = 'https://api.github.com/repos/zombiB/zombi-addons/commits'
-                    oRequest = urllib2.Request(sUrl)
-                    oResponse = urllib2.urlopen(oRequest)
-
-                    # En python 3 on doit décoder la reponse
-                    if xbmc.getInfoLabel('system.buildversion')[0:2] >= '19':
-                        sContent = oResponse.read().decode('utf-8')
-                    else:
-                        sContent = oResponse.read()
-
-                    result = json.loads(sContent)
-                    listitems = []
-
-                    for item in result:
-                        # autor
-                        icon = item['author']['avatar_url']
-                        login = item['author']['login']
-                        # message
-                        try:
-                            desc = item['commit']['message'].encode("utf-8")
-                        except:
-                            desc = 'None'
-
-                        listitem = xbmcgui.ListItem(label=login, label2=desc)
-                        listitem.setArt({'icon': icon, 'thumb': icon})
-                        listitems.append(listitem)
-
-                    self.container.addItems(listitems)
-                    self.setFocus(self.container)
-
-                def onClick(self, controlId):
-                    self.close()
-                    return
-
-                def onFocus(self, controlId):
-                    self.controlId = controlId
-
-                def _close_dialog(self):
-                    self.close()
-
-            path = "special://home/addons/plugin.video.matrix"
-            wd = XMLDialog('DialogSelect.xml', path, "Default")
-            wd.doModal()
-            del wd
+                    cClear.TextBoxes(self, f'[B][COLOR gold]{login}[/COLOR][/B]', "\n\n".join(map(str, detailitems)))
+            except:
+                self.DIALOG.VSerror("%s, %s" % (self.ADDON.VSlang(30205), sUrl))
             return
 
         elif (env == 'soutient'):
-            sUrl = 'https://raw.githubusercontent.com/Kodi-matrix/venom-xbmc-addons/master/plugin.video.matrix/soutient.txt'
+            sUrl = 'https://raw.githubusercontent.com/matrix/Dist/master/repo/plugin.video.matrix/soutient.txt'
             try:
                 oRequest = urllib2.Request(sUrl)
                 oResponse = urllib2.urlopen(oRequest)
@@ -170,7 +127,7 @@ class cClear:
             return
 
         elif (env == 'clean'):
-            liste = ['Search history', 'bookmarks', 'Now Playing',
+            liste = ['Search history', 'Marque-Pages', 'Now Playing',
                      'Readings', 'Tagged views', 'Downloads']
             ret = self.DIALOG.VSselect(liste, self.ADDON.VSlang(30110))
             cached_DB = "special://home/userdata/addon_data/plugin.video.matrix/matrix.db"
@@ -230,7 +187,6 @@ class cClear:
                     self.DIALOG.VSerror(self.ADDON.VSlang(30096))
             return
 
-            
         # activer toutes les sources
         elif (env == 'enableSources'):
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
@@ -242,14 +198,51 @@ class cClear:
             return
 
         # désactiver toutes les sources
-        elif (env == 'disableSources'):
-            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
-                sitesManager = siteManager()
-                sitesManager.disableAll()
-                sitesManager.save()
+        elif (env == 'disableSources' or env == 'disableSourcesSilent' ):
+            if env == 'disableSources' and not self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
+                return
+            sitesManager = siteManager()
+            sitesManager.disableAll()
+            sitesManager.save()
+            self.DIALOG.VSinfo(self.ADDON.VSlang(30014))
+
+            return
+
+        # Updates Sites
+        elif (env == 'updatesites'):
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30473)):
+                import datetime
+                addons = addon()
+                time_now = datetime.datetime.now()
+                sUrl = 'https://raw.githubusercontent.com/matrix/Dist/master/repo/plugin.video.matrix/resources/sites.json'
+                oRequestHandler = cRequestHandler(sUrl)
+                properties = oRequestHandler.request(jsonDecode=True)
+                if properties == "":
+                    return
+                siteManager().setUserProps(properties)
+
+                addons.setSetting('setting_time', str(time_now))
+
                 self.DIALOG.VSinfo(self.ADDON.VSlang(30014))
 
             return
+
+        # Updates Hosters
+        elif (env == 'updatehosters'):
+            addons = addon()
+            sUrl = 'https://raw.githubusercontent.com/matrix/Dist/master/repo/plugin.video.matrix/resources/lib/gui/hoster.py'
+            file_path = VSPath('special://home/addons/plugin.video.matrix/resources/lib/gui/hoster.py')
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
+                oRequestHandler = cRequestHandler(sUrl)
+                sHosts = oRequestHandler.request()
+                if sHosts == "":
+                    return
+                with open(file_path, 'w') as f:
+                    f.write(sHosts)
+
+                self.DIALOG.VSinfo(self.ADDON.VSlang(70021))
+
+                return
 
         # aciver/désactiver les sources
         elif (env == 'search'):
@@ -339,6 +332,168 @@ class cClear:
             del wd
             return
 
+        # Set Protected / Unprotected Site
+        elif (env == 'cloudflare'):
+
+            from resources.lib.handler.pluginHandler import cPluginHandler
+            valid = '[COLOR red][Cloudflare][/COLOR]'
+
+            class XMLDialog(xbmcgui.WindowXMLDialog):
+
+                ADDON = addon()
+                sitesManager = siteManager()
+                
+                def __init__(self, *args, **kwargs):
+                    xbmcgui.WindowXMLDialog.__init__(self)
+                    pass
+
+                def onInit(self):
+
+                    self.container = self.getControl(6)
+                    self.button = self.getControl(5)
+                    self.getControl(3).setVisible(False)
+                    self.getControl(1).setLabel(self.ADDON.VSlang(30094))
+                    self.button.setLabel('OK')
+                    listitems = []
+                    oPluginHandler = cPluginHandler()
+                    aPlugins = oPluginHandler.getAllPlugins()
+
+                    for aPlugin in aPlugins:
+                        sPluginName = aPlugin[1]
+                        isCloudFlare = self.sitesManager.isCloudFlare(sPluginName)
+                        icon = "special://home/addons/plugin.video.matrix/resources/art/sites/%s.png" % sPluginName
+                        stitle = self.sitesManager.getProperty(sPluginName, self.sitesManager.LABEL)
+
+                        if isCloudFlare:
+                            stitle = ('%s %s') % (stitle, valid)
+                        listitem = xbmcgui.ListItem(label=stitle, label2=aPlugin[2])
+                        listitem.setArt({'icon': icon, 'thumb': icon})
+                        listitem.setProperty('Addon.Summary', aPlugin[2])
+                        listitem.setProperty('sitename', aPlugin[1])
+                        if isCloudFlare:
+                            listitem.select(True)
+
+                        listitems.append(listitem)
+                    self.container.addItems(listitems)
+                    self.setFocus(self.container)
+
+                def onClick(self, controlId):
+                    if controlId == 5:       # OK
+                        self.sitesManager.save()
+                        self.close()
+                        return
+                    elif controlId == 99:
+                        window = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+                        del window
+                        self.close()
+                        return
+                    elif controlId == 7:
+                        window = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+                        del window
+                        self.close()
+                        return
+                    elif controlId == 6:
+                        item = self.container.getSelectedItem()
+                        if item.isSelected() == True:
+                            label = item.getLabel().replace(valid, '')
+                            item.setLabel(label)
+                            item.select(False)
+                            sPluginSettingsName = item.getProperty('sitename')
+                            self.sitesManager.setCloudFlare(sPluginSettingsName, False)
+                        else:
+                            label = ('%s %s') % (item.getLabel(), valid)
+                            item.setLabel(label)
+                            item.select(True)
+                            sPluginSettingsName = item.getProperty('sitename')
+                            self.sitesManager.setCloudFlare(sPluginSettingsName, True)
+                        return
+
+                def onFocus(self, controlId):
+                    self.controlId = controlId
+
+            path = "special://home/addons/plugin.video.matrix"
+            wd = XMLDialog('DialogSelect.xml', path, "Default")
+            wd.doModal()
+            del wd
+            return
+
+        # Update Site Links
+        elif (env == 'sitelink'):
+
+            from resources.lib.handler.pluginHandler import cPluginHandler
+            from resources.lib.gui.gui import cGui
+            valid = '[COLOR red][Cloudflare][/COLOR]'
+            oGui = cGui()
+            
+            class XMLDialog(xbmcgui.WindowXMLDialog):
+
+                ADDON = addon()
+                sitesManager = siteManager()
+                
+                def __init__(self, *args, **kwargs):
+                    xbmcgui.WindowXMLDialog.__init__(self)
+                    pass
+
+                def onInit(self):
+
+                    self.container = self.getControl(6)
+                    self.button = self.getControl(5)
+                    self.getControl(3).setVisible(False)
+                    self.getControl(1).setLabel(self.ADDON.VSlang(30094))
+                    self.button.setLabel('OK')
+                    listitems = []
+                    oPluginHandler = cPluginHandler()
+                    aPlugins = oPluginHandler.getAllPlugins()
+
+                    for aPlugin in aPlugins:
+                        sPluginName = aPlugin[1]
+                        siteURL = self.sitesManager.getUrlMain(sPluginName)
+                        icon = "special://home/addons/plugin.video.matrix/resources/art/sites/%s.png" % sPluginName
+                        stitle = self.sitesManager.getProperty(sPluginName, self.sitesManager.LABEL)
+                        listitem = xbmcgui.ListItem(label=stitle, label2=siteURL)
+                        listitem.setArt({'icon': icon, 'thumb': icon})
+                        listitem.setProperty('Addon.Summary', aPlugin[2])
+                        listitem.setProperty('sitename', aPlugin[1])
+                        listitems.append(listitem)
+
+                    self.container.addItems(listitems)
+                    self.setFocus(self.container)
+
+                def onClick(self, controlId):
+                    if controlId == 5:       # OK
+                        self.sitesManager.save()
+                        self.sitesManager._saveSiteUpdates()
+                        self.close()
+                        return
+                    elif controlId == 99:
+                        window = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+                        del window
+                        self.close()
+                        return
+                    elif controlId == 7:
+                        window = xbmcgui.Window(xbmcgui.getCurrentWindowId())
+                        del window
+                        self.close()
+                        return
+                    elif controlId == 6:
+                        item = self.container.getSelectedItem()
+                        sNewUrl = oGui.showKeyBoard(sDefaultText=self.sitesManager.getUrlMain(item.getProperty('sitename')))
+                        if sNewUrl:
+                            item.setLabel2(sNewUrl)
+                            item.select(True)
+                            sPluginSettingsName = item.getProperty('sitename')
+                            self.sitesManager.setUrlMain(sPluginSettingsName, sNewUrl)
+                            return
+
+                def onFocus(self, controlId):
+                    self.controlId = controlId
+
+            path = "special://home/addons/plugin.video.matrix"
+            wd = XMLDialog('DialogSelect.xml', path, "Default")
+            wd.doModal()
+            del wd
+            return
+
         elif (env == 'thumb'):
 
             if self.DIALOG.VSyesno(self.ADDON.VSlang(30098)):
@@ -368,6 +523,11 @@ class cClear:
                     self.DIALOG.VSok(text)
             return
 
+        elif (env == 'stalker'):
+            from resources.lib import set_stalker
+            set_stalker.setpvrstalker()
+            return
+
         elif (env == 'sauv'):
             select = self.DIALOG.VSselect(['Import', 'Export'])
             DB = "special://home/userdata/addon_data/plugin.video.matrix/matrix.db"
@@ -390,26 +550,30 @@ class cClear:
                     self.DIALOG.VSerror(self.ADDON.VSlang(30100))
 
                 return
-        
-        elif (env == 'RequestCache'):
-            if self.DIALOG.VSyesno(self.ADDON.VSlang(300981)):
-                
-                temp_dir = xbmcvfs.translatePath("special://home/userdata/addon_data/")
-                DBPath = os.path.join(temp_dir, ADDON.getAddonInfo('id') , 'Requests cache',)
-                DB = "/".join([DBPath, 'RequestsCache.db']) 
+
+        elif (env == 'cache'):
+            if self.DIALOG.VSyesno(self.ADDON.VSlang(30456)):
+                from requests_cache import CachedSession
+                CACHE = 'special://home/userdata/addon_data/plugin.video.matrix/requests_cache.db'
+                session = CachedSession(VSPath(CACHE))
                 try:
-                    xbmcvfs.delete(DB)
-                    #xbmcvfs.rmdir(DBPath, True)
-                    text = 'Matrix Request Cache was deleted'
-                    self.DIALOG.VSok(text)
+                    session.cache.clear()
+                    self.DIALOG.VSok(self.ADDON.VSlang(30089))
                 except:
-                    self.DIALOG.VSerror(self.ADDON.VSlang(301001))
+                    self.DIALOG.VSerror(self.ADDON.VSlang(30096))
+            return
+
+        elif (env == 'testpremium'):    # tester un compte premium
+            from resources.lib.gui.hoster import cHosterGui
+            oHoster = cHosterGui().getHoster("alldebrid")
+            oHoster.testPremium()
+            return
 
         else:
             return
 
         return
-    
+
     # def ClearDir(self, dir, clearNested=False):
     #     try:
     #         dir = dir.decode("utf8")
@@ -449,7 +613,7 @@ class cClear:
         xbmc.sleep(100)
         # set heading
         win.getControl(1).setLabel(heading)
-        win.getControl(5).setText(anounce)
+        win.getControl(5).setText(str(anounce))
         return
 
 

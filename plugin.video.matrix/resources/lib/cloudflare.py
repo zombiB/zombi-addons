@@ -1,32 +1,16 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-#
-# alors la j'ai pas le courage
+
 import re
 import ssl
 from collections import OrderedDict
-
 from requests.adapters import HTTPAdapter
 
 from resources.lib.comaddon import VSlog
 from resources.lib.config import GestionCookie
 from resources.lib.util import urlEncode
-
-try:  # Python 2
-    from urlparse import urlparse
-except ImportError:  # Python 3
-    from urllib.parse import urlparse
-
-# old version
+from urllib.parse import urlparse
 from requests.packages.urllib3.util.ssl_ import create_urllib3_context
-
-# #####################################################################################################################
-#
-# Ok so a big thx to VeNoMouS for this code
-# From this url https://github.com/VeNoMouS/cloudscraper
-# Franchement si vous etes content de voir revenir vos sites allez mettre une etoile sur son github.
-#
-# #####################################################################################################################
 
 
 class CipherSuiteAdapter(HTTPAdapter):
@@ -52,7 +36,6 @@ class CipherSuiteAdapter(HTTPAdapter):
         kwargs['ssl_context'] = self.ssl_context
         return super(CipherSuiteAdapter, self).proxy_manager_for(*args, **kwargs)
 
-#######################################################################################################################
 
 
 Mode_Debug = True
@@ -77,38 +60,7 @@ if False:
     requests_log.setLevel(logging.DEBUG)
     requests_log.propagate = True
 
-# ---------------------------------------------------------
-# Gros probleme, mais qui a l'air de passer
-# Le headers 'Cookie' apparait 2 fois, il faudrait lire la precedente valeur
-# la supprimer et remettre la nouvelle avec les 2 cookies
-# Non conforme au protocole, mais ca marche (pour le moment)
-# -----------------------------------------------------------
-
-# Cookie path
-# C:\Users\BRIX\AppData\Roaming\Kodi\userdata\addon_data\plugin.video.matrix\
-
-# Light method
-# Ne marche que si meme user-agent
-    # req = urllib.request.Request(sUrl, None, headers)
-    # try:
-        # response = urllib.request.urlopen(req)
-        # sHtmlContent = response.read()
-        # response.close()
-    # except urllib.error.HTTPError as e:
-        # if e.code == 503:
-            # if CloudflareBypass().check(e.headers):
-                # cookies = e.headers['Set-Cookie']
-                # cookies = cookies.split(';')[0]
-                # sHtmlContent = CloudflareBypass().GetHtml(sUrl, e.read(), cookies)
-
-# Heavy method
-# sHtmlContent = CloudflareBypass().GetHtml(sUrl)
-
-# For memory
-# http://www.jsfuck.com/
-
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:63.0) Gecko/20100101 Firefox/63.0'
-
 
 class CloudflareBypass(object):
     def __init__(self):

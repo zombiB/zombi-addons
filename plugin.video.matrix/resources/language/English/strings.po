@@ -1,6 +1,6 @@
 # Addon Name: matrix
 # Addon id: plugin.video.matrix
-# Addon Provider: zombi
+# Addon Provider: matrix Media
 msgid ""
 msgstr ""
 
@@ -46,18 +46,6 @@ msgstr ""
 
 msgctxt "#30010"
 msgid "Color Text note"
-msgstr ""
-
-msgctxt "#3001099"
-msgid "Icons"
-msgstr ""
-
-msgctxt "#3001091"
-msgid "Classic"
-msgstr ""
-
-msgctxt "#3001092"
-msgid "Modern"
 msgstr ""
 
 msgctxt "#30011"
@@ -241,7 +229,7 @@ msgid "Import/Export the BDD (Bookmark, History, etc.)"
 msgstr ""
 
 msgctxt "#30056"
-msgid "Remove BDD from Matrix"
+msgid "Remove BDD from matrix"
 msgstr ""
 
 msgctxt "#30057"
@@ -289,11 +277,16 @@ msgid "Configure ResolverUrl"
 msgstr ""
 
 msgctxt "#30068"
-msgid "WARNING: Matrix does not manage this part,[CR] remember to deactivate it if the videos no longer work."
+msgid "matrix Addon divert unknown links to ResolverUrl to resolve them,"
 msgstr ""
 
 msgctxt "#30069"
-msgid "Unless you have a premium link generator,[CR] checking this box will bring you more problems than advantages."
+msgid "Enable only if you want to divert all links to ResolverUrl."
+msgstr ""
+
+
+msgctxt "#30070"
+msgid "Language"
 msgstr ""
 
 msgctxt "#30071"
@@ -329,7 +322,7 @@ msgid "Search (Movie)"
 msgstr ""
 
 msgctxt "#30079"
-msgid "Search (Tvshow)"
+msgid "Search (TV Shows)"
 msgstr ""
 
 msgctxt "#30080"
@@ -365,7 +358,7 @@ msgid "Clear Cache matrix, Error"
 msgstr ""
 
 msgctxt "#30088"
-msgid "TMDB"
+msgid "Search [COLOR orange](Visual Search)[/COLOR]"
 msgstr ""
 
 msgctxt "#30089"
@@ -408,20 +401,12 @@ msgctxt "#30098"
 msgid "Are you sure? This will erase all thumbnails"
 msgstr ""
 
-msgctxt "#300981"
-msgid "Are you sure? This will erase requests cache"
-msgstr ""
-
 msgctxt "#30099"
 msgid "Import/Export Database, Successful"
 msgstr ""
 
 msgctxt "#30100"
 msgid "Import/Export Database, Error"
-msgstr ""
-
-msgctxt "#301001"
-msgid "Error Occured, Cache was not cleared"
 msgstr ""
 
 msgctxt "#30101"
@@ -476,7 +461,11 @@ msgctxt "#301047"
 msgid "Taiwanese"
 msgstr ""
 
-msgctxt "#30111"
+msgctxt "#301048"
+msgid "Iranian"
+msgstr ""
+
+msgctxt "#301111"
 msgid "Pakistani"
 msgstr ""
 
@@ -486,10 +475,6 @@ msgstr ""
 
 msgctxt "#30106"
 msgid "Years"
-msgstr ""
-
-msgctxt "#301061"
-msgid "Languages"
 msgstr ""
 
 msgctxt "#33107"
@@ -536,6 +521,10 @@ msgctxt "#30114"
 msgid "Web video"
 msgstr ""
 
+msgctxt "#30115"
+msgid "Television/Radio"
+msgstr ""
+
 msgctxt "#30116"
 msgid "All the sources"
 msgstr ""
@@ -573,7 +562,7 @@ msgid "Dramas"
 msgstr ""
 
 msgctxt "#30125"
-msgid "Continue watching"
+msgid "Continue Watching"
 msgstr ""
 
 msgctxt "#30126"
@@ -593,7 +582,19 @@ msgid "Clear Cache Kodi"
 msgstr ""
 
 msgctxt "#30130"
-msgid "Lists"
+msgid "My Library"
+msgstr ""
+
+msgctxt "#30131"
+msgid "Streaming"
+msgstr ""
+
+msgctxt "#30132"
+msgid "Live"
+msgstr ""
+
+msgctxt "#30133"
+msgid "Movies"
 msgstr ""
 
 msgctxt "#30134"
@@ -614,6 +615,10 @@ msgstr ""
 
 msgctxt "#30160"
 msgid "Quality HD"
+msgstr ""
+
+msgctxt "#30200"
+msgid "Channels"
 msgstr ""
 
 msgctxt "#30201"
@@ -641,7 +646,7 @@ msgid "Marked seen/Not seen"
 msgstr ""
 
 msgctxt "#30207"
-msgid "Bookmarks"
+msgid "My Bookmarks"
 msgstr ""
 
 msgctxt "#30208"
@@ -725,7 +730,7 @@ msgid "Records"
 msgstr ""
 
 msgctxt "#30227"
-msgid "Open settings"
+msgid "Open Settings"
 msgstr ""
 
 msgctxt "#30228"
@@ -733,7 +738,15 @@ msgid "Request registered"
 msgstr ""
 
 msgctxt "#30229"
-msgid "My downloads"
+msgid "My Downloads"
+msgstr ""
+
+msgctxt "#30230"
+msgid "Daily List"
+msgstr ""
+
+msgctxt "#30231"
+msgid "Get Subtitle from OpenSubtitles [COLOR red](Experimental)[/COLOR]"
 msgstr ""
 
 msgctxt "#30300"
@@ -765,7 +778,7 @@ msgid "[COLOR khaki]Hello, %s[/COLOR]"
 msgstr ""
 
 msgctxt "#30308"
-msgid "Search history"
+msgid "Search History"
 msgstr ""
 
 msgctxt "#30309"
@@ -805,7 +818,7 @@ msgid "Most viewed of the month"
 msgstr ""
 
 msgctxt "#30318"
-msgid "Watchlist (seasons)"
+msgid "Watchlist (Seasons)"
 msgstr ""
 
 msgctxt "#30319"
@@ -816,8 +829,12 @@ msgctxt "#30320"
 msgid "You have successfully logged out"
 msgstr ""
 
+msgctxt "#30321"
+msgid "My Viewing History"
+msgstr ""
+
 msgctxt "#30324"
-msgid "Library"
+msgid "Media Folders"
 msgstr ""
 
 msgctxt "#30325"
@@ -849,7 +866,7 @@ msgid "Calendar"
 msgstr ""
 
 msgctxt "#30332"
-msgid "TV (Official)"
+msgid "Sports TV (Official)"
 msgstr ""
 
 msgctxt "#30333"
@@ -857,7 +874,11 @@ msgid "Activate Premium"
 msgstr ""
 
 msgctxt "#30334"
-msgid "Free or Premium Token"
+msgid "Premium Token"
+msgstr ""
+
+msgctxt "#30339"
+msgid "Test"
 msgstr ""
 
 msgctxt "#30340"
@@ -941,7 +962,11 @@ msgid "Show most monthly viewed"
 msgstr ""
 
 msgctxt "#30360"
-msgid "My personnal Trakt lists"
+msgid "My Personnal Trakt Lists"
+msgstr ""
+
+msgctxt "#31209"
+msgid "Results: [COLOR deepskyblue]%s[/COLOR]"
 msgstr ""
 
 msgctxt "#31210"
@@ -956,6 +981,54 @@ msgctxt "#31212"
 msgid "Select a list"
 msgstr ""
 
+msgctxt "#31213"
+msgid "Use Trakt addon for sync and notation"
+msgstr ""
+
+msgctxt "#31214"
+msgid "Trakt addon support"
+msgstr ""
+
+msgctxt "#31215"
+msgid "Install Trakt addon"
+msgstr ""
+
+msgctxt "#31216"
+msgid "Trakt source"
+msgstr ""
+
+msgctxt "#31217"
+msgid "Activate scrobbling - Movies"
+msgstr ""
+
+msgctxt "#31218"
+msgid "Activate scrobbling - TV Shows"
+msgstr ""
+
+msgctxt "#30361"
+msgid "Activate scrobbling"
+msgstr ""
+
+msgctxt "#30362"
+msgid "Torrent"
+msgstr ""
+
+msgctxt "#30363"
+msgid "Max Video Size in GB"
+msgstr ""
+
+msgctxt "#30364"
+msgid "Install Torrest Repository"
+msgstr ""
+
+msgctxt "#30365"
+msgid "Install Torrest Addon"
+msgstr ""
+
+msgctxt "#30366"
+msgid "You'll need to install the Torrest Addon from the Torrest Repository.\nThis add-on will allow you to play/download torrents directly on your device."
+msgstr ""
+
 msgctxt "#30361"
 msgid "Activate scrobbling"
 msgstr ""
@@ -968,8 +1041,16 @@ msgctxt "#30401"
 msgid "Username"
 msgstr ""
 
+msgctxt "#304011"
+msgid "Website E-Mail"
+msgstr ""
+
 msgctxt "#30402"
 msgid "Password"
+msgstr ""
+
+msgctxt "#304022"
+msgid "Website Password"
 msgstr ""
 
 msgctxt "#30403"
@@ -1045,15 +1126,11 @@ msgid "Enable/Disable sources"
 msgstr ""
 
 msgctxt "#30421"
-msgid "Go to [COLOR teal]%s[CR]%s[/COLOR][CR] Valid Matrix, only then click YES"
+msgid "Go to [COLOR teal]%s[CR]%s[/COLOR][CR] Valid matrix, only then click YES"
 msgstr ""
 
 msgctxt "#30422"
 msgid "Enable log records"
-msgstr ""
-
-msgctxt "#304221"
-msgid "Enable Experimental Features"
 msgstr ""
 
 msgctxt "#30423"
@@ -1069,7 +1146,7 @@ msgid "Movies (Popular)"
 msgstr ""
 
 msgctxt "#30426"
-msgid "Movies (Recently Added)"
+msgid "Movies (News)"
 msgstr ""
 
 msgctxt "#30427"
@@ -1185,7 +1262,7 @@ msgid "Continue direct via UpToBox"
 msgstr ""
 
 msgctxt "#30455"
-msgid "My accounts"
+msgid "My Accounts"
 msgstr ""
 
 msgctxt "#30456"
@@ -1236,6 +1313,30 @@ msgctxt "#30470"
 msgid "Internet connection failed"
 msgstr ""
 
+msgctxt "#30471"
+msgid "Edit sites links"
+msgstr ""
+
+msgctxt "#30472"
+msgid "Set which site protected by Cloudflare"
+msgstr ""
+
+msgctxt "#30473"
+msgid "Are you sure? You will overwrite any manually modified changes."
+msgstr ""
+
+msgctxt "#30474"
+msgid "Auto update links from repository (Overwrite)"
+msgstr ""
+
+msgctxt "#30475"
+msgid "Sources Links"
+msgstr ""
+
+msgctxt "#30476"
+msgid "[COLOR red]Updating to repository links will replace any manual edits[/COLOR]"
+msgstr ""
+
 msgctxt "#30480"
 msgid "Small loading spinner"
 msgstr ""
@@ -1255,6 +1356,10 @@ msgstr ""
 
 msgctxt "#31000"
 msgid "Multimedia folder URL (Optional)"
+msgstr ""
+
+msgctxt "#31004"
+msgid "Cloudflare Bypass"
 msgstr ""
 
 msgctxt "#31101"
@@ -1301,13 +1406,17 @@ msgctxt "#31205"
 msgid "Display"
 msgstr ""
 
+msgctxt "#31206"
+msgid "Use Cloudbypass during Search"
+msgstr ""
+
+msgctxt "#31207"
+msgid "Display file infos"
+msgstr ""
+
 msgctxt "#31208"
 msgid "Remaining sites: %s"
 msgstr ""
-
-msgctxt "#31209"
-msgid "Results: %s"
-msgstr "Results: [COLOR deepskyblue]%s[/COLOR]"
 
 msgctxt "#30140"
 msgid "Loading"
@@ -1373,22 +1482,86 @@ msgctxt "#70013"
 msgid "Pack"
 msgstr ""
 
-msgctxt "#3042215"
-msgid "Enable request cache"
+msgctxt "#70014"
+msgid "TV (Premium)"
 msgstr ""
 
-msgctxt "#3042215"
-msgid "Cache online responses"
+msgctxt "#70015"
+msgid "Select a subtitle"
 msgstr ""
 
-msgctxt "#30422151"
-msgid "Store cache for (hours)"
+msgctxt "#70016"
+msgid "Live TV (By Genre)"
 msgstr ""
 
-msgctxt "#30422152"
-msgid "Auto Update Sources every (hours)"
+msgctxt "#70017"
+msgid "Live TV Channels"
 msgstr ""
 
-msgctxt "#301271"
-msgid "Matrix Cache"
+msgctxt "#70018"
+msgid "Live TV Channels Language"
+msgstr ""
+
+msgctxt "#70019"
+msgid "Update site links from the repository now"
+msgstr ""
+
+msgctxt "#70020"
+msgid "Update Hosters"
+msgstr ""
+
+msgctxt "#70021"
+msgid "Update complete.. In case of error, update matrix from repository"
+msgstr ""
+
+msgctxt "#70022"
+msgid "Use alternative site link"
+msgstr ""
+
+msgctxt "#70023"
+msgid "Cache Settings"
+msgstr ""
+
+msgctxt "#70024"
+msgid "Cache Expiration Time Unit"
+msgstr ""
+
+msgctxt "#70025"
+msgid "Cache Expiration Value"
+msgstr ""
+
+msgctxt "#70026"
+msgid "Clear Requests Cache"
+msgstr ""
+
+msgctxt "#70027"
+msgid "Enable Requests Cache"
+msgstr ""
+
+msgctxt "#70028"
+msgid "Youtube Player"
+msgstr ""
+
+msgctxt "#70029"
+msgid "Because you watched"
+msgstr ""
+
+msgctxt "#70030"
+msgid "My Recommendations"
+msgstr ""
+
+msgctxt "#70031"
+msgid "TMDB"
+msgstr "TMDB"
+
+msgctxt "#70032"
+msgid "Networks"
+msgstr ""
+
+msgctxt "#70033"
+msgid "Use OMDB API for IMDB"
+msgstr ""
+
+msgctxt "#70034"
+msgid "Auto-Select Video Quality"
 msgstr ""

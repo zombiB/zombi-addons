@@ -44,7 +44,7 @@ ANIM_NEWS = (URL_MAIN + 'url', 'showAnimes') #anime nouveautés
 ANIM_ANIMS = (URL_MAIN + 'url', 'showAnimes') #anime vrac
 ANIM_VFS = (URL_MAIN + 'url', 'showAnimes') #anime VF
 ANIM_VOSTFRS = (URL_MAIN + 'url', 'showAnimes') #anime VOSTFR
-ANIM_MOVIES = (URL_MAIN + 'url'', 'showAnimes') #anime film
+ANIM_MOVIES = (URL_MAIN + 'url', 'showAnimes') #anime film
 ANIM_GENRES = (True, 'showGenre') #anime genre
 
 DOC_DOCS = (URL_MAIN + 'url', 'showOthers') #Documentaire
@@ -57,7 +57,7 @@ def load(): #fonction chargee automatiquement par l'addon l'index de votre navig
 
     oOutputParameterHandler = cOutputParameterHandler() #apelle la function pour sortir un parametre
     oOutputParameterHandler.addParameter('siteUrl', 'http://venom/') # sortie du parametres siteUrl n'oubliez pas la Majuscule
-    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', 'search.png', oOutputParameterHandler) 
+    oGui.addDir(SITE_IDENTIFIER, 'showSearch', 'Recherche', '1/Search.png', oOutputParameterHandler) 
     #Ajoute lien dossier (identifant, function a attendre, nom, icone, parametre de sortie)
     #Puisque nous ne voulons pas atteindre une url on peut mettre ce qu'on veut dans le parametre siteUrl
     
@@ -208,7 +208,7 @@ def __checkForNextPage(sHtmlContent): #cherche la page suivante
     oParser = cParser()
     sPattern = '<div class="navigation".+? <span.+? <a href="(.+?)">'
     aResult = oParser.parse(sHtmlContent, sPattern)
-    print aResult #affiche le result dans le log
+    print (aResult) #affiche le result dans le log
     if (aResult[0] == True):
         return aResult[1][0]
 
