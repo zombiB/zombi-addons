@@ -94,10 +94,12 @@ class dialog:
         return self.DIALOG.browse(type, heading, shares)
 
     def VSselectqual(self, list_qual, list_url):
-
         if len(list_url) == 0:
             return ''
         if len(list_url) == 1:
+            return list_url[0]
+
+        if addon().getSetting('auto_select_quality') == 'true':
             return list_url[0]
 
         ret = self.DIALOG.select(addon().VSlang(30448), list_qual)
@@ -105,6 +107,17 @@ class dialog:
             return list_url[ret]
         return ''
 
+    def VSselectsub(self, list_qual, list_url):
+
+        if len(list_url) == 0:
+            return ''
+        if len(list_url) == 1:
+            return list_url[0]
+
+        ret = self.DIALOG.select(addon().VSlang(70015), list_qual)
+        if ret > -1:
+            return list_url[ret]
+        return ''
     def VSinfo(self, desc, title='matrix', iseconds=0, sound=False):
         if (iseconds == 0):
             iseconds = 1000
@@ -238,67 +251,69 @@ class CountdownDialog(object):
 
 
 class progress:
+    PROGRESS = None
+
     def __init__(self):
-        self.PROGRESS = None
+#        self.PROGRESS = None
         self.COUNT = 0
 
     def VScreate(self, title='', desc='', large=False):
-        # l'option "large" permet de forcer un sablier large, seul le sablier large peut être annulé.
 
-        # Ne pas afficher le sablier si nous ne sommes pas dans un menu matrix
         currentWindow = xbmcgui.getCurrentWindowId()
         if currentWindow != 10025 and currentWindow != 10028:  # 10025 = videonav, 10000 = home
             return empty()
 
-        # Ne pas afficher le sablier si une dialog est ouverte, inclut le menu contextuel
-        # sauf pour le spinner de chargement (10138)
         dlgId = xbmcgui.getCurrentWindowDialogId()
         if dlgId != 9999 and dlgId != 10138:  # 9999 = None
             return empty()
 
-        if self.PROGRESS == None:
+        if progress.PROGRESS == None:
             if not title:
                 title = addon().VSlang(30140)
-            if large:
-                self.PROGRESS = xbmcgui.DialogProgress()
-            elif ADDONVS.getSetting('spinner_small') == 'true':
-                self.PROGRESS = xbmcgui.DialogProgressBG()
             else:
-                self.PROGRESS = xbmcgui.DialogProgress()
-            self.PROGRESS.create(title, desc)
+                title = str(title)
+            if large:
+                progress.PROGRESS = xbmcgui.DialogProgress()
+            else:
+                progress.PROGRESS = xbmcgui.DialogProgressBG()
+            progress.PROGRESS.create(title, desc)
 
         return self
 
     def VSupdate(self, dialog, total, text='', search=False):
-        if not self.PROGRESS:    # Déjà refermé
+        if not progress.PROGRESS: 
             return
 
         if not search and window(10101).getProperty('search') == 'true':
-            return				
+            return
+
         if not text:
             text= addon().VSlang(30140)
 
         self.COUNT += 1
         iPercent = int(float(self.COUNT * 100) / total)
         text += ' : ' + str(self.COUNT) + '/' + str(total) + '\n'
-        if isinstance(self.PROGRESS, xbmcgui.DialogProgress):
-            self.PROGRESS.update(iPercent, text )
+        if isinstance(progress.PROGRESS, xbmcgui.DialogProgress):
+            progress.PROGRESS.update(iPercent, text )
         else:
-            self.PROGRESS.update(iPercent, message = text )
+            progress.PROGRESS.update(iPercent, message = text )
+
     def iscanceled(self):
-        if isinstance(self.PROGRESS, xbmcgui.DialogProgress):
-            return self.PROGRESS.iscanceled()
+        if isinstance(progress.PROGRESS, xbmcgui.DialogProgress):
+            return progress.PROGRESS.iscanceled()
         return False
 
-    def VSclose(self, dialog=''):
-        if not self.PROGRESS:
+    def VSclose(self, dialog=None):
+        if not progress.PROGRESS:
             return  # Déjà fermée
 
         if window(10101).getProperty('search') == 'true':
             return
 
-        if self.PROGRESS:  # test si pas fermé entre-temps
-            self.PROGRESS.close()
+        if progress.PROGRESS:  
+            prgToClose = progress.PROGRESS
+            progress.PROGRESS = None
+            prgToClose.close()
 
     def getProgress(self):
         return self.COUNT
@@ -346,7 +361,6 @@ class listitem(xbmcgui.ListItem):
         self.setProperty(property, 'RunPlugin(%s)' % sUrl)
 
         self.setProperty('nbcontextmenu', str(nbContextMenu + 1))
-
 
 """
 from resources.lib.comaddon import VSlog
@@ -415,6 +429,13 @@ def isNexus():
     except:
         return False
 
+def KodiVersion():
+    try:
+        version = xbmc.getInfoLabel('system.buildversion')
+        return int(version[0:2])
+
+    except:
+        return False
 
 # Transforme les "special" en chemin normal.
 def VSPath(pathSpecial):
@@ -453,6 +474,7 @@ class siteManager:
     LABEL = 'label'
     URL_MAIN = 'url'
     URL_MAIN2 = 'url2'
+
     def __init__(self):
         
         # Propriétés par défaut
@@ -474,25 +496,26 @@ class siteManager:
 
         # Chargement des properties
         try:
-
             with open(self.propertiesPath, 'r') as f:
                 self.data = json.load(f)
         except IOError:
             # le fichier n'existe pas, on le crée à partir des settings par défaut
             xbmcvfs.copy(self.defaultPath, path)
-
             with open(self.propertiesPath, 'r') as f:
                 self.data = json.load(f)
             
 
-    # sites désactivé par la team
+    # site désactivé par la team
     def isEnable(self, sourceName):
         return self.getDefaultProperty(sourceName, self.ACTIVE) == 'True'
 
-
     # site identifié par la team comme étant protégé par Cloudflare, false par défaut si non renseigné
     def isCloudFlare(self, sourceName):
-        return self.getDefaultProperty(sourceName, self.CLOUDFLARE) == 'True'
+        return self.getProperty(sourceName, self.CLOUDFLARE) == 'True'
+
+    def setCloudFlare(self, sourceName, state):
+        self.setProperty(sourceName, self.CLOUDFLARE, state)
+
     # sites désactivé par l'utilisateur
     def isActive(self, sourceName):
         return self.getProperty(sourceName, self.ACTIVE) == 'True'
@@ -500,11 +523,15 @@ class siteManager:
     def setActive(self, sourceName, state):
         self.setProperty(sourceName, self.ACTIVE, state)
 
+    def setUrlMain(self, sourceName, newURL):
+        self.setProperty(sourceName, self.URL_MAIN, newURL)
+
     def getUrlMain(self, sourceName):
-        return str(self.getDefaultProperty(sourceName, self.URL_MAIN))
+        return str(self.getProperty(sourceName, self.URL_MAIN))
 
     def getUrlMain2(self, sourceName):
         return str(self.getDefaultProperty(sourceName, self.URL_MAIN2))
+
     def disableAll(self):
         for sourceName in self.data[self.SITES]:
             self.setActive(sourceName, False)
@@ -537,18 +564,24 @@ class siteManager:
             # ... et on l'enregistre
             value = defaultProps.get(propName)
             self.setProperty(sourceName, propName, value)
-            self.save()
             return value
 
 
     def setProperty(self, sourceName, propName, value):
         sourceData = self._getDataSource(sourceName)
         if sourceData:
-            sourceData[propName] = str(value)
+            oldValue = sourceData[propName]
+            if oldValue != value:
+                sourceData[propName] = str(value)
+                self.save()
 
     def setDefaultProps(self, props):
         self.defaultData = props
         self._saveDefault()
+
+    def setUserProps(self, props):
+        self.data = props
+        self.save()
 
     # Lire les settings d'une source
     def _getDataSource(self, sourceName):
@@ -593,6 +626,8 @@ class siteManager:
         with open(self.defaultPath, 'w') as f:
             f.write(json.dumps(self.defaultData, indent=4))
 
+    def _saveSiteUpdates(self):
+        xbmcvfs.copy(self.propertiesPath, self.defaultPath)
     
 
 class addonManager:
@@ -621,9 +656,20 @@ class addonManager:
         response = xbmc.executeJSONRPC(req)
         response = json.loads(response)
         try:
-            VSlog("Activation de " + addon_id)
+            VSlog("Activation of " + addon_id)
             VSlog("response = " + str(response))
             return response['result'] == 'OK'
         except KeyError:
             VSlog('enable_addon received an unexpected response - ' + addon_id, xbmc.LOGERROR)
             return False
+
+    # change the setting of an addon
+    def setSettingAddon(self, addon_id, param, value):
+        if not self.isAddonExists(addon_id):
+            self.installAddon(addon_id)
+        if self.isAddonExists(addon_id):
+            oldValue = xbmcaddon.Addon(id=addon_id).getSetting(param)
+            if value != oldValue:
+                return xbmcaddon.Addon(id=addon_id).setSetting(param, value)
+            return True
+        return False

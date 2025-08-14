@@ -1,13 +1,8 @@
 #-*- coding: utf-8 -*-
-#############################################################
-# Yonn1981 https://github.com/Yonn1981/Repo
-#############################################################
 
-import re
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
-from resources.lib.packer import cPacker
 from resources.lib.comaddon import dialog, VSlog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
@@ -23,19 +18,16 @@ class cHoster(iHoster):
     def setUrl(self, url):
         self._url = str(url)
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
+    def _getMediaLinkForGuest(self, autoPlay = False):
 
         url = self._url
-        api_call = ''
         
         oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('user-agent',UA)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
-        
         oParser = cParser()
-        
         sPattern = 'source:"([^"]+)'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:

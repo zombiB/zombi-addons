@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-# https://upvid.co/embed-xxx.html
-# https://upvid.co/xxx.html
 
 import base64
 import re
-
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
@@ -20,11 +17,10 @@ class cHoster(iHoster):
 
     def setUrl(self, url):
         self._url = str(url)
-        # lien embed obligatoire
         if 'embed-' not in self._url:
             self._url = self._url.rsplit('/', 1)[0] + '/embed-' + self._url.rsplit('/', 1)[1]
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = ''
         oParser = cParser()
         sUrl = self._url
@@ -34,28 +30,27 @@ class cHoster(iHoster):
         
         referer = self._url
 
-        # Max 3 fois
         for i in range(0, 3):
             
             oRequest = cRequestHandler(sUrl)
             oRequest.addHeaderEntry('User-Agent', UA)
             oRequest.addHeaderEntry('Referer', referer)
+            oRequest.enableCache(False)
             sHtmlContent = oRequest.request()
             sHtmlContent = sHtmlContent.replace('\n', '')
             
             referer = sUrl
             
-            #ok c'est fini, on a la bonne page
             if 'ﾟωﾟﾉ' in sHtmlContent:
                 break
 
             aResult = oParser.parse(sHtmlContent, sPattern1)
             
-            if aResult[0]:
+            if aResult[0] is True:
                 sUrl = aResult[1][0]
             else:
                 aResult = oParser.parse(sHtmlContent, sPattern2)
-                if aResult[0]:
+                if aResult[0] is True:
                     sUrl = aResult[1][0]
                     
         aResult = re.search('id="code".+?value="(.+?)"', sHtmlContent, re.DOTALL)
@@ -74,7 +69,7 @@ class cHoster(iHoster):
                         final = sDecode(chars, sFunc)
                         sPattern = "source\.setAttribute\('src', '([^']+)'\)"
                         aResult = oParser.parse(final, sPattern)
-                        if aResult[0]:
+                        if aResult[0] is True:
                             api_call = aResult[1][0]
 
         if api_call:

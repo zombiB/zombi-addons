@@ -1,27 +1,25 @@
 #-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog
-
 
 class cHoster(iHoster):
 
     def __init__(self):
         iHoster.__init__(self, 'vidwatch', 'VidWatch')
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call =''
 
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
         sPattern = 'file:"([^"]+.mp4)",label:"([0-9]+)"}'
         aResult = oParser.parse(sHtmlContent, sPattern)
-
         if aResult[0]:
             api_call = aResult[1][0][0]
 

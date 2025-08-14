@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# https://vidshar.net/embed-phcw5702mptz.html
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
@@ -13,11 +12,12 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'vidshar', 'Vidshar')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = ''
         oParser = cParser()
 
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         sPattern1 = 'sources.+?src.+?"(.+?)"'

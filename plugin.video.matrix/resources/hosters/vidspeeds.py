@@ -2,54 +2,46 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import VSlog
 from resources.hosters.hoster import iHoster
+from resources.lib.util import urlHostName
 from resources.lib.packer import cPacker
-import  xbmcgui
-import re
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+from resources.lib.comaddon import dialog, VSlog
+from resources.lib import random_ua
+
+UA = random_ua.get_phone_ua()
 
 class cHoster(iHoster):
 
     def __init__(self):
-        iHoster.__init__(self, 'vidspeeds', 'vidspeeds')
+        iHoster.__init__(self, 'vidspeeds', 'Vidspeeds')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
-        sReferer = self._url
+        sReferer = f'https://{urlHostName(self._url)}/'
         
         oRequest = cRequestHandler(self._url)
-        oRequest.addHeaderEntry('user-agent',UA)
-        oRequest.addHeaderEntry('Referer',sReferer)
+        oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.addHeaderEntry('Accept-Language', 'en-US,en;q=0.9')
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
-       
-      #   xbmcgui.Dialog().ok("aResult",str ("yes"))
         
         oParser = cParser()
-        
-            # (.+?) .+?
-        sPattern ='(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
-      #  aResult = re.findall(sPattern, sHtmlContent, re.DOTALL)
+        sPattern = '(eval\(function\(p,a,c,k,e(?:.|\s)+?\))<\/script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult:
+        if aResult[0]:
             data = aResult[1][0]
             sHtmlContent = cPacker().unpack(data)
 
-         
-         
-         #   xbmcgui.Dialog().ok("aResult", "No script found")
-            sPattern = 'file:"(.+?)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-        #
+        sPattern = 'file:"(.+?)"'
+        aResult = oParser.parse(sHtmlContent, sPattern)
         
         api_call = False
 
         if (aResult[0] == True):
-        #    xbmcgui.Dialog().ok("aResult",  aResult[1][0])
             api_call = aResult[1][0]
-            VSlog(api_call)
 
             if (api_call):
-                return True, api_call + '|User-Agent=' + UA
+                return True, f'{api_call}|User-Agent={UA}&Referer={sReferer}&verifypeer=false&Accept-Language=en-US,en;q=0.9'
+            
         return False, False
         

@@ -1,78 +1,100 @@
 ﻿#-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-#https://sama-share.com/embed-shsaa6s49l55-750x455.html
-from resources.lib.handler.requestHandler import cRequestHandler
+
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
-import re,xbmc
+from resources.lib import helpers
+from resources.lib.util import Unquote
+from resources.lib.packer import cPacker
+import re
 import requests
+
 UA = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
-
-
 
 class cHoster(iHoster):
 
-    def __init__(self):
-        iHoster.__init__(self, 'uppom', 'uppom')
+   def __init__(self):
+      iHoster.__init__(self, 'uppom', 'Uppom')
 
-    def setUrl(self, sUrl):
-        self._url = str(sUrl).replace(".html","")
-        if 'embed' in sUrl:
+   def setUrl(self, sUrl):
+      self._url2 = sUrl
+      self._url = str(sUrl).replace(".html","")
+
+      if 'embed' in sUrl:
             self._url = self._url.replace("embed-","")
 
-    def _getMediaLinkForGuest(self):
-        sUrl = self._url
-        VSlog(sUrl)
-        if 'https' in sUrl:
-           d = re.findall('https://(.*?)/([^<]+)',sUrl)
-        if 'http' in sUrl:
-           d = re.findall('http://(.*?)/([^<]+)',sUrl)
-        for aEntry1 in d:
-        	    sHost= aEntry1[0]
-        	    sID= aEntry1[1]
-        	    if '/' in sID:
-        	       sID = sID.split('/')[0]
-        	    sLink= 'https://'+aEntry1[0]+'/'+aEntry1[1]
-        	    VSlog(sHost)
-        	    VSlog(sID)
-        	    VSlog(sLink)
+   def _getMediaLinkForGuest(self, autoPlay=False):
+      VSlog(self._url)
+      oParser = cParser()
+      
+      if '|Referer=' in self._url:
+         sReferer = self._url.split('|Referer=')[1]
+         self._url = self._url.split('|Referer=')[0]
+      else:
+         sReferer = self._url
 
-        api_call = ''
+      Sgn = requests.Session()
+      
+      if 'key=' in self._url:
+         return True, f'{self._url}|Referer={sReferer}'
 
-        oRequest = cRequestHandler(self._url)
-        sHtmlContent = oRequest.request()
-        _id = sID
-        VSlog(_id)
-        Sgn=requests.Session()
-        UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
-        hdr = {'Host': sHost,
-        	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0',
-        	'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        	'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
-        	'Accept-Encoding': 'gzip, deflate',
-        	'Content-Type': 'application/x-www-form-urlencoded',
-        	'Content-Length': '111',
-        	'Origin': 'https://'+sHost,
-        	'Connection': 'keep-alive',
-        	'Referer': self._url,
-        	'Upgrade-Insecure-Requests': '1'}
-        prm={
-                "op": "download2",
-                "id": _id,
-                "rand": "",
-                "referer": self._url}
-        _r = Sgn.post(sLink,headers=hdr,data=prm)
-        sHtmlContent = _r.content.decode('utf8',errors='ignore')
-        oParser = cParser() 
-     # (.+?) ([^<]+) .+?
-        sPattern = 'id="direct_link".+?href="(.+?)">'
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0]:
-        	api_call = aResult[1][0] 
-                	
-        if api_call:
-        	   return True, api_call+ '|User-Agent=' + UA +'&verifypeer=false'+ '&Referer=' + 'https://'+sHost
+      protocol = 'https' if 'https' in self._url else 'http'
+      d = re.findall(f'{protocol}://(.*?)/([^<]+)', self._url)
+      
+      if not d:
+         return False, False
 
-        return False, False
+      sHost, sID = d[0]
+      sID = sID.split('/')[0] if '/' in sID else sID
+      sLink = f'{protocol}://{sHost}/{sID}'
+
+      headers = {
+         'Origin': f'{protocol}://{sHost}',
+         'Referer': sLink,
+         'User-Agent': UA
+      }
+
+      sHtmlContent = Sgn.get(self._url, headers=headers).text
+      data = helpers.get_hidden(sHtmlContent)
+      data.update({"method_free": "Free Download >>"})
+      
+      _r = Sgn.post(sLink, headers=headers, data=data)
+      sHtmlContent = _r.content.decode('utf8', errors='ignore')
+      url = _r.headers.get('location')
+      
+      if url and url != self._url:
+         return True, url.replace(' ', '%20') + helpers.append_headers(headers)
+
+      data = {
+         'op': 'download2',
+         'id2': sID,
+         'rand': '',
+         'referer': sLink
+      }
+      _r = Sgn.post(sLink, headers=headers, data=data)
+      sHtmlContent = _r.content.decode('utf8', errors='ignore')
+
+      sPattern = 'id="direct_link".+?href="([^"]+)'
+      aResult = oParser.parse(sHtmlContent, sPattern)
+      
+      if aResult[0]:
+         api_call = aResult[1][0].replace(' ', '%20') + helpers.append_headers(headers)
+      else:
+         sLink = f'{protocol}://{sHost}/embed-{sID}.html'
+         sHtmlContent = Sgn.get(sLink, headers=headers).text
+         sPattern = r'(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
+         aResult = oParser.parse(sHtmlContent, sPattern)
+         
+         if aResult[0]:
+               sHtmlContent = cPacker().unpack(aResult[1][0])
+         
+         sPattern = r'file:["\']([^"\']+)'
+         aResult = oParser.parse(sHtmlContent, sPattern)
+         
+         if aResult[0]:
+               api_call = aResult[1][0]
+      
+      if api_call:
+         return True, api_call
+
+      return False, False

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# Code de depart par AnthonyBloomer
-# Modif pour vStream
 # https://github.com/Kodi-vStream/venom-xbmc-addons/
+
 import re
 import string
 import xbmcvfs
@@ -19,7 +18,6 @@ except:
     from pysqlite2 import dbapi2 as sqlite
     VSlog('SQLITE 2 as DB engine for tmdb')
 
-#Gestion du multithread
 lock  = threading.Semaphore()
 
 
@@ -27,41 +25,40 @@ class cTMDb:
     # https://developers.themoviedb.org/3/genres/get-movie-list
     # https://developers.themoviedb.org/3/genres/get-tv-list
     TMDB_GENRES = {
-        12: 'Aventure',
-        14: 'Fantastique',
+        12: 'Adventure',
+        14: 'Fantasy',
         16: 'Animation',
-        18: 'Drame',
-        27: 'Horreur',
+        18: 'Drama',
+        27: 'Horror',
         28: 'Action',
-        35: 'Comédie',
-        36: 'Histoire',
+        35: 'Comedy',
+        36: 'History',
         37: 'Western',
         53: 'Thriller',
         80: 'Crime',
-        99: 'Documentaire',
+        99: 'Documentary',
         878: 'Science-Fiction',
-        9648: 'Mystère',
-        10402: 'Musique',
+        9648: 'Mystery',
+        10402: 'Music',
         10749: 'Romance',
-        10751: 'Familial',
-        10752: 'Guerre',
-        10759: 'Action & Aventure',
+        10751: 'Family',
+        10752: 'War',
+        10759: 'Action & Adventure',
         10762: 'Kids',
         10763: 'News',
-        10764: 'Realité',
-        10765: 'Science-Fiction & Fantastique',
-        10766: 'Feuilleton',
+        10764: 'Reality',
+        10765: 'Science-Fiction & Fantasy',
+        10766: 'Soap',
         10767: 'Talk',
-        10768: 'Guerre & Politique',
-        10769: 'Etranger',
-        10770: 'Téléfilm'
+        10768: 'War & Politics',
+        10769: 'Stranger',
+        10770: 'TV Movie'
     }
 
-    URL = 'https://api.themoviedb.org/3/'
-    URL_TRAILER = 'plugin://plugin.video.youtube/play/?video_id=%s' # ancien : 'plugin://plugin.video.youtube/?action=play_video&videoid=%s'
+    URL = 'https://api.themoviedb.org/%d/'
+    URL_TRAILER = 'plugin://plugin.video.youtube/play/?video_id=%s'
     CACHE = 'special://home/userdata/addon_data/plugin.video.matrix/video_cache.db'
 
-    # important seul xbmcvfs peux lire le special
     if not isMatrix():
         REALCACHE = VSPath(CACHE).decode('utf-8')
     else:
@@ -75,7 +72,7 @@ class cTMDb:
         self.debug = debug
         self.lang = self.ADDON.getSetting('tmdb_lang')
         if not self.lang:
-            self.lang = 'en'
+            self.lang = 'en-US'
         self.poster = 'https://image.tmdb.org/t/p/%s' % self.ADDON.getSetting('poster_tmdb')
         self.fanart = 'https://image.tmdb.org/t/p/%s' % self.ADDON.getSetting('backdrop_tmdb')
 
@@ -92,8 +89,6 @@ class cTMDb:
             pass
 
         try:
-            # Optimisation des acces SqlLite -> Autocommit
-            # https://charlesleifer.com/blog/going-fast-with-sqlite-and-python/
             self.db = sqlite.connect(self.REALCACHE, isolation_level=None)
             self.db.row_factory = sqlite.Row
             self.dbcur = self.db.cursor()
@@ -104,7 +99,6 @@ class cTMDb:
 
     def __createdb(self, dropTable=''):
         try:
-            # Permets de detruire une table pour la recreer de zero.
             if dropTable != '':
                 self.dbcur.execute("DROP TABLE " + dropTable)
         except:
@@ -243,7 +237,6 @@ class cTMDb:
         if (total > 0):
             url = 'https://www.themoviedb.org/authenticate/'
             if not xbmc.getCondVisibility('system.platform.android'):
-                # Si possible on ouvre la page automatiquement dans un navigateur internet.
                 import webbrowser
                 webbrowser.open(url + result['request_token'])
                 sText = (self.ADDON.VSlang(30421)) % (url, result['request_token'])
@@ -255,7 +248,7 @@ class cTMDb:
                 from resources.lib.librecaptcha.gui import cInputWindowYesNo
                 qr = pyqrcode.create(url + result['request_token'])
                 qr.png(VSPath('special://home/userdata/addon_data/plugin.video.matrix/qrcode.png'), scale=5)
-                oSolver = cInputWindowYesNo(captcha='special://home/userdata/addon_data/plugin.video.matrix/qrcode.png', msg="Scanner le QRCode pour acceder au lien d'autorisation", roundnum=1)
+                oSolver = cInputWindowYesNo(captcha='special://home/userdata/addon_data/plugin.video.matrix/qrcode.png', msg="Scan the QR Code to access the authorization link", roundnum=1)
                 retArg = oSolver.get()
                 DIALOG = dialog()
                 if retArg == "N":
@@ -270,15 +263,12 @@ class cTMDb:
             else:
                 DIALOG.VSerror('Erreur' + self.ADDON.VSlang(30000))
                 return
-
-            # xbmc.executebuiltin('Container.Refresh')
+            
             return
         return
 
-    # cherche dans les films ou serie l'id par le nom, return ID ou FALSE
     def get_idbyname(self, name, year='', mediaType='movie', page=1):
 
-        # On enleve le contenu entre paranthese.
         try:
             name = name.split('(')[0]
         except:
@@ -291,22 +281,30 @@ class cTMDb:
 
         meta = self._call('search/' + str(mediaType), 'query=' + term + '&page=' + str(page))
 
-        # si pas de résultat avec l'année, on teste sans l'année
         if 'total_results' in meta:
             if year and meta['total_results'] == 0:
                 return self.search_movie_name(name)
 
-            # cherche 1 seul resultat
             if meta['total_results'] != 0:
                 tmdb_id = meta['results'][0]['id']
                 return tmdb_id
 
         return False
 
-    # Search for movies by title.
+    def get_namebyid(self, mediaType, tmdbid):
+    
+        meta = self._call('%s/%s' % (mediaType, tmdbid))
+
+        # Avoid local title (fixed search)
+        if 'title' in meta:
+            return meta['original_title']
+        if 'name' in meta:
+            return meta['original_name']
+        return False
+
     def search_movie_name(self, name, year='', page=1):
 
-        name = re.sub(" +", " ", name)  # nettoyage du titre
+        name = re.sub(" +", " ", name)
 
         if year:
             term = QuotePlus(name) + '&year=' + year
@@ -317,45 +315,38 @@ class cTMDb:
 
         if 'errors' not in meta and 'status_code' not in meta:
 
-            # si pas de résultat avec l'année, on teste sans l'année
             if 'total_results' in meta and meta['total_results'] == 0 and year:
                 return self.search_movie_name(name)
 
-            # cherche 1 seul resultat
             if 'total_results' in meta and meta['total_results'] != 0:
                 movie = ''
 
-                # s'il n'y en a qu'un, c'est le bon
                 if meta['total_results'] == 1:
                     movie = meta['results'][0]
 
                 else:
-                    # premiere boucle, recherche la correspondance parfaite sur le nom
                     for searchMovie in meta['results']:
                         if searchMovie['genre_ids'] and 99 not in searchMovie['genre_ids']:
                             if self._clean_title(searchMovie['title']) == self._clean_title(name):
                                 movie = searchMovie
                                 break
-                    # sinon, hors documentaire et année proche
+
                     if not movie:
                         for searchMovie in meta['results']:
                             if searchMovie['genre_ids'] and 99 not in searchMovie['genre_ids']:
 
-                                # controle supplémentaire sur l'année meme si déjà dans la requete
                                 if year:
                                     if 'release_date' in searchMovie and searchMovie['release_date']:
                                         release_date = searchMovie['release_date']
                                         yy = release_date[:4]
                                         if int(year)-int(yy) > 1 :
-                                            continue    # plus de deux ans d'écart, c'est pas bon
+                                            continue
                                 movie = searchMovie
                                 break
 
-                    # Rien d'interessant, on prend le premier
                     if not movie:
                         movie = meta['results'][0]
 
-                # recherche de toutes les infos
                 tmdb_id = movie['id']
                 meta = self.search_movie_id(tmdb_id)
         else:
@@ -365,37 +356,33 @@ class cTMDb:
 
     # Search for collections by title.
     def search_collection_name(self, name):
-        name = re.sub(" +", " ", name)  # nettoyage du titre
+        name = re.sub(" +", " ", name)
         term = QuotePlus(name)
         meta = self._call('search/collection', 'query=' + term)
 
         if 'errors' not in meta and 'status_code' not in meta:
 
-            # cherche 1 seul resultat
             if 'total_results' in meta and meta['total_results'] != 0:
 
                 collection = ''
 
-                # s'il n'y en a qu'un, c'est le bon
                 if meta['total_results'] == 1:
                     collection = meta['results'][0]
 
                 else:
-                    # premiere boucle, recherche la correspondance parfaite sur le nom
                     for searchCollec in meta['results']:
                         cleanTitleTMDB = self._clean_title(searchCollec['name'])
                         cleanTitleSearch = self._clean_title(name)
                         if cleanTitleTMDB == cleanTitleSearch:
                             collection = searchCollec
                             break
-                    # sinon, le premier qui n'est pas du genre animation
+
                     if not collection:
                         for searchCollec in meta['results']:
                             if 'animation' not in searchCollec['name']:
                                 collection = searchCollec
                                 break
 
-                    # Rien d'interessant, on prend le premier
                     if not collection:
                         collection = meta['results'][0]
 
@@ -403,7 +390,6 @@ class cTMDb:
                 tmdb_id = collection['id']
                 meta['tmdb_id'] = tmdb_id
 
-                # recherche de toutes les infos
                 meta = self.search_collection_id(tmdb_id)
         else:
             meta = {}
@@ -421,46 +407,39 @@ class cTMDb:
 
         if 'errors' not in meta and 'status_code' not in meta:
 
-            # si pas de résultat avec l'année, on teste sans l'année
             if 'total_results' in meta and meta['total_results'] == 0 and year:
                 return self.search_tvshow_name(name)
 
-            # cherche 1 seul resultat
             if 'total_results' in meta and meta['total_results'] != 0:
                 movie = ''
 
-                # s'il n'y en a qu'un, c'est le bon
                 if meta['total_results'] == 1:
                     movie = meta['results'][0]
 
                 else:
-                    # premiere boucle, recherche la correspondance parfaite sur le nom
                     for searchMovie in meta['results']:
                         if genre == '' or genre in searchMovie['genre_ids']:
                             movieName = searchMovie['name']
                             if self._clean_title(movieName) == self._clean_title(name):
                                 movie = searchMovie
                                 break
-                    # sinon, hors documentaire et année proche
+
                     if not movie:
                         for searchMovie in meta['results']:
                             if genre and genre in searchMovie['genre_ids']:
 
-                                # controle supplémentaire sur l'année meme si déjà dans la requete
                                 if year:
                                     if 'first_air_date' in searchMovie and searchMovie['first_air_date']:
                                         release_date = searchMovie['first_air_date']
                                         yy = release_date[:4]
                                         if int(year)-int(yy) > 1:
-                                            continue    # plus de deux ans d'écart, c'est pas bon
+                                            continue
                                 movie = searchMovie
                                 break
 
-                    # Rien d'interessant, on prend le premier
                     if not movie:
                         movie = meta['results'][0]
 
-                # recherche de toutes les infos
                 tmdb_id = movie['id']
                 meta = self.search_tvshow_id(tmdb_id)
         else:
@@ -470,19 +449,16 @@ class cTMDb:
 
     # Search for person by name.
     def search_person_name(self, name):
-        name = re.sub(" +", " ", name)  # nettoyage du titre
+        name = re.sub(" +", " ", name)
         term = QuotePlus(name)
 
         meta = self._call('search/person', 'query=' + term)
 
-        # si pas d'erreur
         if 'errors' not in meta and 'status_code' not in meta:
 
-            # on prend le premier resultat
             if 'total_results' in meta and meta['total_results'] != 0:
                 meta = meta['results'][0]
 
-                # recherche de toutes les infos
                 person_id = meta['id']
                 meta = self.search_person_id(person_id)
         else:
@@ -491,10 +467,11 @@ class cTMDb:
         return meta
 
     # Get the basic movie information for a specific movie id.
-    def search_movie_id(self, movie_id, append_to_response='append_to_response=trailers,credits,release_dates'):
+    def search_movie_id(self, movie_id, append_to_response='append_to_response=external_ids,trailers,credits,release_dates'):
         result = self._call('movie/' + str(movie_id), append_to_response)
         result['tmdb_id'] = movie_id
-        return result  # obj(**self._call('movie/' + str(movie_id), append_to_response))
+        return result
+
 
     # Get the primary information about a TV series by id.
     def search_tvshow_id(self, show_id, append_to_response='append_to_response=external_ids,videos,credits,release_dates'):
@@ -503,15 +480,15 @@ class cTMDb:
         return result
 
     # Get the primary information about a TV series by id.
-    def search_season_id(self, show_id, season):
-        result = self._call('tv/' + str(show_id) + '/season/' + str(season))
+    def search_season_id(self, show_id, season, append_to_response='append_to_response=external_ids'):
+        result = self._call('tv/' + str(show_id) + '/season/' + str(season), append_to_response)
         result['tmdb_id'] = show_id
         return result
 
     # Get the primary information about a episode.
-    def search_episode_id(self, show_id, season, episode):
+    def search_episode_id(self, show_id, season, episode, append_to_response='append_to_response=external_ids'):
         if season:
-            result = self._call('tv/' + str(show_id) + '/season/' + str(season) + '/episode/' + str(episode))
+            result = self._call('tv/' + str(show_id) + '/season/' + str(season) + '/episode/' + str(episode), append_to_response)
             result['tmdb_id'] = show_id
             return result
         else:
@@ -536,7 +513,6 @@ class cTMDb:
             network = result['logos'][0]
             vote = -1
 
-            # On prend le logo qui a la meilleure note
             for logo in result['logos']:
                 logoVote = float(logo['vote_average'])
                 if logoVote > vote:
@@ -548,11 +524,13 @@ class cTMDb:
         return {}
 
     def _format(self, meta, name, media_type=""):
+        if 'external_ids' in meta and 'imdb_id' in meta['external_ids']:
+            meta['imdb_id'] = meta['external_ids']['imdb_id']
         _meta = {
             'imdb_id': meta.get('imdb_id', ""),
             'tmdb_id': meta.get('tmdb_id', "") if meta.get('tmdb_id') else meta.get('id'),
             'tvdb_id': "",
-            "title": meta.get('title') if meta.get('title') else meta.get('name', ""),
+            "title": meta.get('original_title') if meta.get('original_title') else meta.get('original_name', ""),
             'media_type': meta.get('media_type', "") if media_type == "" else media_type,
             'rating': meta.get('s_vote_average', 0.0) if meta.get('s_vote_average') else meta.get('vote_average', 0.0),
             'votes': meta.get('s_vote_count', 0) if meta.get('s_vote_count') else meta.get('vote_count', 0),
@@ -625,7 +603,7 @@ class cTMDb:
             if not isMatrix():
                 _meta['genre'] = unicode(_meta['genre'], 'utf-8')
 
-        elif 'parts' in meta:   # Il s'agit d'une collection, on récupere le genre du premier film
+        elif 'parts' in meta:
             genres = self.getGenresFromIDs(meta['parts'][0]['genre_ids'])
             _meta['genre'] = ''
             for genre in genres:
@@ -638,33 +616,33 @@ class cTMDb:
                 _meta['genre'] = unicode(_meta['genre'], 'utf-8')
 
         trailer_id = ''
-        if 'trailer' in meta and meta['trailer']:   # Lecture du cache
+        if 'trailer' in meta and meta['trailer']:
             _meta['trailer'] = meta['trailer']
-        elif 'trailers' in meta:    # Trailer d'un film retourné par TMDB
-            try:    # Recherche de la BA en français
+        elif 'trailers' in meta:
+            try:
                 trailers = meta['trailers']['youtube']
                 for trailer in trailers:
                     if trailer['type'] == 'Trailer':
                         if 'VF' in trailer['name']:
                             trailer_id = trailer['source']
                             break
-                # pas de trailer français, on prend le premier
+
                 if not trailer_id:
                     trailer_id = meta['trailers']['youtube'][0]['source']
                 _meta['trailer'] = self.URL_TRAILER % trailer_id
             except:
                 pass
-        elif 'videos' in meta and meta['videos']:  # Trailer d'une série retourné par TMDB
-            try:  # Recherche de la BA en français
+        elif 'videos' in meta and meta['videos']:
+            try: 
                 trailers = meta['videos']
                 if len(trailers['results']) > 0:
                     for trailer in trailers['results']:
                         if trailer['type'] == 'Trailer' and trailer['site'] == 'YouTube':
-                            trailer_id = trailer['key']  # Au moins c'est un trailer, pas forcement français
-                            if 'ar' in trailer['iso_639_1']:
+                            trailer_id = trailer['key'] 
+                            if 'en' in trailer['iso_639_1']:
                                 trailer_id = trailer['key']
                                 break
-                    # pas de trailer, on prend la premiere vidéo disponible
+
                     if not trailer_id:
                         trailer_id = meta['videos'][0]['key']
                     _meta['trailer'] = self.URL_TRAILER % trailer_id
@@ -700,13 +678,12 @@ class cTMDb:
                 cast.append(cast_item)
             _meta['cast'] = json.dumps(cast)
 
-        # Pas dans le cache, à récupérer depuis TMDB
         if not _meta['director'] and not _meta['writer']:
             crews = []
             if "credits" in meta:
                 crews = eval(str(meta['credits']['crew']))
                 _meta['crew'] = json.dumps(crews)
-            elif "crew" in meta: # cas des épisodes
+            elif "crew" in meta:
                 crews = eval(str(meta['crew']))
 
             if len(crews) > 0:
@@ -727,7 +704,7 @@ class cTMDb:
                 cert = meta['release_dates']
                 if len(cert['results']) >0:
                     for data in cert['results']:
-                        if 'ar' in data['iso_3166_1']:
+                        if 'en' in data['iso_3166_1']:
                             _meta['mpaa'] = data['release_dates'][0]['certification']
                             break
                     if not _meta['mpaa']:
@@ -743,6 +720,17 @@ class cTMDb:
         return _meta
 
     def _clean_title(self, title):
+        try:
+            bMatrix = isMatrix()
+            if not bMatrix:
+                title = unicode(title, 'utf-8')
+            title = unicodedata.normalize('NFD', title).encode('ascii', 'ignore').decode('unicode_escape')
+            if not bMatrix:
+                title = title.encode('utf-8')
+        except Exception as e:
+            pass
+
+        title = re.sub('[^%s]' % (string.ascii_lowercase + string.digits), '', title.lower())
         return title
 
     def _cache_search(self, media_type, name, tmdb_id='', year='', season='', episode=''):
@@ -784,17 +772,17 @@ class cTMDb:
             sql_select = sql_select + ' AND season.season = \'%s\'' % season
 
         elif media_type == 'episode':
-            sql_select = 'SELECT *, episode.title, episode.poster_path, episode.premiered, '\
-                'episode.guest_stars, episode.year, episode.plot, '\
+            sql_select = 'SELECT tvshow.backdrop_path, season.poster_path, episode.title, episode.tmdb_id, episode.poster_path as poster_thumb, episode.premiered, '\
+                'episode.guest_stars, episode.year, episode.plot, episode.tagline, '\
                 'episode.director, episode.writer, episode.rating, episode.votes '\
-                'FROM episode LEFT JOIN tvshow ON episode.tmdb_id = tvshow.tmdb_id'
+                'FROM episode LEFT JOIN tvshow ON episode.tmdb_id = tvshow.tmdb_id LEFT JOIN season ON episode.tmdb_id = season.tmdb_id'
             if tmdb_id:
                 sql_select += ' WHERE tvshow.tmdb_id = \'%s\'' % tmdb_id
             else:
                 sql_select += ' WHERE tvshow.title = \'%s\'' % name
                 if year:
                     sql_select = sql_select + ' AND tvshow.year = %s' % year
-            sql_select += ' AND episode.season = \'%s\' AND episode.episode = \'%s\'' % (season, episode)
+            sql_select += ' AND episode.season = \'%s\' AND episode.episode = \'%s\' AND season.season = \'%s\'' % (season, episode, season)
         else:
             return None
 
@@ -805,7 +793,6 @@ class cTMDb:
         except Exception as e:
             VSlog('************* Error selecting from cache db: %s' % e, 4)
             if 'no such column' in str(e) or 'no column named' in str(e):
-                # Pour les series il faut reconstruire les deux tables.
                 if media_type == "tvshow":
                     self.__createdb('tvshow')
                     self.__createdb('season')
@@ -813,7 +800,6 @@ class cTMDb:
                     self.__createdb(media_type)
                 VSlog('Table recreated')
 
-            # Deuxieme tentative
             try:
                 self.dbcur.execute(sql_select)
                 matchedrow = self.dbcur.fetchone()
@@ -830,35 +816,25 @@ class cTMDb:
             return None
 
     def _cache_save(self, meta, name, media_type, season, episode, year):
-        # Pas de cache pour les personnes ou les distributeurs
         if media_type in ('person', 'network'):
             return
 
-        # cache des films
         if media_type == 'movie':
             return self._cache_save_movie(meta, name, year)
 
-        # cache des séries et animes
         if media_type == 'tvshow' or media_type == 'anime':
             return self._cache_save_tvshow(meta, name, season, year)
 
-        # cache des saisons
         if media_type == "season":
             return self._cache_save_season(meta, season)
 
-        # cache des épisodes
         if media_type == "episode":
             return self._cache_save_episode(meta, name, season, episode)
 
-        # cache des collections
         if media_type == 'collection':
             return self._cache_save_collection(meta, name)
 
-            
-            
-    # sauvegarde movie dans la BDD
     def _cache_save_movie(self, meta, name, year):
-        # year n'est pas forcement l'année du film mais l'année utilisée pour la recherche
         if not year and 'year' in meta:
             year = meta['year']
 
@@ -873,15 +849,12 @@ class cTMDb:
                 self.__createdb('movie')
                 VSlog('Table recreated')
 
-                # Deuxieme tentative
                 self._sqlExecute(sql, (meta['imdb_id'], meta['tmdb_id'], name, year, meta['cast'], meta['crew'], meta['writer'], meta['director'], meta['tagline'], meta['rating'], meta['votes'], str(meta['duration']), meta['plot'], meta['mpaa'], meta['premiered'], meta['genre'], meta['studio'], meta['status'], meta['poster_path'], meta['trailer'], meta['backdrop_path']))
             else:
                 VSlog('SQL ERROR INSERT into table movie')
             pass
 
-    # Cache pour les séries (et animes)
     def _cache_save_tvshow(self, meta, name, season, year):
-        # Ecrit les saisons dans le cache
         for s_meta in meta['season']:
             s_meta['tmdb_id'] = meta['tmdb_id']
             self._cache_save_season(s_meta, season)
@@ -889,7 +862,6 @@ class cTMDb:
         if not year and 'year' in meta:
             year = meta['year']
 
-        # sauvegarde tvshow dans la BDD
         try:
             sql = 'INSERT or IGNORE INTO tvshow (imdb_id, tmdb_id, title, year, cast, crew, writer, director, rating, votes, duration, ' \
                   'plot, mpaa, premiered, genre, studio, status, poster_path, trailer, backdrop_path, nbseasons) ' \
@@ -901,13 +873,11 @@ class cTMDb:
                 self.__createdb('tvshow')
                 VSlog('Table recreated')
 
-                # Deuxieme tentative
                 self._sqlExecute(sql, (meta['imdb_id'], meta['tmdb_id'], name, year, meta['cast'], meta['crew'], meta['writer'], meta['director'], meta['rating'], meta['votes'], meta['duration'], meta['plot'], meta['mpaa'], meta['premiered'], meta['genre'], meta['studio'], meta['status'], meta['poster_path'], meta['trailer'], meta['backdrop_path'], meta['nbseasons']))
             else:
                 VSlog('SQL ERROR INSERT into table tvshow')
             pass
 
-    # Cache pour les saisons
     def _cache_save_season(self, meta, season):
         if 'air_date' in meta and meta['air_date']:
             premiered = meta['air_date']
@@ -951,7 +921,6 @@ class cTMDb:
                 self.__createdb('season')
                 VSlog('Table recreated')
 
-                # Deuxieme tentative
                 try:
                     self._sqlExecute(sql, (meta['tmdb_id'], season, s_year, premiered, fanart, plot, meta.get('episode_count', 0)))
                 except Exception as e:
@@ -960,7 +929,6 @@ class cTMDb:
                 VSlog('SQL ERROR INSERT into table season')
         
 
-    # Cache pour les épisodes
     def _cache_save_episode(self, meta, name, season, episode):
         try:
             title = name + '_S' + season + 'E' + episode
@@ -973,12 +941,10 @@ class cTMDb:
                 self.__createdb('episode')
                 VSlog('Table recreated')
 
-                # Deuxieme tentative
                 self._sqlExecute(sql, (meta['tmdb_id'], title, season, episode, meta['year'], title, meta['premiered'], meta['poster_path'], meta['plot'], meta['rating'], meta['votes'], meta['director'], meta['writer'], ''.join(meta.get('guest_stars', "")), meta["tagline"]))
             else:
                 VSlog('SQL ERROR INSERT into table episode')
 
-    # Cache pour les sagas
     def _cache_save_collection(self, meta, name):
         try:
             sql = 'INSERT or IGNORE INTO saga (tmdb_id, title, plot, genre, poster_path, backdrop_path) VALUES ' \
@@ -990,7 +956,6 @@ class cTMDb:
                 self.__createdb('saga')
                 VSlog('Table recreated')
 
-                # Deuxieme tentative
                 self._sqlExecute(sql, (meta['tmdb_id'], name, meta['plot'], meta['genre'], meta['poster_path'], meta["backdrop_path"]))
             else:
                 VSlog('SQL ERROR INSERT into table saga')
@@ -1016,15 +981,12 @@ class cTMDb:
             DICT of meta data or None if cannot be found.
         """
 
-        name = re.sub(" +", " ", name)  # nettoyage du titre
-        name = name.replace('VF','').replace('VOSTFR','')
+        name = re.sub(" +", " ", name) 
+        name = name.replace('VOSTFR','')
+        name = re.sub('(\W|_|^)FR(\W|_|$)', '', name)
         cleanTitle = None
         
-        # VSlog('Attempting to retrieve meta data for %s: %s %s %s %s' % (media_type, name, year, imdb_id, tmdb_id))
-
-        # recherche dans la base de données
         if not update:
-            # Obligatoire pour pointer vers les bonnes infos dans la base de données
             if not tmdb_id:
                 if media_type in ("season", "tvshow", "anime", "episode"):
                     name = re.sub('(?i)( s(?:aison +)*([0-9]+(?:\-[0-9\?]+)*))(?:([^"]+)|)', '', name)
@@ -1037,7 +999,6 @@ class cTMDb:
             if meta:
                 return meta
 
-        # recherche online
         meta = {}
         if media_type == 'movie':
             if tmdb_id:
@@ -1052,14 +1013,14 @@ class cTMDb:
         elif media_type == 'season' and season:
             if tmdb_id:
                 meta = self.search_season_id(tmdb_id, season)
-            else:  # on retrouve l'id en cherchant la série qui peut être en cache
+            else:
                 meta = self.get_meta('tvshow', name, year=year)
                 if 'tmdb_id' in meta and meta['tmdb_id']:
                     return self.get_meta('season', name, tmdb_id=meta['tmdb_id'], year=year, season=season)
         elif media_type == 'episode':
             if tmdb_id:
                 meta = self.search_episode_id(tmdb_id, season, episode)
-            else:  # on retrouve l'id en cherchant la série qui peut être en cache
+            else:
                 meta = self.get_meta('tvshow', name, year=year)
                 if 'tmdb_id' in meta and meta['tmdb_id']:
                     meta = self.search_episode_id(meta['tmdb_id'], season, episode)
@@ -1082,22 +1043,19 @@ class cTMDb:
             if tmdb_id:
                 meta = self.search_network_id(tmdb_id)
 
-        # Mise en forme des metas si trouvé
         if meta and 'tmdb_id' in meta:
             meta = self._format(meta, name, media_type)
-            # sauvegarde dans un cache
             if not cleanTitle:
                 cleanTitle = self._clean_title(name)
 
             self._cache_save(meta, cleanTitle, media_type, season, episode, year)
-        elif meta != False:   # initialise un meta vide
+        elif meta != False:
             meta = self._format(meta, name)
         else:
             meta = {}
         return meta
 
     def getUrl(self, url, page=1, term=''):
-        # return url api exemple 'movie/popular' page en cours
         try:
             if term:
                 term = term + '&page=' + str(page)
@@ -1108,27 +1066,11 @@ class cTMDb:
             return False
         return result
     
-    def getPostUrl(self, url, post):
-        # Execute une requete POST vers l'API
-        # Utile pour :
-        #       - Noter film
-        #       - Ajouter/Retirer le film des favoris
-        #       - Ajouter/Retirer le film de la watchlist
-        # Appelé depuis le menu contextuel TMDB
-        #
-        # Paramètres :
-        #   url : le complément de l'url de l'api
-        #           ex : 'movie/64408/rating' pour noter un film
-        #           ou : '' pour ajouter aux favoris
-        #   post : json qui sera envoyé Request Body
-        #           ex :   {
-        #                   "value": 8.5
-        #                  }
-
+    def getPostUrl(self, url, post, API_VERSION = 3):
         from urllib import request
         session_id = self.ADDON.getSetting('tmdb_session')
 
-        urlapi = self.URL + url +'?api_key='+self.ADDON.getSetting('api_tmdb')+'&session_id='+ session_id
+        urlapi = ('%s%s?api_key=%s&session_id=%s') %(self.URL % API_VERSION, url, self.api_key, session_id)
         
         req = request.Request(urlapi, method="POST")
         req.add_header('Content-Type', 'application/json')
@@ -1140,9 +1082,9 @@ class cTMDb:
         data = json.loads(response)
         return data    
 
-    def _call(self, action, append_to_response=''):
+    def _call(self, action, append_to_response='', API_VERSION = 3):
         from resources.lib.handler.requestHandler import cRequestHandler
-        url = '%s%s?language=%s&api_key=%s' % (self.URL, action, self.lang, self.api_key)
+        url = '%s%s?language=%s&api_key=%s' % (self.URL % API_VERSION, action, self.lang, self.api_key)
         if append_to_response:
             url += '&%s' % append_to_response
 
@@ -1151,7 +1093,6 @@ class cTMDb:
 
         return data
 
-    # SqlExecute Thread Safe
     def _sqlExecute(self, request, param = None):
         try:
             lock.acquire()
@@ -1162,7 +1103,6 @@ class cTMDb:
             lock.release()
 
 
-    # retourne la liste des genres en Texte, à partir des IDs
     def getGenresFromIDs(self, genresID):
         sGenres = []
         for gid in genresID:
@@ -1171,7 +1111,6 @@ class cTMDb:
                 sGenres.append(genre)
         return sGenres
 
-    # Retourne le genre en Texte, à partir d'un ID
     def getGenreFromID(self, genreID):
         if not str(genreID).isdigit():
             return genreID

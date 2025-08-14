@@ -18,12 +18,9 @@ from resources.lib.util import cUtil, QuotePlus
 SITE_IDENTIFIER = 'cLibrary'
 SITE_NAME = 'Library'
 
-# sources.xml
-
 
 class cLibrary:
     ADDON = addon()
-    icons = ADDON.getSetting('defaultIcons')
 
     def __init__(self):
         self.__sMovieFolder = self.ADDON.getSetting('Library_folder_Movies')
@@ -49,7 +46,7 @@ class cLibrary:
         sFileName = oInputParameterHandler.getValue('sFileName')
         sMediaUrl = oInputParameterHandler.getValue('sMediaUrl')
 
-        ret = dialog().VSselect(['Film', 'Série'], 'Sélectionner une catégorie')
+        ret = dialog().VSselect(['Film', 'Series'], 'Select a category')
         if ret == 0:
             sCat = '1'
         elif ret == -1:
@@ -67,7 +64,7 @@ class cLibrary:
 
         if sCat == '1':  # film
             #sTitle = cUtil().CleanName(sTitle)
-            sTitle = self.showKeyBoard(sTitle, 'Nom du fichier')
+            sTitle = self.showKeyBoard(sTitle, 'File name')
 
             try:
                 sPath = '/'.join([self.__sMovieFolder, sTitle])
@@ -77,11 +74,11 @@ class cLibrary:
 
                 self.MakeFile(sPath, sTitle, sLink)
             except:
-                dialog().VSinfo('Rajout impossible')
+                dialog().VSinfo('Addition impossible')
 
         elif sCat == '2':  # serie
             #sTitle = cUtil().CleanName(sTitle)
-            sFTitle = self.showKeyBoard(sTitle, 'Saison : Recommandé NomDeSerie/Saison01')
+            sFTitle = self.showKeyBoard(sTitle, 'Season: Recommended SeriesName/Season01')
 
             try:
 
@@ -90,11 +87,11 @@ class cLibrary:
                 if not xbmcvfs.exists(sPath):
                     xbmcvfs.mkdir(sPath)
 
-                sTitle = self.showKeyBoard(sTitle, 'Épisode : Recommandé NomDeSerie S01E01')
+                sTitle = self.showKeyBoard(sTitle, 'Episode: Recommended SeriesName S01E01')
 
                 self.MakeFile(sPath, sTitle, sLink)
             except:
-                dialog().VSinfo('Rajout impossible')
+                dialog().VSinfo('Addition impossible')
 
     def MakeFile(self, folder, name, content):
         stream = '/'.join([folder, str(name)]) + '.strm'
@@ -102,9 +99,9 @@ class cLibrary:
         result = f.write(str(content))
         f.close()
         if result:
-            dialog().VSinfo('Elément rajouté à la librairie')
+            dialog().VSinfo('Item added to library')
         else:
-            dialog().VSinfo('Rajout impossible')
+            dialog().VSinfo('Addition impossible')
 
     def getLibrary(self):
         oGui = cGui()
@@ -112,11 +109,11 @@ class cLibrary:
 
         folder = self.ADDON.getSetting('Library_folder_Movies')
         oOutputParameterHandler.addParameter('siteUrl', folder)
-        oGui.addDir(SITE_IDENTIFIER, 'openLibrary', self.ADDON.VSlang(30120), icons + '/Movies.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'openLibrary', self.ADDON.VSlang(30120), 'films.png', oOutputParameterHandler)
 
         folder = self.ADDON.getSetting('Library_folder_TVs')
         oOutputParameterHandler.addParameter('siteUrl', folder)
-        oGui.addDir(SITE_IDENTIFIER, 'openLibrary', self.ADDON.VSlang(30121), icons + '/TVShows'.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'openLibrary', self.ADDON.VSlang(30121), 'series.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -129,7 +126,7 @@ class cLibrary:
             folder = 'special://userdata/addon_data/plugin.video.matrix/Enregistrement"/>'
         oOutputParameterHandler = cOutputParameterHandler()
         oOutputParameterHandler.addParameter('siteUrl', folder)
-        oGui.addDir(SITE_IDENTIFIER, 'openLibrary', self.ADDON.VSlang(30225), icons + '/Download.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'openLibrary', self.ADDON.VSlang(30225), 'download.png', oOutputParameterHandler)
 
         oGui.setEndOfDirectory()
 
@@ -160,7 +157,7 @@ class cLibrary:
             else:
                 oOutputParameterHandler = cOutputParameterHandler()
                 oOutputParameterHandler.addParameter('siteUrl', sFile + '/' + i)
-                oGui.addDir(SITE_IDENTIFIER, 'openLibrary', sTitle, icons + '/Movies.png', oOutputParameterHandler)
+                oGui.addDir(SITE_IDENTIFIER, 'openLibrary', sTitle, 'films.png', oOutputParameterHandler)
 
         if addon_handle:
             xbmcplugin.endOfDirectory(addon_handle)
@@ -173,7 +170,7 @@ class cLibrary:
 
         xbmcvfs.delete(sFile)
 
-        runClean = self.DIALOG.VSyesno('Voulez vous mettre à jour la librairie maintenant (non conseillé)', 'Fichier supprimé')
+        runClean = self.DIALOG.VSyesno('Would you like to update the library now (not recommended)', 'File deleted')
         if not runClean:
             return
 

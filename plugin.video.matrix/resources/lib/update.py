@@ -1,37 +1,38 @@
 # -*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
 
-
-from resources.lib.comaddon import addon, siteManager
+from resources.lib.comaddon import addon, siteManager, VSlog
 from resources.lib.handler.requestHandler import cRequestHandler
 import datetime, time
 
 class cUpdate:
 
-
     def getUpdateSetting(self):
         addons = addon()
 
-        # Si pas d'ancienne date = premiere installation, on force une vieille date
+        # If no old date = first installation, we force an old date
         setting_time = addons.getSetting('setting_time')
         if not setting_time:
             setting_time = '2000-09-23 10:59:50.877000'
 
-        # delai mise a jour
-        time_now = datetime.datetime.now()
-        time_service = self.__strptime(setting_time)
-        pluginsupdateduration = int(addons.getSetting('pluginsupdateduration'))
-        time_sleep = datetime.timedelta(hours = pluginsupdateduration)
-        if time_now - time_service > time_sleep:
-        
-            sUrl = 'https://raw.githubusercontent.com/zombiB/zombi-addons/master/plugin.video.matrix/resources/sites.json'
-            oRequestHandler = cRequestHandler(sUrl)
-            properties = oRequestHandler.request(jsonDecode=True)
-            if properties == "":
-                return
-            siteManager().setDefaultProps(properties)
+        # update delay
+        if addons.getSetting('auto_update_sites') == "true":
+            try:
+                siteManager()
+            except:
+                VSlog('error applying from local')
+            time_now = datetime.datetime.now()
+            time_service = self.__strptime(setting_time)
+            time_sleep = datetime.timedelta(hours = 1)
+            if time_now - time_service > time_sleep:
+                sUrl = 'https://raw.githubusercontent.com/matrix/Dist/master/repo/plugin.video.matrix/resources/sites.json'
+                oRequestHandler = cRequestHandler(sUrl)
+                properties = oRequestHandler.request(jsonDecode=True)
+                if properties == "":
+                    return
+                siteManager().setUserProps(properties)
 
-            addons.setSetting('setting_time', str(time_now))
+                addons.setSetting('setting_time', str(time_now))
 
 
     # formattage date (bug python)

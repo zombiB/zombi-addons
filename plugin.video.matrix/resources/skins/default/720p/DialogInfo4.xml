@@ -355,12 +355,12 @@
 					<left>0</left>
 					<width>700</width>
 					<height>120</height>
-					<font>font12</font>
-					<align>justify</align>
+					<font>font10</font>
+					<align>center</align>
 					<textcolor>white</textcolor>
 					<pagecontrol>61</pagecontrol>
 					<label>$INFO[Window.Property(Plot)]</label>
-					<autoscroll>false</autoscroll>
+					<autoscroll>true</autoscroll>
 				</control>
 
 				<control type="list">

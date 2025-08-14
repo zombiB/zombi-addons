@@ -1,4 +1,4 @@
-﻿"""
+"""
     resolveurl XBMC Addon
     Copyright (C) 2014 tknorris
 
@@ -93,7 +93,7 @@ def do_captcha(html, base_url=None):
     elif recaptcha:
         return do_recaptcha(recaptcha.group(1))
     elif recaptcha_v2:
-        return do_recaptcha_v2(recaptcha_v2.group(1))
+        return do_recaptcha_v2(recaptcha_v2.group(1), base_url)
     elif xfilecaptcha:
         return do_xfilecaptcha(xfilecaptcha.group(1))
     elif ccapimg and base_url:
@@ -152,8 +152,8 @@ def do_recaptcha(captcha_url):
     return {'recaptcha_challenge_field': part.group(1), 'recaptcha_response_field': solution}
 
 
-def do_recaptcha_v2(sitekey):
-    token = recaptcha_v2.UnCaptchaReCaptcha().processCaptcha(sitekey, lang='en')
+def do_recaptcha_v2(sitekey, sRefer):
+    token = recaptcha_v2.UnCaptchaReCaptcha().processCaptcha(sitekey, lang='en', Referer=sRefer)
     if token:
         return {'g-recaptcha-response': token}
 

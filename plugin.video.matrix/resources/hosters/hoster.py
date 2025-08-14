@@ -1,7 +1,9 @@
-#-*- coding: utf-8 -*-
-# https://github.com/Kodi-vStream/venom-xbmc-addons
+# -*- coding: utf-8 -*-
+# vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 import re
 from resources.lib.util import Unquote
+
 class iHoster:
 
     def __init__(self, pluginIdentifier, displayName, color='skyblue'):
@@ -11,18 +13,19 @@ class iHoster:
         self._pluginIdentifier = pluginIdentifier
         self.__sRealHost = pluginIdentifier
         self.color = color
+        self._res = None
         self._url = None
         self._mediaFile = None
 
     def getPluginIdentifier(self):
         return self._pluginIdentifier
 
-    # peut être différent lorsque surchargé par un debrideur
     def setRealHost(self, host):
         self.__sRealHost = host
 
     def getRealHost(self):
         return self.__sRealHost
+
     def setFileName(self, fileName):
         self._fileName = fileName
 
@@ -41,16 +44,21 @@ class iHoster:
     def isDownloadable(self):
         return True
 
+    def setRes(self, res):
+        self._res = res
+
+    def getRes(self):
+        return self._res
+
     def setUrl(self, url):
         self._url = str(url)
 
     def getUrl(self):
         return self._url
 
-    def getMediaLink(self):
+    def getMediaLink(self, autoPlay = False):
         return self._getMediaLinkForGuest()
 
-    # nom du fichier, interessant pour afficher la release
     def getMediaFile(self):
         mediaFile = self._mediaFile
         if not mediaFile: 
@@ -68,8 +76,11 @@ class iHoster:
         sMediaFile = sMediaFile.replace('_', ' ')
         return sMediaFile
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         raise NotImplementedError()
 
-    def _getMediaLinkByPremiumUser(self):
+    def _getMediaLinkByPremiumUser(self, autoPlay = False):
         pass
+
+    def testPremium(self):
+        return

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.comaddon import addon, dialog, listitem
 from resources.lib.tmdb import cTMDb
 from datetime import date, datetime
@@ -10,11 +11,6 @@ import xbmcgui
 import xbmcvfs
 import time
 import json
-
-# -----------------------
-#     Cookies gestion
-# ------------------------
-
 
 class GestionCookie:
     PathCache = 'special://userdata/addon_data/plugin.video.matrix'
@@ -137,6 +133,7 @@ def WindowsBoxes(sTitle, siteUrl, metaType, year, sSite, sFav, sCat):
     # Sinon on gere par matrix via la lib TMDB
     sType = str(metaType).replace('1', 'movie').replace('2', 'tvshow').replace('3', 'collection').replace('4', 'anime')\
                          .replace('5', 'season').replace('6', 'episode')
+    sTitle = sTitle.replace("مدبلج","")
 
     try:
         tmdb_id = xbmc.getInfoLabel('ListItem.Property(TmdbId)')
@@ -148,11 +145,11 @@ def WindowsBoxes(sTitle, siteUrl, metaType, year, sSite, sFav, sCat):
             sType = 'tvshow'
         meta = cTMDb().get_meta(sType, sTitle, tmdb_id=tmdb_id, year=year, season=season, episode=episode)
     except:
-        DIALOG.VSok("Veuillez vider le cache des métadonnées Paramètre - outils - 'vider le cache de matrix'")
+        DIALOG.VSok("Please clear metadata cache Setting - tools - 'clear matrix cache'")
         pass
 
     # si rien ne marche
-    if not meta['imdb_id'] and not meta['tmdb_id'] and not meta['tvdb_id']:
+    if 'tmdb_id' not in meta and 'imdb_id'not in meta and 'tvdb_id' not in meta:
         # dialog par defaut
         # xbmc.executebuiltin('Action(Info)')
         # fenetre d'erreur
@@ -329,7 +326,7 @@ def WindowsBoxes(sTitle, siteUrl, metaType, year, sSite, sFav, sCat):
                         listitem_.setInfo('video', {'rating': str(i['vote_average'])})
 
                     listitem_.setArt({'icon': sThumbnail})
-                    # listitem_.setProperty('TmdbId', str(i['id']))
+                    listitem_.setProperty('TmdbId', str(i['id']))
                     listitems.append(listitem_)
                 self.getControl(control).addItems(listitems)
 
@@ -445,6 +442,7 @@ def WindowsBoxes(sTitle, siteUrl, metaType, year, sSite, sFav, sCat):
                 from resources.lib.util import cUtil
                 item = self.getControl(controlId).getSelectedItem()
                 sTitle = cUtil().CleanName(item.getLabel())
+                idTmdb = item.getProperty('TmdbId')
 
                 self.close()
 
@@ -453,6 +451,8 @@ def WindowsBoxes(sTitle, siteUrl, metaType, year, sSite, sFav, sCat):
                     xbmc.executebuiltin('ActivateWindow(%d)' % 10028)
 
                 sTest = '%s?site=globalSearch&searchtext=%s&sCat=1' % (sys.argv[0], sTitle)
+                if idTmdb:
+                    sTest += '&sTmdbId=%s' % idTmdb
                 xbmc.executebuiltin('Container.Update(%s)' % sTest)
                 return
             # elif controlId == 2:

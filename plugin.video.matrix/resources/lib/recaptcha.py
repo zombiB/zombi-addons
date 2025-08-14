@@ -5,12 +5,7 @@
 # and https://gitlab.com/iptvplayer-for-e2/iptvplayer-for-e2
 # *************************************************************************************************************************
 
-try:  # Python 2
-    import urllib2
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-
+import urllib.request as urllib2
 import base64
 
 try:

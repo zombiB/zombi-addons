@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.hosters.hoster import iHoster
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
@@ -22,7 +23,7 @@ class cHoster(iHoster):
         self._url = 'http://rutube.ru/play/embed/' + str(self._url)
 
     def __getIdFromUrl(self, url):
-        sPattern = "\/play\/embed\/(\w+)" #au cas ou test \/play\/embed\/(\w+)(?:\?|\\?)
+        sPattern = "\/play\/embed\/(\w+)"
         oParser = cParser()
         aResult = oParser.parse(url, sPattern)
         if aResult[0]:
@@ -31,7 +32,6 @@ class cHoster(iHoster):
         return ''
 
     def __getRestFromUrl(self, url):
-        #sPattern = "\?([\w]=[\w-]+)"
         sPattern = "\?([^ ]+)"
         oParser = cParser()
         aResult = oParser.parse(url, sPattern)
@@ -40,7 +40,7 @@ class cHoster(iHoster):
 
         return ''
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         stream_url = False
 

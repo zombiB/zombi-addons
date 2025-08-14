@@ -1,11 +1,10 @@
 #-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
-from resources.lib.comaddon import VSlog
-
+from resources.lib.comaddon import dialog, VSlog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0'
 
@@ -23,7 +22,7 @@ class cHoster(iHoster):
             return aResult[1][0]
         return ''
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         oParser = cParser()
 
@@ -37,6 +36,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(sUrl)
         oRequest.addHeaderEntry('User-Agent', UA)
         oRequest.addHeaderEntry('Referer','https://streamax.club/public/dist/index.html?id=' + urlId)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         sPattern = 'RESOLUTION=(\d+x\d+)(.+?.m3u8)'

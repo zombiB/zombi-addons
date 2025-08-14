@@ -1,28 +1,21 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-
 import xbmcplugin
 import xbmc
-
-from resources.lib.comaddon import addon, dialog, isKrypton, VSlog, addonManager
+import re
+import xbmcgui
+import json
+import xbmcaddon
+from resources.lib.comaddon import addon, dialog, VSlog, KodiVersion, addonManager
 from resources.lib.db import cDb
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
+from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.pluginHandler import cPluginHandler
-
 from resources.lib.upnext import UpNext
-
-
-from resources.lib.util import cUtil, Unquote, urlHostName
-
-
-from os.path import splitext
-
-# pour les sous titres
-# https://github.com/amet/service.subtitles.demo/blob/master/service.subtitles.demo/service.py
-# player API
-# http://mirrors.xbmc.org/docs/python-docs/stable/xbmc.html#Player
+from resources.lib.util import cUtil, Unquote
+from resources.lib.trakt import cTrakt
 
 class cPlayer(xbmc.Player):
 
@@ -45,6 +38,7 @@ class cPlayer(xbmc.Player):
         self.sSaison = oInputParameterHandler.getValue('sSeason')
         self.sEpisode = oInputParameterHandler.getValue('sEpisode')
         self.tvShowTitle = oInputParameterHandler.getValue('tvShowTitle')
+
         self.sSite = oInputParameterHandler.getValue('siteUrl')
         self.sSource = oInputParameterHandler.getValue('sourceName')
         self.sFav = oInputParameterHandler.getValue('sourceFav')
@@ -53,6 +47,8 @@ class cPlayer(xbmc.Player):
         self.movieUrl = oInputParameterHandler.getValue('movieUrl')
         self.movieFunc = oInputParameterHandler.getValue('movieFunc')
         self.sTmdbId = oInputParameterHandler.getValue('sTmdbId')
+        self.sImdbId = oInputParameterHandler.getValue('sImdbId')
+        self.sYear = oInputParameterHandler.getValue('sYear') if oInputParameterHandler.exist('sYear') else xbmc.getInfoLabel('ListItem.Year')
 
         self.playBackEventReceived = False
         self.playBackStoppedEventReceived = False
@@ -83,12 +79,26 @@ class cPlayer(xbmc.Player):
             self.Subtitles_file.append(files)
 
     def run(self, oGuiElement, sUrl):
+        if self.ADDON.getSetting('use_trakt_addon') == 'true':
+            if self.sImdbId:
+                ids = json.dumps({u'imdb': self.sImdbId})
+                xbmcgui.Window(10000).setProperty('script.trakt.ids', ids)
+            elif not self.sTmdbId:
+                if self.sTitle or self.tvShowTitle:
+                    if self.sCat:
+                        ctrakt = cTrakt()
+                        sType = ctrakt.convertCatToType(self.sCat)
+                        if sType != -1:
+                            self.sTmdbId = int(ctrakt.getTmdbID(self.sTitle, sType, oGuiElement.getItemValue('year')))
+            if self.sTmdbId:
+                ids = json.dumps({u'tmdb': self.sTmdbId})
+                xbmcgui.Window(10000).setProperty('script.trakt.ids', ids)
 
-        # Lancement d'une vidéo sans avoir arrêté la précédente
+        # Starting a video without stopping the previous one
         if self.isPlaying():
             sEpisode = str(oGuiElement.getEpisode())
             if sEpisode:
-                # la vidéo précédente doit être marquée comme VUE
+                # the previous video should be marked as VIEWED
                 numEpisode = int(sEpisode)
                 prevEpisode = numEpisode - 1
                 sPrevEpisode = '%02d' % prevEpisode
@@ -101,70 +111,133 @@ class cPlayer(xbmc.Player):
         sPluginHandle = cPluginHandler().getPluginHandle()
 
         oGui = cGui()
-        item = oGui._createListItem(oGuiElement)
-        item.setPath(oGuiElement.getMediaUrl())
+        listitem = oGui._createListItem(oGuiElement)
+        listitem.setPath(oGuiElement.getMediaUrl())
 
-        # Sous titres
+        # Subtitles
         if self.Subtitles_file:
             try:
-                item.setSubtitles(self.Subtitles_file)
+                listitem.setSubtitles(self.Subtitles_file)
                 VSlog('Load SubTitle :' + str(self.Subtitles_file))
                 self.SubtitleActive = True
             except:
                 VSlog("Can't load subtitle:" + str(self.Subtitles_file))
 
         player_conf = self.ADDON.getSetting('playerPlay')
-        # Si lien dash, methode prioritaire
-        mpd = splitext(urlHostName(sUrl))[-1] in [".mpd", ".m3u8"]
-        mpd |= '&ct=6&' in sUrl     # mpd venant de ok.ru, n'a pas d'extension
-        if mpd:
-            if isKrypton() == True:
-                addonManager().enableAddon('inputstream.adaptive')
-                item.setProperty('inputstream', 'inputstream.adaptive')
-                if '.m3u8' in sUrl:
-                    item.setProperty('inputstream.adaptive.manifest_type', 'hls')
+
+        kodiver = KodiVersion()
+        listitem = xbmcgui.ListItem(path=sUrl.encode('utf-8')) 
+        if '.m3u8' in sUrl or '&ct=6&' in sUrl:
+            if kodiver < 21:
+                listitem.setProperty('inputstream.adaptive.manifest_type', 'hls')
+            mime_type = 'application/vnd.apple.mpegurl'
+        elif '.mpd' in sUrl:
+            if kodiver < 21:
+                listitem.setProperty('inputstream.adaptive.manifest_type', 'mpd')
+            mime_type = 'application/dash+xml'
+        elif '.mkv' in sUrl:
+            if kodiver < 21:
+                listitem.setProperty('inputstream.adaptive.manifest_type', 'mkv')
+            mime_type = 'video/x-matroska'
+        elif '.mp4' in sUrl:
+            if kodiver < 21: 
+                listitem.setProperty('inputstream.adaptive.manifest_type', 'mp4') 
+            mime_type = 'video/mp4'
+        elif '.ism' in sUrl:
+            if kodiver < 21:
+                listitem.setProperty('inputstream.adaptive.manifest_type', 'ism')
+            mime_type = 'application/vnd.ms-sstr+xml'
+        else:
+            mime_type = None
+
+        media_type = 'movie' if self.sCat == '1' else 'tv'
+        if media_type == 'movie':
+            self.sTitle = self.sTitle
+        else:
+            self.sTitle = self.tvShowTitle
+        try:
+            self.fetch_imdb_id_from_title(media_type)
+            info_tag = listitem.getVideoInfoTag()
+            if self.sTitle or self.tvShowTitle:
+                info_tag.setTitle(self.sTitle or self.tvShowTitle)
+            info_tag.setYear(int(self.sYear) if self.sYear else 0)
+            info_tag.setMediaType(media_type)
+            if self.sImdbId:
+                info_tag.setIMDBNumber(self.sImdbId)
+            if media_type == 'tv':
+                info_tag.setSeason(int(self.sSaison) if self.sSaison else 1)
+                info_tag.setEpisode(int(self.sEpisode) if self.sEpisode else 1)
+        except Exception as e:
+            VSlog(f"Failed to set InfoTagVideo: {e}")
+
+        if mime_type: 
+            if any(ext in sUrl for ext in ['.m3u8', '&ct=6&', '.mpd']):
+                listitem.setProperty('inputstream', 'inputstream.adaptive')
+            
+            addonManager().enableAddon('inputstream.adaptive')
+            listitem.setMimeType(mime_type) 
+            listitem.setContentLookup(False) 
+
+            if '|' in sUrl:
+                if '&license=' in sUrl:
+                    sUrl, license_key = sUrl.split('&license=')
+                    strhdr = sUrl.split('|')[1]
+                    listitem.setProperty('inputstream.adaptive.drm_legacy', license_key)
                 else:
-                    item.setProperty('inputstream.adaptive.manifest_type', 'mpd')
-                xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem=item)
-                VSlog('Player use inputstream addon')
-            else:
-                dialog().VSerror('Nécessite kodi 17 minimum')
-                return
-        # 1 er mode de lecture
+                    strhdr = sUrl.split('|')[1]
+                    listitem.setProperty('inputstream.adaptive.license_key', '|%s' % strhdr)
+
+                listitem.setProperty('inputstream.adaptive.stream_headers', strhdr.encode('utf-8'))
+
+                if kodiver > 21.8:
+                    listitem.setProperty('inputstream.adaptive.common_headers', strhdr)
+                elif kodiver > 19.8:
+                    listitem.setProperty('inputstream.adaptive.manifest_headers', strhdr)
+                    # listitem.setProperty('inputstream.adaptive.stream_params', strhdr)
+
+            listitem.setPath(sUrl.encode('utf-8'))
+
+            if self.Subtitles_file:
+                try:
+                    listitem.setSubtitles(self.Subtitles_file)
+                    self.SubtitleActive = True
+                except:
+                    VSlog("Can't load subtitle:" + str(self.Subtitles_file))
+
+            xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem)
+
         elif player_conf == '0':
-            self.play(sUrl, item)
+            self.play(sUrl, listitem)
             VSlog('Player use Play() method')
-        # 2 eme mode non utilise
+
         elif player_conf == 'neverused':
             xbmc.executebuiltin('PlayMedia(' + sUrl + ')')
             VSlog('Player use PlayMedia() method')
-        # 3 eme mode (defaut)
+
         else:
-            xbmcplugin.setResolvedUrl(sPluginHandle, True, item)
+            xbmcplugin.setResolvedUrl(sPluginHandle, True, listitem)
             VSlog('Player use setResolvedUrl() method')
 
-        # Attend que le lecteur démarre, avec un max de 20s
         for _ in range(20):
             if self.playBackEventReceived:
                 break
             xbmc.sleep(1000)
 
-        # active/désactive les sous-titres suivant l'option choisie dans la config
         if self.getAvailableSubtitleStreams():
             if self.ADDON.getSetting('srt-view') == 'true':
                 self.showSubtitles(True)
             else:
                 self.showSubtitles(False)
-                dialog().VSinfo('الترجمة متوفرة', 'ترجمات', 4)
+                dialog().VSinfo('الترجمة متوفرة', 'الترجمة', 4)
 
         waitingNext = 0
-        
+
         while self.isPlaying() and not self.forcestop:
             try:
                 self.currentTime = self.getTime()
 
                 waitingNext += 1
-                if waitingNext == 10:  # attendre un peu avant de chercher le prochain épisode d'une série
+                if waitingNext == 10:
                     self.totalTime = self.getTotalTime()
                     self.infotag = self.getVideoInfoTag()
                     UpNext().nextEpisode(oGuiElement)
@@ -177,15 +250,13 @@ class cPlayer(xbmc.Player):
         if not self.playBackStoppedEventReceived:
             self.onPlayBackStopped()
 
-        # Uniquement avec la lecture avec play()
         if player_conf == '0':
-            r = xbmcplugin.addDirectoryItem(handle=sPluginHandle, url=sUrl, listitem=item, isFolder=False)
+            r = xbmcplugin.addDirectoryItem(handle=sPluginHandle, url=sUrl, listitem=listitem, isFolder=False)
             return r
 
         VSlog('Closing player')
         return True
 
-    # fonction light servant par exemple pour visualiser les DL ou les chaines de TV
     def startPlayer(self, window=False):
         oPlayList = self.__getPlayList()
         self.play(oPlayList, windowed=window)
@@ -193,44 +264,51 @@ class cPlayer(xbmc.Player):
     def onPlayBackEnded(self):
         self.onPlayBackStopped()
 
-    # Attention pas de stop, si on lance une seconde video sans fermer la premiere
+    # Attention, no stop, if you start a second video without closing the first
     def onPlayBackStopped(self):
-        VSlog('player stopped')     
-        # reçu deux fois, on n'en prend pas compte
+        VSlog('player stopped')
+
+        # received twice, we don't take it into account
         if self.playBackStoppedEventReceived:
             return
         self.playBackStoppedEventReceived = True
 
         self._setWatched(self.sEpisode)
 
-    # MARQUER VU
-    # utilise les informations de la vidéo qui vient d'etre lue
-    # qui n'est pas celle qui a été lancée si plusieurs vidéos se sont enchainées
-    # sEpisode = l'épisode précédent en cas d'enchainement d'épisode
+    # MARK AS VIEWED
+    # uses the information from the video that has just been played
+    # which is not the one that was launched if several videos have been chained
+    # sEpisode = the previous episode in case of a chain of episodes
     def _setWatched(self, sEpisode=''):
-
         try:
             with cDb() as db:
                 if self.isPlaying():
                     self.totalTime = self.getTotalTime()
                     self.currentTime = self.getTime()
                     self.infotag = self.getVideoInfoTag()
-                
+
                 if self.totalTime > 0:
                     pourcent = float('%.2f' % (self.currentTime / self.totalTime))
-        
+
                     saisonViewing = False
-                    
-                    #calcul le temp de lecture
-                    # Dans le cas ou ont a vu intégralement le contenu, percent = 0.0
-                    # Mais on a tout de meme terminé donc le temps actuel est egal au temps total.
-                    if (pourcent > 0.90) or (pourcent == 0.0 and self.currentTime == self.totalTime):
-        
-                        # Marquer VU dans la BDD matrix
+
+                    # calculates the reading time
+                    # In the case where we have seen the entire content, percent = 0.0
+                    # But we have still finished so the current time is equal to the total time.
+
+                    VALUE_WATCHTIME = 0.90
+                    TRAKT_ID = "script.trakt"
+
+                    if self.ADDON.getSetting('use_trakt_addon') == 'true':
+                        traktAddon = xbmcaddon.Addon(TRAKT_ID)
+                        VALUE_WATCHTIME = int(traktAddon.getSetting("rate_min_view_time")) / 100
+
+                    if (pourcent > VALUE_WATCHTIME) or (pourcent == 0.0 and self.currentTime == self.totalTime):
+
+                        # Mark VU in the matrix BDD
                         sTitleWatched = self.infotag.getOriginalTitle()
                         if sTitleWatched:
-                            if sEpisode :   # changement d'épisode suite à un enchainement automatique, fin de l'épisode précédent
-								
+                            if sEpisode :   # change of episode following an automatic sequence, end of the previous episode
                                 sTitle = '%s S%sE%s' % (self.tvShowTitle, self.sSaison, sEpisode)
                             else:
                                 sTitle = self.sTitle
@@ -254,20 +332,19 @@ class cPlayer(xbmc.Player):
                             meta['seasonFunc'] = self.nextSaisonFunc
                             db.insert_watched(meta)
 
-
-                            # RAZ du point de reprise
+                            # Reset the recovery point
                             db.del_resume(meta)
 
-
-                            # Sortie des LECTURES EN COURS pour les films, pour les séries la suppression est manuelle
+                            # Output of CURRENT READINGS for movies, for series the deletion is manual
                             if self.sCat == '1':
                                 db.del_viewing(meta)
-                            elif self.sCat == '8':  # A la fin de la lecture d'un episode, on met la saison en "Lecture en cours"
+                            elif self.sCat == '8':  # At the end of reading an episode, we put the season in "Currently reading"
                                 saisonViewing = True
-                        # Marquer VU dans les comptes perso
+
+                        # Mark VU in personal accounts
                         self.__setWatchlist(sEpisode)
 
-                    # Sauvegarde du point de lecture pour une reprise
+                    # Save reading point for replay
                     elif self.currentTime > 180.0:
                         sTitleWatched = self.infotag.getOriginalTitle()
                         if sTitleWatched:
@@ -277,19 +354,23 @@ class cPlayer(xbmc.Player):
                             meta['site'] = self.sSite
                             meta['point'] = self.currentTime
                             meta['total'] = self.totalTime
-                            matchedrow = db.insert_resume(meta)
-                            # Lecture en cours
+                            db.insert_resume(meta)
+
+                            # recovery point in external accounts
+                            self.__setProgress(sEpisode, self.currentTime, self.totalTime)
+
+                            # Now Playing
                             meta['cat'] = self.sCat
                             meta['site'] = self.sSource
                             meta['sTmdbId'] = self.sTmdbId
-                            
-                            # Lecture d'un épisode, on sauvegarde la saison
+
+                            # Reading an episode, we save the season
                             if self.sCat == '8':
                                 saisonViewing = True
-                            else:   # Lecture d'un film
-                                
-                                # les 'divers' de moins de 45 minutes peuvent être de type 'adultes'
-                                # pas de sauvegarde en attendant mieux
+                            else:  # Reading a movie
+
+                                # 'miscellaneous' under 45 minutes can be 'adult' type
+                                # no backup until better
                                 if self.sCat == '5' and self.totalTime < 2700:
                                     pass
                                 else:
@@ -299,10 +380,12 @@ class cPlayer(xbmc.Player):
                                     else:
                                         meta['siteurl'] = self.sSite
                                         meta['fav'] = self.sFav
+
                                     db.insert_viewing(meta)
-                    # Lecture d'un épisode, on met la saison "En cours de lecture"
+
+                    # Reading an episode, we put the season "Currently reading"
                     if saisonViewing:
-                        meta['cat'] = '4'  # saison
+                        meta['cat'] = '4'  # Season
                         meta['sTmdbId'] = self.sTmdbId
                         tvShowTitleWatched = cUtil().titleWatched(self.tvShowTitle).replace(' ', '')
                         if self.sSaison:
@@ -320,11 +403,10 @@ class cPlayer(xbmc.Player):
         except Exception as err:
             VSlog("ERROR Player_setWatched : {0}".format(err))
 
-    # def onPlayBackStarted(self):
     def onAVStarted(self):
         VSlog('player started')
 
-        # Si on recoit une nouvelle fois l'event, c'est que ca buggue, on stope tout
+        # If we receive the event again, it's because there's a bug, we stop everything
         if self.playBackEventReceived:
             self.forcestop = True
             return
@@ -332,8 +414,8 @@ class cPlayer(xbmc.Player):
         self.playBackEventReceived = True
 
         with cDb() as db:
-            # Reprendre la lecture
-            if self.isPlayingVideo() and self.getTime() < 180:  # si supérieur à 3 minutes, la gestion de la reprise est assuré par KODI
+            # Resume reading
+            if self.isPlayingVideo() and self.getTime() < 180:  # if greater than 3 minutes, recovery management is provided by KODI
                 self.infotag = self.getVideoInfoTag()
                 sTitleWatched = self.infotag.getOriginalTitle()
                 if sTitleWatched:
@@ -344,23 +426,41 @@ class cPlayer(xbmc.Player):
                         ms = resumePoint-h*3600
                         m = ms//60
                         s = ms-m*60
-                        ret = dialog().VSselect(['Resume from %02d:%02d:%02d' %(h, m, s), 'Play from the beginning'], 'Resume')
+                        ret = dialog().VSselect(['استئناف من %02d:%02d:%02d' %(h, m, s), 'العرض من البداية'], 'استئناف العرض')
                         if ret == 0:
                             self.seekTime(resumePoint)
                         elif ret == 1:
                             self.seekTime(0.0)
-                            # RAZ du point de reprise
+                            # Reset the recovery point
                             db.del_resume(meta)
 
-
     def __setWatchlist(self, sEpisode=''):
-        # Suivi de lecture dans Trakt si compte
+        # Checking whether the Trakt addon is used or not, if yes, we exit the function.
+        if self.ADDON.getSetting('use_trakt_addon') == 'true':
+            return
+        
+        # Reading tracking in Trakt if account
         if self.ADDON.getSetting('bstoken') == '':
             return
         plugins = __import__('resources.lib.trakt', fromlist=['trakt']).cTrakt()
         function = getattr(plugins, 'getAction')
         function(Action="SetWatched", sEpisode=sEpisode)
 
+    def __setProgress(self, sEpisode='', currentTime=0, totalTime=0):
+        if self.ADDON.getSetting('use_trakt_addon') == 'true':
+            return
+
+        if self.ADDON.getSetting('bstoken') == '':
+            return
+        
+        if totalTime == 0:
+            return
+        
+        progress = currentTime/ totalTime
+        
+        plugins = __import__('resources.lib.trakt', fromlist=['trakt']).cTrakt()
+        function = getattr(plugins, 'getAction')
+        function(Action="SetProgress", sEpisode=sEpisode, progress=progress)
 
     def __getPlayerType(self):
         sPlayerType = self.ADDON.getSetting('playerType')
@@ -379,3 +479,35 @@ class cPlayer(xbmc.Player):
                 return xbmc.PLAYER_CORE_DVDPLAYER
         except:
             return False
+
+    def fetch_imdb_id_from_title(self, media_type):
+        oOutputParameterHandler = cOutputParameterHandler()
+        if not self.sImdbId or not self.sTmdbId:
+            try:
+                if self.ADDON.getSetting('use_omdb') == 'true':
+                    from resources.lib.omdb import cOMDb
+                    tmdb = cOMDb()
+                else:
+                    from resources.lib.tmdb import cTMDb
+                    tmdb = cTMDb()
+
+                meta = tmdb.search_movie_name(self.sTitle, self.sYear) if media_type == 'movie' else tmdb.search_tvshow_name(self.sTitle, self.sYear)
+
+                imdb_id = meta.get('external_ids', {}).get('imdb_id') or meta.get('imdb_id')
+                try:
+                    tmdb_id = meta.get('id')
+                except:
+                    VSlog('Not supported')
+
+                if imdb_id and not self.sImdbId:
+                    self.sImdbId = imdb_id
+                    oOutputParameterHandler.addParameter('sImdbId', imdb_id)
+                    VSlog(f"IMDb ID fetched via TMDb/OMDb wrapper: {self.sImdbId}")
+                    
+                if tmdb_id and not self.sTmdbId:
+                    self.sTmdbId = tmdb_id
+                    oOutputParameterHandler.addParameter('sTmdbId', tmdb_id)
+                    VSlog(f"TMDb ID fetched via TMDb/OMDb wrapper: {self.sTmdbId}")
+
+            except Exception as e:
+                VSlog(f"Metadata fallback failed: {e}")

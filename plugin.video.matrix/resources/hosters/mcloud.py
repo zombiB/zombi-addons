@@ -1,13 +1,13 @@
 #-*- coding: utf-8 -*-
-# Yonn1981 https://github.com/Yonn1981/Repo
 
-import re
 import requests
 import base64, json
+from urllib.parse import unquote, urlparse, quote
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
 from resources.lib.parser import cParser
+from resources.sites.cinezone import rc4, reverse, subst, subst_, mapp
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0'
 
@@ -17,7 +17,7 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'mcloud', 'mCloud/VizCLoud')
 
     def setUrl(self, url):
-        self._url = str(url).replace('+', '%2B').split('#')[0]
+        self._url = str(url).replace('+', '%2B').split('$')[0]
         self._url0 = str(url)
 
     def _getMediaLinkForGuest(self, autoPlay = False):
@@ -47,108 +47,96 @@ class cHoster(iHoster):
         else:
             SubTitle = ''
 
-        api_call = decodeVidstream(self._url)
+
+        url = urlparse(self._url)
+        embed_id = self._url.rsplit('/e/')[1].split('?', 1)[0]
+        source = url.hostname
+
+        media_url = f"https://{source}/mediainfo/{embed_enc(embed_id, source)}?{url.query}&ads=0"
+        req = requests.get(media_url).json()
+        playlist = json.loads(embed_dec(req['result'], source))
+        sources = playlist.get('sources')
+        sources = [value.get("file") for value in sources]
+        if sources:
+            api_call = sources[0]
+                    
         api_call = api_call.replace('\\','')
 
         if api_call:
             if ('http' in SubTitle):
-                return True, api_call, SubTitle
+                return True, quote(api_call, ':/?=&'), SubTitle
             else:
-                return True, api_call
+                return True, quote(api_call, ':/?=&')
 
         return False, False
 
-def decodeVidstream(query):
-	from requests.compat import urlparse
-	link = ''
-	ref = query
-	hd ={'user-agent':  UA,'Referer': ref}
-	domain = urlparse(query).netloc
-	domain = 'vidplay.online' if 'vidplay' in domain else domain
-	futokenurl = 'https://'+domain+'/futoken'
-	futoken = requests.get(futokenurl,  headers={"Referer": query},verify=False).text
 
-	k=re.findall("k='([^']+)'",futoken,re.DOTALL)[0]
-	if 'vidplay' in query or '55a0716b8c' in query or 'e69975b881' in query or 'c8365730d4' in query:
-		query = query.split('/e/')[1].split('?')
-	else:
-		query = query.split('e/')[1].split('?')
+def embed_enc(inp, source):
+    source_keys = get_keys()
+    try:
+        keys = source_keys[source]
+    except KeyError:
+        keys = source_keys["vid2faf.site"]
     
-	v = encode_id(query[0])
-	a = [k];
-	for i in range(len(v)):
-		w = ord(k[i % len(k)])
-		z = ord(v[i])
-		x=int(w)+int(z)
-		a.append(str(x))#
+    a = mapp(inp, keys[0], keys[1])
+    a = reverse(a)
+    a = rc4(keys[2], a)
+    a = subst(a)
+    a = reverse(a)
+    a = mapp(a, keys[3], keys[4])
+    a = rc4(keys[5], a)
+    a = subst(a)
+    a = rc4(keys[6], a)
+    a = subst(a)
+    a = reverse(a)
+    a = mapp(a, keys[7], keys[8])
+    a = subst(a)
+    
+    return a
 
-	urlk = 'https://'+domain+'/mediainfo/'+",".join(a)+'?'+query[1]
+def embed_dec(inp, source):
+    source_keys = get_keys()
+    try:
+        keys = source_keys[source]
+    except KeyError:
+        keys = source_keys["vid2faf.site"]
+    
+    a = subst_(inp)
+    a = mapp(a, keys[8], keys[7])
+    a = reverse(a)
+    a = subst_(a)
+    a = rc4(keys[6], a)
+    a = subst_(a)
+    a = rc4(keys[5], a)
+    a = mapp(a, keys[4], keys[3])
+    a = reverse(a)
+    a = subst_(a)
+    a = rc4(keys[2], a)
+    a = reverse(a)
+    a = mapp(a, keys[1], keys[0])
+    
+    return a
 
-	ff=requests.get(urlk, headers=hd,verify=False).text
-	if 'status":200' in ff:
-		srcs = (json.loads(ff)).get('result',None).get('sources',None)
-		for src in srcs:
-			fil = src.get('file',None)
-			if 'm3u8' in fil:
-				link = fil+'|User-Agent='+UA+'&Referer='+ref
-				break
-	
-	return link
 
-def encode_id(id_):
-	def endEN(t, n) :
-		return t + n;
-	
-	def rLMxL(t, n):
-		return t < n;
-	
-	def VHtgA (t, n) :
-		return t % n;
-	
-	def DxlFU(t, n) :
-		return rLMxL(t, n);
-	
-	def dec2(t, n) :
-		o=[]
-		s=[]
-		u=0
-		h=''
-		for e in range(256):
-			s.append(e)
-	
-		for e in range(256):
-			u = endEN(u + s[e],ord(t[e % len(t)])) % 256
-			o = s[e];
-			s[e] = s[u];
-			s[u] = o;
-		e=0
-		u=0
-		c=0
-		for c in range(len(n)):
-			e = (e + 1) % 256
-			o = s[e]
-			u = VHtgA(u + s[e], 256)
-			s[e] = s[u];
-			s[u] = o;
-			try:
-				h += chr((n[c]) ^ s[(s[e] + s[u]) % 256]);
-			except:
-				h += chr(ord(n[c]) ^ s[(s[e] + s[u]) % 256]);
+def general_enc(key, inp):
+    inp = quote(inp)
+    e = rc4(key, inp)
+    out = base64.b64encode(e.encode("latin-1")).decode()
+    out = out.replace('/', '_').replace('+', '-')
+    return out
 
-		return h
-		
-	# Credits to @Ciarands for providing key - Thanks
-	klucze = requests.get('https://github.com/Ciarands/vidsrc-keys/blob/main/keys.json')
-					   
-	matches = re.search(r"\"rawLines\":\s*\[\"(.+)\"\]", klucze.text)
-	k1, k2 = json.loads(matches.group(1).replace("\\", ""))
+def general_dec(key, inp):
+    inp = inp.replace('_', '/').replace('-', '+')
+    i = str(base64.b64decode(inp),"latin-1")
+    e = rc4(key,i)
+    e = unquote(e)
+    return e
 
-	cbn = dec2(k1,id_)
-	cbn = cbn.encode('Latin_1')
-	cbn = dec2(k2,cbn)
-	cbn = cbn.encode('Latin_1')
-
-	vrfx = base64.b64encode(cbn)#
-	v = vrfx.decode('utf-8')
-	v = v.replace('/','_')
-	return v	
+def get_keys():
+    oRequestHandler = cRequestHandler("https://raw.githubusercontent.com/giammirove/videogatherer/main/dist/keys.json")
+    res = oRequestHandler.request(jsonDecode=True)
+    if res is not None:
+        keys = res["keys"]
+    else:
+        raise Exception("Unable to fetch keys")
+    return keys

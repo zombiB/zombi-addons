@@ -1,12 +1,13 @@
 ﻿#-*- coding: utf-8 -*- 
-import re
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.parser import cParser
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import dialog, VSlog
-UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
+from resources.lib import random_ua
+
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -22,12 +23,17 @@ class cHoster(iHoster):
     def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         sReferer = ""
-        url = self._url.split('|Referer=')[0]
-        sReferer = self._url.split('|Referer=')[1]
+        url = self._url
+        if '|Referer=' in self._url:
+            url = self._url.split('|Referer=')[0]
+            sReferer = self._url.split('|Referer=')[1]
+        sHost = self._url.rsplit("/")[2]
         
         oRequest = cRequestHandler(url)
         oRequest.addHeaderEntry('user-agent',UA)
-        oRequest.addHeaderEntry('Referer',sReferer)
+        oRequest.addHeaderEntry('Referer',sReferer.encode('utf-8'))
+        oRequest.addHeaderEntry('Host',sHost.encode('utf-8'))
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
@@ -56,7 +62,7 @@ class cHoster(iHoster):
                 api_call = dialog().VSselectqual(qua,url)
 
         if api_call:
-            return True, api_call.replace(' ','%20') 
+            return True, api_call.replace(' ','%20') + '|User-Agent=' + UA + '&Referer=https://' + sHost + '/'
 
         sPattern = '<source src="(.+?)" type='
         aResult = oParser.parse(sHtmlContent, sPattern)

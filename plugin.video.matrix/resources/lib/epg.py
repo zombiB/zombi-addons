@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# Venom.
+
 from resources.lib.comaddon import dialog, isMatrix
 from datetime import datetime
 
@@ -21,7 +21,7 @@ class cePg:
         if text:
             self.TextBoxes(sTitle, text)
         else:
-            dialog().VSinfo('Impossible de trouver le guide tv')
+            dialog().VSinfo('Unable to find tv guide')
 
 
     def getEpg(self, sTitle, sTime, noTextBox=False):

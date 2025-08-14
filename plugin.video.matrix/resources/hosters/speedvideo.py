@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
 
-try:  # Python 2
-    import urllib2
-
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-
+import urllib.request as urllib2
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'
-
 
 class cHoster(iHoster):
 
@@ -33,7 +27,7 @@ class cHoster(iHoster):
         else:
             VSlog('ID error')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 

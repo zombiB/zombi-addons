@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.comaddon import addon, VSlog, siteManager
 from resources.lib.db import cDb
 
 import sys
 import xbmcvfs
-
 
 class cRechercheHandler:
     Count = 0
@@ -85,7 +85,7 @@ class cRechercheHandler:
         elif sCat == '5':
             sSearch = 'URL_SEARCH_MISC'
         elif sCat == '6':
-            sSearch = 'URL_SEARCH'
+            sSearch = 'URL_SEARCH_REPLAY'
         elif sCat == '7':
             sSearch = 'URL_SEARCH_MOVIES'
         elif sCat == '8':
@@ -114,7 +114,6 @@ class cRechercheHandler:
         if not sCat:
             return False
 
-        # historique
         addons = addon()
         try:
             if (addons.getSetting("history-view") == 'true'):
@@ -131,13 +130,14 @@ class cRechercheHandler:
 
         sitesManager = siteManager()
 
-        use_flaresolverr = addon().getSetting("use_flaresolverr") == 'true'   # Utiliser FlareSolverrr
+        use_cloudbypass = addon().getSetting("use_cloudbypass") == 'true' 
+
         aPlugins = []
         aFileNames = self.__getFileNamesFromFolder(sFolder)
         for sFileName in aFileNames:
             if sitesManager.isEnable(sFileName):
                 if sitesManager.isActive(sFileName):
-                    if use_flaresolverr or not sitesManager.isCloudFlare(sFileName):
+                    if use_cloudbypass or not sitesManager.isCloudFlare(sFileName):
                         aPlugin = self.importPlugin(sFileName, sCat)
                         if aPlugin:
                             aPlugins.append(aPlugin)

@@ -1,20 +1,20 @@
 ﻿# -*- coding: utf-8 -*-
-# zombi https://github.com/zombiB/zombi-addons/
 
-import re
-
+import urllib.parse
+import base64, json
+import re, requests, time
+import datetime
 from resources.lib.gui.hoster import cHosterGui
+from resources.lib.gui.guiElement import cGuiElement
 from resources.lib.gui.gui import cGui
+from resources.lib.parser import cParser
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.handler.outputParameterHandler import cOutputParameterHandler
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.comaddon import VSlog, siteManager, addon
-from resources.lib.parser import cParser
-from resources.lib.packer import cPacker
-from resources.lib.util import Quote
+from resources.lib.comaddon import VSlog, siteManager
+from resources.lib.util import urlHostName
 
-ADDON = addon()
-icons = ADDON.getSetting('defaultIcons')
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0"
 
 SITE_IDENTIFIER = 'koralive'
 SITE_NAME = 'Koralive'
@@ -22,725 +22,458 @@ SITE_DESC = 'arabic vod'
  
 URL_MAIN = siteManager().getUrlMain(SITE_IDENTIFIER)
 
-SPORT_LIVE = (URL_MAIN , 'showMovies')
+sHost = base64.b64decode('L21vYy5vaWVzYWJlcmlmLmJkdHItdGx1YWZlZC00MjAyLWViaXZlbGV0Ly86c3B0dGg=')
+dHost = sHost.decode("utf-8")
 
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0'
- 
+URL_MAIN = dHost[::-1]
+
+SPORT_LIVE = (f'{URL_MAIN}.json', 'showMatches')
+
 def load():
     oGui = cGui()
 
     oOutputParameterHandler = cOutputParameterHandler()    
     oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
-    oGui.addDir(SITE_IDENTIFIER, 'showMovies', 'بث مباشر', icons + '/Sport.png', oOutputParameterHandler)
-   
+    oGui.addDir(SITE_IDENTIFIER, 'showChannels', 'بث مباشر', 'foot.png', oOutputParameterHandler)
+
+    oOutputParameterHandler.addParameter('siteUrl', '')
+    oGui.addDir(SITE_IDENTIFIER, 'showMatches', 'بث المباريات', 'foot.png', oOutputParameterHandler)
+
     oGui.setEndOfDirectory()
 	
-    
-def showMovies():
+def showChannels():
     oGui = cGui()
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
- 
+
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
+    oRequestHandler.addHeaderEntry('content-type', "application/json")
+    oRequestHandler.addHeaderEntry('User-Agent', "Firebase/5/19.3.1/30/Android")
+    oRequestHandler.enableCache(False)
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+    channels = sHtmlContent["channel"]
+    oOutputParameterHandler = cOutputParameterHandler() 
+    for key, value in channels.items():
+        sTitle = value["channelName"]
+        sThumb = value["tvgLogo"]
+        siteUrl = value["url"]
+        sDesc = ''
+        
+        oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+        oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+        oGui.addMisc(SITE_IDENTIFIER, 'showLinks', sTitle, 'foot.png', sThumb, sDesc, oOutputParameterHandler)
+         
+    oGui.setEndOfDirectory()
+
+def showMatches():
+    oGui = cGui()
+
+    oOutputParameterHandler = cOutputParameterHandler()    
+    oOutputParameterHandler.addParameter('siteUrl', SPORT_LIVE[0])
+    oGui.addDir(SITE_IDENTIFIER, 'showChannels', 'قنوات مباشرة', 'foot.png', oOutputParameterHandler)
+    oGui.addDir(SITE_IDENTIFIER, 'showMatches2', 'مباريات مباشرة اخرى', 'foot.png', oOutputParameterHandler)
+
+    sHost = base64.b64decode('L3p5eC5uZGNtdWltZXJwaXBhLmlwYS8vOnNwdHRo')
+    dHost = sHost.decode("utf-8")
+    sUrl = dHost[::-1]
+    import urllib.parse
+    parsed_url = urllib.parse.urlparse(sUrl)
+    sHost = parsed_url.netloc
+
+    try:
+        headers = {
+            "user-agent": "Dart/3.3 (dart:io)",
+            "content-type": "application/json",
+            "accept-encoding": "gzip",
+            "host": sHost
+        }
+
+        sHtmlContent = requests.get(f'{sUrl}api/105/all', headers=headers).json()
+
+        for channel in sHtmlContent["List"]:
+            oOutputParameterHandler = cOutputParameterHandler() 
+
+            mStatus = channel["live"]
+            siteUrl = f'{sUrl}api1/{channel["matchId"]}'
+            sTitle = f'{channel["name1"]} vs {channel["name2"]}'
+            if str(mStatus) == 'True':
+                sTitle = f'{sTitle} [COLOR red]● مباشر[/COLOR]'
+            sThumb = channel["image1"]       
+            sDesc = f'[COLOR orange]وقت المباراة[/COLOR] \n {channel["start_time"]}(+2) \n \n [COLOR orange]الدوري[/COLOR] \n {channel["ligue"]} \n \n [COLOR orange]حالة البث[/COLOR] \n {str(channel["finished"]).replace("False", "Live on Time").replace("True", "Ended")}'
             
-
-	# (.+?) .+? ([^<]+)
-    sPattern = '<div class="match-container"><a href="([^<]+)" target="_blank" title="([^<]+)">.+?data-img="([^<]+)" title=.+?data-start="(.+?)" data'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-
-
-
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler() 
-        for aEntry in aResult[1]:
- 
-            sTitle =  aEntry[1]
-
-            if 'مباراة' in sTitle:
-                sTitle = sTitle.split('مباراة')[1]
-                if 'كورة' in sTitle:
-                    sTitle = sTitle.split('كورة')[0]
-            sThumb = aEntry[2]
-            siteUrl =  aEntry[0]
-
-            sDesc = aEntry[3] 
-			
-			
-
             oOutputParameterHandler.addParameter('siteUrl',siteUrl)
             oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
             oOutputParameterHandler.addParameter('sThumb', sThumb)
 
-            oGui.addMisc(SITE_IDENTIFIER, 'showHosters', sTitle, '', sThumb, sDesc, oOutputParameterHandler)
- 
- 
+            oGui.addMisc(SITE_IDENTIFIER, 'showLinks2', sTitle, 'foot.png', sThumb, sDesc, oOutputParameterHandler)
+    except:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR orange] تعذر الاتصال بالموقع [/COLOR]', 'none.png')
+
     oGui.setEndOfDirectory()
-	
-def showHosters():
+
+def showMatches2():
     oGui = cGui()
-    import requests
+
+    sUrl = 'https://yalla-shoot-tv.one/'
+
+    try:
+        oRequestHandler = cRequestHandler(sUrl)
+        oRequestHandler.enableCache(False)
+        sHtmlContent = oRequestHandler.request()
+
+        pattern = re.compile(r'<div class="match-container.+?href="([^"]+)".+?<div class="right-team">.+?src="([^"]+)" title="([^"]+)".+?<div class="match-timing">.+?>(.+?)</div>.+?<div class="left-team">.+?src="([^"]+)" title="([^"]+)".+?<div class="match-info">\s*<ul>\s*<li><span>(.+?)</span></li>\s*<li><span>(.+?)</span></li>\s*<li><span>(.+?)</span></li>', re.DOTALL)
+        match = pattern.findall(sHtmlContent)
+        if match:
+            oOutputParameterHandler = cOutputParameterHandler() 
+            for aEntry in match:
+
+                sTitle =  f'{aEntry[2]} ضد {aEntry[5]}'
+                sThumb = aEntry[1]
+                siteUrl = aEntry[0]
+                sDesc = f'[COLOR orange]الدوري[/COLOR] \n {aEntry[8]} \n \n [COLOR orange]حالة البث[/COLOR] \n {aEntry[3]}'
+                
+                oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                oGui.addMisc(SITE_IDENTIFIER, 'showLinks3', sTitle, 'foot.png', sThumb, sDesc, oOutputParameterHandler)
+        else:
+            from datetime import date
+
+            dDate = date.today().isoformat()
+
+            pattern = re.compile(r'API_URL_MATCHES\s*=\s*"([^"]+)"', re.DOTALL)
+            match = pattern.findall(sHtmlContent)
+            if match:
+                oOutputParameterHandler = cOutputParameterHandler()
+                for aEntry in match:
+                    API_URL_MATCHES = aEntry
+
+                    now = datetime.datetime.now()
+                    gmt_offset = datetime.timedelta(hours=3)
+                    gmt_time = now - gmt_offset
+                    time_str = gmt_time.strftime("%H%M")
+                    sUrl = f'{API_URL_MATCHES}{dDate}?t={time_str}'
+
+                    oRequestHandler = cRequestHandler(sUrl)
+                    oRequestHandler.enableCache(False)
+                    sHtmlContent2 = oRequestHandler.request(jsonDecode=True)
+
+                    for match in sHtmlContent2:
+                        if match['active'] == '0':
+                            continue
+                        pattern = re.compile(r'MAIN_URL\s*=\s*["\']([^"\']+)["\'];', re.DOTALL)
+                        aResult = pattern.findall(sHtmlContent)
+                        if aResult:
+                            oOutputParameterHandler = cOutputParameterHandler()
+                            for aEntry in aResult:
+                                MAIN_URL = aEntry
+                        sCondition = 'لم تبدأ'
+                        sTitle =  f"{match['home']} vs {match['away']}"
+                        sThumb = f'https://kora-api.top/uploads/team/{match["home_logo"]}'
+                        siteUrl = "/"
+                        desc = f"{match['home_en']}-vs-{match['away_en']}".lower().replace(" ", "-")
+                        if match["has_channels"] == '1' and match["active"] == '1':
+                            sCondition = 'مباشر'
+                            siteUrl = f"{MAIN_URL}live/{match['id']}/{match['api_matche_id']}/{desc}/"
+                        sDesc = f'[COLOR orange]الدوري[/COLOR] \n {match["league"]} \n \n [COLOR orange]الوقت[/COLOR] \n {match["date"]} | {match["time"]}GMT \n \n [COLOR orange]حالة البث[/COLOR] \n {sCondition}'
+                        
+                        oOutputParameterHandler.addParameter('siteUrl',siteUrl)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                        oGui.addMisc(SITE_IDENTIFIER, 'showLinks3', sTitle, 'foot.png', sThumb, sDesc, oOutputParameterHandler)
+
+    except:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR orange] تعذر الاتصال بالموقع [/COLOR]', 'none.png')
+
+    oGui.setEndOfDirectory()
+
+def showLinks3():
+    oGui = cGui()
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
-    oParser = cParser()   
 
-    oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    if '.mp4' in sUrl:
-        oOutputParameterHandler = cOutputParameterHandler()
-        sTitle = ' نتيجة مباراة ' + sMovieTitle
-        url = sUrl.split('src=')[1]
-            
-                
-        sHosterUrl = url
-        oHoster = cHosterGui().checkHoster(sHosterUrl)
-        sHosterUrl = sHosterUrl 
-        if oHoster:
-           oHoster.setDisplayName(sTitle)
-           oHoster.setFileName(sTitle)
-           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
-
-    murl = ''
-    sPattern = 'iframe.src = ["\']([^"\']+)["\']'
-    aResult = oParser.parse(sHtmlContent, sPattern)
-    if aResult[0]:
-        for aEntry in aResult[1]:
-            murl = aEntry + sUrl.split('src=')[1]
-    else:
-        sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0]:
-            for aEntry in aResult[1]:
-                murl = aEntry
-
-    oRequestHandler = cRequestHandler(murl)
-    sHtmlContent = oRequestHandler.request()
-
-    if 'class="albaplayer_name' not in sHtmlContent:
-        sPattern = '<iframe src=["\']([^"\']+)["\']'
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        if aResult[0]:
-            for aEntry in aResult[1]:
-                murl = aEntry       
-
-                oRequestHandler = cRequestHandler(murl)
-                sHtmlContent = oRequestHandler.request()
-
-    oParser = cParser()
-    sStart = 'class="albaplayer_name">'
-    sEnd = 'class="albaplayer_server-body'
-    sHtmlContent0 = oParser.abParse(sHtmlContent, sStart, sEnd)
-
-    oParser = cParser()
-    sPattern = 'href="([^"]+)">(.+?)</a>'
-    aResult = oParser.parse(sHtmlContent0, sPattern)
-    VSlog(aResult)
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()
-        for aEntry in aResult[1]:
-            sTitle = aEntry[1]
-            url = aEntry[0]
-
-            oRequestHandler = cRequestHandler(url)
+    try:
+        if sUrl.startswith('/'):
+            oGui.addText(SITE_IDENTIFIER, '[COLOR orange] تعذر الحصول على روابط [/COLOR]', 'none.png')  
+        else:
+            oRequestHandler = cRequestHandler(sUrl)
+            oRequestHandler.enableCache(False)
             sHtmlContent = oRequestHandler.request()
-            oParser = cParser()
-            sPattern = 'source:\s*["\']([^"\']+)["\']'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-                for aEntry in aResult[1]:
-                    url = aEntry
-                    if 'm3u8' not in url:
-                        try:
-                            sPatternUrl = "source: 'https:\/\/'\s*\+\s*serv\s*\+\s*'([^']+)'"
-                            sPatternPK = 'var servs = .+?,\s*"([^"]+)"'
-                            aResultUrl = re.findall(sPatternUrl, sHtmlContent)
-                            aResultPK = re.findall(sPatternPK, sHtmlContent)
-                            if aResultUrl and aResultPK:
-                                url3 = 'http://'+aResultPK[0]+aResultUrl[0]
-                                url = url3 + "|Referer=" + url
-                        except:
-                            VSlog('no link detected')
-
-                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                    if url.startswith('//'):
-                        url = 'https:' + url
             
-                
-                    sHosterUrl = url
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
-                    if oHoster:
-                        oHoster.setDisplayName(sTitle)
-                        oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+            result = extract_data(sHtmlContent)
+            if result:
+                if 'channels/' in result["cLinks"][0]:
+                    oOutputParameterHandler = cOutputParameterHandler()
+                    for link in result["cLinks"]:
+                        oRequestHandler = cRequestHandler(link)
+                        oRequestHandler.enableCache(False)
+                        sHtmlContent = oRequestHandler.request()
 
-            sPattern = 'loadSource(.+?);'
-            aResult = oParser.parse(sHtmlContent, sPattern)
+                        linkMatch = re.findall(r'source:\s*"([^"]+)"', sHtmlContent)
+                        sHosterUrl = linkMatch[0]
 
+                        oHoster = cHosterGui().checkHoster(sHosterUrl)
+                        if oHoster:
+                            oHoster.setDisplayName(sMovieTitle)
+                            oHoster.setFileName(sMovieTitle)
+                            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+                else:
+                    u_key = result["u_key"][0]
+                    #kt = result["kt"][0]
+                    #k_url = result["k_url"][0]
+                    p = result["p"][0]
+
+                    for ch, server_name, sLink in zip(result['ch'], result['server_name'], result["cLinks"]):
+
+                        oOutputParameterHandler = cOutputParameterHandler()
+                        sTitle = f'{sMovieTitle} [COLOR orange] {server_name} [/COLOR]'
+
+                        oOutputParameterHandler.addParameter('siteUrl', sUrl)
+                        oOutputParameterHandler.addParameter('sMovieTitle', sTitle)
+                        oOutputParameterHandler.addParameter('u_key', u_key)
+                        oOutputParameterHandler.addParameter('sLink', sLink)
+                        #oOutputParameterHandler.addParameter('kt', kt)
+                        #oOutputParameterHandler.addParameter('k_url', k_url)
+                        oOutputParameterHandler.addParameter('p', p)
+                        oOutputParameterHandler.addParameter('ch', ch)
+                        oOutputParameterHandler.addParameter('sThumb', sThumb)
+
+                        oGui.addMisc(SITE_IDENTIFIER, 'showLinks4', sTitle, 'foot.png', sThumb, sTitle, oOutputParameterHandler)
+    except:
+        oGui.addText(SITE_IDENTIFIER, '[COLOR orange] تعذر الحصول على روابط [/COLOR]', 'none.png')        
+
+    oGui.setEndOfDirectory()  
+
+def showLinks4():
+    oGui = cGui()
+
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    u_key = oInputParameterHandler.getValue('u_key')
+    kt = oInputParameterHandler.getValue('kt')
+    k_url = oInputParameterHandler.getValue('k_url')
+    p = oInputParameterHandler.getValue('p')
+    ch = oInputParameterHandler.getValue('ch')
+    sLink = oInputParameterHandler.getValue('sLink')
+    sThumb = oInputParameterHandler.getValue('sThumb')
+
+    #querystring = { "kt": kt }
+
+    #kurl = decode_token(k_url)
+    #payload = { "kt": encode_token(nowtime()) }
+    #headers = {
+    #    "user-agent": UA,
+    #    "referer": kurl.split('key')[0]
+    #}
+
+    #response = requests.post(kurl, json=payload, headers=headers, params=querystring).json()
+    #token = response["key"]
+    oOutputParameterHandler = cOutputParameterHandler()
+    if ch:
+        url = decode_token(u_key)
+
+        querystring = {
+            "ch": ch,
+            "p": p,
+            "token": generate_uuid(),
+            "kt": kt
+        }
+
+        headers = {
+            "user-agent": UA,
+            "referer": sUrl
+        }
+
+        response = requests.get(url, headers=headers, params=querystring).text
+        token_pattern = r'var token = "(.*)";'
+
+        token_match = re.search(token_pattern, response)
+        if token_match:
+            sHosterUrl = token_match.group(1)
+
+            sHosterUrl = f'{decode_token(sHosterUrl)}|Referer={url.split("frame.php")[0]}'
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+    else:
+        oParser = cParser() 
+        sHosterUrl = sLink
+        if 'https://href.li/?' in sHosterUrl:
+            nUrl = sHosterUrl.split('https://href.li/?', 1)[1] if sHosterUrl.split('https://href.li/?', 1)[1].startswith('http') else sHosterUrl
+            oRequestHandler = cRequestHandler(nUrl)
+            oRequestHandler.enableCache(False)
+            sHtmlContent = oRequestHandler.request()
+
+            sPattern = '<iframe src="([^"]+)'
+            aResult = oParser.parse(sHtmlContent, sPattern)	
             if aResult[0]:
                 for aEntry in aResult[1]:
-                    url = aEntry.replace("('","").replace("')","")
-                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                    if url.startswith('//'):
-                        url = 'https:' + url
-            
-                
-                    sHosterUrl = url
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
-                    if oHoster:
-                        oHoster.setDisplayName(sTitle)
-                        oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)   	
+                    sHosterUrl = aEntry
+                    if sHosterUrl.startswith('//'):
+                        sHosterUrl = f'http:{sHosterUrl}|Referer={nUrl}'
 
-            sPattern = 'embeds =(.+?)",'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-                for aEntry in aResult[1]:
-                    url = aEntry.replace(' ["',"")
-                    if 'm3u8' in url:           
-                        sHosterUrl = url.split('=')[1]
-                    if '.php' in url:
-                        import requests    
-                        oRequestHandler = cRequestHandler(url)
-                        St=requests.Session()
-                        oRequestHandler = cRequestHandler(url)
-                        sHtmlContent2 = St.get(url).content.decode('utf-8') 
-                        oParser = cParser()
-                        sPattern =  "src='(.+?)' type="
-                        aResult = oParser.parse(sHtmlContent2,sPattern)
-                        if aResult[0]:
-                           for aEntry in aResult[1]:
-                               url = aEntry
-                               sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                               if url.startswith('//'):
-                                   url = 'https:' + url
-                               sHosterUrl = url
-                               oHoster = cHosterGui().checkHoster(sHosterUrl)
-                               if oHoster:
-                                   oHoster.setDisplayName(sTitle)
-                                   oHoster.setFileName(sMovieTitle)
-                                   cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
-
-            sPattern = '<iframe src="(.+?)" allowfullscreen'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-            if aResult[0]:
-                for aEntry in aResult[1]:
-                    url = aEntry.replace("('","").replace("')","")
-                    sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                    if url.startswith('//'):
-                        url = 'https:' + url
-            
-                
-                    sHosterUrl = url
-                    oHoster = cHosterGui().checkHoster(sHosterUrl)
-                    sHosterUrl = sHosterUrl + '|AUTH=TLS&verifypeer=false'
-                    if oHoster:
-                        oHoster.setDisplayName(sTitle)
-                        oHoster.setFileName(sTitle)
-                        cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
-
-            sPattern = "<script>AlbaPlayerControl([^<]+)',"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]: 
-               import base64
-               for aEntry in aResult[1]:
-                   url_tmp = aEntry
-                   url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
-                   sTitle = ('%s [COLOR coral](%s)[/COLOR]') % (sMovieTitle, sTitle)
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ murl
-
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sTitle)
-                       oHoster.setFileName(sTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)	
-
-            sPattern = "<source src='(.+?)' type='application/x-mpegURL'"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ murl 
-                   sMovieTitle = sMovieTitle
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
-               
-
-            sPattern = '<iframe.+?src="([^"]+)'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-            if aResult[0]:
-                for aEntry in aResult[1]:
-                    url = aEntry
-
-                    if 'sharecast' in url:
-                            Referer =  "https://sharecast.ws/"
-                            url = Hoster_ShareCast(url, Referer)
-
-                    if 'live7' in url:
-                            oRequestHandler = cRequestHandler(url)
-                            oRequestHandler.addHeaderEntry('Referer', url)
-                            data3 = oRequestHandler.request()
-
-                            sPatternUrl = 'hlsUrl = "https:\/\/" \+ ea \+ "([^"]+)"'
-                            sPatternPK = 'var pk = "([^"]+)"'
-                            sPatternEA = 'ea = "([^"]+)";'
-                            aResultUrl = re.findall(sPatternUrl, data3)
-                            aResultEA = re.findall(sPatternEA, data3)
-                            aResultPK = re.findall(sPatternPK, data3)
-                            if aResultUrl and aResultPK and aResultEA:
-                                aResultPK = aResultPK[0][:53] + aResultPK[0][54:] 
-                                url3 = aResultEA[0] + aResultUrl[0] + aResultPK
-                                url = 'https://' + url3
-
-                    if 'sportsonline' in url:
-                            url2 = getHosterIframe(url,url) 
-                            url = url2   
-
-                    if 'realbitsport' in url:
-                            url2 = getHosterIframe(url,url) 
-                            url = url2   
-
-                    if 'youtube' in url:
-                            url = url  
-
-                    if 'javascript' in url:
-                            url = ''
-                    if '/albaplayer/ch' in url:
-                            import base64
-                            if 'ch2cdn/' in url:
-                                url = 'https://ninecdn.online/albaplayer/ch2cdn/'
-                            if 'ch3cdn/' in url:
-                                url = 'https://ninecdn.online/albaplayer/ch3cdn/'
-                            if 'ch4cdn/' in url:
-                                url = 'https://ninecdn.online/albaplayer/ch4cdn/'
-                            oRequestHandler = cRequestHandler(url)
-                            oRequestHandler.addHeaderEntry('Referer', url)
-                            data3 = oRequestHandler.request()                        
-
-                            sPattern = "AlbaPlayerControl.+?'([^\']+)"
-                            aResult = re.findall(sPattern, data3)
-                            if aResult:
-                                url = f'{base64.b64decode(aResult[1]).decode("utf8",errors="ignore")}|Referer={url}'
-
-
+        oHoster = cHosterGui().checkHoster(sHosterUrl)
+        if oHoster:
+            oHoster.setDisplayName(sMovieTitle)
+            oHoster.setFileName(sMovieTitle)
+            cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
 
     oGui.setEndOfDirectory()    
 
-def Hoster_ShareCast(url, referer):
-    oRequestHandler = cRequestHandler(url)
-    oRequestHandler.addHeaderEntry('User-Agent', UA)
-    oRequestHandler.addHeaderEntry('Referer', referer)
-    sHtmlContent = oRequestHandler.request()
-
-    sPattern = "new Player\(.+?player\",\"([^\"]+)\",{'([^\']+)"
-    aResult = re.findall(sPattern, sHtmlContent)
-
-    if aResult:
-        site = 'https://' + aResult[0][1]
-        url = (site + '/hls/' + aResult[0][0]  + '/live.m3u8')
-        return True, url  + '|Referer=' + Quote(site)
-
-    return False, False
-
-def getHosterIframe(url, referer):
-    oRequestHandler = cRequestHandler(url)
-    oRequestHandler.addHeaderEntry('Referer', referer)
-    sHtmlContent = str(oRequestHandler.request())
-    if not sHtmlContent:
-        return False
-
-    referer = url
-    if 'channel' in referer:
-         referer = referer.split('channel')[0]
-
-    sPattern = '(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        sstr = aResult[0]
-        if not sstr.endswith(';'):
-            sstr = sstr + ';'
-        sHtmlContent = cPacker().unpack(sstr)
-
-    sPattern = '(\s*eval\s*\(\s*function\(p,a,c,k,e(?:.|\s)+?)<\/script>'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        sstr = aResult[0]
-        if not sstr.endswith(';'):
-            sstr = sstr + ';'
-        sHtmlContent = cPacker().unpack(sstr)
-
-    sPattern = '.atob\("(.+?)"'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        import base64
-        code = aResult[0]
-        try:
-            if isMatrix():
-                code = base64.b64decode(code).decode('ascii')
-            else:
-                code = base64.b64decode(code)
-            return code + '|Referer=' + referer
-        except Exception as e:
-            pass
-    
-    sPattern = '<iframe.+?src=["\']([^"\']+)["\']'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        for url in aResult:
-            if url.startswith("./"):
-                url = url[1:]
-            if not url.startswith("http"):
-                if not url.startswith("//"):
-                    url = '//'+referer.split('/')[2] + url  
-                url = "https:" + url
-            referer2 = url.split('embed')[0]
-            url = getHosterIframe(url, referer)
-            if url:
-                return url + "|Referer=" + referer2 
-
-    sPattern = 'src=["\']([^"\']+)["\']'
-    aResult = re.findall(sPattern, sHtmlContent)
-
-    if aResult:
-        url = aResult[0]
-        if '.m3u8' in url:
-            return url
-
-    sPattern = 'player.load\({source: (.+?)\('
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        func = aResult[0]
-        sPattern = 'function %s\(\) +{\n + return\(\[([^\]]+)' % func
-        aResult = re.findall(sPattern, sHtmlContent)
-        if aResult:
-            referer = url
-            sHosterUrl = aResult[0].replace('"', '').replace(',', '').replace('\\', '').replace('////', '//')
-            return True, sHosterUrl + '|referer=' + referer
-
-    sPattern = ';var.+?src=["\']([^"\']+)["\']'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        sHosterUrl = aResult[0]
-        if '.m3u8' in sHosterUrl:
-            return True, sHosterUrl 
-
-    sPattern = '[^/]source.+?["\'](https.+?)["\']'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        return aResult[0] + '|referer=' + referer
-
-    sPattern = 'file: *["\'](https.+?\.m3u8)["\']'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        return aResult[0] + '|referer=' + referer
-
-    sPattern = "onload=\"ThePlayerJS\('.+?','([^\']+)"
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        url = 'https://sharecast.ws/player/' + aResult[0]
-        b, url = Hoster_ShareCast(url, referer)
-        if b:
-            return True, url
-
-    sPattern = '[^/]source.+?["\'](https.+?)["\']'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        return True, aResult[0] + '|referer=' + url
-
-    sPattern = 'source\s*["\'](https.+?\.m3u8)["\']'
-    aResult = re.findall(sPattern, sHtmlContent)
-    if aResult:
-        return aResult[0] + '|referer=' + referer
-
-    return False
-	
-def showLive():
+def showLinks2():
     oGui = cGui()
-   
+
     oInputParameterHandler = cInputParameterHandler()
     sUrl = oInputParameterHandler.getValue('siteUrl')
     sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
     sThumb = oInputParameterHandler.getValue('sThumb')
 
     oRequestHandler = cRequestHandler(sUrl)
-    sHtmlContent = oRequestHandler.request()
-    oParser = cParser()
-    URLMAIN = sUrl.split('/')[2]
-    URLMAIN = 'https://' + URLMAIN
-    if "?src=" in sUrl:
-       slink = sUrl.split('?src=')[1]
-       VSlog(slink)
-    sHtmlContent2 =""
-    sHtmlContent1 =""
-    sHtmlContent3 =""
-      # (.+?) ([^<]+) .+?
-    sPattern = "iframe.src = ([^<]+)+link"
-    aResult = oParser.parse(sHtmlContent, sPattern)   
-    if (aResult[0]):
-        sUrl = aResult[1][0].replace("'","")
-        VSlog(sUrl)
-        sUrl = sUrl+slink
-        VSlog(sUrl)
-        oRequestHandler = cRequestHandler(sUrl)
-        sHtmlContent3 = oRequestHandler.request()
-      # (.+?) ([^<]+) .+?
-    sPattern = 'iframe" src="(.+?)" width'
-    aResult = oParser.parse(sHtmlContent, sPattern)   
-    if (aResult[0]):
-        sUrl = aResult[1][0]
-        if sUrl.startswith('/'):
-           sUrl = URLMAIN + sUrl
-        VSlog(sUrl)
-        oRequestHandler = cRequestHandler(sUrl)
-        sHtmlContent = oRequestHandler.request()
-    # (.+?) # ([^<]+) .+? 
-    if 'no_mobile_iframe' in sHtmlContent:
-       sPattern = 'no_mobile_iframe = "(.+?)";'
-       aResult = oParser.parse(sHtmlContent, sPattern)
-       if (aResult[0]):
-           siteUrl = aResult[1][0]
-           if siteUrl.startswith('/'):
-               siteUrl = URLMAIN + siteUrl
-           import requests    
-           oRequestHandler = cRequestHandler(siteUrl)
-           hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-           St=requests.Session()
-           sHtmlContent2 = St.get(siteUrl,headers=hdr)
-           sHtmlContent2 = sHtmlContent2.content.decode('utf-8')
-    if 'mobile' in sHtmlContent:
-       sPattern = '_iframe = "(.+?)";'
-       aResult = oParser.parse(sHtmlContent, sPattern)
-       if (aResult[0]):
-           siteUrl = aResult[1][0]
-           if siteUrl.startswith('/'):
-               siteUrl = URL_MAIN + siteUrl
-           import requests    
-           oRequestHandler = cRequestHandler(siteUrl)
-           hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-           St=requests.Session()
-           sHtmlContent1 = St.get(siteUrl,headers=hdr)
-           sHtmlContent1 = sHtmlContent1.content.decode('utf-8')
-    sHtmlContent = sHtmlContent3+sHtmlContent2+sHtmlContent1
+    oRequestHandler.enableCache(False)
+    oRequestHandler.addHeaderEntry('content-type', "application/json")
+    oRequestHandler.addHeaderEntry('User-Agent', "Dart/3.3 (dart:io)")
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
 
-    sPattern = 'href="(.+?)">(.+?)</a>'   
-    aResult = oParser.parse(sHtmlContent, sPattern) 
+    for item in sHtmlContent:
+        oOutputParameterHandler = cOutputParameterHandler()
+        if '{"' in item["link"]:
+            data = json.loads(item["link"])
+            for key, value in data.items():
+                sHosterUrl = f'{value}|{item["header1"]}={item["header"]}'
+                sDisplayTitle = f'{sMovieTitle} ({key})'
+
+                oHoster = cHosterGui().checkHoster(sHosterUrl)
+                sHosterUrl = sHosterUrl 
+                if oHoster:
+                    oHoster.setDisplayName(sDisplayTitle)
+                    oHoster.setFileName(sMovieTitle)
+                    cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+
+        else:
+            sHosterUrl = f'{item["link"]}|{item["header1"]}={item["header"]}'
+
+            oHoster = cHosterGui().checkHoster(sHosterUrl)
+            sHosterUrl = sHosterUrl 
+            if oHoster:
+                oHoster.setDisplayName(sMovieTitle)
+                oHoster.setFileName(sMovieTitle)
+                cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb, oOutputParameterHandler)
+
+    oGui.setEndOfDirectory()    
+
+def showLinks():
+
+    oInputParameterHandler = cInputParameterHandler()
+    sUrl = oInputParameterHandler.getValue('siteUrl')
+    sMovieTitle = oInputParameterHandler.getValue('sMovieTitle')
+    sThumb = oInputParameterHandler.getValue('sThumb')
    
+    sHosterUrl = f'{sUrl}|User-Agent=Android-App@2024'
 
+    oGuiElement = cGuiElement()
+    oGuiElement.setSiteName(SITE_IDENTIFIER)
+    oGuiElement.setTitle(sMovieTitle)
+    sUrl = sUrl.replace(' ', '%20')
+    oGuiElement.setMediaUrl(sHosterUrl)
+    oGuiElement.setThumbnail(sThumb)
+    oGuiElement.setDescription('')
 
-    if aResult[0]:
-        oOutputParameterHandler = cOutputParameterHandler()  
-        for aEntry in aResult[1]:
- 
-            sTitle = aEntry[1]
-            siteUrl = aEntry[0].replace("('","").replace("')","")
-            if siteUrl.startswith('/'):
-               siteUrl = URL_MAIN + siteUrl
-            sDesc = ""
-            import requests    
-            oRequestHandler = cRequestHandler(siteUrl)
-            hdr = {'User-Agent' : 'Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/87.0.4280.77 Mobile/15E148 Safari/604.1','referer' : URL_MAIN}
-            St=requests.Session()
-            sHtmlContent = St.get(siteUrl,headers=hdr)
-            sHtmlContent = sHtmlContent.content.decode('utf-8')
-            oParser = cParser()
-    # (.+?) # ([^<]+) .+? 		
+    from resources.lib.player import cPlayer
+    oPlayer = cPlayer()
+    oPlayer.clearPlayList()
+    oPlayer.addItemToPlaylist(oGuiElement)
+    oPlayer.startPlayer()
 
+    return False, False
 
-            sPattern = "<script>AlbaPlayerControl([^<]+)',"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]: 
-               import base64
-               for aEntry in aResult[1]:
-                   url_tmp = aEntry
-                   url = base64.b64decode(url_tmp).decode('utf8',errors='ignore')
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" + '&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)	
-
-
-            sPattern = "source: '(.+?)',"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"+'&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-            sPattern = "hls.loadSource(.+?);"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-            sPattern = "<source src='(.+?)' type='application/x-mpegURL'"
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry.replace("('","").replace("')","")
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl 
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-            sPattern = 'source:"(.+?)",'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url+ '|User-Agent=' + "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36" +'&Referer='+ siteUrl
-                   sMovieTitle = sMovieTitle
-                   sdTitle = ('%s  [COLOR coral]%s[/COLOR]') % (sMovieTitle, sTitle)
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sdTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
-    # (.+?) # ([^<]+) .+? 
-            sPattern = 'src="(.+?)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
-                   sMovieTitle = sMovieTitle
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-    # (.+?) # ([^<]+) .+? 
-            sPattern = 'file:"(.+?)",'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry
-                   sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
-                   sMovieTitle = sMovieTitle
-                   if 'vimeo' in sHosterUrl:
-                       sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                   oHoster = cHosterGui().checkHoster(sHosterUrl)
-                   if oHoster:
-                       oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                       oHoster.setFileName(sMovieTitle)
-                       cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
- # (.+?) # ([^<]+) .+? 
-
-            sPattern = 'onclick="([^<]+)" >.+?>([^<]+)</strong>'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry[0].replace("('",'').replace("')","").replace("update_frame","")
-                   url = url.split('?link=', 1)[1]
-                   if url.startswith('//'):
-                      url = 'http:' + url
-                   if '/embed/' in url:
-                      oRequestHandler = cRequestHandler(url)
-                      oParser = cParser()
-                      sPattern =  'src="(.+?)" scrolling="no">'
-                      aResult = oParser.parse(url,sPattern)
-                      if aResult[0]:
-                          url = aResult[1][0]
-                          sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","")
-                          sMovieTitle = str(aEntry[1])
-                          if 'vimeo' in sHosterUrl:
-                              sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-                          oHoster = cHosterGui().checkHoster(sHosterUrl)
-                          if oHoster:
-                              oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                              oHoster.setFileName(sMovieTitle)
-                              cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
-
- # (.+?) # ([^<]+) .+? 
-
-            sPattern = 'src="(.+?)" width="(.+?)"'
-            aResult = oParser.parse(sHtmlContent, sPattern)
-
-            if aResult[0]:
-               for aEntry in aResult[1]:
-                   url = aEntry[0]
-                   if url.startswith('//'):
-                      url = 'http:' + url
-                   if 'xyz' in url:
-                       oRequestHandler = cRequestHandler(url)
-                       oRequestHandler.setRequestType(1)
-                       oRequestHandler.addHeaderEntry('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0')
-                       oRequestHandler.addHeaderEntry('referer', 'https://msdee.xyz/')
-                       data = oRequestHandler.request();
-                       sPattern =  '(http[^<]+m3u8)'
-                       aResult = oParser.parse(data,sPattern)
-                       if aResult[0]:
-                           url = aResult[1][0]+ '|User-Agent=' + 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:66.0) Gecko/20100101 Firefox/66.0' +'&Referer=' + "https://memotec.xyz/"
- 
-                           sHosterUrl = url.replace("https://tv.as-goal.site/zurl.html?src=","") 
-                           sMovieTitle = sMovieTitle
-                           if 'vimeo' in sHosterUrl:
-                               sHosterUrl = sHosterUrl + "|Referer=" + sUrl
-            
-
-
-                           oHoster = cHosterGui().checkHoster(sHosterUrl)
-                           if oHoster:
-                               oHoster.setDisplayName(sMovieTitle+' '+sTitle)
-                               oHoster.setFileName(sMovieTitle)
-                               cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+def decode_token(token):
+    decoded_bytes = base64.urlsafe_b64decode(token)
+    decoded_str = decoded_bytes.decode('latin-1')
+    replaced_str = ''.join(f'%{decoded_str[i:i+2]}' for i in range(0, len(decoded_str), 2))
+    final_str = urllib.parse.unquote(replaced_str)
     
-    if 'streamable' in sUrl:
-        sHosterUrl = sUrl.split('?src=')[1]
-        oHoster = cHosterGui().checkHoster(sHosterUrl)
-        if oHoster:
-           oHoster.setDisplayName(sMovieTitle)
-           oHoster.setFileName(sMovieTitle)
-           cHosterGui().showHoster(oGui, oHoster, sHosterUrl, sThumb)
+    return final_str
 
-                
-    oGui.setEndOfDirectory()
+def encode_token(data):
+    encoded_str = urllib.parse.quote(str(data))
+    replaced_str = ''.join(f'%{ord(char):02X}' for char in encoded_str)
+    base64_bytes = base64.urlsafe_b64encode(replaced_str.replace('%', '').encode('latin-1'))
+    base64_str = base64_bytes.decode('utf-8')
+    
+    return base64_str
+
+def nowtime():
+    current_timestamp = int(time.time())
+    return current_timestamp
+
+def get_current_minute():
+    date = datetime.datetime.utcnow()
+    hours = str(date.hour).zfill(2)
+    minutes = str(date.minute).zfill(2)
+
+    time = f"{hours}{minutes}"
+    return time
+
+def extract_data(html):
+    data = {}
+
+    data['u_key'] = re.findall(r'var u_key = "([^"]+)";', html)
+    #data['kt'] = re.findall(r'"kt": "([^"]+)"', html)
+    #data['k_url'] = re.findall(r'var k_url = "([^"]+)";', html)
+    data['p'] = [int(x) for x in re.findall(r'var p = (\d+)', html)]
+
+    apiMatch = re.findall(r'var api_matche = "([^"]+)"', html)
+    sUrl = apiMatch[0]
+    oRequestHandler = cRequestHandler(f'{sUrl}?t={get_current_minute()}')
+    oRequestHandler.enableCache(False)
+    oRequestHandler.addHeaderEntry('Host', urlHostName(sUrl))
+    oRequestHandler.addHeaderEntry('User-Agent', UA)
+    sHtmlContent = oRequestHandler.request(jsonDecode=True)
+
+    channels = sHtmlContent.get("channels", [])
+    ch = []
+    server = []
+    cLinks = []
+    for channel in channels:
+        ch.append(channel.get("ch"))
+        server.append(channel.get("server_name"))
+        cLinks.append(channel.get("link"))
+    data['ch'] = ch
+    data['server_name'] = server
+    data['cLinks'] = cLinks
+
+    if not any(data.values()):
+        return None
+
+    return data
+
+def decode_token(encoded_token):
+    decoded_token = urllib.parse.unquote(base64.b64decode(encoded_token).decode('utf-8'))
+    decoded_token = re.sub(r'(.{1,2})', r'%\1', decoded_token)
+    return urllib.parse.unquote(decoded_token)
+
+def generate_uuid():
+    import random
+    timestamp = int(time.time() * 1000)
+    template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+
+    def replace(match):
+        nonlocal timestamp
+        random_number = int((timestamp + random.random() * 16) % 16)
+        timestamp //= 16
+        return hex(random_number if match.group(0) == 'x' else (random_number & 0x3) | 0x8)[2:]
+
+    uuid = re.sub(r'[xy]', replace, template)
+    return uuid
