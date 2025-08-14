@@ -5,32 +5,16 @@
         provider-name="zombi">
     <extension point="xbmc.addon.repository" name="Zombi Repository">
     <dir>
-        <info compressed="false">https://raw.githubusercontent.com/zombiB/zombi-addons/shq /addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/zombiB/zombi-addons/shq /addons.xml.md5</checksum>
-        <datadir zip="true">https://github.com/zombiB/zombi-addons/raw/shq /repo</datadir>
+        <info compressed="false">https://raw.githubusercontent.com/nidaltiti/zombi-addons/shq/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/nidaltiti/zombi-addons/shq/addons.xml.md5</checksum>
+        <datadir zip="true">https://github.com/nidaltiti/zombi-addons/raw/shq/repo</datadir>
     </dir>
     <dir>
-         <info compressed="false">https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml</info>
-         <checksum>https://raw.githubusercontent.com/Gujal00/smrzips/master/addons.xml.md5</checksum>
-         <datadir zip="true">https://raw.githubusercontent.com/Gujal00/smrzips/master/zips/</datadir>
-    </dir>
-	 <dir>
-      <info compressed="false">https://raw.githubusercontent.com/nidaltiti/script.module.cloudscraper/master/addons.xml</info>
-      <checksum>https://github.com/nidaltiti/script.module.cloudscraper/raw/master/addons.xml.md5</checksum>
-      <datadir zip="true">https://raw.githubusercontent.com/nidaltiti/script.module.cloudscraper/master/repo</datadir>
-    </dir>
-   <dir>
-                <info compressed="false">https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons.xml</info>
-                <checksum>https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons.xml.md5</checksum>
-               <datadir zip="true">https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons/zips</datadir>  
-               <datadir zip="true">https://raw.githubusercontent.com/nidaltiti/repository.myrepo/master/addons/zips</datadir>
-           
-            </dir>
-			 <dir>
-            <info compressed="false">https://raw.githubusercontent.com/MatrixFlix/Dist/master/repo/zips/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/MatrixFlix/Dist/master/repo/zips/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/MatrixFlix/Dist/master/repo/zips/</datadir>
-        </dir>
+    <info compressed="false">https://raw.githubusercontent.com/nidaltiti/kodiPackages/master/addons.xml</info>
+    <checksum>https://raw.githubusercontent.com/nidaltiti/kodiPackages/master/addons.xml.md5</checksum>
+    <datadir zip="true">https://raw.githubusercontent.com/nidaltiti/kodiPackages/master/addons/zips</datadir>  
+</dir>
+
    </extension>
 
     <extension point="xbmc.addon.metadata">
