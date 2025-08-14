@@ -83,7 +83,7 @@
     </extension>
       </addon>
 
-    <addon id="repository.zombi" name="Zombi Repository" version="0.1.0" provider-name="zombi">
+    <addon id="repository.zombi" name="Zombi Repository" version="0.0.9" provider-name="zombi">
         <extension point="xbmc.addon.repository" name="Zombi Repository">
             <dir>
 			<info compressed="false">https://raw.githubusercontent.com/nidaltiti/zombi-addons/shq /addons.xml</info>
