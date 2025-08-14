@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-# matrix https://github.com/Kodi-vStream/venom-xbmc-addons
 
-try:
-    import urllib2
-
-except ImportError:
-    import urllib.request as urllib2
-
+import urllib.request as urllib2
 import re
 import threading
 import xbmcplugin
@@ -37,12 +31,12 @@ SITE_IDENTIFIER = 'cDownload'
 # GetProperty('arret') = '0' => Telechargement en cours
 # GetProperty('arret') = '1' => Arret demandé
 # GetProperty('arret') = '' =>  Jamais eu de telechargement
-Addon = addon()
-icons = Addon.getSetting('defaultIcons')
+
 
 class cDownloadProgressBar(threading.Thread):
     DIALOG = dialog()
     ADDON = addon()
+
     def __init__(self, *args, **kwargs):
 
         self.__sTitle = ''
@@ -55,7 +49,7 @@ class cDownloadProgressBar(threading.Thread):
             self.__sUrl = kwargs['url']
             self.__fPath = kwargs['Dpath']
             if 'FastMode' in kwargs:
-                VSlog('Téléchargement en mode Turbo')
+                VSlog('Turbo mode download')
                 self.__bFastMode = True
 
         threading.Thread.__init__(self)
@@ -140,7 +134,7 @@ class cDownloadProgressBar(threading.Thread):
 
         # ok tout est bon on continu ou pas?
         if xbmcgui.Window(10101).getProperty('SimpleDownloaderQueue') == '1':
-            VSlog('Download suivant')
+            VSlog('Download next')
             tmp = cDownload()
             data = tmp.GetNextFile()
             tmp.StartDownload(data)
@@ -192,7 +186,9 @@ class cDownloadProgressBar(threading.Thread):
             req = urllib2.Request(url, None, headers)
 
             self.oUrlHandler = urllib2.urlopen(req, timeout=30)
+            VSlog(self.oUrlHandler)
             self.file = xbmcvfs.File(self.__fPath, 'w')
+            VSlog(self.file)
         except:
             VSlog('download error ' + self.__sUrl)
             self.DIALOG.VSinfo(self.ADDON.VSlang(30011), 'Download error', 5)
@@ -266,7 +262,7 @@ class cDownload:
         if aLink and aLink[0]:
             sUrl = aLink[1]
         else:
-            VSlog('Lien non resolvable ou protégé')
+            VSlog('Unresolvable or protected link')
             self.DIALOG.VSinfo(sTitle, self.ADDON.VSlang(30022), 5)
             return False
 
@@ -327,19 +323,19 @@ class cDownload:
         return sTitle
 
     def getDownload(self):
-        
+
         sPluginHandle = cPluginHandler().getPluginHandle()
         sPluginPath = cPluginHandler().getPluginPath()
         sItemUrl = '%s?site=%s&function=%s&title=%s' % (sPluginPath, SITE_IDENTIFIER, 'StartDownloadList', 'title')
-        item = xbmcgui.ListItem('Start downloading from list')        
-        item.setArt({'icon':'special://home/addons/plugin.video.matrix/resources/art/' + icons + '/DownloadStart.png'})
+        item = xbmcgui.ListItem('Start downloading from list')
+        item.setArt({'icon':'special://home/addons/plugin.video.matrix/resources/art/download.png'})
         xbmcplugin.addDirectoryItem(sPluginHandle, sItemUrl, item, isFolder=False)
 
         oGui = cGui()
         oOutputParameterHandler = cOutputParameterHandler()
-        oGui.addDir(SITE_IDENTIFIER, 'StopDownloadList', self.ADDON.VSlang(30025), icons + '/DownloadStop.png', oOutputParameterHandler)
-        oGui.addDir(SITE_IDENTIFIER, 'getDownloadList', self.ADDON.VSlang(30039), icons + '/Lists.png', oOutputParameterHandler)
-        oGui.addDir(SITE_IDENTIFIER, 'CleanDownloadList', self.ADDON.VSlang(30040), icons + '/Trash.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'StopDownloadList', self.ADDON.VSlang(30025), 'none.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'getDownloadList', self.ADDON.VSlang(30039), 'listes.png', oOutputParameterHandler)
+        oGui.addDir(SITE_IDENTIFIER, 'CleanDownloadList', self.ADDON.VSlang(30040), '1/Trash.png', oOutputParameterHandler)
         oGui.setEndOfDirectory()
 
     def CleanDownloadList(self):
@@ -507,9 +503,9 @@ class cDownload:
             if status == '0':
                 sStatus = ''
             elif status == '1':
-                sStatus = '[COLOR=red][En cours] [/COLOR]'
+                sStatus = '[COLOR=red][قيد التنفيذ] [/COLOR]'
             elif status == '2':
-                sStatus = '[COLOR=green][Fini] [/COLOR]'
+                sStatus = '[COLOR=green][تم التحميل] [/COLOR]'
 
             if size:
                 if isMatrix():
@@ -589,7 +585,7 @@ class cDownload:
 
             if sPath == '':
                 dialog = xbmcgui.Dialog()
-                sPath = dialog.browse(3, 'Dossier de sauvegarde', 'files', '', False, False)
+                sPath = dialog.browse(3, 'Backup folder', 'files', '', False, False)
                 self.ADDON.setSetting('download_folder', sPath)
             if sPath != '':
                 sDownloadPath = VSPath(sPath + '%s' % sTitle)
@@ -665,7 +661,7 @@ class cDownload:
 
                         # ok on attend un peu, et on lance le stream
                         tempo = 100
-                        progress_ = progress().VScreate('Préchargement ...')
+                        progress_ = progress().VScreate('Preloading ...')
 
                         while (tempo > 0):
                             # if canceled do nothing
@@ -688,7 +684,7 @@ class cDownload:
                         oPlayer.startPlayer()
 
                     else:
-                        self.DIALOG.VSinfo(self.ADDON.VSlang(30085), 'Erreur', 5)
+                        self.DIALOG.VSinfo(self.ADDON.VSlang(30085), 'Error', 5)
             else:
                 # notifier que la demande est prise en compte
                 self.DIALOG.VSinfo(self.ADDON.VSlang(30228), self.ADDON.VSlang(30083), 5)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
@@ -12,21 +13,20 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'estream', 'Estream')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
-        # type1
         oParser = cParser()
         sPattern = '<source *src="([^"]+)" *type=\'video/.+?\''
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:
             api_call = aResult[1][0]
 
-        # type2?
         sPattern = '<script type=\'text/javascript\'>(.+?)</script>'
         aResult = oParser.parse(sHtmlContent, sPattern)
         if aResult[0]:

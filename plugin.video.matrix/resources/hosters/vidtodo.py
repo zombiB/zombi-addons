@@ -35,12 +35,13 @@ class cHoster(iHoster):
     def extractSmil(self,smil):
         oRequest = cRequestHandler(smil)
         oRequest.addParameters('referer', self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
         Base = re.search('<meta base="(.+?)"', sHtmlContent)
         Src = re.search('<video src="(.+?)"', sHtmlContent)
         return Base.group(1) + Src.group(1)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = ''
 
@@ -48,6 +49,7 @@ class cHoster(iHoster):
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('Referer', self._url)
         oRequest.addParameters('User-Agent', UA)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         sPattern = 'sources:* \[(?:{file:)*"([^"]+)"'

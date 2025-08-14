@@ -1,33 +1,14 @@
-#-*- coding: utf-8 -*-
-#Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-#Votre pseudo
-#Ne pas passer par la version de téléchargement.
-#Tout les liens ne sont pas téléchargeable.
+# -*- coding: utf-8 -*-
+
 import random
-import base64
 import time
 
-try: # Python 2
-    import urllib2 as urllib
-except ImportError: # Python 3
-    import urllib.request as urllib
-
-from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import VSlog, isMatrix, xbmc
+from resources.lib.handler.requestHandler import cRequestHandler
+from resources.lib.comaddon import VSlog
+from resources.lib import random_ua
 
-
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
-
-def compute(s):
-    a = s.replace("/","1")
-    a = base64.b64decode(a)
-    a = a.replace("/","Z")
-    a = base64.b64decode(a)
-    a = a.replace("@","a")
-    a = base64.b64decode(a)
-    return a
+UA = random_ua.get_pc_ua()
 
 class cHoster(iHoster):
 
@@ -35,55 +16,45 @@ class cHoster(iHoster):
         iHoster.__init__(self, 'dood', 'Dood')
 
     def setUrl(self, url):
-        self._url = str(url).replace('/d/','/e/').replace('doodstream.com','dood.la')
+        self._url = f'https://i.doodcdn.io/e/{url.rsplit("/",1)[1]}'
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
+       
+        sHost = getHost(self._url)
 
-        headers = {'User-Agent': UA}
+        oRequestHandler = cRequestHandler(self._url)
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.enableCache(False)
+        sHtmlContent = oRequestHandler.request()
 
-        req = urllib.Request(self._url, None, headers)
-        with urllib.urlopen(req) as response:
-            sHtmlContent = response.read()
-            urlDonwload = response.geturl()
+        if '/pass_md5/' not in sHtmlContent:
+            return None
+        md5 = sHtmlContent.split("'/pass_md5/")[1].split("',")[0]
 
-        try:
-            sHtmlContent = sHtmlContent.decode('utf8')
-        except:
-            pass
+        token = md5.split("/")[-1]
+        randomString = getRandomString()
+        expiry = int(time.time() * 1000)
 
-        oParser = cParser()
+        oRequestHandler = cRequestHandler(f"{sHost}pass_md5/{md5}")
+        oRequestHandler.addHeaderEntry('User-Agent', UA)
+        oRequestHandler.addHeaderEntry('Referer', self._url)
+        oRequestHandler.enableCache(False)
+        videoUrlStart = oRequestHandler.request()
 
-        possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        fin_url = ''.join(random.choice(possible) for _ in range(10))
-
-        sPattern = 'return a\+"(\?token=[^"]+)"'
-        d = oParser.parse(sHtmlContent, sPattern)[1][0]
-
-        fin_url = fin_url + d + str(int(1000*time.time()))
-
-        sPattern = "\$\.get\('(\/pass_md5[^']+)"
-        aResult = oParser.parse(sHtmlContent, sPattern)
-        url2 = 'https://' + urlDonwload.split('/')[2] + aResult[1][0]
-
-        headers.update({'Referer': urlDonwload})
-
-        req = urllib.Request(url2, None, headers)
-        with urllib.urlopen(req) as response:
-            sHtmlContent = response.read()
-
-        try:
-            sHtmlContent = sHtmlContent.decode('utf8')
-        except:
-            pass
-
-        api_call = sHtmlContent + fin_url
-
-        #VSlog(api_call)
+        api_call = f"{videoUrlStart}{randomString}?token={token}&expiry={expiry}"
 
         if api_call:
-            api_call = api_call + '|Referer=' + urlDonwload
-            return True, api_call
+            return True, api_call.replace('~','%7E') + '|Referer=' + self._url + '&verifypeer=false'
 
         return False, False
+
+def getRandomString(length=10):
+    allowedChars = list('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
+    return ''.join(random.choice(allowedChars) for _ in range(length))
+
+def getHost(self):
+    parts = self.rsplit("/", 2)
+    host = parts[0] 
+    return f'{host}/'

@@ -1,12 +1,7 @@
-﻿#-*- coding: utf-8 -*-
-
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.lib.comaddon import dialog, VSlog
 from resources.hosters.hoster import iHoster
-from resources.lib.packer import cPacker
-
-
 
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:61.0) Gecko/20100101 Firefox/61.0'
 
@@ -18,8 +13,10 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
+        VSlog(self._url)
         sReferer = ""
+        url = self._url
         if '|Referer=' in self._url:
             surl = self._url.split('|Referer=')[0]
         else:
@@ -29,17 +26,24 @@ class cHoster(iHoster):
         else:
             sReferer = self._url
 
+        if '/play' in url:
+            api = url.split('/play')[0] + '/api'
+        if '/down' in url:
+            api = url.split('/down')[0] + '/api'
+        else:
+            api = 'https://go3.telvod.site/api'
+
         oRequest = cRequestHandler(surl)
         oRequest.addHeaderEntry('Referer', sReferer)
         oRequest.addHeaderEntry('User-Agent', UA)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
         oParser = cParser()
 
-       # (.+?) .+? ([^<]+)
         sPattern =  '"playbackUrl": "(.+?)"' 
         aResult = oParser.parse(sHtmlContent,sPattern)
         if aResult[0]:
-            url2 = aResult[1][0].replace("hhttps","https").replace('api.govid.co/api','go.telvod.site/api')
+            url2 = aResult[1][0].replace("hhttps","https").replace('api.govid.co/api',api.split('https://')[1])
 
             oRequest = cRequestHandler(url2)
             oRequest.addHeaderEntry('Referer', surl)
@@ -61,21 +65,9 @@ class cHoster(iHoster):
 
         sPattern =  '<a target="_blank".+?href="([^"]+)' 
         aResult = oParser.parse(sHtmlContent,sPattern)
-        VSlog(aResult)
         if aResult[0]:
             for aEntry in aResult[1]:            
                 api_call = aEntry
-
-                if api_call:
-                   return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl
-
-        sPattern =  'file:"(.+?)",label' 
-        aResult = oParser.parse(sHtmlContent,sPattern)
-        if aResult[0]:
-            for aEntry in aResult[1]:
-            
-                api_call = aEntry.replace('["','').replace('"]','')
-
 
                 if api_call:
                    return True, api_call+ '|User-Agent=' + UA+'&AUTH=TLS&verifypeer=false' + '&Referer=' + surl

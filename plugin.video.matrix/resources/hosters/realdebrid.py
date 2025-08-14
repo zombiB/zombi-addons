@@ -1,12 +1,11 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# Ovni-crea
+
 import requests
 
 from resources.lib.handler.premiumHandler import cPremiumHandler
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import dialog, VSlog
-
 
 class cHoster(iHoster):
     def __init__(self):
@@ -18,8 +17,8 @@ class cHoster(iHoster):
 
     def setDisplayName(self, displayName):
         self._displayName = displayName + ' [COLOR violet]'+ self._defaultDisplayName + self.__sRealHost + '[/COLOR]'
-			
-    def _getMediaLinkForGuest(self):
+        
+    def _getMediaLinkForGuest(self, autoPlay = False):
         token = cPremiumHandler(self.getPluginIdentifier()).getToken()
         if not token:
             return False, False
@@ -30,7 +29,7 @@ class cHoster(iHoster):
         dictData = r.json()
         if 'error' in dictData.keys():
             dialog().VSinfo(dictData['error'].upper().replace('_', ' '), self.getPluginIdentifier())
-            # si realdebrid ne prend pas en charge ce type de lien, on retourne le lien pour utiliser un autre hoster
+
             return False, self._url
         else:
             api_call= dictData['download'] 
@@ -40,6 +39,7 @@ class cHoster(iHoster):
                 mediaDisplay = api_call.split('/')
                 VSlog('Hoster RealDebrid - play : %s/ ... /%s' % ('/'.join(mediaDisplay[0:3]), mediaDisplay[-1]))
             except:
-                VSlog('Hoster RealDebrid - play : ' + HostURL)
+                VSlog('Hoster RealDebrid - play failed')
 
         return True, api_call
+

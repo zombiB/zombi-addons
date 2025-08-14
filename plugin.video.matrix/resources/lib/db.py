@@ -3,12 +3,10 @@
 
 from resources.lib.comaddon import dialog, addon, VSlog, VSPath, isMatrix, VSProfil
 from resources.lib.handler.inputParameterHandler import cInputParameterHandler
-from resources.lib.util import QuotePlus, Unquote
+from resources.lib.util import QuotePlus, Unquote, cUtil
 
 SITE_IDENTIFIER = 'cDb'
 SITE_NAME = 'DB'
-ADDON = addon()
-icons = ADDON.getSetting('defaultIcons')
 
 try:
     from sqlite3 import dbapi2 as sqlite
@@ -42,7 +40,8 @@ class cDb(object):
                 ORDER BY name;""")
             if self.dbcur.fetchone() is None:
                 self._create_tables()
-            return self            
+            return self
+
         except:
             VSlog('Error: Unable to access to %s' % REALDB)
             pass
@@ -168,9 +167,13 @@ class cDb(object):
 
         # title = Unquote(meta['title']).decode('ascii', 'ignore')
         title = self.str_conv(Unquote(meta['title']))
-        disp = meta['disp']               
-        icon = icons + '/Icon.png'
+        disp = meta['disp']
+        icon = 'icon.png'
 
+        # on ne garde l'historique que pour les films, séries, animes, doc, drama
+        if disp not in ('1', '2', '3', '5', '9'):
+            return
+        
         try:
             ex = 'INSERT INTO history (title, disp, icone) VALUES (?, ?, ?)'
             self.dbcur.execute(ex, (title, disp, icon))
@@ -186,8 +189,11 @@ class cDb(object):
                 VSlog('SQL ERROR INSERT, title = %s, %s' % (title, e))
             pass
 
-    def get_history(self):
-        sql_select = 'SELECT * FROM history ORDER BY addon_id DESC'
+    def get_history(self, cat = None):
+        if cat:
+            sql_select = 'SELECT * FROM history where disp = %s ORDER BY addon_id DESC' % cat
+        else:
+            sql_select = 'SELECT * FROM history ORDER BY addon_id DESC'
 
         try:
             self.dbcur.execute(sql_select)
@@ -226,14 +232,13 @@ class cDb(object):
         if not title:
             return
 
-        titleWatched = meta['titleWatched']
+        titleWatched = meta['titleWatched'].replace(' ', '')
         cat = meta['cat'] if 'cat' in meta else '1'
         siteurl = QuotePlus(meta['siteurl'])
         tmdbId = meta['tmdbId'] if 'tmdbId' in meta else ''
         site = meta['site']
         fav = meta['fav']
         season = meta['season'] if 'season' in meta else ''
-
 
         # on enleve avant de remettre pour retrier
         ex = "DELETE FROM watched WHERE title_id = '%s' and cat = '%s'" % (titleWatched, cat)
@@ -273,18 +278,19 @@ class cDb(object):
 
         # Lecture d'une episode, on retient aussi la saison
         if cat == "8":
+            oUtil = cUtil()
             meta['cat'] = 4
             meta['fav'] = meta['seasonFunc']
             meta['siteurl'] = meta['seasonUrl']
-            tvshowtitle = title[:title.rindex('E')].strip()
-            meta['title'] = tvshowtitle
-            titleWatched = titleWatched[:titleWatched.rindex('E')].strip()
-            meta['titleWatched'] = titleWatched
+            meta['title'] = oUtil.getEpisodeTitre(title)[0]
+            meta['titleWatched'] = oUtil.getEpisodeTitre(titleWatched)[0]
             self.insert_watched(meta)
+
     def get_watched(self, meta):
         title = meta['titleWatched']
         if not title:
             return False
+        title = title.replace(' ', '')
         cat = meta['cat'] if 'cat' in meta else '1'
 
         sql_select = "SELECT * FROM watched WHERE title_id = '%s'" % title
@@ -301,7 +307,6 @@ class cDb(object):
                     return int(matchedcat) == int(cat)
 
             return True if matchedrow else False
-
         except Exception as e:
             if 'no such column' in str(e) or 'no column named' in str(e) or 'no such table' in str(e):
                 self.convertWatched()    # MAJ du modele de table
@@ -309,14 +314,22 @@ class cDb(object):
                 try:
                     self.dbcur.execute(sql_select)
                     matchedrow = self.dbcur.fetchall()
-
                     return True if matchedrow else False
                 except Exception as e:
                     VSlog('SQL ERROR %s' % sql_select)
             return False
 
-    def get_allwatched(self):
-        sql_select = "SELECT tmdb_id, * FROM watched order by addon_id DESC"
+    def get_catWatched(self, cat, limit=''):
+        
+        sql_select = "SELECT tmdb_id, * FROM watched"
+
+        if cat:
+            sql_select += " where cat = '%s'" % cat
+
+        sql_select += " order by addon_id DESC"
+        
+        if limit:
+            sql_select += " limit %s" % limit
 
         try:
             self.dbcur.execute(sql_select)
@@ -335,12 +348,17 @@ class cDb(object):
             VSlog('SQL ERROR : %s' % sql_select)
         return None
         
+
     def del_watched(self, meta):
         title = meta['titleWatched']
         if not title:
             return
 
-        sql_select = "DELETE FROM watched WHERE title_id = '%s'" % title
+        tmdbId = meta['tmdbId'] if 'tmdbId' in meta else ''
+        if tmdbId:
+            sql_select = "DELETE FROM watched WHERE tmdb_id = '%s'" % tmdbId
+        else:
+            sql_select = "DELETE FROM watched WHERE title_id = '%s'" % title
         try:
             self.dbcur.execute(sql_select)
             self.db.commit()
@@ -383,12 +401,13 @@ class cDb(object):
         
         return
     
+
     # ***********************************
     #   Resume fonctions
     # ***********************************
 
     def insert_resume(self, meta):
-        title = self.str_conv(meta['titleWatched'])
+        title = self.str_conv(meta['titleWatched']).replace(' ', '')
         site = QuotePlus(meta['site'])
         point = meta['point']
         total = meta['total']
@@ -437,16 +456,17 @@ class cDb(object):
         return False, False
 
     def del_resume(self, meta):
-        title = QuotePlus(meta['titleWatched'])
+        sTitleWatched = meta['titleWatched']
+        if not sTitleWatched:
+            return False, False
 
-        sql_select = "DELETE FROM resume WHERE title = '%s'" % title
-
+        sql_delete = "DELETE FROM resume WHERE title = '%s'" % QuotePlus(sTitleWatched)
         try:
-            self.dbcur.execute(sql_select)
+            self.dbcur.execute(sql_delete)
             self.db.commit()
             return False, False
         except Exception as e:
-            VSlog('SQL ERROR %s' % sql_select)
+            VSlog('SQL ERROR %s' % sql_delete)
             return False, False
 
     #  ***********************************
@@ -549,11 +569,11 @@ class cDb(object):
             return
 
         title = self.str_conv(meta['title'])
-        titleWatched = self.str_conv(meta['titleWatched'])
+        titleWatched = self.str_conv(meta['titleWatched']).replace(' ', '')
         siteurl = QuotePlus(meta['siteurl'])
         cat = meta['cat']
         saison = meta['season'] if 'season' in meta else ''
-        sTmdbId = meta['sTmdbId'] if 'sTmdbId' in meta else ''
+        sTmdbId = meta['tmdbId'] if 'tmdbId' in meta else ''
 
         # on enleve avant de remettre pour retrier
         ex = "DELETE FROM viewing WHERE title_id = '%s' and cat = '%s'" % (titleWatched, cat)

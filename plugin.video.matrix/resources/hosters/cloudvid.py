@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# http://cloudvid.co/embed-xxxx.html
-# https://clipwatching.com/embed-xxx.html
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.hosters.hoster import iHoster
@@ -24,9 +22,10 @@ class cHoster(iHoster):
         if not self._url.endswith('.html'):
             self._url = self._url + '.html'
 
-    def _getMediaLinkForGuest(self, api_call=None):
+    def _getMediaLinkForGuest(self, autoPlay = False, api_call=None):
         VSlog(self._url)
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         if 'File was deleted' in sHtmlContent:
@@ -42,7 +41,6 @@ class cHoster(iHoster):
             sPattern = '{file:"([^"]+)",label:"([^"]+)"}'
             aResult = oParser.parse(sHtmlContent2, sPattern)
             if aResult[0]:
-                # initialisation des tableaux
                 url = []
                 qua = []
                 for i in aResult[1]:

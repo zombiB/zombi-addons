@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog, VSlog
+from resources.lib.comaddon import dialog
 from resources.lib.packer import cPacker
-UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
+from resources.lib.comaddon import VSlog
 
+UA = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
     def __init__(self):
@@ -16,13 +18,14 @@ class cHoster(iHoster):
         self._url = str(url)
         self._url = self._url.replace('emb.html?', 'embed-')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('Referer', self._url)
         oRequest.addParameters('User-Agent', UA)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         oParser = cParser()
@@ -43,7 +46,6 @@ class cHoster(iHoster):
                 sPattern = '{src:"([^"]+)",type:"video\/mp4",res:([^:,<>]+)'
                 aResult = oParser.parse(sHtmlContent2, sPattern)
                 if aResult[0]:
-                # initialisation des tableaux
                     url = []
                     qua = []
                     for i in aResult[1]:

@@ -7,7 +7,6 @@ from resources.lib import helpers
 import requests, re
 import json
 
-
 class cHoster(iHoster):
 
     def __init__(self):
@@ -18,27 +17,36 @@ class cHoster(iHoster):
         
         media_id = self.get_host_and_id(self._url)
 
-        location, user, media_id = media_id.split('|')
-        if user == 'None':
-            web_url = 'http://my.mail.ru/+/video/meta/%s' % (media_id)
+        if media_id is not False:
+            location, user, media_id = media_id.split('|')
+            if user == 'None':
+                web_url = 'http://my.mail.ru/+/video/meta/%s' % (media_id)
+            else:
+                web_url = 'http://my.mail.ru/+/video/meta/%s/%s/%s?ver=0.2.60' % (location, user, media_id)
+
+
+            s = requests.session()
+            response = s.get(web_url)
+            html = response.content
+
+            if html:
+                js_data = json.loads(html)
+                sources = [(video['key'], video['url']) for video in js_data['videos']]
+                sorted(sources)
+                source = helpers.pick_source(sources)
+
+                if source.startswith("//"):
+                    source = 'http:%s' % source
+
+                return True, source + helpers.append_headers({'Cookie': response.headers.get('Set-Cookie', '')})
         else:
-            web_url = 'http://my.mail.ru/+/video/meta/%s/%s/%s?ver=0.2.60' % (location, user, media_id)
-
-
-        s = requests.session()
-        response = s.get(web_url)
-        html = response.content
-
-        if html:
-            js_data = json.loads(html)
-            sources = [(video['key'], video['url']) for video in js_data['videos']]
-            sorted(sources)
-            source = helpers.pick_source(sources)
-
-            if source.startswith("//"):
-                source = 'http:%s' % source
-
-            return True, source + helpers.append_headers({'Cookie': response.headers.get('Set-Cookie', '')})
+            s = requests.session()
+            response = s.get(self._url)
+            html = response.text
+            match = re.findall(r'"weblink_get":.*?,"url":"(https?://[^\s"]+/public/[^"]+)"', html)
+            if match:
+                stream_url = match[0] + self._url.split("public")[1]
+                return True, stream_url
 
         return False, False
 
@@ -49,3 +57,5 @@ class cHoster(iHoster):
             return ('%s|%s|%s' % (r.group(2), r.group(3), r.group(4)))
         else:
             return False
+
+

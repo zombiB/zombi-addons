@@ -1,20 +1,12 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-#
-try:  # Python 2
-    import urllib2
-    from urllib2 import URLError as UrlError
 
-except ImportError:  # Python 3
-    import urllib.request as urllib2
-    from urllib.error import URLError as UrlError
 
+import urllib.request as urllib2
+from urllib.error import URLError as UrlError
 import re
-
 from resources.hosters.hoster import iHoster
 from resources.lib.util import urlEncode
-from resources.lib.comaddon import VSlog
-
 
 class cHoster(iHoster):
 
@@ -24,18 +16,17 @@ class cHoster(iHoster):
     def __getIdFromUrl(self, sUrl):
         sPattern = 'http:..playreplay.net\/framevideo\/(.+?)\?'
         aResult = re.findall(sPattern, sUrl)
-        if (aResult):
+        if aResult:
             return aResult[0]
 
         return ''
 
-    def _getMediaLinkForGuest(self):
-        VSlog(self._url)
+    def _getMediaLinkForGuest(self, autoPlay = False):
         vUrl = False
         sId = self.__getIdFromUrl(self._url)
 
-        query_args = {'r': '["tVL0gjqo5",["preview/flv_image",{"uid":"' + sId + '"}],' + \
-            '["preview/flv_link",{"uid":"' + sId + '"}]]'}
+        query_args = {'r': '["tVL0gjqo5",["preview/flv_image",{"uid":"' + sId + '"}],' +
+                           '["preview/flv_link",{"uid":"' + sId + '"}]]'}
 
         data = urlEncode(query_args)
         headers = {'User-Agent': 'Mozilla 5.10'}
@@ -56,9 +47,7 @@ class cHoster(iHoster):
         if link:
             vUrl = link[0]
 
-        # print(vUrl)
-
-        if (vUrl):
+        if vUrl:
             api_call = vUrl
             return True, api_call
 

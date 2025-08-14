@@ -3,6 +3,7 @@
 import traceback
 import threading
 import xbmc
+import re
 
 from resources.lib.gui.gui import cGui
 from resources.lib.handler.rechercheHandler import cRechercheHandler
@@ -10,33 +11,39 @@ from resources.lib.handler.inputParameterHandler import cInputParameterHandler
 from resources.lib.comaddon import progress, VSlog, addon, window
 from resources.lib.util import Quote
 
+
 class cSearch:
-    ADDON = addon()
-    icons = ADDON.getSetting('defaultIcons')
-    
+
     def __init__(self):
         self.addons = addon()
-        self.icons = self.addons.getSetting('defaultIcons')
-        
+
     def searchGlobal(self, sSearchText='', sCat=''):
         try:
             if not sSearchText:
                 oInputParameterHandler = cInputParameterHandler()
                 sSearchText = oInputParameterHandler.getValue('searchtext')
+                if not sSearchText:
+                    sSearchText = oInputParameterHandler.getValue('sMovieTitle')
                 sCat = oInputParameterHandler.getValue('sCat')
 
-            sSearchText = sSearchText.replace(':', ' ')
+            sSearchText = sSearchText.replace(':', ' ').strip()
+            # vire doubles espaces
+            sSearchText = re.sub(' +', ' ', sSearchText)
 
             listPlugins = self._initSearch(sSearchText, sCat)
 
             if len(listPlugins) == 0:
                 return True
 
-            listThread = self._launchSearch(listPlugins, self._pluginSearch, [Quote(sSearchText), True])
+            # une seule source de sélectionée, on allege l'interface de résultat
+            multiSource = len(listPlugins) != 1
+
+            listThread = self._launchSearch(listPlugins, self._pluginSearch, [Quote(sSearchText), multiSource])
             self._finishSearch(listThread)
 
             oGui = cGui()
-            oGui.addText('globalSearch', self.addons.VSlang(30081) % sSearchText, self.icons + '/Search.png')
+            if multiSource:
+                oGui.addText('globalSearch', self.addons.VSlang(30081) % sSearchText, '1/Search.png')
 
             total = count = 0
             searchResults = oGui.getSearchResult()
@@ -45,29 +52,34 @@ class cSearch:
                 total += len(result)
             self._progressClose()
 
+
             if total:
-                xbmc.sleep(500)    # Nécessaire pour enchainer deux progressBar
+                if multiSource:
+                    xbmc.sleep(500)    # Nécessaire pour enchainer deux progressBar
                 # Progress de chargement des metadata
                 progressMeta = progress().VScreate(self.addons.VSlang(30076) + ' - ' + sSearchText, large=total > 50)
                 for plugin in listPlugins:
                     pluginId = plugin['identifier']
-                    if pluginId in searchResults.keys() and (len(searchResults[pluginId]) > 0):  # Au moins un résultat
+                    if pluginId not in searchResults.keys():
+                        continue
+                    results = searchResults[pluginId]
+                    if len(results) == 0:
+                        continue
+                    if multiSource:
                         # nom du site
                         count += 1
                         oGui.addText(pluginId, '%s. [COLOR olive]%s[/COLOR]' % (count, plugin['name']),
-                                     'sites/%s.png' % pluginId)
+                                 'sites/%s.png' % pluginId)
 
-                        # résultats du site
-                        for result in searchResults[pluginId]:
-                            progressMeta.VSupdate(progressMeta, total)
-                            if progressMeta.iscanceled():
-                                break
-                            oGui.addFolder(result['guiElement'], result['params'])
+                    # résultats du site
+                    for result in results:
+                        progressMeta.VSupdate(progressMeta, total)
+                        oGui.addFolder(result['guiElement'], result['params'])
                         if progressMeta.iscanceled():
                             break
 
                 progressMeta.VSclose(progressMeta)
-            
+
             else:  # aucune source ne retourne de résultat
                 oGui.addText('globalSearch')  # "Aucune information"
 
@@ -82,10 +94,8 @@ class cSearch:
 
         return True
 
-
-    def _progressInit(self):
-        self.progress_ = progress().VScreate(large=True)
-
+    def _progressInit(self, large=True):
+        self.progress_ = progress().VScreate(large=large)
 
     def _progressUpdate(self):
         searchResults = cGui().getSearchResult()
@@ -101,14 +111,11 @@ class cSearch:
             message += ", ..."
         self.progress_.VSupdate(self.progress_, self.progressTotal, message, True)
 
-
     def _progressClose(self):
         self.progress_.VSclose(self.progress_)
 
-
     def _progressForceClose(self):
-        progress().VSclose()
-
+        self.progress_.VSclose()
 
     def _getAvailablePlugins(self, searchText, categorie):
         oHandler = cRechercheHandler()
@@ -116,15 +123,18 @@ class cSearch:
         oHandler.setCat(categorie)
         return oHandler.getAvailablePlugins()
 
-
     def _initSearch(self, searchText, searchCat):
         try:
+
+            if searchCat == '4':
+                searchText = re.sub(' S\d+', '', searchText)
+
             listPlugins = self._getAvailablePlugins(searchText, searchCat)
             if not listPlugins:
                 return []
 
             self.progressTotal = len(listPlugins)
-            self._progressInit()
+            self._progressInit(self.progressTotal > 1)
 
             self.listRemainingPlugins = [plugin['name'] for plugin in listPlugins]
             cGui().resetSearchResult()
@@ -136,28 +146,36 @@ class cSearch:
             return []
 
     def _launchSearch(self, listPlugins, targetFunction, argsList):
-        listThread = []
-        window(10101).setProperty('search', 'true')
-        for plugin in listPlugins:
-            thread = threading.Thread(target=targetFunction, name=plugin['name'], args=tuple([plugin] + argsList))
-            thread.start()
-            listThread.append(thread)
 
+        # active le mode "recherche globale"
+        window(10101).setProperty('search', 'true')
+
+        listThread = []
+        if self.progressTotal > 1:
+            for plugin in listPlugins:
+                thread = threading.Thread(target=targetFunction, name=plugin['name'], args=tuple([plugin] + argsList))
+                thread.start()
+                listThread.append(thread)
+        else:
+            self._pluginSearch(listPlugins[0], argsList[0], argsList[1])
         return listThread
 
     def _finishSearch(self, listThread):
         # On attend que les thread soient finis
         for thread in listThread:
             thread.join()
-        
-
 
         window(10101).setProperty('search', 'false')
+
     def _pluginSearch(self, plugin, sSearchText, updateProcess=False):
         try:
             plugins = __import__('resources.sites.%s' % plugin['identifier'], fromlist=[plugin['identifier']])
             function = getattr(plugins, plugin['search'][1])
-            sUrl = plugin['search'][0] + str(sSearchText)
+            urlSearch = plugin['search'][0]
+            if '%s' in urlSearch:
+                sUrl = urlSearch % str(sSearchText)
+            else:
+                sUrl = urlSearch + str(sSearchText)
 
             function(sUrl)
             if updateProcess:

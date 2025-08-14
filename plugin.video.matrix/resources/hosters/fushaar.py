@@ -2,6 +2,7 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
+from resources.lib.comaddon import dialog
 from resources.hosters.hoster import iHoster
 from resources.lib.comaddon import VSlog
 
@@ -18,14 +19,14 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl)
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
-        sUrl = self._url
 
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
+        
         oParser = cParser()
-            # (.+?) .+?
         sPattern = '<source src="(.+?)" type="video/mp4"'
         aResult = oParser.parse(sHtmlContent, sPattern)
         

@@ -2,11 +2,9 @@
 
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
-from resources.lib.comaddon import dialog
+from resources.lib.comaddon import dialog, VSlog
 from resources.hosters.hoster import iHoster
-from resources.lib.packer import cPacker
-from resources.lib.comaddon import VSlog
-import re,xbmcgui
+
 UA = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0'
 
 class cHoster(iHoster):
@@ -20,28 +18,21 @@ class cHoster(iHoster):
     def setUrl(self, sUrl):
         self._url = str(sUrl)
         if not "http" in sUrl:
-        	self._url = 'https://'+self._url
+            self._url = 'https://'+self._url
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         
         oRequest = cRequestHandler(self._url)
         sHtmlContent = oRequest.request()
-        oParser = cParser()
+        api_call = False
         
-            # (.+?) .+?
+        oParser = cParser()
         sPattern = 'file:"(.+?)",label:"(.+?)"'
         aResult = oParser.parse(sHtmlContent, sPattern)
-        
-        api_call = False
-
         if aResult[0]:
-            
-            #initialisation des tableaux
             url=[]
             qua=[]
-            
-            #Replissage des tableaux
             for i in aResult[1]:
                 url.append(str(i[0]))
                 qua.append(str(i[1]))

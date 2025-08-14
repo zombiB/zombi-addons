@@ -1,9 +1,5 @@
 # coding: utf-8
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
-# https://abcvideo.cc/embed-xxxxx.html'
-# https://abcvideo.cc/xxxxx.html'
-# pour récuperer le token : https://github.com/addon-lab/addon-lab_resolver_Project adapté pour evoload
-# mais meme principe
 
 import re
 import requests
@@ -18,7 +14,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'abcvideo', 'Abcvideo')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = ''
         key = "6LcOeuUUAAAAANS5Gb3oKwWkBjOdMXxqbj_2cPCy"
         co = "aHR0cHM6Ly9hYmN2aWRlby5jYzo0NDM."
@@ -51,7 +47,7 @@ class cHoster(iHoster):
             sPattern = '"(https.+?)"'
             aResult = re.findall(sPattern, response)
             if aResult:
-                api_call = aResult[0]  # fichier master valide pour la lecture
+                api_call = aResult[0] 
                 req = s.get(api_call, headers=headers2)
                 response = str(req.content)
                 list_url = []

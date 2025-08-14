@@ -1,47 +1,32 @@
 # -*- coding: utf-8 -*-
 # vStream https://github.com/Kodi-vStream/venom-xbmc-addons
+
 import re
 import xbmc
-
-from resources.lib.comaddon import addon, isMatrix, isNexus
+from resources.lib.comaddon import addon, isMatrix, isNexus, VSlog
 from resources.lib.db import cDb
 from resources.lib.util import cUtil, QuoteSafe
 
-# rouge E26543
-# jaune F7D571
-# bleu clair 87CEEC  ou skyblue / hoster
-# vert 37BCB5
-# bleu foncé 08435A / non utilisé
-
-
 class cGuiElement:
-    Addon = addon()
-    icons = Addon.getSetting('defaultIcons')
-    DEFAULT_FOLDER_ICON = icons + '/Icon.png'
+
+    DEFAULT_FOLDER_ICON = 'library.png'
 
     def __init__(self):
 
         self.addons = addon()
-        
-        # self.__sRootArt = cConfig().getRootArt()
         self.__sFunctionName = ''
-        self.__sRootArt = 'special://home/addons/plugin.video.matrix/resources/art/' + self.addons.getSetting('defaultIcons')
+        self.__sRootArt = 'special://home/addons/plugin.video.matrix/resources/art/'
         self.__sType = 'video'
         self.__sMeta = 0
         self.__sTrailer = ''
         self.__sMetaAddon = self.addons.getSetting('meta-view')
         self.__sMediaUrl = ''
         self.__sSiteUrl = ''
-        # contient le titre qui sera coloré
         self.__sTitle = ''
-        # contient le titre propre
         self.__sCleanTitle = ''
-        # titre considéré Vu
         self.__sTitleWatched = ''
-        self.__ResumeTime = 0   # Durée déjà lue de la vidéo
-        self.__TotalTime = 0    # Durée totale de la vidéo
-
-        # contient le titre modifié pour BDD
+        self.__ResumeTime = 0
+        self.__TotalTime = 0
         self.__sFileName = ''
         self.__sDescription = ''
         self.__sGenre = ''
@@ -50,32 +35,20 @@ class cGuiElement:
         self.__Season = ''
         self.__Episode = ''
         self.__sIcon = self.DEFAULT_FOLDER_ICON
-        self.__sFanart = ''
+        self.__sFanart = self.__sRootArt + 'fanart.jpg'
         self.poster = 'https://image.tmdb.org/t/p/%s' % self.addons.getSetting('poster_tmdb')
         self.fanart = 'https://image.tmdb.org/t/p/%s' % self.addons.getSetting('backdrop_tmdb')
         self.sDecoColor = self.addons.getSetting('deco_color')
-        # For meta search
-        # TmdbId the movie database https://developers.themoviedb.org/
         self.__TmdbId = ''
-        # ImdbId pas d'api http://www.imdb.com/
         self.__ImdbId = ''
         self.__Year = ''
-
-        self.__sRes = ''  # resolution
+        self.__sRes = ''
 
         self.__aItemValues = {}
         self.__aProperties = {}
         self.__aContextElements = []
         self.__sSiteName = ''
-
-        # categorie utilisé pour marque-page et recherche.
-        # 1 - movies/saga , 2 - tvshow/episode/anime, 5 - misc/Next
         self.__sCat = ''
-
-    # def __len__(self): return self.__sCount
-
-    # def getCount(self):
-    #     return cGuiElement.COUNT
 
     def setType(self, sType):
         self.__sType = sType
@@ -126,7 +99,7 @@ class cGuiElement:
             data = '720p'
         elif data.upper() in ('4K', 'UHD', '2160P'):
             data = '2160p'
-        
+
         self.__sRes = data
 
     def getRes(self):
@@ -181,11 +154,7 @@ class cGuiElement:
         return self.__sSiteName
 
     def setFileName(self, sFileName):
-        if isMatrix():
-            self.__sFileName = sFileName
-        else:
-            self.__sFileName = cUtil().titleWatched(sFileName)
-
+        self.__sFileName = cUtil().titleWatched(sFileName)
 
     def getFileName(self):
         return self.__sFileName
@@ -198,121 +167,102 @@ class cGuiElement:
 
     def TraiteTitre(self, sTitle):
         bMatrix = isMatrix()
-        # convertion unicode ne fonctionne pas avec les accents
-        try:
-            # traitement du titre pour retirer le - quand c'est une Saison. Tiret, tiret moyen et cadratin
-            sTitle = sTitle.replace('Season', 'season').replace('Saison', 'season').replace('SEASON', 'season')
-            sTitle = sTitle.replace(' - saison', ' season').replace(' – saison', ' season')\
-                           .replace(' — saison', ' season')
-            sTitle = sTitle.replace("مدبلج بالعربية","(مدبلج)").replace("مدبلج بالعربي","(مدبلج)").replace("مدبلج عربي","(مدبلج)").replace("مدبلجة","(مدبلج)").replace("مدبلجه","(مدبلج)").replace("مدبلج بالمصري","(مدبلج)").replace("مدبلج مصري","(مدبلج)").replace("مدبلج للعربية","(مدبلج)").replace("مدبلج","(مدبلج)")
 
+        sTitle = sTitle.replace('Season', 'season').replace('SEASON', 'season')
+        sTitle = sTitle.replace(' - season', ' season').replace(' – season', ' season')\
+                        .replace(' — season', ' season')
+        sTitle = sTitle.replace("مدبلج بالعربية","مدبلج").replace("مدبلج بالعربي","[COLOR yellow]مدبلج[/COLOR]").replace("مدبلج عربي","[COLOR yellow]مدبلج[/COLOR]").replace("مدبلجة","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلجه","[COLOR yellow]مدبلجة[/COLOR]").replace("مدبلج بالمصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج مصري","[COLOR yellow]مدبلج بالمصري[/COLOR]").replace("مدبلج للعربية","مدبلج").replace("مدبلج","[COLOR yellow]مدبلج[/COLOR]")
+
+        sTitle = re.sub(' +', ' ', sTitle)
+        sTitle = re.sub('\.+', '.', sTitle)
+
+        sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
+
+        sTitle = re.sub('[- –_\.\[]+$', '', sTitle)
+        sTitle = re.sub('^[- –_\.]+', '', sTitle)
+
+        self.__sCleanTitle = re.sub('\[.*\]|\(.*\)', '', sTitle)
+        if not self.__sCleanTitle:
+            self.__sCleanTitle = re.sub('\[.+?\]|\(.+?\)', '', sTitle)
+            if not self.__sCleanTitle:
+                self.__sCleanTitle = sTitle.replace('[', '').replace(']', '').replace('(', '').replace(')', '')
+
+        try:
             if not bMatrix:
                 sTitle = sTitle.decode('utf-8')
         except:
             pass
 
-        """ Début Nettoyage du titre """
-        # vire doubles espaces et double points
-        sTitle = re.sub(' +', ' ', sTitle)
-        sTitle = re.sub('\.+', '.', sTitle)
-
-        # enleve les crochets et les parentheses si elles sont vides
-        sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
-
-        # vire espace et - a la fin
-        sTitle = re.sub('[- –_\.\[]+$', '', sTitle)
-        # et au debut
-        sTitle = re.sub('^[- –_\.]+', '', sTitle)
-        """ Fin Nettoyage du titre """
-
-        # recherche l'année, uniquement si entre caractere special a cause de 2001 odysse de l'espace ou k2000
         string = re.search('[^\w ]([0-9]{4})[^\w ]', sTitle)
         if string:
             sTitle = sTitle.replace(string.group(0), '')
             self.__Year = str(string.group(1))
             self.addItemValues('year', self.__Year)
 
-        # recherche une date
         string = re.search('([\d]{2}[\/|-]\d{2}[\/|-]\d{4})', sTitle)
         if string:
             sTitle = sTitle.replace(string.group(0), '')
             self.__Date = str(string.group(0))
             sTitle = '%s (%s) ' % (sTitle, self.__Date)
 
-        # recherche les Tags restant : () ou [] sauf tag couleur
-        sTitle = re.sub('([\(|\[](?!\/*COLOR)[^\)\(\]\[]+?[\]|\)])', '[COLOR ' + self.sDecoColor + ']\\1[/COLOR]', sTitle)
+        # sTitle = re.sub('([\(|\[](?!\/*COLOR)[^\)\(\]\[]+?[\]|\)])', '[COLOR ' + self.sDecoColor + ']\\1[/COLOR]', sTitle)
 
-        # Recherche saisons et episodes si séries ou animes
         sa = ep = ''
+        
         if self.__sCat in (2, 3, 4, 8, 9):
             m = re.search('(|S|season)(\s?|\.)(\d+)(\s?|\.)(E|Ep|x|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
             if m:
                 sa = m.group(3)
                 ep = m.group(7)
-                if ep=='264' or ep=='265':  # echape les codecs X264 et x265
+                if ep=='264' or ep=='265':
                     sa = ep = ''
                 else:
                     sTitle = sTitle.replace(m.group(0), '')
-            else:  # Juste l'épisode
+                    
+            else:
                 m = re.search('(^|\s|\.)(E|Ep|\wpisode)(\s?|\.)(\d+)', sTitle, re.UNICODE)
                 if m:
                     sTitle = sTitle.replace(m.group(0), '')
                     ep = m.group(4)
-                else:  # juste la saison
+                else:
                     m = re.search('( S|season)(\s?|\.)(\d+)', sTitle, re.UNICODE)
                     if m:
                         sTitle = sTitle.replace(m.group(0), '')
                         sa = m.group(3)
-
-            # enleve les crochets et les parentheses si elles sont vides
+    
             if sa or ep:
                 sTitle = sTitle.replace('()', '').replace('[]', '').replace('- -', '-')
-                # vire espace et - a la fin
                 sTitle = re.sub('[- –_\.\[]+$', '', sTitle)
-
+    
             if sa:
                 self.__Season = sa
                 self.addItemValues('Season', self.__Season)
             if ep:
                 self.__Episode = ep
                 self.addItemValues('Episode', self.__Episode)
-
                 if not self.__Season:
-                    self.__Season = 1   # forcer pour les séries sans saison
-			
-        # on repasse en utf-8
+                    self.__Season = '1'
+
         if not bMatrix:
             try:
                 sTitle = sTitle.encode('utf-8')
-
             except:
                 pass
-        # on reformate SXXEXX Titre [tag] (Annee)
+
         sTitle2 = ''
         if self.__Season:
             sTitle2 = sTitle2 + 'S%02d' % int(self.__Season)
         if self.__Episode:
             sTitle2 = sTitle2 + 'E%02d' % int(self.__Episode)
 
-        arabBuck = {"'":"ء", "|":"آ", "?":"أ", "&":"ؤ", "<":"إ", "}":"ئ", "A":"ا", "b":"ب", "p":"ة", "t":"ت", "v":"ث", "g":"ج", "H":"ح", "x":"خ", "d":"د", "*":"ذ", "r":"ر", "z":"ز", "s":"س", "$":"ش", "S":"ص", "D":"ض", "T":"ط", "Z":"ظ", "E":"ع", "G":"غ", "_":"ـ", "f":"ف", "q":"ق", "k":"ك", "l":"ل", "m":"م", "n":"ن", "h":"ه", "w":"و", "Y":"ى", "y":"ي", "F":"ً", "N":"ٌ", "K":"ٍ", "~":"ّ", "o":"ْ", "u":"ُ", "a":"َ", "i":"ِ"}
-        sTitle4 = sTitle
-        if not isMatrix():
-
-           for char in sTitle:
-               ordbuckArab = {ord(v.decode('utf8')): unicode(k) for (k, v) in arabBuck.iteritems()}
-               sTitle4 = sTitle.translate(ordbuckArab)
-        else:
-
-           for char in sTitle:
-               ordbuckArab = {ord(v):(k) for (k, v) in arabBuck.items()}
-               sTitle4 = sTitle.translate(ordbuckArab)
-
-
-        # Titre unique pour marquer VU (avec numéro de l'épisode pour les séries)
-        self.__sTitleWatched = cUtil().titleWatched(sTitle4).replace(' ', '')
         if sTitle2:
-            self.addItemValues('tvshowtitle', cUtil().getSerieTitre(sTitle))
-            self.__sTitleWatched += '_' + sTitle2
+             tvshowtitle = cUtil().getSerieTitre(sTitle)
+             titleWatched = cUtil().titleWatched(tvshowtitle) + '_' + sTitle2
+             self.addItemValues('tvshowtitle', tvshowtitle)
+        else:
+            titleWatched = cUtil().titleWatched(self.__sCleanTitle)
+
+        self.__sTitleWatched = titleWatched.replace(' ', '')
         self.addItemValues('originaltitle', self.__sTitleWatched)
 
         if sTitle2:
@@ -325,19 +275,12 @@ class cGuiElement:
 
         return sTitle2
 
-    # Permet de forcer le titre sans aucun traitement
     def setRawTitle(self, sTitle):
-        self.__sTitle = sTitle
- 
+        self.__sCleanTitle = self.__sTitle = sTitle
+        
     def setTitle(self, sTitle):
-        # Nom en clair sans les langues, qualités, et autres décorations
-        self.__sCleanTitle = re.sub('\[.*\]|\(.*\)', '', sTitle)
-        if not self.__sCleanTitle:
-            self.__sCleanTitle = re.sub('\[.+?\]|\(.+?\)', '', sTitle)
-            if not self.__sCleanTitle:
-                self.__sCleanTitle = sTitle.replace('[', '').replace(']', '').replace('(', '').replace(')', '')
+
         if isMatrix():
-            # Python 3 decode sTitle
             try:
                 sTitle = str(sTitle.encode('latin-1'), 'utf-8')
             except:
@@ -348,10 +291,7 @@ class cGuiElement:
             except:
                 pass
 
-        if not sTitle.startswith('[COLOR'):
-            self.__sTitle = self.TraiteTitre(sTitle)
-        else:
-            self.__sTitle = sTitle
+        self.__sTitle = self.TraiteTitre(sTitle)
 
     def getTitle(self):
         return self.__sTitle
@@ -363,13 +303,12 @@ class cGuiElement:
         return self.__sTitleWatched
 
     def setDescription(self, sDescription):
-        # Py3
         if isMatrix():
             try:
-
-                self.__sDescription = str(sDescription.encode('latin-1'),'utf-8')
-
-
+                if 'Ã' in sDescription or '\\xc' in sDescription:
+                    self.__sDescription = str(sDescription.encode('latin-1'), 'utf-8')
+                else:
+                    self.__sDescription = sDescription
             except:
                 self.__sDescription = sDescription
         else:
@@ -421,11 +360,8 @@ class cGuiElement:
         self.__sIcon = QuoteSafe(self.__sIcon)
 
     def getIcon(self):
-        # if 'http' in self.__sIcon:
-        #    return UnquotePlus(self.__sIcon)
         folder = 'special://home/addons/plugin.video.matrix/resources/art'
         path = '/'.join([folder, self.__sIcon])
-        # return os.path.join(unicode(self.__sRootArt, 'utf-8'), self.__sIcon)
         return path
 
     def addItemValues(self, sItemKey, mItemValue):
@@ -437,8 +373,6 @@ class cGuiElement:
         return self.__aItemValues[sItemKey]
 
     def getWatched(self):
-
-        # Fonctionne pour marquer lus un dossier
         if not self.getTitleWatched():
             return 0
 
@@ -453,8 +387,6 @@ class cGuiElement:
 
     def getInfoLabel(self):
         meta = {'title': xbmc.getInfoLabel('ListItem.title'),
-                # 'label': xbmc.getInfoLabel('ListItem.title'),
-                # 'originaltitle': xbmc.getInfoLabel('ListItem.originaltitle'),
                 'year': xbmc.getInfoLabel('ListItem.year'),
                 'genre': xbmc.getInfoLabel('ListItem.genre'),
                 'director': xbmc.getInfoLabel('ListItem.director'),
@@ -483,17 +415,19 @@ class cGuiElement:
         if 'backdrop_path' in meta and meta['backdrop_path']:
             url = meta.pop('backdrop_path')
             self.addItemProperties('fanart_image', url)
-            self.__sFanart = url
+            if not self.__sFanart or self.__sRootArt in self.__sFanart:
+                self.__sFanart = url
 
         if 'trailer' in meta and meta['trailer']:
             self.__sTrailer = meta['trailer']
 
         if 'poster_path' in meta and meta['poster_path']:
             url = meta.pop('poster_path')
-            self.__sThumbnail = url
-            self.__sPoster = url
+            if not self.__sThumbnail:
+                self.__sThumbnail = url
+            if not self.__sPoster:
+                self.__sPoster = url
 
-        # Completer au besoin
         for key, value in meta.items():
             if value:
                 self.addItemValues(key, value)
@@ -502,7 +436,7 @@ class cGuiElement:
 
     def getMetadonne(self):
         metaType = self.getMeta()
-        if metaType == 0:  # non media -> on sort, et on enleve le fanart
+        if metaType == 0:
             self.addItemProperties('fanart_image', '')
             return
 
@@ -510,15 +444,8 @@ class cGuiElement:
         TMDb = cTMDb()
 
         sTitle = self.__sFileName
-
-        # sTitle = self.__sTitle.decode('latin-1').encode('utf-8')
-        # sTitle = re.sub(r'\[.*\]|\(.*\)', r'', str(self.__sFileName))
-        # sTitle = sTitle.replace('VF', '').replace('VOSTFR', '').replace('FR', '')
-
-        # On nettoie le titre pour la recherche
         sTitle = sTitle.replace('version longue', '')
 
-        # Integrale de films, on nettoie le titre pour la recherche
         if metaType == 3:
             sTitle = sTitle.replace('integrales', '')
             sTitle = sTitle.replace('integrale', '')
@@ -541,7 +468,6 @@ class cGuiElement:
                 sTitle = sTitle[:-2]
             sTitle = sTitle.strip()
 
-        # tvshow
         if metaType in (2, 4, 5, 6):
             tvshowtitle = self.getItemValue('tvshowtitle')
             if tvshowtitle:
@@ -591,19 +517,27 @@ class cGuiElement:
         if 'tvdb_id' in meta:
             meta.pop('tvdb_id')
 
-        if 'backdrop_path' in meta:
-            url = meta.pop('backdrop_path')
-            if url:
-                self.addItemProperties('fanart_image', url)
-                self.__sFanart = url
-            else:
-                self.addItemProperties('fanart_image', '')
+        # Temporary fix to avoid showing wrong images of Arabic Series/Movies
+        if bool(re.search(r"[\u0600-\u06FF]", self.__sTitle)) is False:
+            if 'backdrop_path' in meta:
+                url = meta.pop('backdrop_path')
+                if url:
+                    self.addItemProperties('fanart_image', url)
+                    self.__sFanart = url
+                else:
+                    self.addItemProperties('fanart_image', '')
 
-        if 'poster_path' in meta:
-            url = meta.pop('poster_path')
+            if 'poster_path' in meta:
+                url = meta.pop('poster_path')
+                if url:
+                    self.__sThumbnail = url
+                    self.__sPoster = url
+
+        if 'poster_thumb' in meta:
+            url = meta.pop('poster_thumb')
             if url:
                 self.__sThumbnail = url
-                self.__sPoster = url
+                # self.__sPoster = url
 
         if 'trailer' in meta and meta['trailer']:
             self.__sTrailer = meta['trailer']
@@ -614,7 +548,6 @@ class cGuiElement:
         if 'nbseasons' in meta:
             meta['season'] = meta.pop('nbseasons')
 
-        # Retrait des tags intermédiaires
         if 'vote' in meta:
             meta.pop('vote')
         if 'runtime' in meta:
@@ -637,9 +570,6 @@ class cGuiElement:
 
     def getItemValues(self):
         self.addItemValues('title', self.getTitle())
-
-        # https://kodi.wiki/view/InfoLabels
-        # https://codedocs.xyz/xbmc/xbmc/group__python__xbmcgui__listitem.html#ga0b71166869bda87ad744942888fb5f14
 
         # - Video Values:
         # - genre : string (Comedy)
@@ -680,18 +610,11 @@ class cGuiElement:
 
         if self.getMetaAddon() == 'true':
             self.getMetadonne()
-
-        # tmdbid
         if self.getTmdbId():
             self.addItemProperties('TmdbId', str(self.getTmdbId()))
-            # only for library content : self.addItemValues('DBID', str(self.getTmdbId()))
-
-        # imdbid
+            self.addItemValues('DBID', str(self.getTmdbId()))
         if self.getImdbId():
             self.addItemProperties('ImdbId', str(self.getImdbId()))
-            # self.addItemValues('imdbnumber', str(self.getTmdbId()))
-
-        # Utilisation des infos connues si non trouvées
         if not self.getItemValue('plot') and self.getDescription():
             self.addItemValues('plot', self.getDescription())
         if not self.getItemValue('year') and self.getYear():
@@ -706,13 +629,11 @@ class cGuiElement:
             if self.getTrailer():
                 self.addItemValues('trailer', self.getTrailer())
             else:
-                self.addItemValues('trailer', 'plugin')  # Faux trailer qui ne se lance pas mais evite une erreur
-                # self.addItemValues('trailer', self.getDefaultTrailer())
+                self.addItemValues('trailer', 'plugin')
 
-        # Used only if there is data in db, overwrite getMetadonne()
         sCat = self.getCat()
         try:
-            if sCat and sCat in (1, 2, 3, 4, 5, 8, 9):  # Vérifier seulement si de type média
+            if sCat and sCat in (1, 2, 3, 4, 5, 8, 9):
                 if self.getWatched():
                     self.addItemValues('playcount', 1)
         except:
@@ -736,7 +657,7 @@ class cGuiElement:
                           6: 'video', 7: 'season', 8: 'episode', 9: 'tvshow'}
             if sCat in mediatypes.keys():
                 mediatype = mediatypes.get(sCat)
-                self.addItemValues('mediatype', mediatype)  # video, movie, tvshow, season, episode, musicvideo
+                self.addItemValues('mediatype', mediatype)
 
         if self.getSeason():
             self.addItemValues('season', int(self.getSeason()))
@@ -747,7 +668,8 @@ class cGuiElement:
         return self.__aItemValues
 
     def addItemProperties(self, sPropertyKey, mPropertyValue):
-        self.__aProperties[sPropertyKey] = mPropertyValue
+        if sPropertyKey not in self.__aProperties:
+            self.__aProperties[sPropertyKey] = mPropertyValue
 
     def getItemProperties(self):
         return self.__aProperties

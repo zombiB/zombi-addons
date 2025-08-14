@@ -1,9 +1,8 @@
 #-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
+
 from resources.lib.handler.requestHandler import cRequestHandler
-from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
-from resources.lib.comaddon import dialog
 from resources.lib.comaddon import VSlog
 import re
 
@@ -12,7 +11,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'live7', 'Live7')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
         Referer = ""
@@ -25,6 +24,7 @@ class cHoster(iHoster):
 
         oRequestHandler = cRequestHandler(url)
         oRequestHandler.addHeaderEntry('Referer', Referer)
+        oRequestHandler.enableCache(False)
         data3 = oRequestHandler.request()
 
         sPatternUrl = 'hlsUrl = "https:\/\/" \+ ea \+ "([^"]+)"'

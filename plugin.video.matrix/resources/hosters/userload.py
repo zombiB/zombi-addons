@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 #Vstream https://github.com/Kodi-vStream/venom-xbmc-addons
-## https://userload.co/embed/xxxx
+
 import re
 import requests
 
@@ -10,7 +10,6 @@ from resources.lib.parser import cParser
 from resources.lib.aadecode import AADecoder
 from resources.lib.packer import cPacker
 from resources.lib.comaddon import VSlog
-
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0"
 
@@ -22,7 +21,7 @@ class cHoster(iHoster):
     def isDownloadable(self):
         return False
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         api_call = False
 
@@ -33,7 +32,6 @@ class cHoster(iHoster):
 
         urlapi = "https://userload.co/api/assets/userload/js/videojs.js"
 
-        #A voir quel encodage il faut pour Kodi 18.
         sHtmlContent1 = requests.get(urlapi).content.decode('utf-8')
 
         oParser = cParser()
@@ -55,6 +53,7 @@ class cHoster(iHoster):
 
         oRequestHandler = cRequestHandler(url)
         oRequestHandler.addHeaderEntry('Referer', referer)
+        oRequestHandler.enableCache(False)
         sHtmlContent1 = oRequestHandler.request()
 
         sPattern2 = '<script type="text/javascript">(\s*eval\s*\(\s*function(?:.|\s)+?{}\)\))'

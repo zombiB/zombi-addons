@@ -1,8 +1,8 @@
 #-*- coding: utf-8 -*-
 # https://github.com/Kodi-vStream/venom-xbmc-addons
+
 import re
 import base64
-
 from resources.lib.handler.requestHandler import cRequestHandler
 from resources.lib.parser import cParser
 from resources.hosters.hoster import iHoster
@@ -16,7 +16,7 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'upvideo', 'UpVideo')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         api_call = False
         VSlog(self._url)
         oParser = cParser()
@@ -24,21 +24,10 @@ class cHoster(iHoster):
 
         oRequest = cRequestHandler(self._url)
         oRequest.addHeaderEntry('Cookie', 'popads2=opened')
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         aResult = oParser.parse(sHtmlContent, sPattern)
-
-        #Get decode page
-        #oRequest = cRequestHandler("https://upvideo.to/assets/js/tabber.js")
-        #oRequest.addHeaderEntry('Referer', self._url)
-        #sHtmlContent2 = oRequest.request()
-        #aResult2 = oParser.parse(sHtmlContent2, sPattern)
-
-        #if (aResult2[0] == True):
-        #    j = aResult2[1][0]
-        #    decoder = hunter(j[0],int(j[1]),j[2],int(j[3]),int(j[4]),int(j[5]))
-        #    VSlog("Decoder ok")
-
         if aResult[0]:
             l = aResult[1]
             for j in l:

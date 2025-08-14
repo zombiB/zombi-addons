@@ -55,7 +55,7 @@ f = open("'''+currentPath+'''/test.txt",'w')
 f.write('Fini avec code erreur ' + str(p_status))
 f.close()''')
         f.close()
-        oDialog = dialog().VSinfo('Redémarrer Kodi pour prendre en compte la planification', 'matrix', 10)
+        oDialog = dialog().VSinfo('Restart Kodi to take the schedule into account', 'matrix', 10)
         oGui.setEndOfDirectory()
 
 def GetTimeObject(duree, formats):

@@ -10,9 +10,10 @@ class cHoster(iHoster):
     def __init__(self):
         iHoster.__init__(self, 'vidload', 'VidLoad')
 
-    def _getMediaLinkForGuest(self):
+    def _getMediaLinkForGuest(self, autoPlay = False):
         VSlog(self._url)
         oRequest = cRequestHandler(self._url)
+        oRequest.enableCache(False)
         sHtmlContent = oRequest.request()
 
         sPattern =  'var token="([^"]+)".+?var crsf="([^"]+)"'
